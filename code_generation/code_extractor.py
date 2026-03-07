@@ -16,11 +16,11 @@ SUBFOLDER_MAP = {
 # SwiftUI View: struct SomeName: View (or : some View)
 _SWIFTUI_VIEW_RE = re.compile(r'\bstruct\s+(\w+)\s*:\s*(?:some\s+)?View\b')
 
-# Named types: struct/class/enum/protocol
-_TYPE_RE = re.compile(r'\b(?:struct|class|enum|protocol)\s+(\w+)')
+# Named types: struct/class/enum/protocol — name must start with uppercase (PascalCase)
+_TYPE_RE = re.compile(r'\b(?:struct|class|enum|protocol)\s+([A-Z]\w+)')
 
-# Extension: extension SomeType
-_EXTENSION_RE = re.compile(r'\bextension\s+(\w+)')
+# Extension: extension SomeType — name must start with uppercase
+_EXTENSION_RE = re.compile(r'\bextension\s+([A-Z]\w+)')
 
 
 def _detect_name_and_folder(code: str) -> tuple[str, str]:
