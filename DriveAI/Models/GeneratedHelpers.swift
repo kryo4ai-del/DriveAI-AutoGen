@@ -1,21 +1,20 @@
-private func mockQuestions(count: Int) -> [Question] {
-       return (0..<count).map { index in
-           Question(text: "Mock Question \(index + 1)", options: ["Option A", "Option B", "Option C"], correctAnswerIndex: 0)
-       }
+let passingRate: Double = 0.6
+
+// ---
+
+var detailedFeedback: String {
+    isPassed ? "Herzlichen Glückwunsch! Sie haben bestanden." : "Leider haben Sie nicht bestanden. Versuchen Sie es erneut!"
+}
+
+// ---
+
+private var resultTitle: String {
+       result.isPassed ? "🎉 Sie haben bestanden!" : "❌ Sie haben nicht bestanden"
    }
 
 // ---
 
-private func mockQuestions(count: Int) -> [Question] {
-       return (0..<count).map { index in
-           Question(text: "Mock Question \(index + 1)", options: ["Option A", "Option B", "Option C"], correctAnswerIndex: 0)
-       }
-   }
-
-// ---
-
-private func mockQuestions(count: Int) -> [Question] {
-       return (0..<count).map { index in
-           Question(text: "Mock Question \(index + 1)", options: ["Option A", "Option B", "Option C"], correctAnswerIndex: 0)
-       }
-   }
+if totalQuestions <= 0 {
+    result = nil // Or set to a default value
+    return
+}
