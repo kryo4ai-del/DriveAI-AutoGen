@@ -1,0 +1,18 @@
+{
+  "bug_review": {
+    "enabled": true,
+    "min_messages": 1
+  },
+  "refactor": {
+    "enabled": true,
+    "requires_bug_review_messages": 1
+  },
+  "test_generation": {
+    "enabled": true,
+    "requires_implementation_messages": 1
+  },
+  "fix_execution": {
+    "enabled": true,
+    "requires_bug_or_refactor_messages": 1
+  }
+}

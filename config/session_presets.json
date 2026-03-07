@@ -1,0 +1,26 @@
+{
+  "fast_local": {
+    "description": "Quick implementation only — no review passes, no Xcode integration",
+    "profile": "fast",
+    "env_profile": "dev",
+    "run_mode": "quick",
+    "approval_mode": "off",
+    "disable_agents": ["bug_hunter", "refactor_agent", "test_generator"]
+  },
+  "safe_review": {
+    "description": "Full review pipeline with approval prompt before integration",
+    "profile": "safe",
+    "env_profile": "test",
+    "run_mode": "standard",
+    "approval_mode": "ask",
+    "disable_agents": []
+  },
+  "agentic_full": {
+    "description": "All five passes including fix execution — production model, auto-integrate",
+    "profile": "agentic",
+    "env_profile": "prod",
+    "run_mode": "full",
+    "approval_mode": "auto",
+    "disable_agents": []
+  }
+}

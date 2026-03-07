@@ -1,0 +1,3 @@
+func clearError() {
+       errorMessage = nil
+   }

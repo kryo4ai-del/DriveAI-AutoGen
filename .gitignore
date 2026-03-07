@@ -1,0 +1,25 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+# Runtime / generated artifacts
+logs/
+delivery/exports/
+analytics/analytics_summary.json
+
+# Local machine / editor
+.vscode/
+.DS_Store
+
+# Xcode / Apple
+DerivedData/
+build/
+*.xcworkspace
+*.xcuserdata
+
+# Generated code cache
+generated_code/

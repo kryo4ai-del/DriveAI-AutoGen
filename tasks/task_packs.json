@@ -1,0 +1,32 @@
+{
+  "screen_plus_viewmodel": {
+    "description": "Create a screen and matching ViewModel",
+    "tasks": [
+      {
+        "template": "screen",
+        "name_pattern": "{name}"
+      },
+      {
+        "template": "viewmodel",
+        "name_pattern": "{name}ViewModel"
+      }
+    ]
+  },
+  "feature_bundle": {
+    "description": "Create a full feature starter bundle",
+    "tasks": [
+      {
+        "template": "feature",
+        "name_pattern": "{name}"
+      },
+      {
+        "template": "service",
+        "name_pattern": "{name}Service"
+      },
+      {
+        "template": "viewmodel",
+        "name_pattern": "{name}ViewModel"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+let setting = SettingOption(title: "Notifications", isOn: true, description: "Receive notifications.")

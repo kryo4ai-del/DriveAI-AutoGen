@@ -1,0 +1,23 @@
+{
+  "build_screen": {
+    "description": "Create a screen and matching ViewModel with a fast local setup",
+    "session_preset": "fast_local",
+    "task_pack": "screen_plus_viewmodel"
+  },
+  "implement_feature": {
+    "description": "Run a full feature implementation workflow",
+    "session_preset": "agentic_full",
+    "task_template": "feature"
+  },
+  "review_only": {
+    "description": "Run review-focused pipeline with safe settings",
+    "session_preset": "safe_review",
+    "run_mode": "standard",
+    "disable_agents": []
+  },
+  "batch_queue_run": {
+    "description": "Process queued tasks in batch mode with fast defaults",
+    "session_preset": "fast_local",
+    "queue_run_all": true
+  }
+}
