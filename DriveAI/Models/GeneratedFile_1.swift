@@ -1,2 +1,3 @@
-// Add an @State variable to track loading state
-     @State private var isLoading = true
+if let error = someError {
+         self.errorMessage = error.localizedDescription
+     }

@@ -1,8 +1,1 @@
-extension View {
-         func buttonStyle() -> some View {
-             self.padding()
-                 .background(Color.blue)
-                 .foregroundColor(.white)
-                 .cornerRadius(10)
-         }
-     }
+XCTAssertEqual(homeViewModel.userProgress.completedQuizzes, initialQuizzes + 1, "User quizzes should increment after a successful completion.")
