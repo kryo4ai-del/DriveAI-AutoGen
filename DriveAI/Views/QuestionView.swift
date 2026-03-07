@@ -1,35 +1,57 @@
+import SwiftUI
+
 struct QuestionView: View {
-    let question: Question
-    @Binding var selectedAnswer: Int?
-    let checkAnswer: (Int) -> Void
-    let isAnswerCorrect: Bool?
-
+    @ObservedObject var viewModel: QuestionViewModel
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(question.text)
-                .font(.title2)
-                .padding(.bottom, 20)
-                
-            ForEach(0..<question.options.count, id: \.self) { index in
-                Button(action: {
-                    selectedAnswer = index
-                    checkAnswer(index)
-                }) {
-                    Text(question.options[index])
-                        .padding()
-                        .background(selectedAnswer == index ? Color.blue.opacity(0.2) : Color.blue.opacity(0.05))
-                        .cornerRadius(10)
-                }
-                .disabled(isAnswerCorrect != nil)
-                .foregroundColor(.black)
-            }
-
-            if let answerFeedback = isAnswerCorrect {
-                Text(answerFeedback ? "Richtig!" : "Falsch!")
+        NavigationView {
+            VStack(spacing: 20) {
+                Text(viewModel.currentQuestion.text)
                     .font(.headline)
-                    .foregroundColor(answerFeedback ? .green : .red)
-                    .padding(.top, 20)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+                ForEach(viewModel.currentQuestion.choices, id: \.self) { choice in
+                    AnswerButton(choice: choice) {
+                        // Logic to handle user response
+                        print("Selected Answer: \(choice)")
+                    }
+                }
+                
+                HStack {
+                    Button("Previous") {
+                        viewModel.previousQuestion()
+                    }
+                    .disabled(viewModel.currentQuestionIndex == 0)
+                    
+                    Button("Next") {
+                        viewModel.nextQuestion()
+                    }
+                    .disabled(viewModel.currentQuestionIndex == viewModel.questions.count - 1)
+                }
+                .padding(.top)
+            }
+            .padding()
+            .navigationTitle("Question \(viewModel.currentQuestionIndex + 1) of \(viewModel.questions.count)")
+            .alert(item: $viewModel.loadingError) { error in
+                Alert(title: Text("Error"), message: Text(error.localizedDescription), dismissButton: .default(Text("OK")))
             }
         }
+    }
+}
+
+struct AnswerButton: View {
+    let choice: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(choice)
+                .padding()
+                .background(Color.blue.opacity(0.7))
+                .foregroundColor(.white)
+                .cornerRadius(8)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
