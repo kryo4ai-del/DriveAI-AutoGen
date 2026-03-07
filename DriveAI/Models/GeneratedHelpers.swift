@@ -1,30 +1,24 @@
-func updateScore(with value: Int) {
-       state.score = value
-       // Call any other state update methods here if needed.
+import Vision
+   import UIKit
+
+// ---
+
+import Vision
+   import UIKit
+
+// ---
+
+case recognitionFailed(reason: String)
+
+// ---
+
+guard let cgImage = image.cgImage else {
+       completion(.failure(.unknownError))
+       return
    }
 
 // ---
 
-let passingRate: Double = 0.6
-   private func passingScore() -> Int {
-       return Int(Double(state.totalQuestions) * passingRate)
-   }
-
-// ---
-
-private func generateFeedbackMessage(for score: Int) -> String {
-       switch score {
-           case 0..<passingScore():
-               return "Leider nicht bestanden. Besuchen Sie die Lernseite für zusätzliche Fragen."
-           case passingScore()...state.totalQuestions:
-               return "Gratulation! Sie haben bestanden! Bereiten Sie sich weiterhin vor."
-           default:
-               return "Unbekannter Fehler."
-       }
-   }
-
-// ---
-
-private func calculateScoreBreakdown(correctCount: Int) {
-       state.scoreBreakdown = ["Correct": correctCount, "Incorrect": state.totalQuestions - correctCount]
+DispatchQueue.global(qos: .userInitiated).async {
+       // Perform OCR processing here
    }
