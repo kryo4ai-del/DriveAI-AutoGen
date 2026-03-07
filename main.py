@@ -22,6 +22,7 @@ from planning.backlog_io import BacklogIO
 from config.session_preset_manager import SessionPresetManager
 from workflows.workflow_recipe_manager import WorkflowRecipeManager
 from workflows.phase_gate_manager import PhaseGateManager
+from utils.git_auto_commit import GitAutoCommit
 
 # Ensure UTF-8 output on Windows
 if sys.stdout.encoding != "utf-8":
@@ -967,6 +968,10 @@ async def main():
                     workflow_recipe=workflow_recipe_name,
                 )
                 pack_results.append(task_result)
+                GitAutoCommit().run_auto_commit(
+                    task=pt["task"],
+                    run_manifest_path=task_result.get("run_manifest_path", ""),
+                )
             except Exception as e:
                 error_msg = str(e)
                 print(f"[ERROR] Task {idx + 1}/{total} failed: {error_msg}")
@@ -1019,7 +1024,7 @@ async def main():
 
             task_run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
             try:
-                await _run_pipeline(
+                queue_result = await _run_pipeline(
                     user_task=next_task,
                     task_source="task queue (batch)",
                     run_mode=run_mode,
@@ -1036,6 +1041,10 @@ async def main():
                     workflow_recipe=workflow_recipe_name,
                 )
                 task_queue.complete_task(next_task)
+                GitAutoCommit().run_auto_commit(
+                    task=next_task,
+                    run_manifest_path=queue_result.get("run_manifest_path", ""),
+                )
             except Exception as e:
                 error_msg = str(e)
                 print(f"[ERROR] Task failed: {error_msg}")
@@ -1120,6 +1129,10 @@ async def main():
             print(f"Queued task completed. {len(task_queue.queue['pending'])} task(s) remaining in queue.")
         if json_output:
             print(json.dumps(pipeline_result, indent=2))
+        GitAutoCommit().run_auto_commit(
+            task=user_task,
+            run_manifest_path=pipeline_result.get("run_manifest_path", ""),
+        )
     except Exception as e:
         error_msg = str(e)
         if queue_run and cli_task:

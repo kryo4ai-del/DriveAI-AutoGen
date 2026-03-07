@@ -1272,3 +1272,48 @@ python main.py --queue-add "Create a SwiftUI profile screen"
 python main.py --queue-run-all --mode quick --approval off
 python main.py --queue-run-all --limit 2 --mode standard --approval off
 ```
+
+## AI Auto Commit
+
+Every successful pipeline run automatically stages all changes, creates a Git commit, and pushes to the configured remote.
+
+### Commit message format
+
+```
+AI run: {task description}
+```
+
+Example:
+
+```
+AI run: Create a SwiftUI screen for DriveAI: Settings
+```
+
+### Console output
+
+On success:
+
+```
+Git auto commit:
+  - changes staged
+  - commit created
+  - pushed to origin/main
+```
+
+When nothing changed:
+
+```
+Git auto commit:
+  skipped (no changes detected)
+```
+
+### Safety
+
+- If Git is not installed or the directory is not a repository, auto-commit is skipped silently.
+- A failed commit logs an error but does not crash the pipeline.
+- A failed push prints a warning and continues.
+
+### Configuration
+
+Auto-commit uses `utils/git_auto_commit.py` and requires the repository to have a configured remote (`origin`).
+To disable auto-commit, remove or comment out the `GitAutoCommit().run_auto_commit(...)` calls in `main.py`.

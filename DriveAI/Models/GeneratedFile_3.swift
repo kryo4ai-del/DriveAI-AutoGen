@@ -1,10 +1,6 @@
-// Use Combine to publish updates to a subscriber
-   func toggleNotifications() {
-       notificationsEnabled.toggle()
-       updateSettings()
-       
-       // Publish the notification to any subscribers
-       settingsChanged.send(notificationsEnabled)
+withAnimation {
+       // Show feedback
    }
-
-   let settingsChanged = PassthroughSubject<Bool, Never>()
+   DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+       // Hide feedback or proceed
+   }
