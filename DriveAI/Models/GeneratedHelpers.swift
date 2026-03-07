@@ -1,37 +1,46 @@
-private let minimumImageSize: CGSize = CGSize(width: 500, height: 500)
+// Example of a function in LocalDataService to fetch question category
+   func getCategory(for questionId: UUID) -> String? {
+       // Implement logic to fetch the category based on the questionId
+   }
 
 // ---
 
-private func logError(_ error: String) {
-         // Implement logging logic
-     }
+guard let data = UserDefaults.standard.data(forKey: storageKey) else {
+       // Handle error gracefully
+       return []
+   }
 
 // ---
 
-private let minimumImageSize: CGSize
-
-     init(minimumImageSize: CGSize = CGSize(width: 500, height: 500)) {
-         self.minimumImageSize = minimumImageSize
-     }
+private func categorizePerformance(answers: [QuestionAnswer]) -> [CategoryPerformance] {
+       var categoryDict = [String: (total: Int, correct: Int)]()
+       
+       for answer in answers {
+           let category = getCategory(for: answer.questionId) ?? "Unknown"
+           updateCategoryStats(for: category, isCorrect: answer.isCorrect, in: &categoryDict)
+       }
+       
+       return categoryDict.map { 
+           createCategoryPerformance(from: $0)
+       }
+   }
+   
+   private func updateCategoryStats(for category: String, isCorrect: Bool, in dict: inout [String: (total: Int, correct: Int)]) {
+       // Logic to update stats
+   }
+   
+   private func createCategoryPerformance(from entry: (key: String, value: (total: Int, correct: Int))) -> CategoryPerformance {
+       // Logic to create category performance object
+   }
 
 // ---
 
-private func logError(_ error: OCRRecognitionError) {
-         // Implement a logging framework or send errors to a server
-     }
+override func setUp() {
+    super.setUp()
+    localDataServiceMock = LocalDataServiceMock()
+    questionAnalysisService = QuestionAnalysisService(localDataService: localDataServiceMock)
 
-// ---
-
-let request = VNRecognizeTextRequest { [weak self] (request, error) in
-         // handle result
-     }
-
-// ---
-
-DispatchQueue.global(qos: .userInitiated).async {
-         // Perform OCR recognition here
-
-         DispatchQueue.main.async {
-             // Update UI with recognized text
-         }
-     }
+    // Optionally, populate mock data
+    localDataServiceMock.addCategory(for: UUID(), category: "Traffic Signs")
+    localDataServiceMock.addMockQuestions([Question(id: UUID(), text: "What does a stop sign mean?", category: "Traffic Signs", options: ["Stop", "Go"], correctOption: 0)])
+}

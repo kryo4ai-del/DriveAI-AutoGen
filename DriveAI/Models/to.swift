@@ -1,57 +1,60 @@
 import Foundation
-import Combine
 
-// Define a struct to represent user's progress
-struct UserProgress {
-    var completedQuizzes: Int
-    var totalQuestions: Int
-    var streak: Int
-}
-
-final class HomeViewModel: ObservableObject {
-    // Published properties to notify views of state changes
-    @Published var userProgress: UserProgress = UserProgress(completedQuizzes: 0, totalQuestions: 0, streak: 0)
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
-
-    private var cancellables = Set<AnyCancellable>()
-
-    // Initializer
-    init() {
-        fetchUserProgress()
-    }
+// A mock class to simulate LocalDataService behavior during unit tests
+class LocalDataServiceMock: LocalDataService {
+    var shouldFailEncoding = false
+    private var storedData: Data?
     
-    // Method to fetch user progress with error handling
-    func fetchUserProgress() {
-        isLoading = true
+    // Mock storage for question categories
+    private var categories = [UUID: String]()
+    private var questions = [Question]()
 
-        // Simulate a fetch with potential failure
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let success = Bool.random() // Simulating random success/failure
-            if success {
-                // Simulating a successful data fetch
-                self.userProgress = UserProgress(completedQuizzes: 5, totalQuestions: 30, streak: 3)
-                self.errorMessage = nil // Clear any previous error messages
-            } else {
-                // Assigning an error message on failure
-                self.errorMessage = "Fehler beim Laden des Fortschritts. Bitte versuchen Sie es erneut."
-            }
-            self.isLoading = false
+    /// Set previous analysis results for testing
+    func setPreviousAnalysis(_ results: [AnalysisResult]) {
+        let encoder = JSONEncoder()
+        if shouldFailEncoding {
+            // Simulate an encoding error
+            storedData = nil
+            return
+        }
+        
+        // Encode and store the results in UserDefaults
+        if let data = try? encoder.encode(results) {
+            storedData = data
+            UserDefaults.standard.set(data, forKey: "QuestionAnalysisResults")
         }
     }
+
+    /// Simulate corrupt data for testing
+    func setCorruptData() {
+        let badData = "corruptedData".data(using: .utf8)
+        UserDefaults.standard.set(badData, forKey: "QuestionAnalysisResults")
+    }
+
+    /// Retrieve the category for a given question ID
+    func getCategory(for questionId: UUID) -> String? {
+        return categories[questionId] ?? nil
+    }
     
-    // Method to handle quiz completion (to be implemented)
-    func onQuizCompleted(quizScore: Int, totalQuestions: Int) {
-        // Example logic for updating the user's progress
-        if quizScore >= (totalQuestions / 2) { // Assuming passing score is 50%
-            userProgress.completedQuizzes += 1
-            userProgress.streak += 1
-            // Add cap for streak management, e.g., maximum of 10
-            if userProgress.streak > 10 {
-                userProgress.streak = 10
-            }
-        } else {
-            userProgress.streak = 0 // Reset streak on failure
-        }
+    /// Add a category for a specific question ID
+    func addCategory(for questionId: UUID, category: String) {
+        categories[questionId] = category
+    }
+    
+    /// Add mock questions for testing retrieval based on categories
+    func addMockQuestions(_ questions: [Question]) {
+        self.questions = questions
+    }
+
+    /// Fetch questions related to provided categories
+    func fetchQuestions(for categories: [String]) -> [Question] {
+        return questions.filter { categories.contains($0.category) }
+    }
+
+    /// Clear all stored data for test isolation
+    func clearStoredData() {
+        UserDefaults.standard.removeObject(forKey: "QuestionAnalysisResults")
+        categories.removeAll()
+        questions.removeAll()
     }
 }
