@@ -1,3 +1,1 @@
-withAnimation {
-    isAnswerCorrect = // feedback logic
-}
+.accessibilityLabel("Start quick quiz")

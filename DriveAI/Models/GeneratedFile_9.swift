@@ -1,1 +1,9 @@
-viewModel.toggleSetting(for: viewModel.options[0]) // Toggle Notifications
+@State private var isQuickStartActive = false
+
+     // In Button action:
+     Button(action: {
+         isQuickStartActive = true
+         action()
+     }) {
+         ...
+     }

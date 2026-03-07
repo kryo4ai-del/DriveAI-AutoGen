@@ -1,6 +1,8 @@
-withAnimation {
-       // Show feedback
-   }
-   DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-       // Hide feedback or proceed
-   }
+extension View {
+         func buttonStyle() -> some View {
+             self.padding()
+                 .background(Color.blue)
+                 .foregroundColor(.white)
+                 .cornerRadius(10)
+         }
+     }

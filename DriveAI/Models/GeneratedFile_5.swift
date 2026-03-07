@@ -1,3 +1,1 @@
-func clearError() {
-       errorMessage = nil
-   }
+DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Adjust if necessary

@@ -1,1 +1,8 @@
-@Published var correctAnswers: Int = 0 // In ViewModel
+if isLoading {
+         VStack {
+             ProgressView("Lade Fortschritt...")
+                 .progressViewStyle(CircularProgressViewStyle())
+             Text("Bitte warten…")
+                 .font(.subheadline)
+         }
+     }

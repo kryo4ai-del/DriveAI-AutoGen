@@ -1,2 +1,2 @@
-guard viewModel.currentQuestionIndex < viewModel.questions.count else { return }
-let question = viewModel.questions[viewModel.currentQuestionIndex]
+// Add an @State variable to track loading state
+     @State private var isLoading = true
