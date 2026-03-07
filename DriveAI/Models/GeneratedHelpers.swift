@@ -1,24 +1,37 @@
-import Vision
-   import UIKit
+private let minimumImageSize: CGSize = CGSize(width: 500, height: 500)
 
 // ---
 
-import Vision
-   import UIKit
+private func logError(_ error: String) {
+         // Implement logging logic
+     }
 
 // ---
 
-case recognitionFailed(reason: String)
+private let minimumImageSize: CGSize
+
+     init(minimumImageSize: CGSize = CGSize(width: 500, height: 500)) {
+         self.minimumImageSize = minimumImageSize
+     }
 
 // ---
 
-guard let cgImage = image.cgImage else {
-       completion(.failure(.unknownError))
-       return
-   }
+private func logError(_ error: OCRRecognitionError) {
+         // Implement a logging framework or send errors to a server
+     }
+
+// ---
+
+let request = VNRecognizeTextRequest { [weak self] (request, error) in
+         // handle result
+     }
 
 // ---
 
 DispatchQueue.global(qos: .userInitiated).async {
-       // Perform OCR processing here
-   }
+         // Perform OCR recognition here
+
+         DispatchQueue.main.async {
+             // Update UI with recognized text
+         }
+     }
