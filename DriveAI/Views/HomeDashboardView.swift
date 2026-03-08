@@ -2,36 +2,47 @@ import SwiftUI
 
 struct HomeDashboardView: View {
     @StateObject private var viewModel = HomeDashboardViewModel()
+    @State private var showHistory = false
 
     var body: some View {
-        VStack {
-            Text("Welcome to DriveAI")
-                .font(.largeTitle)
-                .padding()
+        NavigationStack {
+            VStack(spacing: 16) {
+                Text("Welcome to DriveAI")
+                    .font(.largeTitle)
+                    .padding(.top)
 
-            if let user = viewModel.user {
-                UserInfoView(user: user)
-                
-                Button(action: {
-                    viewModel.startQuiz()
-                    // Insert navigation logic to Quiz screen
-                }) {
-                    Text("Start Quiz")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                if let user = viewModel.user {
+                    UserInfoView(user: user)
+
+                    Button(action: { viewModel.startQuiz() }) {
+                        Text("Start Quiz")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                } else {
+                    Text("No user data found. Please set your exam date.")
+                        .foregroundColor(.secondary)
                 }
-            } else {
-                Text("No user data found. Please set your exam date.")
+
+                Spacer()
             }
+            .padding()
+            .navigationTitle("Dashboard")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showHistory = true }) {
+                        Label("History", systemImage: "clock.arrow.circlepath")
+                    }
+                }
+            }
+            .navigationDestination(isPresented: $showHistory) {
+                QuestionHistoryView()
+            }
+            .onAppear { viewModel.loadUserData() }
         }
-        .onAppear {
-            viewModel.loadUserData()
-        }
-        .padding()
-        .navigationTitle("Dashboard")
     }
 }

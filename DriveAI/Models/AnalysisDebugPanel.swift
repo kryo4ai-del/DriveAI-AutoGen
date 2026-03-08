@@ -9,6 +9,11 @@ struct AnalysisDebugPanel: View {
     var correctAnswer: String?
     var evaluationResult: String?
 
+    // Last history entry preview
+    private var lastHistoryEntry: QuestionHistoryEntry? {
+        QuestionHistoryService().fetch().first
+    }
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
@@ -60,6 +65,24 @@ struct AnalysisDebugPanel: View {
                         }
                         if let er = evaluationResult {
                             debugRow(label: "Result", value: er)
+                        }
+                    }
+                    Divider()
+                }
+
+                // Last history entry
+                if let last = lastHistoryEntry {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Last History Entry")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        debugRow(label: "Question", value: String(last.questionText.prefix(60)))
+                        debugRow(label: "User Answer", value: last.userAnswer)
+                        debugRow(label: "Correct", value: last.correctAnswer)
+                        debugRow(label: "Result", value: last.isCorrect ? "Correct" : "Incorrect")
+                        if last.confidenceScore > 0 {
+                            debugRow(label: "Confidence", value: "\(last.confidenceLabel) (\(Int(last.confidenceScore * 100))%)")
                         }
                     }
                     Divider()
