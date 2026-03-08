@@ -1,18 +1,21 @@
 import Foundation
 
+enum DataError: Error {
+    case questionLoadingFailed
+    case parsingError(String)
+    // More cases can be added as needed
+}
+
 class LocalDataService {
     static let shared = LocalDataService()
 
-    // Loads quiz questions and handles errors
     func loadQuizQuestions() throws -> [QuizQuestion] {
-        // Loading from a data source (JSON, SQLite)
         guard let questions = loadFromSource() else {
-            throw DataError.questionLoadingFailed // Throw custom defined error for clarity
+            throw DataError.questionLoadingFailed // Uniform error handling for data loading
         }
         return questions
     }
     
-    // Sample implementation to simulate question loading
     private func loadFromSource() -> [QuizQuestion]? {
         return [
             QuizQuestion(id: UUID(), question: "What does this sign mean?", options: ["Stop", "Yield", "Go"], correctAnswerIndex: 0),

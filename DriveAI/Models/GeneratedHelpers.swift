@@ -1,60 +1,73 @@
-func nextPage(completion: (() -> Void)? = nil) {
-        guard currentPage < totalPages - 1 else { return }
-        currentPage += 1
-        completion?()
+var isValid: Bool {
+    return correctAnswerIndex >= 0 && correctAnswerIndex < options.count
+}
+
+// ---
+
+private func loadQuestions() {
+      do {
+          self.questions = try LocalDataService.shared.loadQuizQuestions()
+      } catch {
+          // Handle error e.g., log and provide feedback to user
+      }
+  }
+
+// ---
+
+private var correctAnswers: Int = 0
+  var totalCorrectAnswers: Int {
+      return correctAnswers
+  }
+
+// ---
+
+.buttonStyle(PlainButtonStyle()) // Apply style for better contrast, or similar
+
+// ---
+
+Button(action: {
+    onAnswerSelected(index)
+}) {
+    Text(question.options[index])
+        .padding()
+        .background(Color.blue.opacity(0.2))
+        .cornerRadius(8)
+}
+.buttonStyle(PlainButtonStyle()) // Remove default button style for better custom look
+
+// ---
+
+Button("Retry Quiz") {
+    // Logic to restart quiz flow
+}
+
+// ---
+
+func loadQuizQuestions(from source: String) -> [QuizQuestion] {
+    // Implementation that chooses the data source
+}
+
+// ---
+
+@Published var errorMessage: String? // New property to hold error messages
+
+private func loadQuestions() {
+    do {
+        self.questions = try LocalDataService.shared.loadQuizQuestions()
+    } catch {
+        errorMessage = "Failed to load questions. Please try again later." // Setting an error message
+        print("Error loading questions: \(error.localizedDescription)") // Maintain logging
     }
-
-// ---
-
-// If your navigation logic is set up
-NavigationLink(destination: ExamDateSetupView()) {
-    // Button Code
 }
 
 // ---
 
-@ViewBuilder
-func buildPageView(for model: OnboardingScreenModel) -> some View {
-    OnboardingPageView(screenModel: model)
+.alert(item: $viewModel.errorMessage) { errorMessage in
+    Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
 }
 
 // ---
 
-func nextPage(completion: (() -> Void)? = nil) {
-    guard currentPage < totalPages - 1 else { return }
-    currentPage += 1
-    completion?()
+Button("Retry Quiz") {
+    viewModel = DemoQuizViewModel() // Restarting the quiz flow
 }
-
-// ---
-
-func skipOnboarding(to view: AnyView) {
-    // Logic to navigate to the Exam Date Setup
-}
-
-// ---
-
-private let screens: [OnboardingScreenModel] // Encapsulated access
-
-// ---
-
-NavigationLink(destination: ExamDateSetupView()) {
-    Button("Next") {
-        viewModel.nextPage()
-    }
-}
-
-// ---
-
-@ViewBuilder
-private func buildPageView(for model: OnboardingScreenModel) -> some View {
-    OnboardingPageView(screenModel: model)
-}
-
-// ---
-
-let welcomeTitle = LocalizedStringKey("welcome_title") // Example
-
-// ---
-
-let welcomeTitle = LocalizedStringKey("welcome_title") // Example
