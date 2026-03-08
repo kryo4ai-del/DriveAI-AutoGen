@@ -1,38 +1,34 @@
-// Views/OnboardingView.swift
 import SwiftUI
 
 struct OnboardingView: View {
     @StateObject private var viewModel = OnboardingViewModel()
     
     var body: some View {
-        NavigationView {
-            VStack {
-                PageViewController(pages: viewModel.screens, currentPage: $viewModel.currentPage)
-                navigationButtons
-            }
-            .navigationBarHidden(true)
-        }
-    }
-    
-    private var navigationButtons: some View {
-        HStack {
-            NavigationLink(destination: ExamDateSetupView()) {
-                Button("Next") {
-                    viewModel.nextPage()
+        VStack {
+            Text("Set Your Exam Date")
+                .font(.title)
+                .padding(.bottom)
+            
+            DatePicker("Exam Date", selection: $viewModel.examDate, displayedComponents: .date)
+                .datePickerStyle(GraphicalDatePickerStyle())
+                .labelsHidden()
+            
+            NavigationLink(destination: HomeDashboardView()) {
+                Button(action: {
+                    viewModel.saveUserData()
+                }) {
+                    Text("Continue")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
                 }
             }
-            .disabled(viewModel.currentPage == viewModel.totalPages - 1)
-
-            Spacer()
-            
-            Button(action: {
-                viewModel.skipOnboarding()
-                // Navigate to Exam Date Setup
-            }) {
-                Text("Skip")
-            }
+            .padding(.top)
         }
         .padding()
-        .font(.headline) // Increased font size for better visibility
+        .navigationTitle("Onboarding")
     }
 }
