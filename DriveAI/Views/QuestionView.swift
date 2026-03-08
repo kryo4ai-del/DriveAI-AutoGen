@@ -1,43 +1,45 @@
 import SwiftUI
 
 struct QuestionView: View {
-    @StateObject private var viewModel = QuestionViewModel()
-    
+    @ObservedObject var viewModel: QuizQuestionViewModel
+    @EnvironmentObject var demoViewModel: DemoFlowViewModel // Access main view model
+
     var body: some View {
-        VStack(spacing: 20) {
-            Text(viewModel.currentQuestion.questionText)
-                .font(.title)
-                .padding()
-            
-            ForEach(viewModel.currentQuestion.options, id: \.self) { option in
+        VStack {
+            Text(viewModel.question.question)
+                .font(.headline)
+                .accessibilityLabel(Text(viewModel.question.question))
+
+            ForEach(viewModel.question.answers) { answer in
                 Button(action: {
-                    if viewModel.submitAnswer(option) {
-                        viewModel.advanceToNextQuestion()
-                    }
+                    demoViewModel.submitAnswer(selectedAnswer: answer.id)
                 }) {
-                    HStack {
-                        if viewModel.isAnswerCorrect(option) {
-                            Image(systemName: "checkmark.circle")
-                                .foregroundColor(.white)
-                        } else {
-                            Image(systemName: "xmark.circle")
-                                .foregroundColor(.white)
-                        }
-                        Text(option)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(viewModel.isAnswerCorrect(option) ? Color(.systemGreen) : Color(.systemRed))
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
+                    Text(answer.text)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .accessibilityIdentifier("answerButton_\(answer.id)")
+                .accessibilityLabel(Text(answer.text)) // Accessible for VoiceOver
+            }
+
+            if let message = demoViewModel.feedbackMessage {
+                Text(message)
+                    .foregroundColor(message == "Correct!" ? .green : .red)
+                    .animation(.default)
             }
         }
         .padding()
-        .navigationTitle("Question \(viewModel.currentQuestionIndex + 1)")
-        .onAppear {
-            viewModel.loadQuestion()
-        }
+        .overlay(
+            Group {
+                if demoViewModel.isLoading {
+                    ProgressView("Loading...")
+                }
+            }
+        )
+        .alert(item: $demoViewModel.errorMessage, content: { message in
+            Alert(title: Text("Error"), message: Text(message), dismissButton: .default(Text("OK")))
+        })
     }
 }

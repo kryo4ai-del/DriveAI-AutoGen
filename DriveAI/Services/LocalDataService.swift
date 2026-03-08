@@ -1,22 +1,8 @@
 import Foundation
 
 class LocalDataService {
-    static let shared = LocalDataService()
-
-    // Loads quiz questions and handles errors
-    func loadQuizQuestions() throws -> [QuizQuestion] {
-        // Loading from a data source (JSON, SQLite)
-        guard let questions = loadFromSource() else {
-            throw DataError.questionLoadingFailed // Throw custom defined error for clarity
-        }
-        return questions
-    }
-    
-    // Sample implementation to simulate question loading
-    private func loadFromSource() -> [QuizQuestion]? {
-        return [
-            QuizQuestion(id: UUID(), question: "What does this sign mean?", options: ["Stop", "Yield", "Go"], correctAnswerIndex: 0),
-            QuizQuestion(id: UUID(), question: "What should you do when this light is on?", options: ["Speed up", "Slow down", "Stop"], correctAnswerIndex: 2)
-        ]
+    func fetchQuestions() -> [QuestionModel] {
+        // Load questions from JSON or local database
+        return [] // Placeholder for actual fetching logic
     }
 }
