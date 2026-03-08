@@ -29,7 +29,9 @@ struct QuestionHistoryView: View {
                 Spacer()
             } else {
                 List(viewModel.filteredEntries) { entry in
-                    historyRow(entry)
+                    NavigationLink(destination: QuestionHistoryDetailView(entry: entry)) {
+                        historyRow(entry)
+                    }
                 }
                 .listStyle(.plain)
             }
@@ -51,35 +53,55 @@ struct QuestionHistoryView: View {
 
     @ViewBuilder
     private func historyRow(_ entry: QuestionHistoryEntry) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Image(systemName: entry.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                    .foregroundColor(entry.isCorrect ? .green : .red)
-                Text(entry.questionText)
-                    .font(.subheadline)
-                    .bold()
-                    .lineLimit(2)
-                Spacer()
-                Text(dateFormatter.string(from: entry.timestamp))
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
+        HStack(alignment: .top, spacing: 10) {
+            // Thumbnail
+            if let data = entry.imageData, let uiImage = UIImage(data: data) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 52, height: 52)
+                    .cornerRadius(8)
+                    .clipped()
+            } else {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color(.systemGray5))
+                    .frame(width: 52, height: 52)
+                    .overlay(
+                        Image(systemName: "photo")
+                            .foregroundColor(.secondary)
+                    )
             }
 
-            HStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Your Answer").font(.caption).foregroundColor(.secondary)
-                    Text(entry.userAnswer).font(.caption).foregroundColor(entry.isCorrect ? .green : .red)
+            VStack(alignment: .leading, spacing: 5) {
+                HStack {
+                    Image(systemName: entry.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .foregroundColor(entry.isCorrect ? .green : .red)
+                        .font(.caption)
+                    Text(entry.questionText)
+                        .font(.subheadline)
+                        .bold()
+                        .lineLimit(2)
+                    Spacer()
+                    Text(dateFormatter.string(from: entry.timestamp))
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
                 }
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Correct").font(.caption).foregroundColor(.secondary)
-                    Text(entry.correctAnswer).font(.caption).foregroundColor(.green)
-                }
-                if entry.confidenceScore > 0 {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Confidence").font(.caption).foregroundColor(.secondary)
-                        Text("\(entry.confidenceLabel) (\(Int(entry.confidenceScore * 100))%)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+
+                HStack(spacing: 12) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text("Your Answer").font(.caption2).foregroundColor(.secondary)
+                        Text(entry.userAnswer).font(.caption).foregroundColor(entry.isCorrect ? .green : .red)
+                    }
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text("Correct").font(.caption2).foregroundColor(.secondary)
+                        Text(entry.correctAnswer).font(.caption).foregroundColor(.green)
+                    }
+                    if entry.confidenceScore > 0 {
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text("Confidence").font(.caption2).foregroundColor(.secondary)
+                            Text("\(entry.confidenceLabel) (\(Int(entry.confidenceScore * 100))%)")
+                                .font(.caption).foregroundColor(.secondary)
+                        }
                     }
                 }
             }

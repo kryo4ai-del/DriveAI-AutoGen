@@ -77,6 +77,17 @@ struct AnalysisDebugPanel: View {
                             .font(.headline)
                             .padding(.horizontal)
                             .padding(.top, 12)
+
+                        // Image preview
+                        if let data = last.imageData, let uiImage = UIImage(data: data) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 80)
+                                .cornerRadius(8)
+                                .padding(.horizontal)
+                        }
+
                         debugRow(label: "Question", value: String(last.questionText.prefix(60)))
                         debugRow(label: "User Answer", value: last.userAnswer)
                         debugRow(label: "Correct", value: last.correctAnswer)

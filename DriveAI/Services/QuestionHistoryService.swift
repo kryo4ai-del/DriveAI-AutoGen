@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class QuestionHistoryService {
 
@@ -27,5 +28,19 @@ class QuestionHistoryService {
     // MARK: - Clear
     func clear() {
         UserDefaults.standard.removeObject(forKey: storageKey)
+    }
+
+    // MARK: - Image compression
+    /// Scale image to max 300pt width, compress to JPEG 0.4 quality (~20-50KB)
+    func compressImage(_ image: UIImage) -> Data? {
+        let maxDimension: CGFloat = 300
+        let scale = min(maxDimension / image.size.width, maxDimension / image.size.height, 1.0)
+        let newSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        let scaled = renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+        return scaled.jpegData(compressionQuality: 0.4)
     }
 }

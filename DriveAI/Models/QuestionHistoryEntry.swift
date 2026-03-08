@@ -9,6 +9,7 @@ struct QuestionHistoryEntry: Identifiable, Codable {
     let confidenceLabel: String
     let isCorrect: Bool
     let timestamp: Date
+    let imageData: Data?   // JPEG-compressed thumbnail, nil for old entries
 
     init(id: UUID = UUID(),
          questionText: String,
@@ -17,7 +18,8 @@ struct QuestionHistoryEntry: Identifiable, Codable {
          confidenceScore: Double = 0,
          confidenceLabel: String = "",
          isCorrect: Bool,
-         timestamp: Date = Date()) {
+         timestamp: Date = Date(),
+         imageData: Data? = nil) {
         self.id = id
         self.questionText = questionText
         self.userAnswer = userAnswer
@@ -26,5 +28,6 @@ struct QuestionHistoryEntry: Identifiable, Codable {
         self.confidenceLabel = confidenceLabel
         self.isCorrect = isCorrect
         self.timestamp = timestamp
+        self.imageData = imageData
     }
 }
