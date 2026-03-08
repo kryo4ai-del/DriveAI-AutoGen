@@ -1,18 +1,23 @@
 import SwiftUI
 
 struct DemoFlowView: View {
-    @StateObject private var viewModel: DemoFlowViewModel
-
+    @StateObject private var viewModel = DemoFlowViewModel()
+    
     var body: some View {
         NavigationView {
             VStack {
-                if viewModel.currentIndex < viewModel.questions.count {
-                    QuestionView(viewModel: QuizQuestionViewModel(question: viewModel.questions[viewModel.currentIndex]))
+                if let quizResult = viewModel.quizResult {
+                    ResultView(quizResult: quizResult, retryAction: {
+                        viewModel.resetQuiz()
+                    })
                 } else {
-                    ResultView(results: viewModel.results!)
+                    QuestionView(viewModel: viewModel)
                 }
             }
-            .navigationTitle("Demo Quiz")
+            .navigationBarTitle("Demo Quiz - Practice Questions", displayMode: .inline)
+            .onAppear {
+                viewModel.loadQuestions()
+            }
         }
     }
 }

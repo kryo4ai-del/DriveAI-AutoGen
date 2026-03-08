@@ -1,54 +1,51 @@
+import SwiftUI
 import Combine
 
 class DemoFlowViewModel: ObservableObject {
-    @Published var questions: [QuestionModel] = []
-    @Published var currentIndex: Int = 0
-    @Published var results: QuizResult?
-    @Published var feedbackMessage: String? // Feedback for correctness
-    @Published var errorMessage: String? // Error handling
-    @Published var isLoading: Bool = true // Loading state
+    @Published private(set) var questions: [Question] = []
+    @Published private(set) var currentQuestion: Question?
+    @Published private(set) var currentIndex: Int = 0
+    @Published var quizResult: QuizResult?
+    @Published var feedback: (message: String, isCorrect: Bool)?
+
     private var cancellables = Set<AnyCancellable>()
-    private let dataService: LocalDataService
     
-    init(dataService: LocalDataService) {
-        self.dataService = dataService
-        loadQuestions()
-    }
-
+    /// Loads questions from the local data service.
     func loadQuestions() {
-        dataService.fetchQuestions()
-            .receive(on: DispatchQueue.main)
-            .handleEvents(receiveOutput: { _ in self.isLoading = false })
-            .sink(receiveCompletion: { [weak self] completion in
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription // Set error message
-                }
-            }, receiveValue: { [weak self] questions in
-                self?.questions = questions
-            })
-            .store(in: &cancellables)
-    }
-
-    func submitAnswer(selectedAnswer: UUID) {
-        let isCorrect = selectedAnswer == questions[currentIndex].correctAnswer
-        feedbackMessage = isCorrect ? "Correct!" : "Incorrect!"
-        
-        if isCorrect {
-            // Increment correct answer count logic can be implemented here
-        }
-        
-        if currentIndex < questions.count - 1 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.currentIndex += 1
-                self.feedbackMessage = nil // Reset feedback message
-            }
+        questions = LocalDataService.shared.loadQuestions()
+        if questions.isEmpty {
+            feedback = ("No questions available.", false)
         } else {
-            calculateResults()
+            currentQuestion = questions.first
         }
     }
-
-    private func calculateResults() {
-        // Logic to prepare the results for display
-        results = QuizResult(correctAnswers: 0, totalQuestions: questions.count) // Placeholder logic
+    
+    /// Evaluates the user's answer to the current question.
+    func answerQuestion(with answer: String) {
+        guard let question = currentQuestion else { return }
+        evaluateAnswer(selectedAnswer: answer, correctAnswer: question.correctAnswer)
+        currentIndex += 1
+        
+        if currentIndex < questions.count {
+            currentQuestion = questions[currentIndex]
+        } else {
+            quizResult = QuizResult(totalQuestions: questions.count, correctAnswers: currentIndex)
+        }
+    }
+    
+    /// Evaluates the selected answer against the correct answer and sets feedback accordingly.
+    private func evaluateAnswer(selectedAnswer: String, correctAnswer: String) {
+        if selectedAnswer == correctAnswer {
+            feedback = (NSLocalizedString("Correct!", comment: ""), true)
+        } else {
+            feedback = (NSLocalizedString("Wrong! The correct answer is \(correctAnswer).", comment: ""), false)
+        }
+    }
+    
+    /// Resets the quiz to allow for a new experience.
+    func resetQuiz() {
+        currentIndex = 0
+        feedback = nil
+        loadQuestions()
     }
 }

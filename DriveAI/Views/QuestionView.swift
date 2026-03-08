@@ -1,45 +1,40 @@
 import SwiftUI
 
 struct QuestionView: View {
-    @ObservedObject var viewModel: QuizQuestionViewModel
-    @EnvironmentObject var demoViewModel: DemoFlowViewModel // Access main view model
-
+    @ObservedObject var viewModel: DemoFlowViewModel
+    @State private var isLoading = false
+    
     var body: some View {
         VStack {
-            Text(viewModel.question.question)
+            Text(viewModel.currentQuestion?.text ?? "")
                 .font(.headline)
-                .accessibilityLabel(Text(viewModel.question.question))
-
-            ForEach(viewModel.question.answers) { answer in
-                Button(action: {
-                    demoViewModel.submitAnswer(selectedAnswer: answer.id)
-                }) {
-                    Text(answer.text)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                .padding()
+            
+            if viewModel.currentQuestion != nil {
+                ForEach(viewModel.currentQuestion?.options ?? [], id: \.self) { option in
+                    Button(action: {
+                        isLoading = true // Start loading
+                        viewModel.answerQuestion(with: option)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Simulate delay
+                            isLoading = false // Stop loading after a brief delay
+                        }
+                    }) {
+                        Text(option)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .disabled(viewModel.quizResult != nil) // Disable after quiz completion
                 }
-                .accessibilityIdentifier("answerButton_\(answer.id)")
-                .accessibilityLabel(Text(answer.text)) // Accessible for VoiceOver
             }
-
-            if let message = demoViewModel.feedbackMessage {
-                Text(message)
-                    .foregroundColor(message == "Correct!" ? .green : .red)
-                    .animation(.default)
+            
+            if isLoading {
+                ProgressView()
+            } else if let feedback = viewModel.feedback {
+                FeedbackView(feedback: feedback.message, isCorrect: feedback.isCorrect)
             }
         }
         .padding()
-        .overlay(
-            Group {
-                if demoViewModel.isLoading {
-                    ProgressView("Loading...")
-                }
-            }
-        )
-        .alert(item: $demoViewModel.errorMessage, content: { message in
-            Alert(title: Text("Error"), message: Text(message), dismissButton: .default(Text("OK")))
-        })
     }
 }

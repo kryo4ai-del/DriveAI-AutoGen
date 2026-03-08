@@ -1,8 +1,7 @@
-import Foundation
-
 struct Question: Identifiable {
-    let id: UUID = UUID()
-    let questionText: String
-    let options: [String]
-    let correctAnswer: String
-}
+       let id: UUID
+       let text: String
+       let options: [String]
+       let correctAnswer: String
+       let explanation: String? // Ensure explanations are present
+   }

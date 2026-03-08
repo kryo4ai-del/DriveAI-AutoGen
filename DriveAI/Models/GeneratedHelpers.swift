@@ -1,175 +1,96 @@
-@Published var errorMessage: String? // New property
-
-// Inside loadQuestions()
-.handleEvents(receiveOutput: { _ in self.isLoading = false })
-.sink(receiveCompletion: { completion in
-    if case .failure(let error) = completion {
-        self.errorMessage = error.localizedDescription // Set appropriate error message
-    }
-})
-
-// ---
-
-Button(action: {
-    demoViewModel.submitAnswer(selectedAnswer: answer.id)
-}) {
-    Text(answer.text)
-        .padding()
-        .background(Color.blue)
-        .foregroundColor(.white)
-        .cornerRadius(8)
-}
-.accessibilityIdentifier("answerButton_\(answer.id)")
-.accessibilityLabel(Text(answer.text))
-
-// ---
-
-@Published var feedbackMessage: String? // New property for feedback messages
-
-func submitAnswer(selectedAnswer: UUID) {
-    let isCorrect = selectedAnswer == questions[currentIndex].correctAnswer
-    if isCorrect {
-        correctAnswers += 1 // Count correct answers
-        feedbackMessage = "Correct!"
-    } else {
-        feedbackMessage = "Incorrect!"
-    }
-
-    if currentIndex < questions.count - 1 {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.currentIndex += 1
-            self.feedbackMessage = nil // Reset feedback message
-        }
-    } else {
-        calculateResults()
-    }
+var score: Double {
+    return totalQuestions > 0 ? Double(correctAnswers) / Double(totalQuestions) * 100.0 : 0
 }
 
 // ---
 
-@Published var errorMessage: String? // New property
+feedback = NSLocalizedString("Correct!", comment: "")
+
+// ---
 
 func loadQuestions() {
-    dataService.fetchQuestions()
-        .receive(on: DispatchQueue.main)
-        .handleEvents(receiveOutput: { _ in self.isLoading = false })
-        .sink(receiveCompletion: { [weak self] completion in
-            if case .failure(let error) = completion {
-                self?.errorMessage = error.localizedDescription // Set appropriate error message
-            }
-        }, receiveValue: { [weak self] questions in
-            self?.questions = questions
-        })
-        .store(in: &cancellables)
-}
-
-// In the view, present an alert:
-.alert(item: $errorMessage, content: { error in
-    Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("OK")))
-})
-
-// ---
-
-ForEach(viewModel.question.answers) { answer in
-    Button(action: {
-        demoViewModel.submitAnswer(selectedAnswer: answer.id)
-    }) {
-        Text(answer.text)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
+    questions = LocalDataService.shared.loadQuestions()
+    // Handle case when questions are empty
+    if questions.isEmpty {
+        //Provide some fallback or error message
     }
-    .accessibilityIdentifier("answerButton_\(answer.id)")
-    .accessibilityLabel(Text(answer.text)) // Already included for VoiceOver
+    currentQuestion = questions.first
 }
 
 // ---
 
-@Published var correctAnswers: Int = 0 // Track correct answers
-
-func submitAnswer(selectedAnswer: UUID) {
-    let isCorrect = selectedAnswer == questions[currentIndex].correctAnswer
-    if isCorrect {
-        correctAnswers += 1 // Update count
-        feedbackMessage = "Correct!"
-    } else {
-        feedbackMessage = "Incorrect!"
-    }
-    ...
-}
-
-// ---
-
-private func calculateResults() {
-    results = QuizResult(correctAnswers: correctAnswers, totalQuestions: questions.count)
-}
-
-// ---
-
-@Published var correctAnswers: Int = 0 // Track correctly answered questions
-
-func submitAnswer(selectedAnswer: UUID) {
-    let isCorrect = selectedAnswer == questions[currentIndex].correctAnswer
-    if isCorrect {
-        correctAnswers += 1 // Increment correct answer count
-        feedbackMessage = "Correct!"
-    } else {
-        feedbackMessage = "Incorrect!"
-    }
-
-    if currentIndex < questions.count - 1 {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.currentIndex += 1
-            self.feedbackMessage = nil // Reset feedback message
+if viewModel.quizResult == nil {
+    ForEach(viewModel.currentQuestion?.options ?? [], id: \.self) { option in
+        Button(action: {
+            viewModel.answerQuestion(with: option)
+        }) {
+            Text(option)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
         }
+        .disabled(viewModel.quizResult != nil) // Disable after quiz is completed
+    }
+}
+
+// ---
+
+Button("Retry Quiz") {
+    // Implement retry logic, possibly via a ViewModel function
+}
+.padding()
+
+// ---
+
+func evaluateAnswer(selectedAnswer: String, correctAnswer: String) {
+    if selectedAnswer == correctAnswer {
+        feedback = (NSLocalizedString("Correct!", comment: ""), true)
     } else {
-        calculateResults()
+        feedback = (NSLocalizedString("Wrong! The correct answer is \(correctAnswer).", comment: ""), false)
     }
 }
 
-// ---
-
-private func calculateResults() {
-    results = QuizResult(correctAnswers: correctAnswers, totalQuestions: questions.count)
+// Modify the answerQuestion method accordingly
+func answerQuestion(with answer: String) {
+    guard let question = currentQuestion else { return }
+    evaluateAnswer(selectedAnswer: answer, correctAnswer: question.correctAnswer)
+    currentIndex += 1
+    // Additional logic...
 }
 
 // ---
 
-if let message = demoViewModel.feedbackMessage {
-    Text(message)
-        .foregroundColor(message == "Correct!" ? .green : .red)
-        .animation(.default)
-        .padding()
-   
-    Button("Next") {
-        demoViewModel.submitAnswer(selectedAnswer: UUID()) // Move to next logic
-    }
-} else {
-    Text("Tap an answer to continue.")
-}
-// Ensure the button is not displayed if there's no feedback message
-
-// ---
-
-// Example snippet of test case
-func testLoadQuestionsSuccess() {
-    viewModel.loadQuestions()
-    XCTAssertFalse(viewModel.questions.isEmpty, "Questions should be loaded successfully.")
+.withAnimation {
+    Text(feedback)
+        .fadeIn()
 }
 
 // ---
 
-private func calculateResults() {
-    results = QuizResult(correctAnswers: correctAnswers, totalQuestions: questions.count)
+// Evaluates the selected answer against the correct answer and sets feedback accordingly.
+private func evaluateAnswer(selectedAnswer: String, correctAnswer: String) { ... }
+
+// ---
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    isLoading = false
 }
 
 // ---
 
-if let message = demoViewModel.feedbackMessage {
-    Text(message)
-        .foregroundColor(message == "Correct!" ? .green : .red)
-    Button("Next") {
-        demoViewModel.moveToNextQuestion() // Clear and encapsulate this logic
-    }
-}
+func testLoadingQuestions() {
+         let viewModel = DemoFlowViewModel()
+         viewModel.loadQuestions()
+         XCTAssertFalse(viewModel.questions.isEmpty, "Questions should be loaded successfully.")
+     }
+
+// ---
+
+func testCorrectAnswerFeedback() {
+         let viewModel = DemoFlowViewModel()
+         let question = Question(id: UUID(), text: "What is the capital of Germany?", options: ["Berlin", "Munich"], correctAnswer: "Berlin", explanation: "Berlin is the capital city.")
+         viewModel.currentQuestion = question
+         viewModel.answerQuestion(with: "Berlin")
+         XCTAssertEqual(viewModel.feedback?.message, "Correct!", "Feedback should indicate the correct answer.")
+     }

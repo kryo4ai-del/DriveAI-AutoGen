@@ -1,15 +1,28 @@
 import SwiftUI
 
 struct ResultView: View {
-    var results: QuizResult
+    let quizResult: QuizResult
+    var retryAction: () -> Void
 
     var body: some View {
         VStack {
-            Text("Results")
-                .font(.largeTitle)
-            Text("Correct: \(results.correctAnswers)/\(results.totalQuestions)")
-            // Additional UI for results as needed
+            Text("Quiz Completed!")
+                .font(.title)
+                .padding()
+            Text("Score: \(quizResult.score, specifier: "%.2f")%")
+                .font(.headline)
+            
+            Button(action: {
+                withAnimation {
+                    retryAction()
+                }
+            }) {
+                Text("Retry Quiz")
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
         }
-        .padding()
     }
 }
