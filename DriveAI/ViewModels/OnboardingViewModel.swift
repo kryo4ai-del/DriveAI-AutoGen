@@ -1,9 +1,14 @@
-import Combine
+import Foundation
 
 class OnboardingViewModel: ObservableObject {
-    @Published var isCompleted: Bool = false
-
+    @Published var examDate: Date = Date()
+    
+    var isReady: Bool {
+        return examDate > Date() // Ensure the date is in the future
+    }
+    
     func completeOnboarding() {
-        isCompleted = true
+        // Logic to store user profile could be added here
+        // Transition to HomeView could also be triggered
     }
 }
