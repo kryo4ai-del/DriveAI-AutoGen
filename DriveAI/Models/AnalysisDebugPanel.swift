@@ -19,6 +19,10 @@ struct AnalysisDebugPanel: View {
         historyService.topWeakCategories(limit: 3)
     }
 
+    private var learningStats: LearningStats {
+        historyService.calculateLearningStats()
+    }
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
@@ -101,6 +105,25 @@ struct AnalysisDebugPanel: View {
                             debugRow(label: "Confidence", value: "\(last.confidenceLabel) (\(Int(last.confidenceScore * 100))%)")
                         }
                     }
+                    Divider()
+                }
+
+                // Learning statistics preview
+                if learningStats.totalQuestions > 0 {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Learning Statistics")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        debugRow(label: "Total",    value: "\(learningStats.totalQuestions) questions")
+                        debugRow(label: "Accuracy", value: "\(learningStats.accuracyPercentage)%")
+                        debugRow(label: "Correct",  value: "\(learningStats.correctAnswers)")
+                        debugRow(label: "Incorrect", value: "\(learningStats.incorrectAnswers)")
+                        if learningStats.averageConfidence > 0 {
+                            debugRow(label: "Avg Confidence", value: "\(learningStats.averageConfidencePercentage)%")
+                        }
+                    }
+                    .padding(.bottom, 8)
                     Divider()
                 }
 

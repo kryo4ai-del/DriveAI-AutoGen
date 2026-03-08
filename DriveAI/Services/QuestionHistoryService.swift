@@ -30,6 +30,21 @@ class QuestionHistoryService {
         UserDefaults.standard.removeObject(forKey: storageKey)
     }
 
+    // MARK: - Learning statistics
+
+    func calculateLearningStats() -> LearningStats {
+        let entries = fetch()
+        guard !entries.isEmpty else { return .empty }
+        let correct = entries.filter { $0.isCorrect }.count
+        let avgConf = entries.map { $0.confidenceScore }.reduce(0, +) / Double(entries.count)
+        return LearningStats(
+            totalQuestions: entries.count,
+            correctAnswers: correct,
+            incorrectAnswers: entries.count - correct,
+            averageConfidence: avgConf
+        )
+    }
+
     // MARK: - Weakness analysis
 
     func analyzeWeaknessPatterns() -> [WeaknessCategory] {

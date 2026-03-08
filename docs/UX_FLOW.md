@@ -35,6 +35,7 @@ Scan Question
 Import Screenshot
 Question History
 Learning Insights
+Learning Statistics
 
 Navigation:
 
@@ -43,6 +44,7 @@ HomeDashboardView
 → ImageImportView
 → QuestionHistoryView (toolbar button)
 → LearningInsightsView (dashboard button)
+→ LearningStatisticsView (dashboard button)
 
 ---
 
@@ -169,6 +171,37 @@ Keyword-based category detection (10 categories + General fallback)
 
 ---
 
+# Learning Statistics Flow
+
+HomeDashboardView
+↓
+Tap "Learning Statistics"
+↓
+LearningStatisticsView
+
+Displays:
+
+4 summary cards:
+  Total Questions
+  Accuracy %
+  Correct (count)
+  Incorrect (count)
+
+Overall Accuracy progress bar (red / orange / green)
+Average confidence label
+
+Correct vs Incorrect bar chart (proportional height bars)
+
+Empty state:
+
+If no history: chart icon + "No data yet."
+
+Data source:
+
+QuestionHistoryService → calculateLearningStats()
+
+---
+
 # Debug Flow
 
 AnalysisDebugPanel
@@ -180,6 +213,7 @@ Shows:
 Answer Confidence (when available)
 Evaluation result (user answer / correct answer)
 Latest history entry (with image thumbnail)
+Learning Statistics (total, accuracy %, correct, incorrect, avg confidence)
 Weakness Summary (top 3 weakest categories)
 OCR text
 Parsed question

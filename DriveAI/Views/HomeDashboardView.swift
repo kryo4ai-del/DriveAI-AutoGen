@@ -4,6 +4,7 @@ struct HomeDashboardView: View {
     @StateObject private var viewModel = HomeDashboardViewModel()
     @State private var showHistory = false
     @State private var showInsights = false
+    @State private var showStatistics = false
 
     var body: some View {
         NavigationStack {
@@ -39,6 +40,16 @@ struct HomeDashboardView: View {
                         .cornerRadius(8)
                 }
 
+                Button(action: { showStatistics = true }) {
+                    Label("Learning Statistics", systemImage: "chart.pie.fill")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.purple.opacity(0.1))
+                        .foregroundColor(.purple)
+                        .cornerRadius(8)
+                }
+
                 Spacer()
             }
             .padding()
@@ -55,6 +66,9 @@ struct HomeDashboardView: View {
             }
             .navigationDestination(isPresented: $showInsights) {
                 LearningInsightsView()
+            }
+            .navigationDestination(isPresented: $showStatistics) {
+                LearningStatisticsView()
             }
             .onAppear { viewModel.loadUserData() }
         }
