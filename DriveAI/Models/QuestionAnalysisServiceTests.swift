@@ -1,26 +1,30 @@
-class QuestionAnalysisServiceTests: XCTestCase {
-    var questionAnalysisService: QuestionAnalysisService!
-    var localDataServiceMock: LocalDataServiceMock!
+import XCTest
 
+class QuestionAnalysisServiceTests: XCTestCase {
+    var service: QuestionAnalysisService!
+    
     override func setUp() {
         super.setUp()
-        localDataServiceMock = LocalDataServiceMock()
-        questionAnalysisService = QuestionAnalysisService(localDataService: localDataServiceMock)
-
-        // Optionally pre-populate mock categories and questions
-        let questionId = UUID()
-        localDataServiceMock.addCategory(for: questionId, category: "Traffic Signs")
-        localDataServiceMock.addMockQuestions([
-            Question(id: questionId, text: "What does a stop sign mean?", category: "Traffic Signs", options: ["Stop", "Go"], correctOption: 0)
-        ])
+        service = QuestionAnalysisService()
+    }
+    
+    func testAnalyzeAnswer_Correct() {
+        let question = Question(id: UUID(), text: "What is the speed limit?", correctAnswer: "50 km/h", options: ["30 km/h", "50 km/h", "70 km/h"])
+        let userAnswer = UserAnswer(question: question, selectedOption: "50 km/h")
+        
+        let result = service.analyzeAnswer(userAnswer)
+        
+        XCTAssertTrue(result.correct)
+        XCTAssertEqual(result.feedback, "Richtig!")
     }
 
-    override func tearDown() {
-        localDataServiceMock.clearStoredData() // Ensure isolation for each test
-        questionAnalysisService = nil
-        localDataServiceMock = nil
-        super.tearDown()
+    func testAnalyzeAnswer_Incorrect() {
+        let question = Question(id: UUID(), text: "What is the speed limit?", correctAnswer: "50 km/h", options: ["30 km/h", "50 km/h", "70 km/h"])
+        let userAnswer = UserAnswer(question: question, selectedOption: "30 km/h")
+        
+        let result = service.analyzeAnswer(userAnswer)
+        
+        XCTAssertFalse(result.correct)
+        XCTAssertEqual(result.feedback, "Falsch! Die richtige Antwort war 50 km/h.")
     }
-
-    // Add test cases here
 }

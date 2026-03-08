@@ -1,57 +1,43 @@
-import SwiftUI
-
 struct QuestionView: View {
-    @ObservedObject var viewModel: QuestionViewModel
+    let question: Question
+    @State private var selectedAnswer: String = ""
+    @State private var userAnswer: UserAnswer?
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                Text(viewModel.currentQuestion.text)
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                ForEach(viewModel.currentQuestion.choices, id: \.self) { choice in
-                    AnswerButton(choice: choice) {
-                        // Logic to handle user response
-                        print("Selected Answer: \(choice)")
-                    }
+        VStack {
+            Text(question.text)
+                .font(.largeTitle)
+                .padding()
+
+            ForEach(question.options, id: \.self) { option in
+                Button(action: {
+                    selectedAnswer = option
+                }) {
+                    Text(option)
+                        .padding()
+                        .background(selectedAnswer == option ? Color.blue : Color.gray.opacity(0.2))
+                        .cornerRadius(8)
                 }
+                .padding(.bottom, 5)
+            }
+            
+            Button("Submit") {
+                guard !selectedAnswer.isEmpty else { return }
+                userAnswer = UserAnswer(question: question, selectedOption: selectedAnswer)
                 
-                HStack {
-                    Button("Previous") {
-                        viewModel.previousQuestion()
-                    }
-                    .disabled(viewModel.currentQuestionIndex == 0)
-                    
-                    Button("Next") {
-                        viewModel.nextQuestion()
-                    }
-                    .disabled(viewModel.currentQuestionIndex == viewModel.questions.count - 1)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    // Reset selection after a delay for emphasis on feedback
+                    selectedAnswer = ""
                 }
-                .padding(.top)
             }
             .padding()
-            .navigationTitle("Question \(viewModel.currentQuestionIndex + 1) of \(viewModel.questions.count)")
-            .alert(item: $viewModel.loadingError) { error in
-                Alert(title: Text("Error"), message: Text(error.localizedDescription), dismissButton: .default(Text("OK")))
+            
+            if let userAnswer = userAnswer {
+                QuestionAnalysisView(viewModel: QuestionAnalysisViewModel(), userAnswer: userAnswer)
+                    .animation(.easeIn, value: userAnswer) // Animate feedback view 
             }
         }
-    }
-}
-
-struct AnswerButton: View {
-    let choice: String
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Text(choice)
-                .padding()
-                .background(Color.blue.opacity(0.7))
-                .foregroundColor(.white)
-                .cornerRadius(8)
-        }
-        .buttonStyle(PlainButtonStyle())
+        .navigationTitle("Frage")
+        .padding()
     }
 }

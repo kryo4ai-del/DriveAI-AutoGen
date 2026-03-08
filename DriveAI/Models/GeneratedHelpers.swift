@@ -1,87 +1,58 @@
-private var cache: [String: (hint: String, timestamp: Date)] = [:]
-private let cacheExpirationDuration: TimeInterval = 3600 // 1 hour
+private func feedbackView(for result: AnalysisResult) -> some View {
+    Text(result.feedback)
+        .foregroundColor(result.correct ? .green : .red)
+        .padding(.top, 10)
+        .font(.body)
+        .multilineTextAlignment(.center)
+}
 
-func generateAnswerHint(for question: String, completion: @escaping (Result<String, Error>) -> Void) {
-    if let cachedHint = cache[question], Date().timeIntervalSince(cachedHint.timestamp) < cacheExpirationDuration {
-        completion(.success(cachedHint.hint))
-        return
+var body: some View {
+    VStack {
+        Text(userAnswer.question.text)
+            .font(.headline)
+            .padding()
+            .multilineTextAlignment(.center)
+        
+        Text("Deine Antwort: \(userAnswer.selectedOption)")
+            .font(.subheadline)
+            .padding(.top)
+        
+        if let result = viewModel.analysisResult {
+            feedbackView(for: result)
+        }
     }
-    // Proceed with API request...
-}
-
-// ---
-
-do {
-    request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
-} catch {
-    completion(.failure(LLMError.dataDecodingFailed))
-    return
-}
-
-// ---
-
-private func performRequest(endpoint: String, parameters: [String: Any], completion: @escaping (Result<String, Error>) -> Void) {
-    // Common request logic...
-}
-
-// ---
-
-func suggestQuestions(for userProfile: UserProfile, completion: @escaping (Result<[Question], Error>) -> Void) {
-    // Implement logic here leveraging user's past quizzes.
-    // Example: Retrieve questions from a local database based on user's performance.
-}
-
-// ---
-
-private var cache: [String: (hint: String, timestamp: Date)] = [:]
-private let cacheExpirationDuration: TimeInterval = 3600 // 1 hour
-
-func generateAnswerHint(for question: String, completion: @escaping (Result<String, Error>) -> Void) {
-    if let cachedHint = cache[question], Date().timeIntervalSince(cachedHint.timestamp) < cacheExpirationDuration {
-        completion(.success(cachedHint.hint))
-        return
+    .onAppear {
+        viewModel.analyzeAnswer(userAnswer: userAnswer)
     }
-    // Proceed with API request...
+    .padding()
 }
 
 // ---
 
-do {
-    request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
-} catch {
-    completion(.failure(LLMError.dataDecodingFailed))
-    return
+@ViewBuilder
+private func feedbackView(for result: AnalysisResult) -> some View {
+    VStack {
+        Text(result.feedback)
+            .foregroundColor(result.correct ? .green : .red)
+            .padding(.top, 10)
+            .font(.body)
+            .multilineTextAlignment(.center)
+        
+        if !result.correct {
+            Image(systemName: "exclamationmark.triangle") // Example for a warning icon
+                .foregroundColor(.red)
+                .padding(.top, 5)
+        }
+    }
 }
 
 // ---
 
-private func performRequest(endpoint: String, parameters: [String: Any], completion: @escaping (Result<String, Error>) -> Void) {
-    // Implement common request logic to create URLRequest, perform the request, and handle responses.
+Button("Submit") {
+    guard !selectedAnswer.isEmpty else { return }
+    userAnswer = UserAnswer(question: question, selectedOption: selectedAnswer)
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        selectedAnswer = "" // Reset selection after a delay
+    }
 }
-
-// ---
-
-private var cache: [String: (hint: String, timestamp: Date)] = [:]
-   private let cacheExpirationDuration: TimeInterval = 3600 // 1 hour
-
-// ---
-
-do {
-       request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
-   } catch {
-       completion(.failure(LLMError.dataDecodingFailed))
-       return
-   }
-
-// ---
-
-private func performRequest(endpoint: String, parameters: [String: Any], completion: @escaping (Result<String, Error>) -> Void) {
-       // Common request logic...
-   }
-
-// ---
-
-func suggestQuestions(for userProfile: UserProfile, completion: @escaping (Result<[Question], Error>) -> Void) {
-       let suggestedQuestions = [Question]() // Future implementation needed
-       completion(.success(suggestedQuestions))
-   }
