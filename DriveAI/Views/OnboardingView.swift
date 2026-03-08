@@ -1,22 +1,22 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    @ObservedObject var viewModel: OnboardingViewModel
-    
+    @StateObject private var viewModel = OnboardingViewModel()
+
     var body: some View {
         VStack {
             Text("Welcome to DriveAI")
                 .font(.largeTitle)
                 .padding()
-            DatePicker("Select Exam Date", selection: $viewModel.examDate, displayedComponents: .date)
+            DatePicker("Pick your exam date:", selection: $viewModel.examDate, displayedComponents: .date)
+                .datePickerStyle(GraphicalDatePickerStyle())
                 .padding()
-            
-            Button("Next") {
-                viewModel.completeOnboarding()
+            Button("Start Learning") {
+                viewModel.startLearning()
             }
-            .disabled(!viewModel.isReady)
-            .opacity(viewModel.isReady ? 1.0 : 0.5) // Visual feedback for state
-            .padding()
+            .buttonStyle(PrimaryButtonStyle())
+            Spacer()
         }
+        .padding()
     }
 }

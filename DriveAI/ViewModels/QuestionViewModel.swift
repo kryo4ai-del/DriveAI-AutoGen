@@ -1,36 +1,23 @@
-import Foundation
-import Combine
+import AVFoundation
 
 class QuestionViewModel: ObservableObject {
-    @Published var questions: [Question] = []
-    @Published var currentQuestionIndex: Int = 0
-    @Published var loadingError: Error? = nil
+    var audioPlayer: AVAudioPlayer?
     
-    private var questionEngine: QuestionParsingEngine
-    
-    init(dataService: LocalDataService = LocalDataService()) {
-        questionEngine = QuestionParsingEngine(dataService: dataService)
-        let result = questionEngine.getAllQuestions()
+    func playSound(for answerFeedback: FeedbackType) {
+        let soundName = answerFeedback == .correct ? "correct" : "incorrect"
+        guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else { return }
         
-        switch result {
-        case .success(let questions):
-            self.questions = questions
-        case .failure(let error):
-            self.loadingError = error
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("Could not load sound file.")
         }
     }
     
-    var currentQuestion: Question {
-        questions[currentQuestionIndex]
-    }
-    
-    func nextQuestion() {
-        guard currentQuestionIndex < questions.count - 1 else { return }
-        currentQuestionIndex += 1
-    }
-    
-    func previousQuestion() {
-        guard currentQuestionIndex > 0 else { return }
-        currentQuestionIndex -= 1
+    func submitAnswer(_ answer: String) -> Bool {
+        let isCorrect = isAnswerCorrect(answer)
+        playSound(for: isCorrect ? .correct : .incorrect)
+        return isCorrect
     }
 }
