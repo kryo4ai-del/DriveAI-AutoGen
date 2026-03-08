@@ -36,6 +36,16 @@ class TrafficSignHistoryService {
         UserDefaults.standard.removeObject(forKey: storageKey)
     }
 
+    // MARK: - Weakness analysis
+
+    func analyzeTrafficSignWeaknessPatterns() -> [TrafficSignWeaknessCategory] {
+        TrafficSignWeaknessAnalysisService().analyzeWeaknessPatterns(from: fetch())
+    }
+
+    func topWeakSignCategories(limit: Int = 3) -> [TrafficSignWeaknessCategory] {
+        TrafficSignWeaknessAnalysisService().topWeakCategories(from: fetch(), limit: limit)
+    }
+
     // MARK: - Statistics
 
     func calculateTrafficSignStats() -> TrafficSignStats {

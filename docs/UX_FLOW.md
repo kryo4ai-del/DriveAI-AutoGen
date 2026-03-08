@@ -39,6 +39,7 @@ Learning Statistics
 Traffic Signs
 Traffic Sign History
 Sign Statistics
+Traffic Sign Weaknesses
 
 Navigation:
 
@@ -51,6 +52,7 @@ HomeDashboardView
 → TrafficSignRecognitionView (dashboard button)
 → TrafficSignHistoryView (dashboard button)
 → TrafficSignStatisticsView (dashboard button)
+→ TrafficSignWeaknessView (dashboard button)
 
 ---
 
@@ -335,6 +337,41 @@ JSON + UserDefaults (key: driveai_traffic_sign_history)
 
 ---
 
+# Traffic Sign Weaknesses Flow
+
+HomeDashboardView
+↓
+Tap "Traffic Sign Weaknesses"
+↓
+TrafficSignWeaknessView
+
+Displays:
+
+Top weak sign categories (learning mode entries only):
+  Category name (TrafficSignCategory.rawValue)
+  Accuracy percentage
+  Progress bar (red / orange / green)
+  Incorrect count / total attempts
+
+All categories list below (sorted by accuracy ascending)
+
+Empty state:
+
+If no learning-mode history exists:
+  Checkmark seal icon + "No weak sign categories detected yet."
+
+Data source:
+
+TrafficSignHistoryService → TrafficSignWeaknessAnalysisService
+Groups by TrafficSignCategory enum (Prohibitory, Mandatory, Warning, Priority, Informational, Unknown)
+Only learning-mode entries (wasLearningMode == true) are included
+
+Debug Panel:
+
+Sign Weakness Summary section (top weak sign categories)
+
+---
+
 # Debug Flow
 
 AnalysisDebugPanel
@@ -350,7 +387,8 @@ Traffic Sign Statistics (reviewed, avg confidence, accuracy if learning mode)
 Last saved traffic sign from history (auto-loaded)
 Last Traffic Sign recognition result (injected when available)
 Learning Statistics (total, accuracy %, correct, incorrect, avg confidence)
-Weakness Summary (top 3 weakest categories)
+Weakness Summary (top 3 weakest question categories)
+Sign Weakness Summary (top weak sign categories)
 OCR text
 Parsed question
 Detected answers

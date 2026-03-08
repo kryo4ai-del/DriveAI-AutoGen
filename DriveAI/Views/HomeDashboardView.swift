@@ -8,6 +8,7 @@ struct HomeDashboardView: View {
     @State private var showTrafficSigns = false
     @State private var showSignHistory = false
     @State private var showSignStatistics = false
+    @State private var showSignWeaknesses = false
 
     var body: some View {
         NavigationStack {
@@ -83,6 +84,16 @@ struct HomeDashboardView: View {
                         .cornerRadius(8)
                 }
 
+                Button(action: { showSignWeaknesses = true }) {
+                    Label("Traffic Sign Weaknesses", systemImage: "exclamationmark.triangle.fill")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red.opacity(0.08))
+                        .foregroundColor(.red)
+                        .cornerRadius(8)
+                }
+
                 Spacer()
             }
             .padding()
@@ -111,6 +122,9 @@ struct HomeDashboardView: View {
             }
             .navigationDestination(isPresented: $showSignStatistics) {
                 TrafficSignStatisticsView()
+            }
+            .navigationDestination(isPresented: $showSignWeaknesses) {
+                TrafficSignWeaknessView()
             }
             .onAppear { viewModel.loadUserData() }
         }

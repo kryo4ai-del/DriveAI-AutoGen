@@ -32,6 +32,10 @@ struct AnalysisDebugPanel: View {
         signHistoryService.calculateTrafficSignStats()
     }
 
+    private var topWeakSignCategories: [TrafficSignWeaknessCategory] {
+        signHistoryService.topWeakSignCategories(limit: 3)
+    }
+
     // Last traffic sign recognition result (injected externally when available)
     var lastSignResult: TrafficSignRecognitionResult?
 
@@ -211,6 +215,22 @@ struct AnalysisDebugPanel: View {
                             .padding(.horizontal)
                             .padding(.top, 12)
                         ForEach(topWeakCategories) { cat in
+                            debugRow(label: cat.categoryName,
+                                     value: "\(cat.accuracyPercentage)% (\(cat.incorrectCount)/\(cat.totalAttempts) wrong)")
+                        }
+                    }
+                    .padding(.bottom, 8)
+                    Divider()
+                }
+
+                // Sign weakness summary
+                if !topWeakSignCategories.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Sign Weakness Summary")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        ForEach(topWeakSignCategories) { cat in
                             debugRow(label: cat.categoryName,
                                      value: "\(cat.accuracyPercentage)% (\(cat.incorrectCount)/\(cat.totalAttempts) wrong)")
                         }
