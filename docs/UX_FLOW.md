@@ -36,6 +36,7 @@ Import Screenshot
 Question History
 Learning Insights
 Learning Statistics
+Traffic Signs
 
 Navigation:
 
@@ -45,6 +46,7 @@ HomeDashboardView
 → QuestionHistoryView (toolbar button)
 → LearningInsightsView (dashboard button)
 → LearningStatisticsView (dashboard button)
+→ TrafficSignRecognitionView (dashboard button)
 
 ---
 
@@ -202,6 +204,45 @@ QuestionHistoryService → calculateLearningStats()
 
 ---
 
+# Traffic Sign Recognition Flow
+
+HomeDashboardView
+↓
+Tap "Traffic Signs"
+↓
+TrafficSignRecognitionView
+
+User actions:
+
+Tap import area or toolbar "+" button
+↓
+Photo library picker (TrafficSignImagePicker)
+↓
+Image selected → auto-analysis starts
+↓
+ProgressView ("Analyzing sign…")
+↓
+Result card shows:
+  Category badge (color-coded)
+  Confidence badge (%)
+  Sign name (bold title)
+  Explanation text
+  Confidence progress bar
+
+Clear button (×) removes image and result.
+
+Empty state:
+
+Sign yield icon + import prompt
+
+Architecture note:
+
+TrafficSignRecognitionService is designed for future CoreML / Vision swap.
+Color heuristic is used for prototype classification.
+Categories: Prohibitory, Mandatory, Warning, Priority, Informational, Unknown
+
+---
+
 # Debug Flow
 
 AnalysisDebugPanel
@@ -213,6 +254,7 @@ Shows:
 Answer Confidence (when available)
 Evaluation result (user answer / correct answer)
 Latest history entry (with image thumbnail)
+Last Traffic Sign recognition result (injected when available)
 Learning Statistics (total, accuracy %, correct, incorrect, avg confidence)
 Weakness Summary (top 3 weakest categories)
 OCR text

@@ -23,6 +23,9 @@ struct AnalysisDebugPanel: View {
         historyService.calculateLearningStats()
     }
 
+    // Last traffic sign recognition result (injected externally when available)
+    var lastSignResult: TrafficSignRecognitionResult?
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
@@ -105,6 +108,21 @@ struct AnalysisDebugPanel: View {
                             debugRow(label: "Confidence", value: "\(last.confidenceLabel) (\(Int(last.confidenceScore * 100))%)")
                         }
                     }
+                    Divider()
+                }
+
+                // Traffic sign recognition preview
+                if let sign = lastSignResult {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Last Traffic Sign")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        debugRow(label: "Sign",       value: sign.signName)
+                        debugRow(label: "Category",   value: sign.signCategory.rawValue)
+                        debugRow(label: "Confidence", value: "\(sign.confidenceLabel) (\(sign.confidencePercentage)%)")
+                    }
+                    .padding(.bottom, 8)
                     Divider()
                 }
 
