@@ -1,7 +1,4 @@
-import Foundation
-
-struct Answer {
-    let questionId: UUID
-    let selectedAnswer: String
-    let isCorrect: Bool
+struct Answer: Identifiable, Codable {
+    let id: UUID
+    let text: String
 }

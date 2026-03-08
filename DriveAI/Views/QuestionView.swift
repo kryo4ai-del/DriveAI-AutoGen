@@ -1,39 +1,46 @@
+// Views/QuestionView.swift
 import SwiftUI
 
+enum ButtonState {
+    case idle, loading, ready
+}
+
 struct QuestionView: View {
-    @ObservedObject var viewModel: DemoFlowViewModel
-    @State private var isLoading = false
-    
+    @StateObject var viewModel = AnswerExplanationViewModel()
+    var question: Question
+
+    @State private var isExplanationPresented = false
+    @State private var selectedAnswerId: UUID?
+    @State private var buttonState: ButtonState = .idle
+
     var body: some View {
         VStack {
-            Text(viewModel.currentQuestion?.text ?? "")
-                .font(.headline)
+            Text(question.text)
+                .font(.title)
                 .padding()
-            
-            if viewModel.currentQuestion != nil {
-                ForEach(viewModel.currentQuestion?.options ?? [], id: \.self) { option in
-                    Button(action: {
-                        isLoading = true // Start loading
-                        viewModel.answerQuestion(with: option)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Simulate delay
-                            isLoading = false // Stop loading after a brief delay
-                        }
-                    }) {
-                        Text(option)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                .multilineTextAlignment(.leading)
+
+            ForEach(question.options) { option in
+                Button(action: {
+                    buttonState = .loading
+                    selectedAnswerId = option.id
+                    viewModel.loadQuestion(question, selectedAnswerId: option.id)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Simulate loading delay
+                        isExplanationPresented = true
+                        buttonState = .ready
                     }
-                    .disabled(viewModel.quizResult != nil) // Disable after quiz completion
+                }) {
+                    Text(option.text)
+                        .padding()
+                        .background(Color.blue.opacity(0.2))
+                        .cornerRadius(10)
+                        .padding(5)
                 }
+                .disabled(buttonState == .loading) // Disable while loading
             }
-            
-            if isLoading {
-                ProgressView()
-            } else if let feedback = viewModel.feedback {
-                FeedbackView(feedback: feedback.message, isCorrect: feedback.isCorrect)
-            }
+        }
+        .sheet(isPresented: $isExplanationPresented) {
+            AnswerExplanationView(viewModel: viewModel)
         }
         .padding()
     }

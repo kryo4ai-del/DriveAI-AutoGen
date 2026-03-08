@@ -1,214 +1,46 @@
-func startFetchingLogs(every interval: TimeInterval = 2.0) {
-    Timer.publish(every: interval, on: .main, in: .common)
-        // rest of the implementation...
+func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
+    guard let question = question else { return } // Optional handling
+    self.question = question
+    self.isCorrect = selectedAnswerId == question.correctAnswerId
+    self.explanation = question.explanation
 }
 
 // ---
 
-.receiveCompletion { completion in
-    switch completion {
-    case .failure(let error):
-        // Handle the error, perhaps log it
-    case .finished:
-        break
+Text(viewModel.isCorrect ? NSLocalizedString("Correct", comment: "Correct answer message") : NSLocalizedString("Incorrect", comment: "Incorrect answer message"))
+
+// ---
+
+func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
+    self.question = question
+    if let question = self.question {
+        self.isCorrect = selectedAnswerId == question.correctAnswerId
+        self.explanation = question.explanation
     }
 }
 
 // ---
 
-List(viewModel.debugLogs) { log in
-   // Code...
+Button(action: { ... }) {
+    Text(option.text)
+        .padding()
+        .background(Color.blue.opacity(0.2))
+        .cornerRadius(10)
+        .padding(5)
 }
-.listStyle(PlainListStyle())
+.accessibilityLabel("Select answer: \(option.text)")
+.disabled(buttonState == .loading)
 
 // ---
 
-.flatMap { _ in
-    self.debugDataService.retrieveDebugData()
-        .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-}
-
-// ---
-
-func startFetchingLogs(every interval: TimeInterval = 2.0) {
-    Timer.publish(every: interval, on: .main, in: .common)
-        .autoconnect()
-        .flatMap { _ in self.debugDataService.retrieveDebugData() }
-        .receive(on: RunLoop.main)
-        .sink(receiveCompletion: { completion in
-            switch completion {
-            case .failure(let error):
-                print("Error fetching logs: \(error)")
-            case .finished:
-                break
-            }
-        }) { [weak self] logs in
-            self?.debugLogs = logs
-        }
-        .store(in: &cancellables)
-}
-
-// ---
-
-List(viewModel.debugLogs) { log in
-   HStack {
-       Text(log.timestamp, formatter: dateFormatter)
-           .font(.footnote)
-           .foregroundColor(.gray)
-       Text(log.message)
-           .font(.body)
-           .foregroundColor(log.level == .error ? .red : .black)
-   }
-}
-.listStyle(PlainListStyle())
-
-// ---
-
-.flatMap { _ in
-    self.debugDataService.retrieveDebugData()
-        .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-}
-
-// ---
-
-func testDebugInfoCreation() {
-      let debugInfo = DebugInfo(timestamp: Date(), message: "Test Message", level: .info)
-      XCTAssertNotNil(debugInfo.id)
-      XCTAssertEqual(debugInfo.message, "Test Message")
-      XCTAssertEqual(debugInfo.level, LogLevel.info)
-  }
-
-// ---
-
-func testInitialDebugLogsState() {
-      let viewModel = AnalysisDebugPanelViewModel()
-      XCTAssertTrue(viewModel.debugLogs.isEmpty, "Debug logs should be initially empty.")
-  }
-
-// ---
-
-func testAnalysisDebugPanelShowsLogs() {
-      let viewModel = AnalysisDebugPanelViewModel(debugDataService: MockDebugDataService())
-      let view = AnalysisDebugPanel()
-      viewModel.startFetchingLogs(every: 0.1)
-
-      let viewController = UIHostingController(rootView: view)
-      let window = UIWindow(frame: UIScreen.main.bounds)
-      window.rootViewController = viewController
-      window.makeKeyAndVisible()
-      
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-          // Check the text for the first log in the List
-          let logText = viewController.view.findSubview(ofType: UILabel.self)?.text
-          XCTAssertEqual(logText, "Log 1", "First log text should be Log 1.")
-      }
-  }
-
-// ---
-
-func testDebugInfoCreation() {
-    let debugInfo = DebugInfo(timestamp: Date(), message: "Test Message", level: .info)
-    XCTAssertNotNil(debugInfo.id)
-    XCTAssertEqual(debugInfo.message, "Test Message")
-    XCTAssertEqual(debugInfo.level, LogLevel.info)
-}
-
-// ---
-
-func testInitialDebugLogsState() {
-    let viewModel = AnalysisDebugPanelViewModel()
-    XCTAssertTrue(viewModel.debugLogs.isEmpty, "Debug logs should be initially empty.")
-}
-
-// ---
-
-func testAnalysisDebugPanelShowsLogs() {
-    let viewModel = AnalysisDebugPanelViewModel(debugDataService: MockDebugDataService())
-    let view = AnalysisDebugPanel()
-    viewModel.startFetchingLogs(every: 0.1)
-
-    let viewController = UIHostingController(rootView: view)
-    let window = UIWindow(frame: UIScreen.main.bounds)
-    window.rootViewController = viewController
-    window.makeKeyAndVisible()
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-        // Check the text for the first log in the List
-        let logText = viewController.view.findSubview(ofType: UILabel.self)?.text
-        XCTAssertEqual(logText, "Log 1", "First log text should be Log 1.")
+func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
+    self.question = question
+    if let question = self.question {
+        self.isCorrect = selectedAnswerId == question.correctAnswerId
+        self.explanation = question.explanation
     }
 }
 
 // ---
 
-func testDebugInfoCreation() {
-    let debugInfo = DebugInfo(timestamp: Date(), message: "Test Message", level: .info)
-    XCTAssertNotNil(debugInfo.id)
-    XCTAssertEqual(debugInfo.message, "Test Message")
-    XCTAssertEqual(debugInfo.level, LogLevel.info)
-}
-
-// ---
-
-func testInitialDebugLogsState() {
-    let viewModel = AnalysisDebugPanelViewModel()
-    XCTAssertTrue(viewModel.debugLogs.isEmpty, "Debug logs should be initially empty.")
-}
-
-// ---
-
-func testAnalysisDebugPanelShowsLogs() {
-    let viewModel = AnalysisDebugPanelViewModel(debugDataService: MockDebugDataService())
-    let view = AnalysisDebugPanel()
-    
-    // Start fetching logs before displaying the view.
-    viewModel.startFetchingLogs(every: 0.1)
-
-    let viewController = UIHostingController(rootView: view)
-    let window = UIWindow(frame: UIScreen.main.bounds)
-    window.rootViewController = viewController
-    window.makeKeyAndVisible()
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-        // Check the text for the first log in the List, if rendered correctly.
-        let logText = viewController.view.findSubview(ofType: UILabel.self)?.text
-        XCTAssertEqual(logText, "Log 1", "First log text should be Log 1.")
-    }
-}
-
-// ---
-
-func testDebugInfoCreation() {
-    let debugInfo = DebugInfo(timestamp: Date(), message: "Test Message", level: .info)
-    XCTAssertNotNil(debugInfo.id)
-    XCTAssertEqual(debugInfo.message, "Test Message")
-    XCTAssertEqual(debugInfo.level, LogLevel.info)
-}
-
-// ---
-
-func testInitialDebugLogsState() {
-    let viewModel = AnalysisDebugPanelViewModel()
-    XCTAssertTrue(viewModel.debugLogs.isEmpty, "Debug logs should be initially empty.")
-}
-
-// ---
-
-func testAnalysisDebugPanelShowsLogs() {
-    let viewModel = AnalysisDebugPanelViewModel(debugDataService: MockDebugDataService())
-    let view = AnalysisDebugPanel()
-    
-    // Start fetching logs before displaying the view.
-    viewModel.startFetchingLogs(every: 0.1)
-
-    let viewController = UIHostingController(rootView: view)
-    let window = UIWindow(frame: UIScreen.main.bounds)
-    window.rootViewController = viewController
-    window.makeKeyAndVisible()
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-        // Check the text for the first log in the List, if rendered correctly.
-        let logText = viewController.view.findSubview(ofType: UILabel.self)?.text
-        XCTAssertEqual(logText, "Log 1", "First log text should be Log 1.")
-    }
-}
+.accessibilityLabel(NSLocalizedString("Select answer: \(option.text)", comment: "Accessibility label for answer selection"))
