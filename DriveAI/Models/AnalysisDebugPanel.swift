@@ -10,6 +10,11 @@ struct AnalysisDebugPanel: View {
     var evaluationResult: String?
 
     private let historyService = QuestionHistoryService()
+    private let signHistoryService = TrafficSignHistoryService()
+
+    private var lastSignHistoryEntry: TrafficSignHistoryEntry? {
+        signHistoryService.fetch().first
+    }
 
     private var lastHistoryEntry: QuestionHistoryEntry? {
         historyService.fetch().first
@@ -111,7 +116,30 @@ struct AnalysisDebugPanel: View {
                     Divider()
                 }
 
-                // Traffic sign recognition preview
+                // Latest saved traffic sign (from history)
+                if let sign = lastSignHistoryEntry {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Last Sign (History)")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        if let data = sign.imageData, let uiImage = UIImage(data: data) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 60)
+                                .cornerRadius(6)
+                                .padding(.horizontal)
+                        }
+                        debugRow(label: "Sign",       value: sign.signName)
+                        debugRow(label: "Category",   value: sign.signCategory.rawValue)
+                        debugRow(label: "Confidence", value: "\(sign.confidenceLabel) (\(sign.confidencePercentage)%)")
+                    }
+                    .padding(.bottom, 8)
+                    Divider()
+                }
+
+                // Traffic sign recognition preview (live, injected)
                 if let sign = lastSignResult {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Last Traffic Sign")

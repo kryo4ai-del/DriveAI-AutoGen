@@ -18,7 +18,7 @@ struct TrafficSignRecognitionResult {
     }
 }
 
-enum TrafficSignCategory: String, CaseIterable {
+enum TrafficSignCategory: String, CaseIterable, Codable {
     case prohibitory   = "Prohibitory"
     case mandatory     = "Mandatory"
     case warning       = "Warning"

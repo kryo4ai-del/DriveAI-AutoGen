@@ -37,6 +37,7 @@ Question History
 Learning Insights
 Learning Statistics
 Traffic Signs
+Traffic Sign History
 
 Navigation:
 
@@ -47,6 +48,7 @@ HomeDashboardView
 → LearningInsightsView (dashboard button)
 → LearningStatisticsView (dashboard button)
 → TrafficSignRecognitionView (dashboard button)
+→ TrafficSignHistoryView (dashboard button)
 
 ---
 
@@ -243,6 +245,42 @@ Categories: Prohibitory, Mandatory, Warning, Priority, Informational, Unknown
 
 ---
 
+# Traffic Sign History Flow
+
+HomeDashboardView
+↓
+Tap "Traffic Sign History"
+↓
+TrafficSignHistoryView
+
+Displays list of recognized signs:
+  Image thumbnail (52×52) or placeholder icon
+  Sign name
+  Category badge (color-coded)
+  Confidence label + %
+  Timestamp
+
+Tap entry:
+↓
+TrafficSignHistoryDetailView
+  Larger image preview
+  Category badge + date
+  Sign name (title)
+  Explanation text
+  Confidence progress bar
+
+Clear button: confirmation alert → clears all entries
+
+Auto-save:
+
+Recognition completes → TrafficSignHistoryService.save(from:) called automatically
+
+Storage:
+
+JSON + UserDefaults (key: driveai_traffic_sign_history)
+
+---
+
 # Debug Flow
 
 AnalysisDebugPanel
@@ -254,6 +292,7 @@ Shows:
 Answer Confidence (when available)
 Evaluation result (user answer / correct answer)
 Latest history entry (with image thumbnail)
+Last saved traffic sign from history (auto-loaded)
 Last Traffic Sign recognition result (injected when available)
 Learning Statistics (total, accuracy %, correct, incorrect, avg confidence)
 Weakness Summary (top 3 weakest categories)

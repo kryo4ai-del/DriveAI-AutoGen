@@ -7,6 +7,7 @@ class TrafficSignRecognitionViewModel: ObservableObject {
     @Published var showImagePicker: Bool = false
 
     private let service = TrafficSignRecognitionService()
+    private let historyService = TrafficSignHistoryService()
 
     // MARK: - Image selection
 
@@ -28,6 +29,7 @@ class TrafficSignRecognitionViewModel: ObservableObject {
         service.recognize(image: image) { [weak self] result in
             self?.recognitionResult = result
             self?.isAnalyzing = false
+            self?.historyService.save(from: result)
         }
     }
 }
