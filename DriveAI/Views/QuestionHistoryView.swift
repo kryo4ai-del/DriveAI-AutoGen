@@ -24,8 +24,19 @@ struct QuestionHistoryView: View {
 
             if viewModel.filteredEntries.isEmpty {
                 Spacer()
-                Text("No history yet.")
-                    .foregroundColor(.secondary)
+                VStack(spacing: 12) {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 48))
+                        .foregroundColor(.secondary)
+                    Text("No history yet.")
+                        .font(.headline)
+                    Text("Answer questions to see your history here.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal)
                 Spacer()
             } else {
                 List(viewModel.filteredEntries) { entry in

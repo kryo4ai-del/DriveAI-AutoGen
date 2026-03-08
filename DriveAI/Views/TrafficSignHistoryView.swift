@@ -32,7 +32,7 @@ struct TrafficSignHistoryView: View {
                 .listStyle(.plain)
             }
         }
-        .navigationTitle("Sign History")
+        .navigationTitle("Traffic Sign History")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Clear") { showClearConfirm = true }

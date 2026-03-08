@@ -17,42 +17,61 @@ Purpose:
 
 DriveAIApp
 ↓
-OnboardingView
+OnboardingView (set exam date → Continue)
 ↓
 HomeDashboardView
 
-The Home Dashboard is the main navigation hub.
+The Home Dashboard is the main navigation hub. All features are accessible from the Dashboard.
 
 ---
 
 # Home Dashboard
 
-HomeDashboardView provides access to core app functions.
+HomeDashboardView provides access to all core functions, grouped into two parallel domains.
 
-Main actions:
+Navigation title: "DriveAI"
 
-Scan Question
-Import Screenshot
-Question History
-Learning Insights
-Learning Statistics
-Traffic Signs
-Traffic Sign History
-Sign Statistics
-Traffic Sign Weaknesses
+---
+
+## Questions section
+
+Primary action:
+  Scan Question → ScannerView
+
+Secondary grid (2 columns):
+  Import Screenshot → ImageImportView
+  History → QuestionHistoryView
+  Insights → LearningInsightsView
+  Statistics → LearningStatisticsView
+
+---
+
+## Traffic Signs section
+
+Primary action:
+  Recognize Sign → TrafficSignRecognitionView
+
+Secondary grid (2 columns):
+  Sign History → TrafficSignHistoryView
+  Sign Statistics → TrafficSignStatisticsView
+
+Full-width secondary:
+  Sign Weaknesses → TrafficSignWeaknessView
+
+---
 
 Navigation:
 
 HomeDashboardView
-→ ScannerView
-→ ImageImportView
-→ QuestionHistoryView (toolbar button)
-→ LearningInsightsView (dashboard button)
-→ LearningStatisticsView (dashboard button)
-→ TrafficSignRecognitionView (dashboard button)
-→ TrafficSignHistoryView (dashboard button)
-→ TrafficSignStatisticsView (dashboard button)
-→ TrafficSignWeaknessView (dashboard button)
+→ ScannerView (primary: Scan Question)
+→ ImageImportView (secondary: Import Screenshot)
+→ QuestionHistoryView (secondary: History)
+→ LearningInsightsView (secondary: Insights)
+→ LearningStatisticsView (secondary: Statistics)
+→ TrafficSignRecognitionView (primary: Recognize Sign)
+→ TrafficSignHistoryView (secondary: Sign History)
+→ TrafficSignStatisticsView (secondary: Sign Statistics)
+→ TrafficSignWeaknessView (secondary: Sign Weaknesses)
 
 ---
 

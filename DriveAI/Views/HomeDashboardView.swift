@@ -2,6 +2,8 @@ import SwiftUI
 
 struct HomeDashboardView: View {
     @StateObject private var viewModel = HomeDashboardViewModel()
+    @State private var showScanner = false
+    @State private var showImageImport = false
     @State private var showHistory = false
     @State private var showInsights = false
     @State private var showStatistics = false
@@ -12,98 +14,66 @@ struct HomeDashboardView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
-                Text("Welcome to DriveAI")
-                    .font(.largeTitle)
-                    .padding(.top)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 28) {
 
-                if let user = viewModel.user {
-                    UserInfoView(user: user)
-
-                    Button(action: { viewModel.startQuiz() }) {
-                        Text("Start Quiz")
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                    // User info
+                    if let user = viewModel.user {
+                        UserInfoView(user: user)
                     }
-                } else {
-                    Text("No user data found. Please set your exam date.")
-                        .foregroundColor(.secondary)
-                }
 
-                Button(action: { showInsights = true }) {
-                    Label("Learning Insights", systemImage: "chart.bar.fill")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue.opacity(0.1))
-                        .foregroundColor(.blue)
-                        .cornerRadius(8)
-                }
+                    // MARK: - Questions
 
-                Button(action: { showStatistics = true }) {
-                    Label("Learning Statistics", systemImage: "chart.pie.fill")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.purple.opacity(0.1))
-                        .foregroundColor(.purple)
-                        .cornerRadius(8)
-                }
+                    sectionHeader("Questions")
 
-                Button(action: { showTrafficSigns = true }) {
-                    Label("Traffic Signs", systemImage: "exclamationmark.triangle.fill")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.orange.opacity(0.1))
-                        .foregroundColor(.orange)
-                        .cornerRadius(8)
-                }
+                    primaryButton("Scan Question", icon: "camera.fill", color: .blue) {
+                        showScanner = true
+                    }
 
-                Button(action: { showSignHistory = true }) {
-                    Label("Traffic Sign History", systemImage: "clock.badge.exclamationmark.fill")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.orange.opacity(0.07))
-                        .foregroundColor(.orange)
-                        .cornerRadius(8)
-                }
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                        secondaryButton("Import Screenshot", icon: "photo.fill", color: .blue) {
+                            showImageImport = true
+                        }
+                        secondaryButton("History", icon: "clock.arrow.circlepath", color: .blue) {
+                            showHistory = true
+                        }
+                        secondaryButton("Insights", icon: "chart.bar.fill", color: .blue) {
+                            showInsights = true
+                        }
+                        secondaryButton("Statistics", icon: "chart.pie.fill", color: .blue) {
+                            showStatistics = true
+                        }
+                    }
 
-                Button(action: { showSignStatistics = true }) {
-                    Label("Sign Statistics", systemImage: "chart.bar.doc.horizontal.fill")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.orange.opacity(0.05))
-                        .foregroundColor(.orange)
-                        .cornerRadius(8)
-                }
+                    // MARK: - Traffic Signs
 
-                Button(action: { showSignWeaknesses = true }) {
-                    Label("Traffic Sign Weaknesses", systemImage: "exclamationmark.triangle.fill")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.red.opacity(0.08))
-                        .foregroundColor(.red)
-                        .cornerRadius(8)
-                }
+                    sectionHeader("Traffic Signs")
 
-                Spacer()
+                    primaryButton("Recognize Sign", icon: "exclamationmark.triangle.fill", color: .orange) {
+                        showTrafficSigns = true
+                    }
+
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                        secondaryButton("Sign History", icon: "clock.badge.fill", color: .orange) {
+                            showSignHistory = true
+                        }
+                        secondaryButton("Sign Statistics", icon: "chart.bar.doc.horizontal.fill", color: .orange) {
+                            showSignStatistics = true
+                        }
+                    }
+
+                    secondaryButton("Sign Weaknesses", icon: "exclamationmark.circle.fill", color: .orange) {
+                        showSignWeaknesses = true
+                    }
+                }
+                .padding()
             }
-            .padding()
-            .navigationTitle("Dashboard")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showHistory = true }) {
-                        Label("History", systemImage: "clock.arrow.circlepath")
-                    }
-                }
+            .navigationTitle("DriveAI")
+            .navigationDestination(isPresented: $showScanner) {
+                ScannerView()
+            }
+            .navigationDestination(isPresented: $showImageImport) {
+                ImageImportView()
             }
             .navigationDestination(isPresented: $showHistory) {
                 QuestionHistoryView()
@@ -127,6 +97,48 @@ struct HomeDashboardView: View {
                 TrafficSignWeaknessView()
             }
             .onAppear { viewModel.loadUserData() }
+        }
+    }
+
+    // MARK: - Section header
+
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title)
+            .font(.title2)
+            .bold()
+    }
+
+    // MARK: - Primary action button
+
+    private func primaryButton(_ label: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Label(label, systemImage: icon)
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(color)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+        }
+    }
+
+    // MARK: - Secondary action button
+
+    private func secondaryButton(_ label: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundColor(color)
+                Text(label)
+                    .font(.caption)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .background(color.opacity(0.09))
+            .cornerRadius(12)
         }
     }
 }
