@@ -1,25 +1,32 @@
 struct QuestionView: View {
-    @ObservedObject var viewModel: QuestionViewModel
+    @StateObject private var viewModel = AnalysisStateViewModel()
+    private let questionText = "Was ist die Höchstgeschwindigkeit?"
+    private let correctAnswer = "50 km/h"
+    private let options = ["30 km/h", "50 km/h", "70 km/h"] // Example options for answers
 
     var body: some View {
         VStack {
-            Text(viewModel.currentQuestion.text)
+            Text(questionText)
                 .font(.title)
+                .padding()
 
-            ForEach(viewModel.currentQuestion.answers, id: \.self) { answer in
-                Button(answer) {
-                    viewModel.submitAnswer(answer)
+            // Display buttons for possible answers
+            ForEach(options, id: \.self) { option in
+                Button(action: {
+                    viewModel.analyzeAnswer(for: questionText, userAnswer: option, correctAnswer: correctAnswer)
+                }) {
+                    Text(option)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(Color.white)
+                        .cornerRadius(8)
                 }
-                .buttonStyle(.bordered)
+                .padding(2)
             }
-
-            if let feedbackMessage = viewModel.feedbackMessage {
-                Text(feedbackMessage)
-                    .foregroundColor(viewModel.isAnswerCorrect ? .green : .red)
-                    .padding().font(.body)
-            }
+            
+            AnalysisStateView(viewModel: viewModel) // Shows analysis result
+                .padding()
         }
         .padding()
-        .navigationTitle("Question \(viewModel.currentQuestionIndex + 1)")
     }
 }

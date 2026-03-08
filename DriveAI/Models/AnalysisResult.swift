@@ -1,8 +1,14 @@
-import Foundation
-
 struct AnalysisResult {
-    let id: UUID = UUID() // Added identifier for tracking
-    let timestamp: Date = Date() // Timestamp of analysis
-    let isRecognized: Bool
-    let description: String // Description of analysis
+    let question: String
+    let userAnswer: String
+    let correctAnswer: String
+    var isCorrect: Bool {
+        userAnswer.lowercased() == correctAnswer.lowercased()
+    }
+
+    init(question: String, userAnswer: String, correctAnswer: String) {
+        self.question = question
+        self.userAnswer = userAnswer
+        self.correctAnswer = correctAnswer
+    }
 }
