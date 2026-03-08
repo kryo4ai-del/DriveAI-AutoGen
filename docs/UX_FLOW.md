@@ -214,24 +214,41 @@ Tap "Traffic Signs"
 ↓
 TrafficSignRecognitionView
 
-User actions:
+Mode picker (segmented):
+  Assist | Learning
 
-Tap import area or toolbar "+" button
-↓
-Photo library picker (TrafficSignImagePicker)
-↓
-Image selected → auto-analysis starts
-↓
-ProgressView ("Analyzing sign…")
-↓
-Result card shows:
+---
+
+Assist Mode:
+
+Import image → auto-analysis → result card:
   Category badge (color-coded)
   Confidence badge (%)
   Sign name (bold title)
   Explanation text
   Confidence progress bar
+  → history auto-saved (mode: Assist)
 
-Clear button (×) removes image and result.
+---
+
+Learning Mode:
+
+Import image → auto-analysis → options card:
+  "What does this sign mean?"
+  4 shuffled meaning options (1 correct + 3 distractors)
+  User selects option → Submit button activates
+  Submit →
+  Result card:
+    Correct / Incorrect header
+    User's selected answer
+    Correct sign name + category badge
+    Explanation
+    Confidence bar
+  → history auto-saved (mode: Learning, userSelectedMeaning, userAnswerCorrect)
+
+---
+
+Clear button (×) removes image and resets all state.
 
 Empty state:
 
@@ -239,8 +256,8 @@ Sign yield icon + import prompt
 
 Architecture note:
 
+TrafficSignRecognitionService.generateMeaningOptions(for:) is reusable by TrafficSceneAnalyzer.
 TrafficSignRecognitionService is designed for future CoreML / Vision swap.
-Color heuristic is used for prototype classification.
 Categories: Prohibitory, Mandatory, Warning, Priority, Informational, Unknown
 
 ---

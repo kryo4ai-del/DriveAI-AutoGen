@@ -134,6 +134,13 @@ struct AnalysisDebugPanel: View {
                         debugRow(label: "Sign",       value: sign.signName)
                         debugRow(label: "Category",   value: sign.signCategory.rawValue)
                         debugRow(label: "Confidence", value: "\(sign.confidenceLabel) (\(sign.confidencePercentage)%)")
+                        if sign.wasLearningMode {
+                            debugRow(label: "Mode",     value: "Learning")
+                            debugRow(label: "Selected", value: sign.userSelectedMeaning ?? "—")
+                            debugRow(label: "Result",   value: sign.userAnswerCorrect == true ? "Correct" : "Incorrect")
+                        } else {
+                            debugRow(label: "Mode",     value: "Assist")
+                        }
                     }
                     .padding(.bottom, 8)
                     Divider()

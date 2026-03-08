@@ -6,11 +6,22 @@ struct TrafficSignRecognitionView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                modePicker
                 imageSection
+
                 if viewModel.isAnalyzing {
                     analyzingIndicator
                 } else if let result = viewModel.recognitionResult {
-                    resultSection(result)
+                    switch viewModel.currentMode {
+                    case .assist:
+                        assistResultSection(result)
+                    case .learning:
+                        if viewModel.userSubmitted {
+                            learningResultSection(result)
+                        } else {
+                            learningOptionsSection(result)
+                        }
+                    }
                 } else if viewModel.selectedImage == nil {
                     placeholderPrompt
                 }
@@ -32,6 +43,19 @@ struct TrafficSignRecognitionView: View {
         }
     }
 
+    // MARK: - Mode picker
+
+    private var modePicker: some View {
+        Picker("Mode", selection: Binding(
+            get: { viewModel.currentMode == .assist ? 0 : 1 },
+            set: { viewModel.setMode($0 == 0 ? .assist : .learning) }
+        )) {
+            Text("Assist").tag(0)
+            Text("Learning").tag(1)
+        }
+        .pickerStyle(.segmented)
+    }
+
     // MARK: - Image section
 
     private var imageSection: some View {
@@ -41,7 +65,7 @@ struct TrafficSignRecognitionView: View {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
-                        .frame(maxHeight: 260)
+                        .frame(maxHeight: 220)
                         .cornerRadius(12)
                         .shadow(radius: 4)
 
@@ -63,7 +87,7 @@ struct TrafficSignRecognitionView: View {
                             .foregroundColor(.secondary)
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 160)
+                    .frame(height: 150)
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                 }
@@ -100,20 +124,127 @@ struct TrafficSignRecognitionView: View {
         .padding()
     }
 
-    // MARK: - Result
+    // MARK: - Assist result
 
-    private func resultSection(_ result: TrafficSignRecognitionResult) -> some View {
+    private func assistResultSection(_ result: TrafficSignRecognitionResult) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            // Sign name + category
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    categoryBadge(result.signCategory)
-                    Spacer()
-                    confidenceBadge(result)
+            HStack {
+                categoryBadge(result.signCategory)
+                Spacer()
+                confidenceBadge(result)
+            }
+            Text(result.signName)
+                .font(.title2)
+                .bold()
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Explanation")
+                    .font(.headline)
+                Text(result.explanation)
+                    .font(.body)
+            }
+
+            confidenceBar(result.confidence, label: result.confidenceLabel, percentage: result.confidencePercentage)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(12)
+    }
+
+    // MARK: - Learning options
+
+    private func learningOptionsSection(_ result: TrafficSignRecognitionResult) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("What does this sign mean?")
+                .font(.headline)
+
+            ForEach(viewModel.meaningOptions) { option in
+                Button(action: { viewModel.selectOption(option.id) }) {
+                    HStack {
+                        Text(option.title)
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        if viewModel.selectedOptionId == option.id {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .padding()
+                    .background(viewModel.selectedOptionId == option.id
+                        ? Color.blue.opacity(0.1) : Color(.systemGray6))
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(viewModel.selectedOptionId == option.id
+                                ? Color.blue : Color.clear, lineWidth: 1.5)
+                    )
                 }
-                Text(result.signName)
+                .buttonStyle(.plain)
+            }
+
+            Button(action: { viewModel.submitAnswer() }) {
+                Text("Submit")
+                    .bold()
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(viewModel.selectedOptionId == nil
+                        ? Color.gray : Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .disabled(viewModel.selectedOptionId == nil)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(12)
+    }
+
+    // MARK: - Learning result
+
+    private func learningResultSection(_ result: TrafficSignRecognitionResult) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            // Correct / Incorrect header
+            HStack {
+                Image(systemName: viewModel.isCorrect == true
+                    ? "checkmark.circle.fill" : "xmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(viewModel.isCorrect == true ? .green : .red)
+                Text(viewModel.isCorrect == true ? "Correct!" : "Incorrect")
                     .font(.title2)
                     .bold()
+                    .foregroundColor(viewModel.isCorrect == true ? .green : .red)
+                Spacer()
+            }
+
+            Divider()
+
+            // User answer
+            if let selected = viewModel.selectedOption {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Your answer")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text(selected.title)
+                        .font(.subheadline)
+                        .foregroundColor(viewModel.isCorrect == true ? .green : .red)
+                }
+            }
+
+            // Correct answer
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Correct sign")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                HStack {
+                    categoryBadge(result.signCategory)
+                    Text(result.signName)
+                        .font(.subheadline)
+                        .bold()
+                        .foregroundColor(.green)
+                }
             }
 
             Divider()
@@ -124,35 +255,37 @@ struct TrafficSignRecognitionView: View {
                     .font(.headline)
                 Text(result.explanation)
                     .font(.body)
-                    .foregroundColor(.primary)
             }
 
-            // Confidence bar
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Confidence")
-                    .font(.headline)
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color(.systemGray5))
-                            .frame(height: 10)
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(confidenceColor(result.confidence))
-                            .frame(width: geo.size.width * result.confidence, height: 10)
-                    }
-                }
-                .frame(height: 10)
-                Text("\(result.confidenceLabel) – \(result.confidencePercentage)%")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
+            confidenceBar(result.confidence, label: result.confidenceLabel, percentage: result.confidencePercentage)
         }
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(12)
     }
 
-    // MARK: - Helpers
+    // MARK: - Shared sub-views
+
+    private func confidenceBar(_ score: Double, label: String, percentage: Int) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Confidence")
+                .font(.headline)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(Color(.systemGray5))
+                        .frame(height: 10)
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(confidenceColor(score))
+                        .frame(width: geo.size.width * score, height: 10)
+                }
+            }
+            .frame(height: 10)
+            Text("\(label) – \(percentage)%")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+    }
 
     private func categoryBadge(_ category: TrafficSignCategory) -> some View {
         Text(category.rawValue)

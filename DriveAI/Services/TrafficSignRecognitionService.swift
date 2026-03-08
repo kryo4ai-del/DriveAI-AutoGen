@@ -113,6 +113,44 @@ class TrafficSignRecognitionService {
         return .other
     }
 
+    // MARK: - Meaning options for learning mode
+
+    /// Returns 4 shuffled meaning options (1 correct + 3 distractors).
+    /// Reusable by TrafficSceneAnalyzer or any future vision component.
+    func generateMeaningOptions(for result: TrafficSignRecognitionResult) -> [TrafficSignMeaningOption] {
+        let distractors = distractor(for: result.signName, excluding: result.signName)
+        let options = [result.signName] + distractors
+        return options.shuffled().map { title in
+            TrafficSignMeaningOption(title: title, isCorrect: title == result.signName)
+        }
+    }
+
+    private let signPool: [String] = [
+        "Stop Sign",
+        "Speed Limit Sign",
+        "No Entry Sign",
+        "No Overtaking Sign",
+        "Give Way Sign",
+        "Priority Road Sign",
+        "Mandatory Direction",
+        "Roundabout Sign",
+        "Warning Sign",
+        "Road Works Sign",
+        "Pedestrian Crossing Sign",
+        "School Zone Sign",
+        "Slippery Road Sign",
+        "Informational Sign",
+        "Highway Sign",
+        "Dead End Sign",
+        "No Parking Sign",
+        "Cycle Lane Sign",
+    ]
+
+    private func distractor(for correctName: String, excluding: String) -> [String] {
+        let pool = signPool.filter { $0 != excluding }
+        return Array(pool.shuffled().prefix(3))
+    }
+
     // MARK: - Image compression (shared utility)
 
     func compressImage(_ image: UIImage) -> Data? {
