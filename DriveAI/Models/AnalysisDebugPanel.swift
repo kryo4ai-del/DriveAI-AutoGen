@@ -3,8 +3,11 @@ import SwiftUI
 struct AnalysisDebugPanel: View {
     @StateObject private var viewModel = AnalysisDebugPanelViewModel()
 
-    // Optional: inject confidence for display
+    // Optional: inject from QuestionViewModel for live debug
     var confidence: AnswerConfidence?
+    var userAnswer: String?
+    var correctAnswer: String?
+    var evaluationResult: String?
 
     var body: some View {
         NavigationView {
@@ -42,6 +45,26 @@ struct AnalysisDebugPanel: View {
                     Divider()
                 }
 
+                // Evaluation section
+                if userAnswer != nil || correctAnswer != nil || evaluationResult != nil {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Evaluation")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        if let ua = userAnswer {
+                            debugRow(label: "User Answer", value: ua)
+                        }
+                        if let ca = correctAnswer {
+                            debugRow(label: "Correct Answer", value: ca)
+                        }
+                        if let er = evaluationResult {
+                            debugRow(label: "Result", value: er)
+                        }
+                    }
+                    Divider()
+                }
+
                 // Debug log list
                 Text("Analysis Debug Panel")
                     .font(.title3)
@@ -62,6 +85,19 @@ struct AnalysisDebugPanel: View {
             }
             .navigationBarTitle("Debug Info", displayMode: .inline)
         }
+    }
+
+    private func debugRow(label: String, value: String) -> some View {
+        HStack(alignment: .top) {
+            Text(label + ":")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .frame(width: 110, alignment: .leading)
+            Text(value)
+                .font(.caption)
+                .foregroundColor(.primary)
+        }
+        .padding(.horizontal)
     }
 
     private func confidenceColor(for score: Double) -> Color {
