@@ -30,6 +30,16 @@ class QuestionHistoryService {
         UserDefaults.standard.removeObject(forKey: storageKey)
     }
 
+    // MARK: - Weakness analysis
+
+    func analyzeWeaknessPatterns() -> [WeaknessCategory] {
+        WeaknessAnalysisService().analyzeWeaknessPatterns(from: fetch())
+    }
+
+    func topWeakCategories(limit: Int = 3) -> [WeaknessCategory] {
+        WeaknessAnalysisService().topWeakCategories(from: fetch(), limit: limit)
+    }
+
     // MARK: - Image compression
     /// Scale image to max 300pt width, compress to JPEG 0.4 quality (~20-50KB)
     func compressImage(_ image: UIImage) -> Data? {

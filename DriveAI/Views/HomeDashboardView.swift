@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeDashboardView: View {
     @StateObject private var viewModel = HomeDashboardViewModel()
     @State private var showHistory = false
+    @State private var showInsights = false
 
     var body: some View {
         NavigationStack {
@@ -28,6 +29,16 @@ struct HomeDashboardView: View {
                         .foregroundColor(.secondary)
                 }
 
+                Button(action: { showInsights = true }) {
+                    Label("Learning Insights", systemImage: "chart.bar.fill")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue.opacity(0.1))
+                        .foregroundColor(.blue)
+                        .cornerRadius(8)
+                }
+
                 Spacer()
             }
             .padding()
@@ -41,6 +52,9 @@ struct HomeDashboardView: View {
             }
             .navigationDestination(isPresented: $showHistory) {
                 QuestionHistoryView()
+            }
+            .navigationDestination(isPresented: $showInsights) {
+                LearningInsightsView()
             }
             .onAppear { viewModel.loadUserData() }
         }

@@ -9,9 +9,14 @@ struct AnalysisDebugPanel: View {
     var correctAnswer: String?
     var evaluationResult: String?
 
-    // Last history entry preview
+    private let historyService = QuestionHistoryService()
+
     private var lastHistoryEntry: QuestionHistoryEntry? {
-        QuestionHistoryService().fetch().first
+        historyService.fetch().first
+    }
+
+    private var topWeakCategories: [WeaknessCategory] {
+        historyService.topWeakCategories(limit: 3)
     }
 
     var body: some View {
@@ -96,6 +101,22 @@ struct AnalysisDebugPanel: View {
                             debugRow(label: "Confidence", value: "\(last.confidenceLabel) (\(Int(last.confidenceScore * 100))%)")
                         }
                     }
+                    Divider()
+                }
+
+                // Weakness summary
+                if !topWeakCategories.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Weakness Summary")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        ForEach(topWeakCategories) { cat in
+                            debugRow(label: cat.categoryName,
+                                     value: "\(cat.accuracyPercentage)% (\(cat.incorrectCount)/\(cat.totalAttempts) wrong)")
+                        }
+                    }
+                    .padding(.bottom, 8)
                     Divider()
                 }
 
