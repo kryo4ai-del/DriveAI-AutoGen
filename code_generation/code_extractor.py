@@ -22,6 +22,13 @@ _TYPE_RE = re.compile(r'\b(?:struct|class|enum|protocol)\s+([A-Z]\w+)')
 # Extension: extension SomeType — name must start with uppercase
 _EXTENSION_RE = re.compile(r'\bextension\s+([A-Z]\w+)')
 
+# Blocklist: generic placeholder names that should never get standalone files
+_BLOCKED_NAMES: frozenset[str] = frozenset({
+    "SomeView", "ContentView", "ExampleView", "DemoView",
+    "SampleView", "TestView", "PlaceholderView", "MockView",
+    "MyView", "MainView", "RootView", "BasicView",
+})
+
 
 def _detect_name_and_folder(code: str) -> tuple[str, str]:
     """
@@ -77,6 +84,7 @@ class CodeExtractor:
         saved = 0
         skipped = 0
         orphan_snippets: list[str] = []
+        blocked_names_found: list[str] = []
         category_counts: dict[str, int] = {}
 
         for msg in messages:
@@ -98,6 +106,12 @@ class CodeExtractor:
                     orphan_snippets.append(block)
                     continue
 
+                # Blocklist check — route placeholder names to GeneratedHelpers.swift
+                if name in _BLOCKED_NAMES or name.split("+")[0] in _BLOCKED_NAMES:
+                    blocked_names_found.append(name)
+                    orphan_snippets.append(block)
+                    continue
+
                 filename = f"{name}.swift"
                 dest_dir = os.path.join(GENERATED_DIR, subfolder)
                 os.makedirs(dest_dir, exist_ok=True)
@@ -111,6 +125,12 @@ class CodeExtractor:
                     f.write(block)
                 saved += 1
                 category_counts[subfolder] = category_counts.get(subfolder, 0) + 1
+
+        # Console note for blocked placeholder names
+        if blocked_names_found:
+            print("Blocked placeholder types routed to GeneratedHelpers.swift:")
+            for bn in blocked_names_found:
+                print(f"  - {bn}")
 
         # Write all orphan snippets into one helper file
         if orphan_snippets:
