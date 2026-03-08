@@ -1,22 +1,38 @@
+// Views/OnboardingView.swift
 import SwiftUI
 
 struct OnboardingView: View {
     @StateObject private var viewModel = OnboardingViewModel()
-
+    
     var body: some View {
-        VStack {
-            Text("Welcome to DriveAI")
-                .font(.largeTitle)
-                .padding()
-            DatePicker("Pick your exam date:", selection: $viewModel.examDate, displayedComponents: .date)
-                .datePickerStyle(GraphicalDatePickerStyle())
-                .padding()
-            Button("Start Learning") {
-                viewModel.startLearning()
+        NavigationView {
+            VStack {
+                PageViewController(pages: viewModel.screens, currentPage: $viewModel.currentPage)
+                navigationButtons
             }
-            .buttonStyle(PrimaryButtonStyle())
+            .navigationBarHidden(true)
+        }
+    }
+    
+    private var navigationButtons: some View {
+        HStack {
+            NavigationLink(destination: ExamDateSetupView()) {
+                Button("Next") {
+                    viewModel.nextPage()
+                }
+            }
+            .disabled(viewModel.currentPage == viewModel.totalPages - 1)
+
             Spacer()
+            
+            Button(action: {
+                viewModel.skipOnboarding()
+                // Navigate to Exam Date Setup
+            }) {
+                Text("Skip")
+            }
         }
         .padding()
+        .font(.headline) // Increased font size for better visibility
     }
 }
