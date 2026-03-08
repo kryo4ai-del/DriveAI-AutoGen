@@ -28,6 +28,10 @@ struct AnalysisDebugPanel: View {
         historyService.calculateLearningStats()
     }
 
+    private var signStats: TrafficSignStats {
+        signHistoryService.calculateTrafficSignStats()
+    }
+
     // Last traffic sign recognition result (injected externally when available)
     var lastSignResult: TrafficSignRecognitionResult?
 
@@ -156,6 +160,25 @@ struct AnalysisDebugPanel: View {
                         debugRow(label: "Sign",       value: sign.signName)
                         debugRow(label: "Category",   value: sign.signCategory.rawValue)
                         debugRow(label: "Confidence", value: "\(sign.confidenceLabel) (\(sign.confidencePercentage)%)")
+                    }
+                    .padding(.bottom, 8)
+                    Divider()
+                }
+
+                // Traffic sign statistics preview
+                if signStats.totalSignsReviewed > 0 {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Sign Statistics")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        debugRow(label: "Reviewed",     value: "\(signStats.totalSignsReviewed) signs")
+                        debugRow(label: "Avg Confidence", value: "\(signStats.averageConfidencePercentage)%")
+                        if signStats.learningModeAnswers > 0 {
+                            debugRow(label: "Accuracy",  value: "\(signStats.accuracyPercentage)%")
+                            debugRow(label: "Correct",   value: "\(signStats.correctAnswers)")
+                            debugRow(label: "Incorrect", value: "\(signStats.incorrectAnswers)")
+                        }
                     }
                     .padding(.bottom, 8)
                     Divider()

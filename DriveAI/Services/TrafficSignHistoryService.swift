@@ -35,4 +35,23 @@ class TrafficSignHistoryService {
     func clear() {
         UserDefaults.standard.removeObject(forKey: storageKey)
     }
+
+    // MARK: - Statistics
+
+    func calculateTrafficSignStats() -> TrafficSignStats {
+        let entries = fetch()
+        guard !entries.isEmpty else { return .empty }
+
+        let learningEntries = entries.filter { $0.wasLearningMode }
+        let correct   = learningEntries.filter { $0.userAnswerCorrect == true }.count
+        let incorrect = learningEntries.filter { $0.userAnswerCorrect == false }.count
+        let avgConf   = entries.map { $0.confidence }.reduce(0, +) / Double(entries.count)
+
+        return TrafficSignStats(
+            totalSignsReviewed: entries.count,
+            correctAnswers: correct,
+            incorrectAnswers: incorrect,
+            averageConfidence: avgConf
+        )
+    }
 }

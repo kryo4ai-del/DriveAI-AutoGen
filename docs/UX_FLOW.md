@@ -38,6 +38,7 @@ Learning Insights
 Learning Statistics
 Traffic Signs
 Traffic Sign History
+Sign Statistics
 
 Navigation:
 
@@ -49,6 +50,7 @@ HomeDashboardView
 → LearningStatisticsView (dashboard button)
 → TrafficSignRecognitionView (dashboard button)
 → TrafficSignHistoryView (dashboard button)
+→ TrafficSignStatisticsView (dashboard button)
 
 ---
 
@@ -262,6 +264,41 @@ Categories: Prohibitory, Mandatory, Warning, Priority, Informational, Unknown
 
 ---
 
+# Traffic Sign Statistics Flow
+
+HomeDashboardView
+↓
+Tap "Sign Statistics"
+↓
+TrafficSignStatisticsView
+
+Displays:
+
+4 summary cards:
+  Signs Reviewed (total)
+  Avg Confidence %
+  Correct (learning mode answers)
+  Incorrect (learning mode answers)
+
+If learning mode answers exist:
+  Learning Mode Accuracy progress bar (red / orange / green)
+  Correct vs Incorrect bar chart
+
+If only Assist mode entries:
+  Info note: "All signs were analyzed in Assist Mode"
+
+Empty state:
+  Triangle icon + "No sign data yet."
+
+Data source:
+  TrafficSignHistoryService → calculateTrafficSignStats()
+  Accuracy computed from learning-mode entries only
+
+Debug Panel:
+  Sign Statistics section (reviewed, avg confidence, accuracy, correct, incorrect)
+
+---
+
 # Traffic Sign History Flow
 
 HomeDashboardView
@@ -309,6 +346,7 @@ Shows:
 Answer Confidence (when available)
 Evaluation result (user answer / correct answer)
 Latest history entry (with image thumbnail)
+Traffic Sign Statistics (reviewed, avg confidence, accuracy if learning mode)
 Last saved traffic sign from history (auto-loaded)
 Last Traffic Sign recognition result (injected when available)
 Learning Statistics (total, accuracy %, correct, incorrect, avg confidence)
