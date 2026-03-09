@@ -1,1 +1,0 @@
-let settingRow = SettingRow(option: SettingOption(title: "Notifications", isOn: false, description: nil), action: {})

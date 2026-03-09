@@ -1,1 +1,0 @@
-XCTAssertEqual(homeViewModel.userProgress.completedQuizzes, initialQuizzes + 1, "User quizzes should increment after a successful completion.")
