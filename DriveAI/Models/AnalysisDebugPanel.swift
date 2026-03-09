@@ -11,6 +11,7 @@ struct AnalysisDebugPanel: View {
 
     private let historyService = QuestionHistoryService()
     private let signHistoryService = TrafficSignHistoryService()
+    private let categoryDetectionService = QuestionCategoryDetectionService()
 
     private var lastSignHistoryEntry: TrafficSignHistoryEntry? {
         signHistoryService.fetch().first
@@ -123,6 +124,11 @@ struct AnalysisDebugPanel: View {
                         debugRow(label: "Category", value: last.category.rawValue)
                         if last.categoryConfidence > 0 {
                             debugRow(label: "Cat. Confidence", value: "\(Int(last.categoryConfidence * 100))%")
+                        }
+                        let liveDetection = categoryDetectionService.detectCategory(
+                            questionText: last.questionText, answers: [])
+                        if !liveDetection.matchedKeywords.isEmpty {
+                            debugRow(label: "Keywords", value: liveDetection.matchedKeywords.joined(separator: ", "))
                         }
                     }
                     Divider()
