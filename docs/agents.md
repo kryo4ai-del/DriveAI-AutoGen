@@ -181,9 +181,57 @@ Opportunity-to-Idea flow:
 
 ---
 
+## Compliance Agents
+
+### 6. LegalRiskAgent
+
+Role:
+Legal and regulatory risk assessment agent.
+
+Important:
+This agent does NOT provide legal advice. It identifies potential risk areas and recommends when professional legal review is needed.
+
+Responsibilities:
+- analyze ideas, specs, and projects for potential legal and regulatory risks
+- identify risk areas: copyright, licensing, trademarks, platform policies, GDPR, regulated domains, AI content risks
+- assess risk severity and potential blockers
+- recommend whether external legal review is needed
+- produce structured risk assessment reports
+- flag issues early in the planning phase before development effort is invested
+
+Typical focus:
+- GDPR/DSGVO compliance for user data
+- App Store guideline compliance
+- open source license compatibility
+- trademark and naming conflicts
+- regulated domain requirements (education, finance)
+- AI-generated content liability
+
+Difference from other agents:
+LegalRiskAgent assesses legal risk areas — it does not provide legal opinions.
+ProductStrategistAgent evaluates product value — LegalRiskAgent evaluates legal exposure.
+ChangeWatchAgent monitors ecosystem changes — LegalRiskAgent evaluates regulatory implications.
+
+When to use:
+- before investing development effort in a new idea
+- when entering regulated domains (finance, health, education)
+- when using third-party APIs, SDKs, or content
+- when handling user data or AI-generated output
+- during spec review before implementation begins
+- when expanding to new markets or platforms
+
+Risk assessment lifecycle:
+1. Idea or spec triggers risk review
+2. Create compliance report (LEGAL-NNN)
+3. Assess risk level and identify blockers
+4. Flag for external review if needed
+5. Mitigate, accept, or block based on findings
+
+---
+
 ## Monitoring Agents
 
-### 6. ChangeWatchAgent
+### 7. ChangeWatchAgent
 
 Role:
 Ecosystem change monitoring and impact analysis agent.
@@ -217,7 +265,7 @@ When to use:
 
 ## Implementation Agents
 
-### 7. iOSArchitectAgent
+### 8. iOSArchitectAgent
 
 Role:
 iOS architecture and system design expert.
@@ -237,7 +285,7 @@ Typical focus:
 
 ---
 
-### 8. SwiftDeveloperAgent
+### 9. SwiftDeveloperAgent
 
 Role:
 Main implementation agent.
@@ -259,7 +307,7 @@ Typical focus:
 
 ## Review & Quality Agents
 
-### 9. ReviewerAgent
+### 10. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -279,7 +327,7 @@ Typical focus:
 
 ---
 
-### 10. BugHunterAgent
+### 11. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -299,7 +347,7 @@ Typical focus:
 
 ---
 
-### 11. RefactorAgent
+### 12. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -319,7 +367,7 @@ Typical focus:
 
 ---
 
-### 12. AccessibilityAgent
+### 13. AccessibilityAgent
 
 Role:
 Accessibility review and compliance agent.
@@ -354,7 +402,7 @@ When to use:
 
 ---
 
-### 13. TestGeneratorAgent
+### 14. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -383,19 +431,21 @@ A normal feature run uses the following sequence:
 3. RoadmapAgent (optional — for multi-feature planning)
 4. ContentScriptAgent (optional — for content generation)
 5. OpportunityAgent (optional — for opportunity discovery)
-6. ChangeWatchAgent (optional — for ecosystem monitoring)
-7. iOSArchitectAgent
-8. SwiftDeveloperAgent
-9. ReviewerAgent
-10. BugHunterAgent
-11. RefactorAgent
-12. AccessibilityAgent (optional — for accessibility review)
-13. TestGeneratorAgent
+6. LegalRiskAgent (optional — for legal risk assessment)
+7. ChangeWatchAgent (optional — for ecosystem monitoring)
+8. iOSArchitectAgent
+9. SwiftDeveloperAgent
+10. ReviewerAgent
+11. BugHunterAgent
+12. RefactorAgent
+13. AccessibilityAgent (optional — for accessibility review)
+14. TestGeneratorAgent
 
 For pure implementation tasks, planning/content/watch agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
 For content generation, implementation and review agents may be skipped.
 For opportunity discovery, only OpportunityAgent and ProductStrategistAgent are needed.
+For legal risk assessment, only LegalRiskAgent and ProductStrategistAgent are needed.
 For ecosystem monitoring, all other agents may be skipped.
 For accessibility review, only AccessibilityAgent and ReviewerAgent are needed.
 
@@ -494,6 +544,13 @@ Apply the most relevant fixes after the previous passes.
 # Agent Outputs
 
 The agents may produce:
+
+Compliance outputs:
+- legal risk assessment reports (LEGAL-NNN)
+- risk level classifications (low/medium/high/critical)
+- potential blocker identification
+- external review recommendations
+- mitigation suggestions
 
 Discovery outputs:
 - structured opportunity reports (OPP-NNN)
@@ -616,7 +673,8 @@ Agents receive task context built from:
 7. watch summary (from watch_events.json)
 8. accessibility summary (from accessibility_reports.json)
 9. opportunity summary (from opportunity_store.json)
-10. current user task
+10. compliance summary (from compliance_reports.json)
+11. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities

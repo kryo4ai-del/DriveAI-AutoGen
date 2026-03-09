@@ -21,6 +21,7 @@ ALL_AGENTS = [
     "change_watch_agent",
     "accessibility_agent",
     "opportunity_agent",
+    "legal_risk_agent",
 ]
 
 # These agents are always force-enabled regardless of config or CLI flags

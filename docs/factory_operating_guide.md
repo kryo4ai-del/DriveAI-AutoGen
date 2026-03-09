@@ -7,7 +7,7 @@ Last Updated: 2026-03-09
 ## What This Guide Covers
 
 How to use the AI App Factory from raw idea to finished product.
-Practical workflows, prompts, and rules for working with the 13-agent system.
+Practical workflows, prompts, and rules for working with the 14-agent system.
 
 ---
 
@@ -16,10 +16,11 @@ Practical workflows, prompts, and rules for working with the 13-agent system.
 The AI App Factory is a multi-agent development system built on AutoGen.
 
 ```
-13 Agents:
+14 Agents:
   2 Planning    — ProductStrategist, Roadmap
   1 Content     — ContentScript
   1 Discovery   — Opportunity
+  1 Compliance  — LegalRisk
   1 Monitoring  — ChangeWatch
   1 Quality     — Accessibility
   7 Build       — Lead, Architect, Developer, Reviewer, BugHunter, Refactor, TestGenerator
@@ -34,6 +35,7 @@ Data Stores:
   watch/watch_events.json             — Watch Events
   accessibility/accessibility_reports.json — A11Y Reports
   opportunities/opportunity_store.json   — Opportunities
+  compliance/compliance_reports.json     — Compliance Reports
 ```
 
 ---
@@ -440,6 +442,7 @@ Group by urgency: Now / Soon / Later / Info.
 | Watch Events | `watch/watch_events.json` |
 | A11Y Reports | `accessibility/accessibility_reports.json` |
 | Opportunities | `opportunities/opportunity_store.json` |
+| Compliance | `compliance/compliance_reports.json` |
 | Agent Roles | `config/agent_roles.json` |
 | Agent Toggles | `config/agent_toggles.json` |
 | Pipeline Logs | `logs/driveai_run_*.txt` |
@@ -455,6 +458,7 @@ Group by urgency: Now / Soon / Later / Info.
 | Watch | WATCH-NNN | WATCH-001 |
 | Accessibility | A11Y-NNN | A11Y-001 |
 | Opportunities | OPP-NNN | OPP-001 |
+| Compliance | LEGAL-NNN | LEGAL-001 |
 
 ### Status Lifecycles
 
@@ -466,12 +470,13 @@ Group by urgency: Now / Soon / Later / Info.
 | Watch | new → acknowledged → in-progress → resolved / dismissed |
 | A11Y | new → acknowledged → fixed / wont_fix / false_positive |
 | Opportunities | new → evaluated → accepted → idea_created / rejected / deferred |
+| Compliance | new → reviewed → mitigated / accepted / blocked / dismissed |
 
 ---
 
 ## Current System State (2026-03-09)
 
-- **Agents**: 13 (all active)
+- **Agents**: 14 (all active)
 - **Projects**: 2 (askfin: mvp-complete, factory-core: active)
 - **Ideas**: 5 (2 inbox, 3 classified)
 - **Specs**: 0 (empty, ready for use)
@@ -479,4 +484,5 @@ Group by urgency: Now / Soon / Later / Info.
 - **Watch Events**: 0 (empty, ready for use)
 - **A11Y Reports**: 0 (empty, ready for use)
 - **Opportunities**: 0 (empty, ready for use)
+- **Compliance**: 0 (empty, ready for use)
 - **AskFin MVP**: structurally complete, ready for real testing

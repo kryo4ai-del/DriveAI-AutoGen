@@ -45,6 +45,10 @@ Discovery agents:
 
 - OpportunityAgent (opportunity discovery, trend analysis, new product ideation)
 
+Compliance agents:
+
+- LegalRiskAgent (legal/regulatory risk assessment, GDPR, licensing, platform policies)
+
 Monitoring agents:
 
 - ChangeWatchAgent (ecosystem changes, SDK updates, security, deprecations, impact analysis)
@@ -70,6 +74,7 @@ Task
 → Planning (optional: ProductStrategist + Roadmap)
 → Content (optional: ContentScriptAgent)
 → Discovery (optional: OpportunityAgent)
+→ Compliance (optional: LegalRiskAgent)
 → Watch (optional: ChangeWatchAgent)
 → Implementation
 → Bug Review
@@ -82,7 +87,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 13 (2 planning + 1 content + 1 discovery + 1 monitoring + 1 quality + 7 implementation)
+Total agents: 14 (2 planning + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 7 implementation)
 
 Factory Idea Intake:
 
@@ -107,6 +112,8 @@ Storage:
 - accessibility/accessibility_manager.py (Python API for accessibility reports)
 - opportunities/opportunity_store.json (opportunity records)
 - opportunities/opportunity_manager.py (Python API for opportunities)
+- compliance/compliance_reports.json (legal risk reports)
+- compliance/compliance_manager.py (Python API for compliance reports)
 
 See docs/factory_intake.md for full documentation.
 
