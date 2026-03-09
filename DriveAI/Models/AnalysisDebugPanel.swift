@@ -120,6 +120,10 @@ struct AnalysisDebugPanel: View {
                         if last.confidenceScore > 0 {
                             debugRow(label: "Confidence", value: "\(last.confidenceLabel) (\(Int(last.confidenceScore * 100))%)")
                         }
+                        debugRow(label: "Category", value: last.category.rawValue)
+                        if last.categoryConfidence > 0 {
+                            debugRow(label: "Cat. Confidence", value: "\(Int(last.categoryConfidence * 100))%")
+                        }
                     }
                     Divider()
                 }

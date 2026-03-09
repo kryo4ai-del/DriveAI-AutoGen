@@ -1,6 +1,6 @@
 # DriveAI Feature Index
 
-Last Updated: 2026-03-09 — XcodeBuildPreparation complete
+Last Updated: 2026-03-09 — QuestionCategoryDetection complete
 
 This document tracks all implemented and planned features of the DriveAI application.
 
@@ -97,6 +97,7 @@ Feature | Status | Description
 WeaknessDetection | Complete | Detect frequently missed question categories
 LearningStatistics | Complete | Track learning progress, accuracy, confidence
 ConfidenceAnalysis | Complete | Confidence bar in stats and result views
+QuestionCategoryDetection | Complete | Keyword-based category detection for question history and debug
 
 ---
 
@@ -141,7 +142,6 @@ RoadRuleEngine | Planned | Explain rules based on visual context
 Feature | Status | Description
 ------- | ------ | ----------
 OfflineRuleEngine | Planned | Rule-based fallback for offline analysis
-QuestionCategoryDetection | Planned | Identify question categories automatically
 AdaptiveLearningSystem | Planned | Adapt questions based on user weaknesses
 
 ---
