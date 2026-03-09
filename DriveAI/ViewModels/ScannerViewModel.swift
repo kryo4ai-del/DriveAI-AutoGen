@@ -12,6 +12,10 @@ class ScannerViewModel: ObservableObject {
         isScanning = true
         // You would typically trigger camera scanning logic here
     }
+
+    func cancelScanning() {
+        isScanning = false
+    }
     
     func handleScanResult(text: String) {
         let document = ScannedDocument(text: text)

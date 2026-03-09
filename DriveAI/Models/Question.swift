@@ -1,8 +1,13 @@
-import Foundation
+// Models/Question.swift
+   struct Question: Identifiable, Codable {
+       let id: UUID
+       let text: String
+       let options: [Answer]
+       let correctAnswerId: UUID
+       let explanation: String
 
-struct Question: Identifiable, Codable, Equatable {
-    let id: UUID
-    let text: String
-    let options: [String]
-    let correctAnswer: String
-}
+       private enum CodingKeys: String, CodingKey {
+           case id, text, options, correctAnswerId, explanation
+       }
+   }
+

@@ -1,1 +1,0 @@
-let viewModel = SettingsViewModel()
