@@ -15,11 +15,13 @@ from agents.reviewer import create_reviewer_agent
 from agents.bug_hunter import create_bug_hunter_agent
 from agents.refactor_agent import create_refactor_agent
 from agents.test_generator import create_test_generator_agent
+from agents.content_script_agent import create_content_script_agent
 from project_context.context_loader import load_project_context
 from memory.memory_manager import MemoryManager
 from planning.feature_planner import FeaturePlanner
 from factory.idea_manager import IdeaManager, ProjectRegistry
 from factory.spec_manager import SpecManager
+from content.content_manager import ContentManager
 
 LOGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 
@@ -57,6 +59,7 @@ class TaskManager:
         self.bug_hunter_agent = create_bug_hunter_agent() if _on("bug_hunter") else None
         self.refactor_agent = create_refactor_agent() if _on("refactor_agent") else None
         self.test_generator_agent = create_test_generator_agent() if _on("test_generator") else None
+        self.content_script_agent = create_content_script_agent() if _on("content_script_agent") else None
 
         self.project_context = load_project_context()
         self.memory_manager = MemoryManager()
@@ -64,6 +67,7 @@ class TaskManager:
         self.idea_manager = IdeaManager()
         self.project_registry = ProjectRegistry()
         self.spec_manager = SpecManager()
+        self.content_manager = ContentManager()
 
     def get_agents_summary(self) -> dict:
         summary = {
@@ -84,6 +88,8 @@ class TaskManager:
             summary["refactor_agent"] = self.refactor_agent.name
         if self.test_generator_agent:
             summary["test_generator"] = self.test_generator_agent.name
+        if self.content_script_agent:
+            summary["content_script_agent"] = self.content_script_agent.name
         return summary
 
     def get_project_context_summary(self) -> str:
@@ -97,12 +103,14 @@ class TaskManager:
         idea_summary = self.idea_manager.get_summary()
         project_summary = self.project_registry.get_summary()
         spec_summary = self.spec_manager.get_summary()
+        content_summary = self.content_manager.get_summary()
         return (
             f"Project Context:\n{self.project_context}\n\n"
             f"Memory:\n{memory_summary}\n\n"
             f"Factory — {project_summary}\n"
             f"Factory — {idea_summary}\n"
-            f"Factory — {spec_summary}\n\n"
+            f"Factory — {spec_summary}\n"
+            f"Factory — {content_summary}\n\n"
             f"Task:\n{user_task}"
         )
 
@@ -129,6 +137,7 @@ class TaskManager:
             self.bug_hunter_agent,
             self.refactor_agent,
             self.test_generator_agent,
+            self.content_script_agent,
         ]:
             if agent is not None:
                 participants.append(agent)

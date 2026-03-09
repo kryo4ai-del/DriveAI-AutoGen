@@ -105,9 +105,43 @@ When to use:
 
 ---
 
+## Content Agents
+
+### 4. ContentScriptAgent
+
+Role:
+Content generation and copywriting agent.
+
+Responsibilities:
+- generate structured content drafts from project docs, specs, and product identity
+- support content types: video_script, app_store_short, app_store_long, landingpage_copy, social_post, feature_announcement, release_notes
+- adapt tone and style to target audience and platform
+- base content on real features from specs and project docs
+- produce human-readable, editable drafts
+
+Typical focus:
+- marketing copy
+- app store descriptions
+- video scripts
+- release announcements
+- social media posts
+
+Difference from other agents:
+ContentScriptAgent produces text content, not code or architecture.
+It reads from specs and project docs but does not modify them.
+
+When to use:
+- app store listing needs writing or updating
+- video script for a feature demo is needed
+- release notes for a new version
+- social media announcement for a launch or update
+- landing page copy for a product
+
+---
+
 ## Implementation Agents
 
-### 4. iOSArchitectAgent
+### 5. iOSArchitectAgent
 
 Role:
 iOS architecture and system design expert.
@@ -127,7 +161,7 @@ Typical focus:
 
 ---
 
-### 5. SwiftDeveloperAgent
+### 6. SwiftDeveloperAgent
 
 Role:
 Main implementation agent.
@@ -149,7 +183,7 @@ Typical focus:
 
 ## Review & Quality Agents
 
-### 6. ReviewerAgent
+### 7. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -169,7 +203,7 @@ Typical focus:
 
 ---
 
-### 7. BugHunterAgent
+### 8. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -189,7 +223,7 @@ Typical focus:
 
 ---
 
-### 8. RefactorAgent
+### 9. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -209,7 +243,7 @@ Typical focus:
 
 ---
 
-### 9. TestGeneratorAgent
+### 10. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -236,15 +270,17 @@ A normal feature run uses the following sequence:
 1. LeadAgent
 2. ProductStrategistAgent (optional — for idea evaluation)
 3. RoadmapAgent (optional — for multi-feature planning)
-4. iOSArchitectAgent
-5. SwiftDeveloperAgent
-6. ReviewerAgent
-7. BugHunterAgent
-8. RefactorAgent
-9. TestGeneratorAgent
+4. ContentScriptAgent (optional — for content generation)
+5. iOSArchitectAgent
+6. SwiftDeveloperAgent
+7. ReviewerAgent
+8. BugHunterAgent
+9. RefactorAgent
+10. TestGeneratorAgent
 
-For pure implementation tasks, planning agents may be skipped.
+For pure implementation tasks, planning/content agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
+For content generation, implementation and review agents may be skipped.
 
 Depending on run mode or agent toggles, some optional agents can be disabled.
 
@@ -350,6 +386,14 @@ Planning outputs:
 - product guidance
 - implementation specs (goal, scope, acceptance criteria, suggested template/agents)
 
+Content outputs:
+- video scripts
+- app store descriptions (short + long)
+- landing page copy
+- social media posts
+- feature announcements
+- release notes
+
 Implementation outputs:
 - SwiftUI Views
 - ViewModels
@@ -432,7 +476,8 @@ Agents receive task context built from:
 3. factory idea summary (from idea_store.json)
 4. factory project summary (from project_registry.json)
 5. factory spec summary (from spec_store.json)
-6. current user task
+6. content summary (from content_store.json)
+7. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities

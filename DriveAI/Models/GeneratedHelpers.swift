@@ -1,46 +1,43 @@
-func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
-    guard let question = question else { return } // Optional handling
-    self.question = question
-    self.isCorrect = selectedAnswerId == question.correctAnswerId
-    self.explanation = question.explanation
-}
+@Published var introduction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_INTRO", comment: "")
+@Published var callToAction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_CALL_TO_ACTION", comment: "")
 
 // ---
 
-Text(viewModel.isCorrect ? NSLocalizedString("Correct", comment: "Correct answer message") : NSLocalizedString("Incorrect", comment: "Incorrect answer message"))
+@Published var introduction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_INTRO", comment: "")
+@Published var callToAction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_CALL_TO_ACTION", comment: "")
 
 // ---
 
-func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
-    self.question = question
-    if let question = self.question {
-        self.isCorrect = selectedAnswerId == question.correctAnswerId
-        self.explanation = question.explanation
+// Example changes to be reflected in the ViewModel:
+@Published var featureSummary: [String] = [
+    "Interaktive Fragen",
+    "Statistik-Tracking",
+    "Prüfungssimulation",
+    "Offline verfügbar",
+    "Benutzerfreundliches Design"
+]
+
+// ---
+
+// Example featureIcon method
+func featureIcon(for feature: String) -> String {
+    switch feature {
+    case "Interaktive Fragen":
+        return "questionmark.circle"
+    case "Statistik-Tracking":
+        return "chart.bar"
+    // Add more icons as necessary
+    default:
+        return "star.fill"
     }
 }
 
 // ---
 
-Button(action: { ... }) {
-    Text(option.text)
-        .padding()
-        .background(Color.blue.opacity(0.2))
-        .cornerRadius(10)
-        .padding(5)
-}
-.accessibilityLabel("Select answer: \(option.text)")
-.disabled(buttonState == .loading)
-
-// ---
-
-func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
-    self.question = question
-    if let question = self.question {
-        self.isCorrect = selectedAnswerId == question.correctAnswerId
-        self.explanation = question.explanation
-    }
+var localizedIntroduction: String {
+    NSLocalizedString("FEATURE_ANNOUNCEMENT_INTRO", comment: "")
 }
 
-// ---
-
-.accessibilityLabel(NSLocalizedString("Select answer: \(option.text)", comment: "Accessibility label for answer selection"))
+var localizedCallToAction: String {
+    NSLocalizedString("FEATURE_ANNOUNCEMENT_CALL_TO_ACTION", comment: "")
+}

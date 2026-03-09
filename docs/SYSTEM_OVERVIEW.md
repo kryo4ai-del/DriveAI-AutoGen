@@ -37,6 +37,10 @@ Planning agents:
 - ProductStrategistAgent (idea classification, value estimation, priority)
 - RoadmapAgent (feature prioritization, dependency mapping, phase planning)
 
+Content agents:
+
+- ContentScriptAgent (content drafts, marketing copy, video scripts, release notes)
+
 Implementation agents:
 
 - LeadAgent
@@ -51,6 +55,7 @@ Pipeline:
 
 Task
 → Planning (optional: ProductStrategist + Roadmap)
+→ Content (optional: ContentScriptAgent)
 → Implementation
 → Bug Review
 → Refactor
@@ -61,7 +66,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 9 (2 planning + 7 implementation)
+Total agents: 10 (2 planning + 1 content + 7 implementation)
 
 Factory Idea Intake:
 
@@ -77,6 +82,8 @@ Storage:
 - factory/specs/spec_store.json (implementation specs)
 - factory/idea_manager.py (Python API for ideas + projects)
 - factory/spec_manager.py (Python API for specs)
+- content/content_store.json (content records)
+- content/content_manager.py (Python API for content)
 
 See docs/factory_intake.md for full documentation.
 
