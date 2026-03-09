@@ -206,6 +206,7 @@ docs/
 - UX_FLOW.md
 - SYSTEM_OVERVIEW.md
 - factory_intake.md (includes spec pipeline documentation)
+- factory_operating_guide.md (end-to-end operating manual)
 
 These files are the main persistence layer for continuing the project in future chats or with new coding agents.
 
