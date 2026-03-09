@@ -19,6 +19,7 @@ from project_context.context_loader import load_project_context
 from memory.memory_manager import MemoryManager
 from planning.feature_planner import FeaturePlanner
 from factory.idea_manager import IdeaManager, ProjectRegistry
+from factory.spec_manager import SpecManager
 
 LOGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 
@@ -62,6 +63,7 @@ class TaskManager:
         self.feature_planner = FeaturePlanner()
         self.idea_manager = IdeaManager()
         self.project_registry = ProjectRegistry()
+        self.spec_manager = SpecManager()
 
     def get_agents_summary(self) -> dict:
         summary = {
@@ -94,11 +96,13 @@ class TaskManager:
         memory_summary = self.memory_manager.get_memory_summary()
         idea_summary = self.idea_manager.get_summary()
         project_summary = self.project_registry.get_summary()
+        spec_summary = self.spec_manager.get_summary()
         return (
             f"Project Context:\n{self.project_context}\n\n"
             f"Memory:\n{memory_summary}\n\n"
             f"Factory — {project_summary}\n"
-            f"Factory — {idea_summary}\n\n"
+            f"Factory — {idea_summary}\n"
+            f"Factory — {spec_summary}\n\n"
             f"Task:\n{user_task}"
         )
 

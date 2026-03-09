@@ -348,6 +348,7 @@ Planning outputs:
 - roadmap recommendations
 - dependency maps
 - product guidance
+- implementation specs (goal, scope, acceptance criteria, suggested template/agents)
 
 Implementation outputs:
 - SwiftUI Views
@@ -430,14 +431,17 @@ Agents receive task context built from:
 2. persistent memory summary
 3. factory idea summary (from idea_store.json)
 4. factory project summary (from project_registry.json)
-5. current user task
+5. factory spec summary (from spec_store.json)
+6. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities
 - project registry IDs
 - idea lifecycle (inbox → classified → prioritized → spec-ready → done)
+- spec fields, statuses, and lifecycle (draft → review → approved → in-progress → done)
+- spec-to-idea linking via linked_idea_id
 
-See docs/factory_intake.md for the full idea intake workflow.
+See docs/factory_intake.md for the full idea intake and spec pipeline workflow.
 
 This ensures that feature generation stays aligned with the project.
 
