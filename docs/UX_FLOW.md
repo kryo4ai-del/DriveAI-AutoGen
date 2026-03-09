@@ -1,8 +1,10 @@
-# DriveAI UX Flow
+# AskFin UX Flow
 
-Last Updated: 2026-03-09 — RealUserJourneyTestFlow complete
+Last Updated: 2026-03-09 — AskFinBrandingIntegration complete
 
-This document describes the user experience flow of the DriveAI application.
+Slogan: "Nutze Fin und sage Ja"
+
+This document describes the user experience flow of the AskFin application.
 
 Purpose:
 
@@ -17,6 +19,8 @@ Purpose:
 
 DriveAIApp (@main)
 ↓
+LaunchScreenView (1.8s — dark gradient, pulsing "F" logo, "AskFin", slogan)
+↓ fade out
 AppNavigationView (checks onboardingCompleted in UserDefaults)
 ↓ (first launch)          ↓ (returning user)
 OnboardingView            HomeDashboardView (directly, no extra NavigationStack)

@@ -7,17 +7,38 @@ struct OnboardingView: View {
         VStack(spacing: 28) {
 
             // Header
-            VStack(spacing: 10) {
-                Image(systemName: "car.fill")
-                    .font(.system(size: 56))
-                    .foregroundColor(.blue)
-                Text("Welcome to DriveAI")
+            VStack(spacing: 12) {
+
+                // Logo mark
+                ZStack {
+                    Circle()
+                        .fill(Color.askFinCard)
+                        .frame(width: 84, height: 84)
+                        .shadow(color: Color.askFinPrimary.opacity(0.40), radius: 12)
+
+                    Circle()
+                        .stroke(Color.askFinPrimary.opacity(0.28), lineWidth: 1.5)
+                        .frame(width: 84, height: 84)
+
+                    Text("F")
+                        .font(.system(size: 46, weight: .bold, design: .rounded))
+                        .foregroundColor(Color.askFinPrimary)
+                }
+
+                Text("Willkommen bei AskFin")
                     .font(.largeTitle)
                     .bold()
-                Text("Set your exam date to personalize your learning journey.")
+
+                Text("Nutze Fin und sage Ja")
                     .font(.subheadline)
+                    .foregroundColor(Color.askFinPrimary.opacity(0.85))
+                    .multilineTextAlignment(.center)
+
+                Text("Wähle dein Prüfungsdatum, um dein Lernen zu personalisieren.")
+                    .font(.caption)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
+                    .padding(.top, 2)
             }
             .padding(.top, 16)
 
@@ -30,20 +51,23 @@ struct OnboardingView: View {
             )
             .datePickerStyle(.graphical)
             .labelsHidden()
+            .accentColor(Color.askFinPrimary)
 
-            // Continue button -- triggers isCompleted, AppNavigationView switches to Dashboard
+            // Continue button
             Button(action: { viewModel.saveUserData() }) {
-                Text("Get Started")
+                Text("Los geht's")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .background(Color.askFinPrimary)
+                    .foregroundColor(Color.askFinBackground)
+                    .cornerRadius(AppTheme.cornerRadius)
+                    .shadow(color: Color.askFinPrimary.opacity(AppTheme.glowOpacity),
+                            radius: AppTheme.glowRadius)
             }
         }
         .padding()
-        .navigationTitle("Welcome")
+        .navigationTitle("AskFin")
         .navigationBarBackButtonHidden(true)
     }
 }

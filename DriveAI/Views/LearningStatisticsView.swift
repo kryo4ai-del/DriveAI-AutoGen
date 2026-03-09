@@ -169,6 +169,11 @@ struct StatCard: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(Color(.systemGray6))
-        .cornerRadius(10)
+        .cornerRadius(AppTheme.cardCornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.cardCornerRadius)
+                .stroke(color.opacity(0.20), lineWidth: 1)
+        )
+        .shadow(color: color.opacity(0.12), radius: 4)
     }
 }

@@ -25,59 +25,68 @@ struct HomeDashboardView: View {
 
                     // MARK: - Questions
 
-                    sectionHeader("Questions")
+                    sectionHeader("Fragen", color: .askFinPrimary)
 
-                    primaryButton("Scan Question", icon: "camera.fill", color: .blue) {
+                    primaryButton("Frage scannen", icon: "camera.fill", color: .askFinPrimary) {
                         showScanner = true
                     }
 
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                        secondaryButton("Import Screenshot", icon: "photo.fill", color: .blue) {
+                        secondaryButton("Screenshot", icon: "photo.fill", color: .askFinPrimary) {
                             showImageImport = true
                         }
-                        secondaryButton("History", icon: "clock.arrow.circlepath", color: .blue) {
+                        secondaryButton("Verlauf", icon: "clock.arrow.circlepath", color: .askFinPrimary) {
                             showHistory = true
                         }
-                        secondaryButton("Insights", icon: "chart.bar.fill", color: .blue) {
+                        secondaryButton("Insights", icon: "chart.bar.fill", color: .askFinPrimary) {
                             showInsights = true
                         }
-                        secondaryButton("Statistics", icon: "chart.pie.fill", color: .blue) {
+                        secondaryButton("Statistik", icon: "chart.pie.fill", color: .askFinPrimary) {
                             showStatistics = true
                         }
                     }
 
-                    Divider()
+                    // Divider with glow hint
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [.askFinPrimary.opacity(0.4), .askFinAccent.opacity(0.4)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(height: 1)
                         .padding(.vertical, 4)
 
                     // MARK: - Traffic Signs
 
-                    sectionHeader("Traffic Signs")
+                    sectionHeader("Verkehrszeichen", color: .askFinAccent)
 
-                    primaryButton("Recognize Sign", icon: "exclamationmark.triangle.fill", color: .orange) {
+                    primaryButton("Zeichen erkennen", icon: "exclamationmark.triangle.fill", color: .askFinAccent) {
                         showTrafficSigns = true
                     }
 
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                        secondaryButton("Sign History", icon: "clock.badge.fill", color: .orange) {
+                        secondaryButton("Verlauf", icon: "clock.badge.fill", color: .askFinAccent) {
                             showSignHistory = true
                         }
-                        secondaryButton("Sign Statistics", icon: "chart.bar.doc.horizontal.fill", color: .orange) {
+                        secondaryButton("Statistik", icon: "chart.bar.doc.horizontal.fill", color: .askFinAccent) {
                             showSignStatistics = true
                         }
                     }
 
-                    secondaryButton("Sign Weaknesses", icon: "exclamationmark.circle.fill", color: .orange) {
+                    secondaryButton("Schwachstellen", icon: "exclamationmark.circle.fill", color: .askFinAccent) {
                         showSignWeaknesses = true
                     }
                 }
                 .padding()
             }
-            .navigationTitle("DriveAI")
+            .navigationTitle("AskFin")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: { showSettings = true }) {
                         Image(systemName: "gearshape")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Color.askFinPrimary.opacity(0.8))
                     }
                 }
             }
@@ -117,10 +126,16 @@ struct HomeDashboardView: View {
 
     // MARK: - Section header
 
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
-            .font(.title2)
-            .bold()
+    private func sectionHeader(_ title: String, color: Color) -> some View {
+        HStack(spacing: 8) {
+            Rectangle()
+                .fill(color)
+                .frame(width: 3, height: 20)
+                .cornerRadius(2)
+            Text(title)
+                .font(.title2)
+                .bold()
+        }
     }
 
     // MARK: - Primary action button
@@ -132,8 +147,13 @@ struct HomeDashboardView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(color)
-                .foregroundColor(.white)
-                .cornerRadius(12)
+                .foregroundColor(color == .askFinPrimary ? Color.askFinBackground : .white)
+                .cornerRadius(AppTheme.cornerRadius)
+                .shadow(color: color.opacity(AppTheme.glowOpacity), radius: AppTheme.glowRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
+                        .stroke(color.opacity(AppTheme.borderOpacity), lineWidth: 1)
+                )
         }
     }
 
@@ -152,8 +172,12 @@ struct HomeDashboardView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 14)
-            .background(color.opacity(0.09))
-            .cornerRadius(12)
+            .background(color.opacity(0.10))
+            .cornerRadius(AppTheme.cardCornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.cardCornerRadius)
+                    .stroke(color.opacity(0.18), lineWidth: 1)
+            )
         }
     }
 }

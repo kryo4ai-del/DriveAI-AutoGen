@@ -1,12 +1,14 @@
-# DriveAI Project State
+# AskFin Project State
 
-Last Updated: 2026-03-09 — RealUserJourneyTestFlow complete
+Last Updated: 2026-03-09 — AskFinBrandingIntegration complete
 
 ---
 
 # Project
 
-DriveAI
+AskFin (formerly DriveAI)
+
+Slogan: "Nutze Fin und sage Ja"
 
 An AI-assisted iOS learning app for driver's license theory questions.
 
@@ -192,6 +194,7 @@ SampleValidation | Complete
 BuildReadiness / Xcode Compile Clean | Complete
 RuntimeSafetyAndMockBoot | Complete
 RealUserJourneyTestFlow | Complete
+AskFinBrandingIntegration | Complete
 
 ---
 
