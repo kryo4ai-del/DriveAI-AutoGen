@@ -15,12 +15,17 @@ struct TrafficSignHistoryView: View {
         VStack(spacing: 0) {
             if viewModel.entries.isEmpty {
                 Spacer()
-                VStack(spacing: 10) {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.system(size: 40))
+                VStack(spacing: 12) {
+                    Image(systemName: "clock.badge.fill")
+                        .font(.system(size: 48))
                         .foregroundColor(.secondary)
-                    Text("No traffic sign history yet.")
+                    Text("No sign history yet.")
+                        .font(.headline)
+                    Text("Analyze traffic signs to see your history here.")
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
                 }
                 Spacer()
             } else {

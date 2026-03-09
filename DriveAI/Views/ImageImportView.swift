@@ -44,5 +44,6 @@ struct ImageImportView: View {
             }
         }
         .padding()
+        .navigationTitle("Import Screenshot")
     }
 }

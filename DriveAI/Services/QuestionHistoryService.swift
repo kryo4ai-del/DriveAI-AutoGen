@@ -58,6 +58,7 @@ class QuestionHistoryService {
     // MARK: - Image compression
     /// Scale image to max 300pt width, compress to JPEG 0.4 quality (~20-50KB)
     func compressImage(_ image: UIImage) -> Data? {
+        guard image.size.width > 0, image.size.height > 0 else { return nil }
         let maxDimension: CGFloat = 300
         let scale = min(maxDimension / image.size.width, maxDimension / image.size.height, 1.0)
         let newSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)

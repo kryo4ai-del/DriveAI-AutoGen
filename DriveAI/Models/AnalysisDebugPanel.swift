@@ -253,22 +253,31 @@ struct AnalysisDebugPanel: View {
                 .padding([.horizontal, .top], 12)
 
                 // Debug log list
-                Text("Analysis Debug Panel")
+                Text("Debug Logs")
                     .font(.title3)
                     .bold()
                     .padding([.horizontal, .top])
 
-                List(viewModel.debugLogs) { log in
-                    HStack {
-                        Text(log.timestamp, formatter: dateFormatter)
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-                        Text(log.message)
-                            .font(.body)
-                            .foregroundColor(log.level == .error ? .red : .black)
+                if viewModel.debugLogs.isEmpty {
+                    Text("No logs yet.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                } else {
+                    ForEach(viewModel.debugLogs) { log in
+                        HStack(alignment: .top) {
+                            Text(log.timestamp, formatter: dateFormatter)
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                            Text(log.message)
+                                .font(.body)
+                                .foregroundColor(log.level == .error ? .red : .primary)
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 4)
+                        Divider().padding(.horizontal)
                     }
                 }
-                .listStyle(PlainListStyle())
             }
         }
         .navigationTitle("Debug Info")

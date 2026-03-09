@@ -154,6 +154,7 @@ class TrafficSignRecognitionService {
     // MARK: - Image compression (shared utility)
 
     func compressImage(_ image: UIImage) -> Data? {
+        guard image.size.width > 0, image.size.height > 0 else { return nil }
         let maxDimension: CGFloat = 300
         let scale = min(maxDimension / image.size.width, maxDimension / image.size.height, 1.0)
         let newSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
