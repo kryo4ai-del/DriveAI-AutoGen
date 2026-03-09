@@ -3,6 +3,8 @@
 
 import asyncio
 import json
+import os
+import shutil
 import sys
 from datetime import datetime
 from tasks.task_manager import TaskManager, setup_logger
@@ -228,6 +230,25 @@ async def _log_pass(logger, label: str, messages: list) -> None:
         logger.info("")
 
 
+def _clean_generated_code() -> int:
+    """Remove stale files from generated_code/ before a new run. Returns count of removed files."""
+    gen_dir = os.path.join(os.path.dirname(__file__), "generated_code")
+    if not os.path.isdir(gen_dir):
+        return 0
+    removed = 0
+    for subfolder in os.listdir(gen_dir):
+        sub_path = os.path.join(gen_dir, subfolder)
+        if not os.path.isdir(sub_path):
+            continue
+        for filename in os.listdir(sub_path):
+            if filename.endswith(".swift"):
+                os.remove(os.path.join(sub_path, filename))
+                removed += 1
+    if removed:
+        print(f"Cleaned {removed} stale file(s) from generated_code/")
+    return removed
+
+
 async def _run_pipeline(
     user_task: str,
     task_source: str,
@@ -334,10 +355,20 @@ async def _run_pipeline(
     result = await team.run(task=full_task)
     await _log_pass(logger, "Implementation Pass", result.messages)
 
+    # Clean stale generated files before extraction
+    _clean_generated_code()
+
     extractor = CodeExtractor()
     integrator = ProjectIntegrator("DriveAI")
     code_counts = extractor.extract_swift_code(result.messages)
-    xcode_counts = integrator.integrate_generated_code(approval=approval_mode)
+
+    # Guard: abort integration if extraction was aborted (too many files)
+    if code_counts.get("aborted"):
+        print("⚠ Integration skipped — extraction was aborted (file limit exceeded).")
+        logger.info("Integration skipped — extraction aborted.")
+        xcode_counts = {"status": "aborted", "integrated": 0, "unchanged": 0, "protected": 0}
+    else:
+        xcode_counts = integrator.integrate_generated_code(approval=approval_mode)
 
     # Empty placeholders for skipped passes
     empty = []
@@ -436,9 +467,13 @@ async def _run_pipeline(
             await _log_pass(logger, "Fix Execution Pass", fix_result_msgs)
 
             fix_code_counts = extractor.extract_swift_code(fix_result_msgs)
-            integrator.integrate_generated_code(approval=approval_mode)
-            if fix_code_counts["saved"] > 0:
-                print(f"  Swift files updated: {fix_code_counts['saved']} new/changed after fix pass")
+            if fix_code_counts.get("aborted"):
+                print("⚠ Fix integration skipped — extraction was aborted (file limit exceeded).")
+                logger.info("Fix integration skipped — extraction aborted.")
+            else:
+                integrator.integrate_generated_code(approval=approval_mode)
+                if fix_code_counts["saved"] > 0:
+                    print(f"  Swift files updated: {fix_code_counts['saved']} new/changed after fix pass")
             print("Fix execution pass completed.")
 
     # ── Finalize ─────────────────────────────────────────────────────

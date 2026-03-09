@@ -11,45 +11,68 @@ SUBFOLDER_MAP = {
     "Model": "Models",
 }
 
-# --- Guard 4: Protected existing views ---
-# These files must never be overwritten by the pipeline.
+# --- Guard 4: Protected existing files ---
+# These files must never be overwritten by the pipeline when they already exist.
 _PROTECTED_FILES: frozenset[str] = frozenset({
-    # Core app
+    # ── Core app ──
     "DriveAIApp.swift",
     "AppNavigationView.swift",
-    # Dashboard & navigation
+    # ── Views ──
     "HomeDashboardView.swift",
-    "HomeDashboardViewModel.swift",
-    # Onboarding
     "OnboardingView.swift",
-    "OnboardingViewModel.swift",
-    # Scanner & import
     "ScannerView.swift",
-    "ScannerViewModel.swift",
     "ImageImportView.swift",
-    # Question flow
     "QuestionView.swift",
-    "QuestionViewModel.swift",
     "ResultView.swift",
-    # Settings
     "SettingsView.swift",
-    # Answer explanation
     "AnswerExplanationView.swift",
-    "AnswerExplanationViewModel.swift",
-    # History
     "TrafficSignHistoryView.swift",
     "TrafficSignHistoryDetailView.swift",
     "ScannedDocumentView.swift",
-    # Statistics
     "LearningStatisticsView.swift",
     "TrafficSignStatisticsView.swift",
-    # Debug
     "AnalysisDebugPanel.swift",
-    "AnalysisDebugPanelViewModel.swift",
-    # Launch
     "LaunchScreenView.swift",
-    # Theme
+    "TrafficSignRecognitionView.swift",
+    "TrafficSignWeaknessView.swift",
+    "SampleValidationView.swift",
+    "UserInfoView.swift",
+    # ── ViewModels ──
+    "HomeDashboardViewModel.swift",
+    "OnboardingViewModel.swift",
+    "ScannerViewModel.swift",
+    "QuestionViewModel.swift",
+    "AnswerExplanationViewModel.swift",
+    "AnalysisDebugPanelViewModel.swift",
+    # ── Models (AskFin domain) ──
+    "QuestionCategory.swift",
+    "CategoryDetectionResult.swift",
+    "AnalysisResult.swift",
+    "QuestionHistoryEntry.swift",
+    "Question.swift",
+    "Answer.swift",
+    "ButtonState.swift",
+    "FeedbackType.swift",
     "AppTheme.swift",
+    "User.swift",
+    "TrafficSignHistoryEntry.swift",
+    "TrafficSignRecognitionResult.swift",
+    "AnswerConfidence.swift",
+    "LearningStats.swift",
+    "TrafficSignStats.swift",
+    "WeaknessCategory.swift",
+    "TrafficSignWeaknessCategory.swift",
+    # ── Services ──
+    "QuestionCategoryDetectionService.swift",
+    "QuestionAnalysisService.swift",
+    "QuestionHistoryService.swift",
+    "TrafficSignHistoryService.swift",
+    "TrafficSignRecognitionService.swift",
+    "OCRRecognitionService.swift",
+    "ImageAnalysisService.swift",
+    "LLMQuestionSolverService.swift",
+    "LocalDataService.swift",
+    "SampleValidationService.swift",
 })
 
 
