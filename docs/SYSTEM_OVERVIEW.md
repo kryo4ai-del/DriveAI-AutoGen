@@ -45,6 +45,10 @@ Monitoring agents:
 
 - ChangeWatchAgent (ecosystem changes, SDK updates, security, deprecations, impact analysis)
 
+Quality agents:
+
+- AccessibilityAgent (accessibility review, WCAG compliance, VoiceOver, touch targets)
+
 Implementation agents:
 
 - LeadAgent
@@ -53,6 +57,7 @@ Implementation agents:
 - ReviewerAgent
 - BugHunterAgent
 - RefactorAgent
+- AccessibilityAgent
 - TestGeneratorAgent
 
 Pipeline:
@@ -64,6 +69,7 @@ Task
 → Implementation
 → Bug Review
 → Refactor
+→ Accessibility Review (optional: AccessibilityAgent)
 → Test Generation
 → Fix Execution
 → Code Extraction
@@ -71,7 +77,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 11 (2 planning + 1 content + 1 monitoring + 7 implementation)
+Total agents: 12 (2 planning + 1 content + 1 monitoring + 1 quality + 7 implementation)
 
 Factory Idea Intake:
 
@@ -92,6 +98,8 @@ Storage:
 - watch/watch_events.json (ecosystem change events)
 - watch/watch_sources.json (monitored sources registry)
 - watch/watch_manager.py (Python API for watch events + dashboard)
+- accessibility/accessibility_reports.json (accessibility findings)
+- accessibility/accessibility_manager.py (Python API for accessibility reports)
 
 See docs/factory_intake.md for full documentation.
 

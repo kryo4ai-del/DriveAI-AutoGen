@@ -277,7 +277,42 @@ Typical focus:
 
 ---
 
-### 11. TestGeneratorAgent
+### 11. AccessibilityAgent
+
+Role:
+Accessibility review and compliance agent.
+
+Responsibilities:
+- analyze UI code for accessibility issues
+- detect missing accessibility labels, hints, and traits
+- identify poor color contrast (WCAG 2.1 AA)
+- detect small touch targets (below 44x44pt)
+- recommend VoiceOver and screen reader improvements
+- check Dynamic Type compatibility
+- evaluate focus order and semantic structure
+- flag animations lacking reduced-motion alternatives
+
+Typical focus:
+- accessibility labels and hints
+- color contrast compliance
+- touch target sizing
+- VoiceOver navigation
+- Dynamic Type scaling
+- semantic grouping
+
+Difference from ReviewerAgent:
+ReviewerAgent focuses on code quality and structure.
+AccessibilityAgent focuses specifically on accessibility compliance and inclusive design.
+
+When to use:
+- after UI code is generated or modified
+- during review passes for accessibility compliance
+- before release to ensure accessibility standards are met
+- when adding new screens or interactive elements
+
+---
+
+### 12. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -311,12 +346,14 @@ A normal feature run uses the following sequence:
 8. ReviewerAgent
 9. BugHunterAgent
 10. RefactorAgent
-11. TestGeneratorAgent
+11. AccessibilityAgent (optional — for accessibility review)
+12. TestGeneratorAgent
 
 For pure implementation tasks, planning/content/watch agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
 For content generation, implementation and review agents may be skipped.
 For ecosystem monitoring, all other agents may be skipped.
+For accessibility review, only AccessibilityAgent and ReviewerAgent are needed.
 
 Depending on run mode or agent toggles, some optional agents can be disabled.
 
@@ -422,6 +459,12 @@ Planning outputs:
 - product guidance
 - implementation specs (goal, scope, acceptance criteria, suggested template/agents)
 
+Accessibility outputs:
+- accessibility findings (missing labels, contrast issues, touch targets)
+- severity-ranked reports with specific fix recommendations
+- WCAG compliance assessments
+- VoiceOver navigation analysis
+
 Monitoring outputs:
 - ecosystem change events and impact assessments
 - severity classifications and recommended actions
@@ -520,7 +563,8 @@ Agents receive task context built from:
 5. factory spec summary (from spec_store.json)
 6. content summary (from content_store.json)
 7. watch summary (from watch_events.json)
-8. current user task
+8. accessibility summary (from accessibility_reports.json)
+9. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities
