@@ -2,10 +2,12 @@ import SwiftUI
 
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
+    @State private var developerMode = AppConfig.isDeveloperMode
 
     var body: some View {
         Form {
-            // MARK: - App preferences
+
+            // MARK: Preferences
 
             Section("Preferences") {
                 Toggle("Notifications", isOn: $viewModel.notificationsEnabled)
@@ -19,17 +21,39 @@ struct SettingsView: View {
                 Toggle("Dark Mode", isOn: $viewModel.darkModeEnabled)
             }
 
-            // MARK: - Developer tools
+            // MARK: Developer
 
-            Section("Developer") {
-                NavigationLink(destination: SampleValidationView()) {
-                    Label("Sample Validation", systemImage: "checklist")
+            Section {
+                Toggle("Developer Mode", isOn: Binding(
+                    get: { developerMode },
+                    set: { developerMode = $0; AppConfig.isDeveloperMode = $0 }
+                ))
+
+                if developerMode {
+                    NavigationLink(destination: SampleValidationView()) {
+                        Label("Sample Validation", systemImage: "checklist")
+                    }
+                    NavigationLink(destination: AnalysisDebugPanel()) {
+                        Label("Debug Panel", systemImage: "ladybug.fill")
+                    }
+                    resetOnboardingButton
                 }
-                NavigationLink(destination: AnalysisDebugPanel()) {
-                    Label("Debug Panel", systemImage: "ladybug.fill")
+            } header: {
+                Text("Developer")
+            } footer: {
+                if !developerMode {
+                    Text("Enable to access validation and debug tools.")
                 }
             }
         }
         .navigationTitle("Settings")
+    }
+
+    private var resetOnboardingButton: some View {
+        Button(role: .destructive) {
+            OnboardingViewModel().resetOnboarding()
+        } label: {
+            Label("Reset Onboarding", systemImage: "arrow.counterclockwise")
+        }
     }
 }

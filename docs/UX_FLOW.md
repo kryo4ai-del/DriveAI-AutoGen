@@ -15,13 +15,23 @@ Purpose:
 
 # App Entry Flow
 
-DriveAIApp
+DriveAIApp (@main)
 ↓
-OnboardingView (set exam date → Continue)
+AppNavigationView (checks onboardingCompleted in UserDefaults)
+↓ (first launch)          ↓ (returning user)
+OnboardingView            HomeDashboardView (directly, no extra NavigationStack)
+↓ "Get Started"
+saves User + sets onboardingCompleted = true
 ↓
-HomeDashboardView
+HomeDashboardView (AppNavigationView switches on isCompleted)
 
 The Home Dashboard is the main navigation hub. All features are accessible from the Dashboard.
+
+Developer note:
+- AppConfig.isDeveloperMode gates Sample Validation + Debug Panel in Settings
+- Reset Onboarding button available in Settings → Developer (developer mode on)
+- AppNavigationView is the single NavigationStack root for the onboarding path
+- HomeDashboardView owns its own NavigationStack for the main app
 
 ---
 

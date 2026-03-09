@@ -1,22 +1,17 @@
-@main
-struct DriveAIApp: App {
-    var body: some Scene {
-        WindowGroup {
-            AppNavigationView()
-        }
-    }
-}
+import SwiftUI
 
+/// Root navigation controller.
+/// Routes between OnboardingView (first launch) and HomeDashboardView (returning user).
+/// HomeDashboardView owns its own NavigationStack - do NOT wrap it here.
 struct AppNavigationView: View {
-    @StateObject private var onboardingViewModel = OnboardingViewModel()
+    @StateObject private var onboardingVM = OnboardingViewModel()
 
     var body: some View {
-        NavigationStack {
-            if onboardingViewModel.isCompleted {
-                DashboardView(viewModel: DashboardViewModel())
-            } else {
-                OnboardingView(viewModel: onboardingViewModel)
-                    .navigationTitle("Welcome")
+        if onboardingVM.isCompleted {
+            HomeDashboardView()
+        } else {
+            NavigationStack {
+                OnboardingView(viewModel: onboardingVM)
             }
         }
     }
