@@ -1,6 +1,6 @@
 # DriveAI Project State
 
-Last Updated: Current Session
+Last Updated: 2026-03-09 — XcodeBuildPreparation complete
 
 ---
 
@@ -42,9 +42,10 @@ SwiftUI MVVM architecture
 
 Entry Flow:
 
-DriveAIApp  
-→ OnboardingView  
-→ HomeDashboardView
+DriveAIApp
+→ AppNavigationView
+→ OnboardingView (first launch)
+→ HomeDashboardView (two sections: Questions + Traffic Signs)
 
 ---
 
@@ -180,6 +181,15 @@ Confidence System | Complete
 Learning Mode | Complete
 Question History | Complete
 History Image Support | Complete
+WeaknessDetection | Complete
+LearningStatistics | Complete
+TrafficSignRecognition | Complete
+TrafficSignHistory | Complete
+TrafficSignStatistics | Complete
+TrafficSignWeaknessDetection | Complete
+AppConfig + Developer Mode | Complete
+SampleValidation | Complete
+BuildReadiness / Xcode Compile Clean | Complete
 
 ---
 
@@ -187,11 +197,9 @@ History Image Support | Complete
 
 Priority order:
 
-1. WeaknessDetection
-2. LearningStatistics
-3. TrafficSignRecognition
-4. QuestionCategoryDetection
-5. OfflineRuleEngine
+1. CoreML model swap for TrafficSignRecognitionService
+2. QuestionCategoryDetection
+3. OfflineRuleEngine
 
 ---
 

@@ -1,6 +1,6 @@
 # DriveAI Feature Index
 
-Last Updated: Current Session
+Last Updated: 2026-03-09 — XcodeBuildPreparation complete
 
 This document tracks all implemented and planned features of the DriveAI application.
 
@@ -90,13 +90,39 @@ UserProfile | Complete | User learning profile structure
 
 ---
 
-# Planned Learning Intelligence Features
+# Learning Intelligence Features
 
 Feature | Status | Description
 ------- | ------ | ----------
-WeaknessDetection | Planned | Detect frequently missed question types
-LearningStatistics | Planned | Track learning progress and accuracy
-ConfidenceAnalysis | Planned | Evaluate solver reliability over time
+WeaknessDetection | Complete | Detect frequently missed question categories
+LearningStatistics | Complete | Track learning progress, accuracy, confidence
+ConfidenceAnalysis | Complete | Confidence bar in stats and result views
+
+---
+
+# Traffic Sign Domain
+
+Feature | Status | Description
+------- | ------ | ----------
+TrafficSignRecognitionService | Complete | Color heuristic recognizer (CoreML-ready)
+TrafficSignRecognitionView | Complete | Camera + Learning/Assist modes for signs
+TrafficSignHistory | Complete | UserDefaults storage for sign sessions
+TrafficSignHistoryView | Complete | History list with thumbnails and filter
+TrafficSignStatisticsView | Complete | Stats cards + accuracy bar + bar chart
+TrafficSignWeaknessDetection | Complete | Per-category accuracy tracking
+TrafficSignWeaknessView | Complete | Weak categories + all-categories list
+
+---
+
+# Developer / QA Features
+
+Feature | Status | Description
+------- | ------ | ----------
+AppConfig | Complete | Centralized UserDefaults keys + developer flag
+DeveloperMode toggle | Complete | Gates dev tools in SettingsView
+SampleValidationService | Complete | 5 question samples + 4 live sign samples
+SampleValidationView | Complete | Run-button, summary stats, per-sample cards
+AnalysisDebugPanel | Complete | Live debug info + sign weakness summary
 
 ---
 
@@ -104,7 +130,7 @@ ConfidenceAnalysis | Planned | Evaluate solver reliability over time
 
 Feature | Status | Description
 ------- | ------ | ----------
-TrafficSignRecognition | Planned | Recognize traffic signs from images
+CoreMLSignRecognizer | Planned | Swap color heuristic for real CoreML model
 TrafficSceneAnalyzer | Planned | Analyze intersections and traffic situations
 RoadRuleEngine | Planned | Explain rules based on visual context
 

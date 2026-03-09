@@ -1,11 +1,6 @@
 // Views/QuestionView.swift
 import SwiftUI
 
-// MARK: - ButtonState
-enum ButtonState {
-    case idle, loading, ready
-}
-
 // MARK: - QuestionView
 
 struct QuestionView: View {

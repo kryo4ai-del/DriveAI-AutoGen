@@ -40,7 +40,7 @@ struct AnalysisDebugPanel: View {
     var lastSignResult: TrafficSignRecognitionResult?
 
     var body: some View {
-        NavigationView {
+        ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 // Confidence section (shown when available)
                 if let confidence = confidence {
@@ -270,8 +270,8 @@ struct AnalysisDebugPanel: View {
                 }
                 .listStyle(PlainListStyle())
             }
-            .navigationBarTitle("Debug Info", displayMode: .inline)
         }
+        .navigationTitle("Debug Info")
     }
 
     private func debugRow(label: String, value: String) -> some View {
