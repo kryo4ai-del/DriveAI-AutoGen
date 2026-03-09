@@ -1,0 +1,1 @@
+viewModel.toggleSetting(for: viewModel.options[0]) // Toggle Notifications

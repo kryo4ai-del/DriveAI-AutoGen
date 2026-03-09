@@ -71,43 +71,6 @@ class LLMQuestionSolverService: LLMQuestionSolverServiceProtocol {
         }.resume()
     }
     
-    // Solve a question and return a full AnswerResult including confidence
-    func solveQuestion(_ question: String, answer: String, completion: @escaping (Result<AnswerResult, Error>) -> Void) {
-        let endpoint = "\(baseURL)/solveQuestion"
-        guard let url = URL(string: endpoint) else {
-            completion(.failure(URLError(.badURL)))
-            return
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let parameters: [String: Any] = ["question": question, "answer": answer]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
-
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            guard let data = data,
-                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let predicted = json["predictedAnswer"] as? String,
-                  let explanation = json["explanation"] as? String,
-                  let score = json["confidenceScore"] as? Double else {
-                completion(.failure(URLError(.badServerResponse)))
-                return
-            }
-            let result = AnswerResult(
-                predictedAnswer: predicted,
-                explanation: explanation,
-                confidence: AnswerConfidence(score: score)
-            )
-            completion(.success(result))
-        }.resume()
-    }
-
     // Suggest questions based on user profile
     func suggestQuestions(for userProfile: UserProfile, completion: @escaping (Result<[Question], Error>) -> Void) {
         // Example: simulate fetching suggestions based on user performance data

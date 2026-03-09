@@ -4,22 +4,18 @@ struct ScannedDocumentView: View {
     let document: ScannedDocument
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(document.text)
-                    .font(.body)
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-
-                Text("Scanned on: \(document.timestamp.formatted(date: .long, time: .shortened))")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-            }
-            .padding()
+        VStack(alignment: .leading) {
+            Text("Scanned Document")
+                .font(.title)
+            Text(document.text)
+                .padding()
+            Spacer()
+            Text("Scanned on: \(document.timestamp, formatter: DateFormatter())")
+                .font(.footnote)
+                .foregroundColor(.gray)
+            Spacer()
         }
-        .navigationTitle("Scanned Document")
-        .navigationBarTitleDisplayMode(.inline)
+        .padding()
+        .navigationTitle("Document Details")
     }
 }

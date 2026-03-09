@@ -15,12 +15,16 @@ class AnalysisDebugPanelViewModel: ObservableObject {
     func startFetchingLogs(every interval: TimeInterval = 2.0) {
         Timer.publish(every: interval, on: .main, in: .common)
             .autoconnect()
-            .flatMap { [weak self] _ -> AnyPublisher<[DebugInfo], Never> in
-                guard let self else { return Just([]).eraseToAnyPublisher() }
-                return self.debugDataService.retrieveDebugData()
-            }
+            .flatMap { _ in self.debugDataService.retrieveDebugData() }
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { _ in }) { [weak self] logs in
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching logs: \(error)") // Improved error handling
+                case .finished:
+                    break
+                }
+            }) { [weak self] logs in
                 self?.debugLogs = logs
             }
             .store(in: &cancellables)
