@@ -18,6 +18,7 @@ ALL_AGENTS = [
     "refactor_agent",
     "test_generator",
     "content_script_agent",
+    "change_watch_agent",
 ]
 
 # These agents are always force-enabled regardless of config or CLI flags

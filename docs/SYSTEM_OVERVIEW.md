@@ -41,6 +41,10 @@ Content agents:
 
 - ContentScriptAgent (content drafts, marketing copy, video scripts, release notes)
 
+Monitoring agents:
+
+- ChangeWatchAgent (ecosystem changes, SDK updates, security, deprecations, impact analysis)
+
 Implementation agents:
 
 - LeadAgent
@@ -56,6 +60,7 @@ Pipeline:
 Task
 → Planning (optional: ProductStrategist + Roadmap)
 → Content (optional: ContentScriptAgent)
+→ Watch (optional: ChangeWatchAgent)
 → Implementation
 → Bug Review
 → Refactor
@@ -66,7 +71,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 10 (2 planning + 1 content + 7 implementation)
+Total agents: 11 (2 planning + 1 content + 1 monitoring + 7 implementation)
 
 Factory Idea Intake:
 
@@ -84,6 +89,9 @@ Storage:
 - factory/spec_manager.py (Python API for specs)
 - content/content_store.json (content records)
 - content/content_manager.py (Python API for content)
+- watch/watch_events.json (ecosystem change events)
+- watch/watch_sources.json (monitored sources registry)
+- watch/watch_manager.py (Python API for watch events + dashboard)
 
 See docs/factory_intake.md for full documentation.
 

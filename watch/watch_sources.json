@@ -1,0 +1,60 @@
+{
+  "sources": [
+    {
+      "id": "apple-dev",
+      "name": "Apple Developer News",
+      "url": "https://developer.apple.com/news/",
+      "categories": ["sdk_requirement", "deprecation", "tooling_update"],
+      "platforms": ["ios"],
+      "check_frequency": "weekly"
+    },
+    {
+      "id": "xcode-releases",
+      "name": "Xcode Release Notes",
+      "url": "https://developer.apple.com/documentation/xcode-release-notes",
+      "categories": ["tooling_update", "sdk_requirement"],
+      "platforms": ["ios"],
+      "check_frequency": "weekly"
+    },
+    {
+      "id": "openai-changelog",
+      "name": "OpenAI API Changelog",
+      "url": "https://platform.openai.com/docs/changelog",
+      "categories": ["model_update", "pricing_change", "deprecation"],
+      "platforms": ["python"],
+      "check_frequency": "weekly"
+    },
+    {
+      "id": "anthropic-changelog",
+      "name": "Anthropic API Changelog",
+      "url": "https://docs.anthropic.com/en/docs/about-claude/models",
+      "categories": ["model_update", "pricing_change"],
+      "platforms": ["python"],
+      "check_frequency": "weekly"
+    },
+    {
+      "id": "autogen-releases",
+      "name": "AutoGen Releases",
+      "url": "https://github.com/microsoft/autogen/releases",
+      "categories": ["tooling_update", "deprecation"],
+      "platforms": ["python"],
+      "check_frequency": "weekly"
+    },
+    {
+      "id": "python-security",
+      "name": "Python Security Advisories",
+      "url": "https://www.python.org/news/security/",
+      "categories": ["security_change"],
+      "platforms": ["python"],
+      "check_frequency": "monthly"
+    },
+    {
+      "id": "app-store-guidelines",
+      "name": "App Store Review Guidelines",
+      "url": "https://developer.apple.com/app-store/review/guidelines/",
+      "categories": ["sdk_requirement", "security_change"],
+      "platforms": ["ios"],
+      "check_frequency": "monthly"
+    }
+  ]
+}

@@ -139,9 +139,43 @@ When to use:
 
 ---
 
+## Monitoring Agents
+
+### 5. ChangeWatchAgent
+
+Role:
+Ecosystem change monitoring and impact analysis agent.
+
+Responsibilities:
+- track external changes affecting factory projects (SDK, tooling, models, security, pricing, deprecations)
+- classify changes by category and severity
+- assess impact on specific projects and platforms
+- recommend concrete actions with deadlines
+- produce watch summaries and dashboard updates
+
+Typical focus:
+- SDK version bumps and breaking changes
+- AI model updates and deprecations
+- security advisories and patches
+- pricing changes for APIs and services
+- new opportunities worth exploring
+
+Difference from other agents:
+ChangeWatchAgent monitors the external ecosystem, not internal code.
+It produces impact assessments and recommendations, not code or content.
+
+When to use:
+- new SDK or platform version is released
+- AI model is deprecated or updated
+- security vulnerability affects a dependency
+- API pricing changes
+- evaluating whether to adopt a new tool or service
+
+---
+
 ## Implementation Agents
 
-### 5. iOSArchitectAgent
+### 6. iOSArchitectAgent
 
 Role:
 iOS architecture and system design expert.
@@ -161,7 +195,7 @@ Typical focus:
 
 ---
 
-### 6. SwiftDeveloperAgent
+### 7. SwiftDeveloperAgent
 
 Role:
 Main implementation agent.
@@ -183,7 +217,7 @@ Typical focus:
 
 ## Review & Quality Agents
 
-### 7. ReviewerAgent
+### 8. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -203,7 +237,7 @@ Typical focus:
 
 ---
 
-### 8. BugHunterAgent
+### 9. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -223,7 +257,7 @@ Typical focus:
 
 ---
 
-### 9. RefactorAgent
+### 10. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -243,7 +277,7 @@ Typical focus:
 
 ---
 
-### 10. TestGeneratorAgent
+### 11. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -271,16 +305,18 @@ A normal feature run uses the following sequence:
 2. ProductStrategistAgent (optional — for idea evaluation)
 3. RoadmapAgent (optional — for multi-feature planning)
 4. ContentScriptAgent (optional — for content generation)
-5. iOSArchitectAgent
-6. SwiftDeveloperAgent
-7. ReviewerAgent
-8. BugHunterAgent
-9. RefactorAgent
-10. TestGeneratorAgent
+5. ChangeWatchAgent (optional — for ecosystem monitoring)
+6. iOSArchitectAgent
+7. SwiftDeveloperAgent
+8. ReviewerAgent
+9. BugHunterAgent
+10. RefactorAgent
+11. TestGeneratorAgent
 
-For pure implementation tasks, planning/content agents may be skipped.
+For pure implementation tasks, planning/content/watch agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
 For content generation, implementation and review agents may be skipped.
+For ecosystem monitoring, all other agents may be skipped.
 
 Depending on run mode or agent toggles, some optional agents can be disabled.
 
@@ -386,6 +422,12 @@ Planning outputs:
 - product guidance
 - implementation specs (goal, scope, acceptance criteria, suggested template/agents)
 
+Monitoring outputs:
+- ecosystem change events and impact assessments
+- severity classifications and recommended actions
+- watch dashboard (grouped by urgency)
+- deadline tracking for breaking changes
+
 Content outputs:
 - video scripts
 - app store descriptions (short + long)
@@ -477,7 +519,8 @@ Agents receive task context built from:
 4. factory project summary (from project_registry.json)
 5. factory spec summary (from spec_store.json)
 6. content summary (from content_store.json)
-7. current user task
+7. watch summary (from watch_events.json)
+8. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities
