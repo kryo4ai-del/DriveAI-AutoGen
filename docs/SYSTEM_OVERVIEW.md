@@ -63,6 +63,17 @@ Task
 
 Total agents: 9 (2 planning + 7 implementation)
 
+Factory Idea Intake:
+
+Idea → Inbox → Classified → Prioritized → Spec-Ready → Implementation → Done
+
+Storage:
+- factory/ideas/idea_store.json (ideas with metadata)
+- factory/projects/project_registry.json (registered projects)
+- factory/idea_manager.py (Python API)
+
+See docs/factory_intake.md for full documentation.
+
 ---
 
 # AskFin App Modules
@@ -165,6 +176,7 @@ docs/
 - FEATURE_INDEX.md
 - UX_FLOW.md
 - SYSTEM_OVERVIEW.md
+- factory_intake.md
 
 These files are the main persistence layer for continuing the project in future chats or with new coding agents.
 

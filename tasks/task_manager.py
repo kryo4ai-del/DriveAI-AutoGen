@@ -18,6 +18,7 @@ from agents.test_generator import create_test_generator_agent
 from project_context.context_loader import load_project_context
 from memory.memory_manager import MemoryManager
 from planning.feature_planner import FeaturePlanner
+from factory.idea_manager import IdeaManager, ProjectRegistry
 
 LOGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 
@@ -59,6 +60,8 @@ class TaskManager:
         self.project_context = load_project_context()
         self.memory_manager = MemoryManager()
         self.feature_planner = FeaturePlanner()
+        self.idea_manager = IdeaManager()
+        self.project_registry = ProjectRegistry()
 
     def get_agents_summary(self) -> dict:
         summary = {
@@ -89,9 +92,13 @@ class TaskManager:
 
     def build_full_task(self, user_task: str) -> str:
         memory_summary = self.memory_manager.get_memory_summary()
+        idea_summary = self.idea_manager.get_summary()
+        project_summary = self.project_registry.get_summary()
         return (
             f"Project Context:\n{self.project_context}\n\n"
             f"Memory:\n{memory_summary}\n\n"
+            f"Factory — {project_summary}\n"
+            f"Factory — {idea_summary}\n\n"
             f"Task:\n{user_task}"
         )
 

@@ -1,0 +1,22 @@
+{
+  "projects": [
+    {
+      "id": "askfin",
+      "name": "AskFin",
+      "description": "AI-assisted iOS learning app for driver's license theory questions",
+      "platform": "iOS",
+      "status": "mvp-complete",
+      "active": true,
+      "notes": "First product built on AI App Factory. 17 features implemented. Ready for real testing and release preparation."
+    },
+    {
+      "id": "factory-core",
+      "name": "AI App Factory Core",
+      "description": "Multi-agent AI development system for autonomous app generation",
+      "platform": "python",
+      "status": "active",
+      "active": true,
+      "notes": "9 agents (2 planning + 7 implementation). AutoGen-based pipeline with code extraction, Xcode integration, and git automation."
+    }
+  ]
+}

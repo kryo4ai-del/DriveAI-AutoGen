@@ -428,7 +428,16 @@ Agents receive task context built from:
 
 1. project roadbook / project context
 2. persistent memory summary
-3. current user task
+3. factory idea summary (from idea_store.json)
+4. factory project summary (from project_registry.json)
+5. current user task
+
+Planning agents additionally have awareness of:
+- idea fields, scopes, types, statuses, priorities
+- project registry IDs
+- idea lifecycle (inbox → classified → prioritized → spec-ready → done)
+
+See docs/factory_intake.md for the full idea intake workflow.
 
 This ensures that feature generation stays aligned with the project.
 
