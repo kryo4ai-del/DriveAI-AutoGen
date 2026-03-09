@@ -18,6 +18,7 @@ from agents.test_generator import create_test_generator_agent
 from agents.content_script_agent import create_content_script_agent
 from agents.change_watch_agent import create_change_watch_agent
 from agents.accessibility_agent import create_accessibility_agent
+from agents.opportunity_agent import create_opportunity_agent
 from project_context.context_loader import load_project_context
 from memory.memory_manager import MemoryManager
 from planning.feature_planner import FeaturePlanner
@@ -26,6 +27,7 @@ from factory.spec_manager import SpecManager
 from content.content_manager import ContentManager
 from watch.watch_manager import WatchManager
 from accessibility.accessibility_manager import AccessibilityManager
+from opportunities.opportunity_manager import OpportunityManager
 
 LOGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 
@@ -66,6 +68,7 @@ class TaskManager:
         self.content_script_agent = create_content_script_agent() if _on("content_script_agent") else None
         self.change_watch_agent = create_change_watch_agent() if _on("change_watch_agent") else None
         self.accessibility_agent = create_accessibility_agent() if _on("accessibility_agent") else None
+        self.opportunity_agent = create_opportunity_agent() if _on("opportunity_agent") else None
 
         self.project_context = load_project_context()
         self.memory_manager = MemoryManager()
@@ -76,6 +79,7 @@ class TaskManager:
         self.content_manager = ContentManager()
         self.watch_manager = WatchManager()
         self.accessibility_manager = AccessibilityManager()
+        self.opportunity_manager = OpportunityManager()
 
     def get_agents_summary(self) -> dict:
         summary = {
@@ -102,6 +106,8 @@ class TaskManager:
             summary["change_watch_agent"] = self.change_watch_agent.name
         if self.accessibility_agent:
             summary["accessibility_agent"] = self.accessibility_agent.name
+        if self.opportunity_agent:
+            summary["opportunity_agent"] = self.opportunity_agent.name
         return summary
 
     def get_project_context_summary(self) -> str:
@@ -118,6 +124,7 @@ class TaskManager:
         content_summary = self.content_manager.get_summary()
         watch_summary = self.watch_manager.get_summary()
         a11y_summary = self.accessibility_manager.get_summary()
+        opp_summary = self.opportunity_manager.get_summary()
         return (
             f"Project Context:\n{self.project_context}\n\n"
             f"Memory:\n{memory_summary}\n\n"
@@ -126,7 +133,8 @@ class TaskManager:
             f"Factory — {spec_summary}\n"
             f"Factory — {content_summary}\n"
             f"Factory — {watch_summary}\n"
-            f"Factory — {a11y_summary}\n\n"
+            f"Factory — {a11y_summary}\n"
+            f"Factory — {opp_summary}\n\n"
             f"Task:\n{user_task}"
         )
 
@@ -156,6 +164,7 @@ class TaskManager:
             self.content_script_agent,
             self.change_watch_agent,
             self.accessibility_agent,
+            self.opportunity_agent,
         ]:
             if agent is not None:
                 participants.append(agent)

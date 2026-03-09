@@ -41,6 +41,10 @@ Content agents:
 
 - ContentScriptAgent (content drafts, marketing copy, video scripts, release notes)
 
+Discovery agents:
+
+- OpportunityAgent (opportunity discovery, trend analysis, new product ideation)
+
 Monitoring agents:
 
 - ChangeWatchAgent (ecosystem changes, SDK updates, security, deprecations, impact analysis)
@@ -65,6 +69,7 @@ Pipeline:
 Task
 → Planning (optional: ProductStrategist + Roadmap)
 → Content (optional: ContentScriptAgent)
+→ Discovery (optional: OpportunityAgent)
 → Watch (optional: ChangeWatchAgent)
 → Implementation
 → Bug Review
@@ -77,7 +82,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 12 (2 planning + 1 content + 1 monitoring + 1 quality + 7 implementation)
+Total agents: 13 (2 planning + 1 content + 1 discovery + 1 monitoring + 1 quality + 7 implementation)
 
 Factory Idea Intake:
 
@@ -100,6 +105,8 @@ Storage:
 - watch/watch_manager.py (Python API for watch events + dashboard)
 - accessibility/accessibility_reports.json (accessibility findings)
 - accessibility/accessibility_manager.py (Python API for accessibility reports)
+- opportunities/opportunity_store.json (opportunity records)
+- opportunities/opportunity_manager.py (Python API for opportunities)
 
 See docs/factory_intake.md for full documentation.
 

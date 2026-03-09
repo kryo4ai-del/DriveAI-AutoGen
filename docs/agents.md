@@ -139,9 +139,51 @@ When to use:
 
 ---
 
+## Discovery Agents
+
+### 5. OpportunityAgent
+
+Role:
+Opportunity discovery and new product ideation agent.
+
+Responsibilities:
+- analyze ecosystem changes and watch events for product potential
+- detect opportunities from new APIs, AI capabilities, platform features, and developer trends
+- assess market relevance and implementation complexity
+- produce structured opportunity reports with actionable next steps
+- feed promising opportunities into the factory idea intake system
+
+Typical focus:
+- new API and platform capability analysis
+- AI model advancement opportunities
+- market gap detection
+- developer trend evaluation
+- monetization opportunity identification
+
+Difference from other agents:
+OpportunityAgent proactively discovers what could be built.
+ProductStrategistAgent evaluates whether a specific idea should be built.
+ChangeWatchAgent monitors changes for risk; OpportunityAgent monitors for potential.
+
+When to use:
+- proactive product discovery is needed
+- watch events reveal new capabilities worth building on
+- market or technology trends suggest new products
+- the factory needs fresh ideas for the backlog
+- evaluating new APIs or platform features for product potential
+
+Opportunity-to-Idea flow:
+1. Detect opportunity (from watch events, trends, analysis)
+2. Create opportunity record (OPP-NNN)
+3. Evaluate relevance and complexity
+4. If accepted: create an idea in idea_store.json referencing the opportunity
+5. Mark opportunity as idea_created
+
+---
+
 ## Monitoring Agents
 
-### 5. ChangeWatchAgent
+### 6. ChangeWatchAgent
 
 Role:
 Ecosystem change monitoring and impact analysis agent.
@@ -175,7 +217,7 @@ When to use:
 
 ## Implementation Agents
 
-### 6. iOSArchitectAgent
+### 7. iOSArchitectAgent
 
 Role:
 iOS architecture and system design expert.
@@ -195,7 +237,7 @@ Typical focus:
 
 ---
 
-### 7. SwiftDeveloperAgent
+### 8. SwiftDeveloperAgent
 
 Role:
 Main implementation agent.
@@ -217,7 +259,7 @@ Typical focus:
 
 ## Review & Quality Agents
 
-### 8. ReviewerAgent
+### 9. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -237,7 +279,7 @@ Typical focus:
 
 ---
 
-### 9. BugHunterAgent
+### 10. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -257,7 +299,7 @@ Typical focus:
 
 ---
 
-### 10. RefactorAgent
+### 11. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -277,7 +319,7 @@ Typical focus:
 
 ---
 
-### 11. AccessibilityAgent
+### 12. AccessibilityAgent
 
 Role:
 Accessibility review and compliance agent.
@@ -312,7 +354,7 @@ When to use:
 
 ---
 
-### 12. TestGeneratorAgent
+### 13. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -340,18 +382,20 @@ A normal feature run uses the following sequence:
 2. ProductStrategistAgent (optional — for idea evaluation)
 3. RoadmapAgent (optional — for multi-feature planning)
 4. ContentScriptAgent (optional — for content generation)
-5. ChangeWatchAgent (optional — for ecosystem monitoring)
-6. iOSArchitectAgent
-7. SwiftDeveloperAgent
-8. ReviewerAgent
-9. BugHunterAgent
-10. RefactorAgent
-11. AccessibilityAgent (optional — for accessibility review)
-12. TestGeneratorAgent
+5. OpportunityAgent (optional — for opportunity discovery)
+6. ChangeWatchAgent (optional — for ecosystem monitoring)
+7. iOSArchitectAgent
+8. SwiftDeveloperAgent
+9. ReviewerAgent
+10. BugHunterAgent
+11. RefactorAgent
+12. AccessibilityAgent (optional — for accessibility review)
+13. TestGeneratorAgent
 
 For pure implementation tasks, planning/content/watch agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
 For content generation, implementation and review agents may be skipped.
+For opportunity discovery, only OpportunityAgent and ProductStrategistAgent are needed.
 For ecosystem monitoring, all other agents may be skipped.
 For accessibility review, only AccessibilityAgent and ReviewerAgent are needed.
 
@@ -450,6 +494,13 @@ Apply the most relevant fixes after the previous passes.
 # Agent Outputs
 
 The agents may produce:
+
+Discovery outputs:
+- structured opportunity reports (OPP-NNN)
+- market relevance and complexity assessments
+- potential product lists
+- suggested next steps (research, prototype, spec, idea intake)
+- watch event to opportunity linkages
 
 Planning outputs:
 - idea classifications
@@ -564,7 +615,8 @@ Agents receive task context built from:
 6. content summary (from content_store.json)
 7. watch summary (from watch_events.json)
 8. accessibility summary (from accessibility_reports.json)
-9. current user task
+9. opportunity summary (from opportunity_store.json)
+10. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities
