@@ -24,7 +24,9 @@ User Task
 
 # Agent List
 
-## 1. LeadAgent
+## Planning Agents (pre-implementation)
+
+### 1. LeadAgent
 
 Role:
 Project lead and coordination agent.
@@ -43,7 +45,69 @@ Typical focus:
 
 ---
 
-## 2. iOSArchitectAgent
+### 2. ProductStrategistAgent
+
+Role:
+Product strategy and idea classification agent.
+
+Responsibilities:
+- classify incoming ideas by scope (app-level, factory-level, future-product)
+- estimate product value (user impact, revenue potential, effort)
+- assign priority: now, next, later, blocked
+- identify monetization relevance: free, premium, post-MVP
+- generate concise product guidance for the team
+
+Typical focus:
+- idea evaluation
+- scope classification
+- value estimation
+- go/no-go recommendations
+
+Difference from LeadAgent:
+LeadAgent breaks down approved tasks into engineering subtasks.
+ProductStrategistAgent evaluates whether an idea should be built at all, and when.
+
+When to use:
+- new feature ideas arrive
+- prioritization decisions are needed
+- scope or monetization classification is unclear
+- evaluating ideas across multiple products (not just AskFin)
+
+---
+
+### 3. RoadmapAgent
+
+Role:
+Feature prioritization and roadmap planning agent.
+
+Responsibilities:
+- prioritize features into execution order
+- identify dependencies between features
+- organize work into phases: now, next, later, blocked
+- produce structured roadmap recommendations
+- consider technical debt and prerequisites
+
+Typical focus:
+- phase planning
+- dependency mapping
+- execution order
+- blocked item tracking
+
+Difference from LeadAgent:
+LeadAgent coordinates a single task run.
+RoadmapAgent plans across multiple features and sessions.
+
+When to use:
+- planning a sprint or release
+- multiple features need ordering
+- dependency analysis is needed
+- roadmap review or update
+
+---
+
+## Implementation Agents
+
+### 4. iOSArchitectAgent
 
 Role:
 iOS architecture and system design expert.
@@ -63,7 +127,7 @@ Typical focus:
 
 ---
 
-## 3. SwiftDeveloperAgent
+### 5. SwiftDeveloperAgent
 
 Role:
 Main implementation agent.
@@ -83,7 +147,9 @@ Typical focus:
 
 ---
 
-## 4. ReviewerAgent
+## Review & Quality Agents
+
+### 6. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -103,7 +169,7 @@ Typical focus:
 
 ---
 
-## 5. BugHunterAgent
+### 7. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -123,7 +189,7 @@ Typical focus:
 
 ---
 
-## 6. RefactorAgent
+### 8. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -143,7 +209,7 @@ Typical focus:
 
 ---
 
-## 7. TestGeneratorAgent
+### 9. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -168,12 +234,17 @@ Typical focus:
 A normal feature run uses the following sequence:
 
 1. LeadAgent
-2. iOSArchitectAgent
-3. SwiftDeveloperAgent
-4. ReviewerAgent
-5. BugHunterAgent
-6. RefactorAgent
-7. TestGeneratorAgent
+2. ProductStrategistAgent (optional — for idea evaluation)
+3. RoadmapAgent (optional — for multi-feature planning)
+4. iOSArchitectAgent
+5. SwiftDeveloperAgent
+6. ReviewerAgent
+7. BugHunterAgent
+8. RefactorAgent
+9. TestGeneratorAgent
+
+For pure implementation tasks, planning agents may be skipped.
+For idea intake or roadmap planning, implementation agents may be skipped.
 
 Depending on run mode or agent toggles, some optional agents can be disabled.
 
@@ -204,6 +275,17 @@ Behavior:
 ---
 
 # Multi-Pass Development Flow
+
+## Pass 0 – Planning (optional)
+Main agents:
+- ProductStrategistAgent
+- RoadmapAgent
+
+Goal:
+Evaluate idea scope, classify priority, identify dependencies, produce roadmap.
+Runs before implementation when the task involves new ideas or multi-feature planning.
+
+---
 
 ## Pass 1 – Implementation
 Main agents:
@@ -260,6 +342,14 @@ Apply the most relevant fixes after the previous passes.
 
 The agents may produce:
 
+Planning outputs:
+- idea classifications
+- priority assignments
+- roadmap recommendations
+- dependency maps
+- product guidance
+
+Implementation outputs:
 - SwiftUI Views
 - ViewModels
 - Services
@@ -346,7 +436,7 @@ This ensures that feature generation stays aligned with the project.
 
 # Current Project Context
 
-The agents are currently specialized for:
+Implementation agents are currently specialized for:
 
 - Swift
 - SwiftUI
@@ -354,8 +444,15 @@ The agents are currently specialized for:
 - Apple ecosystem
 - iPhone / iPad / future Apple Watch integration
 
+Planning agents (ProductStrategist, Roadmap) are product-agnostic and reusable for:
+
+- Android apps
+- Web apps
+- SaaS products
+- Any future AI App Factory project
+
 Primary active project:
-DriveAI
+AskFin (DriveAI)
 
 ---
 

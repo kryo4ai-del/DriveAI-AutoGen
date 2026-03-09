@@ -32,7 +32,12 @@ The project consists of two layers:
 
 # AI Development System
 
-Core agents:
+Planning agents:
+
+- ProductStrategistAgent (idea classification, value estimation, priority)
+- RoadmapAgent (feature prioritization, dependency mapping, phase planning)
+
+Implementation agents:
 
 - LeadAgent
 - iOSArchitectAgent
@@ -45,6 +50,7 @@ Core agents:
 Pipeline:
 
 Task
+→ Planning (optional: ProductStrategist + Roadmap)
 → Implementation
 → Bug Review
 → Refactor
@@ -54,6 +60,8 @@ Task
 → Xcode Integration
 → Git Commit
 → Git Push
+
+Total agents: 9 (2 planning + 7 implementation)
 
 ---
 

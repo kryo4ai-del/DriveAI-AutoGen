@@ -9,6 +9,8 @@ _TOGGLES_PATH = os.path.join(os.path.dirname(__file__), "agent_toggles.json")
 # Canonical agent order used everywhere for consistent output
 ALL_AGENTS = [
     "driveai_lead",
+    "product_strategist",
+    "roadmap_agent",
     "ios_architect",
     "swift_developer",
     "reviewer",

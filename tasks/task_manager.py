@@ -7,6 +7,8 @@ from autogen_agentchat.teams import SelectorGroupChat
 from autogen_agentchat.conditions import MaxMessageTermination
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from agents.lead_agent import create_lead_agent
+from agents.product_strategist import create_product_strategist_agent
+from agents.roadmap_agent import create_roadmap_agent
 from agents.ios_architect import create_ios_architect_agent
 from agents.swift_developer import create_swift_developer_agent
 from agents.reviewer import create_reviewer_agent
@@ -46,6 +48,8 @@ class TaskManager:
         self.swift_developer_agent = create_swift_developer_agent()
 
         # Optional agents — created only if enabled
+        self.product_strategist_agent = create_product_strategist_agent() if _on("product_strategist") else None
+        self.roadmap_agent = create_roadmap_agent() if _on("roadmap_agent") else None
         self.ios_architect_agent = create_ios_architect_agent() if _on("ios_architect") else None
         self.reviewer_agent = create_reviewer_agent() if _on("reviewer") else None
         self.bug_hunter_agent = create_bug_hunter_agent() if _on("bug_hunter") else None
@@ -61,6 +65,10 @@ class TaskManager:
             "lead": self.lead_agent.name,
             "developer": self.swift_developer_agent.name,
         }
+        if self.product_strategist_agent:
+            summary["product_strategist"] = self.product_strategist_agent.name
+        if self.roadmap_agent:
+            summary["roadmap_agent"] = self.roadmap_agent.name
         if self.ios_architect_agent:
             summary["architect"] = self.ios_architect_agent.name
         if self.reviewer_agent:
@@ -102,6 +110,8 @@ class TaskManager:
         # Build participant list from enabled agents only
         participants = [self.lead_agent]
         for agent in [
+            self.product_strategist_agent,
+            self.roadmap_agent,
             self.ios_architect_agent,
             self.swift_developer_agent,
             self.reviewer_agent,
