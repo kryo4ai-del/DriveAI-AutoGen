@@ -1,6 +1,6 @@
 # DriveAI UX Flow
 
-Last Updated: Current Session
+Last Updated: 2026-03-09 — RealUserJourneyTestFlow complete
 
 This document describes the user experience flow of the DriveAI application.
 
@@ -29,9 +29,11 @@ The Home Dashboard is the main navigation hub. All features are accessible from 
 
 Developer note:
 - AppConfig.isDeveloperMode gates Sample Validation + Debug Panel in Settings
-- Reset Onboarding button available in Settings → Developer (developer mode on)
+- Reset Onboarding: Settings → Developer → Reset Onboarding calls onboardingVM.resetOnboarding()
+  via @EnvironmentObject (passed from AppNavigationView); AppNavigationView transitions to onboarding immediately
 - AppNavigationView is the single NavigationStack root for the onboarding path
 - HomeDashboardView owns its own NavigationStack for the main app
+- onboardingVM injected as .environmentObject(onboardingVM) on HomeDashboardView
 
 ---
 
@@ -125,6 +127,17 @@ SampleValidationView:
     Pass/fail based on signName match + confidence threshold
 
 Summary header: Samples Run / Passed count
+
+---
+
+# Scanner Flow
+
+ScannerView:
+  "Start Scan" button → sets isScanning = true → shows ProgressView + "Cancel" button
+  "Cancel" button → cancelScanning() → resets isScanning, returns to start state
+  When scan completes → ScannedDocument added to list → navigates to ScannedDocumentView
+  ScannedDocumentView: shows document text + formatted timestamp, back button returns to list
+  No dead-ends: Cancel always available during scanning
 
 ---
 
@@ -394,6 +407,7 @@ TrafficSignHistoryDetailView
   Larger image preview
   Category badge + date
   Sign name (title)
+  Learning mode result (if wasLearningMode): Correct/Incorrect badge + user's selected answer
   Explanation text
   Confidence progress bar
 

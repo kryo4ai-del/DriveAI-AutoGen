@@ -13,6 +13,9 @@ struct ScannerView: View {
                     Text("Scanning...")
                         .font(.headline)
                         .foregroundColor(.secondary)
+                    Button("Cancel") { viewModel.cancelScanning() }
+                        .font(.subheadline)
+                        .foregroundColor(.red)
                 }
                 Spacer()
             } else {

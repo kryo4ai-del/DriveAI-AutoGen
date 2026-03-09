@@ -38,6 +38,30 @@ struct TrafficSignHistoryDetailView: View {
                         .bold()
                 }
 
+                // Learning mode result
+                if entry.wasLearningMode {
+                    HStack(spacing: 12) {
+                        Image(systemName: entry.userAnswerCorrect == true
+                              ? "checkmark.circle.fill" : "xmark.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(entry.userAnswerCorrect == true ? .green : .red)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(entry.userAnswerCorrect == true ? "Correct" : "Incorrect")
+                                .font(.headline)
+                                .foregroundColor(entry.userAnswerCorrect == true ? .green : .red)
+                            if let selected = entry.userSelectedMeaning {
+                                Text("Your answer: \(selected)")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                }
+
                 Divider()
 
                 // Explanation

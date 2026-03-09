@@ -9,6 +9,7 @@ struct AppNavigationView: View {
     var body: some View {
         if onboardingVM.isCompleted {
             HomeDashboardView()
+                .environmentObject(onboardingVM)
         } else {
             NavigationStack {
                 OnboardingView(viewModel: onboardingVM)

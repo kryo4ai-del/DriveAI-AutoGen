@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     @State private var developerMode = AppConfig.isDeveloperMode
+    @EnvironmentObject private var onboardingVM: OnboardingViewModel
 
     var body: some View {
         Form {
@@ -51,7 +52,7 @@ struct SettingsView: View {
 
     private var resetOnboardingButton: some View {
         Button(role: .destructive) {
-            OnboardingViewModel().resetOnboarding()
+            onboardingVM.resetOnboarding()
         } label: {
             Label("Reset Onboarding", systemImage: "arrow.counterclockwise")
         }
