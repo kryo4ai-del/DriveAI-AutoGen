@@ -11,6 +11,7 @@ struct HomeDashboardView: View {
     @State private var showSignHistory = false
     @State private var showSignStatistics = false
     @State private var showSignWeaknesses = false
+    @State private var showSettings = false
 
     var body: some View {
         NavigationStack {
@@ -69,6 +70,17 @@ struct HomeDashboardView: View {
                 .padding()
             }
             .navigationTitle("DriveAI")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showSettings = true }) {
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .navigationDestination(isPresented: $showSettings) {
+                SettingsView()
+            }
             .navigationDestination(isPresented: $showScanner) {
                 ScannerView()
             }

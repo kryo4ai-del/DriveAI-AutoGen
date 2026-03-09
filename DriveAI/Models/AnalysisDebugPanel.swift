@@ -239,6 +239,19 @@ struct AnalysisDebugPanel: View {
                     Divider()
                 }
 
+                // Sample Validation shortcut
+                NavigationLink(destination: SampleValidationView()) {
+                    Label("Open Sample Validation", systemImage: "checklist")
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                        .background(Color.blue.opacity(0.09))
+                        .foregroundColor(.blue)
+                        .cornerRadius(10)
+                }
+                .buttonStyle(.plain)
+                .padding([.horizontal, .top], 12)
+
                 // Debug log list
                 Text("Analysis Debug Panel")
                     .font(.title3)

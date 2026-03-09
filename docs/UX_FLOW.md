@@ -58,6 +58,11 @@ Secondary grid (2 columns):
 Full-width secondary:
   Sign Weaknesses → TrafficSignWeaknessView
 
+Toolbar (top-right gear icon):
+  SettingsView
+    → SampleValidationView (Developer section)
+    → AnalysisDebugPanel (Developer section)
+
 ---
 
 Navigation:
@@ -72,6 +77,44 @@ HomeDashboardView
 → TrafficSignHistoryView (secondary: Sign History)
 → TrafficSignStatisticsView (secondary: Sign Statistics)
 → TrafficSignWeaknessView (secondary: Sign Weaknesses)
+→ SettingsView (toolbar: gear icon)
+  → SampleValidationView (Developer section)
+  → AnalysisDebugPanel (Developer section)
+
+---
+
+# Settings Flow
+
+HomeDashboardView (toolbar gear)
+↓
+SettingsView
+  Preferences: Notifications, Language, Dark Mode
+  Developer:
+    → SampleValidationView
+    → AnalysisDebugPanel
+
+AnalysisDebugPanel also contains a shortcut NavigationLink to SampleValidationView.
+
+---
+
+# Sample Validation Flow
+
+SettingsView → Developer → Sample Validation
+OR
+AnalysisDebugPanel → Open Sample Validation
+
+SampleValidationView:
+  "Run All Samples" button
+  ↓
+  Question reference cases (5 samples, pre-defined expected I/O, no LLM):
+    Input description | Expected result | Actual result | Category | Confidence bar | Explanation
+    Pass badge: result matches + confidence ≥ minimum
+  Traffic sign live tests (4 samples, run through TrafficSignRecognitionService):
+    Programmatic color images (red/blue/yellow/white)
+    Same display as question cases
+    Pass/fail based on signName match + confidence threshold
+
+Summary header: Samples Run / Passed count
 
 ---
 
