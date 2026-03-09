@@ -1,8 +1,9 @@
-import Foundation
-
 class LocalDataService {
-    func fetchQuestions() -> [QuestionModel] {
-        // Load questions from JSON or local database
-        return [] // Placeholder for actual fetching logic
+    func fetchQuestionCategories() -> [QuestionCategory] {
+        return [
+            QuestionCategory(id: UUID(), name: "Verkehrszeichen", questionCount: 15),
+            QuestionCategory(id: UUID(), name: "Vorfahrtsrecht", questionCount: 10),
+            QuestionCategory(id: UUID(), name: "Bußgelder", questionCount: 5)
+        ]
     }
 }

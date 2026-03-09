@@ -1,46 +1,75 @@
-func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
-    guard let question = question else { return } // Optional handling
-    self.question = question
-    self.isCorrect = selectedAnswerId == question.correctAnswerId
-    self.explanation = question.explanation
+func loadCategories(completion: @escaping (Result<[QuestionCategory], Error>) -> Void) {
+      // Load logic with completion handling.
+  }
+
+// ---
+
+NavigationView {
+    List(viewModel.categories) { category in
+        NavigationLink(destination: QuestionsListView(category: category)) {
+            HStack {
+                Text(category.name)
+                    .font(.headline)
+                Spacer()
+            }
+        }
+    }
+    .navigationTitle("Kategorien")
+    .listStyle(PlainListStyle())
 }
 
 // ---
 
-Text(viewModel.isCorrect ? NSLocalizedString("Correct", comment: "Correct answer message") : NSLocalizedString("Incorrect", comment: "Incorrect answer message"))
-
-// ---
-
-func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
-    self.question = question
-    if let question = self.question {
-        self.isCorrect = selectedAnswerId == question.correctAnswerId
-        self.explanation = question.explanation
+func loadCategories(completion: @escaping (Result<[QuestionCategory], Error>) -> Void) {
+    DispatchQueue.global().async {
+        guard let url = Bundle.main.url(forResource: "Categories", withExtension: "json") else {
+            completion(.failure(NSError(domain: "LocalDataServiceError", code: 404, userInfo: [NSLocalizedDescriptionKey: "File not found"])))
+            return
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            let categories = try JSONDecoder().decode([QuestionCategory].self, from: data)
+            completion(.success(categories))
+        } catch {
+            completion(.failure(error))
+        }
     }
 }
 
 // ---
 
-Button(action: { ... }) {
-    Text(option.text)
-        .padding()
-        .background(Color.blue.opacity(0.2))
-        .cornerRadius(10)
-        .padding(5)
-}
-.accessibilityLabel("Select answer: \(option.text)")
-.disabled(buttonState == .loading)
-
-// ---
-
-func loadQuestion(_ question: Question, selectedAnswerId: UUID) {
-    self.question = question
-    if let question = self.question {
-        self.isCorrect = selectedAnswerId == question.correctAnswerId
-        self.explanation = question.explanation
+if viewModel.isLoading {
+    ProgressView("Loading...")
+} else {
+    List(viewModel.categories) { category in
+        NavigationLink(destination: QuestionsListView(category: category)) {
+            Text(category.name).font(.headline)
+        }
     }
 }
 
 // ---
 
-.accessibilityLabel(NSLocalizedString("Select answer: \(option.text)", comment: "Accessibility label for answer selection"))
+if viewModel.categories.isEmpty && !viewModel.isLoading {
+    Text("Keine Kategorien verfügbar.") // "No categories available." in German
+        .font(.body)
+        .foregroundColor(.gray)
+}
+
+// ---
+
+ForEach(category.questions) { question in
+    VStack(alignment: .leading) {
+        Text(question.text)
+            .font(.headline)
+        ForEach(question.options, id: \.self) { option in
+            Button(action: {
+                // Handle answer selection
+            }) {
+                Text(option)
+            }
+            .padding(.vertical, 4)
+        }
+    }
+    .padding(.bottom, 10)
+}

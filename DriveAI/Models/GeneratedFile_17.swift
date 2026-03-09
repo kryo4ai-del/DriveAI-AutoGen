@@ -1,0 +1,1 @@
+UserDefaults.standard.set(false, forKey: "Notifications")
