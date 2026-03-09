@@ -3,8 +3,10 @@
 
 import os
 import re
+import datetime
 
 GENERATED_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "generated_code")
+LOGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 
 SUBFOLDER_MAP = {
     "ViewModel": "ViewModels",
@@ -13,21 +15,77 @@ SUBFOLDER_MAP = {
     "Model":     "Models",
 }
 
-# SwiftUI View: struct SomeName: View (or : some View)
-_SWIFTUI_VIEW_RE = re.compile(r'\bstruct\s+(\w+)\s*:\s*(?:some\s+)?View\b')
+# --- Guard 1: Strict Swift declaration regex ---
+# Only match actual Swift declarations at the start of a line (with optional access modifiers)
+_SWIFTUI_VIEW_RE = re.compile(
+    r'^\s*(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+    r'(?:final\s+)?struct\s+(\w+)\s*:\s*(?:some\s+)?View\b',
+    re.MULTILINE
+)
 
-# Named types: struct/class/enum/protocol — name must start with uppercase (PascalCase)
-_TYPE_RE = re.compile(r'\b(?:struct|class|enum|protocol)\s+([A-Z]\w+)')
+_TYPE_RE = re.compile(
+    r'^\s*(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+    r'(?:final\s+)?(?:class|struct|enum|protocol)\s+([A-Z][A-Za-z0-9_]*)',
+    re.MULTILINE
+)
 
-# Extension: extension SomeType — name must start with uppercase
-_EXTENSION_RE = re.compile(r'\bextension\s+([A-Z]\w+)')
+_EXTENSION_RE = re.compile(
+    r'^\s*(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+    r'extension\s+([A-Z][A-Za-z0-9_]*)',
+    re.MULTILINE
+)
 
-# Blocklist: generic placeholder names that should never get standalone files
+# --- Guard 3: Expanded blocklist ---
 _BLOCKED_NAMES: frozenset[str] = frozenset({
+    # Placeholder views
     "SomeView", "ContentView", "ExampleView", "DemoView",
     "SampleView", "TestView", "PlaceholderView", "MockView",
     "MyView", "MainView", "RootView", "BasicView",
+    "TempView", "GeneratedView",
+    # Generated file patterns
+    "GeneratedFile", "GeneratedHelpers",
+    # Common false positives from markdown/comments
+    "String", "Int", "Double", "Bool", "Array", "Dictionary",
+    "Optional", "Result", "Error", "URL", "Data", "Date",
+    "Set", "Any", "AnyObject", "Void", "Never",
 })
+
+# Regex for GeneratedFile_N pattern
+_GENERATED_FILE_RE = re.compile(r'^GeneratedFile[_\d]*$')
+
+# --- Guard 2: Filename validation ---
+_PASCAL_CASE_RE = re.compile(r'^[A-Z][A-Za-z0-9_]*$')
+
+# Invalid standalone words that should never become filenames
+_INVALID_FILENAMES: frozenset[str] = frozenset({
+    "for", "that", "this", "the", "and", "but", "with", "from",
+    "file", "temp", "test", "data", "item", "list", "type",
+    "view", "model", "class", "struct", "enum", "protocol",
+    "import", "return", "func", "var", "let", "if", "else",
+    "switch", "case", "break", "continue", "while", "guard",
+    "self", "super", "nil", "true", "false",
+})
+
+# --- Guard 5: Max files per run ---
+MAX_FILES_PER_RUN = 10
+
+
+def _is_valid_filename(name: str) -> bool:
+    """Validate that a detected type name is suitable as a Swift filename."""
+    if not name or len(name) < 3:
+        return False
+    if name.lower() in _INVALID_FILENAMES:
+        return False
+    if " " in name:
+        return False
+    # Must be PascalCase (start uppercase, alphanumeric + underscore only)
+    base = name.split("+")[0]  # Handle Extension names like "Color+Extension"
+    if not _PASCAL_CASE_RE.match(base):
+        return False
+    # Block GeneratedFile_N patterns
+    if _GENERATED_FILE_RE.match(base):
+        return False
+    return True
 
 
 def _detect_name_and_folder(code: str) -> tuple[str, str]:
@@ -74,6 +132,18 @@ def _file_unchanged(path: str, content: str) -> bool:
         return False
 
 
+def _log_extraction(entries: list[str]):
+    """Write extraction log to logs/code_extraction.log."""
+    os.makedirs(LOGS_DIR, exist_ok=True)
+    log_path = os.path.join(LOGS_DIR, "code_extraction.log")
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(log_path, "a", encoding="utf-8") as f:
+        f.write(f"\n--- Extraction Run {timestamp} ---\n")
+        for entry in entries:
+            f.write(f"{entry}\n")
+        f.write(f"--- End ({len(entries)} entries) ---\n")
+
+
 class CodeExtractor:
     def extract_swift_code(self, messages: list) -> dict[str, int]:
         """
@@ -85,7 +155,10 @@ class CodeExtractor:
         skipped = 0
         orphan_snippets: list[str] = []
         blocked_names_found: list[str] = []
+        invalid_names_found: list[str] = []
         category_counts: dict[str, int] = {}
+        log_entries: list[str] = []
+        files_to_write: list[tuple[str, str, str, str]] = []  # (name, subfolder, dest_path, content)
 
         for msg in messages:
             source = getattr(msg, "source", "")
@@ -102,14 +175,23 @@ class CodeExtractor:
                 name, subfolder = _detect_name_and_folder(block)
 
                 if name is None:
-                    # Collect orphans for grouping
                     orphan_snippets.append(block)
+                    log_entries.append(f"[ORPHAN] undetectable type → GeneratedHelpers.swift")
                     continue
 
-                # Blocklist check — route placeholder names to GeneratedHelpers.swift
-                if name in _BLOCKED_NAMES or name.split("+")[0] in _BLOCKED_NAMES:
+                # Guard 3: Blocklist check
+                base_name = name.split("+")[0]
+                if base_name in _BLOCKED_NAMES or _GENERATED_FILE_RE.match(base_name):
                     blocked_names_found.append(name)
                     orphan_snippets.append(block)
+                    log_entries.append(f"[BLOCKED] {name} → routed to GeneratedHelpers.swift")
+                    continue
+
+                # Guard 2: Filename validation
+                if not _is_valid_filename(name):
+                    invalid_names_found.append(name)
+                    orphan_snippets.append(block)
+                    log_entries.append(f"[INVALID] {name} → rejected (bad filename), routed to GeneratedHelpers.swift")
                     continue
 
                 filename = f"{name}.swift"
@@ -117,20 +199,46 @@ class CodeExtractor:
                 os.makedirs(dest_dir, exist_ok=True)
                 dest_path = os.path.join(dest_dir, filename)
 
-                if _file_unchanged(dest_path, block):
-                    skipped += 1
-                    continue
+                # Detect Swift type keyword for log
+                type_kw = "type"
+                for kw in ("struct", "class", "enum", "protocol", "extension"):
+                    if re.search(rf'^\s*(?:\w+\s+)*{kw}\s+', block, re.MULTILINE):
+                        type_kw = kw
+                        break
 
-                with open(dest_path, "w", encoding="utf-8") as f:
-                    f.write(block)
-                saved += 1
-                category_counts[subfolder] = category_counts.get(subfolder, 0) + 1
+                files_to_write.append((name, subfolder, dest_path, block))
+                log_entries.append(f"[TYPE] {type_kw} {name} → {subfolder}/{filename}")
+
+        # --- Guard 5: Abort if too many files ---
+        if len(files_to_write) > MAX_FILES_PER_RUN:
+            print(f"\n⚠ EXTRACTION ABORTED: {len(files_to_write)} files detected (max {MAX_FILES_PER_RUN}).")
+            print("  This usually indicates the LLM generated placeholder/boilerplate code.")
+            print("  No files were written. Review the agent output manually.\n")
+            log_entries.append(f"[ABORT] {len(files_to_write)} files exceed limit of {MAX_FILES_PER_RUN} — extraction aborted")
+            _log_extraction(log_entries)
+            return {"saved": 0, "skipped": 0, "aborted": True}
+
+        # Write validated files
+        for name, subfolder, dest_path, block in files_to_write:
+            if _file_unchanged(dest_path, block):
+                skipped += 1
+                continue
+            with open(dest_path, "w", encoding="utf-8") as f:
+                f.write(block)
+            saved += 1
+            category_counts[subfolder] = category_counts.get(subfolder, 0) + 1
 
         # Console note for blocked placeholder names
         if blocked_names_found:
             print("Blocked placeholder types routed to GeneratedHelpers.swift:")
             for bn in blocked_names_found:
                 print(f"  - {bn}")
+
+        # Console note for invalid filenames
+        if invalid_names_found:
+            print("Invalid filenames rejected:")
+            for inv in invalid_names_found:
+                print(f"  - {inv}")
 
         # Write all orphan snippets into one helper file
         if orphan_snippets:
@@ -160,5 +268,8 @@ class CodeExtractor:
                 count = category_counts.get(folder, 0)
                 if count:
                     print(f"  - {count} {label_map[folder]}")
+
+        # --- Guard 6: Write extraction log ---
+        _log_extraction(log_entries)
 
         return {"saved": saved, "skipped": skipped}

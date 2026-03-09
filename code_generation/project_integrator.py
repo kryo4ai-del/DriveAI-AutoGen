@@ -11,6 +11,47 @@ SUBFOLDER_MAP = {
     "Model": "Models",
 }
 
+# --- Guard 4: Protected existing views ---
+# These files must never be overwritten by the pipeline.
+_PROTECTED_FILES: frozenset[str] = frozenset({
+    # Core app
+    "DriveAIApp.swift",
+    "AppNavigationView.swift",
+    # Dashboard & navigation
+    "HomeDashboardView.swift",
+    "HomeDashboardViewModel.swift",
+    # Onboarding
+    "OnboardingView.swift",
+    "OnboardingViewModel.swift",
+    # Scanner & import
+    "ScannerView.swift",
+    "ScannerViewModel.swift",
+    "ImageImportView.swift",
+    # Question flow
+    "QuestionView.swift",
+    "QuestionViewModel.swift",
+    "ResultView.swift",
+    # Settings
+    "SettingsView.swift",
+    # Answer explanation
+    "AnswerExplanationView.swift",
+    "AnswerExplanationViewModel.swift",
+    # History
+    "TrafficSignHistoryView.swift",
+    "TrafficSignHistoryDetailView.swift",
+    "ScannedDocumentView.swift",
+    # Statistics
+    "LearningStatisticsView.swift",
+    "TrafficSignStatisticsView.swift",
+    # Debug
+    "AnalysisDebugPanel.swift",
+    "AnalysisDebugPanelViewModel.swift",
+    # Launch
+    "LaunchScreenView.swift",
+    # Theme
+    "AppTheme.swift",
+})
+
 
 def _detect_target_folder(filename: str) -> str:
     name = filename.replace(".swift", "")
@@ -43,24 +84,25 @@ class ProjectIntegrator:
     def integrate_generated_code(self, approval: str = "auto") -> dict:
         """
         approval: "auto" | "ask" | "off"
-        Returns {"status": "integrated"|"skipped", "integrated": n, "unchanged": n}
+        Returns {"status": "integrated"|"skipped", "integrated": n, "unchanged": n, "protected": n}
         """
         if approval == "off":
             print()
             print("Xcode integration skipped (approval=off)")
-            return {"status": "skipped", "integrated": 0, "unchanged": 0}
+            return {"status": "skipped", "integrated": 0, "unchanged": 0, "protected": 0}
 
         if approval == "ask":
             answer = input("\nIntegrate generated code into the Xcode project? [y/N] ").strip().lower()
             if answer not in ("y", "yes"):
                 print("Xcode integration skipped.")
-                return {"status": "skipped", "integrated": 0, "unchanged": 0}
+                return {"status": "skipped", "integrated": 0, "unchanged": 0, "protected": 0}
 
         integrated = []
         unchanged = 0
+        protected_skipped = []
 
         if not os.path.isdir(GENERATED_DIR):
-            return {"status": "integrated", "integrated": 0, "unchanged": 0}
+            return {"status": "integrated", "integrated": 0, "unchanged": 0, "protected": 0}
 
         for subfolder in os.listdir(GENERATED_DIR):
             src_dir = os.path.join(GENERATED_DIR, subfolder)
@@ -71,11 +113,18 @@ class ProjectIntegrator:
                 if not filename.endswith(".swift"):
                     continue
 
-                src_path = os.path.join(src_dir, filename)
+                # --- Guard 4: Protect existing views ---
                 target_folder = _detect_target_folder(filename)
                 dest_dir = os.path.join(self.xcode_root, target_folder)
-                os.makedirs(dest_dir, exist_ok=True)
                 dest_path = os.path.join(dest_dir, filename)
+
+                if filename in _PROTECTED_FILES and os.path.exists(dest_path):
+                    protected_skipped.append(filename)
+                    continue
+
+                src_path = os.path.join(src_dir, filename)
+
+                os.makedirs(dest_dir, exist_ok=True)
 
                 if _file_unchanged(dest_path, src_path):
                     unchanged += 1
@@ -93,4 +142,14 @@ class ProjectIntegrator:
         else:
             print("  (no new or changed files)")
 
-        return {"status": "integrated", "integrated": len(integrated), "unchanged": unchanged}
+        if protected_skipped:
+            print(f"Protected files skipped ({len(protected_skipped)}):")
+            for name in protected_skipped:
+                print(f"  - {name} (existing, protected)")
+
+        return {
+            "status": "integrated",
+            "integrated": len(integrated),
+            "unchanged": unchanged,
+            "protected": len(protected_skipped),
+        }
