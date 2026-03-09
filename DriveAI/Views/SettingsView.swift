@@ -34,6 +34,9 @@ struct SettingsView: View {
                     NavigationLink(destination: SampleValidationView()) {
                         Label("Sample Validation", systemImage: "checklist")
                     }
+                    NavigationLink(destination: RealQuestionTestView()) {
+                        Label("Real Question Test", systemImage: "camera.viewfinder")
+                    }
                     NavigationLink(destination: AnalysisDebugPanel()) {
                         Label("Debug Panel", systemImage: "ladybug.fill")
                     }

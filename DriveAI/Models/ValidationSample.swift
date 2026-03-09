@@ -14,10 +14,12 @@ struct ValidationSample: Identifiable {
     let expectedCategory: String    // expected topic / sign category
     let expectedConfidenceMin: Double
     let explanation: String
+    let notes: String
 
     init(id: UUID = UUID(), domain: ValidationDomain, title: String,
          inputDescription: String, expectedResult: String,
-         expectedCategory: String, expectedConfidenceMin: Double, explanation: String) {
+         expectedCategory: String, expectedConfidenceMin: Double,
+         explanation: String, notes: String = "") {
         self.id = id
         self.domain = domain
         self.title = title
@@ -26,6 +28,7 @@ struct ValidationSample: Identifiable {
         self.expectedCategory = expectedCategory
         self.expectedConfidenceMin = expectedConfidenceMin
         self.explanation = explanation
+        self.notes = notes
     }
 }
 
@@ -37,9 +40,24 @@ struct ValidationResult: Identifiable {
     let actualConfidence: Double
     let actualExplanation: String
     let isLiveTested: Bool          // true = ran through a real service
+    let matchedKeywords: [String]
+    let categoryConfidence: Double
+
+    init(sample: ValidationSample, actualResult: String, actualCategory: String,
+         actualConfidence: Double, actualExplanation: String, isLiveTested: Bool,
+         matchedKeywords: [String] = [], categoryConfidence: Double = 0) {
+        self.sample = sample
+        self.actualResult = actualResult
+        self.actualCategory = actualCategory
+        self.actualConfidence = actualConfidence
+        self.actualExplanation = actualExplanation
+        self.isLiveTested = isLiveTested
+        self.matchedKeywords = matchedKeywords
+        self.categoryConfidence = categoryConfidence
+    }
 
     var resultMatches: Bool   { actualResult   == sample.expectedResult }
     var categoryMatches: Bool { actualCategory == sample.expectedCategory }
     var confidenceOk: Bool    { actualConfidence >= sample.expectedConfidenceMin }
-    var overallPassed: Bool   { resultMatches && confidenceOk }
+    var overallPassed: Bool   { resultMatches && categoryMatches && confidenceOk }
 }

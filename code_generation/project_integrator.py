@@ -36,7 +36,10 @@ _PROTECTED_FILES: frozenset[str] = frozenset({
     "TrafficSignRecognitionView.swift",
     "TrafficSignWeaknessView.swift",
     "SampleValidationView.swift",
+    "RealQuestionTestView.swift",
     "UserInfoView.swift",
+    "QuestionHistoryView.swift",
+    "LearningInsightsView.swift",
     # ── ViewModels ──
     "HomeDashboardViewModel.swift",
     "OnboardingViewModel.swift",
@@ -44,6 +47,10 @@ _PROTECTED_FILES: frozenset[str] = frozenset({
     "QuestionViewModel.swift",
     "AnswerExplanationViewModel.swift",
     "AnalysisDebugPanelViewModel.swift",
+    "LearningStatsViewModel.swift",
+    "LearningInsightsViewModel.swift",
+    "SampleValidationViewModel.swift",
+    "RealQuestionTestViewModel.swift",
     # ── Models (AskFin domain) ──
     "QuestionCategory.swift",
     "CategoryDetectionResult.swift",
@@ -62,6 +69,7 @@ _PROTECTED_FILES: frozenset[str] = frozenset({
     "TrafficSignStats.swift",
     "WeaknessCategory.swift",
     "TrafficSignWeaknessCategory.swift",
+    "ValidationSample.swift",
     # ── Services ──
     "QuestionCategoryDetectionService.swift",
     "QuestionAnalysisService.swift",
@@ -73,6 +81,7 @@ _PROTECTED_FILES: frozenset[str] = frozenset({
     "LLMQuestionSolverService.swift",
     "LocalDataService.swift",
     "SampleValidationService.swift",
+    "WeaknessAnalysisService.swift",
 })
 
 

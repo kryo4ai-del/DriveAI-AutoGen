@@ -20,12 +20,15 @@ struct SampleValidationView: View {
 
                 // Summary cards
                 if viewModel.totalRun > 0 {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                         StatCard(title: "Samples Run", value: "\(viewModel.totalRun)",
                                  icon: "checklist", color: .blue)
                         StatCard(title: "Passed", value: "\(viewModel.totalPassed)",
                                  icon: "checkmark.circle.fill",
                                  color: viewModel.totalPassed == viewModel.totalRun ? .green : .orange)
+                        StatCard(title: "Cat. Match", value: "\(viewModel.categoryMatchCount)/\(viewModel.questionResults.count)",
+                                 icon: "tag.fill",
+                                 color: viewModel.categoryMatchCount == viewModel.questionResults.count ? .green : .orange)
                     }
                 }
 
@@ -33,7 +36,7 @@ struct SampleValidationView: View {
                 sectionHeader("Questions", icon: "questionmark.circle.fill", color: .blue,
                               passed: viewModel.passedQuestions, total: viewModel.questionResults.count)
 
-                Text("Reference cases — expected I/O for the question analysis pipeline. Marked as reference; not live-tested against the LLM to avoid API cost.")
+                Text("Reference answers with live category detection via QuestionCategoryDetectionService.")
                     .font(.caption)
                     .foregroundColor(.secondary)
 
@@ -124,7 +127,15 @@ struct ValidationResultCard: View {
                     .font(.subheadline)
                     .bold()
                 Spacer()
-                if !result.isLiveTested {
+                if result.isLiveTested {
+                    Text("Live")
+                        .font(.caption2)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.blue.opacity(0.12))
+                        .foregroundColor(.blue)
+                        .cornerRadius(4)
+                } else {
                     Text("Reference")
                         .font(.caption2)
                         .padding(.horizontal, 6)
@@ -140,32 +151,65 @@ struct ValidationResultCard: View {
             // Input
             fieldRow("Input", value: result.sample.inputDescription)
 
-            // Expected vs Actual
+            // Expected vs Actual — Answer
             HStack(alignment: .top, spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Expected")
+                    Text("Expected Answer")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                     Text(result.sample.expectedResult)
                         .font(.caption)
                         .bold()
-                    Text(result.sample.expectedCategory)
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Actual")
+                    Text("Actual Answer")
                         .font(.caption2)
                         .foregroundColor(.secondary)
-                    Text(result.actualResult)
+                    HStack(spacing: 4) {
+                        Text(result.actualResult)
+                            .font(.caption)
+                            .bold()
+                            .foregroundColor(result.resultMatches ? .green : .red)
+                        Image(systemName: result.resultMatches ? "checkmark" : "xmark")
+                            .font(.caption2)
+                            .foregroundColor(result.resultMatches ? .green : .red)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
+            // Expected vs Actual — Category
+            HStack(alignment: .top, spacing: 16) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Expected Category")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    Text(result.sample.expectedCategory)
                         .font(.caption)
                         .bold()
-                        .foregroundColor(result.resultMatches ? .green : .red)
-                    Text(result.actualCategory)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Actual Category")
                         .font(.caption2)
-                        .foregroundColor(result.categoryMatches ? .primary : .orange)
+                        .foregroundColor(.secondary)
+                    HStack(spacing: 4) {
+                        Text(result.actualCategory)
+                            .font(.caption)
+                            .bold()
+                            .foregroundColor(result.categoryMatches ? .green : .orange)
+                        Image(systemName: result.categoryMatches ? "checkmark" : "xmark")
+                            .font(.caption2)
+                            .foregroundColor(result.categoryMatches ? .green : .orange)
+                        if result.categoryConfidence > 0 {
+                            Text("(\(Int(result.categoryConfidence * 100))%)")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -173,8 +217,33 @@ struct ValidationResultCard: View {
             // Confidence bar
             confidenceRow
 
+            // Matched keywords (debug)
+            if !result.matchedKeywords.isEmpty {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Matched Keywords")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    Text(result.matchedKeywords.joined(separator: ", "))
+                        .font(.caption2)
+                        .foregroundColor(.blue)
+                }
+            }
+
             // Explanation
             fieldRow("Explanation", value: result.actualExplanation)
+
+            // Notes
+            if !result.sample.notes.isEmpty {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Notes")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    Text(result.sample.notes)
+                        .font(.caption2)
+                        .italic()
+                        .foregroundColor(.secondary)
+                }
+            }
         }
         .padding()
         .background(Color(.systemGray6))

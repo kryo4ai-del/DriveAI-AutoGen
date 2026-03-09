@@ -11,6 +11,7 @@ class SampleValidationViewModel: ObservableObject {
     var totalPassed: Int  { passedQuestions + passedSigns }
     var passedQuestions: Int { questionResults.filter { $0.overallPassed }.count }
     var passedSigns: Int     { signResults.filter    { $0.overallPassed }.count }
+    var categoryMatchCount: Int { questionResults.filter { $0.categoryMatches }.count }
 
     func runAll() {
         questionResults = service.runQuestionValidation()
