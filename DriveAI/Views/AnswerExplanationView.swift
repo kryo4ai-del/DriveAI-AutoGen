@@ -1,49 +1,67 @@
 import SwiftUI
 
-// Views/AnswerExplanationView.swift
 struct AnswerExplanationView: View {
     @ObservedObject var viewModel: AnswerExplanationViewModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text(viewModel.isCorrect
-                 ? NSLocalizedString("Correct", comment: "Correct answer message")
-                 : NSLocalizedString("Incorrect", comment: "Incorrect answer message"))
-                .font(.largeTitle)
-                .foregroundColor(viewModel.isCorrect ? .green : .red)
-                .padding(.top)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
 
-            if !viewModel.explanation.isEmpty {
-                Text(viewModel.explanation)
-                    .font(.body)
-                    .foregroundColor(.primary)
-            }
-
-            // Confidence indicator
-            if viewModel.confidenceScore > 0 {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Confidence: \(viewModel.confidenceLabel) (\(Int(viewModel.confidenceScore * 100))%)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-
-                    GeometryReader { geo in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color(.systemGray5))
-                                .frame(height: 8)
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(confidenceColor)
-                                .frame(width: geo.size.width * viewModel.confidenceScore, height: 8)
-                        }
-                    }
-                    .frame(height: 8)
+                // Result header
+                HStack(spacing: 12) {
+                    Image(systemName: viewModel.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .font(.largeTitle)
+                        .foregroundColor(viewModel.isCorrect ? .green : .red)
+                    Text(viewModel.isCorrect ? "Correct!" : "Incorrect")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(viewModel.isCorrect ? .green : .red)
                 }
                 .padding(.top, 4)
+
+                // Explanation card
+                if !viewModel.explanation.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Explanation")
+                            .font(.headline)
+                        Text(viewModel.explanation)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                }
+
+                // Confidence card
+                if viewModel.confidenceScore > 0 {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Confidence")
+                            .font(.headline)
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(Color(.systemGray5))
+                                    .frame(height: 8)
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(confidenceColor)
+                                    .frame(width: geo.size.width * viewModel.confidenceScore, height: 8)
+                            }
+                        }
+                        .frame(height: 8)
+                        Text("\(viewModel.confidenceLabel) – \(Int(viewModel.confidenceScore * 100))%")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                }
             }
+            .padding()
         }
-        .navigationTitle(NSLocalizedString("Answer Explanation", comment: "Title for answer explanation view"))
+        .navigationTitle("Answer Explanation")
         .navigationBarTitleDisplayMode(.inline)
-        .padding()
     }
 
     private var confidenceColor: Color {
@@ -52,25 +70,5 @@ struct AnswerExplanationView: View {
         case 0.40...: return .orange
         default:      return .red
         }
-    }
-}
-
-// Views/QuestionView.swift
-struct QuestionView: View {
-    @StateObject var viewModel = AnswerExplanationViewModel()
-    var question: Question
-
-    @State private var isExplanationPresented = false
-    @State private var selectedAnswerId: UUID?
-    @State private var buttonState: ButtonState = .idle
-
-    var body: some View {
-        VStack {
-            // Question and answer buttons...
-        }
-        .sheet(isPresented: $isExplanationPresented) {
-            AnswerExplanationView(viewModel: viewModel)
-        }
-        .padding()
     }
 }

@@ -274,13 +274,13 @@ struct TrafficSignRecognitionView: View {
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 5)
                         .fill(Color(.systemGray5))
-                        .frame(height: 10)
+                        .frame(height: 8)
                     RoundedRectangle(cornerRadius: 5)
                         .fill(confidenceColor(score))
                         .frame(width: geo.size.width * score, height: 10)
                 }
             }
-            .frame(height: 10)
+            .frame(height: 8)
             Text("\(label) – \(percentage)%")
                 .font(.caption)
                 .foregroundColor(.secondary)

@@ -46,6 +46,9 @@ struct HomeDashboardView: View {
                         }
                     }
 
+                    Divider()
+                        .padding(.vertical, 4)
+
                     // MARK: - Traffic Signs
 
                     sectionHeader("Traffic Signs")

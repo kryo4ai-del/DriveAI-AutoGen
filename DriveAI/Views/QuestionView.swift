@@ -7,6 +7,7 @@ enum ButtonState {
 }
 
 // MARK: - QuestionView
+
 struct QuestionView: View {
     @StateObject var viewModel = QuestionViewModel()
     var question: Question
@@ -16,18 +17,21 @@ struct QuestionView: View {
     @State private var buttonState: ButtonState = .idle
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 20) {
+
+            // Question text
             Text(question.text)
                 .font(.title3)
                 .bold()
                 .padding(.horizontal)
                 .padding(.top)
 
+            // Answer options
             ForEach(question.options) { option in
                 answerButton(for: option)
             }
 
-            // Submit button — Learning Mode only, after selection, before submit
+            // Submit — Learning Mode only, after selection
             if mode == .learning,
                viewModel.selectedAnswer != nil,
                !viewModel.userSubmitted {
@@ -40,7 +44,7 @@ struct QuestionView: View {
                     }
                 }) {
                     Text("Submit Answer")
-                        .bold()
+                        .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.blue)
@@ -53,6 +57,7 @@ struct QuestionView: View {
 
             Spacer()
         }
+        .navigationTitle("Question")
         .onAppear { viewModel.load(question, mode: mode) }
         .sheet(isPresented: $isResultPresented) {
             LearningResultView(viewModel: viewModel)
@@ -98,7 +103,7 @@ struct QuestionView: View {
 
     private func buttonBackground(isSelected: Bool, isCorrect: Bool, submitted: Bool) -> Color {
         if submitted {
-            if isCorrect { return Color.green.opacity(0.25) }
+            if isCorrect  { return Color.green.opacity(0.2) }
             if isSelected { return Color.red.opacity(0.2) }
             return Color(.systemGray6)
         }
@@ -107,13 +112,16 @@ struct QuestionView: View {
 }
 
 // MARK: - LearningResultView
+
 struct LearningResultView: View {
     @ObservedObject var viewModel: QuestionViewModel
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                HStack {
+
+                // Result header
+                HStack(spacing: 12) {
                     Image(systemName: viewModel.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
                         .font(.largeTitle)
                         .foregroundColor(viewModel.isCorrect ? .green : .red)
@@ -122,54 +130,91 @@ struct LearningResultView: View {
                         .bold()
                         .foregroundColor(viewModel.isCorrect ? .green : .red)
                 }
-                .padding(.top)
+                .padding(.top, 4)
 
-                if let userAnswer = viewModel.selectedAnswer {
-                    resultRow(label: "Your Answer", value: userAnswer.text,
-                              color: viewModel.isCorrect ? .green : .red)
-                }
-
-                if let correct = viewModel.correctAnswer {
-                    resultRow(label: "Correct Answer", value: correct.text, color: .green)
-                }
-
-                if let result = viewModel.answerResult {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Explanation").font(.headline)
-                        Text(result.explanation).font(.body).foregroundColor(.secondary)
-                    }
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Confidence: \(result.confidence.label) (\(result.confidence.percentage)%)")
-                            .font(.subheadline).foregroundColor(.secondary)
-                        GeometryReader { geo in
-                            ZStack(alignment: .leading) {
-                                RoundedRectangle(cornerRadius: 4).fill(Color(.systemGray5)).frame(height: 8)
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(confidenceColor(result.confidence.score))
-                                    .frame(width: geo.size.width * result.confidence.score, height: 8)
-                            }
+                // Answer comparison card
+                if viewModel.selectedAnswer != nil || viewModel.correctAnswer != nil {
+                    VStack(alignment: .leading, spacing: 12) {
+                        if let userAnswer = viewModel.selectedAnswer {
+                            answerRow(label: "Your Answer", value: userAnswer.text,
+                                      color: viewModel.isCorrect ? .green : .red)
                         }
-                        .frame(height: 8)
+                        if viewModel.selectedAnswer != nil, viewModel.correctAnswer != nil {
+                            Divider()
+                        }
+                        if let correct = viewModel.correctAnswer {
+                            answerRow(label: "Correct Answer", value: correct.text, color: .green)
+                        }
                     }
-                } else if let question = viewModel.question {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Explanation").font(.headline)
-                        Text(question.explanation).font(.body).foregroundColor(.secondary)
-                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
                 }
 
-                Spacer()
+                // Explanation card
+                if let result = viewModel.answerResult {
+                    explanationCard(result.explanation)
+                    confidenceCard(score: result.confidence.score,
+                                   label: result.confidence.label,
+                                   percentage: result.confidence.percentage)
+                } else if let question = viewModel.question {
+                    explanationCard(question.explanation)
+                }
             }
             .padding()
         }
         .navigationTitle("Result")
     }
 
-    private func resultRow(label: String, value: String, color: Color) -> some View {
+    // MARK: - Sub-views
+
+    private func answerRow(label: String, value: String, color: Color) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(label).font(.caption).foregroundColor(.secondary)
-            Text(value).font(.body).bold().foregroundColor(color)
+            Text(label)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Text(value)
+                .font(.body)
+                .bold()
+                .foregroundColor(color)
         }
+    }
+
+    private func explanationCard(_ text: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Explanation")
+                .font(.headline)
+            Text(text)
+                .font(.body)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(12)
+    }
+
+    private func confidenceCard(score: Double, label: String, percentage: Int) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Confidence")
+                .font(.headline)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color(.systemGray5))
+                        .frame(height: 8)
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(confidenceColor(score))
+                        .frame(width: geo.size.width * score, height: 8)
+                }
+            }
+            .frame(height: 8)
+            Text("\(label) – \(percentage)%")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(12)
     }
 
     private func confidenceColor(_ score: Double) -> Color {

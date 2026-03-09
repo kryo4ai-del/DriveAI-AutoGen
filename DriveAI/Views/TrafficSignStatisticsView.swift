@@ -28,7 +28,7 @@ struct TrafficSignStatisticsView: View {
 
     private var emptyState: some View {
         VStack(spacing: 12) {
-            Image(systemName: "exclamationmark.triangle")
+            Image(systemName: "chart.bar.xaxis")
                 .font(.system(size: 48))
                 .foregroundColor(.secondary)
             Text("No sign data yet.")
