@@ -10,7 +10,9 @@ struct LearningStatisticsView: View {
                     emptyState
                 } else {
                     summaryCards
+                    categoryHighlights
                     accuracySection
+                    categoryDistribution
                     correctIncorrectChart
                 }
             }
@@ -49,6 +51,32 @@ struct LearningStatisticsView: View {
         }
     }
 
+    // MARK: - Category highlights (weakest / strongest)
+
+    @ViewBuilder
+    private var categoryHighlights: some View {
+        if viewModel.weakestCategory != nil || viewModel.strongestCategory != nil {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                if let weak = viewModel.weakestCategory {
+                    StatCard(
+                        title: "Weakest Category",
+                        value: weak.categoryName,
+                        icon: "exclamationmark.triangle.fill",
+                        color: .red
+                    )
+                }
+                if let strong = viewModel.strongestCategory {
+                    StatCard(
+                        title: "Strongest Category",
+                        value: strong.categoryName,
+                        icon: "star.fill",
+                        color: .green
+                    )
+                }
+            }
+        }
+    }
+
     // MARK: - Accuracy bar
 
     private var accuracySection: some View {
@@ -83,6 +111,54 @@ struct LearningStatisticsView: View {
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(10)
+    }
+
+    // MARK: - Category distribution
+
+    @ViewBuilder
+    private var categoryDistribution: some View {
+        if !viewModel.allCategories.isEmpty {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Category Distribution")
+                    .font(.headline)
+
+                let maxAttempts = viewModel.allCategories.map(\.totalAttempts).max() ?? 1
+
+                ForEach(viewModel.allCategories) { cat in
+                    HStack(spacing: 8) {
+                        Text(cat.categoryName)
+                            .font(.caption)
+                            .frame(width: 100, alignment: .leading)
+                            .lineLimit(1)
+
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(Color(.systemGray5))
+                                    .frame(height: 10)
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(accuracyColor(cat.accuracy))
+                                    .frame(width: geo.size.width * CGFloat(cat.totalAttempts) / CGFloat(maxAttempts), height: 10)
+                            }
+                        }
+                        .frame(height: 10)
+
+                        Text("\(cat.totalAttempts)")
+                            .font(.caption)
+                            .bold()
+                            .frame(width: 28, alignment: .trailing)
+
+                        Text("\(cat.accuracyPercentage)%")
+                            .font(.caption2)
+                            .foregroundColor(accuracyColor(cat.accuracy))
+                            .frame(width: 32, alignment: .trailing)
+                    }
+                }
+            }
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+        }
     }
 
     // MARK: - Correct / Incorrect chart

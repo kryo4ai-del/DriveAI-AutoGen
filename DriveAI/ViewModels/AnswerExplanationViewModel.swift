@@ -4,6 +4,8 @@ class AnswerExplanationViewModel: ObservableObject {
     @Published var explanation: String = ""
     @Published var confidenceScore: Double = 0.0
     @Published var confidenceLabel: String = "Low"
+    @Published var detectedCategory: QuestionCategory = .general
+    @Published var categoryConfidence: Double = 0.0
 
     private var question: Question?
 
@@ -19,5 +21,10 @@ class AnswerExplanationViewModel: ObservableObject {
         self.explanation = result.explanation
         self.confidenceScore = result.confidence.score
         self.confidenceLabel = result.confidence.label
+    }
+
+    func applyCategory(_ category: QuestionCategory, confidence: Double) {
+        self.detectedCategory = category
+        self.categoryConfidence = confidence
     }
 }

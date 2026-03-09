@@ -98,6 +98,18 @@ struct QuestionHistoryView: View {
                         .foregroundColor(.secondary)
                 }
 
+                // Category badge
+                if entry.category != .general {
+                    Text(entry.category.rawValue)
+                        .font(.caption2)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.blue)
+                        .cornerRadius(4)
+                }
+
                 HStack(spacing: 12) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text("Your Answer").font(.caption2).foregroundColor(.secondary)

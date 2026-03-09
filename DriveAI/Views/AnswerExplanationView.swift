@@ -19,6 +19,28 @@ struct AnswerExplanationView: View {
                 }
                 .padding(.top, 4)
 
+                // Category badge
+                if viewModel.detectedCategory != .general || viewModel.categoryConfidence > 0 {
+                    HStack(spacing: 6) {
+                        Image(systemName: "tag.fill")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                        Text(viewModel.detectedCategory.rawValue)
+                            .font(.caption)
+                            .bold()
+                            .foregroundColor(.white)
+                        if viewModel.categoryConfidence > 0 {
+                            Text("\(Int(viewModel.categoryConfidence * 100))%")
+                                .font(.caption2)
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.blue)
+                    .cornerRadius(8)
+                }
+
                 // Explanation card
                 if !viewModel.explanation.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
