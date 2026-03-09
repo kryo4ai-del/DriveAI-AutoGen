@@ -364,7 +364,7 @@ async def _run_pipeline(
 
     # Guard: abort integration if extraction was aborted (too many files)
     if code_counts.get("aborted"):
-        print("⚠ Integration skipped — extraction was aborted (file limit exceeded).")
+        print("[ABORT] Integration skipped — extraction was aborted (file limit exceeded).")
         logger.info("Integration skipped — extraction aborted.")
         xcode_counts = {"status": "aborted", "integrated": 0, "unchanged": 0, "protected": 0}
     else:
@@ -468,7 +468,7 @@ async def _run_pipeline(
 
             fix_code_counts = extractor.extract_swift_code(fix_result_msgs)
             if fix_code_counts.get("aborted"):
-                print("⚠ Fix integration skipped — extraction was aborted (file limit exceeded).")
+                print("[ABORT] Fix integration skipped — extraction was aborted (file limit exceeded).")
                 logger.info("Fix integration skipped — extraction aborted.")
             else:
                 integrator.integrate_generated_code(approval=approval_mode)

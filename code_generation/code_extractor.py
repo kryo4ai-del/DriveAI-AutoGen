@@ -211,7 +211,7 @@ class CodeExtractor:
 
         # --- Guard 5: Abort if too many files ---
         if len(files_to_write) > MAX_FILES_PER_RUN:
-            print(f"\n⚠ EXTRACTION ABORTED: {len(files_to_write)} files detected (max {MAX_FILES_PER_RUN}).")
+            print(f"\n[ABORT] EXTRACTION ABORTED: {len(files_to_write)} files detected (max {MAX_FILES_PER_RUN}).")
             print("  This usually indicates the LLM generated placeholder/boilerplate code.")
             print("  No files were written. Review the agent output manually.\n")
             log_entries.append(f"[ABORT] {len(files_to_write)} files exceed limit of {MAX_FILES_PER_RUN} — extraction aborted")
