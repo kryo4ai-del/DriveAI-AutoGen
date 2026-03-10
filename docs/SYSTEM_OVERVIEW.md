@@ -41,6 +41,10 @@ Bootstrap agents:
 
 - ProjectBootstrapAgent (project creation from ideas, folder scaffolding, metadata)
 
+Orchestration agents:
+
+- AutonomousProjectOrchestrator (execution planning, readiness assessment, agent selection, delivery plans)
+
 Content agents:
 
 - ContentScriptAgent (content drafts, marketing copy, video scripts, release notes)
@@ -105,7 +109,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 19 (2 planning + 1 bootstrap + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 11 implementation)
+Total agents: 20 (2 planning + 1 bootstrap + 1 orchestration + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 11 implementation)
 
 Factory Idea Intake:
 
@@ -134,6 +138,8 @@ Storage:
 - compliance/compliance_manager.py (Python API for compliance reports)
 - bootstrap/project_store.json (bootstrapped project records)
 - bootstrap/bootstrap_manager.py (Python API for project bootstrapping)
+- orchestration/orchestration_plan_store.json (execution plans)
+- orchestration/orchestration_manager.py (Python API for orchestration plans)
 
 See docs/factory_intake.md for full documentation.
 

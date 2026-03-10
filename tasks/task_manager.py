@@ -25,6 +25,7 @@ from agents.android_architect_agent import create_android_architect_agent
 from agents.kotlin_developer_agent import create_kotlin_developer_agent
 from agents.web_architect_agent import create_web_architect_agent
 from agents.webapp_developer_agent import create_webapp_developer_agent
+from agents.autonomous_project_orchestrator import create_autonomous_project_orchestrator
 from project_context.context_loader import load_project_context
 from memory.memory_manager import MemoryManager
 from planning.feature_planner import FeaturePlanner
@@ -36,6 +37,7 @@ from accessibility.accessibility_manager import AccessibilityManager
 from opportunities.opportunity_manager import OpportunityManager
 from compliance.compliance_manager import ComplianceManager
 from bootstrap.bootstrap_manager import BootstrapManager
+from orchestration.orchestration_manager import OrchestrationManager
 
 LOGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 
@@ -83,6 +85,7 @@ class TaskManager:
         self.kotlin_developer_agent = create_kotlin_developer_agent() if _on("kotlin_developer") else None
         self.web_architect_agent = create_web_architect_agent() if _on("web_architect") else None
         self.webapp_developer_agent = create_webapp_developer_agent() if _on("webapp_developer") else None
+        self.orchestrator_agent = create_autonomous_project_orchestrator() if _on("autonomous_project_orchestrator") else None
 
         self.project_context = load_project_context()
         self.memory_manager = MemoryManager()
@@ -96,6 +99,7 @@ class TaskManager:
         self.opportunity_manager = OpportunityManager()
         self.compliance_manager = ComplianceManager()
         self.bootstrap_manager = BootstrapManager()
+        self.orchestration_manager = OrchestrationManager()
 
     def get_agents_summary(self) -> dict:
         summary = {
@@ -136,6 +140,8 @@ class TaskManager:
             summary["web_architect"] = self.web_architect_agent.name
         if self.webapp_developer_agent:
             summary["webapp_developer"] = self.webapp_developer_agent.name
+        if self.orchestrator_agent:
+            summary["orchestrator"] = self.orchestrator_agent.name
         return summary
 
     def get_project_context_summary(self) -> str:
@@ -166,7 +172,8 @@ class TaskManager:
             f"Factory — {a11y_summary}\n"
             f"Factory — {opp_summary}\n"
             f"Factory — {compliance_summary}\n"
-            f"Factory — {bootstrap_summary}\n\n"
+            f"Factory — {bootstrap_summary}\n"
+            f"Factory — {self.orchestration_manager.get_summary()}\n\n"
             f"Task:\n{user_task}"
         )
 
@@ -203,6 +210,7 @@ class TaskManager:
             self.kotlin_developer_agent,
             self.web_architect_agent,
             self.webapp_developer_agent,
+            self.orchestrator_agent,
         ]:
             if agent is not None:
                 participants.append(agent)

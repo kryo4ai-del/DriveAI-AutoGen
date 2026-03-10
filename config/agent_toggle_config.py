@@ -27,6 +27,7 @@ ALL_AGENTS = [
     "kotlin_developer",
     "web_architect",
     "webapp_developer",
+    "autonomous_project_orchestrator",
 ]
 
 # These agents are always force-enabled regardless of config or CLI flags

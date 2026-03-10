@@ -1,43 +1,32 @@
-@Published var introduction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_INTRO", comment: "")
-@Published var callToAction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_CALL_TO_ACTION", comment: "")
+.accessibilityLabel("Welcome to DriveAI")
+    .accessibilityHint("Select your exam date to get started.")
 
 // ---
 
-@Published var introduction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_INTRO", comment: "")
-@Published var callToAction: String = NSLocalizedString("FEATURE_ANNOUNCEMENT_CALL_TO_ACTION", comment: "")
+.navigationBarTitleDisplayMode(.inline)
 
 // ---
 
-// Example changes to be reflected in the ViewModel:
-@Published var featureSummary: [String] = [
-    "Interaktive Fragen",
-    "Statistik-Tracking",
-    "Prüfungssimulation",
-    "Offline verfügbar",
-    "Benutzerfreundliches Design"
-]
+func validateExamDate() -> Bool {
+      return examDate > Date() // Ensure it's a future date
+  }
+  
+  func startLearning() {
+      guard validateExamDate() else {
+          // Handle invalid date scenario
+          return
+      }
+      // Navigate to Dashboard
+  }
 
 // ---
 
-// Example featureIcon method
-func featureIcon(for feature: String) -> String {
-    switch feature {
-    case "Interaktive Fragen":
-        return "questionmark.circle"
-    case "Statistik-Tracking":
-        return "chart.bar"
-    // Add more icons as necessary
-    default:
-        return "star.fill"
-    }
-}
-
-// ---
-
-var localizedIntroduction: String {
-    NSLocalizedString("FEATURE_ANNOUNCEMENT_INTRO", comment: "")
-}
-
-var localizedCallToAction: String {
-    NSLocalizedString("FEATURE_ANNOUNCEMENT_CALL_TO_ACTION", comment: "")
-}
+func fetchQuestions() -> [Question]? {
+      // Fetch logic with error catching
+      do {
+          // Attempt to read and parse questions
+      } catch {
+          // Handle error (e.g., log it and return nil)
+          return nil
+      }
+  }

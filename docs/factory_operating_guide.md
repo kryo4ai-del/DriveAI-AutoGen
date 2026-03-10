@@ -7,7 +7,7 @@ Last Updated: 2026-03-10
 ## What This Guide Covers
 
 How to use the AI App Factory from raw idea to finished product.
-Practical workflows, prompts, and rules for working with the 19-agent multi-platform system.
+Practical workflows, prompts, and rules for working with the 20-agent multi-platform system.
 
 ---
 
@@ -16,16 +16,17 @@ Practical workflows, prompts, and rules for working with the 19-agent multi-plat
 The AI App Factory is a multi-agent development system built on AutoGen.
 
 ```
-19 Agents:
-  2 Planning    — ProductStrategist, Roadmap
-  1 Bootstrap   — ProjectBootstrap
-  1 Content     — ContentScript
-  1 Discovery   — Opportunity
-  1 Compliance  — LegalRisk
-  1 Monitoring  — ChangeWatch
-  1 Quality     — Accessibility
-  11 Build      — Lead, iOSArchitect, SwiftDeveloper, AndroidArchitect, KotlinDeveloper,
-                   WebArchitect, WebAppDeveloper, Reviewer, BugHunter, Refactor, TestGenerator
+20 Agents:
+  2 Planning       — ProductStrategist, Roadmap
+  1 Bootstrap      — ProjectBootstrap
+  1 Orchestration  — AutonomousProjectOrchestrator
+  1 Content        — ContentScript
+  1 Discovery      — Opportunity
+  1 Compliance     — LegalRisk
+  1 Monitoring     — ChangeWatch
+  1 Quality        — Accessibility
+  11 Build         — Lead, iOSArchitect, SwiftDeveloper, AndroidArchitect, KotlinDeveloper,
+                     WebArchitect, WebAppDeveloper, Reviewer, BugHunter, Refactor, TestGenerator
 ```
 
 ```
@@ -39,6 +40,7 @@ Data Stores:
   opportunities/opportunity_store.json   — Opportunities
   compliance/compliance_reports.json     — Compliance Reports
   bootstrap/project_store.json           — Bootstrapped Projects
+  orchestration/orchestration_plan_store.json — Execution Plans
 ```
 
 ---
@@ -447,6 +449,7 @@ Group by urgency: Now / Soon / Later / Info.
 | Opportunities | `opportunities/opportunity_store.json` |
 | Compliance | `compliance/compliance_reports.json` |
 | Bootstrap | `bootstrap/project_store.json` |
+| Orchestration | `orchestration/orchestration_plan_store.json` |
 | Agent Roles | `config/agent_roles.json` |
 | Agent Toggles | `config/agent_toggles.json` |
 | Pipeline Logs | `logs/driveai_run_*.txt` |
@@ -464,6 +467,7 @@ Group by urgency: Now / Soon / Later / Info.
 | Opportunities | OPP-NNN | OPP-001 |
 | Compliance | LEGAL-NNN | LEGAL-001 |
 | Bootstrap | PROJ-NNN | PROJ-001 |
+| Orchestration | PLAN-NNN | PLAN-001 |
 
 ### Status Lifecycles
 
@@ -477,12 +481,13 @@ Group by urgency: Now / Soon / Later / Info.
 | Opportunities | new → evaluated → accepted → idea_created / rejected / deferred |
 | Compliance | new → reviewed → mitigated / accepted / blocked / dismissed |
 | Bootstrap | created → planning → in_development → mvp_complete → released / paused / archived |
+| Orchestration | draft → approved → executing → completed / cancelled |
 
 ---
 
 ## Current System State (2026-03-10)
 
-- **Agents**: 19 (all active — iOS + Android + Web)
+- **Agents**: 20 (all active — iOS + Android + Web + Orchestration)
 - **Projects**: 2 (askfin: mvp-complete, factory-core: active)
 - **Ideas**: 5 (2 inbox, 3 classified)
 - **Specs**: 0 (empty, ready for use)

@@ -1,18 +1,27 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @StateObject private var viewModel = DashboardViewModel()
-    
+    @ObservedObject var viewModel: DashboardViewModel
+
     var body: some View {
-        VStack {
-            Text("Your Progress")
-                .font(.headline)
-            // Display progress bar and stats here
-            Button("Start Quiz") {
-                viewModel.startQuiz()
+        NavigationView {
+            VStack {
+                Text("Dein Fortschritt")
+                    .font(.headline)
+
+                ProgressView("Vorbereitet für die Prüfung", value: viewModel.progress, total: 100)
+                    .progressViewStyle(LinearProgressViewStyle())
+                    .padding()
+
+                NavigationLink(destination: CategoryView(viewModel: viewModel.categoryViewModel)) {
+                    Text("Kategorien Durchsuchen")
+                }
+                .padding()
             }
-            .buttonStyle(PrimaryButtonStyle())
+            .navigationTitle("Dashboard")
+            .onAppear {
+                viewModel.loadProgress()
+            }
         }
-        .padding()
     }
 }

@@ -148,9 +148,57 @@ Idea-to-Project flow:
 
 ---
 
+## Orchestration Agents
+
+### 5. AutonomousProjectOrchestrator
+
+Role:
+Central coordination and execution planning agent.
+
+Responsibilities:
+- inspect project status across all factory data stores
+- evaluate execution readiness for projects and specs
+- determine which agents are needed for the next execution step
+- recommend the optimal execution phase
+- produce structured execution plans (PLAN-NNN)
+- identify blockers and risks that prevent execution
+- coordinate the transition from planning to implementation
+- suggest the appropriate pipeline run type and configuration
+
+Typical focus:
+- project readiness assessment
+- agent selection for tasks
+- execution phase recommendation
+- blocker and risk identification
+- delivery plan generation
+
+Difference from LeadAgent:
+LeadAgent coordinates a single pipeline run — it breaks down one task into subtasks for engineers.
+AutonomousProjectOrchestrator coordinates across the entire factory — it decides WHICH pipeline run to execute next, with which agents, for which project.
+
+Difference from RoadmapAgent:
+RoadmapAgent prioritizes features within a phase.
+Orchestrator decides which phase the project should be in and what needs to happen to advance.
+
+When to use:
+- deciding what to build next across the factory
+- assessing whether a project is ready for implementation
+- planning a multi-step delivery sequence
+- identifying blockers before starting a pipeline run
+- coordinating cross-project execution priorities
+
+Execution plan lifecycle:
+1. Orchestrator inspects all factory data stores
+2. Creates PLAN-NNN with readiness assessment
+3. Plan is approved (manually or auto)
+4. Execution begins (pipeline run or manual action)
+5. Plan marked as completed
+
+---
+
 ## Content Agents
 
-### 5. ContentScriptAgent
+### 6. ContentScriptAgent
 
 Role:
 Content generation and copywriting agent.
@@ -184,7 +232,7 @@ When to use:
 
 ## Discovery Agents
 
-### 6. OpportunityAgent
+### 7. OpportunityAgent
 
 Role:
 Opportunity discovery and new product ideation agent.
@@ -226,7 +274,7 @@ Opportunity-to-Idea flow:
 
 ## Compliance Agents
 
-### 7. LegalRiskAgent
+### 8. LegalRiskAgent
 
 Role:
 Legal and regulatory risk assessment agent.
@@ -274,7 +322,7 @@ Risk assessment lifecycle:
 
 ## Monitoring Agents
 
-### 8. ChangeWatchAgent
+### 9. ChangeWatchAgent
 
 Role:
 Ecosystem change monitoring and impact analysis agent.
@@ -308,7 +356,7 @@ When to use:
 
 ## Implementation Agents — iOS
 
-### 9. iOSArchitectAgent
+### 10. iOSArchitectAgent
 
 Role:
 iOS architecture and system design expert.
@@ -328,7 +376,7 @@ Typical focus:
 
 ---
 
-### 10. SwiftDeveloperAgent
+### 11. SwiftDeveloperAgent
 
 Role:
 Main implementation agent.
@@ -350,7 +398,7 @@ Typical focus:
 
 ## Implementation Agents — Android
 
-### 11. AndroidArchitectAgent
+### 12. AndroidArchitectAgent
 
 Role:
 Android architecture and system design expert.
@@ -370,7 +418,7 @@ Typical focus:
 
 ---
 
-### 12. KotlinDeveloperAgent
+### 13. KotlinDeveloperAgent
 
 Role:
 Android implementation agent.
@@ -392,7 +440,7 @@ Typical focus:
 
 ## Implementation Agents — Web
 
-### 13. WebArchitectAgent
+### 14. WebArchitectAgent
 
 Role:
 Web application architecture and system design expert.
@@ -413,7 +461,7 @@ Typical focus:
 
 ---
 
-### 14. WebAppDeveloperAgent
+### 15. WebAppDeveloperAgent
 
 Role:
 Web implementation agent.
@@ -436,7 +484,7 @@ Typical focus:
 
 ## Review & Quality Agents
 
-### 15. ReviewerAgent
+### 16. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -456,7 +504,7 @@ Typical focus:
 
 ---
 
-### 16. BugHunterAgent
+### 17. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -476,7 +524,7 @@ Typical focus:
 
 ---
 
-### 17. RefactorAgent
+### 18. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -496,7 +544,7 @@ Typical focus:
 
 ---
 
-### 18. AccessibilityAgent
+### 19. AccessibilityAgent
 
 Role:
 Accessibility review and compliance agent.
@@ -531,7 +579,7 @@ When to use:
 
 ---
 
-### 19. TestGeneratorAgent
+### 20. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -555,25 +603,26 @@ Typical focus:
 
 A normal feature run uses the following sequence:
 
-1. LeadAgent
-2. ProductStrategistAgent (optional — for idea evaluation)
-3. RoadmapAgent (optional — for multi-feature planning)
-4. ProjectBootstrapAgent (optional — for project creation from ideas)
-5. ContentScriptAgent (optional — for content generation)
-6. OpportunityAgent (optional — for opportunity discovery)
-7. LegalRiskAgent (optional — for legal risk assessment)
-8. ChangeWatchAgent (optional — for ecosystem monitoring)
-9. iOSArchitectAgent (iOS projects)
-10. SwiftDeveloperAgent (iOS projects)
-11. AndroidArchitectAgent (Android projects)
-12. KotlinDeveloperAgent (Android projects)
-13. WebArchitectAgent (Web projects)
-14. WebAppDeveloperAgent (Web projects)
-15. ReviewerAgent
-16. BugHunterAgent
-17. RefactorAgent
-18. AccessibilityAgent (optional — for accessibility review)
-19. TestGeneratorAgent
+1. AutonomousProjectOrchestrator (optional — for execution planning)
+2. LeadAgent
+3. ProductStrategistAgent (optional — for idea evaluation)
+4. RoadmapAgent (optional — for multi-feature planning)
+5. ProjectBootstrapAgent (optional — for project creation from ideas)
+6. ContentScriptAgent (optional — for content generation)
+7. OpportunityAgent (optional — for opportunity discovery)
+8. LegalRiskAgent (optional — for legal risk assessment)
+9. ChangeWatchAgent (optional — for ecosystem monitoring)
+10. iOSArchitectAgent (iOS projects)
+11. SwiftDeveloperAgent (iOS projects)
+12. AndroidArchitectAgent (Android projects)
+13. KotlinDeveloperAgent (Android projects)
+14. WebArchitectAgent (Web projects)
+15. WebAppDeveloperAgent (Web projects)
+16. ReviewerAgent
+17. BugHunterAgent
+18. RefactorAgent
+19. AccessibilityAgent (optional — for accessibility review)
+20. TestGeneratorAgent
 
 For pure implementation tasks, planning/content/watch agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
@@ -585,6 +634,7 @@ For ecosystem monitoring, all other agents may be skipped.
 For accessibility review, only AccessibilityAgent and ReviewerAgent are needed.
 For Android implementation, AndroidArchitectAgent and KotlinDeveloperAgent replace iOS agents.
 For Web implementation, WebArchitectAgent and WebAppDeveloperAgent replace iOS agents.
+For execution planning, only AutonomousProjectOrchestrator and ProductStrategistAgent are needed.
 
 Depending on run mode or agent toggles, some optional agents can be disabled.
 
@@ -682,6 +732,14 @@ Apply the most relevant fixes after the previous passes.
 # Agent Outputs
 
 The agents may produce:
+
+Orchestration outputs:
+- execution plans (PLAN-NNN)
+- readiness assessments (not_ready/blocked/needs_spec/needs_review/ready)
+- agent selection recommendations
+- execution step sequences
+- blocker and risk identification
+- suggested pipeline run commands
 
 Bootstrap outputs:
 - project records (PROJ-NNN)
@@ -835,7 +893,8 @@ Agents receive task context built from:
 9. opportunity summary (from opportunity_store.json)
 10. compliance summary (from compliance_reports.json)
 11. bootstrap summary (from project_store.json)
-12. current user task
+12. orchestration summary (from orchestration_plan_store.json)
+13. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities
