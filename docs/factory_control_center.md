@@ -27,6 +27,7 @@ Built with Python + Streamlit. Designed to run on the existing Ubuntu/Docker ser
 | Accessibility | A11Y findings by issue type/severity |
 | Orchestration | Execution plans with steps, blockers, risks |
 | Content | Marketing copy, scripts, release notes |
+| Activity Feed | Chronological event feed across all stores with filters (source, project, severity) |
 
 ### Overview Sections
 
@@ -37,7 +38,7 @@ Built with Python + Streamlit. Designed to run on the existing Ubuntu/Docker ser
 | Alerts & Blocked Items | High-priority ideas, blocked plans, high-risk compliance, critical watch events, external review needed, critical a11y |
 | Project Readiness | Per-project expandable cards with idea/spec/plan/compliance/a11y metrics |
 | Idea Pipeline | Status flow counts (inbox → classified → prioritized → spec-ready → done/blocked/parked) |
-| Recent Activity | Latest 15 items across all stores, sorted by date |
+| Recent Activity | Preview of latest 10 feed events (full feed on Activity Feed page) |
 | Opportunities & Watch | Active opportunities and unresolved watch events |
 | Data Store Health | Per-store exists/count/last-modified (collapsed) |
 
@@ -49,6 +50,7 @@ Built with Python + Streamlit. Designed to run on the existing Ubuntu/Docker ser
 control_center/
 ├── app.py                    # Main overview page
 ├── store_reader.py           # Read-only access to all JSON stores
+├── activity_feed.py          # Normalized event feed aggregator
 ├── requirements.txt          # streamlit
 ├── Dockerfile
 ├── docker-compose.yml
@@ -63,7 +65,8 @@ control_center/
     ├── 6_Compliance.py
     ├── 7_Accessibility.py
     ├── 8_Orchestration.py
-    └── 9_Content.py
+    ├── 9_Content.py
+    └── 10_Activity_Feed.py
 ```
 
 ### Data Flow
@@ -92,6 +95,38 @@ Factory JSON Stores (read-only)
 The StoreReader resolves the factory root via:
 1. `FACTORY_ROOT` environment variable (Docker)
 2. Parent of `control_center/` directory (local dev)
+
+### Activity Feed
+
+The Activity Feed (`activity_feed.py`) aggregates events from all factory stores into a normalized chronological feed. Each event has:
+
+| Field | Description |
+|---|---|
+| event_type | Human-readable label (e.g. "Idea Created", "Compliance Warning", "Plan Approved") |
+| source_store | Which store it came from (e.g. "ideas", "compliance") |
+| ref_id | Item ID (e.g. "IDEA-001", "LEGAL-002") |
+| title | Item title or description |
+| project | Linked project or "—" |
+| severity | Priority/severity/risk level or "—" |
+| timestamp | Date for chronological sorting |
+
+Event types are derived from each item's current status:
+
+| Source | Example Events |
+|---|---|
+| Ideas | Idea Created, Idea Classified, Idea Prioritized, Idea Blocked |
+| Specs | Spec Drafted, Spec Approved, Spec In Progress, Spec Completed |
+| Orchestration | Plan Created, Plan Approved, Plan Executing, Plan Completed |
+| Opportunities | Opportunity Detected, Opportunity Evaluated, Opportunity Accepted |
+| Watch Events | Watch Alert, Watch Acknowledged, Watch Resolved |
+| Compliance | Compliance Warning, Compliance Reviewed, Compliance Blocker |
+| Accessibility | Accessibility Warning, Accessibility Fixed |
+| Content | Content Draft Created, Content Published |
+| Bootstrap | Project Bootstrapped, Project Released |
+
+The feed is **read-only** and **derived** — no separate event store is needed. Events are aggregated fresh on each page load from existing JSON stores.
+
+The Overview page shows a preview of the latest 10 events. The dedicated Activity Feed page shows up to 100 events with filters for source, project, and severity.
 
 ---
 

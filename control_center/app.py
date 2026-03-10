@@ -265,106 +265,23 @@ else:
     st.caption("No ideas in the pipeline.")
 
 # =====================================================================
-# RECENT ACTIVITY (sorted by created_at/detected_at)
+# RECENT ACTIVITY FEED (preview — full feed on Activity Feed page)
 # =====================================================================
 st.markdown("---")
 st.subheader("Recent Activity")
 
-# Collect recent items from all stores with timestamps
-recent_items = []
+from activity_feed import build_feed, SEVERITY_ICONS
 
-for idea in ideas:
-    if idea.get("created_at"):
-        recent_items.append({
-            "date": idea["created_at"],
-            "type": "Idea",
-            "id": idea.get("id", "?"),
-            "title": idea.get("title", "?"),
-            "status": idea.get("status", "?"),
-        })
+feed_events = build_feed(reader, limit=10)
 
-for spec in specs:
-    if spec.get("created_at"):
-        recent_items.append({
-            "date": spec["created_at"],
-            "type": "Spec",
-            "id": spec.get("spec_id", "?"),
-            "title": spec.get("title", "?"),
-            "status": spec.get("status", "?"),
-        })
-
-for plan in orchestration:
-    if plan.get("created_at"):
-        recent_items.append({
-            "date": plan["created_at"],
-            "type": "Plan",
-            "id": plan.get("plan_id", "?"),
-            "title": plan.get("project", "?"),
-            "status": plan.get("status", "?"),
-        })
-
-for opp in opportunities:
-    if opp.get("detected_at"):
-        recent_items.append({
-            "date": opp["detected_at"],
-            "type": "Opportunity",
-            "id": opp.get("opportunity_id", "?"),
-            "title": opp.get("title", "?"),
-            "status": opp.get("status", "?"),
-        })
-
-for w in watch:
-    if w.get("detected_at"):
-        recent_items.append({
-            "date": w["detected_at"],
-            "type": "Watch",
-            "id": w.get("event_id", "?"),
-            "title": w.get("title", "?"),
-            "status": w.get("status", "?"),
-        })
-
-for r in compliance:
-    if r.get("created_at"):
-        recent_items.append({
-            "date": r["created_at"],
-            "type": "Compliance",
-            "id": r.get("report_id", "?"),
-            "title": r.get("topic", "?"),
-            "status": r.get("status", "?"),
-        })
-
-for r in a11y:
-    if r.get("detected_at"):
-        recent_items.append({
-            "date": r["detected_at"],
-            "type": "A11Y",
-            "id": r.get("report_id", "?"),
-            "title": f"{r.get('issue_type', '?')} in {r.get('file', '?')}",
-            "status": r.get("status", "?"),
-        })
-
-for c in content:
-    if c.get("created_at"):
-        recent_items.append({
-            "date": c["created_at"],
-            "type": "Content",
-            "id": c.get("content_id", "?"),
-            "title": c.get("title", "?"),
-            "status": c.get("status", "?"),
-        })
-
-# Sort by date descending, show latest 15
-recent_items.sort(key=lambda x: x["date"], reverse=True)
-recent_items = recent_items[:15]
-
-if recent_items:
-    for item in recent_items:
-        type_icons = {
-            "Idea": "💡", "Spec": "📋", "Plan": "🎯", "Opportunity": "🔍",
-            "Watch": "👁", "Compliance": "⚖️", "A11Y": "♿", "Content": "📝",
-        }
-        icon = type_icons.get(item["type"], "📌")
-        st.text(f"  {item['date']}  {icon} {item['type']:11s}  {item['id']:12s}  {item['title'][:50]}  [{item['status']}]")
+if feed_events:
+    for event in feed_events:
+        sev = event["severity"]
+        sev_icon = SEVERITY_ICONS.get(sev, "")
+        project_tag = f" `{event['project']}`" if event["project"] != "—" else ""
+        sev_tag = f" {sev_icon}" if sev_icon else ""
+        st.text(f"  {event['timestamp']}  {event['icon']} {event['event_type']:28s}  {event['ref_id']:12s}  {event['title'][:40]}{sev_tag}")
+    st.caption("Full feed → Activity Feed page")
 else:
     st.caption("No recent activity found.")
 
