@@ -21,6 +21,10 @@ from agents.accessibility_agent import create_accessibility_agent
 from agents.opportunity_agent import create_opportunity_agent
 from agents.legal_risk_agent import create_legal_risk_agent
 from agents.project_bootstrap_agent import create_project_bootstrap_agent
+from agents.android_architect_agent import create_android_architect_agent
+from agents.kotlin_developer_agent import create_kotlin_developer_agent
+from agents.web_architect_agent import create_web_architect_agent
+from agents.webapp_developer_agent import create_webapp_developer_agent
 from project_context.context_loader import load_project_context
 from memory.memory_manager import MemoryManager
 from planning.feature_planner import FeaturePlanner
@@ -75,6 +79,10 @@ class TaskManager:
         self.opportunity_agent = create_opportunity_agent() if _on("opportunity_agent") else None
         self.legal_risk_agent = create_legal_risk_agent() if _on("legal_risk_agent") else None
         self.project_bootstrap_agent = create_project_bootstrap_agent() if _on("project_bootstrap_agent") else None
+        self.android_architect_agent = create_android_architect_agent() if _on("android_architect") else None
+        self.kotlin_developer_agent = create_kotlin_developer_agent() if _on("kotlin_developer") else None
+        self.web_architect_agent = create_web_architect_agent() if _on("web_architect") else None
+        self.webapp_developer_agent = create_webapp_developer_agent() if _on("webapp_developer") else None
 
         self.project_context = load_project_context()
         self.memory_manager = MemoryManager()
@@ -120,6 +128,14 @@ class TaskManager:
             summary["legal_risk_agent"] = self.legal_risk_agent.name
         if self.project_bootstrap_agent:
             summary["project_bootstrap_agent"] = self.project_bootstrap_agent.name
+        if self.android_architect_agent:
+            summary["android_architect"] = self.android_architect_agent.name
+        if self.kotlin_developer_agent:
+            summary["kotlin_developer"] = self.kotlin_developer_agent.name
+        if self.web_architect_agent:
+            summary["web_architect"] = self.web_architect_agent.name
+        if self.webapp_developer_agent:
+            summary["webapp_developer"] = self.webapp_developer_agent.name
         return summary
 
     def get_project_context_summary(self) -> str:
@@ -183,6 +199,10 @@ class TaskManager:
             self.opportunity_agent,
             self.legal_risk_agent,
             self.project_bootstrap_agent,
+            self.android_architect_agent,
+            self.kotlin_developer_agent,
+            self.web_architect_agent,
+            self.webapp_developer_agent,
         ]:
             if agent is not None:
                 participants.append(agent)

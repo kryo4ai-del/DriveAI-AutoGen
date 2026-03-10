@@ -306,7 +306,7 @@ When to use:
 
 ---
 
-## Implementation Agents
+## Implementation Agents — iOS
 
 ### 9. iOSArchitectAgent
 
@@ -348,9 +348,95 @@ Typical focus:
 
 ---
 
+## Implementation Agents — Android
+
+### 11. AndroidArchitectAgent
+
+Role:
+Android architecture and system design expert.
+
+Responsibilities:
+- design Android app architecture using Jetpack Compose
+- define module boundaries and Gradle project structure
+- recommend MVVM or MVI patterns
+- design navigation using Navigation Compose
+- ensure Material Design 3 compatibility
+
+Typical focus:
+- Gradle module structure
+- dependency injection (Hilt/Dagger)
+- Room + Retrofit/Ktor integration
+- lifecycle-aware patterns
+
+---
+
+### 12. KotlinDeveloperAgent
+
+Role:
+Android implementation agent.
+
+Responsibilities:
+- write Kotlin code with Jetpack Compose UI
+- build reusable Android UI components (Material Design 3)
+- implement ViewModels with StateFlow/SharedFlow
+- use Kotlin coroutines and Flow for async operations
+- produce modular, testable, production-oriented code
+
+Typical focus:
+- Jetpack Compose UI
+- Kotlin coroutines
+- clean architecture
+- lifecycle awareness
+
+---
+
+## Implementation Agents — Web
+
+### 13. WebArchitectAgent
+
+Role:
+Web application architecture and system design expert.
+
+Responsibilities:
+- design web app architecture (React, Next.js, or other modern frameworks)
+- define component hierarchy and state management patterns
+- recommend folder structure and module boundaries
+- design API integration and data flow
+- plan deployment strategy (Vercel, Cloudflare, Docker)
+
+Typical focus:
+- React/Next.js architecture
+- TypeScript type safety
+- SSR vs CSR tradeoffs
+- state management (Context, Zustand, Redux)
+- SEO and performance
+
+---
+
+### 14. WebAppDeveloperAgent
+
+Role:
+Web implementation agent.
+
+Responsibilities:
+- write TypeScript code with React/Next.js
+- build reusable web UI components
+- implement responsive layouts with Tailwind CSS
+- follow component-driven architecture patterns
+- use React hooks and modern patterns
+
+Typical focus:
+- TypeScript strict mode
+- React Server Components
+- Tailwind CSS styling
+- semantic HTML and ARIA
+- web performance
+
+---
+
 ## Review & Quality Agents
 
-### 11. ReviewerAgent
+### 15. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -370,7 +456,7 @@ Typical focus:
 
 ---
 
-### 12. BugHunterAgent
+### 16. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -390,7 +476,7 @@ Typical focus:
 
 ---
 
-### 13. RefactorAgent
+### 17. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -410,7 +496,7 @@ Typical focus:
 
 ---
 
-### 14. AccessibilityAgent
+### 18. AccessibilityAgent
 
 Role:
 Accessibility review and compliance agent.
@@ -445,7 +531,7 @@ When to use:
 
 ---
 
-### 15. TestGeneratorAgent
+### 19. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -477,13 +563,17 @@ A normal feature run uses the following sequence:
 6. OpportunityAgent (optional — for opportunity discovery)
 7. LegalRiskAgent (optional — for legal risk assessment)
 8. ChangeWatchAgent (optional — for ecosystem monitoring)
-9. iOSArchitectAgent
-10. SwiftDeveloperAgent
-11. ReviewerAgent
-12. BugHunterAgent
-13. RefactorAgent
-14. AccessibilityAgent (optional — for accessibility review)
-15. TestGeneratorAgent
+9. iOSArchitectAgent (iOS projects)
+10. SwiftDeveloperAgent (iOS projects)
+11. AndroidArchitectAgent (Android projects)
+12. KotlinDeveloperAgent (Android projects)
+13. WebArchitectAgent (Web projects)
+14. WebAppDeveloperAgent (Web projects)
+15. ReviewerAgent
+16. BugHunterAgent
+17. RefactorAgent
+18. AccessibilityAgent (optional — for accessibility review)
+19. TestGeneratorAgent
 
 For pure implementation tasks, planning/content/watch agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
@@ -493,6 +583,8 @@ For legal risk assessment, only LegalRiskAgent and ProductStrategistAgent are ne
 For project bootstrapping, only ProjectBootstrapAgent, ProductStrategistAgent, and RoadmapAgent are needed.
 For ecosystem monitoring, all other agents may be skipped.
 For accessibility review, only AccessibilityAgent and ReviewerAgent are needed.
+For Android implementation, AndroidArchitectAgent and KotlinDeveloperAgent replace iOS agents.
+For Web implementation, WebArchitectAgent and WebAppDeveloperAgent replace iOS agents.
 
 Depending on run mode or agent toggles, some optional agents can be disabled.
 
@@ -536,13 +628,14 @@ Runs before implementation when the task involves new ideas or multi-feature pla
 ---
 
 ## Pass 1 – Implementation
-Main agents:
+Main agents (platform-dependent):
 - LeadAgent
-- iOSArchitectAgent
-- SwiftDeveloperAgent
+- iOSArchitectAgent + SwiftDeveloperAgent (iOS)
+- AndroidArchitectAgent + KotlinDeveloperAgent (Android)
+- WebArchitectAgent + WebAppDeveloperAgent (Web)
 
 Goal:
-Generate the requested feature.
+Generate the requested feature for the target platform.
 
 ---
 
@@ -638,13 +731,29 @@ Content outputs:
 - feature announcements
 - release notes
 
-Implementation outputs:
+Implementation outputs (iOS):
 - SwiftUI Views
 - ViewModels
 - Services
 - Models
 - Design system components
 - navigation logic
+
+Implementation outputs (Android):
+- Jetpack Compose UI
+- ViewModels (StateFlow/SharedFlow)
+- Room database entities
+- Retrofit/Ktor network layers
+- Gradle module configurations
+
+Implementation outputs (Web):
+- React/Next.js components
+- TypeScript types and interfaces
+- Tailwind CSS layouts
+- API route handlers
+- State management stores
+
+Shared implementation outputs:
 - test cases
 - refactor suggestions
 - debug support
@@ -743,20 +852,21 @@ This ensures that feature generation stays aligned with the project.
 
 # Current Project Context
 
-Implementation agents are currently specialized for:
+Implementation agents cover three platforms:
 
-- Swift
-- SwiftUI
-- MVVM
-- Apple ecosystem
-- iPhone / iPad / future Apple Watch integration
+iOS:
+- Swift / SwiftUI / MVVM
+- iPhone / iPad / watchOS
 
-Planning agents (ProductStrategist, Roadmap) are product-agnostic and reusable for:
+Android:
+- Kotlin / Jetpack Compose / MVVM-MVI
+- Material Design 3
 
-- Android apps
-- Web apps
-- SaaS products
-- Any future AI App Factory project
+Web:
+- TypeScript / React / Next.js
+- Tailwind CSS / Server Components
+
+Planning, review, and quality agents are platform-agnostic and reusable across all platforms.
 
 Primary active project:
 AskFin (DriveAI)
@@ -769,14 +879,17 @@ The current agent system is designed to evolve into a broader:
 
 Universal AI App Factory
 
+Current platform coverage:
+- iOS (iOSArchitect + SwiftDeveloper)
+- Android (AndroidArchitect + KotlinDeveloper)
+- Web (WebArchitect + WebAppDeveloper)
+
 Future expansions may include:
-- Android agents
 - Unity game agents
-- Web app agents
 - SaaS feature agents
 - marketing / analytics / support agents
 
-DriveAI is the first real product being built on top of this system.
+DriveAI/AskFin is the first real product being built on top of this system.
 
 ---
 

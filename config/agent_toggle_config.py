@@ -23,6 +23,10 @@ ALL_AGENTS = [
     "opportunity_agent",
     "legal_risk_agent",
     "project_bootstrap_agent",
+    "android_architect",
+    "kotlin_developer",
+    "web_architect",
+    "webapp_developer",
 ]
 
 # These agents are always force-enabled regardless of config or CLI flags

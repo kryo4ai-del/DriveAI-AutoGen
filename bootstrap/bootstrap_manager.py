@@ -23,6 +23,8 @@ VALID_CATEGORIES = (
 
 VALID_PLATFORMS = (
     "ios",
+    "ipad",
+    "watchos",
     "android",
     "web",
     "cross_platform",
@@ -86,12 +88,18 @@ class BootstrapManager:
         """Convert project name to folder-safe slug."""
         return name.lower().replace(" ", "-").replace("_", "-")
 
+    def _validate_platforms(self, platforms: list[str]) -> None:
+        for p in platforms:
+            if p not in VALID_PLATFORMS:
+                raise ValueError(f"Invalid platform: {p}. Valid: {VALID_PLATFORMS}")
+
     def create_project(
         self,
         name: str,
         description: str = "",
         category: str = "ios_app",
         platform: str = "ios",
+        secondary_platforms: list[str] | None = None,
         linked_idea: str = "",
         notes: str = "",
     ) -> dict:
@@ -99,6 +107,8 @@ class BootstrapManager:
             raise ValueError(f"Invalid category: {category}. Valid: {VALID_CATEGORIES}")
         if platform not in VALID_PLATFORMS:
             raise ValueError(f"Invalid platform: {platform}. Valid: {VALID_PLATFORMS}")
+        if secondary_platforms:
+            self._validate_platforms(secondary_platforms)
 
         project = {
             "project_id": self._next_id(),
@@ -107,6 +117,7 @@ class BootstrapManager:
             "description": description,
             "category": category,
             "platform": platform,
+            "secondary_platforms": secondary_platforms or [],
             "status": "created",
             "linked_idea": linked_idea,
             "created_at": date.today().isoformat(),
@@ -123,6 +134,7 @@ class BootstrapManager:
             description=overrides.get("description", idea.get("description", "")),
             category=overrides.get("category", "ios_app"),
             platform=overrides.get("platform", "ios"),
+            secondary_platforms=overrides.get("secondary_platforms"),
             linked_idea=idea.get("idea_id", ""),
             notes=overrides.get("notes", f"Bootstrapped from {idea.get('idea_id', '?')}"),
         )
@@ -170,10 +182,14 @@ class BootstrapManager:
             f"Project ID: {proj['project_id']}",
             f"Category: {proj['category']}",
             f"Platform: {proj['platform']}",
+        ]
+        if proj.get("secondary_platforms"):
+            lines.append(f"Secondary Platforms: {', '.join(proj['secondary_platforms'])}")
+        lines.extend([
             f"Created: {proj['created_at']}",
             f"Status: {proj['status']}",
             "",
-        ]
+        ])
         if proj.get("linked_idea"):
             lines.append(f"Linked Idea: {proj['linked_idea']}")
             lines.append("")

@@ -1,13 +1,13 @@
 # Factory Operating Guide
 
-Last Updated: 2026-03-09
+Last Updated: 2026-03-10
 
 ---
 
 ## What This Guide Covers
 
 How to use the AI App Factory from raw idea to finished product.
-Practical workflows, prompts, and rules for working with the 15-agent system.
+Practical workflows, prompts, and rules for working with the 19-agent multi-platform system.
 
 ---
 
@@ -16,7 +16,7 @@ Practical workflows, prompts, and rules for working with the 15-agent system.
 The AI App Factory is a multi-agent development system built on AutoGen.
 
 ```
-15 Agents:
+19 Agents:
   2 Planning    — ProductStrategist, Roadmap
   1 Bootstrap   — ProjectBootstrap
   1 Content     — ContentScript
@@ -24,7 +24,8 @@ The AI App Factory is a multi-agent development system built on AutoGen.
   1 Compliance  — LegalRisk
   1 Monitoring  — ChangeWatch
   1 Quality     — Accessibility
-  7 Build       — Lead, Architect, Developer, Reviewer, BugHunter, Refactor, TestGenerator
+  11 Build      — Lead, iOSArchitect, SwiftDeveloper, AndroidArchitect, KotlinDeveloper,
+                   WebArchitect, WebAppDeveloper, Reviewer, BugHunter, Refactor, TestGenerator
 ```
 
 ```
@@ -479,9 +480,9 @@ Group by urgency: Now / Soon / Later / Info.
 
 ---
 
-## Current System State (2026-03-09)
+## Current System State (2026-03-10)
 
-- **Agents**: 15 (all active)
+- **Agents**: 19 (all active — iOS + Android + Web)
 - **Projects**: 2 (askfin: mvp-complete, factory-core: active)
 - **Ideas**: 5 (2 inbox, 3 classified)
 - **Specs**: 0 (empty, ready for use)

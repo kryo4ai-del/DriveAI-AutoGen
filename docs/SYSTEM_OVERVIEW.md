@@ -1,6 +1,6 @@
 # AskFin System Overview
 
-Last Updated: 2026-03-09
+Last Updated: 2026-03-10
 
 ---
 
@@ -61,11 +61,24 @@ Quality agents:
 
 - AccessibilityAgent (accessibility review, WCAG compliance, VoiceOver, touch targets)
 
-Implementation agents:
+Implementation agents (iOS):
 
-- LeadAgent
 - iOSArchitectAgent
 - SwiftDeveloperAgent
+
+Implementation agents (Android):
+
+- AndroidArchitectAgent
+- KotlinDeveloperAgent
+
+Implementation agents (Web):
+
+- WebArchitectAgent
+- WebAppDeveloperAgent
+
+Core implementation agents:
+
+- LeadAgent
 - ReviewerAgent
 - BugHunterAgent
 - RefactorAgent
@@ -92,7 +105,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 15 (2 planning + 1 bootstrap + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 7 implementation)
+Total agents: 19 (2 planning + 1 bootstrap + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 11 implementation)
 
 Factory Idea Intake:
 
