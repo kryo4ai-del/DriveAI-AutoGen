@@ -102,6 +102,29 @@ class StoreReader:
     def bootstrap(self) -> list[dict]:
         return self._load(*self.STORE_MAP["bootstrap"])
 
+    # --- Memory accessor ---
+
+    def memory(self) -> dict[str, list[dict]]:
+        """Load agent memory store. Returns dict with category keys, each a list of entries."""
+        path = self.root / "memory" / "memory_store.json"
+        if not path.exists():
+            return {}
+        try:
+            text = path.read_text(encoding="utf-8").strip()
+            if not text:
+                return {}
+            data = json.loads(text)
+            if not isinstance(data, dict):
+                return {}
+            # Only return categories that are lists of dicts
+            return {k: v for k, v in data.items() if isinstance(v, list)}
+        except (json.JSONDecodeError, OSError, TypeError):
+            return {}
+
+    def memory_mtime(self) -> str:
+        mtime = self._store_mtime("memory/memory_store.json")
+        return mtime.strftime("%Y-%m-%d %H:%M UTC") if mtime else "—"
+
     # --- Config accessors ---
 
     def agent_toggles(self) -> dict:

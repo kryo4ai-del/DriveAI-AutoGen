@@ -28,6 +28,7 @@ Built with Python + Streamlit. Designed to run on the existing Ubuntu/Docker ser
 | Orchestration | Execution plans with steps, blockers, risks |
 | Content | Marketing copy, scripts, release notes |
 | Activity Feed | Chronological event feed across all stores with filters (source, project, severity) |
+| Agent Memory | Browse agent memory entries (decisions, architecture notes, implementation notes, review notes) with category/agent/keyword filters |
 
 ### Overview Sections
 
@@ -40,6 +41,7 @@ Built with Python + Streamlit. Designed to run on the existing Ubuntu/Docker ser
 | Idea Pipeline | Status flow counts (inbox → classified → prioritized → spec-ready → done/blocked/parked) |
 | Recent Activity | Preview of latest 10 feed events (full feed on Activity Feed page) |
 | Opportunities & Watch | Active opportunities and unresolved watch events |
+| Agent Memory Snapshot | Category counts + 5 most recent memory notes (full explorer on Agent Memory page) |
 | Data Store Health | Per-store exists/count/last-modified (collapsed) |
 
 ---
@@ -66,7 +68,8 @@ control_center/
     ├── 7_Accessibility.py
     ├── 8_Orchestration.py
     ├── 9_Content.py
-    └── 10_Activity_Feed.py
+    ├── 10_Activity_Feed.py
+    └── 11_Agent_Memory.py
 ```
 
 ### Data Flow

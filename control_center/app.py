@@ -314,6 +314,40 @@ with watch_col:
         st.caption("No active watch events.")
 
 # =====================================================================
+# AGENT MEMORY SNAPSHOT
+# =====================================================================
+st.markdown("---")
+st.subheader("Agent Memory")
+
+memory_data = reader.memory()
+memory_total = sum(len(v) for v in memory_data.values())
+
+if memory_data:
+    mem_cols = st.columns(len(memory_data) + 1)
+    mem_cols[0].metric("Total Entries", memory_total)
+    for i, (cat, entries) in enumerate(sorted(memory_data.items()), 1):
+        mem_cols[i].metric(cat.replace("_", " ").title(), len(entries))
+
+    # Show 5 most recent entries across all categories
+    recent_notes = []
+    for cat, entries in memory_data.items():
+        for entry in entries:
+            if entry.get("timestamp"):
+                recent_notes.append({**entry, "category": cat})
+    recent_notes.sort(key=lambda e: e["timestamp"], reverse=True)
+
+    if recent_notes:
+        st.markdown("**Recent notes**")
+        cat_icons = {"decisions": "⚖️", "architecture_notes": "🏗️", "implementation_notes": "🔧", "review_notes": "📝"}
+        for note in recent_notes[:5]:
+            icon = cat_icons.get(note["category"], "📌")
+            text = note.get("note", "")[:80]
+            st.text(f"  {icon} {note['timestamp'][:16]}  {text}")
+    st.caption(f"Last updated {reader.memory_mtime()} — Full explorer → Agent Memory page")
+else:
+    st.caption("No agent memory recorded yet.")
+
+# =====================================================================
 # DATA STORE HEALTH (collapsed)
 # =====================================================================
 st.markdown("---")
