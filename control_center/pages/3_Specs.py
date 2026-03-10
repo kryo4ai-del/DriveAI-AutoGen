@@ -7,32 +7,35 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from store_reader import StoreReader
 
-st.set_page_config(page_title="Specs", page_icon="📋", layout="wide")
-st.title("Specs")
+st.set_page_config(page_title="Specs — Factory Control Center", page_icon="📋", layout="wide")
 
+st.title("Specs")
 reader = StoreReader()
 specs = reader.specs()
 
+st.caption(f"{len(specs)} total specs")
+
 if not specs:
-    st.info("No specs created yet.")
+    st.info("No specs created yet. Create specs from prioritized ideas.")
     st.stop()
 
 # Filters
 col1, col2 = st.columns(2)
 statuses = sorted({s.get("status", "unknown") for s in specs})
-projects = sorted({s.get("project", "unknown") for s in specs if s.get("project")})
+spec_projects = sorted({s.get("project", "—") for s in specs})
 
 with col1:
     sel_status = st.selectbox("Status", ["all"] + statuses)
 with col2:
-    sel_project = st.selectbox("Project", ["all"] + projects)
+    sel_project = st.selectbox("Project", ["all"] + spec_projects)
 
 filtered = specs
 if sel_status != "all":
     filtered = [s for s in filtered if s.get("status") == sel_status]
 if sel_project != "all":
-    filtered = [s for s in filtered if s.get("project") == sel_project]
+    filtered = [s for s in filtered if s.get("project", "—") == sel_project]
 
+st.markdown("---")
 st.caption(f"Showing {len(filtered)} of {len(specs)} specs")
 
 for spec in filtered:

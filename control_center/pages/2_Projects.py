@@ -7,14 +7,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from store_reader import StoreReader
 
-st.set_page_config(page_title="Projects", page_icon="📦", layout="wide")
-st.title("Projects")
+st.set_page_config(page_title="Projects — Factory Control Center", page_icon="📦", layout="wide")
 
+st.title("Projects")
 reader = StoreReader()
 
 # --- Registered Projects ---
 st.subheader("Registered Projects")
 projects = reader.projects()
+st.caption(f"{len(projects)} registered projects")
 
 if projects:
     for p in projects:
@@ -30,12 +31,13 @@ if projects:
             if p.get("notes"):
                 st.markdown(f"**Notes**: {p['notes']}")
 else:
-    st.info("No projects registered.")
+    st.info("No projects registered yet.")
 
 # --- Bootstrapped Projects ---
 st.markdown("---")
 st.subheader("Bootstrapped Projects")
 bootstrap = reader.bootstrap()
+st.caption(f"{len(bootstrap)} bootstrapped projects")
 
 if bootstrap:
     for bp in bootstrap:
@@ -54,4 +56,4 @@ if bootstrap:
             if bp.get("created_at"):
                 st.caption(f"Created: {bp['created_at']}")
 else:
-    st.info("No bootstrapped projects.")
+    st.info("No bootstrapped projects yet.")

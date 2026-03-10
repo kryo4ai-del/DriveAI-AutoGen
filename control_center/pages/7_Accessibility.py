@@ -7,18 +7,21 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from store_reader import StoreReader
 
-st.set_page_config(page_title="Accessibility", page_icon="♿", layout="wide")
-st.title("Accessibility Reports")
-
-reader = StoreReader()
-reports = reader.accessibility()
-
-if not reports:
-    st.info("No accessibility reports yet.")
-    st.stop()
+st.set_page_config(page_title="Accessibility — Factory Control Center", page_icon="♿", layout="wide")
 
 SEVERITY_ICONS = {"critical": "🔴", "high": "🟠", "medium": "🟡", "low": "🟢", "info": "⚪"}
 
+st.title("Accessibility Reports")
+reader = StoreReader()
+reports = reader.accessibility()
+
+st.caption(f"{len(reports)} total accessibility reports")
+
+if not reports:
+    st.info("No accessibility reports yet. The AccessibilityAgent reviews views during pipeline runs.")
+    st.stop()
+
+# Filters
 col1, col2 = st.columns(2)
 statuses = sorted({r.get("status", "unknown") for r in reports})
 types = sorted({r.get("issue_type", "unknown") for r in reports})
@@ -34,6 +37,7 @@ if sel_status != "all":
 if sel_type != "all":
     filtered = [r for r in filtered if r.get("issue_type") == sel_type]
 
+st.markdown("---")
 st.caption(f"Showing {len(filtered)} of {len(reports)} reports")
 
 for r in filtered:

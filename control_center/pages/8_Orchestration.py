@@ -7,39 +7,37 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from store_reader import StoreReader
 
-st.set_page_config(page_title="Orchestration", page_icon="🎯", layout="wide")
-st.title("Orchestration Plans")
+st.set_page_config(page_title="Orchestration — Factory Control Center", page_icon="🎯", layout="wide")
 
+STATUS_ICONS = {"draft": "📝", "approved": "✅", "executing": "⚡", "completed": "🏁", "cancelled": "❌"}
+
+st.title("Orchestration Plans")
 reader = StoreReader()
 plans = reader.orchestration()
 
+st.caption(f"{len(plans)} total orchestration plans")
+
 if not plans:
-    st.info("No orchestration plans yet.")
+    st.info("No orchestration plans yet. The AutonomousProjectOrchestrator creates these.")
     st.stop()
 
-STATUS_ICONS = {
-    "draft": "📝",
-    "approved": "✅",
-    "executing": "⚡",
-    "completed": "🏁",
-    "cancelled": "❌",
-}
-
+# Filters
 col1, col2 = st.columns(2)
 statuses = sorted({p.get("status", "unknown") for p in plans})
-projects = sorted({p.get("project", "unknown") for p in plans if p.get("project")})
+plan_projects = sorted({p.get("project", "—") for p in plans})
 
 with col1:
     sel_status = st.selectbox("Status", ["all"] + statuses)
 with col2:
-    sel_project = st.selectbox("Project", ["all"] + projects)
+    sel_project = st.selectbox("Project", ["all"] + plan_projects)
 
 filtered = plans
 if sel_status != "all":
     filtered = [p for p in filtered if p.get("status") == sel_status]
 if sel_project != "all":
-    filtered = [p for p in filtered if p.get("project") == sel_project]
+    filtered = [p for p in filtered if p.get("project", "—") == sel_project]
 
+st.markdown("---")
 st.caption(f"Showing {len(filtered)} of {len(plans)} plans")
 
 for plan in filtered:

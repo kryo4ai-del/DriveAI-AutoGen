@@ -7,16 +7,19 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from store_reader import StoreReader
 
-st.set_page_config(page_title="Content", page_icon="📝", layout="wide")
-st.title("Content")
+st.set_page_config(page_title="Content — Factory Control Center", page_icon="📝", layout="wide")
 
+st.title("Content")
 reader = StoreReader()
 content = reader.content()
 
+st.caption(f"{len(content)} total content items")
+
 if not content:
-    st.info("No content items yet.")
+    st.info("No content items yet. The ContentScriptAgent generates marketing copy, scripts, and release notes.")
     st.stop()
 
+# Filters
 col1, col2 = st.columns(2)
 statuses = sorted({c.get("status", "unknown") for c in content})
 types = sorted({c.get("type", "unknown") for c in content})
@@ -32,6 +35,7 @@ if sel_status != "all":
 if sel_type != "all":
     filtered = [c for c in filtered if c.get("type") == sel_type]
 
+st.markdown("---")
 st.caption(f"Showing {len(filtered)} of {len(content)} items")
 
 for item in filtered:
@@ -49,7 +53,7 @@ for item in filtered:
             st.markdown(f"**Summary**: {item['summary']}")
         if item.get("draft"):
             st.markdown("**Draft**:")
-            st.text_area("", value=item["draft"], height=200, disabled=True, key=item.get("content_id", "?"))
+            st.text_area("", value=item["draft"], height=200, disabled=True, key=item.get("content_id", "draft"))
         if item.get("linked_spec_id"):
             st.markdown(f"**Linked Spec**: `{item['linked_spec_id']}`")
         if item.get("created_at"):

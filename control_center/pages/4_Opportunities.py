@@ -7,16 +7,19 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from store_reader import StoreReader
 
-st.set_page_config(page_title="Opportunities", page_icon="🔍", layout="wide")
-st.title("Opportunities")
+st.set_page_config(page_title="Opportunities — Factory Control Center", page_icon="🔍", layout="wide")
 
+st.title("Opportunities")
 reader = StoreReader()
 opps = reader.opportunities()
 
+st.caption(f"{len(opps)} total opportunities")
+
 if not opps:
-    st.info("No opportunities discovered yet.")
+    st.info("No opportunities discovered yet. The OpportunityAgent finds these during pipeline runs.")
     st.stop()
 
+# Filters
 col1, col2 = st.columns(2)
 statuses = sorted({o.get("status", "unknown") for o in opps})
 categories = sorted({o.get("category", "unknown") for o in opps})
@@ -32,6 +35,7 @@ if sel_status != "all":
 if sel_cat != "all":
     filtered = [o for o in filtered if o.get("category") == sel_cat]
 
+st.markdown("---")
 st.caption(f"Showing {len(filtered)} of {len(opps)} opportunities")
 
 for opp in filtered:

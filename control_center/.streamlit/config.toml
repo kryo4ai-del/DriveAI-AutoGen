@@ -8,6 +8,8 @@ textColor = "#fafafa"
 headless = true
 enableCORS = false
 enableXsrfProtection = true
+fileWatcherType = "poll"
+maxUploadSize = 1
 
 [browser]
 gatherUsageStats = false

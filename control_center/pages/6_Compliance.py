@@ -7,18 +7,21 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from store_reader import StoreReader
 
-st.set_page_config(page_title="Compliance", page_icon="⚖", layout="wide")
-st.title("Compliance Reports")
-
-reader = StoreReader()
-reports = reader.compliance()
-
-if not reports:
-    st.info("No compliance reports yet.")
-    st.stop()
+st.set_page_config(page_title="Compliance — Factory Control Center", page_icon="⚖", layout="wide")
 
 RISK_ICONS = {"critical": "🔴", "high": "🟠", "medium": "🟡", "low": "🟢"}
 
+st.title("Compliance Reports")
+reader = StoreReader()
+reports = reader.compliance()
+
+st.caption(f"{len(reports)} total compliance reports")
+
+if not reports:
+    st.info("No compliance reports yet. The LegalRiskAgent assesses risks during pipeline runs.")
+    st.stop()
+
+# Filters
 col1, col2 = st.columns(2)
 statuses = sorted({r.get("status", "unknown") for r in reports})
 topics = sorted({r.get("topic", "unknown") for r in reports})
@@ -34,6 +37,7 @@ if sel_status != "all":
 if sel_topic != "all":
     filtered = [r for r in filtered if r.get("topic") == sel_topic]
 
+st.markdown("---")
 st.caption(f"Showing {len(filtered)} of {len(reports)} reports")
 
 for r in filtered:
