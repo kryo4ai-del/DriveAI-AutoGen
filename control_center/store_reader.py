@@ -40,6 +40,7 @@ class StoreReader:
         "bootstrap": ("bootstrap/project_store.json", "projects"),
         "improvements": ("improvements/improvement_proposals.json", "proposals"),
         "trends": ("trends/trend_store.json", "trends"),
+        "briefings": ("briefings/briefing_store.json", "briefings"),
     }
 
     def __init__(self):
@@ -109,6 +110,9 @@ class StoreReader:
 
     def trends(self) -> list[dict]:
         return self._load(*self.STORE_MAP["trends"])
+
+    def briefings(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["briefings"])
 
     # --- Memory accessor ---
 

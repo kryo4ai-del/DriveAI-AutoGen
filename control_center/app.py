@@ -49,6 +49,7 @@ orchestration = reader.orchestration()
 bootstrap = reader.bootstrap()
 improvement_proposals = reader.improvements()
 detected_trends = reader.trends()
+all_briefings = reader.briefings()
 
 # --- Header ---
 st.title("AI App Factory — Control Center")
@@ -398,6 +399,32 @@ if memory_data:
     st.caption(f"Last updated {reader.memory_mtime()} — Full explorer → Agent Memory page")
 else:
     st.caption("No agent memory recorded yet.")
+
+# =====================================================================
+# LATEST BRIEFING
+# =====================================================================
+st.markdown("---")
+st.subheader("Latest Briefing")
+
+if all_briefings:
+    latest_brief = all_briefings[-1]
+    brief_kpis = latest_brief.get("kpis", {})
+    brief_actions = latest_brief.get("actions", [])
+    brief_alerts = len(latest_brief.get("sections", {}).get("alerts", []))
+
+    brief_cols = st.columns(4)
+    brief_cols[0].metric("Date", latest_brief.get("briefing_date", "?"))
+    brief_cols[1].metric("Alerts", brief_alerts)
+    brief_cols[2].metric("Actions", len(brief_actions))
+    brief_cols[3].metric("Briefings", len(all_briefings))
+
+    for action in brief_actions[:3]:
+        st.text(f"  - {action}")
+    if len(brief_actions) > 3:
+        st.caption(f"... +{len(brief_actions) - 3} more")
+    st.caption("Full briefing → Briefings page")
+else:
+    st.caption("No briefings generated yet. Run: python -m briefings.daily_briefing")
 
 # =====================================================================
 # DATA STORE HEALTH (collapsed)

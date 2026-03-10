@@ -1,0 +1,137 @@
+{
+  "briefings": [
+    {
+      "briefing_id": "BRIEF-001",
+      "briefing_date": "2026-03-10",
+      "sections": {
+        "executive_summary": [
+          "2 items need attention today.",
+          "2 active projects, 3 ideas in inbox, 0 plans."
+        ],
+        "new_ideas": [
+          {
+            "id": "IDEA-003",
+            "title": "Android Version",
+            "priority": "later",
+            "source": "strategy",
+            "project": "askfin"
+          },
+          {
+            "id": "IDEA-005",
+            "title": "Premium Subscription Model",
+            "priority": "next",
+            "source": "strategy",
+            "project": "askfin"
+          },
+          {
+            "id": "IDEA-006",
+            "title": "[Auto] AI pattern: rag (93 mentions)",
+            "priority": "later",
+            "source": "trend_scanner",
+            "project": ""
+          }
+        ],
+        "trends": [
+          {
+            "id": "TREND-001",
+            "title": "AI pattern: rag (93 mentions)",
+            "relevance": "100%",
+            "category": "ai_capability"
+          },
+          {
+            "id": "TREND-002",
+            "title": "Feature pattern: onboarding (16 mentions)",
+            "relevance": "60%",
+            "category": "app_category"
+          }
+        ],
+        "opportunities": [],
+        "projects": [
+          {
+            "id": "askfin",
+            "name": "AskFin",
+            "platform": "iOS",
+            "status": "mvp-complete",
+            "active": true
+          },
+          {
+            "id": "factory-core",
+            "name": "AI App Factory Core",
+            "platform": "python",
+            "status": "active",
+            "active": true
+          }
+        ],
+        "alerts": [
+          {
+            "type": "compliance",
+            "severity": "high",
+            "id": "LEGAL-001",
+            "title": "copyright"
+          },
+          {
+            "type": "idea",
+            "severity": "high",
+            "id": "IDEA-001",
+            "title": "CoreML Model Swap for Traffic Signs"
+          }
+        ],
+        "compliance": [
+          {
+            "id": "LEGAL-001",
+            "topic": "copyright",
+            "risk": "high",
+            "status": "new",
+            "ext_review": true
+          },
+          {
+            "id": "LEGAL-002",
+            "topic": "privacy_gdpr",
+            "risk": "medium",
+            "status": "new",
+            "ext_review": false
+          }
+        ],
+        "accessibility": [],
+        "improvements": [
+          {
+            "id": "IMP-001",
+            "title": "Pending external compliance reviews",
+            "category": "compliance",
+            "severity": "medium"
+          },
+          {
+            "id": "IMP-002",
+            "title": "Architecture gaps identified by agents",
+            "category": "architecture",
+            "severity": "medium"
+          }
+        ]
+      },
+      "kpis": {
+        "agents": "20/20",
+        "projects": 2,
+        "active_projects": 2,
+        "ideas": 6,
+        "ideas_inbox": 3,
+        "specs": 0,
+        "plans": 0,
+        "opportunities": 0,
+        "trends": 2,
+        "improvements": 2,
+        "watch_events": 0,
+        "compliance": 2,
+        "a11y": 0,
+        "memory_entries": 6025
+      },
+      "actions": [
+        "Address 1 high-risk compliance items (1 need external review)",
+        "Triage 3 ideas in inbox",
+        "Review 1 high-relevance AI trends"
+      ],
+      "html_path": "briefings/html/briefing_2026-03-10.html",
+      "status": "generated",
+      "created_at": "2026-03-10"
+    }
+  ]
+}
