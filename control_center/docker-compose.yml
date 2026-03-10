@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  factory-control-center:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: factory-control-center
+    restart: unless-stopped
+    ports:
+      - "8502:8502"
+    volumes:
+      # Mount the factory repo root as read-only data source
+      - ${FACTORY_REPO_PATH:-./../}:/data:ro
+    environment:
+      - FACTORY_ROOT=/data
+    mem_limit: 256m
+    cpus: 0.5

@@ -143,6 +143,13 @@ Storage:
 
 See docs/factory_intake.md for full documentation.
 
+Factory Control Center:
+- control_center/app.py (Streamlit dashboard — overview + 9 pages)
+- control_center/store_reader.py (read-only access to all JSON stores)
+- control_center/pages/ (Ideas, Projects, Specs, Opportunities, Watch, Compliance, A11Y, Orchestration, Content)
+- control_center/Dockerfile + docker-compose.yml (Docker deployment)
+- See docs/factory_control_center.md for full documentation.
+
 ---
 
 # AskFin App Modules
@@ -247,6 +254,7 @@ docs/
 - SYSTEM_OVERVIEW.md
 - factory_intake.md (includes spec pipeline documentation)
 - factory_operating_guide.md (end-to-end operating manual)
+- factory_control_center.md (web dashboard documentation)
 
 These files are the main persistence layer for continuing the project in future chats or with new coding agents.
 

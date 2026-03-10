@@ -485,6 +485,29 @@ Group by urgency: Now / Soon / Later / Info.
 
 ---
 
+## Factory Control Center
+
+A lightweight browser-based dashboard for the AI App Factory.
+
+```
+Run locally:
+  cd control_center
+  pip install -r requirements.txt
+  streamlit run app.py --server.port=8502
+
+Run on server (Docker):
+  cd control_center
+  docker compose up -d --build
+```
+
+Dashboard pages: Overview, Ideas, Projects, Specs, Opportunities, Watch Events, Compliance, Accessibility, Orchestration, Content.
+
+Reads all factory JSON stores (read-only). No database required.
+
+See `docs/factory_control_center.md` for full documentation.
+
+---
+
 ## Current System State (2026-03-10)
 
 - **Agents**: 20 (all active — iOS + Android + Web + Orchestration)
@@ -497,4 +520,5 @@ Group by urgency: Now / Soon / Later / Info.
 - **Opportunities**: 0 (empty, ready for use)
 - **Compliance**: 2 (LEGAL-001 copyright HIGH, LEGAL-002 GDPR MEDIUM)
 - **Bootstrap**: 0 (empty, ready for use)
+- **Control Center**: v1 (Streamlit, Docker-ready, port 8502)
 - **AskFin MVP**: structurally complete, ready for real testing
