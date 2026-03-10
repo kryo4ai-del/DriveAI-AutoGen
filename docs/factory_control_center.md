@@ -17,9 +17,9 @@ Built with Python + Streamlit. Designed to run on the existing Ubuntu/Docker ser
 
 | Page | What it shows |
 |---|---|
-| Overview | KPI metrics, status breakdowns, high-priority items |
+| Overview | KPI metrics, alerts banner, blocked items, project readiness, idea pipeline, recent activity, opportunities/watch summary, data store health |
 | Ideas | All ideas with filters (status, priority, project) |
-| Projects | Registered projects + bootstrapped projects |
+| Projects | Status groups, per-project steering metrics (ideas/specs/plans/compliance/a11y), latest plan info, bootstrapped projects |
 | Specs | Implementation specs with filters |
 | Opportunities | Discovered opportunities by category/status |
 | Watch Events | Ecosystem changes by severity/status |
@@ -27,6 +27,19 @@ Built with Python + Streamlit. Designed to run on the existing Ubuntu/Docker ser
 | Accessibility | A11Y findings by issue type/severity |
 | Orchestration | Execution plans with steps, blockers, risks |
 | Content | Marketing copy, scripts, release notes |
+
+### Overview Sections
+
+| Section | Purpose |
+|---|---|
+| KPI Row | Total counts for all 10 stores + agent count |
+| Alerts Banner | Count of items needing attention (red/green) |
+| Alerts & Blocked Items | High-priority ideas, blocked plans, high-risk compliance, critical watch events, external review needed, critical a11y |
+| Project Readiness | Per-project expandable cards with idea/spec/plan/compliance/a11y metrics |
+| Idea Pipeline | Status flow counts (inbox → classified → prioritized → spec-ready → done/blocked/parked) |
+| Recent Activity | Latest 15 items across all stores, sorted by date |
+| Opportunities & Watch | Active opportunities and unresolved watch events |
+| Data Store Health | Per-store exists/count/last-modified (collapsed) |
 
 ---
 
