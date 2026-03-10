@@ -48,6 +48,7 @@ opportunities = reader.opportunities()
 orchestration = reader.orchestration()
 bootstrap = reader.bootstrap()
 improvement_proposals = reader.improvements()
+detected_trends = reader.trends()
 
 # --- Header ---
 st.title("AI App Factory — Control Center")
@@ -313,6 +314,30 @@ with watch_col:
             st.text(f"  {icon} {w.get('event_id', '?')}: {w.get('title', '?')[:40]}{deadline}")
     else:
         st.caption("No active watch events.")
+
+# =====================================================================
+# AI TRENDS
+# =====================================================================
+st.markdown("---")
+st.subheader("AI Trends")
+
+active_trends = [t for t in detected_trends if t.get("status") not in ("dismissed", "expired")]
+high_rel_trends = [t for t in active_trends if t.get("relevance_score", 0) >= 0.7]
+
+if active_trends:
+    trend_cols = st.columns(4)
+    trend_cols[0].metric("Active Trends", len(active_trends))
+    trend_cols[1].metric("High Relevance", len(high_rel_trends))
+    trend_cols[2].metric("Ideas Generated", sum(1 for t in detected_trends if t.get("status") == "idea_generated"))
+    trend_cols[3].metric("Total", len(detected_trends))
+
+    for t in sorted(active_trends, key=lambda x: x.get("relevance_score", 0), reverse=True)[:5]:
+        rel = t.get("relevance_score", 0)
+        rel_icon = "🔴" if rel >= 0.7 else ("🟡" if rel >= 0.4 else "🟢")
+        st.text(f"  {rel_icon} {t.get('trend_id', '?')}: {t.get('title', '?')[:50]} [{rel:.0%}]")
+    st.caption("Full list → AI Trends page")
+else:
+    st.caption(f"No active AI trends. ({len(detected_trends)} total)")
 
 # =====================================================================
 # IMPROVEMENT PROPOSALS

@@ -47,6 +47,7 @@ TYPE_ICONS = {
     "bootstrap": "🚀",
     "projects": "📦",
     "improvements": "🔧",
+    "trends": "📡",
 }
 
 SEVERITY_ICONS = {
@@ -278,6 +279,28 @@ def build_feed(reader: StoreReader, limit: int = 50) -> list[dict]:
             "status": status,
             "timestamp": p.get("created_at", ""),
             "icon": TYPE_ICONS["improvements"],
+        })
+
+    # --- Trends ---
+    for t in reader.trends():
+        status = t.get("status", "unknown")
+        label = {
+            "detected": "Trend Detected",
+            "evaluated": "Trend Evaluated",
+            "idea_generated": "Trend → Idea",
+            "dismissed": "Trend Dismissed",
+            "expired": "Trend Expired",
+        }.get(status, f"Trend {status.title()}")
+        events.append({
+            "event_type": label,
+            "source_store": "trends",
+            "ref_id": t.get("trend_id", "?"),
+            "title": t.get("title", "Untitled"),
+            "project": ", ".join(t.get("potential_app_categories", [])) or "—",
+            "severity": f"{t.get('relevance_score', 0):.0%}" if t.get("relevance_score") else "—",
+            "status": status,
+            "timestamp": t.get("detected_at", ""),
+            "icon": TYPE_ICONS["trends"],
         })
 
     # Sort by timestamp descending, filter out items without timestamp
