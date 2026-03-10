@@ -22,6 +22,7 @@ ALL_AGENTS = [
     "accessibility_agent",
     "opportunity_agent",
     "legal_risk_agent",
+    "project_bootstrap_agent",
 ]
 
 # These agents are always force-enabled regardless of config or CLI flags

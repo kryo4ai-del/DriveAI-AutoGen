@@ -37,6 +37,10 @@ Planning agents:
 - ProductStrategistAgent (idea classification, value estimation, priority)
 - RoadmapAgent (feature prioritization, dependency mapping, phase planning)
 
+Bootstrap agents:
+
+- ProjectBootstrapAgent (project creation from ideas, folder scaffolding, metadata)
+
 Content agents:
 
 - ContentScriptAgent (content drafts, marketing copy, video scripts, release notes)
@@ -72,6 +76,7 @@ Pipeline:
 
 Task
 → Planning (optional: ProductStrategist + Roadmap)
+→ Bootstrap (optional: ProjectBootstrapAgent)
 → Content (optional: ContentScriptAgent)
 → Discovery (optional: OpportunityAgent)
 → Compliance (optional: LegalRiskAgent)
@@ -87,7 +92,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 14 (2 planning + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 7 implementation)
+Total agents: 15 (2 planning + 1 bootstrap + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 7 implementation)
 
 Factory Idea Intake:
 
@@ -114,6 +119,8 @@ Storage:
 - opportunities/opportunity_manager.py (Python API for opportunities)
 - compliance/compliance_reports.json (legal risk reports)
 - compliance/compliance_manager.py (Python API for compliance reports)
+- bootstrap/project_store.json (bootstrapped project records)
+- bootstrap/bootstrap_manager.py (Python API for project bootstrapping)
 
 See docs/factory_intake.md for full documentation.
 

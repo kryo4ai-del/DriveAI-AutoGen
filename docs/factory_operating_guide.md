@@ -7,7 +7,7 @@ Last Updated: 2026-03-09
 ## What This Guide Covers
 
 How to use the AI App Factory from raw idea to finished product.
-Practical workflows, prompts, and rules for working with the 14-agent system.
+Practical workflows, prompts, and rules for working with the 15-agent system.
 
 ---
 
@@ -16,8 +16,9 @@ Practical workflows, prompts, and rules for working with the 14-agent system.
 The AI App Factory is a multi-agent development system built on AutoGen.
 
 ```
-14 Agents:
+15 Agents:
   2 Planning    — ProductStrategist, Roadmap
+  1 Bootstrap   — ProjectBootstrap
   1 Content     — ContentScript
   1 Discovery   — Opportunity
   1 Compliance  — LegalRisk
@@ -36,6 +37,7 @@ Data Stores:
   accessibility/accessibility_reports.json — A11Y Reports
   opportunities/opportunity_store.json   — Opportunities
   compliance/compliance_reports.json     — Compliance Reports
+  bootstrap/project_store.json           — Bootstrapped Projects
 ```
 
 ---
@@ -443,6 +445,7 @@ Group by urgency: Now / Soon / Later / Info.
 | A11Y Reports | `accessibility/accessibility_reports.json` |
 | Opportunities | `opportunities/opportunity_store.json` |
 | Compliance | `compliance/compliance_reports.json` |
+| Bootstrap | `bootstrap/project_store.json` |
 | Agent Roles | `config/agent_roles.json` |
 | Agent Toggles | `config/agent_toggles.json` |
 | Pipeline Logs | `logs/driveai_run_*.txt` |
@@ -459,6 +462,7 @@ Group by urgency: Now / Soon / Later / Info.
 | Accessibility | A11Y-NNN | A11Y-001 |
 | Opportunities | OPP-NNN | OPP-001 |
 | Compliance | LEGAL-NNN | LEGAL-001 |
+| Bootstrap | PROJ-NNN | PROJ-001 |
 
 ### Status Lifecycles
 
@@ -471,12 +475,13 @@ Group by urgency: Now / Soon / Later / Info.
 | A11Y | new → acknowledged → fixed / wont_fix / false_positive |
 | Opportunities | new → evaluated → accepted → idea_created / rejected / deferred |
 | Compliance | new → reviewed → mitigated / accepted / blocked / dismissed |
+| Bootstrap | created → planning → in_development → mvp_complete → released / paused / archived |
 
 ---
 
 ## Current System State (2026-03-09)
 
-- **Agents**: 14 (all active)
+- **Agents**: 15 (all active)
 - **Projects**: 2 (askfin: mvp-complete, factory-core: active)
 - **Ideas**: 5 (2 inbox, 3 classified)
 - **Specs**: 0 (empty, ready for use)
@@ -484,5 +489,6 @@ Group by urgency: Now / Soon / Later / Info.
 - **Watch Events**: 0 (empty, ready for use)
 - **A11Y Reports**: 0 (empty, ready for use)
 - **Opportunities**: 0 (empty, ready for use)
-- **Compliance**: 0 (empty, ready for use)
+- **Compliance**: 2 (LEGAL-001 copyright HIGH, LEGAL-002 GDPR MEDIUM)
+- **Bootstrap**: 0 (empty, ready for use)
 - **AskFin MVP**: structurally complete, ready for real testing

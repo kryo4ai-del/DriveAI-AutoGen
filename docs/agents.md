@@ -105,9 +105,52 @@ When to use:
 
 ---
 
+## Bootstrap Agents
+
+### 4. ProjectBootstrapAgent
+
+Role:
+Project bootstrapping and structure generation agent.
+
+Responsibilities:
+- read validated idea records and create new project entries
+- initialize standard project folder structure (PROJECT.md, roadmap.md, specs/, content/, compliance/)
+- generate initial project metadata (ID, category, platform, status)
+- link new projects back to their source ideas
+- trigger initial spec creation for the project
+- coordinate with RoadmapAgent for initial phase planning
+
+Typical focus:
+- new project creation from ideas
+- folder structure scaffolding
+- initial documentation generation
+- project metadata management
+- idea-to-project conversion
+
+Difference from other agents:
+ProductStrategistAgent evaluates whether an idea should become a project.
+ProjectBootstrapAgent creates the actual project structure once the decision is made.
+RoadmapAgent plans features within a project; BootstrapAgent creates the project itself.
+
+When to use:
+- an idea has been approved and needs to become a real project
+- a new product needs initial structure
+- the factory needs to scaffold a project workspace
+- converting opportunities or specs into standalone projects
+
+Idea-to-Project flow:
+1. Idea reaches "spec-ready" or "prioritized" status
+2. ProductStrategist approves project creation
+3. ProjectBootstrapAgent creates PROJ-NNN record
+4. Scaffold generates folders + PROJECT.md + roadmap.md
+5. Project enters "planning" status
+6. RoadmapAgent and SpecManager take over
+
+---
+
 ## Content Agents
 
-### 4. ContentScriptAgent
+### 5. ContentScriptAgent
 
 Role:
 Content generation and copywriting agent.
@@ -141,7 +184,7 @@ When to use:
 
 ## Discovery Agents
 
-### 5. OpportunityAgent
+### 6. OpportunityAgent
 
 Role:
 Opportunity discovery and new product ideation agent.
@@ -183,7 +226,7 @@ Opportunity-to-Idea flow:
 
 ## Compliance Agents
 
-### 6. LegalRiskAgent
+### 7. LegalRiskAgent
 
 Role:
 Legal and regulatory risk assessment agent.
@@ -231,7 +274,7 @@ Risk assessment lifecycle:
 
 ## Monitoring Agents
 
-### 7. ChangeWatchAgent
+### 8. ChangeWatchAgent
 
 Role:
 Ecosystem change monitoring and impact analysis agent.
@@ -265,7 +308,7 @@ When to use:
 
 ## Implementation Agents
 
-### 8. iOSArchitectAgent
+### 9. iOSArchitectAgent
 
 Role:
 iOS architecture and system design expert.
@@ -285,7 +328,7 @@ Typical focus:
 
 ---
 
-### 9. SwiftDeveloperAgent
+### 10. SwiftDeveloperAgent
 
 Role:
 Main implementation agent.
@@ -307,7 +350,7 @@ Typical focus:
 
 ## Review & Quality Agents
 
-### 10. ReviewerAgent
+### 11. ReviewerAgent
 
 Role:
 Code review and quality agent.
@@ -327,7 +370,7 @@ Typical focus:
 
 ---
 
-### 11. BugHunterAgent
+### 12. BugHunterAgent
 
 Role:
 Bug and risk analysis agent.
@@ -347,7 +390,7 @@ Typical focus:
 
 ---
 
-### 12. RefactorAgent
+### 13. RefactorAgent
 
 Role:
 Code cleanup and maintainability agent.
@@ -367,7 +410,7 @@ Typical focus:
 
 ---
 
-### 13. AccessibilityAgent
+### 14. AccessibilityAgent
 
 Role:
 Accessibility review and compliance agent.
@@ -402,7 +445,7 @@ When to use:
 
 ---
 
-### 14. TestGeneratorAgent
+### 15. TestGeneratorAgent
 
 Role:
 Test planning and quality assurance agent.
@@ -429,23 +472,25 @@ A normal feature run uses the following sequence:
 1. LeadAgent
 2. ProductStrategistAgent (optional — for idea evaluation)
 3. RoadmapAgent (optional — for multi-feature planning)
-4. ContentScriptAgent (optional — for content generation)
-5. OpportunityAgent (optional — for opportunity discovery)
-6. LegalRiskAgent (optional — for legal risk assessment)
-7. ChangeWatchAgent (optional — for ecosystem monitoring)
-8. iOSArchitectAgent
-9. SwiftDeveloperAgent
-10. ReviewerAgent
-11. BugHunterAgent
-12. RefactorAgent
-13. AccessibilityAgent (optional — for accessibility review)
-14. TestGeneratorAgent
+4. ProjectBootstrapAgent (optional — for project creation from ideas)
+5. ContentScriptAgent (optional — for content generation)
+6. OpportunityAgent (optional — for opportunity discovery)
+7. LegalRiskAgent (optional — for legal risk assessment)
+8. ChangeWatchAgent (optional — for ecosystem monitoring)
+9. iOSArchitectAgent
+10. SwiftDeveloperAgent
+11. ReviewerAgent
+12. BugHunterAgent
+13. RefactorAgent
+14. AccessibilityAgent (optional — for accessibility review)
+15. TestGeneratorAgent
 
 For pure implementation tasks, planning/content/watch agents may be skipped.
 For idea intake or roadmap planning, implementation agents may be skipped.
 For content generation, implementation and review agents may be skipped.
 For opportunity discovery, only OpportunityAgent and ProductStrategistAgent are needed.
 For legal risk assessment, only LegalRiskAgent and ProductStrategistAgent are needed.
+For project bootstrapping, only ProjectBootstrapAgent, ProductStrategistAgent, and RoadmapAgent are needed.
 For ecosystem monitoring, all other agents may be skipped.
 For accessibility review, only AccessibilityAgent and ReviewerAgent are needed.
 
@@ -544,6 +589,12 @@ Apply the most relevant fixes after the previous passes.
 # Agent Outputs
 
 The agents may produce:
+
+Bootstrap outputs:
+- project records (PROJ-NNN)
+- project folder structures (PROJECT.md, roadmap.md, specs/, content/, compliance/)
+- project metadata (category, platform, status, linked idea)
+- initial roadmap templates
 
 Compliance outputs:
 - legal risk assessment reports (LEGAL-NNN)
@@ -674,7 +725,8 @@ Agents receive task context built from:
 8. accessibility summary (from accessibility_reports.json)
 9. opportunity summary (from opportunity_store.json)
 10. compliance summary (from compliance_reports.json)
-11. current user task
+11. bootstrap summary (from project_store.json)
+12. current user task
 
 Planning agents additionally have awareness of:
 - idea fields, scopes, types, statuses, priorities
