@@ -38,6 +38,7 @@ class StoreReader:
         "opportunities": ("opportunities/opportunity_store.json", "opportunities"),
         "orchestration": ("orchestration/orchestration_plan_store.json", "plans"),
         "bootstrap": ("bootstrap/project_store.json", "projects"),
+        "improvements": ("improvements/improvement_proposals.json", "proposals"),
     }
 
     def __init__(self):
@@ -101,6 +102,9 @@ class StoreReader:
 
     def bootstrap(self) -> list[dict]:
         return self._load(*self.STORE_MAP["bootstrap"])
+
+    def improvements(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["improvements"])
 
     # --- Memory accessor ---
 

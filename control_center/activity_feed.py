@@ -46,6 +46,7 @@ TYPE_ICONS = {
     "content": "📝",
     "bootstrap": "🚀",
     "projects": "📦",
+    "improvements": "🔧",
 }
 
 SEVERITY_ICONS = {
@@ -253,6 +254,30 @@ def build_feed(reader: StoreReader, limit: int = 50) -> list[dict]:
             "status": status,
             "timestamp": bp.get("created_at", ""),
             "icon": TYPE_ICONS["bootstrap"],
+        })
+
+    # --- Improvement Proposals ---
+    for p in reader.improvements():
+        status = p.get("status", "unknown")
+        label = {
+            "new": "Improvement Proposed",
+            "evaluated": "Improvement Evaluated",
+            "accepted": "Improvement Accepted",
+            "in_progress": "Improvement In Progress",
+            "completed": "Improvement Completed",
+            "rejected": "Improvement Rejected",
+            "deferred": "Improvement Deferred",
+        }.get(status, f"Improvement {status.title()}")
+        events.append({
+            "event_type": label,
+            "source_store": "improvements",
+            "ref_id": p.get("proposal_id", "?"),
+            "title": p.get("title", "Untitled"),
+            "project": ", ".join(p.get("affected_systems", [])) or "—",
+            "severity": p.get("severity", "—"),
+            "status": status,
+            "timestamp": p.get("created_at", ""),
+            "icon": TYPE_ICONS["improvements"],
         })
 
     # Sort by timestamp descending, filter out items without timestamp

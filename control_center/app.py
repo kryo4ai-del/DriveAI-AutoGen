@@ -47,6 +47,7 @@ compliance = reader.compliance()
 opportunities = reader.opportunities()
 orchestration = reader.orchestration()
 bootstrap = reader.bootstrap()
+improvement_proposals = reader.improvements()
 
 # --- Header ---
 st.title("AI App Factory — Control Center")
@@ -312,6 +313,32 @@ with watch_col:
             st.text(f"  {icon} {w.get('event_id', '?')}: {w.get('title', '?')[:40]}{deadline}")
     else:
         st.caption("No active watch events.")
+
+# =====================================================================
+# IMPROVEMENT PROPOSALS
+# =====================================================================
+st.markdown("---")
+st.subheader("Improvement Proposals")
+
+active_improvements = [p for p in improvement_proposals if p.get("status") not in ("completed", "rejected", "deferred")]
+imp_sev_icons = {"critical": "🔴", "high": "🟠", "medium": "🟡", "low": "🟢", "info": "⚪"}
+
+if active_improvements:
+    imp_cols = st.columns(4)
+    imp_cols[0].metric("Active Proposals", len(active_improvements))
+    imp_critical = sum(1 for p in active_improvements if p.get("severity") in ("critical", "high"))
+    imp_cols[1].metric("Critical/High", imp_critical)
+    imp_new = sum(1 for p in active_improvements if p.get("status") == "new")
+    imp_cols[2].metric("New", imp_new)
+    imp_cols[3].metric("Total", len(improvement_proposals))
+
+    for p in active_improvements[:6]:
+        sev = p.get("severity", "info")
+        icon = imp_sev_icons.get(sev, "⚪")
+        st.text(f"  {icon} {p.get('proposal_id', '?')}: {p.get('title', '?')[:50]} [{p.get('category', '?')}]")
+    st.caption("Full list → Improvements page")
+else:
+    st.caption(f"No active improvement proposals. ({len(improvement_proposals)} total)")
 
 # =====================================================================
 # AGENT MEMORY SNAPSHOT
