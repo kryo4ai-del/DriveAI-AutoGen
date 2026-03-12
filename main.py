@@ -388,6 +388,12 @@ async def _run_pipeline(
     else:
         xcode_counts = integrator.integrate_generated_code(approval=approval_mode)
 
+    # Build compact implementation summary for review passes (after team.reset,
+    # reviewers lose implementation context — this restores the essentials).
+    impl_summary = extractor.build_implementation_summary(user_task, template)
+    if impl_summary:
+        print(f"  Implementation summary: {len(impl_summary)} chars for review context")
+
     # Empty placeholders for skipped passes
     empty = []
     bug_result_msgs = empty
@@ -427,6 +433,8 @@ async def _run_pipeline(
                 "Identify potential bugs, missing edge cases, crash risks, and structural weaknesses. "
                 "Propose concrete fixes for each finding."
             )
+            if impl_summary:
+                bug_review_task = f"{impl_summary}\n\n{bug_review_task}"
             bug_result = await _run_with_retry(team, task=bug_review_task)
             bug_result_msgs = list(bug_result.messages)
             gate_ctx["bug_review_messages"] = len(bug_result_msgs)
@@ -449,6 +457,8 @@ async def _run_pipeline(
                 "Rate: pass / conditional_pass / fail. "
                 "For each finding, give a concrete improvement suggestion. Max 5 findings."
             )
+            if impl_summary:
+                cd_review_task = f"{impl_summary}\n\n{cd_review_task}"
             _orig_termination = team._termination_condition
             team._termination_condition = MaxMessageTermination(max_messages=2)
             cd_result = await _run_with_retry(team, task=cd_review_task)
@@ -470,6 +480,8 @@ async def _run_pipeline(
                 "Improve readability, modularity, and maintainability while preserving behavior. "
                 "Reduce duplication, improve naming, and suggest cleaner structure where appropriate."
             )
+            if impl_summary:
+                refactor_task = f"{impl_summary}\n\n{refactor_task}"
             refactor_result = await _run_with_retry(team, task=refactor_task)
             refactor_result_msgs = list(refactor_result.messages)
             gate_ctx["refactor_messages"] = len(refactor_result_msgs)
@@ -489,6 +501,8 @@ async def _run_pipeline(
                 "Include happy paths, edge cases, invalid input handling, and failure scenarios. "
                 "Group tests by component or behavior."
             )
+            if impl_summary:
+                test_task = f"{impl_summary}\n\n{test_task}"
             test_result = await _run_with_retry(team, task=test_task)
             test_result_msgs = list(test_result.messages)
             gate_ctx["test_generation_messages"] = len(test_result_msgs)

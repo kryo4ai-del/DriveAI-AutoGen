@@ -24,7 +24,9 @@ After the Implementation Pass generates 25-35 files of Swift code (~10 agent tur
 
 ## Chosen Mitigation
 
-**`await team.reset()` between Implementation Pass and Review Passes.**
+Two complementary fixes:
+
+### Fix A: `await team.reset()` between passes
 
 AutoGen provides `team.reset()` as a public API that:
 - Clears `_message_thread` on the group chat manager
@@ -33,14 +35,26 @@ AutoGen provides `team.reset()` as a public API that:
 - Calls `agent.on_reset()` which clears each agent's `_model_context`
 - Resets the termination condition counter
 
-This is a single line of code inserted after Pass 1 (Implementation) and before Pass 2 (Bug Hunter). Each review pass starts with a clean context and only sees its own task description + agent responses within that pass.
+Inserted after Pass 1 (Implementation) and before Pass 2 (Bug Hunter). Each review pass starts with a clean context.
 
-### Code change (main.py)
+### Fix B: `_run_with_retry()` wrapper
+
+Even with reset, multiple passes within one minute can hit the per-minute token budget. A retry wrapper catches `RateLimitError` and waits 65 seconds before retrying (enough to clear the per-minute window).
 
 ```python
-# After Implementation Pass, before review passes:
-await team.reset()
+async def _run_with_retry(team, task, max_retries=3, base_delay=65.0):
+    for attempt in range(max_retries + 1):
+        try:
+            return await team.run(task=task)
+        except RuntimeError as e:
+            if "RateLimitError" in str(e) and attempt < max_retries:
+                wait = base_delay * (attempt + 1)
+                await asyncio.sleep(wait)
+            else:
+                raise
 ```
+
+Applied to all review passes (Bug Hunter, CD, Refactor, Test Gen, Fix Execution). NOT applied to the Implementation pass (first call, no accumulated tokens).
 
 ---
 
@@ -97,3 +111,27 @@ python main.py --template screen --name TrainingMode --profile dev --approval au
 
 ### Partial success
 - If review passes complete but give less specific feedback than before, that's expected. The trade-off (working pipeline vs. detailed reviews) is acceptable for Phase 1.
+
+---
+
+## Validation Result (2026-03-12)
+
+Run: `driveai_run_20260312_171136.txt` — **ALL 5 PASSES COMPLETED**
+
+| Pass | Lines | Status |
+|---|---|---|
+| Implementation | 96–4293 | Completed (41 files generated, extraction aborted) |
+| Bug Hunter | 4294–6040 | Completed |
+| Creative Director | 6041–6119 | Completed (advisory only) |
+| Refactor | 6667–7647 | Completed |
+| Test Generation | 7648–7835 | Completed |
+
+- Total messages: 50
+- Zero rate limit errors
+- Zero retries needed (rate limit budget sufficient with reset)
+- CD correctly identified lack of visual context (expected trade-off of reset)
+
+### Known post-fix behavior
+- Review passes work from task description alone (no implementation code context)
+- CD review may be less specific about code details (acceptable for advisory mode)
+- Future improvement: pass compact implementation summary to review task descriptions

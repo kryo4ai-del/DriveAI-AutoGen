@@ -144,7 +144,27 @@ def _log_extraction(entries: list[str]):
         f.write(f"--- End ({len(entries)} entries) ---\n")
 
 
+_SWIFT_PATTERNS = {
+    "@Observable": "Observable pattern",
+    "ObservableObject": "ObservableObject pattern",
+    "@Published": "Published properties",
+    "async ": "async/await",
+    "await ": "async/await",
+    "import Combine": "Combine framework",
+    "@Environment": "SwiftUI Environment",
+    "@StateObject": "StateObject",
+    "@State ": "SwiftUI State",
+    "NavigationStack": "NavigationStack",
+    "NavigationView": "NavigationView",
+    "@EnvironmentObject": "EnvironmentObject",
+}
+
+
 class CodeExtractor:
+    def __init__(self):
+        self._last_extraction_files: list[tuple[str, str, str]] = []  # (name, subfolder, type_kw)
+        self._last_extraction_patterns: set[str] = set()
+
     def extract_swift_code(self, messages: list) -> dict[str, int]:
         """
         Scan agent messages, extract Swift code blocks, save as .swift files.
@@ -208,6 +228,13 @@ class CodeExtractor:
 
                 files_to_write.append((name, subfolder, dest_path, block))
                 log_entries.append(f"[TYPE] {type_kw} {name} → {subfolder}/{filename}")
+
+        # Store extraction metadata for implementation summary
+        self._last_extraction_files = [
+            (name, subfolder, self._detect_type_keyword(content))
+            for name, subfolder, _, content in files_to_write
+        ]
+        self._last_extraction_patterns = self._detect_patterns(files_to_write)
 
         # --- Guard 5: Abort if too many files ---
         if len(files_to_write) > MAX_FILES_PER_RUN:
@@ -273,3 +300,61 @@ class CodeExtractor:
         _log_extraction(log_entries)
 
         return {"saved": saved, "skipped": skipped}
+
+    @staticmethod
+    def _detect_type_keyword(code: str) -> str:
+        """Detect the Swift type keyword from a code block."""
+        for kw in ("struct", "class", "enum", "protocol", "extension"):
+            if re.search(rf'^\s*(?:\w+\s+)*{kw}\s+', code, re.MULTILINE):
+                return kw
+        return "type"
+
+    @staticmethod
+    def _detect_patterns(files_to_write: list[tuple]) -> set[str]:
+        """Detect architectural patterns from generated code blocks."""
+        patterns: set[str] = set()
+        for _, _, _, content in files_to_write:
+            for marker, label in _SWIFT_PATTERNS.items():
+                if marker in content:
+                    patterns.add(label)
+        return patterns
+
+    def build_implementation_summary(self, user_task: str, template: str | None = None) -> str:
+        """Build a compact summary of the last extraction for review passes.
+
+        Returns a short text block (~300-500 tokens) describing what was generated,
+        suitable for prepending to review task prompts after team.reset().
+        """
+        files = self._last_extraction_files
+        patterns = self._last_extraction_patterns
+
+        if not files:
+            return ""
+
+        lines = ["[Implementation Summary]"]
+        lines.append(f"Feature: {user_task}")
+        if template:
+            lines.append(f"Template: {template}")
+        lines.append(f"Files generated: {len(files)}")
+        lines.append("")
+
+        # Group files by subfolder
+        by_folder: dict[str, list[tuple[str, str]]] = {}
+        for name, subfolder, type_kw in files:
+            by_folder.setdefault(subfolder, []).append((name, type_kw))
+
+        lines.append("Generated files:")
+        for folder in ("Views", "ViewModels", "Services", "Models"):
+            if folder not in by_folder:
+                continue
+            for name, type_kw in by_folder[folder]:
+                lines.append(f"  - {folder}/{name}.swift ({type_kw})")
+
+        if patterns:
+            lines.append("")
+            lines.append(f"Architecture: {', '.join(sorted(patterns))}")
+
+        lines.append("")
+        lines.append("Use this summary to ground your review in the actual implementation.")
+
+        return "\n".join(lines)
