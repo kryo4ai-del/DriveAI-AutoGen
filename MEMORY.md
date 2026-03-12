@@ -2,15 +2,30 @@
 
 ## Projekt-Übersicht
 - **Pfad**: `C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\`
-- **Zweck**: Microsoft AutoGen v0.4+ Multi-Agent Pipeline zur automatischen Swift/SwiftUI Code-Generierung für die DriveAI iOS App
+- **Zweck**: Multi-Agent AI App Factory (AutoGen v0.4+) + AskFinn iOS App
 - **GitHub**: `https://github.com/kryo4ai-del/DriveAI-AutoGen` (main branch)
 - **Git-User**: `kryo4ai-del` / `kryo4ai@gmail.com`
 
 ## Tech-Stack
 - Python + AutoGen AgentChat v0.4+
-- Modell: `gpt-4o-mini` (dev profile)
-- Agents: `driveai_lead`, `ios_architect`, `swift_developer`, `reviewer`, `bug_hunter`, `refactor_agent`, `test_generator`
-- Xcode-Integration: generierter Code wird automatisch in `DriveAI/` kopiert
+- **LLM Provider**: Anthropic Claude (100% — kein OpenAI)
+- **Modelle**: claude-sonnet-4-6 (Tier 1+2), claude-haiku-4-5 (Tier 3), claude-opus-4-6 (Premium)
+- **API Key**: `ANTHROPIC_API_KEY` in `.env`
+- 19 aktive Agents, 4 deaktiviert (Android/Kotlin/Web)
+
+## 3-Tier Modell-System
+| Tier | Modell | Tasks |
+|---|---|---|
+| 1 (Code) | Sonnet | code_generation, architecture, code_review, bug_hunting, refactoring, test_generation |
+| 2 (Reasoning) | Sonnet | planning, orchestration, content, compliance, accessibility |
+| 3 (Lightweight) | Haiku | classification, summarization, trend_analysis, scoring, labeling, extraction, briefing |
+
+## LLM Profile (`config/llm_profiles.json`)
+| Profil | Modell | Verwendung |
+|---|---|---|
+| dev | claude-haiku-4-5 | Entwicklung, Tests |
+| standard | claude-sonnet-4-6 | Normaler Betrieb |
+| premium | claude-opus-4-6 | High-End Projekte |
 
 ## Wichtige Befehle
 ```bash
@@ -42,53 +57,55 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Commit-Message: `AI run: <task[:72]>`
 - Implementiert in `utils/git_auto_commit.py`
 
-## Bisherige Runs (diese Session)
+## Schlüsseldateien
+| Datei | Zweck |
+|---|---|
+| `main.py` | Entry Point, CLI-Parsing, Pipeline-Orchestrierung |
+| `config/llm_config.py` | LLM Config (Anthropic + Ollama) |
+| `config/model_router.py` | 3-Tier Routing (Sonnet + Haiku) |
+| `config/llm_profiles.json` | Profile: dev/standard/premium |
+| `config/agent_toggles.json` | 19 aktiv, 4 deaktiviert |
+| `config/agent_roles.json` | Agent System Messages |
+| `code_generation/code_extractor.py` | Swift-Code-Extraktion aus Agent-Messages |
+| `utils/git_auto_commit.py` | Automatischer Git-Commit nach Pipeline-Run |
+| `memory/memory_store.json` | Persistente Agent-Memory |
+| `control_center/app.py` | Streamlit Dashboard |
 
-| Name | Template/Pack | Dateien (neu) | Status |
-|---|---|---|---|
-| Settings | screen_plus_viewmodel | — | ✅ committed |
-| Home | screen_plus_viewmodel | — | ✅ committed |
-| TestFix | screen_plus_viewmodel | — | ✅ committed (Extractor-Verify) |
-| Result | screen_plus_viewmodel | 16 + 6 | ✅ committed |
-| OCRRecognition | service | 4 | ✅ committed |
-| OCRRecognitionService | service | 10 | ✅ committed |
-| QuestionAnalysisService | service | 13 | ✅ committed |
-| ScannerOCRIntegration | feature | 17 | ✅ committed |
-| QuestionParsingEngine | feature | 20 | ✅ committed |
-| MultipleChoiceDetection | feature | 16 | ✅ committed |
-| LLMQuestionSolverService | service | 8 | ✅ committed |
-
-## Fixes & Bugs (diese Session)
-
-### SyntaxError in delivery-Dateien (behoben)
-- `delivery/delivery_exporter.py`, `delivery/sprint_reporter.py`, `delivery/run_manifest.py`
-- Problem: required params nach optional params ohne `*`-Separator
-- Fix: `*` vor erstem required param eingefügt
+## Fixes & Bugs (historisch)
 
 ### code_extractor.py — komplettes Rewrite
 - Alt: generische `NAME_PATTERNS`, fallback auf `GeneratedFile_N.swift` → File-Explosion
 - Neu: Priority-Detection (SwiftUI View > named type > extension > orphan)
 - Orphan-Blocks → einzelne `GeneratedHelpers.swift` statt N Dateien
-- Console-Summary nach Extraction
 
 ### Regex-Bug: `to.swift` (behoben)
-- Problem: `_TYPE_RE` matched `class to` in Kommentar `// A mock class to simulate...`
+- Problem: `_TYPE_RE` matched `class to` in Kommentar
 - Fix: `[A-Z]\w+` statt `\w+` — Typname muss mit Großbuchstabe beginnen (PascalCase)
-- Datei `DriveAI/Models/to.swift` gelöscht + committed
 
-## Schlüsseldateien
-| Datei | Zweck |
-|---|---|
-| `main.py` | Entry Point, CLI-Parsing, Pipeline-Orchestrierung |
-| `code_generation/code_extractor.py` | Swift-Code-Extraktion aus Agent-Messages |
-| `utils/git_auto_commit.py` | Automatischer Git-Commit nach Pipeline-Run |
-| `delivery/delivery_exporter.py` | Delivery-Package-Export |
-| `delivery/sprint_reporter.py` | Sprint-Report-Generierung |
-| `delivery/run_manifest.py` | Run-Manifest JSON |
-| `memory/memory_store.json` | Persistente Agent-Memory (Decisions, Architecture, etc.) |
-| `.gitignore` | `generated_code/`, `logs/`, `delivery/exports/`, `.env` etc. |
+### SyntaxError in delivery-Dateien (behoben)
+- Problem: required params nach optional params ohne `*`-Separator
+- Fix: `*` vor erstem required param eingefügt
 
-## Xcode-Projekt
-- **Pfad**: `DriveAI/` im Repo
-- Öffnen: Doppelklick auf `.xcodeproj` oder `open DriveAI.xcodeproj` im Terminal
-- Generierter Code landet automatisch per Xcode-Integration dort
+## Changelog
+
+### 2026-03-12 — Claude Migration
+- Komplette Umstellung von OpenAI GPT → Anthropic Claude
+- 3-Tier System: Sonnet (Tier 1+2) + Haiku (Tier 3)
+- 4 Agents deaktiviert: android_architect, kotlin_developer, web_architect, webapp_developer
+- Alle OpenAI-Referenzen entfernt (config, docs, agent_roles)
+- API Key: `ANTHROPIC_API_KEY` in `.env` eingetragen
+
+### 2026-03-12 — Projekt-Bereinigung
+- Alte DriveAI-Duplikate gelöscht (224 Files), nur AskFinn bleibt
+- AskFinn iOS App: BUILD SUCCEEDED auf Mac (iPhone 17 Pro Simulator, iOS 26.3)
+- 68 AutoGen-Logs analysiert → 3 kritische Factory-Schwachstellen identifiziert
+
+### 2026-03-12 — Factory-Erweiterung
+- AutoResearchAgent, ResearchMemoryGraph, StrategyReportAgent hinzugefügt
+- Neue Module: radar/, costs/, research/, research_graph/, strategy/
+- Control Center: 19 Pages (inkl. Radar, AI Costs, Strategy, Research Graph, Research)
+- store_reader.py + app.py + daily_briefing.py erweitert
+
+## Geplant
+- [ ] Dynamic Model Upgrade Agent — entscheidet autonom ob ein Projekt ein höheres Tier braucht
+- [ ] Factory-Verbesserungen: Compiler-Feedback-Loop, Code-Extraction >10 Files, Agent-Echo-Reduktion

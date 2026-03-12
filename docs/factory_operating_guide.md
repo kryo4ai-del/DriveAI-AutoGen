@@ -16,7 +16,7 @@ Practical workflows, prompts, and rules for working with the 20-agent multi-plat
 The AI App Factory is a multi-agent development system built on AutoGen.
 
 ```
-23 Agents:
+19 Active Agents (powered by Anthropic Claude — Sonnet + Haiku):
   2 Planning       — ProductStrategist, Roadmap
   1 Bootstrap      — ProjectBootstrap
   1 Orchestration  — AutonomousProjectOrchestrator
@@ -29,8 +29,10 @@ The AI App Factory is a multi-agent development system built on AutoGen.
   1 Knowledge      — ResearchMemoryGraph
   1 Research       — AutoResearchAgent
   1 Cost/Routing   — ModelRouter + AICostMonitor
-  11 Build         — Lead, iOSArchitect, SwiftDeveloper, AndroidArchitect, KotlinDeveloper,
-                     WebArchitect, WebAppDeveloper, Reviewer, BugHunter, Refactor, TestGenerator
+  7 Build (iOS)    — Lead, iOSArchitect, SwiftDeveloper, Reviewer, BugHunter, Refactor, TestGenerator
+
+4 Disabled Agents (not needed for iOS-only):
+  AndroidArchitect, KotlinDeveloper, WebArchitect, WebAppDeveloper
 ```
 
 ```
@@ -733,17 +735,18 @@ mgr.transition("RES-001", "published")
 
 ### Model Routing
 
-The ModelRouter automatically selects local (Ollama) or API (OpenAI) models based on task type:
+The ModelRouter automatically selects the optimal Claude model based on task type (3-tier system):
 
-- **Local (free)**: classification, summarization, trend analysis, scoring, labeling, extraction, briefing
-- **API (paid)**: planning, code generation, code review, architecture, content, compliance, orchestration
+- **Tier 1 — Sonnet** (high quality): code_generation, architecture, code_review, bug_hunting, refactoring, test_generation
+- **Tier 2 — Sonnet** (reasoning): planning, orchestration, content, compliance, accessibility
+- **Tier 3 — Haiku** (fast & cheap): classification, summarization, trend_analysis, scoring, labeling, extraction, briefing
 
 ```python
 from config.llm_config import get_routed_llm_config
 
 # Auto-selects model based on agent role
-config = get_routed_llm_config(agent_name="swift_developer")  # → gpt-4o
-config = get_routed_llm_config(agent_name="product_strategist")  # → ollama/mistral
+config = get_routed_llm_config(agent_name="swift_developer")  # → claude-sonnet-4-6
+config = get_routed_llm_config(agent_name="product_strategist")  # → claude-haiku-4-5
 ```
 
 Custom routes can be set in `config/model_routing.json` or via `ModelRouter.update_route()`.
@@ -755,9 +758,9 @@ Every AI call should be logged:
 ```python
 from costs.cost_manager import CostManager
 mgr = CostManager()
-mgr.log_usage("swift_developer", "gpt-4o", "code_generation",
+mgr.log_usage("swift_developer", "claude-sonnet-4-6", "code_generation",
               prompt_tokens=2000, completion_tokens=1500,
-              estimated_cost=0.035, project="askfin")
+              estimated_cost=0.0525, project="askfin")
 ```
 
 ### Budget Limits

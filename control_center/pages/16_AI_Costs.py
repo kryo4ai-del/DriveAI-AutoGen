@@ -94,8 +94,8 @@ if not usage:
         "No AI usage recorded yet. The CostManager logs usage when agents run:\n\n"
         "```python\nfrom costs.cost_manager import CostManager\n"
         "mgr = CostManager()\n"
-        "mgr.log_usage('swift_developer', 'gpt-4o-mini', 'code_generation',\n"
-        "              prompt_tokens=1500, completion_tokens=800, estimated_cost=0.0007)\n```"
+        "mgr.log_usage('swift_developer', 'claude-sonnet-4-6', 'code_generation',\n"
+        "              prompt_tokens=1500, completion_tokens=800, estimated_cost=0.0165)\n```"
     )
     st.stop()
 
@@ -161,15 +161,14 @@ if routing:
         for task, route in sorted(local_routes.items()):
             st.text(f"  {task:25s} → {route.get('model', '?')}")
     with route_cols[1]:
-        st.markdown(f"**API (OpenAI)** — {len(api_routes)} tasks")
+        st.markdown(f"**API (Anthropic)** — {len(api_routes)} tasks")
         for task, route in sorted(api_routes.items()):
             st.text(f"  {task:25s} → {route.get('model', '?')}")
 else:
     st.caption("No custom routing rules configured. Using default routes from ModelRouter.")
     st.info(
-        "Default routing prefers local models (Ollama) for classification, summarization, "
-        "trend analysis, scoring, labeling, and extraction. GPT is used for planning, "
-        "code generation, code review, architecture, and other complex tasks."
+        "Default routing uses a 3-tier Claude system: Sonnet for code-critical and reasoning tasks, "
+        "Haiku for lightweight tasks like classification, summarization, and trend analysis."
     )
 
 # ═══════════════════════════════════════════════════════════════════════

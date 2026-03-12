@@ -527,20 +527,28 @@ The agent generates reports from current factory signals — trends, opportuniti
 
 The ModelRouter (`config/model_router.py`) selects the optimal AI model for each task, and the AICostMonitor (`costs/cost_manager.py`) tracks usage costs and enforces budgets.
 
-**Model Routing Strategy**:
+**Model Routing Strategy** (3-Tier Claude System):
 
-| Task Type | Default Model | Provider | Reason |
+| Task Type | Default Model | Provider | Tier |
 |---|---|---|---|
-| classification | ollama/mistral | ollama | lightweight |
-| summarization | ollama/mistral | ollama | lightweight |
-| trend_analysis | ollama/mistral | ollama | pattern matching |
-| scoring | ollama/mistral | ollama | numerical evaluation |
-| briefing | ollama/mistral | ollama | summarization |
-| planning | gpt-4o-mini | openai | requires reasoning |
-| code_generation | gpt-4o | openai | advanced reasoning |
-| code_review | gpt-4o-mini | openai | code understanding |
-| architecture | gpt-4o | openai | deep reasoning |
-| content_generation | gpt-4o-mini | openai | creativity |
+| code_generation | claude-sonnet-4-6 | anthropic | 1 (core code) |
+| architecture | claude-sonnet-4-6 | anthropic | 1 (core code) |
+| code_review | claude-sonnet-4-6 | anthropic | 1 (core code) |
+| bug_hunting | claude-sonnet-4-6 | anthropic | 1 (core code) |
+| refactoring | claude-sonnet-4-6 | anthropic | 1 (core code) |
+| test_generation | claude-sonnet-4-6 | anthropic | 1 (core code) |
+| planning | claude-sonnet-4-6 | anthropic | 2 (reasoning) |
+| orchestration | claude-sonnet-4-6 | anthropic | 2 (reasoning) |
+| content_generation | claude-sonnet-4-6 | anthropic | 2 (reasoning) |
+| compliance_review | claude-sonnet-4-6 | anthropic | 2 (reasoning) |
+| accessibility_review | claude-sonnet-4-6 | anthropic | 2 (reasoning) |
+| classification | claude-haiku-4-5 | anthropic | 3 (lightweight) |
+| summarization | claude-haiku-4-5 | anthropic | 3 (lightweight) |
+| trend_analysis | claude-haiku-4-5 | anthropic | 3 (lightweight) |
+| scoring | claude-haiku-4-5 | anthropic | 3 (lightweight) |
+| labeling | claude-haiku-4-5 | anthropic | 3 (lightweight) |
+| extraction | claude-haiku-4-5 | anthropic | 3 (lightweight) |
+| briefing | claude-haiku-4-5 | anthropic | 3 (lightweight) |
 
 Routes are configurable via `config/model_routing.json`. Each agent has a default task type mapping — the router uses this to auto-select the model.
 
@@ -550,7 +558,7 @@ Routes are configurable via `config/model_routing.json`. Each agent has a defaul
 |---|---|
 | usage_id | Auto-incremented (COST-0001, ...) |
 | agent_name | Which agent made the call |
-| model_used | Model name (e.g. gpt-4o-mini) |
+| model_used | Model name (e.g. claude-sonnet-4-6) |
 | task_type | Task category (e.g. code_generation) |
 | prompt_tokens | Input tokens |
 | completion_tokens | Output tokens |
@@ -580,17 +588,17 @@ from costs.cost_manager import CostManager
 # Route a task
 router = ModelRouter()
 route = router.route("code_generation")
-# → {"model": "gpt-4o", "provider": "openai", "reason": "requires advanced reasoning"}
+# → {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires advanced reasoning"}
 
 # Route for a specific agent
 model = router.get_model_for_agent("swift_developer")
-# → "gpt-4o"
+# → "claude-sonnet-4-6"
 
 # Log usage
 costs = CostManager()
-costs.log_usage("swift_developer", "gpt-4o", "code_generation",
+costs.log_usage("swift_developer", "claude-sonnet-4-6", "code_generation",
                 prompt_tokens=2000, completion_tokens=1500,
-                estimated_cost=router.estimate_cost("gpt-4o", 2000, 1500))
+                estimated_cost=router.estimate_cost("claude-sonnet-4-6", 2000, 1500))
 
 # Check budget
 budget = costs.check_budget()

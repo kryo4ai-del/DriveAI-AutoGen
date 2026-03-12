@@ -329,9 +329,9 @@ Profiles are defined in `config/llm_profiles.json` and selected with `--env-prof
 
 | Profile | Model | Temperature | Description |
 |---|---|---|---|
-| `dev` | `gpt-4o-mini` | 0.2 | Fast iteration during development (default) |
-| `test` | `gpt-4o-mini` | 0.0 | Deterministic output for reproducible tests |
-| `prod` | `gpt-4o` | 0.1 | Highest-quality output for production runs |
+| `dev` | `claude-haiku-4-5` | 0.2 | Fast iteration during development (default) |
+| `standard` | `claude-sonnet-4-6` | 0.2 | Normal operation |
+| `premium` | `claude-opus-4-6` | 0.1 | Highest-quality output for production runs |
 
 ### Usage
 
@@ -355,7 +355,7 @@ python main.py --env-profile test --json
 ### What gets set per profile
 
 Each profile in `config/llm_profiles.json` configures:
-- **`model`** — the OpenAI model used by all agents and the team selector
+- **`model`** — the Anthropic Claude model used by all agents and the team selector
 - **`temperature`** — sampling temperature for all LLM calls
 - **`api_key_env`** — environment variable name to read the API key from
 
@@ -366,9 +366,10 @@ Edit `config/llm_profiles.json` and add a new entry:
 ```json
 {
   "staging": {
-    "model": "gpt-4o",
+    "model": "claude-sonnet-4-6",
     "temperature": 0.15,
-    "api_key_env": "OPENAI_API_KEY"
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "provider": "anthropic"
   }
 }
 ```
@@ -381,7 +382,7 @@ The active profile and selected model are always shown in the run header:
 
 ```
 Environment profile : test
-Model               : gpt-4o-mini
+Model               : claude-haiku-4-5
 ```
 
 ### Delivery outputs
@@ -1099,7 +1100,7 @@ When a session preset is active, it is shown in the run header:
 Session preset  : fast_local
 Profile         : fast
 Env profile     : dev
-Model           : gpt-4o-mini
+Model           : claude-haiku-4-5
 Run mode        : quick
 Approval mode   : off
 Disabled agents : bug_hunter, refactor_agent, test_generator
