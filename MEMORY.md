@@ -131,10 +131,37 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Dateien: agents/creative_director.py, agent_roles.json, agent_toggles.json, agent_toggle_config.py, model_router.py, task_manager.py, main.py
 - Agent-Count: 20 aktiv + 4 deaktiviert = 24
 
+### 2026-03-12 — Pipeline Reliability (Steps 2b/2c)
+- team.reset() zwischen Passes gegen Context-Explosion (>50k Tokens nach Implementation Pass)
+- _run_with_retry() Wrapper fuer alle 6 Passes (65s Backoff bei Rate Limit)
+- Exception-Catch auf beide AutoGen-Fehlerpfade erweitert (RuntimeError + direkter RateLimitError)
+- Implementation Summary: kompakte Zusammenfassung (300-2000 chars) aus Extraction-Metadaten fuer Review-Passes
+- Docs: pipeline_reliability_fix.md, implementation_summary_integration.md
+
+### 2026-03-12 — Factory Knowledge Seed Round 1 (Step 3)
+- 6 Eintraege in factory_knowledge/knowledge.json geseedet
+- FK-001 (failure_case): Funktionale App ohne Motivation = kein Retention
+- FK-002 (ux_insight): Emotionale Micro-Copy > Daten-Feedback
+- FK-003 (motivational_mechanic): Domaenenspezifischer Fortschritt > generische Gamification
+- FK-004 (technical_pattern): SelectorGroupChat Reset zwischen Passes
+- FK-005 (technical_pattern): Implementation Summary fuer Review-Qualitaet
+- FK-006 (success_pattern): Neue Review-Agents starten advisory-only
+- Confidence: 3x hypothesis (Product), 3x validated (Pipeline)
+- Doc: factory_knowledge_seed_round_1.md
+
+### 2026-03-12 — CD Knowledge Integration (Step 3b)
+- factory_knowledge/knowledge_reader.py erstellt: deterministische Entry-Selektion fuer CD
+- Selektion: type-Filter (nicht technical_pattern) + product_type-Filter (nicht ai_pipeline) + confidence-Sort + Cap bei 5
+- 3 Entries (FK-001/002/003) werden als kompakter Block (706 chars) in CD-Task injiziert
+- Injection-Reihenfolge: Factory Knowledge → Implementation Summary → CD Review Task
+- Validierung: CD-Output referenziert alle 3 Entries, gibt domänenspezifische Vorschläge statt generischem Feedback
+- CD-Summary: "functionally complete but emotionally hollow" = FK-001 als Review-Fazit
+- Doc: creative_director_knowledge_integration.md
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
-- [ ] Step 3: Manuelles Knowledge Seeding (5-10 AskFin Eintraege)
+- [x] Step 3: Knowledge Seeding Round 1 (6 Eintraege: 1 failure_case, 1 ux_insight, 1 motivational_mechanic, 2 technical_pattern, 1 success_pattern)
 - [ ] Step 4: Creative Director Gate-Modus (nach Validierung von Step 2)
 - [ ] Step 5: Factory Learning Writeback Agent (nach Step 4)
 - [ ] AskFin Experience Pillars priorisieren und erstes Feature spezifizieren

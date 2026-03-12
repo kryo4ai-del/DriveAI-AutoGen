@@ -25,6 +25,7 @@ from config.session_preset_manager import SessionPresetManager
 from workflows.workflow_recipe_manager import WorkflowRecipeManager
 from workflows.phase_gate_manager import PhaseGateManager
 from utils.git_auto_commit import GitAutoCommit
+from factory_knowledge.knowledge_reader import get_cd_knowledge_block
 from autogen_agentchat.conditions import MaxMessageTermination
 
 # Ensure UTF-8 output on Windows
@@ -464,6 +465,11 @@ async def _run_pipeline(
             )
             if impl_summary:
                 cd_review_task = f"{impl_summary}\n\n{cd_review_task}"
+            # Inject factory knowledge (prior learnings) for grounded review
+            _cd_knowledge = get_cd_knowledge_block(template)
+            if _cd_knowledge:
+                cd_review_task = f"{_cd_knowledge}\n\n{cd_review_task}"
+                print(f"  Factory knowledge: {len(_cd_knowledge)} chars injected")
             _orig_termination = team._termination_condition
             team._termination_condition = MaxMessageTermination(max_messages=2)
             cd_result = await _run_with_retry(team, task=cd_review_task)

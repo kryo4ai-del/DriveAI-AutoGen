@@ -1,4 +1,93 @@
 {
   "version": "1.0",
-  "entries": []
+  "entries": [
+    {
+      "id": "FK-001",
+      "type": "failure_case",
+      "title": "Functional-only learning app provides no retention hook",
+      "description": "A learning app that correctly displays questions and answers but lacks emotional engagement, progress visibility, and motivational feedback will not retain users. Functional correctness is necessary but insufficient for a product users return to voluntarily.",
+      "context": "AskFin prototype provided accurate question analysis and learning modes but felt like a tool, not a coach. Users had no reason to return daily without external motivation.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": ["learning_app", "utility_app", "education_app"],
+      "confidence": "hypothesis",
+      "created": "2026-03-12",
+      "updated": "2026-03-12",
+      "tags": ["retention", "motivation", "product-identity"],
+      "lesson": "Define the emotional core of the product before building features. Ask: why would a user open this tomorrow without being told to?"
+    },
+    {
+      "id": "FK-002",
+      "type": "ux_insight",
+      "title": "Emotional micro-copy outperforms data-only feedback",
+      "description": "Contextual, emotionally aware feedback text drives stronger user engagement than raw data display. 'Stark! 8 von 10 richtig' outperforms 'Score: 80%'. Feedback after correct answers should differ from feedback after incorrect answers.",
+      "context": "Identified during AskFin premium reframing. Generic score displays were emotionally flat. Reframing to contextual micro-copy with personality made the same data feel like coaching.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": ["learning_app", "education_app", "fitness_app", "game"],
+      "confidence": "hypothesis",
+      "created": "2026-03-12",
+      "updated": "2026-03-12",
+      "tags": ["micro-copy", "feedback", "emotional-design", "ux-writing"]
+    },
+    {
+      "id": "FK-003",
+      "type": "motivational_mechanic",
+      "title": "Domain-specific progress tracking beats generic gamification",
+      "description": "A progress metric tied to the user's real goal (e.g. exam readiness score 0-100%) is more motivating than generic points, badges, or XP systems. Users care about 'Am I ready for my exam?' not 'How many points do I have?'.",
+      "context": "AskFin reframing replaced abstract score tracking with a Pruefungsbereitschafts-Score (exam readiness percentage) and a Skill Map showing topic-level competence. This reframing changed the product from a question tool to a coaching system.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": ["learning_app", "education_app", "fitness_app"],
+      "confidence": "hypothesis",
+      "created": "2026-03-12",
+      "updated": "2026-03-12",
+      "tags": ["progress-tracking", "gamification", "domain-specific", "retention"],
+      "effect": "Transforms utility tool into goal-oriented coaching experience. User sees meaningful progress toward their actual objective."
+    },
+    {
+      "id": "FK-004",
+      "type": "technical_pattern",
+      "title": "Reset SelectorGroupChat between pipeline passes to prevent context explosion",
+      "description": "AutoGen SelectorGroupChat accumulates all messages across team.run() calls in _message_thread, _message_buffer, and agent _model_context. After a heavy pass (25-40 generated files), accumulated context exceeds Haiku's 50k input token/min rate limit. Calling team.reset() between passes clears all accumulated state.",
+      "context": "DriveAI pipeline crashed consistently at Bug Hunter Pass (first pass after Implementation) with anthropic.RateLimitError 429. Root cause: 60-80k tokens accumulated from Implementation Pass sent to Haiku in a single request.",
+      "source_project": "askfin",
+      "product_type": "ai_pipeline",
+      "applicable_to": ["ai_pipeline", "multi_agent_system"],
+      "confidence": "validated",
+      "created": "2026-03-12",
+      "updated": "2026-03-12",
+      "tags": ["autogen", "rate-limit", "context-management", "pipeline-reliability"],
+      "components": ["SelectorGroupChat", "team.reset()", "_run_with_retry()"]
+    },
+    {
+      "id": "FK-005",
+      "type": "technical_pattern",
+      "title": "Compact implementation summary restores review quality after context reset",
+      "description": "After team.reset() clears context between passes, review agents lose all implementation detail. A deterministic summary (~300-2000 chars) built from extraction metadata (file names, type keywords, architectural patterns) restores enough context for file-specific reviews without reintroducing token pressure.",
+      "context": "After implementing FK-004 (context reset), Bug Hunter and Refactor passes gave generic feedback disconnected from generated code. Adding a compact summary prepended to review task prompts restored file-specific bug detection and refactoring suggestions.",
+      "source_project": "askfin",
+      "product_type": "ai_pipeline",
+      "applicable_to": ["ai_pipeline", "multi_agent_system"],
+      "confidence": "validated",
+      "created": "2026-03-12",
+      "updated": "2026-03-12",
+      "tags": ["autogen", "context-management", "review-quality", "implementation-summary"],
+      "components": ["CodeExtractor.build_implementation_summary()", "team.reset()"]
+    },
+    {
+      "id": "FK-006",
+      "type": "success_pattern",
+      "title": "New review agents should start as advisory-only passes",
+      "description": "When introducing a new review agent (e.g. Creative Director), start it as advisory-only with strict message limits (MaxMessageTermination=2) and no veto power. This validates the agent's value without risking pipeline stability. Promote to blocking gate only after the agent consistently produces actionable feedback.",
+      "context": "Creative Director was introduced as a separate review pass after Bug Hunter, advisory only, with MaxMessageTermination(2). This prevented runaway conversations and allowed safe validation. The CD produced useful product-level feedback without destabilizing the pipeline.",
+      "source_project": "askfin",
+      "product_type": "ai_pipeline",
+      "applicable_to": ["ai_pipeline", "multi_agent_system"],
+      "confidence": "validated",
+      "created": "2026-03-12",
+      "updated": "2026-03-12",
+      "tags": ["agent-design", "review-pass", "advisory", "pipeline-stability", "incremental-rollout"]
+    }
+  ]
 }
