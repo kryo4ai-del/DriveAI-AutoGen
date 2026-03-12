@@ -26,6 +26,7 @@ from workflows.workflow_recipe_manager import WorkflowRecipeManager
 from workflows.phase_gate_manager import PhaseGateManager
 from utils.git_auto_commit import GitAutoCommit
 from factory_knowledge.knowledge_reader import get_cd_knowledge_block
+from factory_knowledge.proposal_generator import generate_proposals, save_proposals
 from autogen_agentchat.conditions import MaxMessageTermination
 
 # Ensure UTF-8 output on Windows
@@ -672,6 +673,24 @@ async def _run_pipeline(
     with open(manifest_path, encoding="utf-8") as _f:
         manifest_data = json.load(_f)
     AnalyticsTracker().update_from_manifest(manifest_data)
+
+    # Knowledge proposals (analyze run results, store separately for review)
+    try:
+        _proposals = generate_proposals(
+            run_id=run_id,
+            user_task=user_task,
+            template=template,
+            bug_messages=bug_result_msgs,
+            cd_messages=cd_result_msgs,
+            refactor_messages=refactor_result_msgs,
+        )
+        _proposal_path = save_proposals(run_id, _proposals)
+        if _proposal_path:
+            print(f"\nKnowledge proposals: {len(_proposals)} candidates → {_proposal_path}")
+        else:
+            print("\nKnowledge proposals: none generated")
+    except Exception as _pe:
+        print(f"\nKnowledge proposals: error ({_pe})")
 
     # Console summary
     print()

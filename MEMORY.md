@@ -158,6 +158,14 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - CD-Summary: "functionally complete but emotionally hollow" = FK-001 als Review-Fazit
 - Doc: creative_director_knowledge_integration.md
 
+### 2026-03-12 — Knowledge Proposal System (Step 3c)
+- factory_knowledge/proposal_generator.py erstellt: analysiert Run-Output, generiert Kandidaten-Entries
+- 5 Signale erkannt: Critical Bugs, CD Fail Rating, Emotional Design Gaps, File Duplication, Lifecycle Bugs
+- Max 3 Proposals pro Run, deterministisch (Regex), kein LLM
+- Proposals landen in factory_knowledge/proposals/proposal_<run_id>.json (NICHT in knowledge.json)
+- Integration in main.py nach Analytics, vor Console-Summary (try/except — non-blocking)
+- Doc: factory_knowledge_proposal_system.md
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
