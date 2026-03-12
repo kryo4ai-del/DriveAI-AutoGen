@@ -106,6 +106,36 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Control Center: 19 Pages (inkl. Radar, AI Costs, Strategy, Research Graph, Research)
 - store_reader.py + app.py + daily_briefing.py erweitert
 
+### 2026-03-12 — Premium Product Strategy
+- Factory-Philosophie definiert: Premium-Produkte statt generische Apps
+- AskFin als erstes Referenzprojekt reframed (Coach statt Tool)
+- Factory Learning Loop designt (factory_knowledge/ mit 6 Wissenstypen)
+- 3 neue Agents vorgeschlagen: Creative Director (Sonnet), UX Psychology (Sonnet, on-demand), Factory Learning (Haiku)
+- 4 neue Quality Gates: Innovation, Experience Uniqueness, Motivation Quality, Premium Design
+- Neue Docs: factory_premium_product_principles.md, askfin_premium_reframing.md, factory_learning_loop.md, factory_new_roles_proposal.md, factory_new_gates_proposal.md
+
+### 2026-03-12 — Implementation Planning
+- Plausibilitaets-Check: 3 Risiken identifiziert (Doppel-Insertion, SelectorGroupChat Message-Limit, factory_knowledge Abhaengigkeit)
+- Creative Director: NICHT als Full Agent im Team, sondern als separater Review Pass (wie Bug Hunter)
+- Factory Knowledge Schema: 1 knowledge.json statt 6 separate Dateien (zu granular fuer Start)
+- factory_knowledge/ Scaffold angelegt: knowledge.json + index.json + README.md
+- 5-Step Rollout definiert: Scaffold -> CD Advisory -> Knowledge Seeding -> CD Gate -> Learning Writeback
+- Neue Docs: creative_director_integration_plan.md, factory_learning_schema.md, first_rollout_execution_plan.md
+
+### 2026-03-12 — Creative Director Advisory Pass (Step 2)
+- CD implementiert als Team-Mitglied + separater Pass (wie Bug Hunter Pattern)
+- Laeuft nach Bug Review, vor Refactor (standard + full Mode)
+- Skip bei service/viewmodel Templates, skip bei quick Mode
+- Advisory only: loggt Feedback, blockiert nichts
+- Deaktivierbar: `--disable-agent creative_director`
+- Dateien: agents/creative_director.py, agent_roles.json, agent_toggles.json, agent_toggle_config.py, model_router.py, task_manager.py, main.py
+- Agent-Count: 20 aktiv + 4 deaktiviert = 24
+
 ## Geplant
-- [ ] Dynamic Model Upgrade Agent — entscheidet autonom ob ein Projekt ein höheres Tier braucht
+- [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
+- [x] Creative Director Advisory Pass implementieren (Step 2 done)
+- [ ] Step 3: Manuelles Knowledge Seeding (5-10 AskFin Eintraege)
+- [ ] Step 4: Creative Director Gate-Modus (nach Validierung von Step 2)
+- [ ] Step 5: Factory Learning Writeback Agent (nach Step 4)
+- [ ] AskFin Experience Pillars priorisieren und erstes Feature spezifizieren
 - [ ] Factory-Verbesserungen: Compiler-Feedback-Loop, Code-Extraction >10 Files, Agent-Echo-Reduktion

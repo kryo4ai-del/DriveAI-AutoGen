@@ -23,6 +23,7 @@ _DEFAULT_ROUTES = {
     "content_generation": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires creativity"},
     "compliance_review": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires legal reasoning"},
     "accessibility_review": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires UI understanding"},
+    "creative_direction": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires product and design reasoning"},
     # Tier 3 — Claude Haiku: Lightweight tasks (fast & cheap)
     "classification": {"model": "claude-haiku-4-5", "provider": "anthropic", "reason": "lightweight task"},
     "summarization": {"model": "claude-haiku-4-5", "provider": "anthropic", "reason": "lightweight task"},
@@ -71,6 +72,7 @@ AGENT_TASK_MAP = {
     "web_architect": "architecture",
     "webapp_developer": "code_generation",
     "autonomous_project_orchestrator": "orchestration",
+    "creative_director": "creative_direction",
 }
 
 

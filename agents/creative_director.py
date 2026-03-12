@@ -1,0 +1,31 @@
+# creative_director.py
+# Reviews generated code and specs for product quality, differentiation,
+# and emotional engagement. Advisory only — does not generate code.
+
+from autogen_agentchat.agents import AssistantAgent
+from autogen_ext.models.anthropic import AnthropicChatCompletionClient
+from config.llm_config import get_llm_config
+from config.role_config import get_agent_role
+
+
+class CreativeDirectorAgent:
+    def __init__(self):
+        llm_config = get_llm_config()
+        cfg = llm_config["config_list"][0]
+        role = get_agent_role("creative_director")
+
+        model_client = AnthropicChatCompletionClient(
+            model=cfg["model"],
+            api_key=cfg["api_key"],
+        )
+
+        self.agent = AssistantAgent(
+            name="creative_director",
+            model_client=model_client,
+            system_message=role["system_message"],
+            description=role["description"],
+        )
+
+
+def create_creative_director_agent() -> AssistantAgent:
+    return CreativeDirectorAgent().agent

@@ -25,6 +25,7 @@ from config.session_preset_manager import SessionPresetManager
 from workflows.workflow_recipe_manager import WorkflowRecipeManager
 from workflows.phase_gate_manager import PhaseGateManager
 from utils.git_auto_commit import GitAutoCommit
+from autogen_agentchat.conditions import MaxMessageTermination
 
 # Ensure UTF-8 output on Windows
 if sys.stdout.encoding != "utf-8":
@@ -230,6 +231,23 @@ async def _log_pass(logger, label: str, messages: list) -> None:
         logger.info("")
 
 
+async def _run_with_retry(team, task: str, max_retries: int = 3, base_delay: float = 65.0):
+    """Run team.run() with retry on rate limit errors.
+
+    Waits base_delay seconds between retries (default 65s to clear per-minute rate limits).
+    """
+    for attempt in range(max_retries + 1):
+        try:
+            return await team.run(task=task)
+        except RuntimeError as e:
+            if "RateLimitError" in str(e) and attempt < max_retries:
+                wait = base_delay * (attempt + 1)
+                print(f"  Rate limit hit, waiting {int(wait)}s before retry ({attempt + 1}/{max_retries})...")
+                await asyncio.sleep(wait)
+            else:
+                raise
+
+
 def _clean_generated_code() -> int:
     """Remove stale files from generated_code/ before a new run. Returns count of removed files."""
     gen_dir = os.path.join(os.path.dirname(__file__), "generated_code")
@@ -373,6 +391,7 @@ async def _run_pipeline(
     # Empty placeholders for skipped passes
     empty = []
     bug_result_msgs = empty
+    cd_result_msgs = empty
     refactor_result_msgs = empty
     test_result_msgs = empty
     fix_result_msgs = empty
@@ -389,6 +408,11 @@ async def _run_pipeline(
 
     # ── Pass 2–4: standard + full ────────────────────────────────────
     if run_mode in ("standard", "full"):
+        # Reset team context between implementation and review passes.
+        # Without this, accumulated implementation output (25-35 files of Swift code)
+        # causes >50k tokens in subsequent agent calls, hitting Haiku rate limits.
+        await team.reset()
+
         # Bug Hunter
         _gate_ok, _gate_reason = gate_mgr.evaluate_gate("bug_review", gate_ctx)
         if not _gate_ok:
@@ -403,10 +427,34 @@ async def _run_pipeline(
                 "Identify potential bugs, missing edge cases, crash risks, and structural weaknesses. "
                 "Propose concrete fixes for each finding."
             )
-            bug_result = await team.run(task=bug_review_task)
+            bug_result = await _run_with_retry(team, task=bug_review_task)
             bug_result_msgs = list(bug_result.messages)
             gate_ctx["bug_review_messages"] = len(bug_result_msgs)
             await _log_pass(logger, "Bug Hunter Pass", bug_result_msgs)
+
+        # Creative Director (advisory — only for feature/screen templates)
+        _cd_skip = template and template not in ("feature", "screen")
+        if _cd_skip:
+            print(f"\nCreative Director: skipping (template={template})")
+            logger.info(f"Creative Director: skipping (template={template})")
+            skipped_phases.append("creative_review")
+        else:
+            print()
+            print("--- Creative Director pass (advisory) ---")
+            cd_review_task = (
+                f"Review the generated implementation for '{user_task}' from a product quality perspective. "
+                "Evaluate: Does this feel like a premium product or a generic template? "
+                "Check for: emotional screen function, micro-copy quality, design consistency, "
+                "interaction patterns beyond basic tap, differentiation from generic apps. "
+                "Rate: pass / conditional_pass / fail. "
+                "For each finding, give a concrete improvement suggestion. Max 5 findings."
+            )
+            _orig_termination = team._termination_condition
+            team._termination_condition = MaxMessageTermination(max_messages=2)
+            cd_result = await _run_with_retry(team, task=cd_review_task)
+            cd_result_msgs = list(cd_result.messages)
+            team._termination_condition = _orig_termination
+            await _log_pass(logger, "Creative Director Pass", cd_result_msgs)
 
         # Refactor
         _gate_ok, _gate_reason = gate_mgr.evaluate_gate("refactor", gate_ctx)
@@ -422,7 +470,7 @@ async def _run_pipeline(
                 "Improve readability, modularity, and maintainability while preserving behavior. "
                 "Reduce duplication, improve naming, and suggest cleaner structure where appropriate."
             )
-            refactor_result = await team.run(task=refactor_task)
+            refactor_result = await _run_with_retry(team, task=refactor_task)
             refactor_result_msgs = list(refactor_result.messages)
             gate_ctx["refactor_messages"] = len(refactor_result_msgs)
             await _log_pass(logger, "Refactor Pass", refactor_result_msgs)
@@ -441,7 +489,7 @@ async def _run_pipeline(
                 "Include happy paths, edge cases, invalid input handling, and failure scenarios. "
                 "Group tests by component or behavior."
             )
-            test_result = await team.run(task=test_task)
+            test_result = await _run_with_retry(team, task=test_task)
             test_result_msgs = list(test_result.messages)
             gate_ctx["test_generation_messages"] = len(test_result_msgs)
             await _log_pass(logger, "Test Generation Pass", test_result_msgs)
@@ -462,7 +510,7 @@ async def _run_pipeline(
                 bug_messages=bug_result_msgs,
                 refactor_messages=refactor_result_msgs,
             )
-            fix_result = await team.run(task=fix_task)
+            fix_result = await _run_with_retry(team, task=fix_task)
             fix_result_msgs = list(fix_result.messages)
             await _log_pass(logger, "Fix Execution Pass", fix_result_msgs)
 
@@ -483,6 +531,7 @@ async def _run_pipeline(
     all_messages = (
         list(result.messages)
         + bug_result_msgs
+        + cd_result_msgs
         + refactor_result_msgs
         + test_result_msgs
         + fix_result_msgs
@@ -605,7 +654,7 @@ async def _run_pipeline(
     print("Conversation complete.")
     msg_breakdown = f"{len(result.messages)} (impl)"
     if run_mode in ("standard", "full"):
-        msg_breakdown += f" + {len(bug_result_msgs)} (bugs) + {len(refactor_result_msgs)} (refactor) + {len(test_result_msgs)} (tests)"
+        msg_breakdown += f" + {len(bug_result_msgs)} (bugs) + {len(cd_result_msgs)} (creative) + {len(refactor_result_msgs)} (refactor) + {len(test_result_msgs)} (tests)"
     if run_mode == "full":
         msg_breakdown += f" + {len(fix_result_msgs)} (fix)"
     print(f"Messages exchanged : {msg_breakdown}")

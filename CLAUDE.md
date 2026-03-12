@@ -109,7 +109,15 @@ DriveAI-AutoGen/
 - Alle Änderungen in CLAUDE.md + MEMORY.md dokumentieren
 - `_logs/` für Mac ↔ Windows Austausch via Git
 
+## Premium Product Strategy (2026-03-12)
+- Factory-Philosophie: Premium-Produkte mit Differenzierung, Motivation, Design-Identitaet
+- AskFin = erstes Referenzprojekt (Coach statt Tool)
+- Geplante neue Agents: Creative Director (Sonnet), UX Psychology (Sonnet), Factory Learning (Haiku)
+- Geplante neue Gates: Innovation, Experience Uniqueness, Motivation Quality, Premium Design
+- Docs: `docs/factory_premium_product_principles.md`, `docs/askfin_premium_reframing.md`, `docs/factory_learning_loop.md`, `docs/factory_new_roles_proposal.md`, `docs/factory_new_gates_proposal.md`
+
 ## Erledigtes
+- [2026-03-12] Premium Product Strategy: 5 strategische Docs erstellt (Philosophie, AskFin Reframing, Learning Loop, Roles, Gates)
 - [2026-03-12] Komplette Migration von OpenAI GPT → Anthropic Claude (3-Tier System)
 - [2026-03-12] 4 Agents deaktiviert (Android/Kotlin/Web) — iOS-only Fokus
 - [2026-03-12] Projekt bereinigt: alte DriveAI-Duplikate gelöscht, nur AskFinn bleibt

@@ -28,6 +28,7 @@ ALL_AGENTS = [
     "web_architect",
     "webapp_developer",
     "autonomous_project_orchestrator",
+    "creative_director",
 ]
 
 # These agents are always force-enabled regardless of config or CLI flags
