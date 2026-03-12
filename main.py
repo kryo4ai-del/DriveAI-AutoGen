@@ -234,13 +234,18 @@ async def _log_pass(logger, label: str, messages: list) -> None:
 async def _run_with_retry(team, task: str, max_retries: int = 3, base_delay: float = 65.0):
     """Run team.run() with retry on rate limit errors.
 
+    Catches both RuntimeError-wrapped and direct RateLimitError exceptions from AutoGen.
     Waits base_delay seconds between retries (default 65s to clear per-minute rate limits).
     """
     for attempt in range(max_retries + 1):
         try:
             return await team.run(task=task)
-        except RuntimeError as e:
-            if "RateLimitError" in str(e) and attempt < max_retries:
+        except Exception as e:
+            is_rate_limit = (
+                "RateLimitError" in type(e).__name__
+                or "rate_limit" in str(e).lower()
+            )
+            if is_rate_limit and attempt < max_retries:
                 wait = base_delay * (attempt + 1)
                 print(f"  Rate limit hit, waiting {int(wait)}s before retry ({attempt + 1}/{max_retries})...")
                 await asyncio.sleep(wait)
@@ -370,7 +375,7 @@ async def _run_pipeline(
     logger.info("")
 
     # ── Pass 1: Implementation (all modes) ──────────────────────────
-    result = await team.run(task=full_task)
+    result = await _run_with_retry(team, task=full_task)
     await _log_pass(logger, "Implementation Pass", result.messages)
 
     # Clean stale generated files before extraction

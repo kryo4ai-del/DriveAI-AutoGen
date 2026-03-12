@@ -46,15 +46,25 @@ async def _run_with_retry(team, task, max_retries=3, base_delay=65.0):
     for attempt in range(max_retries + 1):
         try:
             return await team.run(task=task)
-        except RuntimeError as e:
-            if "RateLimitError" in str(e) and attempt < max_retries:
+        except Exception as e:
+            is_rate_limit = (
+                "RateLimitError" in type(e).__name__
+                or "rate_limit" in str(e).lower()
+            )
+            if is_rate_limit and attempt < max_retries:
                 wait = base_delay * (attempt + 1)
                 await asyncio.sleep(wait)
             else:
                 raise
 ```
 
-Applied to all review passes (Bug Hunter, CD, Refactor, Test Gen, Fix Execution). NOT applied to the Implementation pass (first call, no accumulated tokens).
+**Note**: The wrapper catches `Exception` (not just `RuntimeError`) because AutoGen propagates rate limit errors through two different paths:
+1. **Agent container path**: RateLimitError → wrapped in `RuntimeError` by AutoGen's error propagation
+2. **Selector model path**: RateLimitError → thrown directly as `anthropic.RateLimitError` from `select_speaker()`
+
+The original `RuntimeError`-only catch missed path 2, causing crashes during speaker selection after heavy usage.
+
+Applied to ALL passes including the Implementation pass. Initially only review passes were wrapped, but validation showed that the Implementation pass can also hit transient 429 errors when multiple agents exchange messages within the same minute window (observed 2026-03-12). Since the Implementation pass is the first call on a fresh team, retry is safe — no duplicate state accumulation risk.
 
 ---
 
@@ -132,6 +142,23 @@ Run: `driveai_run_20260312_171136.txt` — **ALL 5 PASSES COMPLETED**
 - CD correctly identified lack of visual context (expected trade-off of reset)
 
 ### Known post-fix behavior
-- Review passes work from task description alone (no implementation code context)
+- Review passes now receive a compact implementation summary (see docs/implementation_summary_integration.md)
 - CD review may be less specific about code details (acceptable for advisory mode)
-- Future improvement: pass compact implementation summary to review task descriptions
+
+---
+
+## Update: Implementation Pass Retry (2026-03-12)
+
+The Implementation pass was initially excluded from `_run_with_retry()` because it was assumed to be the first call with no accumulated context. However, validation run `driveai_run_20260312_185456.txt` showed transient 429 errors during the Implementation pass itself — caused by rapid agent turns within the same minute window.
+
+**Fix**: Changed `await team.run(task=full_task)` to `await _run_with_retry(team, task=full_task)` in main.py line 377.
+
+**Why safe**: The Implementation pass runs on a fresh team with no prior messages. If a rate limit hits mid-conversation and the retry fires after 65s, `team.run()` resumes the same team state. No duplicate execution risk because the error occurs before the agent response is committed.
+
+**Coverage**: All 6 passes now use `_run_with_retry()`:
+1. Implementation
+2. Bug Hunter
+3. Creative Director
+4. Refactor
+5. Test Generation
+6. Fix Execution
