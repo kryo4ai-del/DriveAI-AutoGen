@@ -1,17 +1,32 @@
 {
   "dev": {
+    "model": "claude-haiku-4-5",
+    "temperature": 0.2,
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "provider": "anthropic"
+  },
+  "standard": {
+    "model": "claude-sonnet-4-6",
+    "temperature": 0.2,
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "provider": "anthropic"
+  },
+  "premium": {
+    "model": "claude-opus-4-6",
+    "temperature": 0.1,
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "provider": "anthropic"
+  },
+  "legacy_dev": {
     "model": "gpt-4o-mini",
     "temperature": 0.2,
-    "api_key_env": "OPENAI_API_KEY"
+    "api_key_env": "OPENAI_API_KEY",
+    "provider": "openai"
   },
-  "test": {
-    "model": "gpt-4o-mini",
-    "temperature": 0.0,
-    "api_key_env": "OPENAI_API_KEY"
-  },
-  "prod": {
+  "legacy_prod": {
     "model": "gpt-4o",
     "temperature": 0.1,
-    "api_key_env": "OPENAI_API_KEY"
+    "api_key_env": "OPENAI_API_KEY",
+    "provider": "openai"
   }
 }

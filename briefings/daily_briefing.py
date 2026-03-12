@@ -75,8 +75,12 @@ def generate_briefing() -> dict:
     trends = _load_store("trends/trend_store.json", "trends")
     content = _load_store("content/content_store.json", "content")
     bootstrap = _load_store("bootstrap/project_store.json", "projects")
+    radar_sources = _load_store("radar/radar_sources.json", "sources")
+    radar_hits = _load_store("radar/radar_hits.json", "hits")
+    cost_usage = _load_store("costs/cost_usage.json", "usage")
     memory = _load_memory()
     toggles = _load_config("agent_toggles.json")
+    cost_budgets = _load_config("cost_budgets.json")
 
     # --- Compute KPIs ---
     active_agents = sum(1 for v in toggles.values() if v) if toggles else 0
@@ -98,6 +102,9 @@ def generate_briefing() -> dict:
         "watch_events": len(watch_events),
         "compliance": len(compliance),
         "a11y": len(a11y),
+        "radar_sources": len(radar_sources),
+        "radar_hits": len(radar_hits),
+        "ai_cost_requests": len(cost_usage),
         "memory_entries": memory_total,
     }
 
@@ -144,6 +151,50 @@ def generate_briefing() -> dict:
          "relevance": o.get("market_relevance", "?"), "status": o.get("status", "?")}
         for o in active_opps[:5]
     ]
+
+    # Radar Hits
+    active_radar = [h for h in radar_hits if h.get("status") not in ("dismissed", "expired")]
+    promotable_radar = [
+        h for h in radar_hits
+        if h.get("status") in ("evaluated", "promising")
+        and h.get("relevance_score", 0) >= 0.7
+    ]
+    sections["radar"] = [
+        {"id": h.get("hit_id", "?"), "title": h.get("title", "?"),
+         "relevance": f"{h.get('relevance_score', 0):.0%}", "category": h.get("category", "?"),
+         "status": h.get("status", "?")}
+        for h in sorted(active_radar, key=lambda x: x.get("relevance_score", 0), reverse=True)[:5]
+    ]
+
+    # AI Costs
+    today_cost_entries = [u for u in cost_usage if u.get("timestamp", "").startswith(today)]
+    ai_today_cost = sum(u.get("estimated_cost", 0) for u in today_cost_entries)
+    ai_today_tokens = sum(u.get("total_tokens", 0) for u in today_cost_entries)
+    ai_total_cost = sum(u.get("estimated_cost", 0) for u in cost_usage)
+    # Top agents by cost
+    agent_costs: dict[str, float] = {}
+    for u in cost_usage:
+        a = u.get("agent_name", "unknown")
+        agent_costs[a] = agent_costs.get(a, 0) + u.get("estimated_cost", 0)
+    top_agents = sorted(agent_costs.items(), key=lambda x: -x[1])[:3]
+
+    sections["ai_costs"] = {
+        "today_cost": f"${ai_today_cost:.4f}",
+        "today_tokens": ai_today_tokens,
+        "total_cost": f"${ai_total_cost:.4f}",
+        "total_requests": len(cost_usage),
+        "top_agents": [{"agent": a, "cost": f"${c:.4f}"} for a, c in top_agents],
+    }
+
+    # Budget alerts
+    daily_budget = cost_budgets.get("daily_budget", 0)
+    monthly_budget = cost_budgets.get("monthly_budget", 0)
+    if daily_budget and ai_today_cost > daily_budget:
+        alert_items.append({"type": "ai_cost", "severity": "high",
+                            "id": "BUDGET", "title": f"Daily AI budget exceeded: ${ai_today_cost:.4f} / ${daily_budget:.2f}"})
+
+    kpis["ai_cost_today"] = f"${ai_today_cost:.4f}"
+    kpis["ai_tokens_today"] = ai_today_tokens
 
     # Project Status
     sections["projects"] = [
@@ -199,10 +250,41 @@ def generate_briefing() -> dict:
         for p in active_improvements[:8]
     ]
 
+    # Strategy Report reference
+    strategy_reports = _load_store("strategy/weekly_reports.json", "reports")
+    if strategy_reports:
+        latest_strategy = strategy_reports[-1]
+        sections["strategy"] = {
+            "report_id": latest_strategy.get("report_id", "?"),
+            "week": latest_strategy.get("week", "?"),
+            "risks": len(latest_strategy.get("risks", [])),
+            "actions": len(latest_strategy.get("recommended_actions", [])),
+            "status": latest_strategy.get("status", "?"),
+        }
+    kpis["strategy_reports"] = len(strategy_reports)
+
+    # Research Reports reference
+    research_reports = _load_store("research/research_reports.json", "reports")
+    high_conf_research = [
+        r for r in research_reports
+        if r.get("confidence", 0) >= 0.7 and r.get("status") not in ("archived", "superseded")
+    ]
+    if research_reports:
+        latest_research = research_reports[-1]
+        sections["research"] = {
+            "total": len(research_reports),
+            "high_confidence": len(high_conf_research),
+            "latest_id": latest_research.get("research_id", "?"),
+            "latest_topic": latest_research.get("topic", "?"),
+            "latest_confidence": latest_research.get("confidence", 0),
+        }
+    kpis["research_reports"] = len(research_reports)
+
     # --- Generate Actions ---
     actions = _generate_actions(
         inbox_ideas, critical_watch, high_compliance, blocked_plans,
-        critical_a11y, active_improvements, active_trends, active_opps
+        critical_a11y, active_improvements, active_trends, active_opps,
+        promotable_radar
     )
 
     # --- Save briefing ---
@@ -227,7 +309,8 @@ def generate_briefing() -> dict:
 
 
 def _generate_actions(inbox_ideas, critical_watch, high_compliance, blocked_plans,
-                      critical_a11y, active_improvements, active_trends, active_opps) -> list[str]:
+                      critical_a11y, active_improvements, active_trends, active_opps,
+                      promotable_radar=None) -> list[str]:
     """Generate prioritized action items for the day."""
     actions = []
 
@@ -255,6 +338,8 @@ def _generate_actions(inbox_ideas, critical_watch, high_compliance, blocked_plan
         new_opps = sum(1 for o in active_opps if o.get("status") == "new")
         if new_opps:
             actions.append(f"Evaluate {new_opps} new opportunities")
+    if promotable_radar:
+        actions.append(f"Promote {len(promotable_radar)} radar hits to opportunities")
 
     if not actions:
         actions.append("No urgent actions today — review dashboard for updates")
@@ -287,7 +372,13 @@ def to_sheets_row(briefing: dict) -> dict:
         "watch_events": kpis.get("watch_events", 0),
         "compliance": kpis.get("compliance", 0),
         "a11y": kpis.get("a11y", 0),
+        "radar_sources": kpis.get("radar_sources", 0),
+        "radar_hits": kpis.get("radar_hits", 0),
+        "ai_cost_today": kpis.get("ai_cost_today", "$0"),
+        "ai_tokens_today": kpis.get("ai_tokens_today", 0),
         "memory_entries": kpis.get("memory_entries", 0),
+        "strategy_reports": kpis.get("strategy_reports", 0),
+        "research_reports": kpis.get("research_reports", 0),
         "total_alerts": len(alerts),
         "critical_alerts": sum(1 for a in alerts if a.get("severity") == "critical"),
         "summary": " | ".join(sections.get("executive_summary", [])),

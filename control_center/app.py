@@ -50,6 +50,14 @@ bootstrap = reader.bootstrap()
 improvement_proposals = reader.improvements()
 detected_trends = reader.trends()
 all_briefings = reader.briefings()
+radar_sources = reader.radar_sources()
+radar_hits = reader.radar_hits()
+cost_usage = reader.cost_usage()
+cost_budgets = reader.cost_budgets()
+strategy_reports = reader.strategy_reports()
+graph_nodes = reader.graph_nodes()
+graph_edges = reader.graph_edges()
+research_reports = reader.research_reports()
 
 # --- Header ---
 st.title("AI App Factory — Control Center")
@@ -78,12 +86,13 @@ cols[2].metric("Ideas", len(ideas))
 cols[3].metric("Specs", len(specs))
 cols[4].metric("Plans", len(orchestration))
 
-cols2 = st.columns(5)
+cols2 = st.columns(6)
 cols2[0].metric("Opportunities", len(opportunities))
 cols2[1].metric("Watch Events", len(watch))
-cols2[2].metric("Compliance", len(compliance))
-cols2[3].metric("Accessibility", len(a11y))
-cols2[4].metric("Content", len(content))
+cols2[2].metric("Radar Hits", len(radar_hits))
+cols2[3].metric("Compliance", len(compliance))
+cols2[4].metric("Accessibility", len(a11y))
+cols2[5].metric("Content", len(content))
 
 # =====================================================================
 # ALERTS & INSIGHTS
@@ -339,6 +348,164 @@ if active_trends:
     st.caption("Full list → AI Trends page")
 else:
     st.caption(f"No active AI trends. ({len(detected_trends)} total)")
+
+# =====================================================================
+# OPPORTUNITY RADAR
+# =====================================================================
+st.markdown("---")
+st.subheader("Opportunity Radar")
+
+active_radar = [h for h in radar_hits if h.get("status") not in ("dismissed", "expired")]
+high_rel_radar = [h for h in active_radar if h.get("relevance_score", 0) >= 0.7]
+promotable_radar = [
+    h for h in radar_hits
+    if h.get("status") in ("evaluated", "promising")
+    and h.get("relevance_score", 0) >= 0.7
+]
+
+if active_radar:
+    radar_cols = st.columns(5)
+    radar_cols[0].metric("Sources", len(radar_sources))
+    radar_cols[1].metric("Active Hits", len(active_radar))
+    radar_cols[2].metric("High Relevance", len(high_rel_radar))
+    radar_cols[3].metric("Promotable", len(promotable_radar))
+    radar_cols[4].metric("Total Hits", len(radar_hits))
+
+    for h in sorted(active_radar, key=lambda x: x.get("relevance_score", 0), reverse=True)[:5]:
+        rel = h.get("relevance_score", 0)
+        rel_icon = "🔴" if rel >= 0.7 else ("🟡" if rel >= 0.4 else "🟢")
+        st.text(f"  {rel_icon} {h.get('hit_id', '?')}: {h.get('title', '?')[:50]} [{rel:.0%}]")
+    st.caption("Full list → Opportunity Radar page")
+else:
+    st.caption(f"No active radar hits. ({len(radar_sources)} sources configured, {len(radar_hits)} total hits)")
+
+# =====================================================================
+# AI COSTS
+# =====================================================================
+st.markdown("---")
+st.subheader("AI Costs")
+
+from datetime import date as _date
+_today = _date.today().isoformat()
+_today_usage = [u for u in cost_usage if u.get("timestamp", "").startswith(_today)]
+_today_cost = sum(u.get("estimated_cost", 0) for u in _today_usage)
+_today_tokens = sum(u.get("total_tokens", 0) for u in _today_usage)
+_total_cost = sum(u.get("estimated_cost", 0) for u in cost_usage)
+_daily_budget = cost_budgets.get("daily_budget", 0)
+
+if cost_usage:
+    cost_cols = st.columns(5)
+    cost_cols[0].metric("Today", f"${_today_cost:.4f}")
+    cost_cols[1].metric("Today Tokens", f"{_today_tokens:,}")
+    cost_cols[2].metric("Total Cost", f"${_total_cost:.4f}")
+    cost_cols[3].metric("Requests", len(cost_usage))
+    if _daily_budget:
+        pct = min(100, (_today_cost / _daily_budget) * 100) if _daily_budget else 0
+        cost_cols[4].metric("Daily Budget", f"{pct:.0f}%")
+        if _today_cost > _daily_budget:
+            st.error(f"Daily budget exceeded: ${_today_cost:.4f} / ${_daily_budget:.2f}")
+    else:
+        cost_cols[4].metric("Budget", "—")
+    st.caption("Full breakdown → AI Costs page")
+else:
+    st.caption(f"No AI cost data recorded yet.")
+
+# =====================================================================
+# STRATEGY REPORTS
+# =====================================================================
+st.markdown("---")
+st.subheader("Strategy Reports")
+
+if strategy_reports:
+    latest_strategy = strategy_reports[-1]
+    str_kpis = latest_strategy.get("kpis", {})
+    str_actions = latest_strategy.get("recommended_actions", [])
+    str_risks = latest_strategy.get("risks", [])
+
+    str_cols = st.columns(5)
+    str_cols[0].metric("Latest", latest_strategy.get("week", "?"))
+    str_cols[1].metric("Reports", len(strategy_reports))
+    str_cols[2].metric("Risks", len(str_risks))
+    str_cols[3].metric("Actions", len(str_actions))
+    str_cols[4].metric("Status", latest_strategy.get("status", "?"))
+
+    st.markdown(f"> {latest_strategy.get('summary', '')[:120]}...")
+    for a in str_actions[:3]:
+        st.text(f"  - {a}")
+    if len(str_actions) > 3:
+        st.caption(f"... +{len(str_actions) - 3} more")
+    st.caption("Full report → Strategy Reports page")
+else:
+    st.caption("No strategy reports yet. Run: python -m strategy.strategy_manager")
+
+# =====================================================================
+# RESEARCH MEMORY GRAPH
+# =====================================================================
+st.markdown("---")
+st.subheader("Research Memory Graph")
+
+if graph_nodes:
+    # Connection counts
+    _connected = set()
+    for _e in graph_edges:
+        _connected.add(_e.get("source_node", ""))
+        _connected.add(_e.get("target_node", ""))
+    _isolated = len([n for n in graph_nodes if n.get("node_id") not in _connected])
+
+    # Node type counts
+    _ntypes: dict[str, int] = {}
+    for _n in graph_nodes:
+        _t = _n.get("entity_type", "unknown")
+        _ntypes[_t] = _ntypes.get(_t, 0) + 1
+
+    graph_cols = st.columns(5)
+    graph_cols[0].metric("Nodes", len(graph_nodes))
+    graph_cols[1].metric("Edges", len(graph_edges))
+    graph_cols[2].metric("Types", len(_ntypes))
+    graph_cols[3].metric("Isolated", _isolated)
+    graph_cols[4].metric("Connected", len(graph_nodes) - _isolated)
+
+    _top_types = sorted(_ntypes.items(), key=lambda x: -x[1])[:4]
+    st.caption(f"Top types: {', '.join(f'{t} ({c})' for t, c in _top_types)} — Full explorer → Research Graph page")
+else:
+    st.caption("Graph empty. Run: python -m research_graph.ingest")
+
+# =====================================================================
+# RESEARCH REPORTS
+# =====================================================================
+st.markdown("---")
+st.subheader("Research Reports")
+
+if research_reports:
+    published_research = [r for r in research_reports if r.get("status") == "published"]
+    high_conf_research = [r for r in research_reports if r.get("confidence", 0) >= 0.7 and r.get("status") not in ("archived", "superseded")]
+
+    # Category counts
+    _rcat: dict[str, int] = {}
+    for _r in research_reports:
+        _c = _r.get("category", "general")
+        _rcat[_c] = _rcat.get(_c, 0) + 1
+
+    res_cols = st.columns(5)
+    res_cols[0].metric("Reports", len(research_reports))
+    res_cols[1].metric("Published", len(published_research))
+    res_cols[2].metric("High Confidence", len(high_conf_research))
+    res_cols[3].metric("Categories", len(_rcat))
+
+    # Latest report preview
+    latest_research = research_reports[-1]
+    res_cols[4].metric("Latest", latest_research.get("research_id", "?"))
+
+    st.markdown(f"> {latest_research.get('topic', '?')}: {latest_research.get('summary', '')[:100]}...")
+
+    recs = latest_research.get("recommendations", [])
+    for rec in recs[:2]:
+        st.text(f"  → {rec}")
+    if len(recs) > 2:
+        st.caption(f"... +{len(recs) - 2} more")
+    st.caption("Full reports → Research page")
+else:
+    st.caption("No research reports yet. Run: python -m research.auto_research")
 
 # =====================================================================
 # IMPROVEMENT PROPOSALS

@@ -16,7 +16,7 @@ Practical workflows, prompts, and rules for working with the 20-agent multi-plat
 The AI App Factory is a multi-agent development system built on AutoGen.
 
 ```
-20 Agents:
+23 Agents:
   2 Planning       — ProductStrategist, Roadmap
   1 Bootstrap      — ProjectBootstrap
   1 Orchestration  — AutonomousProjectOrchestrator
@@ -25,8 +25,14 @@ The AI App Factory is a multi-agent development system built on AutoGen.
   1 Compliance     — LegalRisk
   1 Monitoring     — ChangeWatch
   1 Quality        — Accessibility
+  1 Strategy       — StrategyReportAgent
+  1 Knowledge      — ResearchMemoryGraph
+  1 Research       — AutoResearchAgent
+  1 Cost/Routing   — ModelRouter + AICostMonitor
   11 Build         — Lead, iOSArchitect, SwiftDeveloper, AndroidArchitect, KotlinDeveloper,
                      WebArchitect, WebAppDeveloper, Reviewer, BugHunter, Refactor, TestGenerator
+```
+
 ```
 
 ```
@@ -41,6 +47,14 @@ Data Stores:
   compliance/compliance_reports.json     — Compliance Reports
   bootstrap/project_store.json           — Bootstrapped Projects
   orchestration/orchestration_plan_store.json — Execution Plans
+  radar/radar_sources.json               — Radar Sources
+  radar/radar_hits.json                  — Radar Hits
+  costs/cost_usage.json                  — AI Usage Log
+  costs/cost_summary.json                — Daily Cost Summaries
+  strategy/weekly_reports.json            — Weekly Strategy Reports
+  research_graph/graph_nodes.json         — Knowledge Graph Nodes
+  research_graph/graph_edges.json         — Knowledge Graph Edges
+  research_reports/research_reports.json   — Research Reports
 ```
 
 ---
@@ -450,6 +464,17 @@ Group by urgency: Now / Soon / Later / Info.
 | Compliance | `compliance/compliance_reports.json` |
 | Bootstrap | `bootstrap/project_store.json` |
 | Orchestration | `orchestration/orchestration_plan_store.json` |
+| Radar Sources | `radar/radar_sources.json` |
+| Radar Hits | `radar/radar_hits.json` |
+| AI Usage Log | `costs/cost_usage.json` |
+| Cost Summaries | `costs/cost_summary.json` |
+| Cost Budgets | `config/cost_budgets.json` |
+| Strategy Reports | `strategy/weekly_reports.json` |
+| Strategy HTML | `strategy/html/strategy_YYYY-WNN.html` |
+| Graph Nodes | `research_graph/graph_nodes.json` |
+| Graph Edges | `research_graph/graph_edges.json` |
+| Research Reports | `research_reports/research_reports.json` |
+| Model Routing | `config/model_routing.json` |
 | Agent Roles | `config/agent_roles.json` |
 | Agent Toggles | `config/agent_toggles.json` |
 | Pipeline Logs | `logs/driveai_run_*.txt` |
@@ -468,6 +493,13 @@ Group by urgency: Now / Soon / Later / Info.
 | Compliance | LEGAL-NNN | LEGAL-001 |
 | Bootstrap | PROJ-NNN | PROJ-001 |
 | Orchestration | PLAN-NNN | PLAN-001 |
+| Radar Sources | RSRC-NNN | RSRC-001 |
+| Radar Hits | RADAR-NNN | RADAR-001 |
+| AI Usage | COST-NNNN | COST-0001 |
+| Strategy Reports | STR-NNN | STR-001 |
+| Graph Nodes | GNODE-NNNN | GNODE-0001 |
+| Graph Edges | GEDGE-NNNN | GEDGE-0001 |
+| Research Reports | RES-NNN | RES-001 |
 
 ### Status Lifecycles
 
@@ -482,6 +514,267 @@ Group by urgency: Now / Soon / Later / Info.
 | Compliance | new → reviewed → mitigated / accepted / blocked / dismissed |
 | Bootstrap | created → planning → in_development → mvp_complete → released / paused / archived |
 | Orchestration | draft → approved → executing → completed / cancelled |
+| Radar Hits | new → evaluated → promising → opportunity_created / dismissed / expired |
+| Strategy Reports | draft → review → published → archived |
+| Research Reports | draft → review → published → archived / superseded |
+
+---
+
+## Opportunity Radar
+
+The Opportunity Radar is a lightweight external signal intake layer. It collects raw product opportunity signals from external sources (Product Hunt, Hacker News, newsletters, competitors, etc.) before they become trends or opportunities.
+
+**Key difference**: Radar catches raw external signals. Trends detect patterns from internal data. Opportunities are evaluated product ideas ready for action.
+
+**Flow**: External signal → Radar Hit → (score/evaluate) → Opportunity → Idea → Spec
+
+### Add a radar source
+
+```
+Neue Radar-Quelle:
+- Name: Product Hunt AI Category
+- Category: product_hunt
+- URL: https://producthunt.com/topics/artificial-intelligence
+Add to radar sources.
+```
+
+### Add a radar hit
+
+```
+Neuer Radar-Hit:
+- Title: AI-powered budget tracker trending on PH
+- Category: new_product
+- Source: RSRC-001
+- Summary: 500+ upvotes, finance niche, subscription model
+- Relevance: 0.8
+- Platforms: ios, web
+Add to radar hits.
+```
+
+### Review promotable hits
+
+```
+Show all promotable radar hits (evaluated/promising + score >= 0.70).
+Convert the best ones to opportunities.
+```
+
+---
+
+## Strategy Reports
+
+The StrategyReportAgent generates a weekly strategic analysis report every Sunday.
+
+**Daily Briefing vs. Strategy Report**:
+- **Daily Briefing**: Operational focus — what needs attention today, current alerts, triage actions
+- **Strategy Report**: Strategic focus — where is the factory heading, cross-signal insights, risk assessment, growth opportunities
+
+### Generate a strategy report
+
+```bash
+python -m strategy.strategy_manager
+```
+
+The report aggregates all factory signals: ideas, opportunities, radar hits, trends, projects, compliance, costs, and memory. It produces both a JSON record and a professional HTML report.
+
+### Report content
+
+- **Executive Summary** — system metrics, alert count, overall factory health
+- **Strategic Opportunities** — top opportunities + promotable radar hits
+- **Emerging Trends** — highest relevance trends
+- **Project Status** — per-project readiness with specs/plans/ideas
+- **Risk Overview** — compliance risks, critical watch events, blocked plans
+- **AI Usage** — weekly cost, model breakdown, budget status
+- **Recommended Actions** — prioritized next steps
+
+### Review strategy reports
+
+```
+Show the latest strategy report.
+What are the top risks and recommended actions?
+```
+
+### Scheduling
+
+Reports are designed to run weekly (Sunday). Add to scheduler:
+
+```python
+from strategy.strategy_manager import generate_weekly_report
+report = generate_weekly_report()
+```
+
+Reports are idempotent per week — running twice returns the existing report.
+
+---
+
+## Research Memory Graph
+
+The ResearchMemoryGraph connects all factory entities into a lightweight knowledge graph.
+
+**Why**: Factory stores contain isolated records. The graph layer reveals *how* they relate — which idea came from which trend, which compliance finding affects which project, which radar hit became which opportunity.
+
+### Populate the graph
+
+```bash
+python -m research_graph.ingest
+```
+
+Reads all factory stores and builds nodes + edges automatically. Idempotent — safe to run multiple times.
+
+### Query connected context
+
+```python
+from research_graph.graph_manager import GraphManager
+gm = GraphManager()
+
+# What's connected to IDEA-001?
+ctx = gm.connected_context("IDEA-001")
+print(f"Connections: {ctx['total_connections']}")
+for edge in ctx['edges_out']:
+    print(f"  → {edge['edge_type']}: {edge['other_entity_id']} ({edge['other_title']})")
+
+# Most connected entities
+for n in gm.most_connected(5):
+    print(f"  {n['entity_id']}: {n['connection_count']} links")
+
+# Graph overview
+print(gm.get_summary())
+```
+
+### Relationship types
+
+| Edge | Example |
+|---|---|
+| derived_from | Idea derived from Trend |
+| promoted_to | Radar hit promoted to Opportunity |
+| recommended_for | Idea recommended for Project |
+| affects | Compliance finding affects Project |
+| generated_from | Improvement generated from Watch Event |
+| related_to | Trend related to Opportunity (category overlap) |
+| linked_to | Strategy report linked to featured entities |
+| addresses | Improvement addresses risk |
+| blocked_by | Entity blocked by another |
+| depends_on | Entity depends on another |
+
+### When to re-run ingestion
+
+Run `python -m research_graph.ingest` after:
+- New ideas, opportunities, or trends are created
+- Radar hits are promoted to opportunities
+- Strategy reports are generated
+- New compliance or watch events are added
+
+---
+
+## Research Reports
+
+The AutoResearchAgent generates structured research reports from factory signals — analyzing technologies, tools, architecture patterns, product opportunities, and market trends.
+
+**How it differs from other agents**:
+- **ResearchMemoryGraph**: Captures *relationships* between entities (graph of connections)
+- **AutoResearchAgent**: Produces *written analysis* (deep-dive research reports)
+- **StrategyReportAgent**: Weekly operational/strategic overview across all signals
+- **AutoResearchAgent**: Focused deep-dive into a specific topic or category
+
+### Generate a research report
+
+```bash
+python -m research.auto_research
+```
+
+The agent (`research/auto_research.py`) scans current factory signals — trends, opportunities, radar hits, watch events — and generates focused research reports. Reports are managed by `research_reports/research_manager.py`.
+
+### Report categories
+
+| Category | Focus |
+|---|---|
+| technology_research | Deep-dive into a specific technology |
+| tool_discovery | Evaluation of new tools or services |
+| architecture_comparison | Comparing architecture approaches |
+| product_opportunity | Analysis of a product opportunity |
+| ai_model_evaluation | Evaluation of AI models |
+| market_analysis | Market trend analysis |
+| general | Uncategorized research |
+
+### Review research reports
+
+```
+Show all research reports.
+Filter by category: technology_research.
+What are the latest findings?
+```
+
+### Report lifecycle
+
+```
+draft → review → published → archived / superseded
+```
+
+Reports can be superseded when a newer report on the same topic is published.
+
+### Programmatic access
+
+```python
+from research_reports.research_manager import ResearchManager
+mgr = ResearchManager()
+
+# List by category
+reports = mgr.by_category("technology_research")
+
+# Get specific report
+report = mgr.get_report("RES-001")
+
+# Transition status
+mgr.transition("RES-001", "published")
+```
+
+---
+
+## ModelRouter & AI Cost Monitor
+
+### Model Routing
+
+The ModelRouter automatically selects local (Ollama) or API (OpenAI) models based on task type:
+
+- **Local (free)**: classification, summarization, trend analysis, scoring, labeling, extraction, briefing
+- **API (paid)**: planning, code generation, code review, architecture, content, compliance, orchestration
+
+```python
+from config.llm_config import get_routed_llm_config
+
+# Auto-selects model based on agent role
+config = get_routed_llm_config(agent_name="swift_developer")  # → gpt-4o
+config = get_routed_llm_config(agent_name="product_strategist")  # → ollama/mistral
+```
+
+Custom routes can be set in `config/model_routing.json` or via `ModelRouter.update_route()`.
+
+### Cost Tracking
+
+Every AI call should be logged:
+
+```python
+from costs.cost_manager import CostManager
+mgr = CostManager()
+mgr.log_usage("swift_developer", "gpt-4o", "code_generation",
+              prompt_tokens=2000, completion_tokens=1500,
+              estimated_cost=0.035, project="askfin")
+```
+
+### Budget Limits
+
+Configure in `config/cost_budgets.json`:
+- `daily_budget`: max USD per day (default: $5.00)
+- `monthly_budget`: max USD per month (default: $100.00)
+
+Budget alerts appear in the Daily Briefing and Control Center when thresholds are exceeded.
+
+### Review AI costs
+
+```
+Show AI cost summary for today.
+Which agents are the most expensive?
+Are we within budget?
+```
 
 ---
 
@@ -500,7 +793,7 @@ Run on server (Docker):
   docker compose up -d --build
 ```
 
-Dashboard pages: Overview, Ideas, Projects, Specs, Opportunities, Watch Events, Compliance, Accessibility, Orchestration, Content.
+Dashboard pages: Overview, Ideas, Projects, Specs, Opportunities, Watch Events, Compliance, Accessibility, Orchestration, Content, Activity Feed, Agent Memory, Improvements, Trends, Briefings, Radar, AI Costs, Strategy, Research Graph, Research.
 
 Reads all factory JSON stores (read-only). No database required.
 
@@ -510,7 +803,7 @@ See `docs/factory_control_center.md` for full documentation.
 
 ## Current System State (2026-03-10)
 
-- **Agents**: 20 (all active — iOS + Android + Web + Orchestration)
+- **Agents**: 23 (all active — iOS + Android + Web + Orchestration + Strategy + Knowledge + Research)
 - **Projects**: 2 (askfin: mvp-complete, factory-core: active)
 - **Ideas**: 5 (2 inbox, 3 classified)
 - **Specs**: 0 (empty, ready for use)

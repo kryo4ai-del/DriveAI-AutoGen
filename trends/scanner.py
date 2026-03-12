@@ -118,6 +118,10 @@ def scan_and_detect() -> tuple[list[dict], list[dict]]:
     opportunities = _load_store("opportunities/opportunity_store.json", "opportunities")
     _scan_opportunities(opportunities, _add_trend)
 
+    # --- Scan Radar Hits ---
+    radar_hits = _load_store("radar/radar_hits.json", "hits")
+    _scan_radar_hits(radar_hits, _add_trend)
+
     # --- Scan Memory for Patterns ---
     memory = _load_memory()
     _scan_memory(memory, _add_trend)
@@ -192,6 +196,45 @@ def _scan_opportunities(opportunities: list[dict], add_trend) -> None:
             relevance_score=relevance,
             potential_app_categories=app_cats,
             detected_from=f"opportunities/{opp.get('opportunity_id', '?')}",
+        )
+
+
+# Radar hit category → trend category mapping
+_RADAR_CAT_TO_TREND = {
+    "new_product": "app_category",
+    "feature_pattern": "app_category",
+    "market_gap": "market_shift",
+    "pricing_model": "market_shift",
+    "tech_stack": "developer_tooling",
+    "user_pain_point": "app_category",
+    "viral_concept": "app_category",
+    "monetization": "market_shift",
+    "platform_shift": "platform_change",
+    "regulation": "platform_change",
+    "general": "general",
+}
+
+
+def _scan_radar_hits(hits: list[dict], add_trend) -> None:
+    """Detect trends from radar hits (external signal intake)."""
+    active = [h for h in hits if h.get("status") not in ("dismissed", "expired")]
+
+    for hit in active:
+        radar_cat = hit.get("category", "general")
+        trend_cat = _RADAR_CAT_TO_TREND.get(radar_cat, "general")
+        relevance = hit.get("relevance_score", 0.5)
+
+        platforms = hit.get("potential_platforms", [])
+        if not platforms:
+            platforms = ["ios", "web"]
+
+        add_trend(
+            title=f"Radar: {hit.get('title', '?')}",
+            category=trend_cat,
+            summary=hit.get("summary", hit.get("title", "")),
+            relevance_score=relevance,
+            potential_app_categories=platforms,
+            detected_from=f"radar/{hit.get('hit_id', '?')}",
         )
 
 

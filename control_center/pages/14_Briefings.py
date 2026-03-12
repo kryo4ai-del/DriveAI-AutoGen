@@ -75,11 +75,38 @@ if alerts:
         icon = SEV_ICONS.get(a.get("severity", ""), "⚪")
         st.text(f"  {icon} [{a.get('type', '?')}] {a.get('id', '?')}: {a.get('title', '?')}")
 
+# --- AI Costs (special section — dict, not list) ---
+ai_costs_data = sections.get("ai_costs", {})
+if ai_costs_data:
+    with st.expander("AI Costs"):
+        st.text(f"  Today: {ai_costs_data.get('today_cost', '$0')} | Tokens: {ai_costs_data.get('today_tokens', 0):,}")
+        st.text(f"  Total: {ai_costs_data.get('total_cost', '$0')} | Requests: {ai_costs_data.get('total_requests', 0)}")
+        top_agents = ai_costs_data.get("top_agents", [])
+        if top_agents:
+            st.text("  Top agents:")
+            for ta in top_agents:
+                st.text(f"    {ta.get('cost', '$0')}  {ta.get('agent', '?')}")
+
+# --- Strategy Report (special section — dict, not list) ---
+strategy_data = sections.get("strategy", {})
+if strategy_data:
+    with st.expander("Strategy Report"):
+        st.text(f"  Report: {strategy_data.get('report_id', '?')} | Week: {strategy_data.get('week', '?')}")
+        st.text(f"  Risks: {strategy_data.get('risks', 0)} | Actions: {strategy_data.get('actions', 0)} | Status: {strategy_data.get('status', '?')}")
+
+# --- Research (special section — dict, not list) ---
+research_data = sections.get("research", {})
+if research_data:
+    with st.expander("Research Reports"):
+        st.text(f"  Total: {research_data.get('total', 0)} | High Confidence: {research_data.get('high_confidence', 0)}")
+        st.text(f"  Latest: {research_data.get('latest_id', '?')} — {research_data.get('latest_topic', '?')} (conf: {research_data.get('latest_confidence', 0):.0%})")
+
 # --- Section Details (collapsed) ---
 for section_key, section_label in [
     ("new_ideas", "Ideas in Inbox"),
     ("trends", "AI Trends"),
     ("opportunities", "Opportunities"),
+    ("radar", "Opportunity Radar"),
     ("projects", "Projects"),
     ("compliance", "Compliance"),
     ("accessibility", "Accessibility"),

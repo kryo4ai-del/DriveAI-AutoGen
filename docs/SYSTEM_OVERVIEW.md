@@ -52,10 +52,28 @@ Content agents:
 Discovery agents:
 
 - OpportunityAgent (opportunity discovery, trend analysis, new product ideation)
+- OpportunityRadar (external signal intake, evaluation, opportunity promotion)
 
 Compliance agents:
 
 - LegalRiskAgent (legal/regulatory risk assessment, GDPR, licensing, platform policies)
+
+Strategy agents:
+
+- StrategyReportAgent (weekly strategic analysis, cross-signal aggregation, risk/opportunity assessment)
+
+Knowledge agents:
+
+- ResearchMemoryGraph (entity relationship tracking, cross-signal context, connected knowledge)
+
+Research agents:
+
+- AutoResearchAgent (automated research report generation from signals, technology/tool/architecture analysis)
+
+Cost & Routing agents:
+
+- ModelRouter (intelligent model selection, local vs API routing, cost optimization)
+- AICostMonitor (usage tracking, budget alerts, cost-per-agent/project reporting)
 
 Monitoring agents:
 
@@ -109,7 +127,7 @@ Task
 → Git Commit
 → Git Push
 
-Total agents: 20 (2 planning + 1 bootstrap + 1 orchestration + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 11 implementation)
+Total agents: 23 (2 planning + 1 bootstrap + 1 orchestration + 1 content + 1 discovery + 1 compliance + 1 monitoring + 1 quality + 1 strategy + 1 knowledge + 1 research + 1 cost/routing + 11 implementation)
 
 Factory Idea Intake:
 
@@ -134,19 +152,38 @@ Storage:
 - accessibility/accessibility_manager.py (Python API for accessibility reports)
 - opportunities/opportunity_store.json (opportunity records)
 - opportunities/opportunity_manager.py (Python API for opportunities)
+- radar/radar_sources.json (radar source definitions)
+- radar/radar_hits.json (radar hit records)
+- radar/radar_manager.py (Python API for radar sources + hits)
 - compliance/compliance_reports.json (legal risk reports)
 - compliance/compliance_manager.py (Python API for compliance reports)
 - bootstrap/project_store.json (bootstrapped project records)
 - bootstrap/bootstrap_manager.py (Python API for project bootstrapping)
 - orchestration/orchestration_plan_store.json (execution plans)
 - orchestration/orchestration_manager.py (Python API for orchestration plans)
+- costs/cost_usage.json (AI usage log)
+- costs/cost_summary.json (daily cost summaries)
+- costs/cost_manager.py (Python API for cost tracking)
+- config/model_router.py (intelligent model routing)
+- config/model_routing.json (custom routing rules)
+- config/cost_budgets.json (daily/monthly budget limits)
+- strategy/weekly_reports.json (weekly strategy reports)
+- strategy/strategy_manager.py (Python API for strategy reports)
+- strategy/html_report.py (HTML strategy report renderer)
+- research_graph/graph_nodes.json (knowledge graph nodes)
+- research_graph/graph_edges.json (knowledge graph edges)
+- research_graph/graph_manager.py (Python API for knowledge graph)
+- research_graph/ingest.py (graph population from factory stores)
+- research_reports/research_reports.json (research report records)
+- research_reports/research_manager.py (Python API for research reports)
+- research/auto_research.py (automated research report generation)
 
 See docs/factory_intake.md for full documentation.
 
 Factory Control Center:
 - control_center/app.py (Streamlit dashboard — overview + 9 pages)
 - control_center/store_reader.py (read-only access to all JSON stores)
-- control_center/pages/ (Ideas, Projects, Specs, Opportunities, Watch, Compliance, A11Y, Orchestration, Content)
+- control_center/pages/ (Ideas, Projects, Specs, Opportunities, Watch, Compliance, A11Y, Orchestration, Content, Activity Feed, Agent Memory, Improvements, Trends, Briefings, Radar, AI Costs, Strategy, Research Graph, Research)
 - control_center/Dockerfile + docker-compose.yml (Docker deployment)
 - See docs/factory_control_center.md for full documentation.
 

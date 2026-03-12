@@ -41,6 +41,14 @@ class StoreReader:
         "improvements": ("improvements/improvement_proposals.json", "proposals"),
         "trends": ("trends/trend_store.json", "trends"),
         "briefings": ("briefings/briefing_store.json", "briefings"),
+        "radar_sources": ("radar/radar_sources.json", "sources"),
+        "radar_hits": ("radar/radar_hits.json", "hits"),
+        "cost_usage": ("costs/cost_usage.json", "usage"),
+        "cost_summaries": ("costs/cost_summary.json", "summaries"),
+        "strategy_reports": ("strategy/weekly_reports.json", "reports"),
+        "graph_nodes": ("research_graph/graph_nodes.json", "nodes"),
+        "graph_edges": ("research_graph/graph_edges.json", "edges"),
+        "research_reports": ("research/research_reports.json", "reports"),
     }
 
     def __init__(self):
@@ -113,6 +121,50 @@ class StoreReader:
 
     def briefings(self) -> list[dict]:
         return self._load(*self.STORE_MAP["briefings"])
+
+    def radar_sources(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["radar_sources"])
+
+    def radar_hits(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["radar_hits"])
+
+    def cost_usage(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["cost_usage"])
+
+    def cost_summaries(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["cost_summaries"])
+
+    def strategy_reports(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["strategy_reports"])
+
+    def graph_nodes(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["graph_nodes"])
+
+    def graph_edges(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["graph_edges"])
+
+    def research_reports(self) -> list[dict]:
+        return self._load(*self.STORE_MAP["research_reports"])
+
+    def cost_budgets(self) -> dict:
+        path = self.root / "config" / "cost_budgets.json"
+        if not path.exists():
+            return {}
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            return data if isinstance(data, dict) else {}
+        except (json.JSONDecodeError, OSError):
+            return {}
+
+    def model_routing(self) -> dict:
+        path = self.root / "config" / "model_routing.json"
+        if not path.exists():
+            return {}
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            return data.get("routes", {}) if isinstance(data, dict) else {}
+        except (json.JSONDecodeError, OSError):
+            return {}
 
     # --- Memory accessor ---
 
