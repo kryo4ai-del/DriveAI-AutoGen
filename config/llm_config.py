@@ -1,6 +1,6 @@
 # llm_config.py
 # LLM configuration for AutoGen agents.
-# Supports both Anthropic (Claude) and OpenAI models.
+# Provider: Anthropic (Claude) + Ollama (local).
 
 import json
 import os
@@ -85,21 +85,16 @@ def get_llm_config_for_model(model: str) -> dict:
     Return an AutoGen-compatible LLM config for a specific model name.
     Detects provider from model name prefix.
     """
-    if model.startswith("claude"):
-        api_key_env = "ANTHROPIC_API_KEY"
-        provider = "anthropic"
-    elif model.startswith("gpt") or model.startswith("o3"):
-        api_key_env = "OPENAI_API_KEY"
-        provider = "openai"
-    elif model.startswith("ollama/"):
+    if model.startswith("ollama/"):
         # Local models don't need API keys
         return {
             "config_list": [{"model": model}],
             "temperature": 0.2,
         }
-    else:
-        api_key_env = "ANTHROPIC_API_KEY"
-        provider = "anthropic"
+
+    # All cloud models use Anthropic
+    api_key_env = "ANTHROPIC_API_KEY"
+    provider = "anthropic"
 
     api_key = os.getenv(api_key_env)
     if not api_key:

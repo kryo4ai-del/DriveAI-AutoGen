@@ -1,7 +1,6 @@
 # model_router.py
 # ModelRouter — intelligent model selection based on task type.
-# Prefers local models (Ollama) for lightweight tasks to reduce API costs.
-# Falls back to GPT for tasks requiring advanced reasoning.
+# Provider: Anthropic (Claude) + Ollama (local).
 
 import json
 import os
@@ -38,18 +37,13 @@ _DEFAULT_ROUTES = {
 PROVIDERS = {
     "ollama": {"cost_per_1k_input": 0.0, "cost_per_1k_output": 0.0, "local": True},
     "anthropic": {"cost_per_1k_input": 0.003, "cost_per_1k_output": 0.015, "local": False},
-    "openai": {"cost_per_1k_input": 0.00015, "cost_per_1k_output": 0.0006, "local": False},
 }
 
-# Per-model cost overrides (OpenAI pricing as of early 2026)
+# Per-model cost overrides (Anthropic pricing)
 MODEL_COSTS = {
-    # Anthropic Claude models (primary)
     "claude-opus-4-6": {"cost_per_1k_input": 0.015, "cost_per_1k_output": 0.075},
     "claude-sonnet-4-6": {"cost_per_1k_input": 0.003, "cost_per_1k_output": 0.015},
     "claude-haiku-4-5": {"cost_per_1k_input": 0.0008, "cost_per_1k_output": 0.004},
-    # OpenAI models (legacy fallback)
-    "gpt-4o": {"cost_per_1k_input": 0.0025, "cost_per_1k_output": 0.01},
-    "gpt-4o-mini": {"cost_per_1k_input": 0.00015, "cost_per_1k_output": 0.0006},
     # Local models — zero cost
     "ollama/mistral": {"cost_per_1k_input": 0.0, "cost_per_1k_output": 0.0},
     "ollama/llama3": {"cost_per_1k_input": 0.0, "cost_per_1k_output": 0.0},
