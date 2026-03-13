@@ -4183,6 +4183,94 @@
     {
       "timestamp": "2026-03-13T10:15:17.536493",
       "note": "[accessibility_agent] Organization**: Layered approach (Models → Services → ViewModels → Views)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.278136",
+      "note": "Run completed for task: Design and implement the Training Mode for AskFin Premium.\n\nTraining Mode provides adaptive daily learning sessions with swipe-based question answering.\n\nCore components:\n1. TrainingSessionView — manages a session of 5-10 questions with swipe gestures\n2. QuestionCardView — displays question text + 4 answer options, supports directional swipe\n3. AnswerRevealView — shows correct/incorrect, WHY explanation, topic tag, competence signal\n4. SessionSummaryView — post-session results with per-topic accuracy and competence changes\n5. SkillMapView — 4x4 grid of 16 driving theory topics, color-coded by competence level\n6. TrainingSessionViewModel — question selection (adaptive: spacing + weakness-first + coverage)\n7. SkillMapViewModel — aggregates topic competence, calculates overall readiness score (0-100%)\n8. TopicCompetenceService — persists per-topic accuracy with recency weighting, manages spacing queue\n\nDesign requirements:\n- Dark theme, green accent for progress\n- Swipe-based answering (left/right/up/down for A/B/C/D)\n- Haptic feedback on answer (success/error notification)\n- Progressive disclosure for explanations\n- German UI text (AskFin targets German driving theory learners)\n\nData model:\n- TopicArea enum (16 topics: rightOfWay, trafficSigns, speed, distance, overtaking, parking, turning, highway, railwayCrossing, visibility, alcoholDrugs, vehicleTech, environment, passengers, emergency, general)\n- CompetenceLevel enum (notStarted/weak/shaky/solid/mastered with color mapping)\n- TopicCompetence struct (topic, totalAnswers, correctAnswers, weightedAccuracy, competenceLevel)\n- TrainingSession struct (type, questions, timestamps)\n- SessionQuestion struct (text, options, correctIndex, topic, questionType, explanation)\n- SpacingItem struct (topic, consecutiveCorrect, nextReviewDate)\n\nBehavioral requirements:\n- After each answer, show WHY explanation (1-2 sentences connecting answer to driving rule)\n- Show running competence signal between questions (3 von 5 richtig · Vorfahrt)\n- Spacing: wrong answers re-appear after 1/3/7/14/30 day intervals\n- Daily Challenge: prioritize spacing-due items, then weakest topics, then coverage gaps\n- No generic gamification (no badges, XP, leaderboards)\n- Micro-labels on questions showing type (Recall: Verkehrszeichen / Anwendung: Gefahrensituation)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.312055",
+      "note": "[reviewer] `@MainActor` on the service is a blanket approach. Disk I/O in `saveToDisk()` should be offloaded to a background actor or Task to avoid blocking the main thread on write:"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.312731",
+      "note": "[bug_hunter] Issue #6 Recommendation Has a Bug"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.314004",
+      "note": "[test_generator] | WT-04 | `.notStarted` topics excluded (per refactor decision) | some not started | none returned |"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.315210",
+      "note": "[ux_psychology] 5. [Cognitive Load] The 4×4 SkillMap presents 16 simultaneous decision points with no hierarchy**"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.315963",
+      "note": "[accessibility_agent] Recommendation: Implement dual interaction: swipe gestures as the primary visual interaction, with accessible button alternatives exposed exclusively to assistive technologies. D..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.318303",
+      "note": "[test_generator] // TC-TC-03: All correct recent events approach 1.0"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.319161",
+      "note": "[ux_psychology] Gap:** The spec defines \"Daily Challenge\" as a question selection algorithm (spacing-due → weakest → coverage). This is the correct learning science approach. However, there is no desi..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.320083",
+      "note": "[accessibility_agent] Recommendation: Implement an .accessibilityAction alternative for each swipe direction alongside the gesture. VoiceOver users should hear the answer options read aloud and be abl..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.324188",
+      "note": "[reviewer] The architecture is sound and the psychological framework is correctly applied. The critical gaps are in incomplete implementations and missing defensive code, not in design decisions."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.325023",
+      "note": "[refactor_agent] Reading through the full chain — spec → creative review → architecture breakdown → implementation → bug review — the structure is sound but there are recurring patterns that should be..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.328520",
+      "note": "[accessibility_agent] Track B findings are flagged with `[SPEC RISK]` and carry higher prevention value — fixing a design decision before it becomes code costs nothing; retrofitting accessibility into..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.329168",
+      "note": "[driveai_lead] Pre-Build: Architecture Decisions Required Before Any View Work Begins"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.330714",
+      "note": "[reviewer] Reviewing the generated Swift files and the three View layer files (`TrainingSessionView`, `QuestionCardView`, `AnswerRevealView`) against the architecture decisions and task definitions. T..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.331319",
+      "note": "[bug_hunter] Reviewing the generated files and View layer implementation against the task definitions, architecture decisions, and prior audit findings."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.335214",
+      "note": "[accessibility_agent] Recommendation: Add a parallel tap-based answer path alongside the swipe mechanic."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.336441",
+      "note": "[swift_developer] /// Used by AnswerRevealView to choose appropriate copy tone."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.337110",
+      "note": "[reviewer] Recommendation:** Either assign it explicitly to Agent A with a specified interface, or delete it with a documented reason. Leaving it unassigned means it persists with generated content al..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.338712",
+      "note": "[bug_hunter] The logic is sound for normal operation. The risk is the EMA in `TopicCompetenceService.computeWeightedAccuracy` starting from `previous: entry.weightedAccuracy` which is `0.0` for a new..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.341208",
+      "note": "[reviewer] The second approach is preferable — it avoids leaking the entire `TrainingConfig` struct through the service interface."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.342519",
+      "note": "[reviewer] Recommendation for next delivery:** Submit `AnswerRevealView` (completion only), `SessionSummaryView`, and `SkillMapView` as three separate exchanges rather than batching with tests. Verify..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.344758",
+      "note": "[reviewer] Delivery Recommendation"
     }
   ],
   "architecture_notes": [
@@ -11477,6 +11565,126 @@
     {
       "timestamp": "2026-03-13T10:15:17.535661",
       "note": "[project_bootstrap_agent] 2. **Structured Refactoring Plan** (PLAN-004)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.310464",
+      "note": "[swift_developer] Architecture Overview"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.311535",
+      "note": "[reviewer] The implementation is **structurally sound** with good separation of concerns. The models are well-designed and the data flow is clear. However, there are several issues across correctness,..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.312357",
+      "note": "[bug_hunter] Better fix — restructure to pass full state:"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.313393",
+      "note": "[test_generator] // Example structure"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.314270",
+      "note": "[creative_director] Suggestion: Give QuestionType a distinct visual treatment that is not color-primary: use a pill shape with a border and icon rather than a filled color chip. Reserve the color-fill..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.314780",
+      "note": "[ux_psychology] Fix: During onboarding, ask the user one question: \"Wann lernst du am liebsten?\" with three options tied to actual German commute patterns — \"Morgens (7–9 Uhr)\", \"Mittags (12–14 Uhr)\",..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.315455",
+      "note": "[accessibility_agent] Analyzing the Training Mode implementation across all submitted files: `TrainingModels.swift`, `TopicCompetenceService.swift`, architecture specification, and behavioral requirem..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.316767",
+      "note": "[bug_hunter] // Likely pattern in implementation — WILL CRASH:"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.317397",
+      "note": "[refactor_agent] The flat `correctAnswers / totalAnswers` pattern is removed entirely. All callers use `weightedAccuracy`."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.319501",
+      "note": "[accessibility_agent] Note:** The View layer is entirely absent from the generated files. All View-related findings are based on the spec's design requirements and the patterns described across the ex..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.321174",
+      "note": "[reviewer] The review chain is thorough and well-structured. The bug hunt, refactor review, test cases, UX psychology review, and accessibility report are all of high quality. The final implementation..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.322145",
+      "note": "[ux_psychology] 4. **[Motivation Architecture] The readiness score (0–100%) lacks a meaningful emotional anchor**"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.322616",
+      "note": "[driveai_lead] DriveAI — Training Mode: Architecture Review & Task Breakdown"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.323871",
+      "note": "[reviewer] The architecture is sound and the psychological framework is correctly applied. The critical gaps are in incomplete implementations and missing defensive code, not in design decisions."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.324660",
+      "note": "[refactor_agent] Reading through the full chain — spec → creative review → architecture breakdown → implementation → bug review — the structure is sound but there are recurring patterns that should be..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.325706",
+      "note": "[accessibility_agent] Issue: voiceover_issue / semantic_structure"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.327147",
+      "note": "[creative_director] Suggestion: Restructure the SkillMap as a stylized route — a simplified road diagram where topic clusters (e.g. Gefahrensituationen, Verkehrszeichen, Fahrzeugtechnik) map to recogn..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.327686",
+      "note": "[ux_psychology] 3. [Motivation Architecture] The readiness score (0–100%) is a terminal number with no behavioral implication**"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.328102",
+      "note": "[accessibility_agent] I'll now perform a structured accessibility audit of the Training Mode implementation, working from the generated files and the behavioral spec."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.328686",
+      "note": "[driveai_lead] DriveAI — Training Mode: Structured Development Tasks"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.330407",
+      "note": "[reviewer] Reviewing the generated Swift files and the three View layer files (`TrainingSessionView`, `QuestionCardView`, `AnswerRevealView`) against the architecture decisions and task definitions. T..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.330920",
+      "note": "[bug_hunter] Reviewing the generated files and View layer implementation against the task definitions, architecture decisions, and prior audit findings."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.333192",
+      "note": "[test_generator] Based on the refactored implementation, here are structured test cases covering all layers."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.333661",
+      "note": "[creative_director] Suggestion: Group the 4×4 grid into the four domain clusters already defined in `TopicArea.swift` (Road Rules, Special Situations, Human Factors, Vehicle & Environment) with visibl..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.334227",
+      "note": "[ux_psychology] Gap: `SessionSummaryView` shows per-topic accuracy and competence deltas but nothing that creates a specific return intention. The learner dismisses the summary with no mental anchor t..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.336611",
+      "note": "[reviewer] The review document is well-structured and the refactored models are largely solid. However, several issues in the generated artifacts and the review's own code need direct attention before..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.340629",
+      "note": "[reviewer] This is the strongest submission in the series. The architecture is coherent, the bugs from previous rounds are resolved, and the view layer is finally present. The issues below are real pr..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.341960",
+      "note": "[reviewer] This is the fifth consecutive delivery where at least one file is truncated. The pattern is consistent: the last file in each batch is cut off. The root cause is response length limits. The..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.344118",
+      "note": "[reviewer] The submission is substantially complete. The file manifest is coherent, the architecture is consistent, and the critical bugs from previous rounds are addressed. The issues below are what..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.345510",
+      "note": "[reviewer] All test files listed in the manifest are still not delivered. The test infrastructure (`MockQuestionBank`) was specified in the previous review. None of the service or ViewModel tests exis..."
     }
   ],
   "implementation_notes": [
@@ -20391,6 +20599,238 @@
     {
       "timestamp": "2026-03-13T10:15:17.536241",
       "note": "[accessibility_agent] Organization**: Layered approach (Models → Services → ViewModels → Views)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.311692",
+      "note": "[reviewer] Code Review: Training Mode Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.312491",
+      "note": "[bug_hunter] Bug Hunter Review: Training Mode — Second Pass"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.312972",
+      "note": "[refactor_agent] Refactored Training Mode — Clean Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.313605",
+      "note": "[test_generator] Tests are grouped by component. Each entry includes: **ID**, **description**, **inputs**, **expected outcome**, and **notes**."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.314383",
+      "note": "[creative_director] 1. [Emotional Engagement] AnswerRevealView has no emotional function defined"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.314893",
+      "note": "[ux_psychology] UX Psychology Review — Training Mode, DriveAI"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.315673",
+      "note": "[accessibility_agent] Analyzing the Training Mode implementation across all submitted files: `TrainingModels.swift`, `TopicCompetenceService.swift`, architecture specification, and behavioral requirem..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.316204",
+      "note": "[swift_developer] Addressing all findings from both code reviews, the UX psychology review, the accessibility review, and the creative direction notes."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.316949",
+      "note": "[bug_hunter] The implementation has **critical structural gaps** that will cause runtime crashes and silent data corruption. The file manifest reveals a severely incomplete delivery: 8 files generated..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.317535",
+      "note": "[refactor_agent] Refactor Review: Training Mode — AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.317916",
+      "note": "[test_generator] Tests are grouped by component. Each section covers happy paths, edge cases, and failure scenarios derived directly from the bug hunt and refactor review findings."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.318484",
+      "note": "[creative_director] Problem: The `SessionSummaryView` spec describes \"per-topic accuracy and competence changes\" as if reporting a spreadsheet. After completing a session, the emotional moment (did I..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.318788",
+      "note": "[ux_psychology] UX Psychology Review: Training Mode — AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.319715",
+      "note": "[accessibility_agent] Review basis:** Implementation summary, bug hunt report, refactor review, test cases, UX psychology review, and product feedback."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.320783",
+      "note": "[swift_developer] Training Mode Implementation: Full View Layer + Missing Components"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.321311",
+      "note": "[reviewer] I'll review this implementation systematically across the documents provided."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.321712",
+      "note": "[swift_developer] Delivering all missing components addressing every critical finding from the review chain. Files are complete and production-ready."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.322310",
+      "note": "[ux_psychology] Gap: `SessionQuestion` includes an `explanation` field and `AnswerRevealView` is listed as a component, but the generated files contain zero View files — only ViewModels and Models. Th..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.322782",
+      "note": "[driveai_lead] DriveAI — Training Mode: Architecture Review & Task Breakdown"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.323257",
+      "note": "[swift_developer] A-01 · AnswerRevealView.swift"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.324375",
+      "note": "[bug_hunter] Bug Hunter Review — Training Mode Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.324792",
+      "note": "[refactor_agent] Refactor Review: Training Mode Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.325273",
+      "note": "[test_generator] Component:** `answerDisplayState()` pure function (Refactor R-02)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.325859",
+      "note": "[accessibility_agent] Accessibility Review — Training Mode (AskFin)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.326683",
+      "note": "[swift_developer] TrainingModels.swift"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.327275",
+      "note": "[creative_director] Problem: The TrainingSessionView appears to start directly into questions with no moment that sets the learner's mindset. Starting cold into adaptive questions misses the anxiety-t..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.327797",
+      "note": "[ux_psychology] UX Psychology Review — Training Mode, AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.328244",
+      "note": "[accessibility_agent] Scope:** All 8 specified components, evaluated against generated files and spec behavior"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.328832",
+      "note": "[driveai_lead] The UX Psychology and Accessibility audits have produced 10 high-priority findings that must be resolved before the View layer is built. The generated files are incomplete (3 of 8 compo..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.329474",
+      "note": "[swift_developer] DriveAI — Training Mode: View Layer Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.330528",
+      "note": "[reviewer] Code Review — Training Mode, AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.331090",
+      "note": "[bug_hunter] Bug Hunter Review — Training Mode, AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.331545",
+      "note": "[refactor_agent] Looking at the generated files and accumulated review context, I'll focus on refactoring the code that exists rather than the missing pieces. The key structural problems in the implem..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.332302",
+      "note": "[test_generator] Tests are grouped by component. Each entry includes a test name, preconditions, input, expected result, and the category (happy path / edge case / failure / accessibility)."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.332786",
+      "note": "[refactor_agent] DriveAI Training Mode — Refactor Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.333327",
+      "note": "[test_generator] Based on the refactored implementation, here are structured test cases covering all layers."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.333775",
+      "note": "[creative_director] Problem: `AnswerRevealView` shows correct/incorrect as a binary state with a WHY explanation, but the design spec gives no emotional differentiation between \"wrong but nearly right..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.334386",
+      "note": "[ux_psychology] Gap: `AnswerRevealView` exposes the WHY explanation correctly, but the implementation spec gives no differentiation between a close miss (user swiped B, correct was A) and a complete m..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.334936",
+      "note": "[accessibility_agent] I'll analyze the Training Mode implementation for accessibility issues, working through each component systematically."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.335473",
+      "note": "[driveai_lead] DriveAI Training Mode — Refactor Delivery"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.335990",
+      "note": "[swift_developer] DriveAI Training Mode — Complete Refactor Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.336738",
+      "note": "[reviewer] DriveAI Training Mode — Code Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.337355",
+      "note": "[swift_developer] Addressing all review findings before delivering the remaining agents. Working through each layer in dependency order."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.338011",
+      "note": "[test_generator] Grounded in the refactored implementation. All test cases reference actual types, method signatures, and behavioral contracts from the delivered code."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.338406",
+      "note": "[bug_hunter] DriveAI Training Mode — Bug Hunter Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.339023",
+      "note": "[swift_developer] | BUG-04: missDistance/isCorrect conflation | Gated at call site in ViewModel |"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.339490",
+      "note": "[reviewer] DriveAI Training Mode — Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.340017",
+      "note": "[swift_developer] Delivering all remaining components with all previous issues resolved."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.341537",
+      "note": "[swift_developer] DriveAI Training Mode — Complete View Layer and Tests"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.342793",
+      "note": "[swift_developer] Delivery: AnswerRevealView, SessionSummaryView, SkillMapView"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.343370",
+      "note": "[refactor_agent] CompetenceLevel.swift"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.343758",
+      "note": "[swift_developer] `Models/SpacingItem.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.344267",
+      "note": "[reviewer] DriveAI Training Mode — Final Delivery Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.345005",
+      "note": "[swift_developer] `ViewModels/TrainingSessionViewModel.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.346011",
+      "note": "[swift_developer] Delivery: SessionSummaryView + TrainingSessionView + Tests"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.346405",
+      "note": "[test_generator] `Tests/Helpers/TestFixtures.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.346774",
+      "note": "[swift_developer] `Tests/Models/SessionQuestionTests.swift` (Complete)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.347263",
+      "note": "[reviewer] The remaining tests covering `record(result:)`, `dueTopics()`, `weakestTopics()`, `nextSessionPreview()`, and the full `TrainingSessionViewModelTests` and `SkillMapViewModelTests` files are..."
     }
   ],
   "review_notes": [
@@ -29301,6 +29741,222 @@
     {
       "timestamp": "2026-03-13T10:15:17.536404",
       "note": "[accessibility_agent] COMPREHENSIVE TEST SUITE: Training Mode for AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.311349",
+      "note": "[swift_developer] var nextReviewDate: Date"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.311811",
+      "note": "[reviewer] Code Review: Training Mode Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.312612",
+      "note": "[bug_hunter] Bug Hunter Review: Training Mode — Second Pass"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.313106",
+      "note": "[refactor_agent] I'll address all confirmed issues from both reviews in priority order, producing clean, complete files."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.313726",
+      "note": "[test_generator] Test Cases: Training Mode — DriveAI"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.314501",
+      "note": "[creative_director] Problem: The spec describes AnswerRevealView as showing correct/incorrect + WHY explanation + topic tag + competence signal, but no emotional register is assigned to these states...."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.314994",
+      "note": "[ux_psychology] UX Psychology Review — Training Mode, DriveAI"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.315814",
+      "note": "[accessibility_agent] Analyzing the Training Mode implementation across all submitted files: `TrainingModels.swift`, `TopicCompetenceService.swift`, architecture specification, and behavioral requirem..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.316338",
+      "note": "[swift_developer] Addressing all findings from both code reviews, the UX psychology review, the accessibility review, and the creative direction notes."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.317101",
+      "note": "[bug_hunter] Bug Hunt Report: Training Mode — AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.317660",
+      "note": "[refactor_agent] Refactor Review: Training Mode — AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.318045",
+      "note": "[test_generator] Test Cases: Training Mode — AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.318601",
+      "note": "[creative_director] Problem: The `SessionSummaryView` spec describes \"per-topic accuracy and competence changes\" as if reporting a spreadsheet. After completing a session, the emotional moment (did I..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.318891",
+      "note": "[ux_psychology] UX Psychology Review: Training Mode — AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.319914",
+      "note": "[accessibility_agent] Review basis:** Implementation summary, bug hunt report, refactor review, test cases, UX psychology review, and product feedback."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.320930",
+      "note": "[swift_developer] This delivers all missing files identified in the bug hunt: 5 views, 2 viewmodels, 1 service, and supporting models. Each file addresses the specific findings from the review chain...."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.321435",
+      "note": "[reviewer] I'll review this implementation systematically across the documents provided."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.321847",
+      "note": "[swift_developer] Delivering all missing components addressing every critical finding from the review chain. Files are complete and production-ready."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.322426",
+      "note": "[ux_psychology] Principle: Elaborative interrogation — connecting an answer to an underlying rule increases retention by approximately 25-30% versus correct/incorrect feedback alone (per Pressley et a..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.322946",
+      "note": "[driveai_lead] DriveAI — Training Mode: Architecture Review & Task Breakdown"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.323679",
+      "note": "[swift_developer] .fixedSize(horizontal: false, vertical: true)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.324488",
+      "note": "[bug_hunter] Bug Hunter Review — Training Mode Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.324924",
+      "note": "[refactor_agent] Refactor Review: Training Mode Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.325405",
+      "note": "[test_generator] Training Mode — Test Cases"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.326001",
+      "note": "[accessibility_agent] Accessibility Review — Training Mode (AskFin)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.326909",
+      "note": "[swift_developer] Addressing all findings in priority order: build-breaking fixes first, then behavioral correctness, then quality. Every file is complete and standalone."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.327396",
+      "note": "[creative_director] Problem: The TrainingSessionView appears to start directly into questions with no moment that sets the learner's mindset. Starting cold into adaptive questions misses the anxiety-t..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.327902",
+      "note": "[ux_psychology] UX Psychology Review — Training Mode, AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.328417",
+      "note": "[accessibility_agent] Track A — Code-level findings:** Issues identifiable in the generated Swift files"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.329034",
+      "note": "[driveai_lead] The accessibility audit identifies swipe-as-answer as a blocking VoiceOver failure. The UX audit independently recommends replacing it with tap-based answers plus swipe-for-navigation...."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.330641",
+      "note": "[reviewer] Code Review — Training Mode, AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.331238",
+      "note": "[bug_hunter] Bug Hunter Review — Training Mode, AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.331686",
+      "note": "[refactor_agent] Looking at the generated files and accumulated review context, I'll focus on refactoring the code that exists rather than the missing pieces. The key structural problems in the implem..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.332952",
+      "note": "[refactor_agent] DriveAI Training Mode — Refactor Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.333456",
+      "note": "[test_generator] DriveAI Training Mode — Test Case Suite"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.333894",
+      "note": "[creative_director] Problem: `AnswerRevealView` shows correct/incorrect as a binary state with a WHY explanation, but the design spec gives no emotional differentiation between \"wrong but nearly right..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.334503",
+      "note": "[ux_psychology] Principle: Constructive failure feedback (Dweck growth mindset framing) paired with elaborative interrogation — asking *why* something is true, not just *that* it is true — improves re..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.335079",
+      "note": "[accessibility_agent] I'll analyze the Training Mode implementation for accessibility issues, working through each component systematically."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.335619",
+      "note": "[driveai_lead] The generated implementation has the correct architectural intent but contains structural problems that will compound over time: duplicate model files, missing views, inadequate separat..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.336155",
+      "note": "[swift_developer] Each layer is independently testable. No view imports a service directly."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.336857",
+      "note": "[reviewer] DriveAI Training Mode — Code Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.337491",
+      "note": "[swift_developer] Addressing all review findings before delivering the remaining agents. Working through each layer in dependency order."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.338147",
+      "note": "[test_generator] DriveAI Training Mode — Complete Test Suite"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.338561",
+      "note": "[bug_hunter] DriveAI Training Mode — Bug Hunter Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.339192",
+      "note": "[swift_developer] All critical bugs and issues addressed. Delivering all remaining agents in dependency order."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.339646",
+      "note": "[reviewer] DriveAI Training Mode — Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.340240",
+      "note": "[swift_developer] Delivering all remaining components with all previous issues resolved."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.341711",
+      "note": "[swift_developer] DriveAI Training Mode — Complete View Layer and Tests"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.343499",
+      "note": "[refactor_agent] I'll consolidate everything from this entire conversation thread into a single, complete, correct implementation. Every bug fix, every truncated file completed, every structural issue..."
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.344388",
+      "note": "[reviewer] DriveAI Training Mode — Final Delivery Review"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.345155",
+      "note": "[swift_developer] case brief(previewText: String)"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.346143",
+      "note": "[swift_developer] Delivery: SessionSummaryView + TrainingSessionView + Tests"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.347036",
+      "note": "[swift_developer] Complete Test Suite Delivery"
+    },
+    {
+      "timestamp": "2026-03-13T11:20:41.347375",
+      "note": "[reviewer] Both files are complete and correct. The test suite is the best work in this series. The issues below must be fixed before tests run reliably."
     }
   ]
 }

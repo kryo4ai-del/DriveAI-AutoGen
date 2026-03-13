@@ -67,7 +67,7 @@ _INVALID_FILENAMES: frozenset[str] = frozenset({
 })
 
 # --- Guard 5: Max files per run ---
-MAX_FILES_PER_RUN = 10
+MAX_FILES_PER_RUN = 25
 
 
 def _is_valid_filename(name: str) -> bool:
