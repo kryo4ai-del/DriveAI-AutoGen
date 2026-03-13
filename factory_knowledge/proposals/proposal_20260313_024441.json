@@ -1,0 +1,39 @@
+{
+  "run_id": "20260313_024441",
+  "generated": "2026-03-13T03:12:12",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: The generated implementation has sound architecture but is operationally broken due to 26 duplicate files creating type conflicts. This refactoring co. Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260313_024441",
+      "source_run": "20260313_024441",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: Missing MainActor Annotation",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Missing MainActor Annotation",
+      "evidence": "Bug Hunter finding in run 20260313_024441",
+      "source_run": "20260313_024441",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

@@ -488,6 +488,12 @@ async def _run_pipeline(
             # fail → stop further passes, mark run as product_quality_fail
             # conditional_pass → continue with warning
             # pass / unparseable → continue normally (fail-open)
+            # Debug: show message sources for gate parser diagnosis
+            for _dbg_msg in cd_result_msgs:
+                _dbg_src = getattr(_dbg_msg, "source", "?")
+                _dbg_type = type(_dbg_msg).__name__
+                _dbg_content_preview = str(getattr(_dbg_msg, "content", ""))[:80]
+                print(f"  [DEBUG CD msg] source={_dbg_src!r} type={_dbg_type} content={_dbg_content_preview!r}")
             _cd_rating = extract_cd_rating(cd_result_msgs)
             if _cd_rating:
                 print(f"  CD rating: {_cd_rating}")
