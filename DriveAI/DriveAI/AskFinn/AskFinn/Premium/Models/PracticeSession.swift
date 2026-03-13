@@ -74,10 +74,12 @@ struct PracticeSessionResult: Identifiable {
         self.id = UUID()
         self.sessionId = session.id
         self.categoryId = session.categoryId
-        self.correctCount = session.answers.values.filter { $0.isCorrect }.count
+        let correct = session.answers.values.filter { $0.isCorrect }.count
+        self.correctCount = correct
         self.totalQuestions = totalQuestions
         self.timeSpent = timeSpent
-        self.percentage = totalQuestions > 0 ? Double(correctCount) / Double(totalQuestions) : 0
-        self.isPassed = percentage >= passThreshold
+        let pct = totalQuestions > 0 ? Double(correct) / Double(totalQuestions) : 0
+        self.percentage = pct
+        self.isPassed = pct >= 0.75
     }
 }

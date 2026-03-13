@@ -45,7 +45,7 @@ final class TrainingModeViewModel: NSObject {
     // MARK: - Session State
     var currentSession: TrainingSession?
     var currentQuestion: QuestionWithCategory?
-    var allQuestionsForSession: [Question] = []
+    var allQuestionsForSession: [PremiumQuestion] = []
     
     // MARK: - UI State
     var selectedAnswer: String?
@@ -67,15 +67,15 @@ final class TrainingModeViewModel: NSObject {
     @ObservationIgnored private let maxQuestionTimeInterval: TimeInterval = 3600 // 1 hour max
     
     // MARK: - Dependencies
-    private let dataService: LocalDataService
+    private let dataService: PremiumDefaultLocalDataService
     private let sessionManager: TrainingSessionManager
     @ObservationIgnored private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialization
     
     init(
-        dataService: LocalDataService = LocalDataService.shared,
-        sessionManager: TrainingSessionManager = TrainingSessionManager.shared
+        dataService: PremiumDefaultLocalDataService = .shared,
+        sessionManager: TrainingSessionManager = .shared
     ) {
         self.dataService = dataService
         self.sessionManager = sessionManager
@@ -92,7 +92,7 @@ final class TrainingModeViewModel: NSObject {
         lastFailedContext = (categoryId, categoryName)
         
         do {
-            let questions = try await dataService.getQuestionsByCategory(categoryId)
+            let questions = try await dataService.fetchQuestions(for: categoryId)
             guard !questions.isEmpty else {
                 throw TrainingModeError.noCategoriesAvailable
             }
@@ -206,7 +206,7 @@ final class TrainingModeViewModel: NSObject {
         let timeSpent = calculateTimeSpent()
         
         let completedQuestion = CompletedQuestion(
-            questionId: question.question.id,
+            questionId: question.question.id.uuidString,
             selectedAnswer: "",
             isCorrect: false,
             timeSpent: timeSpent,
@@ -240,7 +240,7 @@ final class TrainingModeViewModel: NSObject {
         let isCorrect = selectedOption == question.question.correctAnswer
         
         let completedQuestion = CompletedQuestion(
-            questionId: question.question.id,
+            questionId: question.question.id.uuidString,
             selectedAnswer: selectedOption,
             isCorrect: isCorrect,
             timeSpent: timeSpent,
@@ -318,7 +318,7 @@ final class TrainingModeViewModel: NSObject {
         guard let result = sessionResult else { return }
         
         do {
-            try sessionManager.saveTrainingResult(result)
+            try await sessionManager.saveTrainingResult(result)
         } catch {
             errorMessage = TrainingModeError.persistenceFailed(error.localizedDescription).localizedDescription
         }

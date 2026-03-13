@@ -24,17 +24,17 @@ enum PremiumDataServiceError: LocalizedError {
 }
 
 protocol PremiumLocalDataServiceProtocol {
-    func fetchQuestions(for categoryId: String) async throws -> [Question]
-    func fetchCategories() async throws -> [Category]
+    func fetchQuestions(for categoryId: String) async throws -> [PremiumQuestion]
+    func fetchCategories() async throws -> [PremiumCategory]
     func saveSession(_ session: PracticeSession) async throws
     func loadSession(_ id: UUID) async throws -> PracticeSession?
     func deleteSession(_ id: UUID) async throws
-    func fetchQuestionsByDifficulty(_ difficulty: Int, categoryId: String) async throws -> [Question]
+    func fetchQuestionsByDifficulty(_ difficulty: Int, categoryId: String) async throws -> [PremiumQuestion]
 }
 
 actor PremiumDefaultLocalDataService: PremiumLocalDataServiceProtocol {
-    private var questionsCache: [String: [Question]] = [:]
-    private var categoriesCache: [Category]?
+    private var questionsCache: [String: [PremiumQuestion]] = [:]
+    private var categoriesCache: [PremiumCategory]?
     private let fileManager = FileManager.default
     private let sessionDirectory: URL
     
@@ -57,7 +57,7 @@ actor PremiumDefaultLocalDataService: PremiumLocalDataServiceProtocol {
     
     // MARK: - Questions
     
-    func fetchQuestions(for categoryId: String) async throws -> [Question] {
+    func fetchQuestions(for categoryId: String) async throws -> [PremiumQuestion] {
         if let cached = questionsCache[categoryId] {
             return cached
         }
@@ -71,7 +71,7 @@ actor PremiumDefaultLocalDataService: PremiumLocalDataServiceProtocol {
         decoder.dateDecodingStrategy = .iso8601
         
         do {
-            let questions: [Question] = try decoder.decode([Question].self, from: data)
+            let questions: [PremiumQuestion] = try decoder.decode([PremiumQuestion].self, from: data)
             let filtered = questions.filter { $0.categoryId == categoryId }
             questionsCache[categoryId] = filtered
             return filtered
@@ -80,14 +80,14 @@ actor PremiumDefaultLocalDataService: PremiumLocalDataServiceProtocol {
         }
     }
     
-    func fetchQuestionsByDifficulty(_ difficulty: Int, categoryId: String) async throws -> [Question] {
+    func fetchQuestionsByDifficulty(_ difficulty: Int, categoryId: String) async throws -> [PremiumQuestion] {
         let all = try await fetchQuestions(for: categoryId)
         return all.filter { $0.difficulty == difficulty }
     }
     
     // MARK: - Categories
     
-    func fetchCategories() async throws -> [Category] {
+    func fetchCategories() async throws -> [PremiumCategory] {
         if let cached = categoriesCache {
             return cached
         }
@@ -100,7 +100,7 @@ actor PremiumDefaultLocalDataService: PremiumLocalDataServiceProtocol {
         let decoder = JSONDecoder()
         
         do {
-            let categories: [Category] = try decoder.decode([Category].self, from: data)
+            let categories: [PremiumCategory] = try decoder.decode([PremiumCategory].self, from: data)
             categoriesCache = categories
             return categories
         } catch {
