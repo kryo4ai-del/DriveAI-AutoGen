@@ -1,51 +1,57 @@
 {
   "project_name": "askfin_premium",
   "spec_source": "training_mode.md",
-  "health": "mostly_complete",
-  "completeness_pct": 84.2,
+  "health": "complete",
+  "completeness_pct": 100.0,
   "summary": {
-    "expected": 19,
-    "actual": 53,
-    "complete": 16,
+    "expected": 32,
+    "actual": 79,
+    "complete": 32,
     "incomplete": 0,
-    "missing": 3
+    "missing": 0
   },
-  "missing_files": [
-    "LearningStreak.swift",
-    "TopicDetailView.swift",
-    "TopicPickerView.swift"
-  ],
+  "missing_files": [],
   "incomplete_files": [],
   "suspicious_files": [],
   "unexpected_files": [
     "ViewModels\\AdaptiveQueueBuilder.swift",
     "Models\\AnswerOption.swift",
+    "Models\\AnswerStatus.swift",
     "ViewModels\\CategorySelectionViewModel.swift",
     "Models\\DashboardState.swift",
     "Views\\DashboardView.swift",
     "ViewModels\\DashboardViewModel.swift",
     "ViewModels\\DomainSection.swift",
     "Views\\Components\\ExamCountdownCard.swift",
+    "Models\\ExamSimulationError.swift",
+    "Models\\FehlerpunkteCategory.swift",
     "Models\\GeneratedHelpers.swift",
     "Services\\HapticFeedbackProtocol.swift",
+    "Models\\LearningStreak+Display.swift",
     "Services\\LocalDataService.swift",
     "Tests\\Helpers\\MockQuestionBank.swift",
+    "Tests\\Helpers\\MockServices.swift",
     "Services\\PersistenceStore.swift",
     "ViewModels\\PracticeModeViewModel.swift",
     "Models\\PracticeSession.swift",
     "Views\\Components\\ProgressGridCard.swift",
     "Services\\QuestionBankProtocol.swift",
     "Views\\Components\\QuestionCard.swift",
+    "Models\\ReadinessMilestone.swift",
     "ViewModels\\RevealCopy.swift",
     "Views\\Training\\RevealDisplayModel.swift",
     "Models\\RevealMode.swift",
     "Views\\Training\\SessionBriefView.swift",
     "Models\\SessionPhase.swift",
     "Models\\SessionPhase+Equatable.swift",
+    "Models\\SimulationMode.swift",
+    "Models\\SimulationProtocols.swift",
     "Views\\Components\\StreakIndicator.swift",
     "Models\\SwipeDirection.swift",
     "Tests\\Helpers\\TestFixtures.swift",
     "Models\\Threshold.swift",
+    "Models\\TopicArea+Exam.swift",
+    "Models\\TopicArea+ExamWeights.swift",
     "Models\\TopicDomain.swift",
     "Models\\TrainingCategory.swift",
     "Models\\TrainingConfig.swift",
@@ -77,13 +83,58 @@
       "status": "complete"
     },
     {
+      "filename": "ExamHistoryView.swift",
+      "found": true,
+      "path": "Views\\Simulation\\ExamHistoryView.swift",
+      "size": 3855,
+      "line_count": 118,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ExamSimulation.swift",
+      "found": true,
+      "path": "Models\\ExamSimulation.swift",
+      "size": 4528,
+      "line_count": 126,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ExamSimulationService.swift",
+      "found": true,
+      "path": "Services\\ExamSimulationService.swift",
+      "size": 429,
+      "line_count": 10,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ExamSimulationView.swift",
+      "found": true,
+      "path": "Views\\Simulation\\ExamSimulationView.swift",
+      "size": 7901,
+      "line_count": 238,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ExamSimulationViewModel.swift",
+      "found": true,
+      "path": "ViewModels\\ExamSimulationViewModel.swift",
+      "size": 9422,
+      "line_count": 291,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
       "filename": "LearningStreak.swift",
-      "found": false,
-      "path": "",
-      "size": 0,
-      "line_count": 0,
-      "ends_with_brace": false,
-      "status": "missing"
+      "found": true,
+      "path": "Models\\LearningStreak.swift",
+      "size": 2170,
+      "line_count": 71,
+      "ends_with_brace": true,
+      "status": "complete"
     },
     {
       "filename": "QuestionCardView.swift",
@@ -100,6 +151,42 @@
       "path": "Models\\QuestionType.swift",
       "size": 349,
       "line_count": 12,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ReadinessScore.swift",
+      "found": true,
+      "path": "Models\\ReadinessScore.swift",
+      "size": 1383,
+      "line_count": 48,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ReadinessScoreService.swift",
+      "found": true,
+      "path": "Services\\ReadinessScoreService.swift",
+      "size": 6980,
+      "line_count": 188,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ReadinessScoreServiceTests.swift",
+      "found": true,
+      "path": "Tests\\ReadinessScoreServiceTests.swift",
+      "size": 12092,
+      "line_count": 337,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "ReadinessScoreView.swift",
+      "found": true,
+      "path": "Views\\ReadinessScoreView.swift",
+      "size": 3832,
+      "line_count": 118,
       "ends_with_brace": true,
       "status": "complete"
     },
@@ -127,6 +214,42 @@
       "path": "Models\\SessionType.swift",
       "size": 150,
       "line_count": 8,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SimulationConfig.swift",
+      "found": true,
+      "path": "Models\\SimulationConfig.swift",
+      "size": 666,
+      "line_count": 27,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SimulationResult.swift",
+      "found": true,
+      "path": "Models\\SimulationResult.swift",
+      "size": 8338,
+      "line_count": 226,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SimulationResultView.swift",
+      "found": true,
+      "path": "Views\\Simulation\\SimulationResultView.swift",
+      "size": 9109,
+      "line_count": 266,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SimulationResultViewModel.swift",
+      "found": true,
+      "path": "ViewModels\\SimulationResultViewModel.swift",
+      "size": 3512,
+      "line_count": 102,
       "ends_with_brace": true,
       "status": "complete"
     },
@@ -186,21 +309,21 @@
     },
     {
       "filename": "TopicDetailView.swift",
-      "found": false,
-      "path": "",
-      "size": 0,
-      "line_count": 0,
-      "ends_with_brace": false,
-      "status": "missing"
+      "found": true,
+      "path": "Views\\Training\\TopicDetailView.swift",
+      "size": 8145,
+      "line_count": 230,
+      "ends_with_brace": true,
+      "status": "complete"
     },
     {
       "filename": "TopicPickerView.swift",
-      "found": false,
-      "path": "",
-      "size": 0,
-      "line_count": 0,
-      "ends_with_brace": false,
-      "status": "missing"
+      "found": true,
+      "path": "Views\\Training\\TopicPickerView.swift",
+      "size": 5856,
+      "line_count": 170,
+      "ends_with_brace": true,
+      "status": "complete"
     },
     {
       "filename": "TrainingSession.swift",

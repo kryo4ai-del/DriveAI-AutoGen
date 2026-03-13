@@ -8,15 +8,25 @@ Source spec: training_mode.md
 Output directory: projects/askfin_premium/generated/
 
 ---------------------------------------------
-FILES TO GENERATE (3 files)
+FILES TO GENERATE (9 files)
 ---------------------------------------------
 
 Models:
   [MISSING] Models/LearningStreak.swift
 
+Tests:
+  [MISSING] Tests/ReadinessScoreServiceTests.swift
+
+ViewModels:
+  [INCOMPLETE] ViewModels/SimulationResultViewModel.swift
+
 Views:
+  [MISSING] Views/ExamHistoryView.swift
+  [MISSING] Views/ExamSimulationView.swift
+  [MISSING] Views/SimulationResultView.swift
   [MISSING] Views/TopicDetailView.swift
   [MISSING] Views/TopicPickerView.swift
+  [INCOMPLETE] Views/ReadinessScoreView.swift
 
 
 ---------------------------------------------
@@ -39,24 +49,36 @@ EXISTING PROJECT CONTEXT
 Existing generated files:
   Models/
     - AnswerOption.swift
+    - AnswerStatus.swift
     - CompetenceLevel.swift
     - DashboardState.swift
     - ExamCountdownCard.swift
+    - ExamSimulation.swift
+    - ExamSimulationError.swift
+    - FehlerpunkteCategory.swift
     - GeneratedHelpers.swift
     - PracticeSession.swift
     - ProgressGridCard.swift
     - QuestionCard.swift
     - QuestionType.swift
+    - ReadinessMilestone.swift
+    - ReadinessScore.swift
     - RevealMode.swift
     - SessionPhase.swift
     - SessionPhase+Equatable.swift
     - SessionQuestion.swift
     - SessionType.swift
+    - SimulationConfig.swift
+    - SimulationMode.swift
+    - SimulationProtocols.swift
+    - SimulationResult.swift
     - SpacingItem.swift
     - StreakIndicator.swift
     - SwipeDirection.swift
     - Threshold.swift
     - TopicArea.swift
+    - TopicArea+Exam.swift
+    - TopicArea+ExamWeights.swift
     - TopicCompetence.swift
     - TopicDomain.swift
     - TrainingCategory.swift
@@ -67,10 +89,12 @@ Existing generated files:
     - TrainingSession.swift
     - TrainingSessionManager.swift
   Services/
+    - ExamSimulationService.swift
     - HapticFeedbackProtocol.swift
     - LocalDataService.swift
     - PersistenceStore.swift
     - QuestionBankProtocol.swift
+    - ReadinessScoreService.swift
     - TopicCompetenceService.swift
     - TrainingSessionManager.swift
   Tests/
@@ -83,14 +107,17 @@ Existing generated files:
     - CategorySelectionViewModel.swift
     - DashboardViewModel.swift
     - DomainSection.swift
+    - ExamSimulationViewModel.swift
     - PracticeModeViewModel.swift
     - RevealCopy.swift
+    - SimulationResultViewModel.swift
     - SkillMapViewModel.swift
     - TrainingModeViewModel.swift
     - TrainingModeViewModelTests.swift
     - TrainingSessionViewModel.swift
   Views/
     - DashboardView.swift
+    - ReadinessScoreView.swift
   Views\Components/
     - ExamCountdownCard.swift
     - ProgressGridCard.swift
@@ -110,6 +137,12 @@ Existing generated files:
 REFERENCE: EXPECTED FILE STRUCTURE
 ---------------------------------------------
 
+  projects/askfin_premium/generated/Views/ExamHistoryView.swift
+  projects/askfin_premium/generated/Views/ExamSimulationView.swift
   projects/askfin_premium/generated/Models/LearningStreak.swift
+  projects/askfin_premium/generated/Tests/ReadinessScoreServiceTests.swift
+  projects/askfin_premium/generated/Views/SimulationResultView.swift
   projects/askfin_premium/generated/Views/TopicDetailView.swift
   projects/askfin_premium/generated/Views/TopicPickerView.swift
+  projects/askfin_premium/generated/Views/ReadinessScoreView.swift
+  projects/askfin_premium/generated/ViewModels/SimulationResultViewModel.swift

@@ -4507,6 +4507,90 @@
     {
       "timestamp": "2026-03-13T16:15:21.954721",
       "note": "[swift_developer] Text(gap.recommendation)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.393679",
+      "note": "Run completed for task: FOCUSED RECOVERY RUN — askfin_premium\n======================================\n\nThis is a targeted recovery run. Generate ONLY the files listed below.\nDo NOT regenerate files that already exist in the project.\n\nSource spec: training_mode.md\nOutput directory: projects/askfin_premium/generated/\n\n---------------------------------------------\nFILES TO GENERATE (9 files)\n---------------------------------------------\n\nModels:\n  [MISSING] Models/LearningStreak.swift\n\nTests:\n  [MISSING] Tests/ReadinessScoreServiceTests.swift\n\nViewModels:\n  [INCOMPLETE] ViewModels/SimulationResultViewModel.swift\n\nViews:\n  [MISSING] Views/ExamHistoryView.swift\n  [MISSING] Views/ExamSimulationView.swift\n  [MISSING] Views/SimulationResultView.swift\n  [MISSING] Views/TopicDetailView.swift\n  [MISSING] Views/TopicPickerView.swift\n  [INCOMPLETE] Views/ReadinessScoreView.swift\n\n\n---------------------------------------------\nINSTRUCTIONS\n---------------------------------------------\n\n1. Generate complete, production-quality Swift code for each file listed above.\n2. Each file must be self-contained and compile-ready.\n3. Follow the existing code style and architecture already present in the project.\n4. Use German UI text where applicable (AskFin targets German driving theory learners).\n5. Dark theme, green accent color scheme.\n6. Include proper accessibility labels.\n7. Each file MUST end with a closing brace.\n8. Do NOT generate stubs or placeholder code.\n\n---------------------------------------------\nEXISTING PROJECT CONTEXT\n---------------------------------------------\n\nExisting generated files:\n  Models/\n    - AnswerOption.swift\n    - AnswerStatus.swift\n    - CompetenceLevel.swift\n    - DashboardState.swift\n    - ExamCountdownCard.swift\n    - ExamSimulation.swift\n    - ExamSimulationError.swift\n    - FehlerpunkteCategory.swift\n    - GeneratedHelpers.swift\n    - PracticeSession.swift\n    - ProgressGridCard.swift\n    - QuestionCard.swift\n    - QuestionType.swift\n    - ReadinessMilestone.swift\n    - ReadinessScore.swift\n    - RevealMode.swift\n    - SessionPhase.swift\n    - SessionPhase+Equatable.swift\n    - SessionQuestion.swift\n    - SessionType.swift\n    - SimulationConfig.swift\n    - SimulationMode.swift\n    - SimulationProtocols.swift\n    - SimulationResult.swift\n    - SpacingItem.swift\n    - StreakIndicator.swift\n    - SwipeDirection.swift\n    - Threshold.swift\n    - TopicArea.swift\n    - TopicArea+Exam.swift\n    - TopicArea+ExamWeights.swift\n    - TopicCompetence.swift\n    - TopicDomain.swift\n    - TrainingCategory.swift\n    - TrainingConfig.swift\n    - TrainingModeScreen.swift\n    - TrainingModeState.swift\n    - TrainingModels.swift\n    - TrainingSession.swift\n    - TrainingSessionManager.swift\n  Services/\n    - ExamSimulationService.swift\n    - HapticFeedbackProtocol.swift\n    - LocalDataService.swift\n    - PersistenceStore.swift\n    - QuestionBankProtocol.swift\n    - ReadinessScoreService.swift\n    - TopicCompetenceService.swift\n    - TrainingSessionManager.swift\n  Tests/\n    - TrainingModeViewModelTests.swift\n  Tests\\Helpers/\n    - MockQuestionBank.swift\n    - TestFixtures.swift\n  ViewModels/\n    - AdaptiveQueueBuilder.swift\n    - CategorySelectionViewModel.swift\n    - DashboardViewModel.swift\n    - DomainSection.swift\n    - ExamSimulationViewModel.swift\n    - PracticeModeViewModel.swift\n    - RevealCopy.swift\n    - SimulationResultViewModel.swift\n    - SkillMapViewModel.swift\n    - TrainingModeViewModel.swift\n    - TrainingModeViewModelTests.swift\n    - TrainingSessionViewModel.swift\n  Views/\n    - DashboardView.swift\n    - ReadinessScoreView.swift\n  Views\\Components/\n    - ExamCountdownCard.swift\n    - ProgressGridCard.swift\n    - QuestionCard.swift\n    - StreakIndicator.swift\n  Views\\SkillMap/\n    - SkillMapView.swift\n  Views\\Training/\n    - AnswerRevealView.swift\n    - QuestionCardView.swift\n    - RevealDisplayModel.swift\n    - SessionBriefView.swift\n    - SessionSummaryView.swift\n    - TrainingSessionView.swift\n\n---------------------------------------------\nREFERENCE: EXPECTED FILE STRUCTURE\n---------------------------------------------\n\n  projects/askfin_premium/generated/Views/ExamHistoryView.swift\n  projects/askfin_premium/generated/Views/ExamSimulationView.swift\n  projects/askfin_premium/generated/Models/LearningStreak.swift\n  projects/askfin_premium/generated/Tests/ReadinessScoreServiceTests.swift\n  projects/askfin_premium/generated/Views/SimulationResultView.swift\n  projects/askfin_premium/generated/Views/TopicDetailView.swift\n  projects/askfin_premium/generated/Views/TopicPickerView.swift\n  projects/askfin_premium/generated/Views/ReadinessScoreView.swift\n  projects/askfin_premium/generated/ViewModels/SimulationResultViewModel.swift"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.428495",
+      "note": "[swift_developer] // milestone detection, weak-topic ranking, and recommendation logic."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.429614",
+      "note": "[reviewer] Concrete recommendation:** Pull the actual protocol definitions before writing mocks."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.430790",
+      "note": "[bug_hunter] 10. `test_recommendation_mentionsWeakestTopic` — Assertion Weaker Than Test Name"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.431352",
+      "note": "[swift_developer] `ReadinessScore`: `overallPercentage`, `topicScores`, `weakTopics`, `isExamReady`, `recommendation`, `computedAt`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.431975",
+      "note": "[reviewer] Recommendation content tests"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.432640",
+      "note": "[swift_developer] // MARK: - Recommendation"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.433163",
+      "note": "[reviewer] `test_recommendation_mentionsWeakestTopicByName` now verifies topic name appears in the string, not just non-empty"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.433881",
+      "note": "[swift_developer] `ReadinessScore` has: `overallPercentage`, `isExamReady`, `weakTopics: [TopicCompetence]`, `recommendation: String`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.436219",
+      "note": "[refactor_agent] The report's fix was cut off. Complete recommendation:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.442301",
+      "note": "[accessibility_agent] Recommendation: Wrap the timer in an accessibility group and apply:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.444137",
+      "note": "[bug_hunter] The Code Review correctly recommends making `regelhinweis` non-optional. The proposed fix uses `precondition`:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.445336",
+      "note": "[test_generator] Input context:** Creative Director review, Accessibility audit, Code Review, Bug Hunter findings, Refactor recommendations"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.447008",
+      "note": "[creative_director] Suggestion: Mark topics with a cognitive-load-aware indicator: not a generic \"weak\" label, but a \"Zuletzt falsch\" timestamp (\"Vor 4 Tagen falsch beantwortet\") paired with a recomme..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.448902",
+      "note": "[driveai_lead] Show: \"Tipp: Kombiniere \\(selectedTopic) mit \\(recommendedPair)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.454357",
+      "note": "[reviewer] BUG-02 resolved.** The floating `daysSinceLast >= 7` delta is replaced by `currentWeekBoundary: Date` anchored to the ISO Monday. The `startOfISOWeek` helper is correct — setting `firstWeek..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.457266",
+      "note": "[bug_hunter] Corrected recommendation:** Use `@ObservedObject` only if the view should not own the lifecycle. Use `@StateObject` with this init pattern if it does own it. The choice depends on the nav..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.460539",
+      "note": "[accessibility_agent] Recommendation: Add explicit label and value to the gauge:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.462087",
+      "note": "[ux_psychology] Principle: *Goal gradient theory* (Hull, 1932; replicated in digital contexts by Kivetz et al., 2006) predicts that motivation accelerates as users perceive proximity to a goal. A stat..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.469811",
+      "note": "[reviewer] // the co-location decision if this becomes multi-module."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.471796",
+      "note": "[reviewer] Two files are production-ready. The component extraction pattern from `ReadinessScoreView` is the right approach and should be applied immediately to `SimulationResultView` before attemptin..."
     }
   ],
   "architecture_notes": [
@@ -12225,6 +12309,150 @@
     {
       "timestamp": "2026-03-13T16:15:21.954227",
       "note": "[swift_developer] // The exact navigation mechanism depends on the app's coordinator pattern."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.428881",
+      "note": "[reviewer] The generated code is **partially acceptable** but has significant issues across multiple files. Several problems would prevent compilation, others reflect poor architecture."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.430121",
+      "note": "[bug_hunter] P2 — Architecture / Maintainability"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.431504",
+      "note": "[reviewer] The bug hunter response is well-structured and the analysis is accurate. However, this submission has the **same fundamental failure** as the code it was reviewing: it is truncated."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.432809",
+      "note": "[reviewer] Batch 2 is 2 of 2 files short. The truncation pattern continues."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.433371",
+      "note": "[swift_developer] `TopicArea` cases used: `.vorfahrt`, `.verkehrszeichen`, `.gefahrenlehre`, `.technisches` — if actual names differ, only the switch labels need updating, not the architecture"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.434046",
+      "note": "[reviewer] The truncation pattern continues. `ReadinessScoreView.swift` ends at:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.434738",
+      "note": "[bug_hunter] The implementation summary reveals **critical structural problems** before even reviewing line-level code. The generation process produced duplicate files, misplaced files, and incomplete..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.435414",
+      "note": "[refactor_agent] This is a strong, well-structured bug report. Below is my assessment of each finding, along with concrete refinements where the proposed fixes can be improved or where additional stru..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.436907",
+      "note": "[reviewer] The implementation is **substantially correct** in architectural intent. The test cases are well-structured and address the critical findings. However, there are **12 concrete issues** rang..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.438416",
+      "note": "[reviewer] The implementation is materially stronger than the previous iteration. The `LearningStreak` model is well-designed, the test file structure is correct, and the ViewModel skeleton follows th..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.440063",
+      "note": "[reviewer] This is the third consecutive review cycle where this file has been submitted truncated. The pattern is consistent: the file is cut off at approximately the same character position each tim..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.441214",
+      "note": "[ux_psychology] 5. [Motivation Architecture] ExamHistoryView shows past results as a data log with no forward-pointing competence narrative"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.441804",
+      "note": "[accessibility_agent] Issue: semantic_structure + poor_contrast"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.442509",
+      "note": "[swift_developer] All 9 files implement the Creative Director and Accessibility reviews. Key patterns applied throughout:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.443059",
+      "note": "[reviewer] The implementation acknowledges FK-007 (explain the *why*, not just correct/incorrect) in its architecture notes, but the ViewModel structure suggests the `Regelhinweis` will be an optional..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.443688",
+      "note": "[bug_hunter] Also fix `daysSilent` with the same pattern** — it has the identical defect."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.444375",
+      "note": "[refactor_agent] Focus: Code structure, duplication, naming, modularity, maintainability**"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.444902",
+      "note": "[test_generator] Critical context:** Bug Hunter BUG-001 identified that wall-clock `Date()` inside the model makes these properties untestable. All tests below assume the Refactor RF-001 pattern (`rel..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.445509",
+      "note": "[driveai_lead] DriveAI / AskFin Premium — Focused Recovery Run: Architecture Review & Engineering Task Breakdown"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.446567",
+      "note": "[creative_director] 4. [Motivation Architecture] ExamHistoryView has no trajectory narrative"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.447753",
+      "note": "[driveai_lead] Architecture: Pure value type. No Combine, no UIKit. No external dependencies."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.449459",
+      "note": "[swift_developer] /// Mirrors the production ReadinessScore bands without importing the app module."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.450674",
+      "note": "[reviewer] The task breakdown is well-structured and the UX psychology integration into the specs is substantive — findings 1, 2, 3, 4, and 5 are all reflected in the task requirements. But the implem..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.452171",
+      "note": "[bug_hunter] These types are defined inside the test file to avoid module imports. If production threshold values change (e.g., the bookable band shifts from 90–94% to 88–94%), these shadow types will..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.454694",
+      "note": "[refactor_agent] I'll refactor all 9 files with consistent architecture, reduced duplication, cleaner naming, and proper modularity. Let me establish shared patterns first, then build each file."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.455884",
+      "note": "[reviewer] The refactored implementation is substantially better than a typical generated output. Architecture is consistent, naming is clear, and German localisation is applied correctly. However, th..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.456614",
+      "note": "[bug_hunter] This pattern **is valid in SwiftUI** when the ViewModel is created at the call site and the view is responsible for ownership. `StateObject(wrappedValue:)` accepts an autoclosure — the pa..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.458487",
+      "note": "[test_generator] Generated test cases cover all 9 files from the recovery run, organized by component. Each group covers happy path, edge cases, invalid inputs, and failure scenarios. Tests are writte..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.459791",
+      "note": "[accessibility_agent] be fully analysed. Based on the visible structure (Image + VStack), the"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.460753",
+      "note": "[creative_director] 1. [Emotional Function] Screens have structure but no emotional arc"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.461471",
+      "note": "[ux_psychology] Fix: Add a post-simulation *error review mode* that presents each missed question using a forced-choice format before revealing the explanation: the user selects what they now believe..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.464312",
+      "note": "[reviewer] This is a substantial body of work. I'll review it systematically: architecture consistency, correctness of fixes, test quality, and remaining gaps."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.465335",
+      "note": "[swift_developer] /// SimulationResultView via the same module."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.468900",
+      "note": "[reviewer] The submission continues to truncate. `ReadinessScoreView.swift` cuts off at `let` inside `ReadinessGaugeView`. The pattern has now repeated across four review cycles. This is not a content..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.470117",
+      "note": "[swift_developer] Given the truncation pattern, I'll deliver each file individually and completely. Starting with the three view component files that have been truncating, then the five missing files,..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.470928",
+      "note": "[reviewer] ✅ Correct patterns:**"
     }
   ],
   "implementation_notes": [
@@ -21835,6 +22063,198 @@
     {
       "timestamp": "2026-03-13T16:15:21.954383",
       "note": "[swift_developer] Complete Implementation: SimulationResultView, QuestionReviewView, ExamHistoryView"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.427252",
+      "note": "[swift_developer] 1. `Models/LearningStreak.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.429246",
+      "note": "[reviewer] Code Review: DriveAI – Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.430321",
+      "note": "[bug_hunter] Bug Hunter Review: DriveAI Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.431626",
+      "note": "[reviewer] Code Review: DriveAI Bug Hunter Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.432255",
+      "note": "[swift_developer] Understood. I'll deliver in 4 focused batches as the reviewer prescribed. No scope creep. No truncation."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.432932",
+      "note": "[reviewer] Code Review: Batch 1 and Batch 2"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.433574",
+      "note": "[swift_developer] File 1 of 2: `ViewModels/SimulationResultViewModel.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.434192",
+      "note": "[reviewer] Code Review: Batch 2"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.434919",
+      "note": "[bug_hunter] The implementation summary reveals **critical structural problems** before even reviewing line-level code. The generation process produced duplicate files, misplaced files, and incomplete..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.435635",
+      "note": "[refactor_agent] Refactor Agent Review"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.436506",
+      "note": "[test_generator] This report generates concrete, implementation-ready test cases for all 9 files in the recovery run, grounded in the bug findings and architectural review above. Tests are organized b..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.437074",
+      "note": "[reviewer] Code Review — Test Case Generation Report (askfin_premium Recovery Run)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.437741",
+      "note": "[swift_developer] Below are all 9 files, fully implemented, addressing every finding from the bug hunt and review chain."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.438722",
+      "note": "[reviewer] Code Review — Complete Implementation (askfin_premium Recovery Run)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.439501",
+      "note": "[swift_developer] File 1: `Models/LearningStreak.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.440244",
+      "note": "[reviewer] Code Review — Final Complete Implementation (askfin_premium Recovery Run)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.441356",
+      "note": "[ux_psychology] 1. [Progress Feedback] SimulationResultView lacks per-question explanatory feedback"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.441970",
+      "note": "[accessibility_agent] Accessibility Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.442700",
+      "note": "[swift_developer] All 9 files implement the Creative Director and Accessibility reviews. Key patterns applied throughout:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.443221",
+      "note": "[reviewer] Code Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.443845",
+      "note": "[bug_hunter] Bug Hunter Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.444517",
+      "note": "[refactor_agent] Refactor Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.445040",
+      "note": "[test_generator] Scope:** All 9 generated files across Models, ViewModels, Views, and Services"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.445650",
+      "note": "[driveai_lead] DriveAI / AskFin Premium — Focused Recovery Run: Architecture Review & Engineering Task Breakdown"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.446145",
+      "note": "[swift_developer] Engineering Execution of All Reviewed & Approved Tasks"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.446691",
+      "note": "[creative_director] 1. [Emotional Function] SimulationResultView has no emotional arc"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.447267",
+      "note": "[ux_psychology] UX Psychology Review — FOCUSED RECOVERY RUN / askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.448038",
+      "note": "[driveai_lead] Before delegating, I'm noting the UX Psychology review rating of **conditional_pass** and the five behavioral findings. These are not cosmetic — findings 1, 2, and 5 affect data model c..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.449736",
+      "note": "[swift_developer] I'll generate all 9 files with production-quality Swift code, incorporating the UX psychology fixes throughout."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.450971",
+      "note": "[reviewer] Code Review — DriveAI / AskFin Premium Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.452370",
+      "note": "[bug_hunter] Bug Hunter Review — DriveAI / AskFin Premium Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.452836",
+      "note": "[refactor_agent] Refactor Review — DriveAI / AskFin Premium Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.453273",
+      "note": "[swift_developer] `Models/LearningStreak.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.453962",
+      "note": "[reviewer] Code Review — Refactor Submission, DriveAI / AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.454966",
+      "note": "[refactor_agent] Refactored Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.456117",
+      "note": "[reviewer] Code Review: FOCUSED RECOVERY RUN — askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.456836",
+      "note": "[bug_hunter] Bug Hunter Review: Refactored FOCUSED RECOVERY RUN — askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.457755",
+      "note": "[refactor_agent] Complete Refactored Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.458832",
+      "note": "[test_generator] Generated test cases cover all 9 files from the recovery run, organized by component. Each group covers happy path, edge cases, invalid inputs, and failure scenarios. Tests are writte..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.460062",
+      "note": "[accessibility_agent] I'll analyze all reviewed files for accessibility issues, working from the complete refactored implementation as the source of truth."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.460973",
+      "note": "[creative_director] Problem: The views route content correctly (loading → error → data) but every section reads like a status report. The ReadinessScoreView, SimulationResultView, and ExamHistoryView..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.461671",
+      "note": "[ux_psychology] UX Psychology Review: FOCUSED RECOVERY RUN — askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.463733",
+      "note": "[test_generator] File: `Tests/ReadinessScoreServiceTests.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.466892",
+      "note": "[driveai_lead] I'll deliver every file in full, with no truncation, applying all fixes from both review passes."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.469224",
+      "note": "[reviewer] Code Review: Complete Production Implementation — All 9 Files"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.470395",
+      "note": "[swift_developer] Given the truncation pattern, I'll deliver each file individually and completely. Starting with the three view component files that have been truncating, then the five missing files,..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.471129",
+      "note": "[reviewer] Code Review: Delivery Plan — One File Per Message"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.472209",
+      "note": "[swift_developer] `Views/Components/DesignSystem.swift`"
     }
   ],
   "review_notes": [
@@ -31417,6 +31837,210 @@
     {
       "timestamp": "2026-03-13T16:15:21.954544",
       "note": "[swift_developer] Complete Implementation: SimulationResultView, QuestionReviewView, ExamHistoryView"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.428073",
+      "note": "[swift_developer] 2. `Tests/ReadinessScoreServiceTests.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.429456",
+      "note": "[reviewer] Code Review: DriveAI – Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.430466",
+      "note": "[bug_hunter] Bug Hunter Review: DriveAI Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.431246",
+      "note": "[swift_developer] I'll resolve every P0 and P1 issue, generate all 9 files completely, and cross-reference existing model/service signatures throughout."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.431741",
+      "note": "[reviewer] Code Review: DriveAI Bug Hunter Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.432389",
+      "note": "[swift_developer] Understood. I'll deliver in 4 focused batches as the reviewer prescribed. No scope creep. No truncation."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.433049",
+      "note": "[reviewer] Code Review: Batch 1 and Batch 2"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.433769",
+      "note": "[swift_developer] Mock types (`MockTopicCompetenceService`, `MockPersistenceStore`) are declared inline in the test file from Batch 1 — if they already exist in `Tests/Helpers/`, the inline declaratio..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.434395",
+      "note": "[reviewer] Code Review: Batch 2"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.435063",
+      "note": "[bug_hunter] Bug Hunt Report — FOCUSED RECOVERY RUN (askfin_premium)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.435799",
+      "note": "[refactor_agent] Bug Hunt Report — FOCUSED RECOVERY RUN (askfin_premium)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.436649",
+      "note": "[test_generator] Test Case Generation Report"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.437291",
+      "note": "[reviewer] Code Review — Test Case Generation Report (askfin_premium Recovery Run)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.438044",
+      "note": "[swift_developer] Below are all 9 files, fully implemented, addressing every finding from the bug hunt and review chain."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.439048",
+      "note": "[reviewer] Code Review — Complete Implementation (askfin_premium Recovery Run)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.439762",
+      "note": "[swift_developer] /// handle DST transitions and timezone rollovers. Invalid data from persistence"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.440384",
+      "note": "[reviewer] Code Review — Final Complete Implementation (askfin_premium Recovery Run)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.440893",
+      "note": "[swift_developer] /// handled correctly. Invalid values from persistence are clamped rather than"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.441489",
+      "note": "[ux_psychology] 1. [Progress Feedback] SimulationResultView lacks per-question explanatory feedback"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.442135",
+      "note": "[accessibility_agent] Accessibility Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.442847",
+      "note": "[swift_developer] All 9 files implement the Creative Director and Accessibility reviews. Key patterns applied throughout:"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.443406",
+      "note": "[reviewer] Code Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.443969",
+      "note": "[bug_hunter] Bug Hunter Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.444668",
+      "note": "[refactor_agent] Refactor Review: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.445221",
+      "note": "[test_generator] Test Case Generator: AskFin Premium — Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.445801",
+      "note": "[driveai_lead] DriveAI / AskFin Premium — Focused Recovery Run: Architecture Review & Engineering Task Breakdown"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.446311",
+      "note": "[swift_developer] Engineering Execution of All Reviewed & Approved Tasks"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.446860",
+      "note": "[creative_director] Problem: The result screen appears to display pass/fail state as a data readout — score percentage, correct/incorrect counts — with no differentiation between a near-miss fail (87..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.447418",
+      "note": "[ux_psychology] UX Psychology Review — FOCUSED RECOVERY RUN / askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.448304",
+      "note": "[driveai_lead] Before delegating, I'm noting the UX Psychology review rating of **conditional_pass** and the five behavioral findings. These are not cosmetic — findings 1, 2, and 5 affect data model c..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.450048",
+      "note": "[swift_developer] I'll generate all 9 files with production-quality Swift code, incorporating the UX psychology fixes throughout."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.451254",
+      "note": "[reviewer] Code Review — DriveAI / AskFin Premium Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.452525",
+      "note": "[bug_hunter] Bug Hunter Review — DriveAI / AskFin Premium Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.452983",
+      "note": "[refactor_agent] Refactor Review — DriveAI / AskFin Premium Focused Recovery Run"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.453550",
+      "note": "[swift_developer] /// A fixed anchor prevents incorrect resets from floating last-activity deltas."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.454149",
+      "note": "[reviewer] Code Review — Refactor Submission, DriveAI / AskFin Premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.455563",
+      "note": "[refactor_agent] // MARK: - Preview Fixtures"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.456313",
+      "note": "[reviewer] Code Review: FOCUSED RECOVERY RUN — askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.457038",
+      "note": "[bug_hunter] Bug Hunter Review: Refactored FOCUSED RECOVERY RUN — askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.458034",
+      "note": "[refactor_agent] Applying all critical and high-priority fixes from both reviews, plus completing all 9 files with shared components."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.459215",
+      "note": "[test_generator] Test Cases: FOCUSED RECOVERY RUN — askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.460321",
+      "note": "[accessibility_agent] I'll analyze all reviewed files for accessibility issues, working from the complete refactored implementation as the source of truth."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.461170",
+      "note": "[creative_director] Problem: The views route content correctly (loading → error → data) but every section reads like a status report. The ReadinessScoreView, SimulationResultView, and ExamHistoryView..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.461842",
+      "note": "[ux_psychology] UX Psychology Review: FOCUSED RECOVERY RUN — askfin_premium"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.463298",
+      "note": "[swift_developer] // MARK: - Preview Fixtures"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.467175",
+      "note": "[driveai_lead] I'll deliver every file in full, with no truncation, applying all fixes from both review passes."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.468473",
+      "note": "[swift_developer] static let preview = LearningStreak(currentDays: 14, longestDays: 30, lastActiveDate: .now)"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.469451",
+      "note": "[reviewer] Code Review: Complete Production Implementation — All 9 Files"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.470620",
+      "note": "[swift_developer] Given the truncation pattern, I'll deliver each file individually and completely. Starting with the three view component files that have been truncating, then the five missing files,..."
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.471361",
+      "note": "[reviewer] Code Review: Delivery Plan — One File Per Message"
+    },
+    {
+      "timestamp": "2026-03-13T17:07:35.473503",
+      "note": "[swift_developer] Text(\"Du startest eine neue Prüfungssimulation.\")"
     }
   ]
 }
