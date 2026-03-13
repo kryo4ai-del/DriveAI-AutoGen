@@ -1,0 +1,54 @@
+{
+  "run_id": "20260313_041830",
+  "generated": "2026-03-13T04:52:41",
+  "proposal_count": 3,
+  "proposals": [
+    {
+      "title": "Bug pattern: Massive File Duplication (Immediate Fix Required)",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: Massive File Duplication (Immediate Fix Required). Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260313_041830",
+      "source_run": "20260313_041830",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: | **Duplicate Files** | 6x GateTestE_Stats, 4x AccuracyGauge | Single implementation each |. Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260313_041830",
+      "source_run": "20260313_041830",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: Memory Leak: StatsViewModel ObservableObject",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Memory Leak: StatsViewModel ObservableObject",
+      "evidence": "Bug Hunter finding in run 20260313_041830",
+      "source_run": "20260313_041830",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

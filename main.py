@@ -452,6 +452,11 @@ async def _run_pipeline(
             gate_ctx["bug_review_messages"] = len(bug_result_msgs)
             await _log_pass(logger, "Bug Hunter Pass", bug_result_msgs)
 
+        # Reset between Bug Hunter and CD to clear message counter.
+        # Without this, MaxMessageTermination(2) for the CD pass won't work
+        # because the team's message counter is still at 10 from Bug Hunter.
+        await team.reset()
+
         # Creative Director (advisory — only for feature/screen templates)
         _cd_skip = template and template not in ("feature", "screen")
         if _cd_skip:
@@ -513,6 +518,10 @@ async def _run_pipeline(
             elif _cd_rating == "conditional_pass":
                 print("  [CD GATE] Conditional pass — product quality warnings logged, continuing.")
                 logger.info("[CD GATE] Conditional pass — continuing with product quality warnings.")
+
+        # Reset between CD and Refactor to clear CD message state.
+        if not gate_ctx.get("cd_gate_stop"):
+            await team.reset()
 
         # Refactor
         _gate_ok, _gate_reason = gate_mgr.evaluate_gate("refactor", gate_ctx)
