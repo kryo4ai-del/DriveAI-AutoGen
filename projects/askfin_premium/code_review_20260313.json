@@ -1,0 +1,204 @@
+{
+  "report_type": "code_review",
+  "project_id": "askfin_premium",
+  "timestamp": "2026-03-13T19:30:00Z",
+  "reviewer": "claude_opus_xcode_lead",
+  "scope": "projects/askfin_premium/generated/",
+  "summary": {
+    "total_issues": 10,
+    "critical": 5,
+    "medium": 3,
+    "low": 2,
+    "compile_ready": false
+  },
+  "issues": [
+    {
+      "id": "BUG-CR-001",
+      "severity": "critical",
+      "category": "corrupted_file",
+      "title": "TrainingSessionManager.swift ist korrupt — AI-Review-Text im Code",
+      "files": [
+        "generated/Models/TrainingSessionManager.swift",
+        "generated/Services/TrainingSessionManager.swift"
+      ],
+      "line": 76,
+      "description": "Beide Dateien sind identisch und ab Zeile 76 abgeschnitten. Mitten in der Funktion createDirectoriesIfNeeded() endet der Swift-Code und es beginnt Markdown-Text eines AI-Code-Reviews. Fehlende Teile: Body der if-Bedingung, schliessende } fuer Funktion und Klasse.",
+      "root_cause": "Agent hat Review-Output direkt in die Code-Datei geschrieben statt in eine separate Datei.",
+      "fix": "Datei komplett neu generieren mit vollstaendiger createDirectoriesIfNeeded() Implementation.",
+      "rule": "REGEL-1: Code-Dateien duerfen ausschliesslich validen Swift-Code enthalten. Review-Output gehoert in _logs/ oder integration_report_*.json."
+    },
+    {
+      "id": "BUG-CR-002",
+      "severity": "critical",
+      "category": "duplicate_type",
+      "title": "Doppelte Definition von SpacingItem",
+      "files": [
+        "generated/Models/SpacingItem.swift",
+        "generated/Models/TrainingModels.swift"
+      ],
+      "line": 8,
+      "description": "SpacingItem ist zweimal definiert mit komplett unterschiedlichen Properties und Methoden. SpacingItem.swift hat topic-basierte id, recordCorrect()/recordIncorrect(). TrainingModels.swift hat stored id, reviewCount, static nextInterval(). Compiler wirft redeclaration error.",
+      "root_cause": "Verschiedene Agent-Runs haben denselben Typ neu definiert ohne zu pruefen ob er bereits existiert.",
+      "fix": "Definition in TrainingModels.swift entfernen. SpacingItem.swift ist die vollstaendigere Version.",
+      "rule": "REGEL-2: Vor dem Erstellen eines neuen Typs alle existierenden .swift-Dateien nach dem Typ-Namen durchsuchen."
+    },
+    {
+      "id": "BUG-CR-003",
+      "severity": "critical",
+      "category": "missing_type",
+      "title": "Fehlende Typ-Definitionen TrainingResult und CategoryStats",
+      "files": [
+        "generated/Services/TrainingSessionManager.swift"
+      ],
+      "line": 22,
+      "description": "TrainingSessionManager referenziert TrainingResult (Zeile 22, 47) und CategoryStats (Zeile 54, 62), aber diese Typen existieren in keiner Datei der Codebasis.",
+      "root_cause": "Agent hat eine Service-Klasse generiert die Model-Typen referenziert die nie erstellt wurden.",
+      "fix": "Fehlende Model-Dateien TrainingResult.swift und CategoryStats.swift erstellen mit den benoetigten Properties.",
+      "rule": "REGEL-3: Am Ende jedes Generation-Runs Liste aller referenzierten Typen gegen definierte Typen abgleichen."
+    },
+    {
+      "id": "BUG-CR-004",
+      "severity": "critical",
+      "category": "duplicate_conformance",
+      "title": "Doppelte Equatable-Conformance fuer SessionPhase",
+      "files": [
+        "generated/Models/SessionPhase.swift",
+        "generated/Models/SessionPhase+Equatable.swift"
+      ],
+      "line": 1,
+      "description": "SessionPhase.swift deklariert enum SessionPhase: Equatable. SessionPhase+Equatable.swift fuegt eine redundante extension SessionPhase: Equatable hinzu mit eigener == Implementation. Doppelte Protocol-Conformance.",
+      "root_cause": "Agent hat Extension erstellt ohne zu pruefen dass das Enum bereits Equatable konform ist.",
+      "fix": "SessionPhase+Equatable.swift loeschen. Equatable-Conformance im Enum behalten.",
+      "rule": "REGEL-2: Vor dem Erstellen einer Protocol-Conformance pruefen ob der Typ bereits konform ist."
+    },
+    {
+      "id": "BUG-CR-005",
+      "severity": "critical",
+      "category": "duplicate_type",
+      "title": "Doppelte Definition von TrainingSession und SessionType",
+      "files": [
+        "generated/Models/TrainingSession.swift",
+        "generated/Models/TrainingModels.swift"
+      ],
+      "line": 28,
+      "description": "TrainingSession ist in TrainingModels.swift (Zeile 28) definiert mit eigenem verschachteltem SessionType enum. Falls TrainingSession.swift auch eine Definition enthaelt, gibt es einen Redeclaration-Fehler. SessionType in TrainingModels.swift kann mit separatem SessionType.swift kollidieren.",
+      "root_cause": "Sammel-Datei TrainingModels.swift wurde nicht bereinigt als Einzel-Dateien erstellt wurden.",
+      "fix": "Duplikate in TrainingModels.swift entfernen. Nur Einzel-Dateien behalten.",
+      "rule": "REGEL-2: Wenn Einzel-Dateien fuer Typen erstellt werden, muessen Duplikate aus Sammel-Dateien entfernt werden."
+    },
+    {
+      "id": "BUG-CR-006",
+      "severity": "medium",
+      "category": "logic_error",
+      "title": "weightedAccuracy wird nie aktualisiert in recordAnswer()",
+      "files": [
+        "generated/Services/TopicCompetenceService.swift"
+      ],
+      "line": 20,
+      "description": "recordAnswer() aktualisiert totalAnswers und correctAnswers, berechnet aber weightedAccuracy nie neu. CompetenceLevel.from() basiert auf weightedAccuracy (nicht rawAccuracy), daher bleibt jeder Topic permanent auf CompetenceLevel.notStarted weil weightedAccuracy bei 0 initialisiert wird.",
+      "root_cause": "Computed property abhaengig von stored value der nie aktualisiert wird.",
+      "fix": "Nach Update von correctAnswers: competence.weightedAccuracy = Double(competence.correctAnswers) / Double(competence.totalAnswers)",
+      "rule": "REGEL-6: Wenn gespeicherte Werte geaendert werden von denen computed properties abhaengen, muessen abhaengige Werte neu berechnet werden."
+    },
+    {
+      "id": "BUG-CR-007",
+      "severity": "medium",
+      "category": "logic_error",
+      "title": "SpacingItem.id Granularitaets-Mismatch (Topic vs Frage)",
+      "files": [
+        "generated/Models/SpacingItem.swift",
+        "generated/Services/TopicCompetenceService.swift"
+      ],
+      "line": 80,
+      "description": "SpacingItem hat id = topic.id (computed, pro Topic). TopicCompetenceService.initializeSpacingQueue() uebergibt question.id als id, aber SpacingItem.init akzeptiert keinen id-Parameter — der Wert wird ignoriert.",
+      "root_cause": "Inkonsistente Granularitaet zwischen Model-Definition und Service-Nutzung.",
+      "fix": "Entscheiden ob Spacing pro Topic oder pro Frage. Implementation konsistent machen.",
+      "rule": "REGEL-3: Sicherstellen dass init-Parameter und Aufruf-Stellen konsistent sind."
+    },
+    {
+      "id": "BUG-CR-008",
+      "severity": "medium",
+      "category": "duplicate_file",
+      "title": "Identische Datei an zwei Pfaden",
+      "files": [
+        "generated/Models/TrainingSessionManager.swift",
+        "generated/Services/TrainingSessionManager.swift"
+      ],
+      "line": 0,
+      "description": "Beide Dateien sind byte-identisch (inklusive Bug CR-001). TrainingSessionManager ist ein Service und gehoert ausschliesslich nach Services/.",
+      "root_cause": "Agent hat Datei an beiden Pfaden abgelegt ohne auf Duplikate zu pruefen.",
+      "fix": "Models/TrainingSessionManager.swift loeschen. Nur Services/ behalten.",
+      "rule": "REGEL-5: Ein Typ gehoert an genau einen Pfad. Services nach Services/, Models nach Models/."
+    },
+    {
+      "id": "BUG-CR-009",
+      "severity": "low",
+      "category": "compile_warning",
+      "title": "init() ruft throws-Funktion ohne try auf",
+      "files": [
+        "generated/Services/TrainingSessionManager.swift"
+      ],
+      "line": 17,
+      "description": "override init() ruft createDirectoriesIfNeeded() auf, die als throws deklariert ist. Nicht-throwing Kontext kann keine throwing Funktion aufrufen.",
+      "root_cause": "Fehlende try/try? Annotation.",
+      "fix": "try? createDirectoriesIfNeeded() verwenden oder Funktion nicht als throws deklarieren.",
+      "rule": "REGEL-4: Dateien muessen syntaktisch korrekt sein."
+    },
+    {
+      "id": "BUG-CR-010",
+      "severity": "low",
+      "category": "invalid_resource",
+      "title": "Nicht-existierendes SF Symbol",
+      "files": [
+        "generated/Models/TopicArea.swift"
+      ],
+      "line": 70,
+      "description": "arrow.triangle.turn.up.right.diamond existiert nicht in SF Symbols 5.",
+      "root_cause": "Agent hat SF Symbol Namen halluziniert.",
+      "fix": "Ersetzen durch existierendes Symbol: arrow.triangle.merge oder diamond.",
+      "rule": "SF Symbol Namen muessen gegen die offizielle Liste validiert werden."
+    }
+  ],
+  "factory_rules": [
+    {
+      "id": "REGEL-1",
+      "title": "Keine AI-Review-Texte in Code-Dateien",
+      "description": "Code-Dateien duerfen ausschliesslich validen Swift-Code enthalten. Review-Output gehoert in _logs/ oder integration_report_*.json."
+    },
+    {
+      "id": "REGEL-2",
+      "title": "Vor Type-Erstellung pruefen ob der Typ bereits existiert",
+      "description": "Vor dem Erstellen eines neuen Typs alle existierenden .swift-Dateien nach dem Typ-Namen durchsuchen. Wenn Einzel-Dateien erstellt werden, Duplikate aus Sammel-Dateien entfernen."
+    },
+    {
+      "id": "REGEL-3",
+      "title": "Alle referenzierten Typen muessen existieren",
+      "description": "Am Ende jedes Generation-Runs Liste aller referenzierten Typen erstellen und gegen definierte Typen abgleichen."
+    },
+    {
+      "id": "REGEL-4",
+      "title": "Dateien muessen syntaktisch vollstaendig sein",
+      "description": "Jede .swift-Datei muss balancierte {}-Paare haben. Nach dem Schreiben validieren."
+    },
+    {
+      "id": "REGEL-5",
+      "title": "Ein Typ gehoert an genau einen Pfad",
+      "description": "Keine identischen Dateien an verschiedenen Pfaden. Services nach Services/, Models nach Models/."
+    },
+    {
+      "id": "REGEL-6",
+      "title": "Computed Properties nach Mutation aktualisieren",
+      "description": "Wenn gespeicherte Werte geaendert werden von denen computed properties abhaengen, muessen abhaengige Werte neu berechnet werden."
+    }
+  ],
+  "post_generation_checklist": [
+    "Enthaelt jede .swift Datei ausschliesslich validen Swift-Code?",
+    "Ist jede Datei syntaktisch vollstaendig? (balanced braces)",
+    "Existiert jeder definierte Typ nur einmal?",
+    "Existieren alle referenzierten Typen in der Codebasis?",
+    "Gibt es identische Dateien an verschiedenen Pfaden?",
+    "Werden alle abhaengigen Werte nach Mutation aktualisiert?",
+    "Stimmen Protocol-Conformances (keine doppelten)?",
+    "Sind alle SF Symbol Namen valide?"
+  ]
+}
