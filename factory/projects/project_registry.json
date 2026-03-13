@@ -17,6 +17,16 @@
       "status": "active",
       "active": true,
       "notes": "9 agents (2 planning + 7 implementation). AutoGen-based pipeline with code extraction, Xcode integration, and git automation."
+    },
+    {
+      "id": "askfin_premium",
+      "name": "AskFin Premium",
+      "description": "Premium rebuild of AskFin with adaptive coaching, skill mapping, exam simulation, and motivational feedback. Built on 5 Experience Pillars using factory knowledge.",
+      "platform": "iOS",
+      "status": "planning",
+      "active": true,
+      "parent": "askfin",
+      "notes": "Premium rebuild. MVP remains untouched. See projects/askfin_premium/PROJECT.md for full spec."
     }
   ]
 }

@@ -179,11 +179,53 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Validiert: FAIL stoppt Pipeline (3 Phases uebersprungen), conditional_pass laeuft weiter
 - Doc: creative_director_gate_mode.md
 
+### 2026-03-13 — UX Psychology Review Layer
+- Neuer Advisory Pass: analysiert Verhaltenspsychologie, Lernpsychologie, Motivation, Retention
+- Trennung: CD = "sieht es premium aus?" vs. UX Psych = "funktioniert die Verhaltenssteuerung?"
+- Laeuft nur bei screen/feature Templates, wird bei CD-Gate-Stop uebersprungen
+- Position in Pipeline: nach CD Gate, vor Refactor
+- Agent-Count: 21 aktiv + 4 deaktiviert = 25
+- Dateien: agents/ux_psychology.py, agent_roles.json, agent_toggles.json, agent_toggle_config.py, model_router.py, task_manager.py, main.py
+- Validiert: ExamSimulation Run — 5 spezifische Findings mit psychologischen Prinzipien (Testing Effect, SDT, Cognitive Load Theory, Spacing Effect, Cognitive Appraisal)
+- Deaktivierbar: --disable-agent ux_psychology
+- Doc: ux_psychology_review_layer.md
+
+### 2026-03-13 — UX Knowledge Seed Round 1
+- 4 neue Eintraege in factory_knowledge/knowledge.json (FK-007 bis FK-010)
+- FK-007 (ux_insight): Answer feedback must explain WHY — Testing Effect
+- FK-008 (motivational_mechanic): Competence progress between tasks — SDT
+- FK-009 (ux_insight): Task type differentiation — Cognitive Load Theory
+- FK-010 (ux_insight): Spacing/Interleaving weak topics — Ebbinghaus
+- Alle hypothesis-Level, Quelle: UX Psychology Validation Run
+- Knowledge Block: 706 → 1158 chars (5 Entries injected, Cap bei 5)
+- Excluded: Timer Reframing (zu spezifisch fuer Pruefungssimulationen)
+- Total: 10 Entries (7 hypothesis, 3 validated)
+- Doc: factory_ux_knowledge_seed_round_1.md
+
+### 2026-03-13 — Commercial Strategy Generator
+- Neues Modul: factory_strategy/commercial_strategy_generator.py
+- Generiert strukturierte Strategy Books (7 Sektionen) via Claude Sonnet API
+- Kontext-Quellen: Project Registry, Premium Reframing, Compliance, Architecture, Factory Knowledge
+- AskFin Strategy Book generiert (15k chars): Positioning, Monetization, Distribution, Marketing, Assets, Risks, Next Steps
+- Speicherort: strategy_books/<project>_strategy.md
+- Standalone — keine Pipeline-Integration, kein neuer Agent
+- Doc: commercial_strategy_generator.md
+
+### 2026-03-13 — AskFin Premium Projekt
+- Neues Projekt: projects/askfin_premium/ (MVP in DriveAI/ bleibt unangetastet)
+- 5 Experience Pillars priorisiert: P0=Training Mode + Skill Map, P1=Exam Sim + Progress, P2=Motivational Feedback
+- Factory Knowledge FK-001 bis FK-010 auf Pillars gemappt
+- Design-Signatur definiert: Dark Theme, Swipe-basiert, Haptic Feedback, Progressive Disclosure
+- Project Registry aktualisiert (3 Projekte: askfin, factory-core, askfin_premium)
+- Constraints dokumentiert: Legal (kein App Store ohne Lizenz), LLM-Kosten, Offline
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
 - [x] Step 3: Knowledge Seeding Round 1 (6 Eintraege: 1 failure_case, 1 ux_insight, 1 motivational_mechanic, 2 technical_pattern, 1 success_pattern)
 - [x] Step 4: Creative Director Soft Gate (validiert: FAIL stoppt Pipeline, conditional_pass laeuft weiter)
-- [ ] Step 5: Factory Learning Writeback Agent (nach Step 4)
-- [ ] AskFin Experience Pillars priorisieren und erstes Feature spezifizieren
+- [x] AskFin Experience Pillars priorisieren
+- [ ] Step 5: Factory Learning Writeback Agent
+- [ ] AskFin Premium: Training Mode Spec → Factory Run
+- [ ] AskFin Premium: Skill Map Spec → Factory Run
 - [ ] Factory-Verbesserungen: Compiler-Feedback-Loop, Code-Extraction >10 Files, Agent-Echo-Reduktion

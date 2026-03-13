@@ -88,6 +88,66 @@
       "created": "2026-03-12",
       "updated": "2026-03-12",
       "tags": ["agent-design", "review-pass", "advisory", "pipeline-stability", "incremental-rollout"]
+    },
+    {
+      "id": "FK-007",
+      "type": "ux_insight",
+      "title": "Answer feedback must explain WHY, not just show correct/incorrect",
+      "description": "Showing only correct/incorrect after a user answers a question produces shallow learning. Adding a 1-2 sentence explanation of WHY the answer is correct activates elaborative processing and significantly improves long-term retention. The explanation should reference the underlying rule or principle, not just restate the correct option.",
+      "context": "UX Psychology review of ExamSimulation screen found that ResultScreenView showed binary correct/incorrect feedback without reasoning. Research on the testing effect (Roediger & Butler, 2011) shows retrieval + elaboration doubles retention compared to retrieval alone.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": ["learning_app", "education_app", "quiz_app", "assessment_tool"],
+      "confidence": "hypothesis",
+      "created": "2026-03-13",
+      "updated": "2026-03-13",
+      "tags": ["testing-effect", "elaborative-processing", "feedback", "retention", "learning-science"],
+      "lesson": "Every answer reveal should include a brief explanation connecting the correct answer to the underlying principle. Format: 'Richtig, weil [Regel/Prinzip]' or 'Die richtige Antwort ist X, weil [Grund]'."
+    },
+    {
+      "id": "FK-008",
+      "type": "motivational_mechanic",
+      "title": "Show competence progress between tasks, not only at the end",
+      "description": "Users who receive no competence signal between individual tasks (questions, exercises, challenges) lose intrinsic motivation and feel uncertain about their readiness. A brief mid-session checkpoint showing accuracy, strengths, and gaps maintains agency and supports self-regulation. This is grounded in Self-Determination Theory (Deci & Ryan): competence is a core psychological need.",
+      "context": "UX Psychology review found ExamSimulation transitioning between questions without any competence signal. Users could not gauge readiness during a session, only after completion. SDT research shows real-time competence feedback sustains engagement better than delayed summary feedback.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": ["learning_app", "education_app", "fitness_app", "skill_training_app"],
+      "confidence": "hypothesis",
+      "created": "2026-03-13",
+      "updated": "2026-03-13",
+      "tags": ["self-determination-theory", "competence", "progress-feedback", "motivation", "mid-session"],
+      "lesson": "After each task/question, show a brief competence signal: current accuracy, topic being tested, whether it is a strength or gap. Keep it lightweight (one line, not a full dashboard)."
+    },
+    {
+      "id": "FK-009",
+      "type": "ux_insight",
+      "title": "Visually differentiate task types to reduce cognitive load",
+      "description": "When all tasks (questions, challenges, exercises) look identical, users cannot activate appropriate mental schemas before engaging. This increases extraneous cognitive load and error rates. Subtle visual or textual differentiation (e.g. micro-labels like 'Recall: Traffic Signs' vs. 'Application: Hazard Scenario') helps users deploy the right reasoning strategy. Based on Cognitive Load Theory (Sweller, 1988).",
+      "context": "UX Psychology review found ExamSimulation presenting all question types in identical format. Users had no cue whether they faced a recall question, application question, or hazard perception task. Cognitive Load Theory shows that reducing extraneous load frees working memory for germane processing.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": ["learning_app", "education_app", "quiz_app", "assessment_tool", "productivity_app"],
+      "confidence": "hypothesis",
+      "created": "2026-03-13",
+      "updated": "2026-03-13",
+      "tags": ["cognitive-load", "information-architecture", "task-differentiation", "schema-activation"],
+      "lesson": "Add a subtle type indicator (micro-label or icon) to each task so users know what kind of thinking is required before they engage. This is not visual decoration — it is a cognitive scaffolding mechanism."
+    },
+    {
+      "id": "FK-010",
+      "type": "ux_insight",
+      "title": "Interleave weak topics within sessions using spacing principles",
+      "description": "Massed practice (repeating the same topic consecutively) creates illusions of competence that fade within 24 hours. Interleaving weak topics with mastered ones within a single session — and spacing re-exposure across sessions at expanding intervals (1-3-7 days) — produces durable learning. Based on the spacing effect (Ebbinghaus, 1885; Cepeda et al., 2006).",
+      "context": "UX Psychology review found ExamSimulation generating questions sequentially without spacing. If a user got a traffic sign question wrong in minute 5, they would not see another traffic sign question until the next session, missing the critical re-exposure window.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": ["learning_app", "education_app", "language_app", "skill_training_app"],
+      "confidence": "hypothesis",
+      "created": "2026-03-13",
+      "updated": "2026-03-13",
+      "tags": ["spacing-effect", "interleaving", "spaced-repetition", "forgetting-curve", "learning-science"],
+      "lesson": "When a user gets a topic wrong, re-expose them to a different question from the same topic within the same session (3-8 questions later). Across sessions, use expanding intervals (1 day, 3 days, 7 days) for weak topics."
     }
   ]
 }
