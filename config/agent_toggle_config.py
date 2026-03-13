@@ -29,6 +29,7 @@ ALL_AGENTS = [
     "webapp_developer",
     "autonomous_project_orchestrator",
     "creative_director",
+    "ux_psychology",
 ]
 
 # These agents are always force-enabled regardless of config or CLI flags

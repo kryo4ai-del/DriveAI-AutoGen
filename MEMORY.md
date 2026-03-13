@@ -166,11 +166,24 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Integration in main.py nach Analytics, vor Console-Summary (try/except — non-blocking)
 - Doc: factory_knowledge_proposal_system.md
 
+### 2026-03-13 — Creative Director Soft Gate (Step 4)
+- CD Rating Parser in knowledge_reader.py: robuster Regex fuer 6+ Format-Variationen + Fallback-Scan
+- Gate-Logik in main.py: FAIL → stoppt Refactor/Test/Fix-Passes, conditional_pass → Warning, pass/unparseable → weiter
+- Template-aware: Gate nur bei screen/feature aktiv (service/viewmodel/andere → kein Gate)
+- Fail-open Design: unerkannte Ratings → pass (Pipeline blockiert nie wegen Parsing)
+- CLI Flag: --no-cd-gate umgeht Gate komplett
+- Bugs entdeckt und gefixt:
+  - SelectorGroupChat waehlte falschen Speaker → Task-Prefix "creative_director:" + Fallback-Scan in extract_cd_rating
+  - team.reset() fehlte zwischen Bug Hunter und CD Pass → hinzugefuegt
+  - MaxMessageTermination(2) Override wirkte nicht (nur Team-Attribut, nicht GroupChatManager) → entfernt
+- Validiert: FAIL stoppt Pipeline (3 Phases uebersprungen), conditional_pass laeuft weiter
+- Doc: creative_director_gate_mode.md
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
 - [x] Step 3: Knowledge Seeding Round 1 (6 Eintraege: 1 failure_case, 1 ux_insight, 1 motivational_mechanic, 2 technical_pattern, 1 success_pattern)
-- [ ] Step 4: Creative Director Gate-Modus (nach Validierung von Step 2)
+- [x] Step 4: Creative Director Soft Gate (validiert: FAIL stoppt Pipeline, conditional_pass laeuft weiter)
 - [ ] Step 5: Factory Learning Writeback Agent (nach Step 4)
 - [ ] AskFin Experience Pillars priorisieren und erstes Feature spezifizieren
 - [ ] Factory-Verbesserungen: Compiler-Feedback-Loop, Code-Extraction >10 Files, Agent-Echo-Reduktion

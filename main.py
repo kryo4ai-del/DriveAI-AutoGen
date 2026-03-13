@@ -410,6 +410,7 @@ async def _run_pipeline(
     empty = []
     bug_result_msgs = empty
     cd_result_msgs = empty
+    ux_result_msgs = empty
     refactor_result_msgs = empty
     test_result_msgs = empty
     fix_result_msgs = empty
@@ -452,9 +453,7 @@ async def _run_pipeline(
             gate_ctx["bug_review_messages"] = len(bug_result_msgs)
             await _log_pass(logger, "Bug Hunter Pass", bug_result_msgs)
 
-        # Reset between Bug Hunter and CD to clear message counter.
-        # Without this, MaxMessageTermination(2) for the CD pass won't work
-        # because the team's message counter is still at 10 from Bug Hunter.
+        # Reset between Bug Hunter and CD to clear accumulated context.
         await team.reset()
 
         # Creative Director (advisory — only for feature/screen templates)
@@ -481,11 +480,8 @@ async def _run_pipeline(
             if _cd_knowledge:
                 cd_review_task = f"{_cd_knowledge}\n\n{cd_review_task}"
                 print(f"  Factory knowledge: {len(_cd_knowledge)} chars injected")
-            _orig_termination = team._termination_condition
-            team._termination_condition = MaxMessageTermination(max_messages=2)
             cd_result = await _run_with_retry(team, task=cd_review_task)
             cd_result_msgs = list(cd_result.messages)
-            team._termination_condition = _orig_termination
             await _log_pass(logger, "Creative Director Pass", cd_result_msgs)
 
             # ── CD Soft Gate ──────────────────────────────────────────
@@ -493,12 +489,6 @@ async def _run_pipeline(
             # fail → stop further passes, mark run as product_quality_fail
             # conditional_pass → continue with warning
             # pass / unparseable → continue normally (fail-open)
-            # Debug: show message sources for gate parser diagnosis
-            for _dbg_msg in cd_result_msgs:
-                _dbg_src = getattr(_dbg_msg, "source", "?")
-                _dbg_type = type(_dbg_msg).__name__
-                _dbg_content_preview = str(getattr(_dbg_msg, "content", ""))[:80]
-                print(f"  [DEBUG CD msg] source={_dbg_src!r} type={_dbg_type} content={_dbg_content_preview!r}")
             _cd_rating = extract_cd_rating(cd_result_msgs)
             if _cd_rating:
                 print(f"  CD rating: {_cd_rating}")
@@ -519,7 +509,31 @@ async def _run_pipeline(
                 print("  [CD GATE] Conditional pass — product quality warnings logged, continuing.")
                 logger.info("[CD GATE] Conditional pass — continuing with product quality warnings.")
 
-        # Reset between CD and Refactor to clear CD message state.
+        # UX Psychology (advisory — only for feature/screen templates)
+        _uxp_skip = template and template not in ("feature", "screen")
+        if _uxp_skip or gate_ctx.get("cd_gate_stop"):
+            if not gate_ctx.get("cd_gate_stop"):
+                print(f"\nUX Psychology: skipping (template={template})")
+                logger.info(f"UX Psychology: skipping (template={template})")
+                skipped_phases.append("ux_psychology_review")
+        else:
+            await team.reset()
+            print()
+            print("--- UX Psychology pass (advisory) ---")
+            ux_review_task = (
+                f"ux_psychology: Analyze the generated implementation for '{user_task}' from a behavioral psychology perspective. "
+                "Evaluate: motivation architecture, progress feedback, cognitive load, "
+                "learning psychology principles, retention mechanics, emotional reinforcement, habit formation. "
+                "For each finding, state the psychological principle, the gap, and a specific fix. "
+                "Max 5 findings."
+            )
+            if impl_summary:
+                ux_review_task = f"{impl_summary}\n\n{ux_review_task}"
+            ux_result = await _run_with_retry(team, task=ux_review_task)
+            ux_result_msgs = list(ux_result.messages)
+            await _log_pass(logger, "UX Psychology Pass", ux_result_msgs)
+
+        # Reset before Refactor to clear review message state.
         if not gate_ctx.get("cd_gate_stop"):
             await team.reset()
 
@@ -607,6 +621,7 @@ async def _run_pipeline(
         list(result.messages)
         + bug_result_msgs
         + cd_result_msgs
+        + ux_result_msgs
         + refactor_result_msgs
         + test_result_msgs
         + fix_result_msgs
@@ -747,7 +762,7 @@ async def _run_pipeline(
     print("Conversation complete.")
     msg_breakdown = f"{len(result.messages)} (impl)"
     if run_mode in ("standard", "full"):
-        msg_breakdown += f" + {len(bug_result_msgs)} (bugs) + {len(cd_result_msgs)} (creative) + {len(refactor_result_msgs)} (refactor) + {len(test_result_msgs)} (tests)"
+        msg_breakdown += f" + {len(bug_result_msgs)} (bugs) + {len(cd_result_msgs)} (creative) + {len(ux_result_msgs)} (ux_psych) + {len(refactor_result_msgs)} (refactor) + {len(test_result_msgs)} (tests)"
     if run_mode == "full":
         msg_breakdown += f" + {len(fix_result_msgs)} (fix)"
     print(f"Messages exchanged : {msg_breakdown}")

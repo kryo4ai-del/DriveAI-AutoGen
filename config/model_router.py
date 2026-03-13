@@ -24,6 +24,7 @@ _DEFAULT_ROUTES = {
     "compliance_review": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires legal reasoning"},
     "accessibility_review": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires UI understanding"},
     "creative_direction": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires product and design reasoning"},
+    "ux_psychology_review": {"model": "claude-sonnet-4-6", "provider": "anthropic", "reason": "requires behavioral science reasoning"},
     # Tier 3 — Claude Haiku: Lightweight tasks (fast & cheap)
     "classification": {"model": "claude-haiku-4-5", "provider": "anthropic", "reason": "lightweight task"},
     "summarization": {"model": "claude-haiku-4-5", "provider": "anthropic", "reason": "lightweight task"},
@@ -73,6 +74,7 @@ AGENT_TASK_MAP = {
     "webapp_developer": "code_generation",
     "autonomous_project_orchestrator": "orchestration",
     "creative_director": "creative_direction",
+    "ux_psychology": "ux_psychology_review",
 }
 
 

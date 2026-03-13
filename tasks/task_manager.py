@@ -27,6 +27,7 @@ from agents.web_architect_agent import create_web_architect_agent
 from agents.webapp_developer_agent import create_webapp_developer_agent
 from agents.autonomous_project_orchestrator import create_autonomous_project_orchestrator
 from agents.creative_director import create_creative_director_agent
+from agents.ux_psychology import create_ux_psychology_agent
 from project_context.context_loader import load_project_context
 from memory.memory_manager import MemoryManager
 from planning.feature_planner import FeaturePlanner
@@ -88,6 +89,7 @@ class TaskManager:
         self.webapp_developer_agent = create_webapp_developer_agent() if _on("webapp_developer") else None
         self.orchestrator_agent = create_autonomous_project_orchestrator() if _on("autonomous_project_orchestrator") else None
         self.creative_director_agent = create_creative_director_agent() if _on("creative_director") else None
+        self.ux_psychology_agent = create_ux_psychology_agent() if _on("ux_psychology") else None
 
         self.project_context = load_project_context()
         self.memory_manager = MemoryManager()
@@ -146,6 +148,8 @@ class TaskManager:
             summary["orchestrator"] = self.orchestrator_agent.name
         if self.creative_director_agent:
             summary["creative_director"] = self.creative_director_agent.name
+        if self.ux_psychology_agent:
+            summary["ux_psychology"] = self.ux_psychology_agent.name
         return summary
 
     def get_project_context_summary(self) -> str:
@@ -216,6 +220,7 @@ class TaskManager:
             self.webapp_developer_agent,
             self.orchestrator_agent,
             self.creative_director_agent,
+            self.ux_psychology_agent,
         ]:
             if agent is not None:
                 participants.append(agent)

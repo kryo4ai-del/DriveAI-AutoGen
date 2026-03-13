@@ -97,9 +97,9 @@ python main.py --template screen --name Dashboard --profile dev --approval auto 
 ## Implementation Location
 
 ### Rating parser
-`factory_knowledge/knowledge_reader.py` lines 110-145:
+`factory_knowledge/knowledge_reader.py` lines 110-160:
 - `_CD_RATING_RE`: Robust regex handling 6+ format variations
-- `extract_cd_rating(messages)`: Scans CD agent messages, returns rating string
+- `extract_cd_rating(messages)`: Two-pass scanner — first checks `creative_director` source, then falls back to all non-user messages (handles SelectorGroupChat picking wrong speaker)
 
 ### Gate logic
 `main.py` lines 486-509:
@@ -140,3 +140,34 @@ Passed through all `_run_pipeline()` call sites (single run, task pack, batch qu
   The Creative Director rated this implementation as below premium standards.
   Use --no-cd-gate to override this gate.
 ```
+
+---
+
+## Validation Results (2026-03-13)
+
+### Test A — conditional_pass (pipeline continues)
+
+Run: `driveai_run_20260313_041830.txt` — GateTestE_Stats screen template
+
+- CD source: `creative_director` (selector hint working)
+- CD rating: `conditional_pass` → correctly parsed
+- Gate action: `[CD GATE] Conditional pass — product quality warnings logged, continuing.`
+- Pipeline: Refactor + Test generation ran normally
+- Messages: 10 (impl) + 10 (bugs) + 10 (creative) + 10 (refactor) + 10 (tests)
+
+### Test B — fail (pipeline stops)
+
+Run: `driveai_run_20260313_031543.txt` — GateTestC_Profile screen template
+
+- CD source: `creative_director` (selector hint working)
+- CD rating: `fail` → correctly parsed
+- Gate action: `[CD GATE] Product quality FAIL — stopping further passes.`
+- Pipeline: Refactor, test_generation, fix_execution skipped
+- Messages: 10 (impl) + 10 (bugs) + 2 (creative) + 0 (refactor) + 0 (tests)
+- Console summary: `CD Gate: FAIL — pipeline stopped early`
+
+### Bugs found and fixed during validation
+
+1. **SelectorGroupChat wrong speaker**: Selector chose `driveai_lead` instead of `creative_director`. Fix: added `creative_director:` task prefix + fallback scan in `extract_cd_rating`.
+2. **Missing team.reset()**: No reset between Bug Hunter and CD passes — accumulated context caused issues. Fix: added `team.reset()` between Bug Hunter → CD and CD → Refactor.
+3. **MaxMessageTermination(2) ineffective**: Setting `team._termination_condition` only changes the Team object attribute, not the already-initialized GroupChatManager. Fix: removed the workaround (10-message CD pass works fine for rating extraction).
