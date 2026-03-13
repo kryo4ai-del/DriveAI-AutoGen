@@ -1,0 +1,233 @@
+{
+  "project_name": "askfin_premium",
+  "spec_source": "training_mode.md",
+  "health": "mostly_complete",
+  "completeness_pct": 84.2,
+  "summary": {
+    "expected": 19,
+    "actual": 53,
+    "complete": 16,
+    "incomplete": 0,
+    "missing": 3
+  },
+  "missing_files": [
+    "LearningStreak.swift",
+    "TopicDetailView.swift",
+    "TopicPickerView.swift"
+  ],
+  "incomplete_files": [],
+  "suspicious_files": [],
+  "unexpected_files": [
+    "ViewModels\\AdaptiveQueueBuilder.swift",
+    "Models\\AnswerOption.swift",
+    "ViewModels\\CategorySelectionViewModel.swift",
+    "Models\\DashboardState.swift",
+    "Views\\DashboardView.swift",
+    "ViewModels\\DashboardViewModel.swift",
+    "ViewModels\\DomainSection.swift",
+    "Views\\Components\\ExamCountdownCard.swift",
+    "Models\\GeneratedHelpers.swift",
+    "Services\\HapticFeedbackProtocol.swift",
+    "Services\\LocalDataService.swift",
+    "Tests\\Helpers\\MockQuestionBank.swift",
+    "Services\\PersistenceStore.swift",
+    "ViewModels\\PracticeModeViewModel.swift",
+    "Models\\PracticeSession.swift",
+    "Views\\Components\\ProgressGridCard.swift",
+    "Services\\QuestionBankProtocol.swift",
+    "Views\\Components\\QuestionCard.swift",
+    "ViewModels\\RevealCopy.swift",
+    "Views\\Training\\RevealDisplayModel.swift",
+    "Models\\RevealMode.swift",
+    "Views\\Training\\SessionBriefView.swift",
+    "Models\\SessionPhase.swift",
+    "Models\\SessionPhase+Equatable.swift",
+    "Views\\Components\\StreakIndicator.swift",
+    "Models\\SwipeDirection.swift",
+    "Tests\\Helpers\\TestFixtures.swift",
+    "Models\\Threshold.swift",
+    "Models\\TopicDomain.swift",
+    "Models\\TrainingCategory.swift",
+    "Models\\TrainingConfig.swift",
+    "Models\\TrainingModeScreen.swift",
+    "Models\\TrainingModeState.swift",
+    "ViewModels\\TrainingModeViewModel.swift",
+    "ViewModels\\TrainingModeViewModelTests.swift",
+    "Models\\TrainingModels.swift",
+    "Services\\TrainingSessionManager.swift"
+  ],
+  "missing_folders": [],
+  "file_details": [
+    {
+      "filename": "AnswerRevealView.swift",
+      "found": true,
+      "path": "Views\\Training\\AnswerRevealView.swift",
+      "size": 10574,
+      "line_count": 304,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "CompetenceLevel.swift",
+      "found": true,
+      "path": "Models\\CompetenceLevel.swift",
+      "size": 1766,
+      "line_count": 55,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "LearningStreak.swift",
+      "found": false,
+      "path": "",
+      "size": 0,
+      "line_count": 0,
+      "ends_with_brace": false,
+      "status": "missing"
+    },
+    {
+      "filename": "QuestionCardView.swift",
+      "found": true,
+      "path": "Views\\Training\\QuestionCardView.swift",
+      "size": 5836,
+      "line_count": 172,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "QuestionType.swift",
+      "found": true,
+      "path": "Models\\QuestionType.swift",
+      "size": 349,
+      "line_count": 12,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SessionQuestion.swift",
+      "found": true,
+      "path": "Models\\SessionQuestion.swift",
+      "size": 2354,
+      "line_count": 67,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SessionSummaryView.swift",
+      "found": true,
+      "path": "Views\\Training\\SessionSummaryView.swift",
+      "size": 6457,
+      "line_count": 179,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SessionType.swift",
+      "found": true,
+      "path": "Models\\SessionType.swift",
+      "size": 150,
+      "line_count": 8,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SkillMapView.swift",
+      "found": true,
+      "path": "Views\\SkillMap\\SkillMapView.swift",
+      "size": 6638,
+      "line_count": 183,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SkillMapViewModel.swift",
+      "found": true,
+      "path": "ViewModels\\SkillMapViewModel.swift",
+      "size": 2574,
+      "line_count": 77,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "SpacingItem.swift",
+      "found": true,
+      "path": "Models\\SpacingItem.swift",
+      "size": 1308,
+      "line_count": 42,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "TopicArea.swift",
+      "found": true,
+      "path": "Models\\TopicArea.swift",
+      "size": 2948,
+      "line_count": 88,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "TopicCompetence.swift",
+      "found": true,
+      "path": "Models\\TopicCompetence.swift",
+      "size": 912,
+      "line_count": 33,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "TopicCompetenceService.swift",
+      "found": true,
+      "path": "Services\\TopicCompetenceService.swift",
+      "size": 4294,
+      "line_count": 117,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "TopicDetailView.swift",
+      "found": false,
+      "path": "",
+      "size": 0,
+      "line_count": 0,
+      "ends_with_brace": false,
+      "status": "missing"
+    },
+    {
+      "filename": "TopicPickerView.swift",
+      "found": false,
+      "path": "",
+      "size": 0,
+      "line_count": 0,
+      "ends_with_brace": false,
+      "status": "missing"
+    },
+    {
+      "filename": "TrainingSession.swift",
+      "found": true,
+      "path": "Models\\TrainingSession.swift",
+      "size": 5449,
+      "line_count": 183,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "TrainingSessionView.swift",
+      "found": true,
+      "path": "Views\\Training\\TrainingSessionView.swift",
+      "size": 10183,
+      "line_count": 291,
+      "ends_with_brace": true,
+      "status": "complete"
+    },
+    {
+      "filename": "TrainingSessionViewModel.swift",
+      "found": true,
+      "path": "ViewModels\\TrainingSessionViewModel.swift",
+      "size": 9868,
+      "line_count": 283,
+      "ends_with_brace": true,
+      "status": "complete"
+    }
+  ]
+}

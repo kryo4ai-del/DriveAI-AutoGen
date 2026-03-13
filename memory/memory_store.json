@@ -4379,6 +4379,134 @@
     {
       "timestamp": "2026-03-13T12:34:36.617821",
       "note": "[reviewer] This is a known architectural limitation — changing `sessionType` requires a new ViewModel instance. The correct approach is to escalate to the parent:"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.876031",
+      "note": "Run completed for task: Design and implement the Exam Simulation + Readiness Layer for AskFin Premium.\n\nThis is the second premium pillar, building on the existing Training Mode + Skill Map implementation.\n\nCore components:\n1. ExamSimulationView — full-screen exam rehearsal: pre-start screen with readiness estimate, 30-question timed simulation, Fehlerpunkte counter, no feedback during exam\n2. SimulationResultView — pass/fail result with Fehlerpunkte breakdown by topic, actionable gap analysis sorted by impact, readiness delta, retry/train CTAs\n3. ReadinessScoreView — reusable component showing readiness percentage (0-100%), milestone label, delta indicator. Used in Dashboard, Simulation entry, and Result screens\n4. ExamHistoryView — chronological list of past simulation attempts with Fehlerpunkte + pass/fail + time\n5. ExamSimulationViewModel — manages timer (countdown), question progression (30 questions), answer recording, Fehlerpunkte calculation (5/3/2 point system), submission\n6. SimulationResultViewModel — processes simulation into ranked gap analysis, computes readiness delta, generates per-topic recommendations\n7. ExamSimulationService — generates weighted question sets (30 questions distributed by official exam topic weights), calculates Fehlerpunkte with Vorfahrt instant-fail rule, persists simulation history\n8. ReadinessScoreService — computes readiness from 3 components: topic competence (50%, from TopicCompetenceService), simulation performance (30%, last 3 simulations weighted), consistency (20%, streak + recent activity). Enforces stability rules (max 5-point daily drop)\n\nData models:\n- ExamSimulation: session with questions, answers, timestamps, config reference\n- SimulationConfig: questionCount (30), timeLimit (45 min), mode (realistic/practice), topic weights matching official exam\n- SimulationResult: fehlerpunkte total + per topic, pass/fail, time taken, topic breakdown, comparison to previous attempt\n- ReadinessScore: score (0-100), components (topic/simulation/consistency), milestone (amAnfang/grundlagenGelegt/aufDemWeg/fastBereit/pruefungsbereit)\n\nDesign requirements:\n- Dark theme, green accent for progress (matches existing Training Mode)\n- Same swipe gestures as Training Mode for question answering (muscle memory)\n- No feedback during realistic simulation (exam conditions)\n- German UI text — \"Generalprobe\" not \"Test\", \"Noch nicht bestanden\" not \"Durchgefallen\"\n- Haptic feedback: simulation start (heavy), answer recorded (light), time warning at 5 min (warning), simulation end (heavy)\n- Fehlerpunkte scoring mirrors official exam: Vorfahrt = 5 FP, Grundstoff = 3 FP, Standard = 2 FP\n- Vorfahrt instant-fail rule: 2 wrong Vorfahrt questions = automatic fail regardless of total FP\n\nBehavioral requirements:\n- Pre-start screen shows current readiness + last simulation result\n- Timer counts down, visible in header\n- After submission: full WHY explanations available for every question (learning moment)\n- Failed simulation: actionable gap analysis ranked by FP impact, direct link to Training Mode weakness queue\n- Readiness Score stability: max 5-point daily drop, score rises faster than it falls\n- Reuse TopicCompetenceService, TopicArea, CompetenceLevel, SessionQuestion from existing Training Mode\n\nExisting architecture to integrate with:\n- TopicCompetenceService (Services/) — provides topic competence data for readiness calculation\n- TopicArea enum (Models/) — 16 topics with exam weights\n- CompetenceLevel enum (Models/) — competence thresholds\n- SessionQuestion (Models/) — question data structure\n- QuestionCardView (Views/Training/) — reuse for simulation questions (without feedback overlay)\n- TrainingSession / CompletedQuestion (Models/) — pattern for simulation session tracking\n\nNo generic gamification. No badges. No leaderboards. The Readiness Score IS the game."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.910682",
+      "note": "[reviewer] The function `interleave(buckets:)` is called but its implementation is not in the submitted code. This must be implemented. Suggested approach:"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.912010",
+      "note": "[reviewer] This is the right call. However, the protocol now requires the caller (the ViewModel) to supply competence snapshots. The ViewModel does not currently have a `TopicCompetenceService` depend..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.912960",
+      "note": "[swift_developer] 1. **`interleave` is O(n)** — `removeFirst()` on `Array` is O(n) per call, but total question count is bounded at 30. For this domain, it's acceptable. A `LinkedList` or index-pointe..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.913538",
+      "note": "[reviewer] // Correct O(n) approach — index pointers, no mutation"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.916829",
+      "note": "[accessibility_agent] Recommendation: Wrap all transitions in an accessibility check using the AccessibilityReduceMotion environment value."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917411",
+      "note": "[creative_director] 4. [Interaction Quality] Gap analysis after failed simulation is a list, not a decision"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917855",
+      "note": "[ux_psychology] Principle: *Affect heuristic* — emotional state at decision points determines whether a user acts or exits. The pre-start screen is the highest-stakes decision point in the product: th..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.918658",
+      "note": "[swift_developer] Addresses: timer race condition (Bug Hunter #3), re-entry bug in proposed fix (Bug Hunter Review), Vorfahrt O(n²) scan (Bug Hunter #4), running counter approach."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.919953",
+      "note": "[reviewer] Vorfahrt running counter** replacing O(n²) scan — correct approach"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.921791",
+      "note": "[driveai_lead] The Creative Director's review is structurally sound and identifies real gaps. I'll note one scope correction before tasking: the generated files are model stubs only — no Views, ViewMo..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.923503",
+      "note": "[bug_hunter] Build recommendation:** Findings 1, 3, and 5 will compile but produce incorrect behaviour at runtime with no error surfaced. Finding 2 produces correct results only when the question-answ..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.925095",
+      "note": "[accessibility_agent] Recommendation: Implement the timer element with:"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.926445",
+      "note": "[driveai_lead] Pre-Task Architecture Decisions"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.928094",
+      "note": "[bug_hunter] The review recommends making the raw dict `private` and using typed accessors. But `ExamSimulation` and `SimulationResult` are `Codable`. Making `_fehlerpunkteByTopic` private with a lead..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.930288",
+      "note": "[accessibility_agent] I'll now analyze the generated implementation for accessibility issues, working through the code systematically based on the implementation summary, architecture decisions, and a..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.931060",
+      "note": "[swift_developer] Recommendation for (A): Audit the exact hex values in use. If secondary copy on the"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.933457",
+      "note": "[ux_psychology] Fix:** In `ExamSimulationView`'s pre-start state, constrain `ReadinessScoreView` to render only the milestone label and a single motivational sentence derived from `ReadinessMilestone...."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.934206",
+      "note": "[accessibility_agent] Recommendation: Apply .accessibilityLabel and .accessibilityValue to the score container. Group the score, milestone, and delta as a single accessible element using .accessibilit..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.935032",
+      "note": "[driveai_lead] Pre-Implementation Decisions"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.936964",
+      "note": "[reviewer] The stated reason for `preStartLabel` is correct (suppress numeric score at pre-start), but the differentiation belongs in the **View**, not the model. The model should not encode a display..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.937791",
+      "note": "[bug_hunter] The previous review flags `reviewLabel` and `reviewActionPrompt` on `AnswerStatus` as a P1 issue because they're \"localizable UI strings in a model.\" The recommended fix is to move them t..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.942186",
+      "note": "[reviewer] Concrete fix:** If keeping on the model (the second reviewer's preferred approach), remove the \"View Layer Extensions\" comment and the justification. If moving to view layer, put them in `A..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.944805",
+      "note": "[swift_developer] //   - Ranked gap analysis with per-topic recommendations"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.946070",
+      "note": "[reviewer] 7. `SimulationResultViewModel.recommendation` — FP Threshold Logic Is Inverted"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.947691",
+      "note": "[reviewer] `totalFP` from single source** — `fehlerpunkteByTopic.values.reduce(0, +)` after the loop. Consistent with the previous review's recommendation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.948827",
+      "note": "[swift_developer] // The recommended pattern is `actor ConcreteStore: StoreProtocol`."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.950404",
+      "note": "[reviewer] `recommendation` fix (inverted threshold) is claimed but not verifiable"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.951365",
+      "note": "[swift_developer] let recommendation: String"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.952506",
+      "note": "[reviewer] `recommendation` uses `TopicArea.fehlerpunkteCategory`** — `TopicArea(rawValue: topicKey)?.fehlerpunkteCategory == .vorfahrt`. This requires `fehlerpunkteCategory` to exist on `TopicArea`...."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.953816",
+      "note": "[reviewer] The second approach is cleaner — keeps animation decisions in the View layer."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.954721",
+      "note": "[swift_developer] Text(gap.recommendation)"
     }
   ],
   "architecture_notes": [
@@ -11925,6 +12053,178 @@
     {
       "timestamp": "2026-03-13T12:34:36.617056",
       "note": "[reviewer] // Using dismiss() + parent re-creation is the correct pattern."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.908126",
+      "note": "[driveai_lead] SessionQuestion.swift    — question data structure (REUSE)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.910059",
+      "note": "[reviewer] Overall: Good structure. Several issues to address.**"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.911529",
+      "note": "[reviewer] The explicit per-case `return .standard` block is correct (no `default`), but 12 identical lines add noise without safety benefit since the switch is already exhaustive. A grouped pattern i..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.913227",
+      "note": "[reviewer] | `?? nil` no-op + redundant optional chaining | 🟡 | Use `flatMap` pattern |"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.913980",
+      "note": "[swift_developer] | `?? nil` no-op + redundant optional chain | Replaced with `flatMap { prev in guard let prevResult = prev.result }` pattern |"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.914399",
+      "note": "[reviewer] `flatMap` pattern correctly eliminates `?? nil` and the redundant optional chain"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.914961",
+      "note": "[bug_hunter] The spec requires a countdown timer. The standard `Timer.publish` + `@Published var timeRemaining` pattern has a known race condition: if the app backgrounds and foregrounds, `Timer` fire..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.915478",
+      "note": "[refactor_agent] What the fix misses**: The report proposes the correct type but doesn't address *why* the generation produced `struct` entries at all. This matters for the refactor because it signals..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.915949",
+      "note": "[test_generator] Test Architecture Overview"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.916455",
+      "note": "[accessibility_agent] 3. Patterns that will produce inaccessible UI if implemented as described"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917058",
+      "note": "[creative_director] Problem: The milestones `amAnfang / grundlagenGelegt / aufDemWeg / fastBereit / pruefungsbereit` are German and descriptive, which is better than generic, but they still follow the..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917553",
+      "note": "[ux_psychology] The reviewed materials span an implementation summary, bug hunter report, test case generation, and accessibility review. The generated files are model-layer stubs only — no views exis..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.918988",
+      "note": "[reviewer] The consolidated review document is **well-structured and technically accurate**. The proposed fixes are generally correct. This review surfaces remaining issues the document either partial..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.920688",
+      "note": "[ux_psychology] The generated files consist entirely of foundational models (`SimulationMode`, `ReadinessMilestone`, `FehlerpunkteCategory`, `ExamSimulationError`) with no View, ViewModel, or Service..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.921371",
+      "note": "[driveai_lead] Source finding:** Finding #4 (Desirable difficulty, unstructured anxiety gap)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.922872",
+      "note": "[bug_hunter] Architecture:** async/await, SwiftUI, @MainActor"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.924247",
+      "note": "[test_generator] // Replace with your project's assertion-testing pattern."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.924726",
+      "note": "[accessibility_agent] Note:** View files are not yet generated. This review assesses (1) accessibility implications of the model/service architecture as specified, and (2) mandatory accessibility requ..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.925664",
+      "note": "[creative_director] 1. [Motivation Architecture] Readiness Score has no psychological anchoring mechanism"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.926089",
+      "note": "[driveai_lead] Architecture:** SwiftUI, async/await, dark theme, green accent"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.927291",
+      "note": "[reviewer] Using `String` keys to work around `Codable` limitations on `Dictionary` is a known pattern, but it silently accepts any string as a valid key. A typo or wrong rawValue lookup returns `nil`..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.927757",
+      "note": "[bug_hunter] Bug #1 — Timer Architecture Will Cause Main Thread Violations"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.928294",
+      "note": "[refactor_agent] Looking at the generated code across T-01 and T-02, I'll work through the actual refactor issues rather than re-litigating the review findings. The goal is cleaner structure, reduced..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.928802",
+      "note": "[test_generator] Architecture: async/await, actor-isolated services, SwiftData persistence."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.929736",
+      "note": "[accessibility_agent] I'll now analyze the generated implementation for accessibility issues, working through the code systematically based on the implementation summary, architecture decisions, and a..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.930538",
+      "note": "[swift_developer] Issue: poor_contrast / semantic_structure"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.931288",
+      "note": "[refactor_agent] I'll analyze the generated files and produce a clean, maintainable implementation. Based on the implementation summary, the generated output had structural issues (duplicate file list..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.932465",
+      "note": "[creative_director] Summary: The architecture is solid and domain-appropriate, but the product layer — the copy, emotional framing, and learning-moment design — treats the post-failure experience as a..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.933012",
+      "note": "[ux_psychology] Gap:** `SimulationResult.topicsByFehlerpunkteImpact` ranks topics by FP and links to Training Mode. This is correct architecture. However, the model contains no mechanism to distinguis..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.934456",
+      "note": "[driveai_lead] I'll work through the full implementation systematically, integrating the UX Psychology and Accessibility findings into the architecture."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.935406",
+      "note": "[swift_developer] // that stage. fastBereit copy explicitly names the plateau-dropout pattern"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.936363",
+      "note": "[reviewer] This pattern is consistent with how `FailureReason.displayMessage` is already treated — but `displayMessage` has the same problem and should receive the same fix."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.937247",
+      "note": "[bug_hunter] The existing Training Mode already uses this pattern — `CompetenceLevel` and `TopicArea` both carry `displayName` and motivational copy in the model layer. Consistency with the establishe..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.939442",
+      "note": "[driveai_lead] // and ExamSimulation use this type so callers have one catch pattern."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.941403",
+      "note": "[reviewer] Consistency with a pre-existing mistake is not an argument for repeating it.** If `CompetenceLevel` and `TopicArea` have UI copy embedded in them, that is technical debt in the existing cod..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.942504",
+      "note": "[swift_developer] 3. **`assertRangesAreContiguous()`** — moving to unit test pattern via static `_validateRanges` initializer that runs once"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.945271",
+      "note": "[reviewer] However, the `simulation` parameter is a value type passed into `finalise` — this is intentional and correct. The issue is that `finalise` creates an unstructured `Task` without any cancell..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.947119",
+      "note": "[reviewer] The previous review round wrote `ExamSimulationViewModel` but it contained critical bugs (save-before-delta, unstructured Task). This round was supposed to fix those. The fixed ViewModel is..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.948087",
+      "note": "[swift_developer] // The recommended pattern is `actor ConcreteStore: StoreProtocol`."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.949467",
+      "note": "[reviewer] This copy-modify-writeback pattern is correct for value types, but `currentQuestion` is a computed property that reads from `simulation`:"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.951970",
+      "note": "[reviewer] This is the standard pattern for injecting dependencies into a `@StateObject`. It works correctly. The limitation is that if `simulationService` or `readinessService` are updated at a paren..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.953324",
+      "note": "[reviewer] Using `Color.clear` as a spacer element works but is semantically incorrect. Use `Spacer()` or an empty `Color.clear.frame` with `.hidden()`. Actually `Color.clear.frame` here is fine and a..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.954227",
+      "note": "[swift_developer] // The exact navigation mechanism depends on the app's coordinator pattern."
     }
   ],
   "implementation_notes": [
@@ -21287,6 +21587,254 @@
     {
       "timestamp": "2026-03-13T12:34:36.617313",
       "note": "[reviewer] Code Review: Complete Final Delivery"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.908398",
+      "note": "[driveai_lead] Architectural Review & Integration Analysis"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.909258",
+      "note": "[swift_developer] Building all four tasks in dependency order: Models → Services → ViewModel. All types are value types (structs), all services are actors, ViewModel is `@MainActor`. Integration point..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.910257",
+      "note": "[reviewer] Code Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.910999",
+      "note": "[swift_developer] All review issues addressed. Full implementations, zero truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.911682",
+      "note": "[reviewer] Code Review: Tasks 01–04 (Revised Submission)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.912278",
+      "note": "[swift_developer] `Services/ExamSimulationService.swift` — Complete"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.913341",
+      "note": "[reviewer] Code Review: `ExamSimulationService.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.914119",
+      "note": "[swift_developer] `Services/ExamSimulationService.swift` — Revised (Issues 1–3 Fixed)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.914501",
+      "note": "[reviewer] Code Review: `ExamSimulationService.swift` (Final Revision)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.915098",
+      "note": "[bug_hunter] The implementation summary describes an **8-file generation that produced only model-layer stubs**, with critical duplication, missing core components, and structural gaps that would prev..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.915627",
+      "note": "[refactor_agent] Bug Hunter Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.916088",
+      "note": "[test_generator] Test Architecture Overview"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.916581",
+      "note": "[accessibility_agent] Accessibility Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917181",
+      "note": "[creative_director] Problem: The spec says the pre-start screen shows \"current readiness + last simulation result\" but nothing in the reviewed materials addresses *how* this is framed emotionally. \"Re..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917673",
+      "note": "[ux_psychology] UX Psychology Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.918085",
+      "note": "[swift_developer] Senior Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.919201",
+      "note": "[reviewer] Senior Code Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.920275",
+      "note": "[swift_developer] Addressing all 9 issues from the senior review. Implementation order follows dependency graph — models first, then services, then ViewModels, then views."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.920840",
+      "note": "[ux_psychology] UX Psychology Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.921521",
+      "note": "[driveai_lead] Lead Architect Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.922113",
+      "note": "[swift_developer] `Models/SimulationConfig.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.922568",
+      "note": "[reviewer] Code Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.923003",
+      "note": "[bug_hunter] Bug Hunter Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.923739",
+      "note": "[refactor_agent] I'll work through the generated code systematically, addressing the compile blockers first, then correctness issues, then behavioral gaps. The reviews have already triaged the order:..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.924388",
+      "note": "[test_generator] | Component | Priority | Test Categories |"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.924870",
+      "note": "[accessibility_agent] Accessibility Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.925340",
+      "note": "[swift_developer] Working through all findings systematically. Build order: models → persistence → services → viewmodels → views."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.925787",
+      "note": "[creative_director] Problem: The ReadinessScore (0–100%) is computed from three weighted components but the pre-start screen simply displays the number without contextualizing what it *means* for the..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.926235",
+      "note": "[driveai_lead] Review basis:** UX Psychology audit (rating: fail) + Implementation Summary"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.926676",
+      "note": "[swift_developer] Models/UserExamProfile.swift"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.927408",
+      "note": "[reviewer] Code Review: DriveAI Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.927877",
+      "note": "[bug_hunter] Bug Hunter Review — DriveAI Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.928425",
+      "note": "[refactor_agent] Looking at the generated code across T-01 and T-02, I'll work through the actual refactor issues rather than re-litigating the review findings. The goal is cleaner structure, reduced..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.929028",
+      "note": "[test_generator] Covers T-01 through T-03 (models, ExamSimulationService, ReadinessScoreService) plus ViewModel-level behavior from T-04/T-05. Frontend view tests are excluded — these focus on logic,..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.929952",
+      "note": "[accessibility_agent] I'll now analyze the generated implementation for accessibility issues, working through the code systematically based on the implementation summary, architecture decisions, and a..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.930695",
+      "note": "[swift_developer] File: Views/Components/ReadinessScoreView.swift"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.931464",
+      "note": "[refactor_agent] Refactor Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.932044",
+      "note": "[test_generator] | SM-05 | Round-trip Codable encoding | encode → decode `.realistic` | `.realistic` |"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.932610",
+      "note": "[creative_director] Suggestion: Add a `motivationalContext` computed property to `ExamSimulationViewModel` that generates a contextual pre-start message based on readiness milestone — e.g. at `fastBer..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.933961",
+      "note": "[accessibility_agent] I'll now perform a full accessibility audit of the Exam Simulation + Readiness Layer based on the refactored implementation, the test spec, and the behavioral requirements. I'll..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.934699",
+      "note": "[driveai_lead] Refactored Implementation: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.935631",
+      "note": "[swift_developer] Refactored Implementation: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.936562",
+      "note": "[reviewer] Code Review: Refactored Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.937447",
+      "note": "[bug_hunter] Code Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.938101",
+      "note": "[test_generator] Incorporating findings from UX Psychology, Accessibility, and Code Reviews"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.938632",
+      "note": "[swift_developer] | ES-19 | Timer expiry and manual submission cannot both complete | dispatch both simultaneously from `@MainActor` ViewModel | exactly one completion recorded, no crash |"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.939773",
+      "note": "[driveai_lead] Complete Refactored Implementation: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.940561",
+      "note": "[swift_developer] `Models/Simulation/ExamSimulation.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.941688",
+      "note": "[reviewer] Code Review: Complete Refactored Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.942725",
+      "note": "[swift_developer] Implementation Notes Before Writing Code"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.943351",
+      "note": "[driveai_lead] All P0/P1 issues resolved. Implementing all remaining components without truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.944135",
+      "note": "[swift_developer] `ViewModels/ExamSimulationViewModel.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.945475",
+      "note": "[reviewer] Code Review: Complete Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.946444",
+      "note": "[swift_developer] Implementing all remaining components with all critical bugs fixed. No truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.947323",
+      "note": "[reviewer] Code Review: Complete Implementation (Services + Bug Fixes)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.948295",
+      "note": "[swift_developer] Complete Implementation: All Remaining Components"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.949826",
+      "note": "[reviewer] Code Review: Final Implementation Pass"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.950959",
+      "note": "[swift_developer] Complete Implementation: SimulationResultViewModel + All Views"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.952179",
+      "note": "[reviewer] Code Review: SimulationResultViewModel + Views"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.952740",
+      "note": "[swift_developer] Complete Implementation: Remaining Views"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.953462",
+      "note": "[reviewer] Code Review: Remaining Views"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.954383",
+      "note": "[swift_developer] Complete Implementation: SimulationResultView, QuestionReviewView, ExamHistoryView"
     }
   ],
   "review_notes": [
@@ -30625,6 +31173,250 @@
     {
       "timestamp": "2026-03-13T12:34:36.617551",
       "note": "[reviewer] Code Review: Complete Final Delivery"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.908693",
+      "note": "[driveai_lead] Architectural Review & Integration Analysis"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.909681",
+      "note": "[swift_developer] case realistic  // No feedback, timed — exam conditions"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.910423",
+      "note": "[reviewer] Code Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.911220",
+      "note": "[swift_developer] All review issues addressed. Full implementations, zero truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.911830",
+      "note": "[reviewer] Code Review: Tasks 01–04 (Revised Submission)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.912655",
+      "note": "[swift_developer] // Sample: shuffle within each topic bucket, take prefix"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.913455",
+      "note": "[reviewer] Code Review: `ExamSimulationService.swift`"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.914257",
+      "note": "[swift_developer] `Services/ExamSimulationService.swift` — Revised (Issues 1–3 Fixed)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.914633",
+      "note": "[reviewer] Code Review: `ExamSimulationService.swift` (Final Revision)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.915225",
+      "note": "[bug_hunter] Bug Hunter Report: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.915753",
+      "note": "[refactor_agent] Bug Hunter Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.916243",
+      "note": "[test_generator] Test Case Generation: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.916705",
+      "note": "[accessibility_agent] Accessibility Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917298",
+      "note": "[creative_director] Problem: The spec says the pre-start screen shows \"current readiness + last simulation result\" but nothing in the reviewed materials addresses *how* this is framed emotionally. \"Re..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.917783",
+      "note": "[ux_psychology] UX Psychology Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.918216",
+      "note": "[swift_developer] Senior Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.919479",
+      "note": "[reviewer] Senior Code Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.920438",
+      "note": "[swift_developer] Addressing all 9 issues from the senior review. Implementation order follows dependency graph — models first, then services, then ViewModels, then views."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.920998",
+      "note": "[ux_psychology] UX Psychology Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.921651",
+      "note": "[driveai_lead] Lead Architect Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.922366",
+      "note": "[swift_developer] case realistic  // No feedback, exam conditions"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.922683",
+      "note": "[reviewer] Code Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.923125",
+      "note": "[bug_hunter] Bug Hunter Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.923871",
+      "note": "[refactor_agent] I'll work through the generated code systematically, addressing the compile blockers first, then correctness issues, then behavioral gaps. The reviews have already triaged the order:..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.924524",
+      "note": "[test_generator] Test Case Generation — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.924993",
+      "note": "[accessibility_agent] Accessibility Review — Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.925516",
+      "note": "[swift_developer] // is a content bug, not an edge case. FK-007 format enforced at the model boundary."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.925906",
+      "note": "[creative_director] Problem: The ReadinessScore (0–100%) is computed from three weighted components but the pre-start screen simply displays the number without contextualizing what it *means* for the..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.926369",
+      "note": "[driveai_lead] Review basis:** UX Psychology audit (rating: fail) + Implementation Summary"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.927084",
+      "note": "[swift_developer] /// No feedback during exam. Timed. Full haptics. Official conditions."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.927521",
+      "note": "[reviewer] Code Review: DriveAI Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.927994",
+      "note": "[bug_hunter] Bug Hunter Review — DriveAI Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.928547",
+      "note": "[refactor_agent] Looking at the generated code across T-01 and T-02, I'll work through the actual refactor issues rather than re-litigating the review findings. The goal is cleaner structure, reduced..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.929250",
+      "note": "[test_generator] Test Cases — DriveAI Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.930184",
+      "note": "[accessibility_agent] I'll now analyze the generated implementation for accessibility issues, working through the code systematically based on the implementation summary, architecture decisions, and a..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.930880",
+      "note": "[swift_developer] File: Views/Components/ReadinessScoreView.swift"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.931652",
+      "note": "[refactor_agent] Refactor Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.932197",
+      "note": "[test_generator] Test Cases: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.932728",
+      "note": "[creative_director] Problem: The spec describes a pre-start screen showing \"current readiness + last simulation result\" but there is no copy or framing that acknowledges exam anxiety — the emotional c..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.934091",
+      "note": "[accessibility_agent] I'll now perform a full accessibility audit of the Exam Simulation + Readiness Layer based on the refactored implementation, the test spec, and the behavioral requirements. I'll..."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.934915",
+      "note": "[driveai_lead] Before writing code, resolving the open questions from reviews:"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.935855",
+      "note": "[swift_developer] // Replaces nullable selectedAnswerIndex from the original generated design."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.936749",
+      "note": "[reviewer] Code Review: Refactored Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.937637",
+      "note": "[bug_hunter] Code Review: Exam Simulation + Readiness Layer"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.938988",
+      "note": "[swift_developer] | ID | Test | Setup | Expected |"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.940076",
+      "note": "[driveai_lead] Working from the accumulated review findings. Implementing all components in dependency order."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.940947",
+      "note": "[swift_developer] //   crashing with precondition — callers can recover gracefully."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.941958",
+      "note": "[reviewer] Code Review: Complete Refactored Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.942937",
+      "note": "[swift_developer] Addressing all P0/P1 issues from the review before proceeding:"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.943593",
+      "note": "[driveai_lead] All P0/P1 issues resolved. Implementing all remaining components without truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.944394",
+      "note": "[swift_developer] guard isToday, let latestScore = try? scoreStore.loadLatestSync() else { return 0 }"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.945670",
+      "note": "[reviewer] Code Review: Complete Implementation"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.946698",
+      "note": "[swift_developer] Implementing all remaining components with all critical bugs fixed. No truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.947517",
+      "note": "[reviewer] Code Review: Complete Implementation (Services + Bug Fixes)"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.948504",
+      "note": "[swift_developer] All P0/P1 issues resolved. Complete ViewModel, all Views, and missing error case."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.950131",
+      "note": "[reviewer] Code Review: Final Implementation Pass"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.951202",
+      "note": "[swift_developer] Resolving all P0/P1 issues. No truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.952353",
+      "note": "[reviewer] Code Review: SimulationResultViewModel + Views"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.952883",
+      "note": "[swift_developer] Resolving all P0/P1 issues. All four views implemented fully, no truncation."
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.953627",
+      "note": "[reviewer] Code Review: Remaining Views"
+    },
+    {
+      "timestamp": "2026-03-13T16:15:21.954544",
+      "note": "[swift_developer] Complete Implementation: SimulationResultView, QuestionReviewView, ExamHistoryView"
     }
   ]
 }

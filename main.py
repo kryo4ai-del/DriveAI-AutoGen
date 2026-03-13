@@ -89,6 +89,8 @@ def _parse_args() -> dict:
         "explicit_approval": None,
         "explicit_env_profile": None,
         "no_cd_gate": False,
+        "no_ops_layer": False,
+        "project": None,
     }
     explicit_mode = None
     explicit_approval = None
@@ -209,6 +211,12 @@ def _parse_args() -> dict:
         elif args[i] == "--no-cd-gate":
             result["no_cd_gate"] = True
             i += 1
+        elif args[i] == "--no-ops-layer":
+            result["no_ops_layer"] = True
+            i += 1
+        elif args[i] == "--project" and i + 1 < len(args):
+            result["project"] = args[i + 1]
+            i += 2
         elif not args[i].startswith("--"):
             result["task"] = args[i]
             i += 1
@@ -823,6 +831,90 @@ async def _run_pipeline(
     }
 
 
+def _run_operations_layer(project_name: str, env_profile: str = "standard") -> dict:
+    """Run the Operations Layer: Output Integrator -> Completion Verifier -> Recovery Runner.
+
+    Returns a dict with the final health status and whether recovery was attempted.
+    Maximum 1 recovery attempt — no recursive loops.
+    """
+    from factory.operations.output_integrator import OutputIntegrator
+    from factory.operations.completion_verifier import CompletionVerifier
+    from factory.operations.recovery_runner import RecoveryRunner
+    from factory.operations.run_memory import record_run, print_summary as print_memory_summary
+
+    print()
+    print("=" * 60)
+    print("  Operations Layer")
+    print("=" * 60)
+
+    # --- Pass 1: Integrate + Verify ---
+    print("\n[OpsLayer] Pass 1: Output Integrator")
+    integrator = OutputIntegrator(project_name=project_name)
+    integrator.run()
+
+    print("\n[OpsLayer] Pass 1: Completion Verifier")
+    verifier = CompletionVerifier(project_name=project_name)
+    report = verifier.verify()
+
+    initial_health = report.health.value
+    final_health = initial_health
+    recovery_attempted = False
+
+    # --- Recovery decision ---
+    if initial_health in ("complete", "mostly_complete"):
+        print(f"\n[OpsLayer] Health: {initial_health.upper()} — no recovery needed.")
+    elif initial_health == "incomplete":
+        print(f"\n[OpsLayer] Health: INCOMPLETE — triggering recovery (1 attempt max).")
+        recovery_attempted = True
+
+        runner = RecoveryRunner(
+            project_name=project_name,
+            env_profile=env_profile,
+            dry_run=False,
+        )
+        runner.run()
+
+        # --- Pass 2: Re-integrate + Re-verify ---
+        print("\n[OpsLayer] Pass 2: Re-integrating after recovery")
+        integrator2 = OutputIntegrator(project_name=project_name)
+        integrator2.run()
+
+        print("\n[OpsLayer] Pass 2: Re-verifying after recovery")
+        verifier2 = CompletionVerifier(project_name=project_name)
+        report2 = verifier2.verify()
+        final_health = report2.health.value
+    else:
+        # FAILED
+        print(f"\n[OpsLayer] Health: FAILED — too little output for recovery.")
+
+    # --- Summary ---
+    print()
+    print("=" * 60)
+    print("  Operations Layer Summary")
+    print("=" * 60)
+    print(f"  Project:            {project_name}")
+    print(f"  Initial status:     {initial_health.upper()}")
+    print(f"  Recovery attempted: {'yes' if recovery_attempted else 'no'}")
+    print(f"  Final status:       {final_health.upper()}")
+    print("=" * 60)
+    print()
+
+    # --- Run Memory: record outcome ---
+    final_report = report if not recovery_attempted else report2
+    try:
+        run_record = record_run(project_name, final_report.to_dict())
+        print_memory_summary(project_name)
+    except Exception as mem_err:
+        print(f"\n[RunMemory] Error: {mem_err}")
+
+    return {
+        "project": project_name,
+        "initial_health": initial_health,
+        "recovery_attempted": recovery_attempted,
+        "final_health": final_health,
+    }
+
+
 async def main():
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
     logger, log_path = setup_logger(run_id)
@@ -1330,6 +1422,20 @@ async def main():
             task=user_task,
             run_manifest_path=pipeline_result.get("run_manifest_path", ""),
         )
+
+        # ── Operations Layer (post-run) ──────────────────────────────
+        if not a["no_ops_layer"] and a["project"]:
+            try:
+                ops_result = _run_operations_layer(
+                    project_name=a["project"],
+                    env_profile=env_profile,
+                )
+                if json_output:
+                    pipeline_result["operations_layer"] = ops_result
+            except Exception as ops_err:
+                print(f"\n[OpsLayer] Error: {ops_err}")
+                print("[OpsLayer] Operations layer failed — pipeline result is unaffected.")
+
     except Exception as e:
         error_msg = str(e)
         if queue_run and cli_task:

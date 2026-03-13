@@ -1,0 +1,32 @@
+{
+  "project_name": "askfin_premium",
+  "health_before": "mostly_complete",
+  "targets": [
+    {
+      "filename": "LearningStreak.swift",
+      "reason": "missing",
+      "category": "Models",
+      "target_dir": "Models"
+    },
+    {
+      "filename": "TopicDetailView.swift",
+      "reason": "missing",
+      "category": "Views",
+      "target_dir": "Views"
+    },
+    {
+      "filename": "TopicPickerView.swift",
+      "reason": "missing",
+      "category": "Views",
+      "target_dir": "Views"
+    }
+  ],
+  "target_count": 3,
+  "mode": "dry-run",
+  "prompt_file": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\reports\\recovery\\askfin_premium_recovery_prompt.txt",
+  "command": "python main.py --task-file \"C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\reports\\recovery\\askfin_premium_recovery_prompt.txt\" --env-profile standard --mode standard --approval off --template feature --no-cd-gate",
+  "executed": false,
+  "exit_code": null,
+  "timestamp": "2026-03-13 13:53:49",
+  "errors": []
+}

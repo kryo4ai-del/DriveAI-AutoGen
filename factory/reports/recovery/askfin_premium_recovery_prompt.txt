@@ -1,0 +1,115 @@
+FOCUSED RECOVERY RUN — askfin_premium
+======================================
+
+This is a targeted recovery run. Generate ONLY the files listed below.
+Do NOT regenerate files that already exist in the project.
+
+Source spec: training_mode.md
+Output directory: projects/askfin_premium/generated/
+
+---------------------------------------------
+FILES TO GENERATE (3 files)
+---------------------------------------------
+
+Models:
+  [MISSING] Models/LearningStreak.swift
+
+Views:
+  [MISSING] Views/TopicDetailView.swift
+  [MISSING] Views/TopicPickerView.swift
+
+
+---------------------------------------------
+INSTRUCTIONS
+---------------------------------------------
+
+1. Generate complete, production-quality Swift code for each file listed above.
+2. Each file must be self-contained and compile-ready.
+3. Follow the existing code style and architecture already present in the project.
+4. Use German UI text where applicable (AskFin targets German driving theory learners).
+5. Dark theme, green accent color scheme.
+6. Include proper accessibility labels.
+7. Each file MUST end with a closing brace.
+8. Do NOT generate stubs or placeholder code.
+
+---------------------------------------------
+EXISTING PROJECT CONTEXT
+---------------------------------------------
+
+Existing generated files:
+  Models/
+    - AnswerOption.swift
+    - CompetenceLevel.swift
+    - DashboardState.swift
+    - ExamCountdownCard.swift
+    - GeneratedHelpers.swift
+    - PracticeSession.swift
+    - ProgressGridCard.swift
+    - QuestionCard.swift
+    - QuestionType.swift
+    - RevealMode.swift
+    - SessionPhase.swift
+    - SessionPhase+Equatable.swift
+    - SessionQuestion.swift
+    - SessionType.swift
+    - SpacingItem.swift
+    - StreakIndicator.swift
+    - SwipeDirection.swift
+    - Threshold.swift
+    - TopicArea.swift
+    - TopicCompetence.swift
+    - TopicDomain.swift
+    - TrainingCategory.swift
+    - TrainingConfig.swift
+    - TrainingModeScreen.swift
+    - TrainingModeState.swift
+    - TrainingModels.swift
+    - TrainingSession.swift
+    - TrainingSessionManager.swift
+  Services/
+    - HapticFeedbackProtocol.swift
+    - LocalDataService.swift
+    - PersistenceStore.swift
+    - QuestionBankProtocol.swift
+    - TopicCompetenceService.swift
+    - TrainingSessionManager.swift
+  Tests/
+    - TrainingModeViewModelTests.swift
+  Tests\Helpers/
+    - MockQuestionBank.swift
+    - TestFixtures.swift
+  ViewModels/
+    - AdaptiveQueueBuilder.swift
+    - CategorySelectionViewModel.swift
+    - DashboardViewModel.swift
+    - DomainSection.swift
+    - PracticeModeViewModel.swift
+    - RevealCopy.swift
+    - SkillMapViewModel.swift
+    - TrainingModeViewModel.swift
+    - TrainingModeViewModelTests.swift
+    - TrainingSessionViewModel.swift
+  Views/
+    - DashboardView.swift
+  Views\Components/
+    - ExamCountdownCard.swift
+    - ProgressGridCard.swift
+    - QuestionCard.swift
+    - StreakIndicator.swift
+  Views\SkillMap/
+    - SkillMapView.swift
+  Views\Training/
+    - AnswerRevealView.swift
+    - QuestionCardView.swift
+    - RevealDisplayModel.swift
+    - SessionBriefView.swift
+    - SessionSummaryView.swift
+    - TrainingSessionView.swift
+
+---------------------------------------------
+REFERENCE: EXPECTED FILE STRUCTURE
+---------------------------------------------
+
+  projects/askfin_premium/generated/Models/LearningStreak.swift
+  projects/askfin_premium/generated/Views/TopicDetailView.swift
+  projects/askfin_premium/generated/Views/TopicPickerView.swift
