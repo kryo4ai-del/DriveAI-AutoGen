@@ -14,7 +14,7 @@ final class TrainingSessionManager: NSObject {
     
     override init() {
         super.init()
-        createDirectoriesIfNeeded()
+        try? createDirectoriesIfNeeded()
     }
     
     // MARK: - Persistence
@@ -73,14 +73,11 @@ final class TrainingSessionManager: NSObject {
     // MARK: - Cleanup
     
     private func createDirectoriesIfNeeded() throws {
-        if !fileManager.fileExists(atPath: trainingResultsURL.path)
-
-
-I've reviewed the comprehensive deliverables. Here's my **structured code review** as senior reviewer:
-
----
-
-
-**Severity:** HIGH
-
-**Problem:**
+        if !fileManager.fileExists(atPath: trainingResultsURL.path) {
+            try fileManager.createDirectory(
+                at: trainingResultsURL,
+                withIntermediateDirectories: true
+            )
+        }
+    }
+}

@@ -1,12 +1,13 @@
 import Foundation
 
-/// Spaced-repetition schedule entry for one topic.
+/// Spaced-repetition schedule entry.
 struct SpacingItem: Codable, Identifiable {
+    let id: String
     let topic: TopicArea
     var consecutiveCorrect: Int
     var nextReviewDate: Date
+    var reviewCount: Int
 
-    var id: String { topic.id }
     var isDue: Bool { nextReviewDate <= Date() }
 
     /// Interval schedule: index corresponds to consecutiveCorrect BEFORE increment.
@@ -17,11 +18,14 @@ struct SpacingItem: Codable, Identifiable {
 
     private static let intervalSchedule = [1, 3, 7, 14, 30]
 
-    // BUG-01 FIX: interval is read before incrementing so index 0 correctly
-    // produces a 1-day interval on the first correct answer after a reset.
+    static func nextInterval(after correctCount: Int) -> Int {
+        intervalSchedule[safe: correctCount] ?? 30
+    }
+
     mutating func recordCorrect() {
         let interval = nextIntervalDays
         consecutiveCorrect += 1
+        reviewCount += 1
         nextReviewDate = Calendar.current.date(
             byAdding: .day, value: interval, to: Date()
         ) ?? Date()
@@ -29,9 +33,24 @@ struct SpacingItem: Codable, Identifiable {
 
     mutating func recordIncorrect() {
         consecutiveCorrect = 0
+        reviewCount += 1
         nextReviewDate = Calendar.current.date(
             byAdding: .day, value: 1, to: Date()
         ) ?? Date()
+    }
+
+    init(
+        id: String,
+        topic: TopicArea,
+        consecutiveCorrect: Int = 0,
+        nextReviewDate: Date = Date(),
+        reviewCount: Int = 0
+    ) {
+        self.id = id
+        self.topic = topic
+        self.consecutiveCorrect = consecutiveCorrect
+        self.nextReviewDate = nextReviewDate
+        self.reviewCount = reviewCount
     }
 }
 

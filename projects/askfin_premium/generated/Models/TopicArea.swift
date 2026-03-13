@@ -67,7 +67,7 @@ enum TopicArea: String, CaseIterable, Identifiable, Codable {
     /// SF Symbol name, verified against SF Symbols 5.
     var symbolName: String {
         switch self {
-        case .rightOfWay:      return "arrow.triangle.turn.up.right.diamond"
+        case .rightOfWay:      return "diamond"
         case .trafficSigns:    return "exclamationmark.triangle"
         case .speed:           return "speedometer"
         case .distance:        return "arrow.left.and.right"

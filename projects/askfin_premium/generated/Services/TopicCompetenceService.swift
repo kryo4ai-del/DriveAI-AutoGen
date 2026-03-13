@@ -25,12 +25,14 @@ class TopicCompetenceService: ObservableObject {
                 competence.correctAnswers += 1
             }
             competence.lastReviewedDate = Date()
+            competence.weightedAccuracy = Double(competence.correctAnswers) / Double(competence.totalAnswers)
             competenceMap[topicId] = competence
         } else {
             var newCompetence = TopicCompetence(id: topicId, topic: TopicArea(rawValue: topicId) ?? .general)
             newCompetence.totalAnswers = 1
             newCompetence.correctAnswers = isCorrect ? 1 : 0
             newCompetence.lastReviewedDate = Date()
+            newCompetence.weightedAccuracy = isCorrect ? 1.0 : 0.0
             competenceMap[topicId] = newCompetence
         }
         
@@ -81,10 +83,11 @@ class TopicCompetenceService: ObservableObject {
         var queue: [SpacingItem] = []
         for question in questions {
             let item = SpacingItem(
-                id: question.id,
+                id: question.id.uuidString,
                 topic: question.topic,
                 consecutiveCorrect: 0,
-                nextReviewDate: Date()
+                nextReviewDate: Date(),
+                reviewCount: 0
             )
             queue.append(item)
         }
