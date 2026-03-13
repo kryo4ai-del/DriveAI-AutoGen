@@ -25,7 +25,7 @@ from config.session_preset_manager import SessionPresetManager
 from workflows.workflow_recipe_manager import WorkflowRecipeManager
 from workflows.phase_gate_manager import PhaseGateManager
 from utils.git_auto_commit import GitAutoCommit
-from factory_knowledge.knowledge_reader import get_cd_knowledge_block
+from factory_knowledge.knowledge_reader import get_cd_knowledge_block, extract_cd_rating
 from factory_knowledge.proposal_generator import generate_proposals, save_proposals
 from autogen_agentchat.conditions import MaxMessageTermination
 
@@ -88,6 +88,7 @@ def _parse_args() -> dict:
         "explicit_mode": None,
         "explicit_approval": None,
         "explicit_env_profile": None,
+        "no_cd_gate": False,
     }
     explicit_mode = None
     explicit_approval = None
@@ -205,6 +206,9 @@ def _parse_args() -> dict:
         elif args[i] == "--list-workflow-recipes":
             result["list_workflow_recipes"] = True
             i += 1
+        elif args[i] == "--no-cd-gate":
+            result["no_cd_gate"] = True
+            i += 1
         elif not args[i].startswith("--"):
             result["task"] = args[i]
             i += 1
@@ -294,6 +298,7 @@ async def _run_pipeline(
     pack_task_count: int | None = None,
     session_preset: str | None = None,
     workflow_recipe: str | None = None,
+    no_cd_gate: bool = False,
 ) -> dict:
     """Execute the full agent pipeline for a single task. Returns a result dict."""
     _active = active_agents or []
@@ -478,9 +483,36 @@ async def _run_pipeline(
             team._termination_condition = _orig_termination
             await _log_pass(logger, "Creative Director Pass", cd_result_msgs)
 
+            # ── CD Soft Gate ──────────────────────────────────────────
+            # Parse CD rating and apply soft-gate logic.
+            # fail → stop further passes, mark run as product_quality_fail
+            # conditional_pass → continue with warning
+            # pass / unparseable → continue normally (fail-open)
+            _cd_rating = extract_cd_rating(cd_result_msgs)
+            if _cd_rating:
+                print(f"  CD rating: {_cd_rating}")
+            else:
+                print("  CD rating: not detected (continuing as pass)")
+                _cd_rating = "pass"
+
+            if _cd_rating == "fail" and not no_cd_gate:
+                print("\n[CD GATE] Product quality FAIL — stopping further passes.")
+                print("  The Creative Director rated this implementation as below premium standards.")
+                print("  Use --no-cd-gate to override this gate.")
+                logger.info("[CD GATE] Product quality FAIL — pipeline stopped by CD gate.")
+                skipped_phases.extend(["refactor", "test_generation", "fix_execution"])
+                # Skip remaining passes by jumping to finalize
+                # Set gate_ctx to reflect the stoppage
+                gate_ctx["cd_gate_stop"] = True
+            elif _cd_rating == "conditional_pass":
+                print("  [CD GATE] Conditional pass — product quality warnings logged, continuing.")
+                logger.info("[CD GATE] Conditional pass — continuing with product quality warnings.")
+
         # Refactor
         _gate_ok, _gate_reason = gate_mgr.evaluate_gate("refactor", gate_ctx)
-        if not _gate_ok:
+        if gate_ctx.get("cd_gate_stop"):
+            pass  # CD gate stopped pipeline — skipped_phases already updated
+        elif not _gate_ok:
             print(f"\nPhase gate: skipping refactor ({_gate_reason})")
             logger.info(f"Phase gate: skipping refactor ({_gate_reason})")
             skipped_phases.append("refactor")
@@ -501,7 +533,9 @@ async def _run_pipeline(
 
         # Test generation
         _gate_ok, _gate_reason = gate_mgr.evaluate_gate("test_generation", gate_ctx)
-        if not _gate_ok:
+        if gate_ctx.get("cd_gate_stop"):
+            pass  # CD gate stopped pipeline
+        elif not _gate_ok:
             print(f"\nPhase gate: skipping test_generation ({_gate_reason})")
             logger.info(f"Phase gate: skipping test_generation ({_gate_reason})")
             skipped_phases.append("test_generation")
@@ -521,7 +555,7 @@ async def _run_pipeline(
             await _log_pass(logger, "Test Generation Pass", test_result_msgs)
 
     # ── Pass 5: Fix execution (full only) ────────────────────────────
-    if run_mode == "full":
+    if run_mode == "full" and not gate_ctx.get("cd_gate_stop"):
         _gate_ok, _gate_reason = gate_mgr.evaluate_gate("fix_execution", gate_ctx)
         if not _gate_ok:
             print(f"\nPhase gate: skipping fix_execution ({_gate_reason})")
@@ -705,6 +739,8 @@ async def _run_pipeline(
     print(f"Run mode           : {run_mode}")
     print(f"Approval mode      : {approval_mode}")
     print(f"Stop reason        : {result.stop_reason}")
+    if gate_ctx.get("cd_gate_stop"):
+        print(f"CD Gate            : FAIL — pipeline stopped early")
     if skipped_phases:
         print(f"Phases skipped     : {', '.join(skipped_phases)}")
     print(f"Memory updates:")
@@ -1094,6 +1130,7 @@ async def main():
                     pack_task_count=total,
                     session_preset=session_preset_name,
                     workflow_recipe=workflow_recipe_name,
+                    no_cd_gate=a["no_cd_gate"],
                 )
                 pack_results.append(task_result)
                 GitAutoCommit().run_auto_commit(
@@ -1167,6 +1204,7 @@ async def main():
                     disabled_agents=disabled_agents,
                     session_preset=session_preset_name,
                     workflow_recipe=workflow_recipe_name,
+                    no_cd_gate=a["no_cd_gate"],
                 )
                 task_queue.complete_task(next_task)
                 GitAutoCommit().run_auto_commit(
@@ -1251,6 +1289,7 @@ async def main():
             template_name_value=template_name_value,
             session_preset=session_preset_name,
             workflow_recipe=workflow_recipe_name,
+            no_cd_gate=a["no_cd_gate"],
         )
         if queue_run and cli_task:
             task_queue.complete_task(cli_task)

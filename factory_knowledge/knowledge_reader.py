@@ -1,8 +1,10 @@
 # knowledge_reader.py
 # Reads factory knowledge entries and formats compact context blocks for agent passes.
+# Also provides shared CD rating parser used by gate logic and proposal generator.
 
 import json
 import os
+import re
 
 _KNOWLEDGE_PATH = os.path.join(os.path.dirname(__file__), "knowledge.json")
 
@@ -104,3 +106,42 @@ def get_cd_knowledge_block(template: str | None = None) -> str:
     """
     entries = select_for_creative_director(template)
     return format_for_prompt(entries)
+
+
+# ── CD Rating Parser (shared by gate logic and proposal generator) ────────
+
+# Robust regex that handles all observed CD rating format variations:
+# - **Rating: conditional_pass**
+# - Rating: **conditional_pass**
+# - ## Rating: **conditional_pass**
+# - **Rating:** `conditional_pass`
+# - **Overall Rating: FAIL**
+_CD_RATING_RE = re.compile(
+    r"(?:#+\s+)?"                       # optional ## prefix
+    r"\*?\*?(?:Overall\s+)?Rating\*?\*?"  # "Rating" with optional bold/Overall
+    r"[:\s]*\*?\*?"                      # colon, spaces, optional bold
+    r"[`\s]*"                            # optional backtick
+    r"(pass|conditional_pass|fail)"      # the actual rating value
+    r"[`\s]*\*?\*?",                     # trailing formatting
+    re.IGNORECASE,
+)
+
+
+def extract_cd_rating(messages: list) -> str | None:
+    """Extract the Creative Director rating from message objects.
+
+    Scans messages from the 'creative_director' agent for rating patterns.
+    Returns 'pass', 'conditional_pass', or 'fail'. Returns None if no rating found.
+
+    Designed to be fail-open: if rating cannot be parsed, returns None,
+    and callers should treat None as 'pass' (continue pipeline).
+    """
+    for msg in messages:
+        source = getattr(msg, "source", "")
+        content = getattr(msg, "content", "")
+        if source != "creative_director" or not isinstance(content, str):
+            continue
+        match = _CD_RATING_RE.search(content)
+        if match:
+            return match.group(1).lower()
+    return None

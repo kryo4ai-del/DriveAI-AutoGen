@@ -142,6 +142,33 @@ The entire proposal block is wrapped in try/except. If proposal generation fails
 
 ---
 
+## Validation Result (2026-03-12)
+
+Run: `driveai_run_20260312_212950.txt` — ExamSimulation screen template
+
+### Result
+
+Console: `Knowledge proposals: 1 candidates → factory_knowledge/proposals/proposal_20260312_212950.json`
+
+### Generated proposal
+
+| Field | Value |
+|---|---|
+| Title | SwiftUI lifecycle pattern: Missing Timer Invalidation & Memory Leak |
+| Type | technical_pattern |
+| Evidence | Bug Hunter CRITICAL finding |
+| Tags | swiftui, lifecycle, memory-management |
+| Status | pending_review |
+
+### Assessment
+
+- Proposal count: 1 (well within max 3)
+- Quality: High — actionable, specific, reusable across SwiftUI projects
+- Noise: None — only genuine signal triggered a proposal
+- Token cost: Zero additional API calls (regex on existing output)
+
+---
+
 ## Future Improvements
 
 - Cross-run deduplication (check if a similar proposal already exists)
