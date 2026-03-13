@@ -28,9 +28,10 @@ final class SkillMapViewModel: ObservableObject {
         "\(Int(overallReadinessScore * 100))%"
     }
 
-    /// Formatted projected delta, e.g. "+4%".
-    var projectedDeltaLabel: String {
+    /// Formatted projected delta, e.g. "+4%". Nil when zero.
+    var projectedDeltaLabel: String? {
         let pct = Int(projectedReadinessDelta * 100)
+        guard pct != 0 else { return nil }
         return pct > 0 ? "+\(pct)%" : "\(pct)%"
     }
 
@@ -44,13 +45,19 @@ final class SkillMapViewModel: ObservableObject {
     init(service: TopicCompetenceService) {
         self.service = service
 
-        // Issue 5 fix: Task { @MainActor } to satisfy strict concurrency.
-        service.$competences
+        // Subscribe to competenceMap [String: TopicCompetence] and convert to
+        // [TopicArea: TopicCompetence] for type-safe domain section building.
+        service.$competenceMap
             .receive(on: RunLoop.main)
-            .sink { [weak self] updated in
+            .sink { [weak self] stringKeyed in
                 Task { @MainActor [weak self] in
-                    self?.competences = updated
-                    self?.recalculate(from: updated)
+                    let mapped = Dictionary(uniqueKeysWithValues:
+                        stringKeyed.compactMap { key, value in
+                            TopicArea(rawValue: key).map { ($0, value) }
+                        }
+                    )
+                    self?.competences = mapped
+                    self?.recalculate(from: mapped)
                 }
             }
             .store(in: &cancellables)
@@ -67,10 +74,8 @@ final class SkillMapViewModel: ObservableObject {
             : started.map(\.weightedAccuracy).reduce(0, +) / Double(started.count)
 
         // Projected delta: estimate readiness gain from one more complete session.
-        // Approximation — one session touches (minimumQuestions) topics.
-        // Each topic's EMA moves by (1 - decay) * (outcome - current).
-        // Conservative estimate: weak topics improve by 0.1 on average.
-        let sessionTopicCount = Double(service.config.minimumQuestions)
+        // Conservative estimate: ~10 questions per session, weak topics improve 0.1.
+        let sessionTopicCount = 10.0
         let topicCount        = Double(TopicArea.allCases.count)
         projectedReadinessDelta = (sessionTopicCount / topicCount) * 0.1
     }

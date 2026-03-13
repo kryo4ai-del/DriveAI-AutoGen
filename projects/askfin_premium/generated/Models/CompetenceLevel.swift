@@ -22,6 +22,9 @@ enum CompetenceLevel: Int, CaseIterable, Codable, Comparable {
         }
     }
 
+    /// Alias used by Training Mode views (SkillMapView, AnswerRevealView).
+    var localizedName: String { displayName }
+
     var fillColor: Color {
         switch self {
         case .notStarted: return Color(.systemGray5)

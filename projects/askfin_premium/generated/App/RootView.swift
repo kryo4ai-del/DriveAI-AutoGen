@@ -17,37 +17,33 @@ struct RootView: View {
 
     var body: some View {
         TabView {
-            Tab("Home", systemImage: "house.fill") {
-                NavigationStack {
-                    HomeView(competenceService: competenceService)
-                }
+            NavigationStack {
+                HomeView(competenceService: competenceService)
             }
+            .tabItem { Label("Home", systemImage: "house.fill") }
 
-            Tab("Lernstand", systemImage: "chart.bar.fill") {
-                NavigationStack {
-                    SkillMapView(
-                        viewModel: SkillMapViewModel(service: competenceService)
-                    )
-                }
+            NavigationStack {
+                SkillMapView(
+                    viewModel: SkillMapViewModel(service: competenceService)
+                )
             }
+            .tabItem { Label("Lernstand", systemImage: "chart.bar.fill") }
 
-            Tab("Generalprobe", systemImage: "doc.text.magnifyingglass") {
-                NavigationStack {
-                    ExamSimulationView(
-                        simulationService: StubExamSimulationService(),
-                        readinessService: StubReadinessScoreService()
-                    )
-                }
+            NavigationStack {
+                ExamSimulationView(
+                    simulationService: StubExamSimulationService(),
+                    readinessService: StubReadinessScoreService()
+                )
             }
+            .tabItem { Label("Generalprobe", systemImage: "doc.text.magnifyingglass") }
 
-            Tab("Verlauf", systemImage: "clock.arrow.circlepath") {
-                NavigationStack {
-                    ExamHistoryView(
-                        history: [],
-                        onSelectResult: { _ in }
-                    )
-                }
+            NavigationStack {
+                ExamHistoryView(
+                    history: [],
+                    onSelectResult: { _ in }
+                )
             }
+            .tabItem { Label("Verlauf", systemImage: "clock.arrow.circlepath") }
         }
         .tint(.green)
     }

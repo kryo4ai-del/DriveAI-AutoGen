@@ -14,19 +14,18 @@ final class StubExamSimulationService: ExamSimulationServiceProtocol {
 
     private var savedResults: [SimulationResult] = []
 
-    func generateQuestions(for config: SimulationConfig) throws -> [SessionQuestion] {
-        // Generate demo questions covering all topics
+    func generateQuestions(for config: SimulationConfig) throws -> [ExamQuestion] {
         let topics = TopicArea.allCases
         return (0..<config.questionCount).map { index in
             let topic = topics[index % topics.count]
-            return SessionQuestion(
+            return ExamQuestion(
                 id: UUID(),
                 questionText: "Demo-Frage \(index + 1) zu \(topic.displayName)",
                 options: ["Antwort A", "Antwort B", "Antwort C", "Antwort D"],
                 correctAnswerIndex: 0,
                 topic: topic,
                 questionType: .recall,
-                fehlerpunkteCategory: topic == .rightOfWay ? .vorfahrt : .standard,
+                fehlerpunkteCategory: topic.fehlerpunkteCategory,
                 explanation: "Dies ist eine Demo-Erklärung für \(topic.displayName)."
             )
         }
@@ -100,7 +99,7 @@ final class StubReadinessScoreService: ReadinessScoreServiceProtocol {
         ReadinessScore(
             score: 50,
             milestone: .aufDemWeg,
-            components: .init(topicCompetence: 55, simulationPerformance: 40, consistency: 50),
+            components: .init(topicCompetence: 0.55, simulationPerformance: 0.40, consistency: 0.50),
             computedAt: Date(),
             delta: nil,
             decayRisk: []

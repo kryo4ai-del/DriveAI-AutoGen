@@ -113,7 +113,7 @@ final class ExamSimulationViewModel: ObservableObject {
 
     // MARK: - Question Progression
 
-    var currentQuestion: SessionQuestion? {
+    var currentQuestion: ExamQuestion? {
         guard let simulation,
               currentQuestionIndex < simulation.questions.count
         else { return nil }
@@ -245,7 +245,7 @@ final class ExamSimulationViewModel: ObservableObject {
                     fehlerpunkteByTopic: result.fehlerpunkteByTopic,
                     vorfahrtErrorCount: result.vorfahrtErrorCount,
                     timeTaken: result.timeTaken,
-                    failureReason: result.failureReason,
+                    enforceInstantFail: config.mode == .realistic,
                     readinessScoreAtTime: newReadiness.score,
                     readinessDelta: delta,
                     questionResults: result.questionResults

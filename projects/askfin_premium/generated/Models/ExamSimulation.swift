@@ -14,7 +14,7 @@ struct ExamSimulation: Identifiable {
 
     let id: UUID
     let config: SimulationConfig
-    let questions: [SessionQuestion]
+    let questions: [ExamQuestion]
     private(set) var answers: [UUID: AnswerStatus]
     let startedAt: Date
     private(set) var completedAt: Date?
@@ -24,7 +24,7 @@ struct ExamSimulation: Identifiable {
     init(
         id: UUID = UUID(),
         config: SimulationConfig,
-        questions: [SessionQuestion],
+        questions: [ExamQuestion],
         startedAt: Date = Date()
     ) {
         self.id = id
@@ -46,7 +46,7 @@ struct ExamSimulation: Identifiable {
     var answeredCount: Int { answers.count }
     var unansweredCount: Int { questions.count - answeredCount }
 
-    func recordedStatus(for question: SessionQuestion) -> AnswerStatus? {
+    func recordedStatus(for question: ExamQuestion) -> AnswerStatus? {
         answers[question.id]
     }
 
@@ -56,7 +56,7 @@ struct ExamSimulation: Identifiable {
     /// Throws if the simulation is already complete.
     mutating func record(
         answerIndex: Int,
-        for question: SessionQuestion
+        for question: ExamQuestion
     ) throws {
         guard !isComplete else {
             throw ExamSimulationError.simulationAlreadyComplete
@@ -110,7 +110,7 @@ extension ExamSimulation: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
         config = try container.decode(SimulationConfig.self, forKey: .config)
-        questions = try container.decode([SessionQuestion].self, forKey: .questions)
+        questions = try container.decode([ExamQuestion].self, forKey: .questions)
         startedAt = try container.decode(Date.self, forKey: .startedAt)
         completedAt = try container.decodeIfPresent(Date.self, forKey: .completedAt)
 

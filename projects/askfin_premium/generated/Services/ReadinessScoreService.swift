@@ -8,16 +8,8 @@
 
 import Foundation
 
-protocol ReadinessScoreServiceProtocol {
-    func compute() async throws -> ReadinessScore
-    func loadLatest() async throws -> ReadinessScore?
-}
-
-protocol ReadinessScoreStoreProtocol {
-    func save(_ score: ReadinessScore) async throws
-    func loadLatest() async throws -> ReadinessScore?
-    func loadLastScoreBefore(_ date: Date) async throws -> ReadinessScore?
-}
+// NOTE: ReadinessScoreServiceProtocol and ReadinessScoreStoreProtocol
+// are defined in SimulationProtocols.swift to prevent redeclaration.
 
 final class ReadinessScoreService: ReadinessScoreServiceProtocol {
 

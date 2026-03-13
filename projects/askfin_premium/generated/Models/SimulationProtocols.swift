@@ -12,7 +12,7 @@ import Foundation
 // MARK: - Question Access
 
 protocol QuestionRepositoryProtocol {
-    func allQuestions() -> [SessionQuestion]
+    func allQuestions() -> [ExamQuestion]
 }
 
 // MARK: - Simulation Persistence
@@ -52,7 +52,7 @@ protocol TopicCompetenceServiceProtocol {
 // MARK: - Simulation Service
 
 protocol ExamSimulationServiceProtocol {
-    func generateQuestions(for config: SimulationConfig) throws -> [SessionQuestion]
+    func generateQuestions(for config: SimulationConfig) throws -> [ExamQuestion]
     func evaluate(_ simulation: ExamSimulation, previousScore: Int?) async throws -> SimulationResult
     func save(_ result: SimulationResult) async throws
     func loadHistory() async throws -> [SimulationResult]

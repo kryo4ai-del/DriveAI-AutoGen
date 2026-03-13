@@ -113,7 +113,7 @@ struct SkillMapView: View {
         // SkillMapViewModel does not expose spacingQueue directly;
         // drive isDue from competenceLevel as a proxy (notStarted/weak = effectively due)
         // TODO: Expose spacingQueue on SkillMapViewModel for accurate due-date checking.
-        let level = viewModel.competences.first(where: { $0.topic == topic })?.competenceLevel
+        let level = viewModel.competences[topic]?.competenceLevel
         return level == .notStarted || level == .weak
     }
 

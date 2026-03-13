@@ -1,4 +1,4 @@
-private func elaborationPrompt(for question: SessionQuestion) -> String {
+private func elaborationPrompt(for question: ExamQuestion) -> String {
     switch question.fehlerpunkteCategory {
     case .vorfahrt:
         return "Wer hätte in dieser Situation Vorfahrt, wenn du aus einer Nebenstraße kommst?"

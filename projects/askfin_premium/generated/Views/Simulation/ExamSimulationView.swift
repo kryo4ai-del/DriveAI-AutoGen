@@ -168,7 +168,7 @@ struct ExamSimulationView: View {
         }
     }
 
-    private func questionCard(_ question: SessionQuestion) -> some View {
+    private func questionCard(_ question: ExamQuestion) -> some View {
         VStack(spacing: 20) {
             Text(question.questionText)
                 .font(.body)
