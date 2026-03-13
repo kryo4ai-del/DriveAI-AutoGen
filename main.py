@@ -462,7 +462,7 @@ async def _run_pipeline(
             print()
             print("--- Creative Director pass (advisory) ---")
             cd_review_task = (
-                f"Review the generated implementation for '{user_task}' from a product quality perspective. "
+                f"creative_director: Review the generated implementation for '{user_task}' from a product quality perspective. "
                 "Evaluate: Does this feel like a premium product or a generic template? "
                 "Check for: emotional screen function, micro-copy quality, design consistency, "
                 "interaction patterns beyond basic tap, differentiation from generic apps. "

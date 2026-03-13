@@ -130,12 +130,16 @@ _CD_RATING_RE = re.compile(
 def extract_cd_rating(messages: list) -> str | None:
     """Extract the Creative Director rating from message objects.
 
-    Scans messages from the 'creative_director' agent for rating patterns.
+    First scans messages from the 'creative_director' agent, then falls back to
+    scanning all non-user messages (in case the SelectorGroupChat picked a
+    different speaker for the CD review task).
+
     Returns 'pass', 'conditional_pass', or 'fail'. Returns None if no rating found.
 
     Designed to be fail-open: if rating cannot be parsed, returns None,
     and callers should treat None as 'pass' (continue pipeline).
     """
+    # Pass 1: prefer messages from the actual CD agent
     for msg in messages:
         source = getattr(msg, "source", "")
         content = getattr(msg, "content", "")
@@ -144,4 +148,15 @@ def extract_cd_rating(messages: list) -> str | None:
         match = _CD_RATING_RE.search(content)
         if match:
             return match.group(1).lower()
+
+    # Pass 2: fallback — scan all non-user messages (selector may pick wrong speaker)
+    for msg in messages:
+        source = getattr(msg, "source", "")
+        content = getattr(msg, "content", "")
+        if source == "user" or not isinstance(content, str):
+            continue
+        match = _CD_RATING_RE.search(content)
+        if match:
+            return match.group(1).lower()
+
     return None
