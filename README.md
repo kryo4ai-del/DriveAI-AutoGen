@@ -1,6 +1,6 @@
 # DriveAI-AutoGen
 
-Multi-agent AI system built with Microsoft AutoGen for iOS app development assistance.
+Multi-agent AI App Factory built with Microsoft AutoGen and 100% Anthropic Claude for iOS app development.
 
 ## Structure
 
@@ -13,7 +13,33 @@ DriveAI-AutoGen/
 │   ├── reviewer.py             # Code review
 │   ├── bug_hunter.py           # Bug analysis & edge-case detection
 │   ├── refactor_agent.py       # Code structure & readability improvements
-│   └── test_generator.py       # Structured test case generation
+│   ├── test_generator.py       # Structured test case generation
+│   ├── creative_director.py    # Premium design & experience review
+│   └── ux_psychology.py        # Behavioral psychology review
+├── projects/
+│   └── askfin_v1-1/            # AskFin Premium iOS App (75 Swift files)
+│       ├── App/                # App entry point
+│       ├── Models/             # Swift data models
+│       ├── Services/           # Business logic
+│       ├── ViewModels/         # MVVM ViewModels
+│       └── Views/              # SwiftUI Views
+├── factory/
+│   ├── operations/             # Post-generation validation & recovery
+│   │   ├── compile_hygiene_validator.py  # 6 regex checks (FK-011 to FK-017)
+│   │   ├── swift_compile_check.py        # swiftc -parse syntax validation
+│   │   ├── output_integrator.py          # Code integration
+│   │   ├── completion_verifier.py        # Completeness verification
+│   │   ├── recovery_runner.py            # Automatic recovery
+│   │   └── run_memory.py                 # Run history
+│   └── reports/                # Generated validation reports (JSON)
+│       ├── hygiene/            # Compile hygiene reports
+│       └── compile/            # Swift compile reports
+├── factory_knowledge/          # Factory Knowledge System (17 entries)
+│   ├── knowledge.json          # FK-001 to FK-017
+│   ├── index.json              # Overview index
+│   ├── knowledge_reader.py     # Deterministic entry selection
+│   └── proposal_generator.py   # Run-based knowledge candidates
+├── factory_strategy/           # Commercial strategy generator
 ├── tasks/
 │   ├── task_manager.py         # Task distribution & tracking
 │   ├── task_queue.py           # Persistent task queue
@@ -24,7 +50,7 @@ DriveAI-AutoGen/
 │   └── task_packs.json         # Named groups of templates (edit to add more)
 ├── config/
 │   ├── llm_config.py           # LLM configuration loader (reads active profile)
-│   ├── llm_profiles.json       # LLM environment profiles: dev / test / prod
+│   ├── llm_profiles.json       # LLM environment profiles: dev / standard / premium
 │   ├── agent_toggle_config.py  # Loads and resolves agent enable/disable state
 │   ├── agent_toggles.json      # Default agent on/off state (edit to customize)
 │   ├── role_config.py          # Loads agent roles from agent_roles.json
@@ -430,7 +456,7 @@ so they can build on previous decisions without starting from scratch.
 
 To reset memory: delete or clear `memory/memory_store.json`.
 
-## Agents
+## Agents (21 active / 4 disabled)
 
 | Agent | Name | Role |
 |---|---|---|
@@ -439,21 +465,33 @@ To reset memory: delete or clear `memory/memory_store.json`.
 | Swift Developer | `swift_developer` | SwiftUI/Swift code generation |
 | Reviewer | `reviewer` | Code quality, readability, structure |
 | Bug Hunter | `bug_hunter` | Bugs, edge cases, crash risks, structural weaknesses |
+| Creative Director | `creative_director` | Premium design & experience review (advisory) |
+| UX Psychology | `ux_psychology` | Behavioral psychology & motivation review (advisory) |
 | Refactor Agent | `refactor_agent` | Code structure, naming, modularity, readability |
 | Test Generator | `test_generator` | Test cases, happy paths, edge cases, failure scenarios |
 
-Each run executes five automated passes:
+**Disabled:** `android_architect`, `kotlin_developer`, `web_architect`, `webapp_developer` (iOS-only focus)
+
+Each run executes up to seven automated passes:
 
 1. **Implementation pass** — architect + developer + reviewer build the feature
 2. **Bug Hunter pass** — identifies bugs, crash risks, and missing edge cases
-3. **Refactor pass** — improves structure, naming, and modularity without changing behavior
-4. **Test generation pass** — generates structured test cases grouped by component and behavior
-5. **Fix execution pass** — applies the highest-priority bug fixes and refactor improvements; may generate additional Swift files
+3. **Creative Director pass** — reviews premium design quality (advisory, screen/feature only)
+4. **CD Soft Gate** — FAIL stops remaining passes, conditional_pass continues
+5. **UX Psychology pass** — behavioral psychology review (advisory, screen/feature only)
+6. **Refactor pass** — improves structure, naming, and modularity without changing behavior
+7. **Test generation pass** — generates structured test cases
+8. **Fix execution pass** — applies bug fixes and refactor improvements
 
-The fix task is built dynamically from the bug review and refactor outputs (`tasks/fix_executor.py`).
-Any new Swift files produced in the fix pass are extracted and integrated into the Xcode project automatically.
+After the agent pipeline, the **Operations Layer** runs:
+1. **Output Integrator** — integrates generated code into project structure
+2. **Completion Verifier** — checks completeness of generated files
+3. **Compile Hygiene Validator** — 6 regex-based checks (FK-011 to FK-017)
+4. **Swift Compile Check** — real Swift compiler validation (`swiftc -parse`)
+5. **Recovery Runner** — automatic recovery if health is incomplete
+6. **Run Memory** — records outcome for future runs
 
-Findings from all five passes are saved to persistent memory.
+Findings from all passes are saved to persistent memory.
 
 ## Feature Planner
 
@@ -492,9 +530,9 @@ File names are derived from the Swift type name (e.g., `struct QuestionView` →
 Unnamed blocks fall back to `GeneratedFile_N.swift`.
 
 **Step 2 — Integrate** (`project_integrator.py`)
-Every file in `generated_code/` is copied into the matching subfolder of the Xcode project (`DriveAI/`):
+Every file in `generated_code/` is copied into the matching subfolder of the project directory (`projects/<project_name>/`):
 ```
-generated_code/Views/QuestionView.swift  →  DriveAI/Views/QuestionView.swift
+generated_code/Views/QuestionView.swift  →  projects/askfin_v1-1/Views/QuestionView.swift
 ```
 
 Both steps skip files whose content has not changed.

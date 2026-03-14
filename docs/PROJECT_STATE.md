@@ -1,27 +1,29 @@
 # AskFin Project State
 
-Last Updated: 2026-03-09 — AskFinBrandingIntegration complete
+Last Updated: 2026-03-14 — Factory Operations Layer complete
 
 ---
 
 # Project
 
-AskFin (formerly DriveAI)
+AskFin Premium (askfin_v1-1)
 
 Slogan: "Nutze Fin und sage Ja"
 
-An AI-assisted iOS learning app for driver's license theory questions.
+An AI-powered iOS coaching app for German driver's license exam preparation.
 
-The app analyzes screenshots or photos of theory questions and provides:
+The app provides a complete learning experience with 4 pillars:
 
-- predicted answer
-- explanation
-- confidence score
-- learning feedback
+- Training Mode (structured question practice)
+- Exam Simulation (realistic exam conditions)
+- Skill Map (competency tracking per category)
+- Readiness Score (exam readiness assessment)
 
-Architecture: SwiftUI + MVVM
+Architecture: SwiftUI + MVVM (75 Swift files)
 
-Built using an AI development system with autonomous agents.
+Location: `projects/askfin_v1-1/`
+
+Built using the AI App Factory with 21 autonomous agents.
 
 ---
 
@@ -212,17 +214,24 @@ Priority order:
 
 Agents run in multi-pass pipeline.
 
-Pass 1 – Implementation  
-Pass 2 – Bug Review  
-Pass 3 – Refactor  
-Pass 4 – Test Generation  
-Pass 5 – Fix Execution  
+Pass 1 – Implementation
+Pass 2 – Bug Review
+Pass 3 – Creative Director Review (advisory)
+Pass 4 – CD Soft Gate (FAIL stops pipeline)
+Pass 5 – UX Psychology Review (advisory)
+Pass 6 – Refactor
+Pass 7 – Test Generation
+Pass 8 – Fix Execution
 
-After pipeline:
+After agent pipeline — Operations Layer:
 
-Code Extraction  
-Xcode Integration  
-Git Commit  
+Output Integration
+Completion Verification
+Compile Hygiene Validation (6 regex checks)
+Swift Compile Check (swiftc -parse)
+Recovery (if needed)
+Run Memory
+Git Commit
 Git Push
 
 ---
@@ -233,12 +242,19 @@ The project uses structured documentation.
 
 docs/
 
-memory.md  
-architecture.md  
-roadmap.md  
-agents.md  
-commands.md  
+memory.md
+architecture.md
+roadmap.md
+commands.md
 PROJECT_STATE.md
+compile_hygiene_validator.md
+swift_compile_check.md
+factory_error_pattern_seed_round_1.md
+factory_premium_product_principles.md
+askfin_premium_reframing.md
+creative_director_integration_plan.md
+ux_psychology_review_layer.md
+commercial_strategy_generator.md
 
 These files provide context for AI agents and developers.
 

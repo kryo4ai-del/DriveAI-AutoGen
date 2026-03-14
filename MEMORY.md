@@ -219,13 +219,59 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Project Registry aktualisiert (3 Projekte: askfin, factory-core, askfin_premium)
 - Constraints dokumentiert: Legal (kein App Store ohne Lizenz), LLM-Kosten, Offline
 
+### 2026-03-14 — Repo-Bereinigung & Konsolidierung
+- DriveAI/ Ordner geloescht (alte AskFinn App, 184 Swift Files — Duplikat)
+- DriveAi-AutoGen/ geloescht (leeres Xcode Template)
+- projects/askfin_premium/ geloescht (alte ungefixte Version)
+- AskFin Premium konsolidiert nach projects/askfin_v1-1/ (75 Swift Files, gefixte Version)
+- GeneratedHelpers.swift geloescht (588 Zeilen invalider Swift Code)
+
+### 2026-03-14 — Factory Knowledge Error Pattern Seed
+- 7 Error Patterns aus Xcode Fix Report extrahiert (FK-011 bis FK-017)
+- FK-011: AI Review Text in Source Files (BLOCKING)
+- FK-012: Doppelte Typ-Definitionen (BLOCKING)
+- FK-013: Parameter-Mismatch an Call-Sites (BLOCKING/WARNING)
+- FK-014: Referenzierte Typen nie generiert (BLOCKING)
+- FK-015: Bundle.module in App Targets (WARNING)
+- FK-016: Custom init unterdrueckt memberwise init (INFO, nicht implementiert)
+- FK-017: Namespace-Kollisionen zwischen Feature-Layern (BLOCKING/WARNING)
+- Total Factory Knowledge: 17 Eintraege (FK-001 bis FK-017)
+- Doc: factory_error_pattern_seed_round_1.md
+
+### 2026-03-14 — Compile Hygiene Validator (Round 2 + 3)
+- factory/operations/compile_hygiene_validator.py erstellt
+- 6 deterministische Checks implementiert (kein LLM):
+  - FK-011: AI Review Text Detection (7 Regex Patterns)
+  - FK-012: Doppelte Typ-Definitionen (Cross-File Registry + Nested Types)
+  - FK-013: Parameter-Mismatch (Balanced-Paren Init Parsing, Scope-Aware Signatures)
+  - FK-014: Fehlende Typen (100+ Framework-Type-Exclusions)
+  - FK-015: Bundle.module Detection
+  - FK-017: Namespace-Kollisionen (Pfad-basierte Layer-Erkennung)
+- Extensive False-Positive-Tuning: von 38 auf 0 Issues bei askfin_v1-1
+- Reports: factory/reports/hygiene/<project>_compile_hygiene.json
+- Pipeline-Integration nach Completion Verifier
+- Doc: compile_hygiene_validator.md
+
+### 2026-03-14 — Swift Compile Check
+- factory/operations/swift_compile_check.py erstellt
+- Nutzt echten Swift Compiler (swiftc -parse) fuer Syntax-Validierung
+- Graceful SKIPPED auf Windows (kein swiftc)
+- 2 Modi: parse (Syntax) und typecheck (Typen)
+- 30s Timeout pro Datei, JSON Reports
+- Pipeline-Integration nach Compile Hygiene Validator
+- Reihenfolge: Output Integrator → Completion Verifier → Compile Hygiene → Swift Compile → Recovery → Run Memory
+- Doc: swift_compile_check.md
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
-- [x] Step 3: Knowledge Seeding Round 1 (6 Eintraege: 1 failure_case, 1 ux_insight, 1 motivational_mechanic, 2 technical_pattern, 1 success_pattern)
+- [x] Step 3: Knowledge Seeding Round 1 (10 Eintraege FK-001 bis FK-010)
 - [x] Step 4: Creative Director Soft Gate (validiert: FAIL stoppt Pipeline, conditional_pass laeuft weiter)
 - [x] AskFin Experience Pillars priorisieren
+- [x] Error Pattern Seed (FK-011 bis FK-017 aus Xcode Fix Report)
+- [x] Compile Hygiene Validator (6 Checks: FK-011, FK-012, FK-013, FK-014, FK-015, FK-017)
+- [x] Swift Compile Check (swiftc -parse Validierung + Pipeline-Integration)
 - [ ] Step 5: Factory Learning Writeback Agent
 - [ ] AskFin Premium: Training Mode Spec → Factory Run
 - [ ] AskFin Premium: Skill Map Spec → Factory Run
-- [ ] Factory-Verbesserungen: Compiler-Feedback-Loop, Code-Extraction >10 Files, Agent-Echo-Reduktion
+- [ ] Factory-Verbesserungen: Code-Extraction >10 Files, Agent-Echo-Reduktion
