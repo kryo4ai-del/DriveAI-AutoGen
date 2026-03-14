@@ -20,7 +20,108 @@ COMPLETION_REPORTS_DIR = _PROJECT_ROOT / "factory" / "reports" / "completion"
 RECOVERY_REPORTS_DIR = _PROJECT_ROOT / "factory" / "reports" / "recovery"
 
 # Maximum recovery attempts per project (safety guard)
-MAX_RECOVERY_ATTEMPTS = 1
+MAX_RECOVERY_ATTEMPTS = 2
+
+# Recovery state file — persists between attempts within one ops-layer run
+RECOVERY_STATE_FILE = RECOVERY_REPORTS_DIR / "recovery_state.json"
+
+
+# ---------------------------------------------------------------------------
+# Failure fingerprinting
+# ---------------------------------------------------------------------------
+
+def _build_failure_fingerprint(targets: list["RecoveryTarget"]) -> str:
+    """Build a deterministic fingerprint from sorted target filenames + reasons.
+
+    Two failures with the same missing/incomplete files produce the same
+    fingerprint, allowing detection of repeated identical failures.
+    """
+    import hashlib
+    parts = sorted(f"{t.filename}:{t.reason}" for t in targets)
+    raw = "|".join(parts)
+    return hashlib.sha256(raw.encode()).hexdigest()[:16]
+
+
+# ---------------------------------------------------------------------------
+# Recovery state (persisted between attempts)
+# ---------------------------------------------------------------------------
+
+@dataclass
+class RecoveryState:
+    """Structured state handed off between recovery attempts."""
+    project_name: str = ""
+    attempt_number: int = 0
+    failed_stage: str = ""           # e.g. "completion_verifier", "compile_hygiene"
+    failure_status: str = ""         # e.g. "incomplete", "failed"
+    failure_summary: str = ""        # one-line human-readable reason
+    error_excerpt: str = ""          # first 400 chars of error detail
+    failure_fingerprint: str = ""    # hash of missing/incomplete file set
+    prior_fingerprints: list[str] = field(default_factory=list)
+    repeated_failure: bool = False
+    timestamp: str = ""
+
+    def to_dict(self) -> dict:
+        return {
+            "project_name": self.project_name,
+            "attempt_number": self.attempt_number,
+            "failed_stage": self.failed_stage,
+            "failure_status": self.failure_status,
+            "failure_summary": self.failure_summary,
+            "error_excerpt": self.error_excerpt,
+            "failure_fingerprint": self.failure_fingerprint,
+            "prior_fingerprints": self.prior_fingerprints,
+            "repeated_failure": self.repeated_failure,
+            "timestamp": self.timestamp,
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "RecoveryState":
+        return cls(
+            project_name=d.get("project_name", ""),
+            attempt_number=d.get("attempt_number", 0),
+            failed_stage=d.get("failed_stage", ""),
+            failure_status=d.get("failure_status", ""),
+            failure_summary=d.get("failure_summary", ""),
+            error_excerpt=d.get("error_excerpt", ""),
+            failure_fingerprint=d.get("failure_fingerprint", ""),
+            prior_fingerprints=d.get("prior_fingerprints", []),
+            repeated_failure=d.get("repeated_failure", False),
+            timestamp=d.get("timestamp", ""),
+        )
+
+
+def load_recovery_state(project_name: str) -> RecoveryState | None:
+    """Load persisted recovery state for a project, if any."""
+    if not RECOVERY_STATE_FILE.exists():
+        return None
+    try:
+        data = json.loads(RECOVERY_STATE_FILE.read_text(encoding="utf-8"))
+        if data.get("project_name") == project_name:
+            return RecoveryState.from_dict(data)
+        return None
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def save_recovery_state(state: RecoveryState) -> None:
+    """Persist recovery state to disk."""
+    RECOVERY_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        RECOVERY_STATE_FILE.write_text(
+            json.dumps(state.to_dict(), indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+    except OSError as e:
+        print(f"[RecoveryRunner] Error saving recovery state: {e}")
+
+
+def clear_recovery_state() -> None:
+    """Remove recovery state file (called after successful run or terminal stop)."""
+    try:
+        if RECOVERY_STATE_FILE.exists():
+            RECOVERY_STATE_FILE.unlink()
+    except OSError:
+        pass
 
 
 # ---------------------------------------------------------------------------
@@ -58,6 +159,10 @@ class RecoverySummary:
     exit_code: int | None = None
     timestamp: str = ""
     errors: list[str] = field(default_factory=list)
+    attempt_number: int = 1
+    failure_fingerprint: str = ""
+    repeated_failure: bool = False
+    outcome: str = ""  # "recovered", "repeated_failure", "terminal_stop", "skipped"
 
     def to_dict(self) -> dict:
         return {
@@ -72,6 +177,10 @@ class RecoverySummary:
             "exit_code": self.exit_code,
             "timestamp": self.timestamp,
             "errors": self.errors,
+            "attempt_number": self.attempt_number,
+            "failure_fingerprint": self.failure_fingerprint,
+            "repeated_failure": self.repeated_failure,
+            "outcome": self.outcome,
         }
 
     def print_summary(self):
@@ -82,7 +191,14 @@ class RecoverySummary:
         print(f"  Project:              {self.project_name}")
         print(f"  Health before:        {self.health_before}")
         print(f"  Recovery targets:     {len(self.targets)}")
+        print(f"  Attempt:              {self.attempt_number} / {MAX_RECOVERY_ATTEMPTS}")
         print(f"  Mode:                 {self.mode}")
+        if self.failure_fingerprint:
+            print(f"  Failure fingerprint:  {self.failure_fingerprint}")
+        if self.repeated_failure:
+            print(f"  REPEATED FAILURE:     yes (same files failing again)")
+        if self.outcome:
+            print(f"  Outcome:              {self.outcome.upper()}")
         if self.executed:
             print(f"  Exit code:            {self.exit_code}")
         print(f"  Prompt file:          {self.prompt_file}")
@@ -246,7 +362,7 @@ def gather_existing_context(generated_dir: Path) -> str:
 # ---------------------------------------------------------------------------
 
 _RECOVERY_PROMPT_TEMPLATE = """\
-FOCUSED RECOVERY RUN — {project_name}
+FOCUSED RECOVERY RUN -- {project_name}
 ======================================
 
 This is a targeted recovery run. Generate ONLY the files listed below.
@@ -254,7 +370,7 @@ Do NOT regenerate files that already exist in the project.
 
 Source spec: {spec_source}
 Output directory: projects/{project_name}/generated/
-
+{failure_context_block}
 ---------------------------------------------
 FILES TO GENERATE ({target_count} files)
 ---------------------------------------------
@@ -288,11 +404,31 @@ REFERENCE: EXPECTED FILE STRUCTURE
 """
 
 
+def _build_failure_context_block(ctx: "RecoveryState | None") -> str:
+    """Build a prompt section from prior failure context, if available."""
+    if not ctx or not ctx.failure_summary:
+        return ""
+    lines = [
+        "",
+        "---------------------------------------------",
+        f"PRIOR FAILURE CONTEXT (attempt {ctx.attempt_number})",
+        "---------------------------------------------",
+        f"Failed stage: {ctx.failed_stage}",
+        f"Status: {ctx.failure_status}",
+        f"Reason: {ctx.failure_summary}",
+    ]
+    if ctx.error_excerpt:
+        lines.append(f"Error excerpt: {ctx.error_excerpt[:400]}")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def build_recovery_prompt(
     project_name: str,
     spec_source: str,
     targets: list[RecoveryTarget],
     generated_dir: Path,
+    failure_context: "RecoveryState | None" = None,
 ) -> str:
     """Build a deterministic recovery prompt from targets and context."""
 
@@ -317,6 +453,9 @@ def build_recovery_prompt(
     for t in targets:
         structure_lines.append(f"  projects/{project_name}/generated/{t.target_dir}/{t.filename}")
 
+    # Failure context block (empty string if no prior failure)
+    failure_context_block = _build_failure_context_block(failure_context)
+
     return _RECOVERY_PROMPT_TEMPLATE.format(
         project_name=project_name,
         spec_source=spec_source,
@@ -324,6 +463,7 @@ def build_recovery_prompt(
         target_list="\n".join(target_lines),
         existing_context=existing_context,
         file_structure="\n".join(structure_lines),
+        failure_context_block=failure_context_block,
     )
 
 
@@ -353,39 +493,69 @@ def build_recovery_command(
 # ---------------------------------------------------------------------------
 
 class RecoveryRunner:
-    """Reads completion reports and runs focused recovery for missing artifacts."""
+    """Reads completion reports and runs focused recovery for missing artifacts.
+
+    Accepts optional failure_context (RecoveryState) from the operations layer
+    to enable stateful recovery: attempt counting, fingerprint comparison,
+    and repeated-failure detection.
+    """
 
     def __init__(
         self,
         project_name: str = "askfin_premium",
         env_profile: str = "standard",
         dry_run: bool = True,
+        failure_context: RecoveryState | None = None,
     ):
         self.project_name = project_name
         self.env_profile = env_profile
         self.dry_run = dry_run
         self.generated_dir = _PROJECT_ROOT / "projects" / project_name / "generated"
+        self.failure_context = failure_context
+
+        # Determine attempt number from state
+        attempt = 1
+        if failure_context and failure_context.attempt_number > 0:
+            attempt = failure_context.attempt_number
+
         self.summary = RecoverySummary(
             project_name=project_name,
             mode="dry-run" if dry_run else "execute",
             timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            attempt_number=attempt,
         )
 
     def run(self) -> RecoverySummary:
-        """Execute the recovery pipeline.
+        """Execute the recovery pipeline with stateful failure awareness.
 
         Steps:
         1. Load completion report
-        2. Build recovery targets
-        3. Build focused recovery prompt
-        4. Save prompt file
-        5. Execute or show command (depending on mode)
-        6. Save summary
+        2. Check attempt limit (MAX_RECOVERY_ATTEMPTS)
+        3. Build recovery targets + fingerprint
+        4. Detect repeated identical failure
+        5. Build focused recovery prompt (with failure context)
+        6. Save prompt file
+        7. Execute or show command (depending on mode)
+        8. Update and save recovery state + summary
         """
+        attempt = self.summary.attempt_number
         print(f"\n[RecoveryRunner] Starting recovery for project: {self.project_name}")
+        print(f"[RecoveryRunner] Attempt: {attempt} / {MAX_RECOVERY_ATTEMPTS}")
         print(f"[RecoveryRunner] Mode: {'dry-run' if self.dry_run else 'execute'}")
 
-        # Step 1: Load completion report
+        # Step 1: Check attempt limit
+        if attempt > MAX_RECOVERY_ATTEMPTS:
+            msg = (f"Recovery attempt {attempt} exceeds MAX_RECOVERY_ATTEMPTS "
+                   f"({MAX_RECOVERY_ATTEMPTS}). Stopping.")
+            print(f"[RecoveryRunner] {msg}")
+            self.summary.errors.append(msg)
+            self.summary.outcome = "terminal_stop"
+            self.summary.print_summary()
+            self._save_summary()
+            clear_recovery_state()
+            return self.summary
+
+        # Step 2: Load completion report
         report = load_completion_report(self.project_name)
         if report is None:
             msg = (f"No completion report found at "
@@ -393,6 +563,7 @@ class RecoveryRunner:
                    f"Run the Completion Verifier first.")
             print(f"[RecoveryRunner] {msg}")
             self.summary.errors.append(msg)
+            self.summary.outcome = "skipped"
             self.summary.print_summary()
             return self.summary
 
@@ -402,41 +573,74 @@ class RecoveryRunner:
         # Check if recovery is needed
         if self.summary.health_before == "complete":
             print("[RecoveryRunner] Project is complete. No recovery needed.")
+            self.summary.outcome = "skipped"
             self.summary.print_summary()
             self._save_summary()
+            clear_recovery_state()
             return self.summary
 
-        # Step 2: Build recovery targets
+        # Step 3: Build recovery targets
         targets = build_recovery_targets(report)
         self.summary.targets = targets
 
         if not targets:
             print("[RecoveryRunner] No missing or incomplete files found. No recovery needed.")
+            self.summary.outcome = "skipped"
             self.summary.print_summary()
             self._save_summary()
+            clear_recovery_state()
+            return self.summary
+
+        # Step 4: Fingerprint + repeated failure detection
+        fingerprint = _build_failure_fingerprint(targets)
+        self.summary.failure_fingerprint = fingerprint
+        print(f"[RecoveryRunner] Failure fingerprint: {fingerprint}")
+
+        prior_fps = []
+        if self.failure_context:
+            prior_fps = list(self.failure_context.prior_fingerprints)
+            if self.failure_context.failure_fingerprint:
+                prior_fps.append(self.failure_context.failure_fingerprint)
+
+        if fingerprint in prior_fps:
+            self.summary.repeated_failure = True
+            msg = (f"REPEATED FAILURE detected: fingerprint {fingerprint} matches "
+                   f"a prior attempt. Same files are failing again.")
+            print(f"[RecoveryRunner] {msg}")
+            self.summary.errors.append(msg)
+            self.summary.outcome = "repeated_failure"
+            self.summary.print_summary()
+            self._save_summary()
+            # Save state so run_memory can record the repeated failure
+            self._save_state(fingerprint, prior_fps)
             return self.summary
 
         print(f"[RecoveryRunner] Recovery targets: {len(targets)}")
         for t in targets:
             print(f"  [{t.reason.upper()}] {t.target_dir}/{t.filename}")
 
-        # Step 3: Build recovery prompt
+        # Log failure context if available
+        if self.failure_context and self.failure_context.failure_summary:
+            print(f"[RecoveryRunner] Prior failure: {self.failure_context.failure_summary}")
+
+        # Step 5: Build recovery prompt (enriched with failure context)
         spec_source = report.get("spec_source", "unknown")
         prompt = build_recovery_prompt(
             project_name=self.project_name,
             spec_source=spec_source,
             targets=targets,
             generated_dir=self.generated_dir,
+            failure_context=self.failure_context,
         )
 
-        # Step 4: Save prompt file
+        # Step 6: Save prompt file
         RECOVERY_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
         prompt_path = RECOVERY_REPORTS_DIR / f"{self.project_name}_recovery_prompt.txt"
         prompt_path.write_text(prompt, encoding="utf-8")
         self.summary.prompt_file = str(prompt_path)
         print(f"[RecoveryRunner] Prompt saved to: {prompt_path}")
 
-        # Step 5: Build command
+        # Step 7: Build command
         command = build_recovery_command(
             project_name=self.project_name,
             prompt_file=prompt_path,
@@ -447,9 +651,8 @@ class RecoveryRunner:
         if self.dry_run:
             print()
             print("-" * 55)
-            print("  DRY RUN — Recovery prompt preview")
+            print("  DRY RUN -- Recovery prompt preview")
             print("-" * 55)
-            # Show first 40 lines of prompt
             prompt_lines = prompt.splitlines()
             for line in prompt_lines[:40]:
                 print(f"  {line}")
@@ -464,11 +667,14 @@ class RecoveryRunner:
             print(f"  python -m factory.operations.recovery_runner "
                   f"--project {self.project_name}")
             print("-" * 55)
+            self.summary.outcome = "recovered"
         else:
-            # Step 5b: Execute
+            # Step 7b: Execute
             self._execute(command)
+            self.summary.outcome = "recovered" if self.summary.exit_code == 0 else "terminal_stop"
 
-        # Step 6: Save summary
+        # Step 8: Save state + summary
+        self._save_state(fingerprint, prior_fps)
         self.summary.print_summary()
         self._save_summary()
 
@@ -508,6 +714,23 @@ class RecoveryRunner:
             msg = f"Recovery execution failed: {e}"
             print(f"\n[RecoveryRunner] {msg}")
             self.summary.errors.append(msg)
+
+    def _save_state(self, fingerprint: str, prior_fingerprints: list[str]):
+        """Persist recovery state for potential next attempt."""
+        state = RecoveryState(
+            project_name=self.project_name,
+            attempt_number=self.summary.attempt_number,
+            failed_stage=self.failure_context.failed_stage if self.failure_context else "completion_verifier",
+            failure_status=self.summary.health_before,
+            failure_summary=(self.failure_context.failure_summary if self.failure_context
+                             else f"{len(self.summary.targets)} targets ({self.summary.health_before})"),
+            error_excerpt=self.failure_context.error_excerpt if self.failure_context else "",
+            failure_fingerprint=fingerprint,
+            prior_fingerprints=prior_fingerprints,
+            repeated_failure=self.summary.repeated_failure,
+            timestamp=self.summary.timestamp,
+        )
+        save_recovery_state(state)
 
     def _save_summary(self):
         """Save recovery summary as JSON."""

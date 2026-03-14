@@ -55,10 +55,11 @@ DriveAI-AutoGen/
 │       ├── hygiene/                 ← Compile Hygiene Reports (JSON)
 │       └── compile/                 ← Swift Compile Reports (JSON)
 ├── factory_knowledge/               ← Factory Knowledge System
-│   ├── knowledge.json               ← 17 Eintraege (FK-001 bis FK-017)
+│   ├── knowledge.json               ← 18 Eintraege (FK-001 bis FK-018)
 │   ├── index.json                   ← Uebersichts-Index
 │   ├── knowledge_reader.py          ← Deterministische Entry-Selektion
-│   └── proposal_generator.py        ← Run-basierte Knowledge-Kandidaten
+│   ├── proposal_generator.py        ← Run-basierte Knowledge-Kandidaten
+│   └── knowledge_writeback.py       ← Feedback Loop (Auto-Promotion + Pattern Extraction)
 ├── factory_strategy/                ← Commercial Strategy Generator
 ├── control_center/                  ← Streamlit Dashboard (19 Pages)
 ├── briefings/                       ← Daily Briefing Agent
@@ -117,10 +118,14 @@ Output Integrator → Completion Verifier → Compile Hygiene Validator → Swif
 - **Swift Compile Check**: swiftc -parse Validierung — nur Mac/Linux (SKIPPED auf Windows)
 
 ## Factory Knowledge System
-- **17 Eintraege** (FK-001 bis FK-017)
+- **18 Eintraege** (FK-001 bis FK-018)
 - FK-001 bis FK-010: Product/UX Knowledge (Premium Strategy, Psychology)
 - FK-011 bis FK-017: Error Patterns (aus Xcode Build Failures)
+- FK-018: Auto-promoted Proposal (File Duplication, 6 Beobachtungen)
 - Deterministische Selektion fuer Creative Director Review
+- **Writeback Loop**: Proposals mit 2+ Beobachtungen → auto-promoted zu `validated`
+- **Run Pattern Extraction**: Recurring failures + Recovery outcomes → Knowledge
+- **Role-Based Injection**: Bug Hunter, Refactor, Fix Executor empfangen validated+ Knowledge
 
 ## Konventionen
 - Sprache mit User: Deutsch
@@ -128,6 +133,24 @@ Output Integrator → Completion Verifier → Compile Hygiene Validator → Swif
 - Keine unnötigen Nachfragen – einfach machen
 - Alle Änderungen in CLAUDE.md + MEMORY.md dokumentieren
 - `_logs/` für Mac ↔ Windows Austausch via Git
+
+## DeveloperReports (Grundregel)
+> **PFLICHT bei jedem Agent-Wechsel**: Jeder strukturierte Report wird als `.md` in `DeveloperReports/` gespeichert.
+
+**Nummerierung**:
+- Neues Thema: `N-0_Titel.md` (nächste freie Nummer)
+- Folge-Report zum gleichen Thema: `N-1_Titel.md`, `N-2_Titel.md`, ...
+
+**Beispiele**:
+```
+1-0_Factory Core Audit Report.md
+1-1_Factory Core Audit Report.md   ← zweiter Report zum gleichen Thema
+2-0_Three Hotfixes Report.md       ← neues Thema
+3-0_Context Handoff Report.md
+4-0_Review Handoff Report.md
+```
+
+**Regel**: Vor dem Erstellen prüfen welche Nummer als nächstes dran ist. Reports sind dauerhaft und dienen als Projekthistorie.
 
 ## Erledigtes
 - [2026-03-14] Swift Compile Check: swiftc-basierte Syntax-Validierung + Pipeline-Integration

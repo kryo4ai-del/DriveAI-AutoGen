@@ -21,6 +21,45 @@ _CD_RELEVANT_TYPES = frozenset({
 # Maximum entries injected into a single pass prompt.
 MAX_ENTRIES_PER_INJECTION = 5
 
+# ---------------------------------------------------------------------------
+# Role-based knowledge profiles
+# ---------------------------------------------------------------------------
+# Each role gets a different subset of knowledge types and a tailored CTA.
+# Entries per role are capped independently for token discipline.
+
+_ROLE_PROFILES: dict[str, dict] = {
+    "creative_director": {
+        "types": _CD_RELEVANT_TYPES,
+        "exclude_product_types": {"ai_pipeline"},
+        "max_entries": 5,
+        "cta": "Apply these learnings when reviewing the implementation.",
+    },
+    "bug_hunter": {
+        "types": frozenset({"error_pattern", "failure_case", "technical_pattern"}),
+        "exclude_product_types": set(),
+        "max_entries": 4,
+        "cta": "Watch for these known patterns when hunting bugs.",
+    },
+    "refactor_agent": {
+        "types": frozenset({"error_pattern", "technical_pattern", "failure_case", "success_pattern"}),
+        "exclude_product_types": set(),
+        "max_entries": 4,
+        "cta": "Consider these known patterns when refactoring.",
+    },
+    "fix_executor": {
+        "types": frozenset({"error_pattern", "failure_case", "technical_pattern", "success_pattern"}),
+        "exclude_product_types": set(),
+        "max_entries": 5,
+        "cta": "Apply these known patterns when fixing the code.",
+    },
+    "reviewer": {
+        "types": frozenset({"error_pattern", "failure_case", "technical_pattern"}),
+        "exclude_product_types": set(),
+        "max_entries": 3,
+        "cta": "Check for these known patterns during review.",
+    },
+}
+
 # Confidence ranking for sort priority (higher = more trusted).
 _CONFIDENCE_RANK = {
     "proven": 3,
@@ -106,6 +145,91 @@ def get_cd_knowledge_block(template: str | None = None) -> str:
     """
     entries = select_for_creative_director(template)
     return format_for_prompt(entries)
+
+
+# ---------------------------------------------------------------------------
+# Generic role-based selection (used by all technical passes)
+# ---------------------------------------------------------------------------
+
+def select_for_role(role: str) -> list[dict]:
+    """Select knowledge entries relevant for a given agent role.
+
+    Uses _ROLE_PROFILES to determine which entry types and how many
+    entries are appropriate for each role. Falls back to empty list
+    for unknown roles (safe default — no injection).
+
+    Selection logic (deterministic, no LLM):
+    1. Filter by role-relevant types
+    2. Exclude product types not relevant to role
+    3. Exclude disproven entries
+    4. Require minimum confidence: validated or higher for technical passes
+    5. Sort by confidence (proven > validated > hypothesis)
+    6. Cap at role-specific max_entries
+    """
+    profile = _ROLE_PROFILES.get(role)
+    if not profile:
+        return []
+
+    entries = load_entries()
+
+    relevant = [
+        e for e in entries
+        if e.get("type") in profile["types"]
+        and e.get("product_type", "") not in profile["exclude_product_types"]
+    ]
+
+    # Exclude disproven
+    relevant = [e for e in relevant if e.get("confidence") != "disproven"]
+
+    # For technical passes: only inject validated+ knowledge (no hypotheses)
+    # CD keeps hypotheses because it's an advisory pass that benefits from exploration
+    if role != "creative_director":
+        relevant = [
+            e for e in relevant
+            if _CONFIDENCE_RANK.get(e.get("confidence", ""), 0) >= 2  # validated+
+        ]
+
+    # Sort: higher confidence first, then by ID for stability
+    relevant.sort(
+        key=lambda e: (-_CONFIDENCE_RANK.get(e.get("confidence", ""), 0), e.get("id", ""))
+    )
+
+    return relevant[:profile["max_entries"]]
+
+
+def format_for_role(role: str, entries: list[dict]) -> str:
+    """Format selected entries with a role-appropriate header and CTA.
+
+    Returns empty string if no entries.
+    """
+    if not entries:
+        return ""
+
+    profile = _ROLE_PROFILES.get(role, {})
+    cta = profile.get("cta", "Apply these learnings.")
+
+    lines = ["[Factory Knowledge -- Known Patterns]"]
+
+    for entry in entries:
+        entry_id = entry.get("id", "?")
+        title = entry.get("title", "")
+        confidence = entry.get("confidence", "?")
+        detail = entry.get("lesson") or entry.get("effect") or entry.get("description", "")
+        if len(detail) > 150:
+            detail = detail[:147] + "..."
+        lines.append(f"- [{entry_id}] ({confidence}) {title}. {detail}")
+
+    lines.append(cta)
+    return "\n".join(lines)
+
+
+def get_knowledge_block(role: str) -> str:
+    """One-call convenience: select + format for any role.
+
+    Returns empty string if no relevant knowledge exists or role is unknown.
+    """
+    entries = select_for_role(role)
+    return format_for_role(role, entries)
 
 
 # ── CD Rating Parser (shared by gate logic and proposal generator) ────────

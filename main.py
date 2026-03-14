@@ -25,7 +25,7 @@ from config.session_preset_manager import SessionPresetManager
 from workflows.workflow_recipe_manager import WorkflowRecipeManager
 from workflows.phase_gate_manager import PhaseGateManager
 from utils.git_auto_commit import GitAutoCommit
-from factory_knowledge.knowledge_reader import get_cd_knowledge_block, extract_cd_rating
+from factory_knowledge.knowledge_reader import get_cd_knowledge_block, get_knowledge_block, extract_cd_rating
 from factory_knowledge.proposal_generator import generate_proposals, save_proposals
 from autogen_agentchat.conditions import MaxMessageTermination
 
@@ -519,6 +519,11 @@ async def _run_pipeline(
             )
             if impl_summary:
                 bug_review_task = f"{impl_summary}\n\n{bug_review_task}"
+            # Inject factory knowledge (error patterns, failure cases)
+            _bug_knowledge = get_knowledge_block("bug_hunter")
+            if _bug_knowledge:
+                bug_review_task = f"{_bug_knowledge}\n\n{bug_review_task}"
+                print(f"  Factory knowledge: {len(_bug_knowledge)} chars injected")
             bug_result = await _run_with_retry(team, task=bug_review_task)
             bug_result_msgs = list(bug_result.messages)
             gate_ctx["bug_review_messages"] = len(bug_result_msgs)
@@ -653,6 +658,11 @@ async def _run_pipeline(
             if _prior_ctx:
                 refactor_task = f"{_prior_ctx}\n\n{refactor_task}"
                 print(f"  Prior review context: {len(_prior_ctx)} chars injected")
+            # Inject factory knowledge (error patterns, technical patterns)
+            _refactor_knowledge = get_knowledge_block("refactor_agent")
+            if _refactor_knowledge:
+                refactor_task = f"{_refactor_knowledge}\n\n{refactor_task}"
+                print(f"  Factory knowledge: {len(_refactor_knowledge)} chars injected")
             refactor_result = await _run_with_retry(team, task=refactor_task)
             refactor_result_msgs = list(refactor_result.messages)
             gate_ctx["refactor_messages"] = len(refactor_result_msgs)
@@ -696,12 +706,16 @@ async def _run_pipeline(
             print()
             print("--- Fix execution pass ---")
             fix_executor = FixExecutor()
+            _fix_knowledge = get_knowledge_block("fix_executor")
+            if _fix_knowledge:
+                print(f"  Factory knowledge: {len(_fix_knowledge)} chars injected")
             fix_task = fix_executor.build_fix_task(
                 user_task=user_task,
                 bug_messages=bug_result_msgs,
                 refactor_messages=refactor_result_msgs,
                 review_context=_build_review_context(review_digests),
                 impl_summary=impl_summary,
+                knowledge_block=_fix_knowledge,
             )
             fix_result = await _run_with_retry(team, task=fix_task)
             fix_result_msgs = list(fix_result.messages)
@@ -946,13 +960,17 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     """Run the Operations Layer: Output Integrator -> Completion Verifier -> Recovery Runner.
 
     Returns a dict with the final health status and whether recovery was attempted.
-    Maximum 1 recovery attempt — no recursive loops.
+    Recovery is stateful: each attempt receives prior failure context, fingerprint
+    comparison detects repeated identical failures, and MAX_RECOVERY_ATTEMPTS is enforced.
     """
     from factory.operations.output_integrator import OutputIntegrator
     from factory.operations.completion_verifier import CompletionVerifier
     from factory.operations.compile_hygiene_validator import CompileHygieneValidator
     from factory.operations.swift_compile_check import SwiftCompileCheck
-    from factory.operations.recovery_runner import RecoveryRunner
+    from factory.operations.recovery_runner import (
+        RecoveryRunner, RecoveryState, MAX_RECOVERY_ATTEMPTS,
+        load_recovery_state, clear_recovery_state,
+    )
     from factory.operations.run_memory import record_run, print_summary as print_memory_summary
 
     print()
@@ -983,34 +1001,96 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
 
     initial_health = report.health.value
     final_health = initial_health
-    recovery_attempted = False
+    recovery_attempts = 0
+    recovery_outcome = "none"
 
-    # --- Recovery decision ---
+    # --- Recovery loop (stateful, max MAX_RECOVERY_ATTEMPTS) ---
     if initial_health in ("complete", "mostly_complete"):
-        print(f"\n[OpsLayer] Health: {initial_health.upper()} — no recovery needed.")
+        print(f"\n[OpsLayer] Health: {initial_health.upper()} -- no recovery needed.")
+        clear_recovery_state()
     elif initial_health == "incomplete":
-        print(f"\n[OpsLayer] Health: INCOMPLETE — triggering recovery (1 attempt max).")
-        recovery_attempted = True
+        # Load any prior recovery state (from a previous ops-layer run)
+        prior_state = load_recovery_state(project_name)
 
-        runner = RecoveryRunner(
-            project_name=project_name,
-            env_profile=env_profile,
-            dry_run=False,
-        )
-        runner.run()
+        for attempt in range(1, MAX_RECOVERY_ATTEMPTS + 1):
+            recovery_attempts = attempt
+            print(f"\n[OpsLayer] Health: INCOMPLETE -- recovery attempt {attempt}/{MAX_RECOVERY_ATTEMPTS}")
 
-        # --- Pass 2: Re-integrate + Re-verify ---
-        print("\n[OpsLayer] Pass 2: Re-integrating after recovery")
-        integrator2 = OutputIntegrator(project_name=project_name)
-        integrator2.run()
+            # Build failure context for this attempt
+            missing_list = report.to_dict().get("missing_files", [])
+            incomplete_list = report.to_dict().get("incomplete_files", [])
+            failure_summary = (
+                f"{len(missing_list)} missing, {len(incomplete_list)} incomplete "
+                f"(health: {initial_health})"
+            )
+            error_excerpt = ""
+            if missing_list:
+                error_excerpt = "Missing: " + ", ".join(missing_list[:10])
+            if incomplete_list:
+                excerpt_add = "Incomplete: " + ", ".join(incomplete_list[:5])
+                error_excerpt = f"{error_excerpt}; {excerpt_add}" if error_excerpt else excerpt_add
 
-        print("\n[OpsLayer] Pass 2: Re-verifying after recovery")
-        verifier2 = CompletionVerifier(project_name=project_name)
-        report2 = verifier2.verify()
-        final_health = report2.health.value
+            failure_ctx = RecoveryState(
+                project_name=project_name,
+                attempt_number=attempt,
+                failed_stage="completion_verifier",
+                failure_status=initial_health,
+                failure_summary=failure_summary,
+                error_excerpt=error_excerpt[:400],
+                failure_fingerprint=prior_state.failure_fingerprint if prior_state else "",
+                prior_fingerprints=prior_state.prior_fingerprints if prior_state else [],
+                timestamp=report.to_dict().get("timestamp", ""),
+            )
+
+            runner = RecoveryRunner(
+                project_name=project_name,
+                env_profile=env_profile,
+                dry_run=False,
+                failure_context=failure_ctx,
+            )
+            recovery_summary = runner.run()
+            recovery_outcome = recovery_summary.outcome
+
+            # If repeated failure or terminal stop, don't retry
+            if recovery_outcome in ("repeated_failure", "terminal_stop", "skipped"):
+                print(f"\n[OpsLayer] Recovery stopped: {recovery_outcome}")
+                break
+
+            # Re-integrate + re-verify after recovery
+            print(f"\n[OpsLayer] Pass {attempt + 1}: Re-integrating after recovery")
+            integrator_r = OutputIntegrator(project_name=project_name)
+            integrator_r.run()
+
+            print(f"\n[OpsLayer] Pass {attempt + 1}: Re-verifying after recovery")
+            verifier_r = CompletionVerifier(project_name=project_name)
+            report = verifier_r.verify()
+            final_health = report.health.value
+
+            if final_health in ("complete", "mostly_complete"):
+                print(f"\n[OpsLayer] Recovery successful: {final_health.upper()}")
+                clear_recovery_state()
+                break
+
+            # Prepare prior_state for next iteration
+            prior_state = RecoveryState(
+                project_name=project_name,
+                attempt_number=attempt,
+                failed_stage="completion_verifier",
+                failure_status=final_health,
+                failure_summary=failure_summary,
+                failure_fingerprint=recovery_summary.failure_fingerprint,
+                prior_fingerprints=(
+                    failure_ctx.prior_fingerprints +
+                    ([failure_ctx.failure_fingerprint] if failure_ctx.failure_fingerprint else [])
+                ),
+            )
+        else:
+            # Exhausted all attempts
+            print(f"\n[OpsLayer] Recovery exhausted ({MAX_RECOVERY_ATTEMPTS} attempts). "
+                  f"Final health: {final_health.upper()}")
     else:
         # FAILED
-        print(f"\n[OpsLayer] Health: FAILED — too little output for recovery.")
+        print(f"\n[OpsLayer] Health: FAILED -- too little output for recovery.")
 
     # --- Summary ---
     print()
@@ -1019,7 +1099,8 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     print("=" * 60)
     print(f"  Project:            {project_name}")
     print(f"  Initial status:     {initial_health.upper()}")
-    print(f"  Recovery attempted: {'yes' if recovery_attempted else 'no'}")
+    print(f"  Recovery attempts:  {recovery_attempts}")
+    print(f"  Recovery outcome:   {recovery_outcome}")
     print(f"  Final status:       {final_health.upper()}")
     print(f"  Compile hygiene:    {hygiene_status}")
     print(f"  Swift compile:      {swift_compile_status}")
@@ -1027,20 +1108,34 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     print()
 
     # --- Run Memory: record outcome ---
-    final_report = report if not recovery_attempted else report2
     try:
-        run_record = record_run(project_name, final_report.to_dict())
+        run_record = record_run(
+            project_name, report.to_dict(),
+            recovery_attempts=recovery_attempts,
+            recovery_outcome=recovery_outcome,
+        )
         print_memory_summary(project_name)
     except Exception as mem_err:
         print(f"\n[RunMemory] Error: {mem_err}")
 
+    # --- Knowledge Writeback: close the learning loop ---
+    writeback_result = {}
+    try:
+        from factory_knowledge.knowledge_writeback import run_writeback
+        writeback_result = run_writeback(dry_run=False)
+    except Exception as wb_err:
+        print(f"\n[KnowledgeWriteback] Error: {wb_err}")
+        logger.warning(f"Knowledge writeback failed: {wb_err}")
+
     return {
         "project": project_name,
         "initial_health": initial_health,
-        "recovery_attempted": recovery_attempted,
+        "recovery_attempts": recovery_attempts,
+        "recovery_outcome": recovery_outcome,
         "final_health": final_health,
         "compile_hygiene": hygiene_status,
         "swift_compile": swift_compile_status,
+        "knowledge_writeback": writeback_result,
     }
 
 

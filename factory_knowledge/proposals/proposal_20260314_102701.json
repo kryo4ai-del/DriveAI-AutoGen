@@ -1,0 +1,38 @@
+{
+  "run_id": "20260314_102701",
+  "generated": "2026-03-14T10:39:14",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "Bug pattern: Multiple ExamReadinessViewModel Definitions (FK-012 Pattern)",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: Multiple ExamReadinessViewModel Definitions (FK-012 Pattern). Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260314_102701",
+      "source_run": "20260314_102701",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: Missing MainActor Enforcement in ViewModel Publish",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Missing MainActor Enforcement in ViewModel Published Properties",
+      "evidence": "Bug Hunter finding in run 20260314_102701",
+      "source_run": "20260314_102701",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

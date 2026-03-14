@@ -25,12 +25,19 @@ RECOVERY_REPORTS_DIR = _PROJECT_ROOT / "factory" / "reports" / "recovery"
 # Core functions
 # ---------------------------------------------------------------------------
 
-def record_run(project_name: str, completion_report: dict) -> dict:
+def record_run(
+    project_name: str,
+    completion_report: dict,
+    recovery_attempts: int = 0,
+    recovery_outcome: str = "none",
+) -> dict:
     """Build a run record from a completion report dict and store it.
 
     Args:
         project_name: e.g. "askfin_premium"
         completion_report: the dict returned by VerificationReport.to_dict()
+        recovery_attempts: number of recovery attempts made (0 = no recovery)
+        recovery_outcome: "none", "recovered", "repeated_failure", "terminal_stop", "skipped"
 
     Returns:
         The run record that was stored.
@@ -47,24 +54,16 @@ def record_run(project_name: str, completion_report: dict) -> dict:
     actual = summary.get("actual", 0)
     completeness = completion_report.get("completeness_pct", 0.0)
 
-    # Check if recovery was triggered (look for recovery summary file)
-    recovery_triggered = False
+    # Read recovery state for fingerprint (if available)
+    recovery_fingerprint = ""
+    repeated_failure = False
     recovery_summary_path = RECOVERY_REPORTS_DIR / f"{project_name}_recovery_summary.json"
     if recovery_summary_path.exists():
         try:
             with open(recovery_summary_path, "r", encoding="utf-8") as f:
                 recovery_data = json.load(f)
-            # Only count as triggered if the summary was written in this run
-            # (within last 10 minutes)
-            recovery_ts = recovery_data.get("timestamp", "")
-            if recovery_ts:
-                try:
-                    rec_dt = datetime.fromisoformat(recovery_ts)
-                    age_seconds = (datetime.now() - rec_dt).total_seconds()
-                    if age_seconds < 600:  # 10 minutes
-                        recovery_triggered = True
-                except (ValueError, TypeError):
-                    pass
+            recovery_fingerprint = recovery_data.get("failure_fingerprint", "")
+            repeated_failure = recovery_data.get("repeated_failure", False)
         except (json.JSONDecodeError, OSError):
             pass
 
@@ -77,7 +76,10 @@ def record_run(project_name: str, completion_report: dict) -> dict:
         "actual_files": actual,
         "missing_files": missing,
         "truncated_files": incomplete,
-        "recovery_triggered": recovery_triggered,
+        "recovery_attempts": recovery_attempts,
+        "recovery_outcome": recovery_outcome,
+        "recovery_fingerprint": recovery_fingerprint,
+        "repeated_failure": repeated_failure,
     }
 
     store_run_history(project_name, run_record)
@@ -158,8 +160,16 @@ def summarize_run_history(project_name: str) -> str:
         for f in run.get("truncated_files", []):
             truncated_counts[f] = truncated_counts.get(f, 0) + 1
 
-    # Count recovery runs
-    recovery_count = sum(1 for r in runs if r.get("recovery_triggered"))
+    # Count recovery runs (support both old and new format)
+    recovery_count = sum(
+        1 for r in runs
+        if r.get("recovery_attempts", 0) > 0 or r.get("recovery_triggered", False)
+    )
+    repeated_failure_count = sum(1 for r in runs if r.get("repeated_failure", False))
+
+    # Latest run details
+    latest = runs[-1]
+    latest_outcome = latest.get("recovery_outcome", "none")
 
     # Build summary
     lines = [
@@ -169,9 +179,13 @@ def summarize_run_history(project_name: str) -> str:
         "=" * 55,
         f"  Project:           {project_name}",
         f"  Runs recorded:     {len(runs)}",
-        f"  Latest status:     {runs[-1].get('status', 'unknown').upper()}",
-        f"  Latest complete:   {runs[-1].get('completeness_pct', 0):.0f}%",
+        f"  Latest status:     {latest.get('status', 'unknown').upper()}",
+        f"  Latest complete:   {latest.get('completeness_pct', 0):.0f}%",
     ]
+
+    if latest_outcome != "none":
+        lines.append(f"  Latest recovery:   {latest_outcome} "
+                     f"({latest.get('recovery_attempts', 0)} attempts)")
 
     # Recurring missing files (appeared in 2+ runs)
     recurring_missing = {f: c for f, c in missing_counts.items() if c >= 2}
@@ -191,7 +205,9 @@ def summarize_run_history(project_name: str) -> str:
 
     # Recovery stats
     lines.append("")
-    lines.append(f"  Recovery triggered: {recovery_count} of {len(runs)} runs")
+    lines.append(f"  Recovery runs:      {recovery_count} of {len(runs)} runs")
+    if repeated_failure_count:
+        lines.append(f"  Repeated failures:  {repeated_failure_count}")
     lines.append("=" * 55)
 
     return "\n".join(lines)

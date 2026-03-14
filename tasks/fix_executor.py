@@ -19,20 +19,27 @@ class FixExecutor:
         refactor_messages: list,
         review_context: str = "",
         impl_summary: str = "",
+        knowledge_block: str = "",
     ) -> str:
         """
         Builds a concise implementation-oriented fix task combining:
+        - Factory knowledge (known patterns from prior runs)
         - Implementation summary (API skeleton)
         - Accumulated review findings (Bug Hunter, CD, UX Psych, Refactor)
         - Direct bug/refactor excerpts from agent messages
 
         review_context: pre-built structured review context from _build_review_context()
         impl_summary: API skeleton from CodeExtractor.build_implementation_summary()
+        knowledge_block: factory knowledge for fix_executor role
         """
         bug_excerpt = _first_agent_text(bug_messages, "bug_hunter")
         refactor_excerpt = _first_agent_text(refactor_messages, "refactor_agent")
 
         parts = []
+
+        # Factory knowledge first — cross-run learnings ground the fix
+        if knowledge_block:
+            parts.append(knowledge_block)
 
         # Lead with implementation context so the fix agent knows what it's fixing
         if impl_summary:

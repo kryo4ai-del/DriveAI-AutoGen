@@ -1,27 +1,29 @@
 {
   "last_updated": "2026-03-14",
-  "total_entries": 17,
+  "total_entries": 18,
   "by_type": {
+    "failure_case": 2,
     "ux_insight": 4,
-    "design_insight": 0,
-    "technical_pattern": 2,
     "motivational_mechanic": 2,
-    "failure_case": 1,
+    "technical_pattern": 2,
     "success_pattern": 1,
     "error_pattern": 7
   },
   "by_confidence": {
     "hypothesis": 7,
-    "validated": 10,
+    "validated": 11,
     "proven": 0,
     "disproven": 0
   },
   "by_category": {
-    "generation_safety": 3,
-    "compile_hygiene": 4,
-    "type_consistency": 3,
+    "generation_safety": 1,
+    "type_consistency": 2,
+    "compile_hygiene": 2,
     "xcode_integration": 1,
     "architecture_pattern": 1
   },
-  "projects": ["askfin", "askfin_v1-1"]
+  "projects": [
+    "askfin",
+    "askfin_v1-1"
+  ]
 }

@@ -11,7 +11,7 @@
 - **LLM Provider**: Anthropic Claude (100% — kein OpenAI)
 - **Modelle**: claude-sonnet-4-6 (Tier 1+2), claude-haiku-4-5 (Tier 3), claude-opus-4-6 (Premium)
 - **API Key**: `ANTHROPIC_API_KEY` in `.env`
-- 19 aktive Agents, 4 deaktiviert (Android/Kotlin/Web)
+- 21 aktive Agents, 4 deaktiviert (Android/Kotlin/Web)
 
 ## 3-Tier Modell-System
 | Tier | Modell | Tasks |
@@ -274,4 +274,12 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - [ ] Step 5: Factory Learning Writeback Agent
 - [ ] AskFin Premium: Training Mode Spec → Factory Run
 - [ ] AskFin Premium: Skill Map Spec → Factory Run
-- [ ] Factory-Verbesserungen: Code-Extraction >10 Files, Agent-Echo-Reduktion
+- [x] Factory-Verbesserungen: MAX_FILES 10→50, Dead Integration Path, Silent Exceptions
+- [x] Context Handoff: API Skeleton Extraction (impl_summary mit Typ-Signaturen)
+- [x] Review Handoff: Digest Accumulation über alle Review-Passes
+- [x] DeveloperReports System eingeführt (5 Reports: 1-0 bis 5-0)
+- [x] Stateful Recovery: RecoveryState, Fingerprinting, Repeated Failure Detection, MAX_RECOVERY_ATTEMPTS enforced
+- [x] Step 5: Knowledge Writeback Loop (Proposal Auto-Promotion + Run Pattern Extraction)
+- [x] Role-Based Knowledge Injection: Bug Hunter, Refactor, Fix Executor empfangen jetzt Factory Knowledge
+- [ ] AskFin Premium: Training Mode Spec → Factory Run
+- [ ] AskFin Premium: Skill Map Spec → Factory Run
