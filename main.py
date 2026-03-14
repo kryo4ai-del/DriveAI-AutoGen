@@ -237,6 +237,67 @@ def _parse_args() -> dict:
     return result
 
 
+def _extract_review_digest(messages: list, pass_name: str, max_chars: int = 600) -> str:
+    """Extract a compact structured digest from a review pass's messages.
+
+    Scans all non-user messages for the target agent's output and returns
+    a trimmed excerpt. Falls back to any non-user message if the target
+    agent name is not found (e.g. when SelectorGroupChat routes differently).
+    """
+    # Map pass names to expected agent source names
+    _AGENT_MAP = {
+        "bug_review": "bug_hunter",
+        "creative_review": "creative_director",
+        "ux_psychology": "ux_psychology",
+        "refactor": "refactor_agent",
+    }
+    target = _AGENT_MAP.get(pass_name, pass_name)
+
+    # Try target agent first
+    for msg in messages:
+        source = getattr(msg, "source", "")
+        content = getattr(msg, "content", "")
+        if source == target and isinstance(content, str) and content.strip():
+            return content.strip()[:max_chars]
+
+    # Fallback: first non-user, non-empty message
+    for msg in messages:
+        source = getattr(msg, "source", "")
+        content = getattr(msg, "content", "")
+        if source not in ("user", "") and isinstance(content, str) and content.strip():
+            return content.strip()[:max_chars]
+
+    return ""
+
+
+def _build_review_context(review_digests: dict[str, str]) -> str:
+    """Build a compact review context block from accumulated digests.
+
+    Returns a structured text block that downstream passes can consume
+    to understand what prior reviewers found.
+    """
+    if not review_digests:
+        return ""
+
+    sections = []
+    _LABELS = {
+        "bug_review": "Bug Hunter Findings",
+        "creative_review": "Creative Director Assessment",
+        "ux_psychology": "UX Psychology Findings",
+        "refactor": "Refactor Suggestions",
+    }
+
+    for key, digest in review_digests.items():
+        if digest:
+            label = _LABELS.get(key, key)
+            sections.append(f"[{label}]\n{digest}")
+
+    if not sections:
+        return ""
+
+    return "[Prior Review Findings]\n" + "\n\n".join(sections)
+
+
 async def _log_pass(logger, label: str, messages: list) -> None:
     logger.info(f"--- {label} ---")
     for msg in messages:
@@ -424,9 +485,10 @@ async def _run_pipeline(
     test_result_msgs = empty
     fix_result_msgs = empty
 
-    # ── Phase gate setup ─────────────────────────────────────────────
+    # ── Phase gate + review digest setup ────────────────────────────
     gate_mgr = PhaseGateManager()
     skipped_phases: list[str] = []
+    review_digests: dict[str, str] = {}  # accumulated review findings across passes
     gate_ctx = {
         "implementation_messages": len(result.messages),
         "bug_review_messages": 0,
@@ -461,6 +523,10 @@ async def _run_pipeline(
             bug_result_msgs = list(bug_result.messages)
             gate_ctx["bug_review_messages"] = len(bug_result_msgs)
             await _log_pass(logger, "Bug Hunter Pass", bug_result_msgs)
+            _bug_digest = _extract_review_digest(bug_result_msgs, "bug_review")
+            if _bug_digest:
+                review_digests["bug_review"] = _bug_digest
+                print(f"  Review digest: {len(_bug_digest)} chars captured")
 
         # Reset between Bug Hunter and CD to clear accumulated context.
         await team.reset()
@@ -484,6 +550,11 @@ async def _run_pipeline(
             )
             if impl_summary:
                 cd_review_task = f"{impl_summary}\n\n{cd_review_task}"
+            # Inject prior review findings (Bug Hunter) so CD has upstream context
+            _prior_ctx = _build_review_context(review_digests)
+            if _prior_ctx:
+                cd_review_task = f"{_prior_ctx}\n\n{cd_review_task}"
+                print(f"  Prior review context: {len(_prior_ctx)} chars injected")
             # Inject factory knowledge (prior learnings) for grounded review
             _cd_knowledge = get_cd_knowledge_block(template)
             if _cd_knowledge:
@@ -492,6 +563,10 @@ async def _run_pipeline(
             cd_result = await _run_with_retry(team, task=cd_review_task)
             cd_result_msgs = list(cd_result.messages)
             await _log_pass(logger, "Creative Director Pass", cd_result_msgs)
+            _cd_digest = _extract_review_digest(cd_result_msgs, "creative_review")
+            if _cd_digest:
+                review_digests["creative_review"] = _cd_digest
+                print(f"  Review digest: {len(_cd_digest)} chars captured")
 
             # ── CD Soft Gate ──────────────────────────────────────────
             # Parse CD rating and apply soft-gate logic.
@@ -538,9 +613,18 @@ async def _run_pipeline(
             )
             if impl_summary:
                 ux_review_task = f"{impl_summary}\n\n{ux_review_task}"
+            # Inject prior review findings (Bug Hunter + CD)
+            _prior_ctx = _build_review_context(review_digests)
+            if _prior_ctx:
+                ux_review_task = f"{_prior_ctx}\n\n{ux_review_task}"
+                print(f"  Prior review context: {len(_prior_ctx)} chars injected")
             ux_result = await _run_with_retry(team, task=ux_review_task)
             ux_result_msgs = list(ux_result.messages)
             await _log_pass(logger, "UX Psychology Pass", ux_result_msgs)
+            _ux_digest = _extract_review_digest(ux_result_msgs, "ux_psychology")
+            if _ux_digest:
+                review_digests["ux_psychology"] = _ux_digest
+                print(f"  Review digest: {len(_ux_digest)} chars captured")
 
         # Reset before Refactor to clear review message state.
         if not gate_ctx.get("cd_gate_stop"):
@@ -564,10 +648,19 @@ async def _run_pipeline(
             )
             if impl_summary:
                 refactor_task = f"{impl_summary}\n\n{refactor_task}"
+            # Inject prior review findings (Bug Hunter + CD + UX)
+            _prior_ctx = _build_review_context(review_digests)
+            if _prior_ctx:
+                refactor_task = f"{_prior_ctx}\n\n{refactor_task}"
+                print(f"  Prior review context: {len(_prior_ctx)} chars injected")
             refactor_result = await _run_with_retry(team, task=refactor_task)
             refactor_result_msgs = list(refactor_result.messages)
             gate_ctx["refactor_messages"] = len(refactor_result_msgs)
             await _log_pass(logger, "Refactor Pass", refactor_result_msgs)
+            _refactor_digest = _extract_review_digest(refactor_result_msgs, "refactor")
+            if _refactor_digest:
+                review_digests["refactor"] = _refactor_digest
+                print(f"  Review digest: {len(_refactor_digest)} chars captured")
 
         # Test generation
         _gate_ok, _gate_reason = gate_mgr.evaluate_gate("test_generation", gate_ctx)
@@ -607,6 +700,8 @@ async def _run_pipeline(
                 user_task=user_task,
                 bug_messages=bug_result_msgs,
                 refactor_messages=refactor_result_msgs,
+                review_context=_build_review_context(review_digests),
+                impl_summary=impl_summary,
             )
             fix_result = await _run_with_retry(team, task=fix_task)
             fix_result_msgs = list(fix_result.messages)
