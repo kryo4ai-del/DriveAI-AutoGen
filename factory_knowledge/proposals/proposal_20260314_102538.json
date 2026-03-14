@@ -1,0 +1,38 @@
+{
+  "run_id": "20260314_102538",
+  "generated": "2026-03-14T10:54:38",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "Bug pattern: Division by Zero in ExamReadiness.calculate() → Crash Risk",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: Division by Zero in ExamReadiness.calculate() → Crash Risk. Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260314_102538",
+      "source_run": "20260314_102538",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: ProgressViewModel fetchAllProgress() No Cancellati",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: ProgressViewModel fetchAllProgress() No Cancellation on Deinit",
+      "evidence": "Bug Hunter finding in run 20260314_102538",
+      "source_run": "20260314_102538",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

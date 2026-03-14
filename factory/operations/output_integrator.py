@@ -432,6 +432,7 @@ class OutputIntegrator:
         project_name: str = "askfin_premium",
         output_base: str | None = None,
         log_filter: str | None = None,
+        clean_before_integrate: bool = True,
     ):
         """
         Args:
@@ -440,14 +441,20 @@ class OutputIntegrator:
                          projects/<project_name>/generated/
             log_filter: If set, only process logs containing this string
                         (e.g. a run ID like "20260313_101710").
+            clean_before_integrate: If True, clear the generated/ output dir
+                        before writing new artifacts (prevents cross-run accumulation).
         """
         self.project_name = project_name
         self.log_filter = log_filter
+        self.clean_before_integrate = clean_before_integrate
 
         if output_base:
             self.output_dir = Path(output_base)
         else:
             self.output_dir = _PROJECT_ROOT / "projects" / project_name / "generated"
+
+        # Project root dir (non-generated) for dedup checking
+        self.project_dir = _PROJECT_ROOT / "projects" / project_name
 
         self.report = IntegrationReport()
 
