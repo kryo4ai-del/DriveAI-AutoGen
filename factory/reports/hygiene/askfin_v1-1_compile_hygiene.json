@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 117,
+  "files_scanned": 125,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -24,13 +24,14 @@
       "matched_text": "bundle: .module"
     },
     {
-      "pattern_id": "FK-014",
+      "pattern_id": "FK-012",
       "severity": "blocking",
-      "file": "Models/ExamReadinessCard.swift",
-      "message": "Type 'ExamReadiness' referenced in 2 files but never declared in project",
-      "type_name": "ExamReadiness",
+      "file": "Models/ExamReadiness.swift",
+      "message": "Duplicate enum 'ReadinessLevel' defined in 2 files",
+      "line": 3,
+      "type_name": "ReadinessLevel",
       "other_files": [
-        "Models/ExamReadinessServiceProtocol.swift"
+        "Models/ReadinessLevel.swift:10"
       ]
     }
   ]

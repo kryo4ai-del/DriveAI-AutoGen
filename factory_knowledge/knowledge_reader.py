@@ -251,36 +251,91 @@ _CD_RATING_RE = re.compile(
 )
 
 
+class CDRatingResult:
+    """Structured result from CD rating extraction with full audit trail."""
+
+    __slots__ = ("rating", "candidates", "selected_source", "selected_reason")
+
+    def __init__(
+        self,
+        rating: str | None,
+        candidates: list[dict],
+        selected_source: str,
+        selected_reason: str,
+    ):
+        self.rating = rating
+        self.candidates = candidates          # [{source, rating, msg_index}]
+        self.selected_source = selected_source  # agent name that provided the rating
+        self.selected_reason = selected_reason  # why this candidate was chosen
+
+
 def extract_cd_rating(messages: list) -> str | None:
     """Extract the Creative Director rating from message objects.
 
-    First scans messages from the 'creative_director' agent, then falls back to
-    scanning all non-user messages (in case the SelectorGroupChat picked a
-    different speaker for the CD review task).
+    Collects ALL rating candidates, then selects the most trustworthy one:
+    1. Last rating from `creative_director` agent (preferred — authoritative source)
+    2. First rating from any non-user agent (fallback — selector may pick wrong speaker)
 
     Returns 'pass', 'conditional_pass', or 'fail'. Returns None if no rating found.
 
     Designed to be fail-open: if rating cannot be parsed, returns None,
     and callers should treat None as 'pass' (continue pipeline).
     """
-    # Pass 1: prefer messages from the actual CD agent
-    for msg in messages:
-        source = getattr(msg, "source", "")
-        content = getattr(msg, "content", "")
-        if source != "creative_director" or not isinstance(content, str):
-            continue
-        match = _CD_RATING_RE.search(content)
-        if match:
-            return match.group(1).lower()
+    result = extract_cd_rating_detailed(messages)
+    return result.rating
 
-    # Pass 2: fallback — scan all non-user messages (selector may pick wrong speaker)
-    for msg in messages:
+
+def extract_cd_rating_detailed(messages: list) -> CDRatingResult:
+    """Extract CD rating with full audit trail for reporting.
+
+    Returns a CDRatingResult with:
+    - rating: the selected rating (or None)
+    - candidates: all rating lines found [{source, rating, msg_index}]
+    - selected_source: which agent's rating was used
+    - selected_reason: why that candidate was chosen
+    """
+    candidates: list[dict] = []
+
+    for i, msg in enumerate(messages):
         source = getattr(msg, "source", "")
         content = getattr(msg, "content", "")
         if source == "user" or not isinstance(content, str):
             continue
         match = _CD_RATING_RE.search(content)
         if match:
-            return match.group(1).lower()
+            candidates.append({
+                "source": source,
+                "rating": match.group(1).lower(),
+                "msg_index": i,
+            })
 
-    return None
+    if not candidates:
+        return CDRatingResult(
+            rating=None,
+            candidates=[],
+            selected_source="",
+            selected_reason="no rating lines found in any message",
+        )
+
+    # Priority: last rating from creative_director agent (final verdict after discussion)
+    cd_candidates = [c for c in candidates if c["source"] == "creative_director"]
+    if cd_candidates:
+        selected = cd_candidates[-1]  # last CD message = final verdict
+        return CDRatingResult(
+            rating=selected["rating"],
+            candidates=candidates,
+            selected_source=selected["source"],
+            selected_reason=f"last creative_director rating (msg #{selected['msg_index']}, "
+            f"{len(cd_candidates)} CD rating(s) found, {len(candidates)} total candidate(s))",
+        )
+
+    # Fallback: first rating from any non-user agent
+    selected = candidates[0]
+    return CDRatingResult(
+        rating=selected["rating"],
+        candidates=candidates,
+        selected_source=selected["source"],
+        selected_reason=f"fallback — no creative_director rating found, "
+        f"using first match from '{selected['source']}' (msg #{selected['msg_index']}, "
+        f"{len(candidates)} total candidate(s))",
+    )

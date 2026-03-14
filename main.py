@@ -25,7 +25,7 @@ from config.session_preset_manager import SessionPresetManager
 from workflows.workflow_recipe_manager import WorkflowRecipeManager
 from workflows.phase_gate_manager import PhaseGateManager
 from utils.git_auto_commit import GitAutoCommit
-from factory_knowledge.knowledge_reader import get_cd_knowledge_block, get_knowledge_block, extract_cd_rating
+from factory_knowledge.knowledge_reader import get_cd_knowledge_block, get_knowledge_block, extract_cd_rating, extract_cd_rating_detailed
 from factory_knowledge.proposal_generator import generate_proposals, save_proposals
 from autogen_agentchat.conditions import MaxMessageTermination
 
@@ -578,24 +578,49 @@ async def _run_pipeline(
             # fail → stop further passes, mark run as product_quality_fail
             # conditional_pass → continue with warning
             # pass / unparseable → continue normally (fail-open)
-            _cd_rating = extract_cd_rating(cd_result_msgs)
-            if _cd_rating:
-                print(f"  CD rating: {_cd_rating}")
+            _cd_detail = extract_cd_rating_detailed(cd_result_msgs)
+            _cd_rating = _cd_detail.rating
+
+            # Audit trail: log all candidates and selection reason
+            if _cd_detail.candidates:
+                print(f"  CD rating candidates ({len(_cd_detail.candidates)}):")
+                for c in _cd_detail.candidates:
+                    marker = " ←" if (c["source"] == _cd_detail.selected_source
+                                      and c["rating"] == _cd_rating) else ""
+                    print(f"    [{c['source']}] msg #{c['msg_index']}: {c['rating']}{marker}")
+                print(f"  Selected: {_cd_rating} from {_cd_detail.selected_source}")
+                print(f"  Reason: {_cd_detail.selected_reason}")
+                logger.info(f"[CD RATING] candidates={_cd_detail.candidates} "
+                            f"selected={_cd_rating} source={_cd_detail.selected_source} "
+                            f"reason={_cd_detail.selected_reason}")
             else:
                 print("  CD rating: not detected (continuing as pass)")
+                logger.info("[CD RATING] no rating lines found, defaulting to pass")
                 _cd_rating = "pass"
 
-            if _cd_rating == "fail" and not no_cd_gate:
-                print("\n[CD GATE] Product quality FAIL — stopping further passes.")
-                print("  The Creative Director rated this implementation as below premium standards.")
+            # CD gate policy is profile-aware:
+            # - dev/fast: CD fail is advisory (non-blocking) — pipeline continues
+            # - standard/premium: CD fail stops the pipeline (blocking)
+            _cd_blocking = profile in ("standard", "premium")
+
+            if _cd_rating == "fail" and not no_cd_gate and _cd_blocking:
+                print(f"\n[CD GATE] Product quality FAIL — stopping further passes.")
+                print(f"  Profile: {profile} (blocking mode)")
+                print(f"  Source: {_cd_detail.selected_source} ({_cd_detail.selected_reason})")
                 print("  Use --no-cd-gate to override this gate.")
-                logger.info("[CD GATE] Product quality FAIL — pipeline stopped by CD gate.")
+                logger.info(f"[CD GATE] FAIL — BLOCKING (profile={profile}). "
+                            f"Pipeline stopped. source={_cd_detail.selected_source}")
                 skipped_phases.extend(["refactor", "test_generation", "fix_execution"])
-                # Skip remaining passes by jumping to finalize
-                # Set gate_ctx to reflect the stoppage
                 gate_ctx["cd_gate_stop"] = True
+            elif _cd_rating == "fail" and not no_cd_gate and not _cd_blocking:
+                print(f"\n[CD GATE] Product quality FAIL — advisory only, continuing.")
+                print(f"  Profile: {profile} (advisory mode — fail is non-blocking)")
+                print(f"  Source: {_cd_detail.selected_source} ({_cd_detail.selected_reason})")
+                print("  CD findings remain available for downstream passes.")
+                logger.info(f"[CD GATE] FAIL — ADVISORY (profile={profile}). "
+                            f"Pipeline continues. source={_cd_detail.selected_source}")
             elif _cd_rating == "conditional_pass":
-                print("  [CD GATE] Conditional pass — product quality warnings logged, continuing.")
+                print(f"  [CD GATE] Conditional pass — from {_cd_detail.selected_source}, continuing.")
                 logger.info("[CD GATE] Conditional pass — continuing with product quality warnings.")
 
         # UX Psychology (advisory — only for feature/screen templates)

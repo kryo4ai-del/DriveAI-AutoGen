@@ -327,6 +327,41 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Zusammen mit Report 15-0: Alle 5 FK-012 aus Run 3 waeren verhindert worden
 - Dreischichtiger Schutz: CodeExtractor → ProjectIntegrator → OutputIntegrator
 
+### 2026-03-14 — Fourth Autonomy Proof Run (Report 17-0)
+- Run 20260314_182358, template=feature, name=ExamReadiness, model=claude-haiku-4-5
+- Baseline sauber (0 Blocking). Pipeline: Implementation → Bug Hunter → CD → STOP (CD Gate FAIL)
+- **Dreischichtiger Dedup voll funktional**:
+  - CodeExtractor: 4 Dateien gegen Projekt bereinigt (Projekt-Awareness)
+  - ProjectIntegrator: 5 existierende Dateien uebersprungen (0 Overwrites)
+  - OutputIntegrator: 0 geschrieben (Backstop korrekt)
+- Compile Hygiene: **1 FK-012 (False Positive)** — ReadinessLevel nested enum in ExamReadiness.swift
+  - Validator erkennt keine Nested Types → Limitation, kein echtes Duplikat
+- FK-012 Trend: 105 → 13 → 5 → **1 (False Positive)** — Duplikate materiell geloest
+- Knowledge: 3 Proposals, 1 Auto-Promotion (FK-019 SwiftUI lifecycle memory leak)
+- **Naechster Blocker: CD Gate Rating** — Pipeline kommt nie ueber CD Gate hinaus
+  - Rating Parser nimmt letztes "Rating:" im GroupChat (moeglicherweise Non-CD Agent)
+  - CD Erwartungen zu hoch fuer Haiku-generierten Erstlauf
+  - Fix: Parser haerten (CD-spezifisch) + CD Gate Mode ueberdenken (Advisory fuer Dev-Profile)
+
+### 2026-03-14 — CD Rating Parser Hardening (Report 18-0)
+- Log-Analyse: Alle Rating-Zeilen in Run 3+4 stammten tatsaechlich vom creative_director Agent
+- Hypothese "Non-CD Agent Rating" aus Report 14-0 war falsch — Parser war korrekt
+- Trotzdem verbessert: CDRatingResult Klasse mit vollem Audit Trail (Kandidaten, Quelle, Begruendung)
+- Fix: Letzter CD-Match statt erster (finales Verdict bei mehrfachem CD-Sprechen)
+- Console zeigt jetzt alle Kandidaten + Auswahlgrund + Quell-Agent
+- 9 Validierungstests geschrieben und bestanden
+- **Naechster Blocker: CD Gate Policy** — fail bei Dev-Profile stoppt Pipeline, CD Erwartungen zu hoch
+- Dateien: knowledge_reader.py (CDRatingResult + extract_cd_rating_detailed), main.py (Gate-Logging), tests/test_cd_rating_parser.py
+
+### 2026-03-14 — CD Gate Policy Profile-Aware (Report 19-0)
+- CD Gate ist jetzt profil-abhaengig: dev/fast → advisory (non-blocking), standard/premium → blocking
+- `_cd_blocking = profile in ("standard", "premium")` — 1 Kontrollpunkt in main.py
+- Dev-Runs durchlaufen jetzt alle 8 Pipeline-Passes statt nur 3
+- CD-Findings fliessen via review_digests in UX Psychology, Refactor, Fix Execution
+- 10 Policy-Tests + 9 Parser-Tests = 19 Tests bestanden
+- `--no-cd-gate` bleibt als expliziter Override
+- **Naechster Schritt**: Autonomy Proof Run mit Dev-Profile → sollte volle Pipeline durchlaufen
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

@@ -1,0 +1,80 @@
+Template        : feature
+Name            : ExamReadiness
+Rendered task   : Design and implement the DriveAI feature: ExamReadiness. Include architecture, SwiftUI views, ViewModels, and required supporting code.
+
+============================================================
+DriveAI AutoGen — Multi-Agent Conversation
+============================================================
+Project context : loaded
+Memory          : entries loaded
+Profile         : dev
+Env profile     : dev
+Model           : claude-haiku-4-5
+Run mode        : standard
+Approval mode   : auto
+Active agents   : driveai_lead, product_strategist, roadmap_agent, ios_architect, swift_developer, reviewer, bug_hunter, refactor_agent, test_generator, content_script_agent, change_watch_agent, accessibility_agent, opportunity_agent, legal_risk_agent, project_bootstrap_agent, autonomous_project_orchestrator, creative_director, ux_psychology
+Disabled agents : android_architect, kotlin_developer, web_architect, webapp_developer
+Template        : feature
+Name            : ExamReadiness
+Task            : Design and implement the DriveAI feature: ExamReadiness. Include architecture, SwiftUI views, ViewModels, and required supporting code.
+============================================================
+
+Cleaned 13 stale file(s) from generated_code/
+Inline type dedup: 4 file(s) cleaned
+Swift files extracted:
+  - 2 Views
+  - 3 ViewModels
+  - 5 Services
+  - 20 Models
+  - 1 Helper file
+
+Xcode integration completed
+Files integrated:
+  - AppConfig.swift
+  - AppRoute.swift
+  - CategoryReadiness.swift
+  - CategoryReadinessTests.swift
+  - ExamReadinessReport.swift
+  - ExamReadinessReportTests.swift
+  - ExamReadinessReportViewModelTests.swift
+  - ExamReadinessUITests.swift
+  - ReadinessCalculationServiceTests.swift
+  - ReadinessFixtures.swift
+  - ReadinessLevel.swift
+  - ReadinessLevelTests.swift
+  - RecommendationPriority.swift
+  - RecommendationWeights.swift
+  - StudyRecommendationTests.swift
+  - ReadinessCalculationService.swift
+  - RecommendationEngineService.swift
+  - ExamReadinessReportViewModel.swift
+  - StudyRecommendationViewModel.swift
+  - ExamReadinessContainerView.swift
+Skipped (1 already in project):
+  - GeneratedHelpers.swift (exists: Models\GeneratedHelpers.swift)
+  Implementation summary: 7192 chars for review context
+
+--- Bug Hunter pass ---
+  Factory knowledge: 752 chars injected
+  Review digest: 600 chars captured
+
+--- Creative Director pass (advisory) ---
+  Prior review context: 646 chars injected
+  Factory knowledge: 1105 chars injected
+  Review digest: 600 chars captured
+  CD rating candidates (1):
+    [creative_director] msg #1: conditional_pass ←
+  Selected: conditional_pass from creative_director
+  Reason: last creative_director rating (msg #1, 1 CD rating(s) found, 1 total candidate(s))
+  [CD GATE] Conditional pass — from creative_director, continuing.
+
+--- UX Psychology pass (advisory) ---
+  Prior review context: 1279 chars injected
+  Review digest: 600 chars captured
+
+--- Refactor pass ---
+  Prior review context: 1906 chars injected
+  Factory knowledge: 896 chars injected
+  Review digest: 600 chars captured
+
+--- Test generation pass ---

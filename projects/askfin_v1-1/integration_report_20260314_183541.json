@@ -1,0 +1,125 @@
+{
+  "timestamp": "20260314_183541",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 16,
+  "files_normalized": 3,
+  "files_written": 0,
+  "files_skipped": 16,
+  "truncated_detected": [
+    "CategoryStrength.swift (generated_code, 31 lines)",
+    "ExamReadiness.swift (generated_code, 16 lines)",
+    "ReadinessLevel.swift (generated_code, 14 lines)",
+    "ExamReadinessView.swift (log:driveai_run_20260314_182358.txt, 122 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\CategoryStrength.swift",
+      "to": "Models/CategoryStrength.swift"
+    },
+    {
+      "from": "Models\\ExamReadinessTests.swift",
+      "to": "Tests/ExamReadinessTests.swift"
+    },
+    {
+      "from": "Models\\ExamReadinessViewModelTests.swift",
+      "to": "Tests/ExamReadinessViewModelTests.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\MotivationState.swift",
+      "to": "Models/MotivationState.swift"
+    },
+    {
+      "from": "Models\\ReadinessLevel.swift",
+      "to": "Models/ReadinessLevel.swift"
+    },
+    {
+      "from": "Services\\LocalDataService+Extension.swift",
+      "to": "Models/LocalDataService+Extension.swift"
+    },
+    {
+      "from": "Views\\ExamCountdownWidget.swift",
+      "to": "Models/ExamCountdownWidget.swift"
+    },
+    {
+      "from": "Views\\FocusRecommendationRow.swift",
+      "to": "Models/FocusRecommendationRow.swift"
+    },
+    {
+      "from": "Views\\ReadinessScoreCard.swift",
+      "to": "Models/ReadinessScoreCard.swift"
+    }
+  ],
+  "written_files": [],
+  "skipped_files": [
+    {
+      "file": "ExamReadiness.swift (generated_code)",
+      "reason": "shorter version (509 chars vs 5643 chars)"
+    },
+    {
+      "file": "ExamReadinessViewModel.swift (generated_code)",
+      "reason": "shorter version (504 chars vs 5902 chars)"
+    },
+    {
+      "file": "ExamReadinessView.swift (generated_code)",
+      "reason": "shorter version (2810 chars vs 4219 chars)"
+    },
+    {
+      "file": "Models/CategoryStrength.swift",
+      "reason": "already exists in project: Models\\CategoryStrength.swift"
+    },
+    {
+      "file": "Models/ExamReadiness.swift",
+      "reason": "already exists in project: Models\\ExamReadiness.swift"
+    },
+    {
+      "file": "Tests/ExamReadinessTests.swift",
+      "reason": "already exists in project: Models\\ExamReadinessTests.swift"
+    },
+    {
+      "file": "Tests/ExamReadinessViewModelTests.swift",
+      "reason": "already exists in project: Models\\ExamReadinessViewModelTests.swift"
+    },
+    {
+      "file": "Models/GeneratedHelpers.swift",
+      "reason": "already exists in project: Models\\GeneratedHelpers.swift"
+    },
+    {
+      "file": "Models/MotivationState.swift",
+      "reason": "already exists in project: Models\\MotivationState.swift"
+    },
+    {
+      "file": "Models/ReadinessLevel.swift",
+      "reason": "already exists in project: Models\\ReadinessLevel.swift"
+    },
+    {
+      "file": "Models/LocalDataService+Extension.swift",
+      "reason": "already exists in project: Models\\LocalDataService+Extension.swift"
+    },
+    {
+      "file": "ViewModels/ExamReadinessViewModel.swift",
+      "reason": "already exists in project: ViewModels\\ExamReadinessViewModel.swift"
+    },
+    {
+      "file": "Models/ExamCountdownWidget.swift",
+      "reason": "already exists in project: Models\\ExamCountdownWidget.swift"
+    },
+    {
+      "file": "Views/ExamReadinessView.swift",
+      "reason": "already exists in project: Views\\ExamReadinessView.swift"
+    },
+    {
+      "file": "Models/FocusRecommendationRow.swift",
+      "reason": "already exists in project: Models\\FocusRecommendationRow.swift"
+    },
+    {
+      "file": "Models/ReadinessScoreCard.swift",
+      "reason": "already exists in project: Models\\ReadinessScoreCard.swift"
+    }
+  ],
+  "errors": []
+}
