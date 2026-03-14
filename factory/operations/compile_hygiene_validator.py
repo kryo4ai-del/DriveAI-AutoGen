@@ -625,7 +625,9 @@ _KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
     "WKWebView", "AVPlayer", "CLLocation",
     "LocalizedStringKey",
     # Testing
-    "XCTestCase", "XCTestExpectation", "XCTAssert",
+    "XCTestCase", "XCTestExpectation", "XCTAssert", "XCTest",
+    # App module names (used in @testable import)
+    "DriveAI",
     # Swift keywords that look like types
     "Self", "Type", "Protocol", "AnyType",
     # Swift Codable protocol types

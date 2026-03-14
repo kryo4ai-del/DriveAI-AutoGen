@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 111,
+  "files_scanned": 117,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,9 +10,9 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "WARNINGS",
-  "issues_found": 1,
-  "blocking": 0,
+  "status": "BLOCKING",
+  "issues_found": 2,
+  "blocking": 1,
   "warnings": 1,
   "issues": [
     {
@@ -22,6 +22,16 @@
       "message": "Bundle.module is only available in Swift Package targets, not regular Xcode apps",
       "line": 26,
       "matched_text": "bundle: .module"
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/ExamReadinessCard.swift",
+      "message": "Type 'ExamReadiness' referenced in 2 files but never declared in project",
+      "type_name": "ExamReadiness",
+      "other_files": [
+        "Models/ExamReadinessServiceProtocol.swift"
+      ]
     }
   ]
 }

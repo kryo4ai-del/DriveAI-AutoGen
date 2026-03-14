@@ -1,0 +1,54 @@
+{
+  "run_id": "20260314_182358",
+  "generated": "2026-03-14T18:35:39",
+  "proposal_count": 3,
+  "proposals": [
+    {
+      "title": "Product quality gap: The ExamReadiness screens function as pure metrics dash",
+      "type": "ux_insight",
+      "lesson": "Creative Director rated output as 'fail'. Key issue: The ExamReadiness screens function as pure metrics dashboards (readiness score, days until exam, category breakdown). There's no emotional journey. A user opening this feature experiences anxiety rein",
+      "evidence": "CD review in run 20260314_182358: rating=fail",
+      "source_run": "20260314_182358",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "product-quality",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "Emotional design gap: Emotional Function: No Emotional Arc — Only Data Displa",
+      "type": "ux_insight",
+      "lesson": "Implementation lacked emotional engagement: Emotional Function: No Emotional Arc — Only Data Display",
+      "evidence": "CD finding in run 20260314_182358 for template=feature",
+      "source_run": "20260314_182358",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "emotional-design",
+        "ux",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: Memory leak",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Memory leak",
+      "evidence": "Bug Hunter finding in run 20260314_182358",
+      "source_run": "20260314_182358",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

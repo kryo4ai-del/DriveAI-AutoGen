@@ -298,6 +298,35 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **Ergebnis: 0 Blocking Issues, 1 Warning (FK-015 Bundle.module)**
 - Kumulativ: FK-012 von 105 → 0, Total Blocking von 155 → 0
 
+### 2026-03-14 — Third Autonomy Proof Run (Report 14-0)
+- Run 20260314_163402, template=feature, name=ExamReadiness, model=claude-haiku-4-5
+- Baseline war sauber (0 Blocking). Pipeline lief: Implementation → Bug Hunter → CD → STOP (CD Gate FAIL)
+- 22 Files generiert, 9 integriert, 13 durch CodeExtractor Dedup entfernt
+- OutputIntegrator korrekt: 9 Artifacts gesammelt, 0 geschrieben (alle Projekt-Duplikate)
+- Compile Hygiene nach Run: 10 Blocking (5 FK-012 + 5 FK-014)
+- **Naechster Blocker: ProjectIntegrator kopiert blind ins Projekt (kein Dedup-Guard)**
+  - Ueberschreibt existierende Dateien (ReadinessLevel.swift)
+  - Fuegt Dateien mit Inline-Duplikaten hinzu (UserProgressService.swift enthält LocalDataService + CategoryProgress)
+  - OutputIntegrator Dedup-Guard laeuft zu spaet (nach ProjectIntegrator)
+- Fix-Optionen: (A) ProjectIntegrator Dedup-Guard oder (B) ProjectIntegrator komplett entfernen
+- Sekundaer: CodeExtractor braucht Projekt-Awareness (Inline-Dedup gegen Projekt, nicht nur Run)
+
+### 2026-03-14 — ProjectIntegrator Dedup Guard (Report 15-0)
+- Statische _PROTECTED_FILES (55 hardcodierte Eintraege) ersetzt durch dynamischen Projekt-File-Index
+- _build_project_file_index() scannt alle .swift-Dateien im Projekt (exkl. generated_code/)
+- Existierende Dateien werden nie mehr ueberschrieben (Skip + Log)
+- Run-3-Simulation: 3 von 5 FK-012 verhindert (alle Overwrites), 2 verbleiben (neue Files mit Inline-Dupes)
+- Compile Hygiene nach Cleanup: FK-012=0, 1 Blocking (FK-014 ExamReadiness aus User-Modifikation)
+- **Naechster Blocker**: CodeExtractor Projekt-Awareness (Inline-Dedup gegen Projekt-File-Index)
+
+### 2026-03-14 — CodeExtractor Project-Awareness (Report 16-0)
+- `extract_swift_code()` erhaelt `project_name` Parameter
+- Scannt Projekt-Verzeichnis fuer .swift File-Stems und merged mit current-run Names
+- `_strip_duplicate_types()` prueft jetzt gegen Run-Files UND Projekt-Files
+- Run-3-Simulation: CategoryReadiness, LocalDataService, CategoryProgress jetzt gestrippt
+- Zusammen mit Report 15-0: Alle 5 FK-012 aus Run 3 waeren verhindert worden
+- Dreischichtiger Schutz: CodeExtractor → ProjectIntegrator → OutputIntegrator
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

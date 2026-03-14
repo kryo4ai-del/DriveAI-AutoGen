@@ -460,13 +460,13 @@ async def _run_pipeline(
 
     extractor = CodeExtractor()
     integrator = ProjectIntegrator(os.path.join("projects", project_name) if project_name else "DriveAI")
-    code_counts = extractor.extract_swift_code(result.messages)
+    code_counts = extractor.extract_swift_code(result.messages, project_name=project_name)
 
     # Guard: abort integration if extraction was aborted (too many files)
     if code_counts.get("aborted"):
         print("[ABORT] Integration skipped — extraction was aborted (file limit exceeded).")
         logger.info("Integration skipped — extraction aborted.")
-        xcode_counts = {"status": "aborted", "integrated": 0, "unchanged": 0, "protected": 0}
+        xcode_counts = {"status": "aborted", "integrated": 0, "unchanged": 0, "skipped_existing": 0}
     else:
         xcode_counts = integrator.integrate_generated_code(approval=approval_mode)
 
@@ -721,7 +721,7 @@ async def _run_pipeline(
             fix_result_msgs = list(fix_result.messages)
             await _log_pass(logger, "Fix Execution Pass", fix_result_msgs)
 
-            fix_code_counts = extractor.extract_swift_code(fix_result_msgs)
+            fix_code_counts = extractor.extract_swift_code(fix_result_msgs, project_name=project_name)
             if fix_code_counts.get("aborted"):
                 print("[ABORT] Fix integration skipped — extraction was aborted (file limit exceeded).")
                 logger.info("Fix integration skipped — extraction aborted.")

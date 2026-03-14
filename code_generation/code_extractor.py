@@ -4,7 +4,9 @@
 import os
 import re
 import datetime
+from pathlib import Path
 
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
 GENERATED_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "generated_code")
 LOGS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
 
@@ -278,10 +280,15 @@ class CodeExtractor:
         self._last_extraction_files: list[tuple[str, str, str, str]] = []  # (name, subfolder, type_kw, code)
         self._last_extraction_patterns: set[str] = set()
 
-    def extract_swift_code(self, messages: list) -> dict[str, int]:
+    def extract_swift_code(self, messages: list, project_name: str | None = None) -> dict[str, int]:
         """
         Scan agent messages, extract Swift code blocks, save as .swift files.
         Orphan blocks (no detectable name) are appended to GeneratedHelpers.swift.
+
+        If project_name is given, the project directory is scanned to build a
+        file-stem index.  Inline types that match an existing project file stem
+        are stripped before writing, preventing FK-012 duplicates.
+
         Returns {"saved": n, "skipped": n} with a console summary of categories.
         """
         saved = 0
@@ -359,10 +366,35 @@ class CodeExtractor:
             return {"saved": 0, "skipped": 0, "aborted": True}
 
         # --- Dedup: Strip inline type definitions that have their own files ---
+        # Collect type names from current run
         all_file_names = {name for name, _, _, _ in files_to_write}
+
+        # Extend with type names from existing project files (project-awareness)
+        project_file_stems: set[str] = set()
+        if project_name:
+            project_dir = _PROJECT_ROOT / "projects" / project_name
+            if project_dir.is_dir():
+                gen_resolved = Path(GENERATED_DIR).resolve()
+                for sf in project_dir.rglob("*.swift"):
+                    # Skip generated_code/ to avoid self-referencing
+                    try:
+                        sf.resolve().relative_to(gen_resolved)
+                        continue
+                    except ValueError:
+                        pass
+                    project_file_stems.add(sf.stem)
+                if project_file_stems:
+                    log_entries.append(
+                        f"[DEDUP] Project-aware: {len(project_file_stems)} existing "
+                        f"file stems loaded from {project_name}"
+                    )
+
+        # Merge: current-run names + project file stems
+        all_known_names = all_file_names | project_file_stems
+
         dedup_count = 0
         for i, (name, subfolder, dest_path, block) in enumerate(files_to_write):
-            other_names = all_file_names - {name}
+            other_names = all_known_names - {name}
             cleaned = _strip_duplicate_types(block, name, other_names)
             if cleaned != block:
                 files_to_write[i] = (name, subfolder, dest_path, cleaned)
@@ -372,7 +404,8 @@ class CodeExtractor:
                 remaining_types = {m.group(1) for m in _TOP_LEVEL_TYPE_RE.finditer(cleaned)}
                 stripped = original_types - remaining_types
                 for st in stripped:
-                    log_entries.append(f"[DEDUP] Stripped inline '{st}' from {name}.swift (has own file)")
+                    source = "project" if st in project_file_stems else "current run"
+                    log_entries.append(f"[DEDUP] Stripped inline '{st}' from {name}.swift (own file in {source})")
         if dedup_count:
             print(f"Inline type dedup: {dedup_count} file(s) cleaned")
 

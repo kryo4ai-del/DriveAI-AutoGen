@@ -3,6 +3,7 @@
 
 import os
 import shutil
+from pathlib import Path
 
 SUBFOLDER_MAP = {
     "ViewModel": "ViewModels",
@@ -10,79 +11,6 @@ SUBFOLDER_MAP = {
     "Service": "Services",
     "Model": "Models",
 }
-
-# --- Guard 4: Protected existing files ---
-# These files must never be overwritten by the pipeline when they already exist.
-_PROTECTED_FILES: frozenset[str] = frozenset({
-    # ── Core app ──
-    "DriveAIApp.swift",
-    "AppNavigationView.swift",
-    # ── Views ──
-    "HomeDashboardView.swift",
-    "OnboardingView.swift",
-    "ScannerView.swift",
-    "ImageImportView.swift",
-    "QuestionView.swift",
-    "ResultView.swift",
-    "SettingsView.swift",
-    "AnswerExplanationView.swift",
-    "TrafficSignHistoryView.swift",
-    "TrafficSignHistoryDetailView.swift",
-    "ScannedDocumentView.swift",
-    "LearningStatisticsView.swift",
-    "TrafficSignStatisticsView.swift",
-    "AnalysisDebugPanel.swift",
-    "LaunchScreenView.swift",
-    "TrafficSignRecognitionView.swift",
-    "TrafficSignWeaknessView.swift",
-    "SampleValidationView.swift",
-    "RealQuestionTestView.swift",
-    "UserInfoView.swift",
-    "QuestionHistoryView.swift",
-    "LearningInsightsView.swift",
-    # ── ViewModels ──
-    "HomeDashboardViewModel.swift",
-    "OnboardingViewModel.swift",
-    "ScannerViewModel.swift",
-    "QuestionViewModel.swift",
-    "AnswerExplanationViewModel.swift",
-    "AnalysisDebugPanelViewModel.swift",
-    "LearningStatsViewModel.swift",
-    "LearningInsightsViewModel.swift",
-    "SampleValidationViewModel.swift",
-    "RealQuestionTestViewModel.swift",
-    # ── Models (AskFin domain) ──
-    "QuestionCategory.swift",
-    "CategoryDetectionResult.swift",
-    "AnalysisResult.swift",
-    "QuestionHistoryEntry.swift",
-    "Question.swift",
-    "Answer.swift",
-    "ButtonState.swift",
-    "FeedbackType.swift",
-    "AppTheme.swift",
-    "User.swift",
-    "TrafficSignHistoryEntry.swift",
-    "TrafficSignRecognitionResult.swift",
-    "AnswerConfidence.swift",
-    "LearningStats.swift",
-    "TrafficSignStats.swift",
-    "WeaknessCategory.swift",
-    "TrafficSignWeaknessCategory.swift",
-    "ValidationSample.swift",
-    # ── Services ──
-    "QuestionCategoryDetectionService.swift",
-    "QuestionAnalysisService.swift",
-    "QuestionHistoryService.swift",
-    "TrafficSignHistoryService.swift",
-    "TrafficSignRecognitionService.swift",
-    "OCRRecognitionService.swift",
-    "ImageAnalysisService.swift",
-    "LLMQuestionSolverService.swift",
-    "LocalDataService.swift",
-    "SampleValidationService.swift",
-    "WeaknessAnalysisService.swift",
-})
 
 
 def _detect_target_folder(filename: str) -> str:
@@ -113,28 +41,52 @@ class ProjectIntegrator:
         project_root = os.path.dirname(os.path.dirname(__file__))
         self.xcode_root = os.path.join(project_root, xcode_project_path)
 
+    def _build_project_file_index(self) -> dict[str, str]:
+        """Build filename → relative_path index of all .swift files in the project.
+
+        Excludes generated_code/ to avoid self-referencing.
+        """
+        index: dict[str, str] = {}
+        root = Path(self.xcode_root)
+        if not root.is_dir():
+            return index
+        generated = Path(GENERATED_DIR).resolve()
+        for swift_file in root.rglob("*.swift"):
+            # Skip files inside generated_code/
+            try:
+                swift_file.resolve().relative_to(generated)
+                continue
+            except ValueError:
+                pass
+            rel = str(swift_file.relative_to(root))
+            index[swift_file.name] = rel
+        return index
+
     def integrate_generated_code(self, approval: str = "auto") -> dict:
         """
         approval: "auto" | "ask" | "off"
-        Returns {"status": "integrated"|"skipped", "integrated": n, "unchanged": n, "protected": n}
+        Returns {"status": ..., "integrated": n, "unchanged": n, "skipped_existing": n}
         """
         if approval == "off":
             print()
             print("Xcode integration skipped (approval=off)")
-            return {"status": "skipped", "integrated": 0, "unchanged": 0, "protected": 0}
+            return {"status": "skipped", "integrated": 0, "unchanged": 0, "skipped_existing": 0}
 
         if approval == "ask":
             answer = input("\nIntegrate generated code into the Xcode project? [y/N] ").strip().lower()
             if answer not in ("y", "yes"):
                 print("Xcode integration skipped.")
-                return {"status": "skipped", "integrated": 0, "unchanged": 0, "protected": 0}
+                return {"status": "skipped", "integrated": 0, "unchanged": 0, "skipped_existing": 0}
 
         integrated = []
         unchanged = 0
-        protected_skipped = []
+        skipped_existing = []
 
         if not os.path.isdir(GENERATED_DIR):
-            return {"status": "integrated", "integrated": 0, "unchanged": 0, "protected": 0}
+            return {"status": "integrated", "integrated": 0, "unchanged": 0, "skipped_existing": 0}
+
+        # Build dynamic project file index — replaces static _PROTECTED_FILES
+        project_files = self._build_project_file_index()
 
         for subfolder in os.listdir(GENERATED_DIR):
             src_dir = os.path.join(GENERATED_DIR, subfolder)
@@ -145,17 +97,16 @@ class ProjectIntegrator:
                 if not filename.endswith(".swift"):
                     continue
 
-                # --- Guard 4: Protect existing views ---
+                # --- Guard: Skip if file already exists anywhere in project ---
+                if filename in project_files:
+                    skipped_existing.append((filename, project_files[filename]))
+                    continue
+
                 target_folder = _detect_target_folder(filename)
                 dest_dir = os.path.join(self.xcode_root, target_folder)
                 dest_path = os.path.join(dest_dir, filename)
 
-                if filename in _PROTECTED_FILES and os.path.exists(dest_path):
-                    protected_skipped.append(filename)
-                    continue
-
                 src_path = os.path.join(src_dir, filename)
-
                 os.makedirs(dest_dir, exist_ok=True)
 
                 if _file_unchanged(dest_path, src_path):
@@ -174,14 +125,14 @@ class ProjectIntegrator:
         else:
             print("  (no new or changed files)")
 
-        if protected_skipped:
-            print(f"Protected files skipped ({len(protected_skipped)}):")
-            for name in protected_skipped:
-                print(f"  - {name} (existing, protected)")
+        if skipped_existing:
+            print(f"Skipped ({len(skipped_existing)} already in project):")
+            for name, existing_path in skipped_existing:
+                print(f"  - {name} (exists: {existing_path})")
 
         return {
             "status": "integrated",
             "integrated": len(integrated),
             "unchanged": unchanged,
-            "protected": len(protected_skipped),
+            "skipped_existing": len(skipped_existing),
         }
