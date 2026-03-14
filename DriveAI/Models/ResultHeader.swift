@@ -1,41 +1,50 @@
+import SwiftUI
+
 struct ResultHeader: View {
     let result: SimulationResult
     
     var body: some View {
-        VStack(spacing: 20) {
-            HStack(spacing: 16) {
-                // Use both color AND icon to convey status
-                Image(systemName: result.passed ? "checkmark.circle.fill" : "xmark.circle.fill")
-                    .font(.system(size: 44))
-                    .foregroundStyle(
-                        result.passed
-                            ? Color(red: 0.0, green: 0.5, blue: 0.0)  // Darker green: #008000
-                            : Color(red: 0.7, green: 0.0, blue: 0.0)  // Darker red: #B30000
-                    )
-                
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(result.passed ? "Bestanden! 🎉" : "Nicht bestanden")
-                        .font(.title2.bold())
-                        .foregroundStyle(.primary)
+                    Text(result.isPassed ? "PASSED" : "FAILED")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
                     
-                    // Add explicit text label (not just color)
-                    Text(result.passed ? "90% erreicht" : "Unter 90%")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    Text("\(Int(result.overallScore))%")
+                        .font(.system(size: 48, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
                 }
                 
                 Spacer()
+                
+                Image(systemName: result.isPassed ? "checkmark.circle.fill" : "xmark.circle.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(.white)
             }
-            .padding(16)
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
             
-            // ... rest
+            HStack {
+                Image(systemName: "calendar")
+                    .font(.caption)
+                Text(formattedDate)
+                    .font(.caption)
+            }
+            .foregroundColor(.white.opacity(0.8))
         }
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel("Prüfungsergebnis")
-        .accessibilityValue(
-            "\(result.passed ? "Bestanden" : "Nicht bestanden"), \(Int(result.score * 100)) Prozent, \(result.correctAnswers) von \(result.totalQuestions) richtig"
-        )
+        .padding(16)
+        .background(backgroundColor)
+        .cornerRadius(12)
+    }
+    
+    private var backgroundColor: Color {
+        result.isPassed ? Color(red: 0.2, green: 0.8, blue: 0.2) : Color(red: 0.8, green: 0.2, blue: 0.2)
+    }
+    
+    private var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: result.timestamp)
     }
 }

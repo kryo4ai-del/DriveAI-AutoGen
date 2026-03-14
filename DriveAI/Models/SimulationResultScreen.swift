@@ -1,103 +1,64 @@
 import SwiftUI
 
 struct SimulationResultScreen: View {
+    let result: SimulationResult
+    
     @StateObject private var viewModel: SimulationResultViewModel
     @Environment(\.dismiss) var dismiss
     
-    init(
-        result: SimulationResult,
-        statisticsService: StatisticsService = .shared
-    ) {
-        _viewModel = StateObject(
-            wrappedValue: SimulationResultViewModel(
-                result: result,
-                statisticsService: statisticsService
-            )
-        )
+    init(result: SimulationResult) {
+        self.result = result
+        _viewModel = StateObject(wrappedValue: SimulationResultViewModel(result: result))
     }
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    // Result Header
-                    ResultHeader(result: viewModel.result)
+                VStack(spacing: 16) {
+                    ResultHeader(result: result)
                     
-                    // Readiness Gauge
-                    ReadinessGaugeView(readiness: viewModel.readiness)
-                    
-                    // Category Breakdown Section
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Kategorieergebnisse")
+                        Text("Performance by Category")
                             .font(.headline)
                             .padding(.horizontal, 16)
                         
-                        ForEach(viewModel.categorysSortedByWeakness(), id: \.id) { score in
-                            CategoryPerformanceRow(score: score)
-                        }
-                    }
-                    
-                    // Weaknesses Alert (if any)
-                    if !viewModel.readiness.categoryWeaknesses.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "target")
-                                    .font(.subheadline.bold())
-                                    .foregroundStyle(.orange)
-                                
-                                Text("Zum Üben empfohlen")
-                                    .font(.subheadline.bold())
-                                    .foregroundStyle(.primary)
+                        VStack(spacing: 8) {
+                            ForEach(viewModel.categorysSortedByWeakness(), id: \.category.id) { score in
+                                CategoryPerformanceRow(
+                                    score: score,
+                                    backgroundColor: Color(.systemGray6)
+                                )
                             }
-                            
-                            Text(viewModel.readiness.categoryWeaknesses.joined(separator: ", "))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .lineLimit(3)
                         }
-                        .padding(12)
-                        .background(Color.orange.opacity(0.1))
-                        .cornerRadius(12)
                         .padding(.horizontal, 16)
                     }
                     
-                    // Action Buttons
-                    ActionButtonGroup(result: viewModel.result)
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Exam Readiness")
+                            .font(.headline)
+                            .padding(.horizontal, 16)
+                        
+                        ReadinessGaugeView(readiness: viewModel.readiness)
+                            .padding(.horizontal, 16)
+                    }
                     
-                    // Spacer
-                    Spacer(minLength: 24)
+                    ActionButtonGroup(
+                        result: result,
+                        onRetry: { dismiss() },
+                        onDrillWeaknesses: {
+                            if let weakest = viewModel.weakestCategory() {
+                                print("Drill: \(weakest.category.name)")
+                            }
+                        },
+                        onReviewTopics: { print("Review topics") },
+                        onContinue: { dismiss() }
+                    )
+                    .padding(.horizontal, 16)
                 }
-                .padding(.vertical, 24)
+                .padding(.vertical, 16)
             }
-            .navigationTitle("Ergebnisse")
+            .navigationTitle("Test Results")
             .navigationBarTitleDisplayMode(.inline)
-            .overlay(alignment: .top) {
-                if viewModel.isLoading {
-                    ProgressView()
-                        .padding()
-                }
-            }
-            .alert("Fehler", isPresented: .constant(viewModel.errorMessage != nil)) {
-                Button("OK") {
-                    viewModel.errorMessage = nil
-                }
-            } message: {
-                Text(viewModel.errorMessage ?? "Ein unbekannter Fehler ist aufgetreten.")
-            }
         }
     }
-}
-
-#Preview {
-    SimulationResultScreen(
-        result: .previewPass,
-        statisticsService: StatisticsService()
-    )
-}
-
-#Preview("Nicht bestanden") {
-    SimulationResultScreen(
-        result: .previewFail,
-        statisticsService: StatisticsService()
-    )
 }

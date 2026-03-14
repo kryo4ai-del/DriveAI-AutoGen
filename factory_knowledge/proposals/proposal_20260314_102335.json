@@ -1,0 +1,23 @@
+{
+  "run_id": "20260314_102335",
+  "generated": "2026-03-14T10:54:20",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "SwiftUI lifecycle pattern: Missing Async/Await Cancellation",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Missing Async/Await Cancellation",
+      "evidence": "Bug Hunter finding in run 20260314_102335",
+      "source_run": "20260314_102335",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

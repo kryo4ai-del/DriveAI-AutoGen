@@ -1,129 +1,67 @@
 import SwiftUI
 
+/// Keep variant 2 which includes accentColor and statusIcon properties.
+/// These enable external customization if needed, though current implementation
+/// computes them internally for encapsulation.
 struct CategoryPerformanceRow: View {
     let score: CategoryScore
+    let backgroundColor: Color
     
-    var backgroundColor: Color {
-        switch score.performanceLevel {
-        case .excellent:
-            return Color.green.opacity(0.1)
-        case .good:
-            return Color.blue.opacity(0.1)
-        case .fair:
-            return Color.yellow.opacity(0.1)
-        case .needsImprovement:
-            return Color.red.opacity(0.1)
-        }
-    }
-    
-    var accentColor: Color {
-        switch score.performanceLevel {
-        case .excellent:
-            return .green
-        case .good:
-            return .blue
-        case .fair:
-            return .yellow
-        case .needsImprovement:
-            return .red
-        }
-    }
-    
-    var statusIcon: String {
-        switch score.performanceLevel {
-        case .excellent:
-            return "checkmark.circle.fill"
-        case .good:
-            return "checkmark.circle"
-        case .fair:
-            return "exclamationmark.circle"
-        case .needsImprovement:
-            return "xmark.circle.fill"
-        }
-    }
+    // Enhanced variant properties (from V2) - kept for flexibility
+    var accentColor: Color?
+    var statusIcon: String?
     
     var body: some View {
         HStack(spacing: 12) {
-            // Icon
-            Image(systemName: statusIcon)
-                .font(.system(size: 18))
-                .foregroundStyle(accentColor)
-                .frame(width: 24)
-            
-            // Category Info
             VStack(alignment: .leading, spacing: 4) {
-                Text(score.categoryName)
-                    .font(.subheadline.bold())
-                    .foregroundStyle(.primary)
+                Text(score.category.name)
+                    .font(.body)
+                    .fontWeight(.semibold)
                 
-                HStack(spacing: 8) {
-                    Text("\(score.correct)/\(score.total)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    
-                    Text("•")
-                        .foregroundStyle(.secondary)
-                    
-                    Text(score.performanceLevel.rawValue)
-                        .font(.caption2)
-                        .foregroundStyle(accentColor)
-                }
+                Text("\(Int(score.percentage))%")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
             
             Spacer()
             
-            // Percentage
-            VStack(alignment: .trailing, spacing: 4) {
-                Text("\(Int(score.percentage * 100))%")
-                    .font(.headline.monospacedDigit())
-                    .foregroundStyle(.primary)
+            HStack(spacing: 8) {
+                ProgressView(value: score.percentage / 100)
+                    .tint(computedStatusColor)
+                    .frame(width: 60)
                 
-                // Mini Progress Bar
-                ProgressView(value: score.percentage, total: 1.0)
-                    .tint(accentColor)
-                    .frame(width: 60, height: 4)
+                Image(systemName: computedStatusIcon)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundColor(computedStatusColor)
+                    .frame(width: 24)
             }
         }
         .padding(12)
         .background(backgroundColor)
         .cornerRadius(8)
-        .padding(.horizontal)
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel(score.categoryName)
-        .accessibilityValue(
-            "\(score.correct) von \(score.total) Fragen richtig, \(Int(score.percentage * 100)) Prozent, \(score.performanceLevel.rawValue)"
+    }
+    
+    // Use provided values or compute internally
+    private var computedStatusIcon: String {
+        statusIcon ?? (
+            score.percentage >= 80 ? "checkmark.circle.fill" :
+            score.percentage >= 60 ? "exclamationmark.circle.fill" :
+            "xmark.circle.fill"
         )
     }
-}
-
-#Preview {
-    VStack(spacing: 12) {
-        CategoryPerformanceRow(
-            score: CategoryScore(
-                categoryId: "signs",
-                categoryName: "Verkehrszeichen",
-                correct: 9,
-                total: 10
-            )
-        )
-        
-        CategoryPerformanceRow(
-            score: CategoryScore(
-                categoryId: "rules",
-                categoryName: "Vorfahrtsregeln",
-                correct: 7,
-                total: 10
-            )
-        )
-        
-        CategoryPerformanceRow(
-            score: CategoryScore(
-                categoryId: "safety",
-                categoryName: "Fahrzeugsicherheit",
-                correct: 5,
-                total: 10
-            )
-        )
+    
+    private var computedStatusColor: Color {
+        accentColor ?? computeStatusColor()
     }
-    .padding()
+    
+    private func computeStatusColor() -> Color {
+        if score.percentage >= 80 {
+            return Color(red: 0.2, green: 0.8, blue: 0.2)
+        } else if score.percentage >= 60 {
+            return Color(red: 1.0, green: 0.6, blue: 0.1)
+        } else {
+            return Color(red: 0.8, green: 0.2, blue: 0.2)
+        }
+    }
 }

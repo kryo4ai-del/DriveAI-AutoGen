@@ -1,70 +1,49 @@
-// Views/Components/ActionButtonGroup.swift
 import SwiftUI
 
 struct ActionButtonGroup: View {
     let result: SimulationResult
-    @Environment(\.dismiss) var dismiss
+    var onRetry: () -> Void = {}
+    var onDrillWeaknesses: () -> Void = {}
+    var onReviewTopics: () -> Void = {}
+    var onContinue: () -> Void = {}
     
     var body: some View {
         VStack(spacing: 12) {
-            // Primary CTA: Retry
-            Button(action: {}) {
-                Label("Nochmal üben", systemImage: "arrow.clockwise")
-                    .frame(maxWidth: .infinity)
-                    .padding(14)
-                    .background(Color.blue)
-                    .foregroundStyle(.white)
-                    .cornerRadius(12)
-                    .font(.subheadline.bold())
-            }
-            .accessibilityLabel("Nochmal üben")
-            .accessibilityHint("Startet eine neue Prüfungssimulation")
-            
-            // Secondary: Home
-            Button(action: { dismiss() }) {
-                Label("Zur Startseite", systemImage: "house.fill")
-                    .frame(maxWidth: .infinity)
-                    .padding(14)
-                    .background(Color(.systemGray6))
-                    .foregroundStyle(.primary)
-                    .cornerRadius(12)
-                    .font(.subheadline.bold())
-            }
-            .accessibilityLabel("Zur Startseite")
-            .accessibilityHint("Kehrt zum Hauptmenü zurück")
-            
-            // Tertiary: Practice Weak Categories
-            Button(action: {}) {
-                Label("Schwache Kategorien üben", systemImage: "target")
-                    .frame(maxWidth: .infinity)
-                    .padding(14)
-                    .background(Color(.systemGray6))
-                    .foregroundStyle(.primary)
-                    .cornerRadius(12)
-                    .font(.subheadline.bold())
-            }
-            .accessibilityLabel("Schwache Kategorien üben")
-            .accessibilityHint("Konzentriert sich auf Kategorien mit schlechterer Leistung")
-            
-            // Conditional: Ready for Real Exam
-            if result.passed {
-                Button(action: {}) {
-                    Label("Zur echten Prüfung", systemImage: "graduation.cap.fill")
+            if result.isPassed {
+                Button(action: onDrillWeaknesses) {
+                    Label("Improve Weak Areas", systemImage: "target.fill")
                         .frame(maxWidth: .infinity)
-                        .padding(14)
-                        .background(Color.green.opacity(0.15))
-                        .foregroundStyle(.green)
-                        .cornerRadius(12)
-                        .font(.subheadline.bold())
                 }
-                .accessibilityLabel("Zur echten Prüfung")
-                .accessibilityHint("Du hast genug Punkte für die offizielle Prüfung")
+                .buttonStyle(.bordered)
+                .tint(.orange)
+                
+                Button(action: onContinue) {
+                    Label("Continue Learning", systemImage: "arrow.right")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.filled)
+            } else {
+                Button(action: onRetry) {
+                    Label("Retry Test", systemImage: "arrow.counterclockwise")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.filled)
+                .tint(.red)
+                
+                Button(action: onReviewTopics) {
+                    Label("Review Topics", systemImage: "book.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .tint(.blue)
+                
+                Button(action: onContinue) {
+                    Label("Back to Menu", systemImage: "house.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(16)
     }
-}
-
-#Preview {
-    ActionButtonGroup(result: .previewPass)
 }

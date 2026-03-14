@@ -1,0 +1,370 @@
+{
+  "timestamp": "20260314_103917",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 110,
+  "files_normalized": 16,
+  "files_written": 95,
+  "files_skipped": 15,
+  "truncated_detected": [
+    "CategoryStat.swift (generated_code, 4 lines)",
+    "ExamReadinessResult.swift (generated_code, 7 lines)",
+    "ReadinessConfiguration.swift (generated_code, 22 lines)",
+    "ReadinessStrings.swift (generated_code, 35 lines)",
+    "WeakCategory.swift (generated_code, 11 lines)",
+    "TrainingModeScreen.swift (log:driveai_run_20260312_125103.txt, 54 lines)",
+    "TrainingModeViewModelTests.swift (log:driveai_run_20260312_125103.txt, 416 lines)",
+    "TrainingModeViewModel.swift (log:driveai_run_20260312_165001.txt, 295 lines)",
+    "TrainingSessionManager.swift (log:driveai_run_20260312_165001.txt, 86 lines)",
+    "QuestionCard.swift (log:driveai_run_20260312_185456.txt, 65 lines)",
+    "TrainingSessionViewModel.swift (log:driveai_run_20260313_092851.txt, 131 lines)",
+    "TrainingSessionViewModel.swift (log:driveai_run_20260313_101710.txt, 42 lines)",
+    "TrainingSessionView.swift (log:driveai_run_20260313_101710.txt, 73 lines)",
+    "AnswerRevealView.swift (log:driveai_run_20260313_101710.txt, 117 lines)",
+    "TestFixtures.swift (log:driveai_run_20260313_101710.txt, 70 lines)",
+    "SessionSummaryView.swift (log:driveai_run_20260313_113101.txt, 10 lines)",
+    "SimulationResultViewModel.swift (log:driveai_run_20260313_150826.txt, 49 lines)",
+    "ReadinessScoreView.swift (log:driveai_run_20260313_150826.txt, 54 lines)",
+    "LearningStreak+Display.swift (log:driveai_run_20260313_161527.txt, 7 lines)",
+    "MockServices.swift (log:driveai_run_20260313_161527.txt, 2 lines)",
+    "ReadinessScoreView.swift (log:driveai_run_20260313_161527.txt, 4 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\CategoryMetric.swift",
+      "to": "Models/CategoryMetric.swift"
+    },
+    {
+      "from": "Models\\CategoryStat.swift",
+      "to": "Models/CategoryStat.swift"
+    },
+    {
+      "from": "Models\\ExamReadinessResult.swift",
+      "to": "Models/ExamReadinessResult.swift"
+    },
+    {
+      "from": "Models\\FormattableScore.swift",
+      "to": "Models/FormattableScore.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\PreviewDataFactory.swift",
+      "to": "Models/PreviewDataFactory.swift"
+    },
+    {
+      "from": "Models\\ReadinessConfiguration.swift",
+      "to": "Models/ReadinessConfiguration.swift"
+    },
+    {
+      "from": "Models\\ReadinessDataProvider.swift",
+      "to": "Models/ReadinessDataProvider.swift"
+    },
+    {
+      "from": "Models\\ReadinessDesignTokens.swift",
+      "to": "Models/ReadinessDesignTokens.swift"
+    },
+    {
+      "from": "Models\\ReadinessMetrics.swift",
+      "to": "Models/ReadinessMetrics.swift"
+    },
+    {
+      "from": "Models\\ReadinessRecommendation.swift",
+      "to": "Models/ReadinessRecommendation.swift"
+    },
+    {
+      "from": "Models\\ReadinessStrings.swift",
+      "to": "Models/ReadinessStrings.swift"
+    },
+    {
+      "from": "Models\\ScoreColorTheme.swift",
+      "to": "Models/ScoreColorTheme.swift"
+    },
+    {
+      "from": "Models\\ScoringCalculator.swift",
+      "to": "Models/ScoringCalculator.swift"
+    },
+    {
+      "from": "Models\\TimeFormatter.swift",
+      "to": "Models/TimeFormatter.swift"
+    },
+    {
+      "from": "Models\\WeakCategory.swift",
+      "to": "Models/WeakCategory.swift"
+    },
+    {
+      "from": "Services\\LocalDataService+Extension.swift",
+      "to": "Models/LocalDataService+Extension.swift"
+    },
+    {
+      "from": "Services\\ReadinessAnalysisService.swift",
+      "to": "Services/ReadinessAnalysisService.swift"
+    },
+    {
+      "from": "ViewModels\\ExamReadinessViewModel+Extension.swift",
+      "to": "Models/ExamReadinessViewModel+Extension.swift"
+    },
+    {
+      "from": "ViewModels\\ExamReadinessViewModel.swift",
+      "to": "ViewModels/ExamReadinessViewModel.swift"
+    },
+    {
+      "from": "Models/Training/TrainingCategory.swift",
+      "to": "Models/TrainingCategory.swift"
+    },
+    {
+      "from": "ViewModels/TrainingMode/TrainingModeState.swift",
+      "to": "Models/TrainingModeState.swift"
+    },
+    {
+      "from": "ViewModels/TrainingMode/CategorySelectionViewModel.swift",
+      "to": "ViewModels/CategorySelectionViewModel.swift"
+    },
+    {
+      "from": "Views/TrainingMode/TrainingModeScreen.swift",
+      "to": "Models/TrainingModeScreen.swift"
+    },
+    {
+      "from": "TrainingModeViewModelTests.swift",
+      "to": "Tests/TrainingModeViewModelTests.swift"
+    },
+    {
+      "from": "Models/Simulation/ExamSimulation.swift",
+      "to": "Models/ExamSimulation.swift"
+    },
+    {
+      "from": "Models/Simulation/ReadinessScore.swift",
+      "to": "Models/ReadinessScore.swift"
+    },
+    {
+      "from": "Models/Simulation/SimulationConfig.swift",
+      "to": "Models/SimulationConfig.swift"
+    },
+    {
+      "from": "Models/Simulation/SimulationMode.swift",
+      "to": "Models/SimulationMode.swift"
+    },
+    {
+      "from": "Models/Simulation/ReadinessMilestone.swift",
+      "to": "Models/ReadinessMilestone.swift"
+    },
+    {
+      "from": "Models/Simulation/FehlerpunkteCategory.swift",
+      "to": "Models/FehlerpunkteCategory.swift"
+    },
+    {
+      "from": "Models/Simulation/ExamSimulationError.swift",
+      "to": "Models/ExamSimulationError.swift"
+    },
+    {
+      "from": "Models/Simulation/TopicArea+ExamWeights.swift",
+      "to": "Models/TopicArea+ExamWeights.swift"
+    },
+    {
+      "from": "Models/Simulation/SimulationResult.swift",
+      "to": "Models/SimulationResult.swift"
+    },
+    {
+      "from": "Models/Simulation/AnswerStatus.swift",
+      "to": "Models/AnswerStatus.swift"
+    },
+    {
+      "from": "Views/Simulation/ReadinessScoreView.swift",
+      "to": "Views/ReadinessScoreView.swift"
+    },
+    {
+      "from": "Services/Protocols/SimulationProtocols.swift",
+      "to": "Models/SimulationProtocols.swift"
+    },
+    {
+      "from": "LearningStreak.swift",
+      "to": "Models/LearningStreak.swift"
+    },
+    {
+      "from": "ExamReadiness.swift",
+      "to": "Models/ExamReadiness.swift"
+    },
+    {
+      "from": "SimulationResultScreen.swift",
+      "to": "Models/SimulationResultScreen.swift"
+    },
+    {
+      "from": "ResultHeader.swift",
+      "to": "Models/ResultHeader.swift"
+    },
+    {
+      "from": "CategoryPerformanceRow.swift",
+      "to": "Models/CategoryPerformanceRow.swift"
+    },
+    {
+      "from": "ReadinessGaugeView.swift",
+      "to": "Views/ReadinessGaugeView.swift"
+    },
+    {
+      "from": "ActionButtonGroup.swift",
+      "to": "Models/ActionButtonGroup.swift"
+    }
+  ],
+  "written_files": [
+    "Models\\CategoryMetric.swift",
+    "Models\\CategoryStat.swift",
+    "Models\\ExamReadinessResult.swift",
+    "Models\\FormattableScore.swift",
+    "Models\\GeneratedHelpers.swift",
+    "Models\\PreviewDataFactory.swift",
+    "Models\\ReadinessConfiguration.swift",
+    "Models\\ReadinessDataProvider.swift",
+    "Models\\ReadinessDesignTokens.swift",
+    "Models\\ReadinessMetrics.swift",
+    "Models\\ReadinessRecommendation.swift",
+    "Models\\ReadinessStrings.swift",
+    "Models\\ScoreColorTheme.swift",
+    "Models\\ScoringCalculator.swift",
+    "Models\\TimeFormatter.swift",
+    "Models\\WeakCategory.swift",
+    "Models\\LocalDataService+Extension.swift",
+    "Services\\ReadinessAnalysisService.swift",
+    "Models\\ExamReadinessViewModel+Extension.swift",
+    "ViewModels\\ExamReadinessViewModel.swift",
+    "Models\\TrainingSession.swift",
+    "Models\\TrainingCategory.swift",
+    "Models\\TrainingModeState.swift",
+    "ViewModels\\TrainingModeViewModel.swift",
+    "ViewModels\\TrainingSessionViewModel.swift",
+    "ViewModels\\CategorySelectionViewModel.swift",
+    "Models\\TrainingModeScreen.swift",
+    "Tests\\TrainingModeViewModelTests.swift",
+    "Services\\TrainingSessionManager.swift",
+    "Models\\PracticeSession.swift",
+    "Services\\LocalDataService.swift",
+    "ViewModels\\PracticeModeViewModel.swift",
+    "Views\\Components\\QuestionCard.swift",
+    "Models\\DashboardState.swift",
+    "ViewModels\\DashboardViewModel.swift",
+    "Views\\DashboardView.swift",
+    "Views\\Components\\ExamCountdownCard.swift",
+    "Views\\Components\\ProgressGridCard.swift",
+    "Views\\Components\\StreakIndicator.swift",
+    "Models\\TrainingModels.swift",
+    "Services\\TopicCompetenceService.swift",
+    "Models\\TopicArea.swift",
+    "Models\\CompetenceLevel.swift",
+    "Models\\Threshold.swift",
+    "Models\\TopicCompetence.swift",
+    "Models\\AnswerOption.swift",
+    "Models\\SessionQuestion.swift",
+    "Models\\SpacingItem.swift",
+    "Models\\SwipeDirection.swift",
+    "Models\\QuestionType.swift",
+    "Models\\TrainingConfig.swift",
+    "Models\\RevealMode.swift",
+    "Models\\TopicDomain.swift",
+    "Services\\PersistenceStore.swift",
+    "ViewModels\\SkillMapViewModel.swift",
+    "Services\\QuestionBankProtocol.swift",
+    "Services\\HapticFeedbackProtocol.swift",
+    "ViewModels\\RevealCopy.swift",
+    "ViewModels\\DomainSection.swift",
+    "Views\\Training\\TrainingSessionView.swift",
+    "Views\\Training\\SessionBriefView.swift",
+    "Views\\Training\\QuestionCardView.swift",
+    "Views\\Training\\AnswerRevealView.swift",
+    "Tests\\Helpers\\MockQuestionBank.swift",
+    "Tests\\Helpers\\TestFixtures.swift",
+    "Models\\SessionType.swift",
+    "Models\\SessionPhase+Equatable.swift",
+    "Views\\Training\\SessionSummaryView.swift",
+    "Models\\ExamSimulation.swift",
+    "Models\\ReadinessScore.swift",
+    "Services\\ExamSimulationService.swift",
+    "Models\\SimulationConfig.swift",
+    "Models\\SimulationMode.swift",
+    "Models\\ReadinessMilestone.swift",
+    "Models\\FehlerpunkteCategory.swift",
+    "Models\\ExamSimulationError.swift",
+    "Models\\TopicArea+ExamWeights.swift",
+    "Models\\TopicArea+Exam.swift",
+    "Models\\SimulationResult.swift",
+    "Models\\AnswerStatus.swift",
+    "Services\\ReadinessScoreService.swift",
+    "ViewModels\\ExamSimulationViewModel.swift",
+    "ViewModels\\SimulationResultViewModel.swift",
+    "Views\\ReadinessScoreView.swift",
+    "Models\\SimulationProtocols.swift",
+    "Tests\\ReadinessScoreServiceTests.swift",
+    "Models\\LearningStreak.swift",
+    "Models\\LearningStreak+Display.swift",
+    "Tests\\Helpers\\MockServices.swift",
+    "Models\\ExamReadiness.swift",
+    "Models\\SimulationResultScreen.swift",
+    "Models\\ResultHeader.swift",
+    "Models\\CategoryPerformanceRow.swift",
+    "Views\\ReadinessGaugeView.swift",
+    "Models\\ActionButtonGroup.swift"
+  ],
+  "skipped_files": [
+    {
+      "file": "TrainingSession.swift (log:driveai_run_20260312_125103.txt)",
+      "reason": "shorter version (1293 chars vs 5449 chars)"
+    },
+    {
+      "file": "TrainingSession.swift (log:driveai_run_20260313_101710.txt)",
+      "reason": "shorter version (1752 chars vs 5449 chars)"
+    },
+    {
+      "file": "TrainingModeViewModel.swift (log:driveai_run_20260312_125103.txt)",
+      "reason": "shorter version (6915 chars vs 9351 chars)"
+    },
+    {
+      "file": "TrainingSessionViewModel.swift (log:driveai_run_20260312_125103.txt)",
+      "reason": "shorter version (2435 chars vs 6494 chars)"
+    },
+    {
+      "file": "TrainingSessionViewModel.swift (log:driveai_run_20260313_092851.txt)",
+      "reason": "shorter version (4325 chars vs 6494 chars)"
+    },
+    {
+      "file": "TrainingSessionViewModel.swift (log:driveai_run_20260313_101710.txt)",
+      "reason": "shorter version (1228 chars vs 6494 chars)"
+    },
+    {
+      "file": "TopicCompetenceService.swift (log:driveai_run_20260313_101710.txt)",
+      "reason": "shorter version (4168 chars vs 4294 chars)"
+    },
+    {
+      "file": "SessionQuestion.swift (log:driveai_run_20260313_150826.txt)",
+      "reason": "shorter version (635 chars vs 2353 chars)"
+    },
+    {
+      "file": "SpacingItem.swift (log:driveai_run_20260313_113101.txt)",
+      "reason": "shorter version (1001 chars vs 1308 chars)"
+    },
+    {
+      "file": "TrainingSessionView.swift (log:driveai_run_20260313_101710.txt)",
+      "reason": "shorter version (2456 chars vs 3147 chars)"
+    },
+    {
+      "file": "AnswerRevealView.swift (log:driveai_run_20260313_101710.txt)",
+      "reason": "shorter version (3907 chars vs 10573 chars)"
+    },
+    {
+      "file": "SimulationResult.swift (log:driveai_run_20260314_102335.txt)",
+      "reason": "shorter version (640 chars vs 8338 chars)"
+    },
+    {
+      "file": "SimulationResultViewModel.swift (log:driveai_run_20260313_161527.txt)",
+      "reason": "shorter version (454 chars vs 1473 chars)"
+    },
+    {
+      "file": "SimulationResultViewModel.swift (log:driveai_run_20260314_102335.txt)",
+      "reason": "shorter version (1244 chars vs 1473 chars)"
+    },
+    {
+      "file": "ReadinessScoreView.swift (log:driveai_run_20260313_161527.txt)",
+      "reason": "shorter version (197 chars vs 1598 chars)"
+    }
+  ],
+  "errors": []
+}
