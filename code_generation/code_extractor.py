@@ -164,7 +164,7 @@ _SWIFT_PATTERNS = {
 
 class CodeExtractor:
     def __init__(self):
-        self._last_extraction_files: list[tuple[str, str, str]] = []  # (name, subfolder, type_kw)
+        self._last_extraction_files: list[tuple[str, str, str, str]] = []  # (name, subfolder, type_kw, code)
         self._last_extraction_patterns: set[str] = set()
 
     def extract_swift_code(self, messages: list) -> dict[str, int]:
@@ -231,9 +231,9 @@ class CodeExtractor:
                 files_to_write.append((name, subfolder, dest_path, block))
                 log_entries.append(f"[TYPE] {type_kw} {name} → {subfolder}/{filename}")
 
-        # Store extraction metadata for implementation summary
+        # Store extraction metadata + code for implementation summary
         self._last_extraction_files = [
-            (name, subfolder, self._detect_type_keyword(content))
+            (name, subfolder, self._detect_type_keyword(content), content)
             for name, subfolder, _, content in files_to_write
         ]
         self._last_extraction_patterns = self._detect_patterns(files_to_write)
@@ -322,10 +322,15 @@ class CodeExtractor:
         return patterns
 
     def build_implementation_summary(self, user_task: str, template: str | None = None) -> str:
-        """Build a compact summary of the last extraction for review passes.
+        """Build a structured summary of the last extraction for review passes.
 
-        Returns a short text block (~300-500 tokens) describing what was generated,
-        suitable for prepending to review task prompts after team.reset().
+        Returns a text block (~2000-4000 tokens) with:
+        - File listing with types
+        - API skeleton per file (type signatures, properties, method signatures)
+        - Architecture patterns detected
+
+        This gives downstream reviewers enough structural context to evaluate
+        the implementation meaningfully after team.reset() clears full code.
         """
         files = self._last_extraction_files
         patterns = self._last_extraction_patterns
@@ -338,25 +343,85 @@ class CodeExtractor:
         if template:
             lines.append(f"Template: {template}")
         lines.append(f"Files generated: {len(files)}")
-        lines.append("")
-
-        # Group files by subfolder
-        by_folder: dict[str, list[tuple[str, str]]] = {}
-        for name, subfolder, type_kw in files:
-            by_folder.setdefault(subfolder, []).append((name, type_kw))
-
-        lines.append("Generated files:")
-        for folder in ("Views", "ViewModels", "Services", "Models"):
-            if folder not in by_folder:
-                continue
-            for name, type_kw in by_folder[folder]:
-                lines.append(f"  - {folder}/{name}.swift ({type_kw})")
 
         if patterns:
-            lines.append("")
             lines.append(f"Architecture: {', '.join(sorted(patterns))}")
+        lines.append("")
+
+        # Build API skeleton for each file
+        MAX_TOTAL_CHARS = 6000
+        MAX_PER_FILE = 800
+        skeleton_chars = 0
+
+        for folder_name in ("Views", "ViewModels", "Services", "Models"):
+            folder_files = [(n, t, c) for n, sf, t, c in files if sf == folder_name]
+            if not folder_files:
+                continue
+
+            lines.append(f"--- {folder_name} ---")
+            for name, type_kw, code in folder_files:
+                skeleton = self._extract_api_skeleton(code, max_chars=MAX_PER_FILE)
+                if skeleton:
+                    lines.append(f"{name}.swift:")
+                    lines.append(skeleton)
+                else:
+                    lines.append(f"{name}.swift ({type_kw})")
+                lines.append("")
+                skeleton_chars += len(skeleton)
+                if skeleton_chars > MAX_TOTAL_CHARS:
+                    lines.append(f"  ... ({len(files)} files total, skeleton truncated)")
+                    break
+            if skeleton_chars > MAX_TOTAL_CHARS:
+                break
 
         lines.append("")
-        lines.append("Use this summary to ground your review in the actual implementation.")
+        lines.append("Review the above API surface for bugs, missing edge cases, structural issues, and design quality.")
 
         return "\n".join(lines)
+
+    @staticmethod
+    def _extract_api_skeleton(code: str, max_chars: int = 800) -> str:
+        """Extract the public API skeleton from a Swift code block.
+
+        Captures: import statements, type declarations with conformances,
+        properties (var/let/@Published/@State), method signatures (func lines),
+        and init signatures. Strips method bodies.
+        """
+        significant_lines: list[str] = []
+
+        # Patterns for API-relevant lines
+        _API_LINE_RE = re.compile(
+            r'^\s*('
+            r'import\s+\w+'                        # imports
+            r'|(?:public\s+|private\s+|internal\s+|fileprivate\s+)?'
+            r'(?:final\s+)?(?:struct|class|enum|protocol|actor|extension)\s+.+'   # type decl
+            r'|(?:public\s+|private\s+|internal\s+|fileprivate\s+)?'
+            r'(?:static\s+|class\s+)?(?:let|var)\s+\w+.*'      # properties
+            r'|@(?:Published|State|Binding|Environment|StateObject|ObservedObject|EnvironmentObject)\s+.*'  # property wrappers
+            r'|(?:public\s+|private\s+|internal\s+|fileprivate\s+)?'
+            r'(?:static\s+|class\s+)?(?:override\s+)?func\s+\w+.*'  # method sigs
+            r'|(?:public\s+|private\s+|internal\s+|fileprivate\s+)?'
+            r'(?:convenience\s+|required\s+)?init\s*\(.*'     # init sigs
+            r'|case\s+\w+.*'                        # enum cases
+            r')\s*$',
+            re.MULTILINE
+        )
+
+        for match in _API_LINE_RE.finditer(code):
+            line = match.group(0).rstrip()
+            # Strip method/computed-property bodies: keep only the signature
+            # Remove trailing { and everything after
+            sig = re.sub(r'\s*\{.*$', '', line)
+            significant_lines.append(sig)
+
+        if not significant_lines:
+            return ""
+
+        result = "\n".join(f"  {l.strip()}" for l in significant_lines)
+
+        # Truncate if too long
+        if len(result) > max_chars:
+            result = result[:max_chars].rsplit("\n", 1)[0]
+            result += "\n  ..."
+
+        return result
