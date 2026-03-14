@@ -1,8 +1,11 @@
 # factory/operations/compile_hygiene_validator.py
-# Post-generation Compile Hygiene Validator — Round 2
+# Post-generation Compile Hygiene Validator — Round 2+3
 #
 # Checks generated Swift artifacts for recurring error patterns
-# discovered in Error Pattern Seed Round 1 (FK-011, FK-012, FK-015).
+# discovered in Error Pattern Seed Round 1.
+#
+# Round 2: FK-011, FK-012, FK-015
+# Round 3: FK-013, FK-014, FK-017
 #
 # Deterministic only — no LLM, no automatic fixes.
 # Reports issues and classifies hygiene status.
@@ -220,20 +223,23 @@ def _check_fk011(file_path: Path, content: str, rel_path: str) -> list[HygieneIs
 # ---------------------------------------------------------------------------
 
 # Matches Swift type declarations: struct/class/enum/protocol Name
+# Allows optional leading whitespace to catch nested types
 _TYPE_DECL_RE = re.compile(
-    r'^(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+    r'^\s*(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
     r'(?:final\s+)?'
     r'(struct|class|enum|protocol|actor)\s+'
     r'([A-Z][A-Za-z0-9_]+)',
     re.MULTILINE,
 )
 
-# Types from Apple frameworks that can appear in multiple files legitimately
+# Types from Apple frameworks or Swift patterns that can appear in multiple files legitimately
 _FRAMEWORK_TYPES = frozenset({
     "String", "Int", "Double", "Bool", "Float", "Date", "UUID",
     "Array", "Dictionary", "Set", "Optional", "Result", "Error",
     "URL", "Data", "Void", "Never", "Any", "AnyObject",
     "View", "App", "Scene", "PreviewProvider",
+    # Codable nested enums — every Codable type defines its own CodingKeys
+    "CodingKeys", "TypeValue", "CodingKey",
 })
 
 
@@ -330,6 +336,482 @@ def _check_fk015(
 
 
 # ---------------------------------------------------------------------------
+# FK-013: Wrong parameters at call sites
+# ---------------------------------------------------------------------------
+
+# Collect init/func signatures: extract parameter labels from declarations
+# Note: uses DOTALL-like matching for multi-line init signatures
+_INIT_SIGNATURE_RE = re.compile(
+    r'(?:init|func\s+\w+)\s*\(([^)]*)\)',
+)
+
+# Multi-line init detection is handled procedurally (see _find_init_params)
+# because regex can't reliably match balanced parentheses with defaults like UUID()
+
+# Extract individual parameter labels from a signature
+_PARAM_LABEL_RE = re.compile(
+    r'(\w+)\s*(?:\s+\w+)?\s*:',
+)
+
+# Detect View instantiation: TypeName(param: ..., param: ...)
+_VIEW_CALL_RE = re.compile(
+    r'([A-Z][A-Za-z0-9_]+)\s*\(([^)]{5,})\)',
+)
+
+
+@dataclass
+class _InitBlock:
+    """Represents a found init declaration."""
+    start: int
+    params_str: str
+
+    def group(self, n: int) -> str:
+        if n == 1:
+            return self.params_str
+        return ""
+
+
+# Find init declarations with balanced parentheses
+_INIT_KEYWORD_RE = re.compile(r'\binit\s*\(')
+
+
+def _find_init_blocks(content: str) -> list[_InitBlock]:
+    """Find all init(...) blocks, handling nested parens like UUID()."""
+    blocks: list[_InitBlock] = []
+    for m in _INIT_KEYWORD_RE.finditer(content):
+        start = m.start()
+        paren_start = m.end() - 1  # position of '('
+        depth = 1
+        i = paren_start + 1
+        while i < len(content) and depth > 0:
+            if content[i] == '(':
+                depth += 1
+            elif content[i] == ')':
+                depth -= 1
+            i += 1
+        if depth == 0:
+            params = content[paren_start + 1 : i - 1]
+            blocks.append(_InitBlock(start=start, params_str=params))
+    return blocks
+
+
+def _collect_signatures(
+    swift_files: dict[str, tuple[Path, str]],
+    type_registry: dict[str, list[tuple[str, str, int]]],
+) -> dict[str, list[set[str]]]:
+    """Collect init parameter labels for known types.
+
+    Returns: {TypeName: [set_of_param_labels, ...]}
+    Each type may have multiple init overloads.
+
+    Only collects EXPLICIT init declarations. Structs with no explicit init
+    have an implicit memberwise init that we cannot reliably validate,
+    so they are excluded.
+    """
+    signatures: dict[str, list[set[str]]] = {}
+
+    # Only look at types we know are declared in this project
+    known_types = set(type_registry.keys())
+
+    # Regex for explicit init
+    explicit_init_re = re.compile(
+        r'^\s+(?:public\s+|internal\s+|private\s+|convenience\s+)*'
+        r'init\s*\(([^)]*)\)',
+        re.MULTILINE,
+    )
+
+    # Regex for type declaration start (to scope init to correct type)
+    type_start_re = re.compile(
+        r'^(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+        r'(?:final\s+)?'
+        r'(?:struct|class)\s+([A-Z][A-Za-z0-9_]+)',
+        re.MULTILINE,
+    )
+
+    for rel_path, (_, content) in swift_files.items():
+        # Find all type declarations and their positions
+        type_positions: list[tuple[str, int]] = []
+        for m in type_start_re.finditer(content):
+            name = m.group(1)
+            if name in known_types:
+                type_positions.append((name, m.start()))
+
+        if not type_positions:
+            continue
+
+        # Also check for extension TypeName { ... init ...
+        ext_re = re.compile(
+            r'^extension\s+([A-Z][A-Za-z0-9_]+)\s*(?::\s*\w+\s*)?{',
+            re.MULTILINE,
+        )
+        for m in ext_re.finditer(content):
+            name = m.group(1)
+            if name in known_types:
+                type_positions.append((name, m.start()))
+
+        # Sort by position
+        type_positions.sort(key=lambda x: x[1])
+
+        # For each init, find which type scope it belongs to.
+        # Use procedural parenthesis balancing to handle defaults like UUID()
+        for init_match in _find_init_blocks(content):
+            init_pos = init_match.start
+
+            # Find the closest type declaration before this init
+            owning_type = None
+            for name, pos in reversed(type_positions):
+                if pos < init_pos:
+                    owning_type = name
+                    break
+
+            if not owning_type:
+                continue
+
+            params_str = init_match.group(1).strip()
+            if not params_str:
+                continue
+
+            labels = set()
+            for param_match in _PARAM_LABEL_RE.finditer(params_str):
+                label = param_match.group(1)
+                if label != "_":
+                    labels.add(label)
+
+            if labels:
+                if owning_type not in signatures:
+                    signatures[owning_type] = []
+                signatures[owning_type].append(labels)
+
+    return signatures
+
+
+def _check_fk013(
+    swift_files: dict[str, tuple[Path, str]],
+    type_registry: dict[str, list[tuple[str, str, int]]],
+) -> list[HygieneIssue]:
+    """Check for call-site parameter mismatches.
+
+    Compares parameter labels used at call sites against known init signatures.
+    Only flags when ALL labels at a call site are unknown to ALL known signatures.
+    """
+    issues: list[HygieneIssue] = []
+    signatures = _collect_signatures(swift_files, type_registry)
+
+    if not signatures:
+        return issues
+
+    for rel_path, (_, content) in swift_files.items():
+        lines = content.splitlines()
+
+        for call_match in _VIEW_CALL_RE.finditer(content):
+            type_name = call_match.group(1)
+            args_str = call_match.group(2)
+
+            # Only check types we have EXPLICIT init signatures for.
+            # Types without explicit init use implicit memberwise init
+            # which we can't validate without full Swift parsing.
+            if type_name not in signatures:
+                continue
+
+            # Skip if this looks like a function call context
+            call_start = call_match.start()
+            prefix = content[max(0, call_start - 50):call_start]
+            # Skip: func definition, await/try context with lowercase func name
+            if re.search(r'(?:func\s+|\.)\s*$', prefix):
+                continue
+            # Skip if preceded by lowercase word (e.g. "startTrainingSession(")
+            if re.search(r'[a-z]\s*$', prefix):
+                continue
+
+            # Extract labels used at the call site
+            call_labels = set()
+            for param_match in _PARAM_LABEL_RE.finditer(args_str):
+                call_labels.add(param_match.group(1))
+
+            if not call_labels:
+                continue
+
+            # Check against all known signatures for this type
+            known_sigs = signatures[type_name]
+            best_match_ratio = 0.0
+
+            for sig_labels in known_sigs:
+                if not sig_labels:
+                    continue
+                # How many call labels are in this signature?
+                matched = call_labels & sig_labels
+                ratio = len(matched) / len(call_labels) if call_labels else 0
+                best_match_ratio = max(best_match_ratio, ratio)
+
+            # Flag if less than 50% of call labels match any known signature
+            if best_match_ratio < 0.5 and len(call_labels) >= 2:
+                line_num = content[:call_match.start()].count('\n') + 1
+                line_text = lines[line_num - 1] if line_num <= len(lines) else ""
+
+                # Skip if inside a comment
+                stripped = line_text.strip()
+                if stripped.startswith("//") or stripped.startswith("/*"):
+                    continue
+
+                # High confidence if 0% match, warning if partial
+                severity = (
+                    IssueSeverity.BLOCKING
+                    if best_match_ratio == 0
+                    else IssueSeverity.WARNING
+                )
+
+                issues.append(HygieneIssue(
+                    pattern_id="FK-013",
+                    severity=severity,
+                    file=rel_path,
+                    line=line_num,
+                    type_name=type_name,
+                    matched_text=stripped[:100],
+                    message=(
+                        f"Call to {type_name}() uses labels {sorted(call_labels)} — "
+                        f"no known init matches ({int(best_match_ratio*100)}% match)"
+                    ),
+                ))
+
+    return issues
+
+
+# ---------------------------------------------------------------------------
+# FK-014: Referenced types never generated
+# ---------------------------------------------------------------------------
+
+# Type references: used as type annotation, generic parameter, or conformance
+_TYPE_REFERENCE_RE = re.compile(
+    r'(?<![A-Za-z0-9_])'  # not preceded by word char
+    r'([A-Z][A-Za-z0-9_]{3,})'  # PascalCase name, min 4 chars
+    r'(?![A-Za-z0-9_(])'  # not followed by word char or opening paren (to skip func calls mostly)
+)
+
+# Extended framework/stdlib types to exclude from missing-type detection
+_KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
+    # SwiftUI
+    "AnyView", "EmptyView", "Text", "Image", "Button", "NavigationView",
+    "NavigationStack", "NavigationLink", "TabView", "List", "ForEach",
+    "VStack", "HStack", "ZStack", "ScrollView", "LazyVStack", "LazyHStack",
+    "LazyVGrid", "LazyHGrid", "GridItem", "Spacer", "Divider", "Group",
+    "Section", "Form", "Label", "Toggle", "Picker", "Slider", "Stepper",
+    "TextField", "TextEditor", "SecureField", "DatePicker", "ColorPicker",
+    "ProgressView", "Gauge", "Link", "Menu", "ContextMenu", "Alert",
+    "Sheet", "ActionSheet", "Popover", "GeometryReader", "Color",
+    "Font", "EdgeInsets", "Alignment", "Axis", "ContentView",
+    "StateObject", "ObservedObject", "EnvironmentObject", "Binding",
+    "Published", "ObservableObject", "State", "Environment",
+    "ViewModifier", "ViewBuilder", "PreviewProvider", "Previews",
+    "Animation", "AnyTransition", "Shape", "Path", "Circle",
+    "Rectangle", "RoundedRectangle", "Capsule", "Ellipse",
+    "LinearGradient", "RadialGradient", "AngularGradient",
+    "CGFloat", "CGPoint", "CGSize", "CGRect",
+    # Foundation
+    "JSONEncoder", "JSONDecoder", "FileManager", "UserDefaults",
+    "NotificationCenter", "DispatchQueue", "Task", "MainActor",
+    "Cancellable", "AnyCancellable", "PassthroughSubject",
+    "CurrentValueSubject", "Just", "AnyPublisher", "Timer",
+    "Calendar", "DateFormatter", "NumberFormatter",
+    "NSObject", "Bundle", "Locale", "TimeInterval", "IndexSet",
+    # Combine
+    "Combine", "ObservableObject", "Published",
+    # Common protocols
+    "Identifiable", "Codable", "Decodable", "Encodable",
+    "Hashable", "Equatable", "Comparable", "CustomStringConvertible",
+    "CaseIterable", "RawRepresentable", "Sendable",
+    "LocalizedError", "Error",
+    # Common types in iOS
+    "UIImage", "UIColor", "UIFont", "UIApplication",
+    "WKWebView", "AVPlayer", "CLLocation",
+    "LocalizedStringKey",
+    # Swift keywords that look like types
+    "Self", "Type", "Protocol", "AnyType",
+    # Swift Codable protocol types
+    "CodingKey", "CodingKeys", "Decoder", "Encoder",
+    "KeyedDecodingContainer", "KeyedEncodingContainer",
+    "SingleValueDecodingContainer", "SingleValueEncodingContainer",
+    "UnkeyedDecodingContainer", "UnkeyedEncodingContainer",
+    # Framework module names (appear in import statements)
+    "SwiftUI", "Foundation", "Combine", "UIKit", "CoreData",
+    "MapKit", "CoreLocation", "AVFoundation", "WebKit",
+    "StoreKit", "GameKit", "CloudKit", "HealthKit",
+    # SwiftUI preview
+    "Preview", "Previews", "PreviewProvider",
+    # UIKit types
+    "UIAccessibility", "UIScreen", "UIDevice", "UIWindow",
+    "UIViewController", "UINavigationController", "UITabBarController",
+    # Compiler directives and debug
+    "DEBUG", "RELEASE", "SWIFT_PACKAGE",
+    # Common patterns that aren't user types
+    "TODO", "FIXME", "MARK", "NOTE",
+    "TypeValue", "TypeName", "ClassName",
+})
+
+# Additional patterns to skip: generic type parameters, closure params
+_GENERIC_PARAM_CONTEXT_RE = re.compile(r'<[^>]*>')
+
+
+def _collect_type_references(
+    swift_files: dict[str, tuple[Path, str]],
+) -> dict[str, list[str]]:
+    """Collect all PascalCase type references across files.
+
+    Returns: {TypeName: [file1, file2, ...]}
+    """
+    references: dict[str, list[str]] = {}
+
+    for rel_path, (_, content) in swift_files.items():
+        # Remove string literals to avoid false positives
+        cleaned = re.sub(r'"[^"]*"', '""', content)
+        # Remove comments
+        cleaned = re.sub(r'//[^\n]*', '', cleaned)
+        cleaned = re.sub(r'/\*.*?\*/', '', cleaned, flags=re.DOTALL)
+
+        seen_in_file: set[str] = set()
+        for match in _TYPE_REFERENCE_RE.finditer(cleaned):
+            name = match.group(1)
+            if name not in seen_in_file:
+                seen_in_file.add(name)
+                if name not in references:
+                    references[name] = []
+                references[name].append(rel_path)
+
+    return references
+
+
+def _check_fk014(
+    swift_files: dict[str, tuple[Path, str]],
+    type_registry: dict[str, list[tuple[str, str, int]]],
+) -> list[HygieneIssue]:
+    """Check for referenced types that have no declaration in the project.
+
+    Only flags types that:
+    - Are referenced in 2+ files (reduces noise from local aliases)
+    - Are not in the known framework/stdlib set
+    - Have no declaration in the type registry
+    """
+    issues: list[HygieneIssue] = []
+
+    references = _collect_type_references(swift_files)
+    declared_types = set(type_registry.keys())
+
+    for type_name, ref_files in sorted(references.items()):
+        # Skip framework types
+        if type_name in _KNOWN_FRAMEWORK_TYPES:
+            continue
+
+        # Skip if declared in the project
+        if type_name in declared_types:
+            continue
+
+        # Skip single-file references (likely local/contextual)
+        unique_files = sorted(set(ref_files))
+        if len(unique_files) < 2:
+            continue
+
+        # Skip common suffixes that are often protocol conformances or annotations
+        if type_name.endswith("Delegate") or type_name.endswith("DataSource"):
+            continue
+
+        issues.append(HygieneIssue(
+            pattern_id="FK-014",
+            severity=IssueSeverity.BLOCKING,
+            file=unique_files[0],
+            type_name=type_name,
+            other_files=unique_files[1:],
+            message=(
+                f"Type '{type_name}' referenced in {len(unique_files)} files "
+                f"but never declared in project"
+            ),
+        ))
+
+    return issues
+
+
+# ---------------------------------------------------------------------------
+# FK-017: Namespace collisions between feature layers
+# ---------------------------------------------------------------------------
+
+# Generic type names that are high-risk for cross-layer collision
+_COLLISION_RISK_NAMES = frozenset({
+    "Question", "Answer", "Category", "Session", "Result",
+    "Item", "Card", "Cell", "Row", "Section", "Header",
+    "Detail", "Summary", "Stats", "Status", "State",
+    "Config", "Settings", "Preferences", "Options",
+    "Manager", "Handler", "Controller", "Coordinator",
+    "Response", "Request", "Model", "Entity",
+})
+
+# Detect feature layer from path: e.g. "Premium/Models/..." -> "Premium"
+_LAYER_PATH_RE = re.compile(
+    r'^(?:.*?/)?([A-Z][A-Za-z0-9]+)/'
+    r'(?:Models|Views|ViewModels|Services|App|Components)/',
+)
+
+
+def _check_fk017(
+    type_registry: dict[str, list[tuple[str, str, int]]],
+) -> list[HygieneIssue]:
+    """Check for namespace collisions between feature layers.
+
+    Detects:
+    1. Generic high-risk type names used without a layer prefix
+    2. Same type name appearing in files from different feature layers
+    """
+    issues: list[HygieneIssue] = []
+
+    for type_name, locations in sorted(type_registry.items()):
+        if len(locations) <= 1:
+            continue  # Already covered by FK-012 for single declarations
+
+        # Check if locations span different feature layers
+        layers: dict[str, list[str]] = {}
+        for rel_path, kind, line_num in locations:
+            layer_match = _LAYER_PATH_RE.match(rel_path)
+            layer = layer_match.group(1) if layer_match else "_root"
+            if layer not in layers:
+                layers[layer] = []
+            layers[layer].append(f"{rel_path}:{line_num}")
+
+        # If same type exists in multiple layers -> collision
+        if len(layers) > 1:
+            all_files = []
+            for layer_files in layers.values():
+                all_files.extend(layer_files)
+
+            issues.append(HygieneIssue(
+                pattern_id="FK-017",
+                severity=IssueSeverity.BLOCKING,
+                file=all_files[0].split(":")[0],
+                type_name=type_name,
+                other_files=all_files[1:],
+                message=(
+                    f"Type '{type_name}' defined across {len(layers)} feature layers: "
+                    f"{', '.join(sorted(layers.keys()))}. "
+                    f"Risk of namespace collision — consider prefixing."
+                ),
+            ))
+            continue
+
+        # For single-layer types: warn if using a generic high-risk name
+        # without a layer/feature prefix
+        if type_name in _COLLISION_RISK_NAMES:
+            primary_path = locations[0][0]
+            issues.append(HygieneIssue(
+                pattern_id="FK-017",
+                severity=IssueSeverity.WARNING,
+                file=primary_path,
+                type_name=type_name,
+                message=(
+                    f"Generic type name '{type_name}' has high collision risk. "
+                    f"Consider prefixing with feature/domain name."
+                ),
+            ))
+
+    return issues
+
+
+# ---------------------------------------------------------------------------
 # Status classification
 # ---------------------------------------------------------------------------
 
@@ -337,8 +819,9 @@ def classify_status(issues: list[HygieneIssue]) -> HygieneStatus:
     """Classify hygiene status based on issues found.
 
     - CLEAN: no issues
-    - WARNINGS: only warning-level findings (FK-015)
-    - BLOCKING: any blocking-level finding (FK-011, FK-012)
+    - WARNINGS: only warning-level findings (FK-015, low-confidence FK-013, FK-017 warnings)
+    - BLOCKING: any blocking finding (FK-011, FK-012, FK-014, FK-017 cross-layer,
+                or high-confidence FK-013)
     """
     if not issues:
         return HygieneStatus.CLEAN
@@ -360,7 +843,10 @@ class CompileHygieneValidator:
     Checks:
     - FK-011: AI review text in source files
     - FK-012: Duplicate type definitions
+    - FK-013: Wrong parameters at call sites
+    - FK-014: Referenced types never generated
     - FK-015: Bundle.module in regular Xcode targets
+    - FK-017: Namespace collisions between feature layers
     """
 
     def __init__(
@@ -379,7 +865,7 @@ class CompileHygieneValidator:
         self.report = HygieneReport(
             project=project_name,
             scan_dir=str(self.scan_dir),
-            checks_run=["FK-011", "FK-012", "FK-015"],
+            checks_run=["FK-011", "FK-012", "FK-013", "FK-014", "FK-015", "FK-017"],
         )
 
     def validate(self) -> HygieneReport:
@@ -398,19 +884,24 @@ class CompileHygieneValidator:
             self._print_and_save()
             return self.report
 
-        # Step 2: Run FK-011 and FK-015 (per-file checks)
+        # Step 2: Run per-file checks (FK-011, FK-015)
         for rel_path, (file_path, content) in swift_files.items():
             self.report.issues.extend(_check_fk011(file_path, content, rel_path))
             self.report.issues.extend(_check_fk015(file_path, content, rel_path))
 
-        # Step 3: Run FK-012 (cross-file check)
+        # Step 3: Build type registry (shared by FK-012, FK-013, FK-014, FK-017)
         type_registry = _collect_type_declarations(swift_files)
-        self.report.issues.extend(_check_fk012(type_registry))
 
-        # Step 4: Classify status
+        # Step 4: Run cross-file checks
+        self.report.issues.extend(_check_fk012(type_registry))
+        self.report.issues.extend(_check_fk013(swift_files, type_registry))
+        self.report.issues.extend(_check_fk014(swift_files, type_registry))
+        self.report.issues.extend(_check_fk017(type_registry))
+
+        # Step 5: Classify status
         self.report.status = classify_status(self.report.issues)
 
-        # Step 5: Report
+        # Step 6: Report
         self._print_and_save()
 
         return self.report
@@ -468,7 +959,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Factory Compile Hygiene Validator — checks FK-011, FK-012, FK-015"
+        description="Factory Compile Hygiene Validator — checks FK-011, FK-012, FK-013, FK-014, FK-015, FK-017"
     )
     parser.add_argument(
         "--project", default="askfin_v1-1",
