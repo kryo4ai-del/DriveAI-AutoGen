@@ -22,8 +22,3 @@ enum ScoreColorTheme {
 }
 
 // Usage
-struct CategoryMetric {
-    var scoreColor: Color {
-        ScoreColorTheme.performance.color(for: correctPercentage)
-    }
-}

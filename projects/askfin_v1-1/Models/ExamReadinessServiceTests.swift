@@ -1,32 +1,60 @@
 // Tests/ExamReadinessServiceTests.swift
-@MainActor
+import XCTest
+@testable import DriveAI
+
 final class ExamReadinessServiceTests: XCTestCase {
     var service: ExamReadinessService!
-    var mockDataService: MockLocalDataService!
-    var mockProgressService: MockUserProgressService!
     
-    override func setUp() async throws {
-        mockDataService = MockLocalDataService()
-        mockProgressService = MockUserProgressService()
-        service = ExamReadinessService(
-            dataService: mockDataService,
-            progressService: mockProgressService,
-            persistenceService: MockTrendPersistenceService()
-        )
+    override func setUp() {
+        super.setUp()
+        service = ExamReadinessService()
     }
     
-    func testCalculateOverallReadiness_WithMixedCategories() async throws {
-        // Setup: 3 categories at 40%, 70%, 85%
-        mockProgressService.categoryStats = [
-            ("traffic_signs", CategoryStatistics(categoryId: "traffic_signs", ..., averageScore: 0.40)),
-            ("right_of_way", CategoryStatistics(categoryId: "right_of_way", ..., averageScore: 0.70)),
-            ("safety", CategoryStatistics(categoryId: "safety", ..., averageScore: 0.85))
+    func testCalculateReadiness_AllPerfect_ReturnsVeryReady() {
+        let progress = [
+            CategoryProgress(categoryId: "signs", correctAnswers: 10, totalQuestions: 10),
+            CategoryProgress(categoryId: "rules", correctAnswers: 10, totalQuestions: 10),
         ]
         
-        let score = try await service.calculateOverallReadiness()
+        let readiness = service.calculateReadiness(categoryProgress: progress)
         
-        // Assert: Weighted average = (0.40 * 0.40) + (0.70 * 0.35) + (0.85 * 0.25) = 0.5825
-        XCTAssertEqual(score.overall, 0.5825, accuracy: 0.01)
-        XCTAssertEqual(score.level, .partiallyReady)
+        XCTAssertEqual(readiness.overallScore, 100)
+        XCTAssertEqual(readiness.readinessLevel, .veryReady)
+        XCTAssertTrue(readiness.isReady)
+        XCTAssertTrue(readiness.weakCategories.isEmpty)
+    }
+    
+    func testCalculateReadiness_MixedScores_IdentifiesWeakAreas() {
+        let progress = [
+            CategoryProgress(categoryId: "signs", correctAnswers: 8, totalQuestions: 10),    // 80%
+            CategoryProgress(categoryId: "rules", correctAnswers: 5, totalQuestions: 10),    // 50%
+            CategoryProgress(categoryId: "fines", correctAnswers: 8, totalQuestions: 10),    // 80%
+        ]
+        
+        let readiness = service.calculateReadiness(categoryProgress: progress)
+        
+        XCTAssertEqual(readiness.overallScore, 70, accuracy: 0.1)
+        XCTAssertEqual(readiness.weakCategories, ["rules"])
+        XCTAssertTrue(readiness.isReady)
+    }
+    
+    func testCalculateReadiness_BelowThreshold_NotReady() {
+        let progress = [
+            CategoryProgress(categoryId: "signs", correctAnswers: 6, totalQuestions: 10),   // 60%
+            CategoryProgress(categoryId: "rules", correctAnswers: 5, totalQuestions: 10),   // 50%
+        ]
+        
+        let readiness = service.calculateReadiness(categoryProgress: progress)
+        
+        XCTAssertEqual(readiness.overallScore, 55, accuracy: 0.1)
+        XCTAssertFalse(readiness.isReady)
+        XCTAssertEqual(readiness.readinessLevel, .almostReady)
+    }
+    
+    func testCalculateReadiness_Empty_ReturnsNotReady() {
+        let readiness = service.calculateReadiness(categoryProgress: [])
+        
+        XCTAssertEqual(readiness.overallScore, 0)
+        XCTAssertFalse(readiness.isReady)
     }
 }

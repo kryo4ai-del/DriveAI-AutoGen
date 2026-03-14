@@ -18,8 +18,3 @@ class MockTrendPersistenceService: TrendPersistenceServiceProtocol {
         savedPoints.removeAll { $0.date < date }
     }
 }
-
-// In tests:
-let mockPersistence = MockTrendPersistenceService()
-mockPersistence.shouldFail = true
-let service = ExamReadinessService(..., persistenceService: mockPersistence)

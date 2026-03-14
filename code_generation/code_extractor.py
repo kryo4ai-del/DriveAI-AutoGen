@@ -35,6 +35,17 @@ _EXTENSION_RE = re.compile(
     re.MULTILINE
 )
 
+# Matches a top-level Swift type declaration (at column 0 or with only whitespace before it)
+# Used for stripping inline duplicate types from multi-type code blocks.
+_TOP_LEVEL_TYPE_RE = re.compile(
+    r'^(?:@\w+\s+)*'  # optional attributes (@Observable, @MainActor, etc.)
+    r'(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+    r'(?:final\s+)?'
+    r'(?:class|struct|enum|protocol|actor)\s+'
+    r'([A-Z][A-Za-z0-9_]*)',
+    re.MULTILINE
+)
+
 # --- Guard 3: Expanded blocklist ---
 _BLOCKED_NAMES: frozenset[str] = frozenset({
     # Placeholder views
@@ -146,6 +157,106 @@ def _log_extraction(entries: list[str]):
         f.write(f"--- End ({len(entries)} entries) ---\n")
 
 
+def _strip_duplicate_types(code: str, primary_name: str, other_file_names: set[str]) -> str:
+    """Remove inline type definitions from a code block when those types
+    already have their own dedicated files.
+
+    For example, if a code block named CategoryReadiness.swift contains:
+        struct CategoryReadiness { ... }
+        enum ReadinessLevel { ... }
+        enum StrengthRating { ... }
+
+    And ReadinessLevel.swift and StrengthRating.swift are also being extracted
+    as their own files, this function strips the ReadinessLevel and StrengthRating
+    definitions from CategoryReadiness.swift to prevent FK-012 duplicates.
+
+    Only removes top-level type definitions (depth 0). Does not touch nested types
+    or extensions.
+
+    Args:
+        code: The Swift source code of the file.
+        primary_name: The name this file is being saved as (e.g. "CategoryReadiness").
+        other_file_names: Set of all other type names being extracted as their own files.
+
+    Returns:
+        The code with duplicate inline types removed, or unchanged if no duplicates found.
+    """
+    if not other_file_names:
+        return code
+
+    # Find all top-level type declarations in this block
+    lines = code.split("\n")
+    types_to_strip: set[str] = set()
+
+    for match in _TOP_LEVEL_TYPE_RE.finditer(code):
+        type_name = match.group(1)
+        # Don't strip the primary type this file is named after
+        if type_name == primary_name:
+            continue
+        # Only strip if this type has its own dedicated file
+        if type_name in other_file_names:
+            types_to_strip.add(type_name)
+
+    if not types_to_strip:
+        return code
+
+    # Strip each duplicate type definition (including its full body)
+    # Only strip TOP-LEVEL declarations (no leading whitespace) to preserve nested types.
+    result_lines: list[str] = []
+    skip_depth = 0
+    skipping = False
+    stripped_types: list[str] = []
+
+    for line in lines:
+        if not skipping:
+            # Only consider lines with NO leading whitespace (top-level declarations)
+            if line and not line[0].isspace():
+                stripped = line.strip()
+                should_skip = False
+                for type_name in types_to_strip:
+                    # Match: optional attrs/modifiers + type keyword + name
+                    pattern = (
+                        rf'^(?:@\w+\s+)*'
+                        rf'(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+                        rf'(?:final\s+)?'
+                        rf'(?:class|struct|enum|protocol|actor)\s+{re.escape(type_name)}\b'
+                    )
+                    if re.match(pattern, stripped):
+                        should_skip = True
+                        skipping = True
+                        skip_depth = 0
+                        stripped_types.append(type_name)
+                        break
+
+                if should_skip:
+                    # Count braces on this line to track depth
+                    skip_depth += line.count("{") - line.count("}")
+                    continue
+
+            result_lines.append(line)
+        else:
+            # We're inside a type body we're stripping
+            skip_depth += line.count("{") - line.count("}")
+            if skip_depth <= 0:
+                skipping = False
+                # Don't append this closing line (it's part of the stripped type)
+                continue
+
+    if stripped_types:
+        # Clean up excessive blank lines left after stripping
+        cleaned: list[str] = []
+        prev_blank = False
+        for line in result_lines:
+            is_blank = line.strip() == ""
+            if is_blank and prev_blank:
+                continue
+            cleaned.append(line)
+            prev_blank = is_blank
+        result_lines = cleaned
+
+    return "\n".join(result_lines)
+
+
 _SWIFT_PATTERNS = {
     "@Observable": "Observable pattern",
     "ObservableObject": "ObservableObject pattern",
@@ -246,6 +357,24 @@ class CodeExtractor:
             log_entries.append(f"[ABORT] {len(files_to_write)} files exceed limit of {MAX_FILES_PER_RUN} — extraction aborted")
             _log_extraction(log_entries)
             return {"saved": 0, "skipped": 0, "aborted": True}
+
+        # --- Dedup: Strip inline type definitions that have their own files ---
+        all_file_names = {name for name, _, _, _ in files_to_write}
+        dedup_count = 0
+        for i, (name, subfolder, dest_path, block) in enumerate(files_to_write):
+            other_names = all_file_names - {name}
+            cleaned = _strip_duplicate_types(block, name, other_names)
+            if cleaned != block:
+                files_to_write[i] = (name, subfolder, dest_path, cleaned)
+                dedup_count += 1
+                # Find which types were stripped
+                original_types = {m.group(1) for m in _TOP_LEVEL_TYPE_RE.finditer(block)}
+                remaining_types = {m.group(1) for m in _TOP_LEVEL_TYPE_RE.finditer(cleaned)}
+                stripped = original_types - remaining_types
+                for st in stripped:
+                    log_entries.append(f"[DEDUP] Stripped inline '{st}' from {name}.swift (has own file)")
+        if dedup_count:
+            print(f"Inline type dedup: {dedup_count} file(s) cleaned")
 
         # Write validated files
         for name, subfolder, dest_path, block in files_to_write:

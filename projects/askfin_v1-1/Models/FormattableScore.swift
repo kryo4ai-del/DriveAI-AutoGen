@@ -9,7 +9,3 @@ extension FormattableScore {
 }
 
 // Apply to CategoryMetric, WeakCategory, etc.
-struct WeakCategory: FormattableScore, Codable, Equatable, Identifiable {
-    let correctPercentage: Int
-    // formattedScore now inherited
-}

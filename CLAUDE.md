@@ -135,22 +135,24 @@ Output Integrator → Completion Verifier → Compile Hygiene Validator → Swif
 - `_logs/` für Mac ↔ Windows Austausch via Git
 
 ## DeveloperReports (Grundregel)
-> **PFLICHT bei jedem Agent-Wechsel**: Jeder strukturierte Report wird als `.md` in `DeveloperReports/` gespeichert.
+> **PFLICHT bei jedem Agent-Wechsel**: Jeder strukturierte Report wird als `.md` gespeichert.
 
-**Nummerierung**:
+**Ordnerstruktur**:
+```
+DeveloperReports/
+├── CodeAgent/           ← Reports vom Code-Agent (Claude Code)
+│   ├── 1-0_Factory Core Audit Report.md
+│   ├── 2-0_Three Hotfixes Report.md
+│   └── ...
+└── Steps-MasterLead/    ← Reports vom Master Lead (Andreas)
+    └── ...
+```
+
+**Nummerierung** (pro Unterordner):
 - Neues Thema: `N-0_Titel.md` (nächste freie Nummer)
 - Folge-Report zum gleichen Thema: `N-1_Titel.md`, `N-2_Titel.md`, ...
 
-**Beispiele**:
-```
-1-0_Factory Core Audit Report.md
-1-1_Factory Core Audit Report.md   ← zweiter Report zum gleichen Thema
-2-0_Three Hotfixes Report.md       ← neues Thema
-3-0_Context Handoff Report.md
-4-0_Review Handoff Report.md
-```
-
-**Regel**: Vor dem Erstellen prüfen welche Nummer als nächstes dran ist. Reports sind dauerhaft und dienen als Projekthistorie.
+**Regel**: Vor dem Erstellen prüfen welche Nummer als nächstes dran ist. Reports sind dauerhaft und dienen als Projekthistorie. Code-Agent-Reports → `CodeAgent/`, Master-Lead-Steps → `Steps-MasterLead/`.
 
 ## Erledigtes
 - [2026-03-14] Swift Compile Check: swiftc-basierte Syntax-Validierung + Pipeline-Integration

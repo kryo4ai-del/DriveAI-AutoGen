@@ -624,6 +624,8 @@ _KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
     "UIImage", "UIColor", "UIFont", "UIApplication",
     "WKWebView", "AVPlayer", "CLLocation",
     "LocalizedStringKey",
+    # Testing
+    "XCTestCase", "XCTestExpectation", "XCTAssert",
     # Swift keywords that look like types
     "Self", "Type", "Protocol", "AnyType",
     # Swift Codable protocol types

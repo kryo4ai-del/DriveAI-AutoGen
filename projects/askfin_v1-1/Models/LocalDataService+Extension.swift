@@ -18,9 +18,9 @@ extension LocalDataService {
         return 420  // Demo: 7 hours
     }
     
-    func getLearningStreakData() async throws -> StreakData {
+    func getLearningStreakData() async throws -> ReadinessStreakData {
         // Calculate from attempt dates
-        return StreakData(currentDays: 7, longestDays: 30)
+        return ReadinessStreakData(currentDays: 7, longestDays: 30)
     }
     
     func getRecentPerformanceMetrics() async throws -> RecentMetrics {

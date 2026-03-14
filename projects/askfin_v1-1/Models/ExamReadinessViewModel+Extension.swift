@@ -1,30 +1,17 @@
-// ... (after dismissError)
-
-/// Navigate to category drill-down
-func drillDownToCategory(_ category: WeakCategory) {
-    selectedWeakCategoryID = category.categoryID
-}
-
-/// Reset state (used on view dismiss)
-func reset() {
-    readinessResult = nil
-    error = nil
-    selectedWeakCategoryID = nil
-}
-
-// MARK: - Preview
-
 #if DEBUG
 extension ExamReadinessViewModel {
-    static let preview = {
-        let vm = ExamReadinessViewModel(
-            analysisService: ReadinessAnalysisService(
-                dataService: LocalDataService.preview
-            ),
-            dataService: LocalDataService.preview
+    static let preview: ExamReadinessViewModel = {
+        let service = ExamReadinessService(
+            dataService: LocalDataService(),
+            progressService: StubUserProgressService(),
+            persistenceService: MockTrendPersistenceService()
         )
-        vm.readinessResult = .preview
+        let vm = ExamReadinessViewModel(service: service)
         return vm
     }()
+}
+
+private struct StubUserProgressService: UserProgressServiceProtocol {
+    func getOverallProgress() async throws -> Double { 0.5 }
 }
 #endif

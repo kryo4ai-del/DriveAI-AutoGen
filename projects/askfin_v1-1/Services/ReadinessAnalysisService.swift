@@ -115,7 +115,7 @@ final class ReadinessAnalysisService: Sendable {
         return avgPercentage * 100
     }
     
-    private func calculateStreakScore(from data: StreakData) -> Double {
+    private func calculateStreakScore(from data: ReadinessStreakData) -> Double {
         // Normalize: current/longest, capped at 1.0
         guard data.longestDays > 0 else { return 0 }
         let multiplier = min(Double(data.currentDays) / Double(data.longestDays), 1.0)
@@ -292,24 +292,10 @@ final class ReadinessAnalysisService: Sendable {
 
 // MARK: - Supporting Types (Sendable)
 
-struct CategoryStat: Sendable, Codable {
-    let categoryID: UUID
-    let categoryName: String
-    let correctCount: Int
-    let totalAttempts: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case categoryID = "category_id"
-        case categoryName = "category_name"
-        case correctCount = "correct_count"
-        case totalAttempts = "total_attempts"
-    }
-}
-
-struct StreakData: Sendable, Codable {
+struct ReadinessStreakData: Sendable, Codable {
     let currentDays: Int
     let longestDays: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case currentDays = "current_days"
         case longestDays = "longest_days"

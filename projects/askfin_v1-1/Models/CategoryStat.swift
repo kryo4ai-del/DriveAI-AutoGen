@@ -1,4 +1,6 @@
-struct CategoryStat: Sendable { }  // ✅ Correct
-struct StreakData: Sendable { }    // ✅ Correct
-struct RecentMetrics: Sendable { } // ✅ Correct
-// But if used across actor boundaries without Sendable, will compile-fail in Swift 6
+struct CategoryStat: Sendable {
+    let categoryID: UUID
+    let categoryName: String
+    let correctCount: Int
+    let totalAttempts: Int
+}

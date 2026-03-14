@@ -262,6 +262,42 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Reihenfolge: Output Integrator → Completion Verifier → Compile Hygiene → Swift Compile → Recovery → Run Memory
 - Doc: swift_compile_check.md
 
+### 2026-03-14 — OutputIntegrator Dedup Fix (Report 9-0)
+- `_collect_all()` sammelt nur noch current-run Artifacts (generated_code/ + gefilterter Log)
+- Alte Logs, Delivery-Exports, existing_output werden nicht mehr gesammelt
+- `generated/` wird vor jeder Integration geleert (clean_before_integrate)
+- Projekt-Level Dedup Guard: Skip wenn Filename bereits im Projekt existiert
+- `run_id` wird an `_run_operations_layer()` durchgereicht als `log_filter`
+- Ergebnis: 110→24 Artifacts, 95→4 geschriebene Files, FK-012 (Integrator) von ~105 auf 0
+
+### 2026-03-14 — Inline Type Dedup (Report 11-0)
+- `_strip_duplicate_types()` in code_extractor.py: entfernt top-level Inline-Types wenn eigene Datei existiert
+- Greift nach Sammlung aller Code-Blocks, vor dem Write
+- Nur top-level (Column 0), nested Types werden nie entfernt, Primary geschuetzt
+- Ergebnis: 6/16 Dateien deduped, FK-012 von 13 auf ~8 erwartet
+
+### 2026-03-14 — DeveloperReports Reorganisation
+- `DeveloperReports/CodeAgent/` fuer Code-Agent-Reports (1-0 bis 11-0)
+- `DeveloperReports/Steps-MasterLead/` fuer Master-Lead-Steps (Andreas)
+- CLAUDE.md aktualisiert mit neuer Ordnerstruktur
+
+### 2026-03-14 — AskFin Baseline Cleanup (Report 12-0)
+- 14 Duplicate-Type-Clusters gefunden (11 INTRA-PROJ, 3 GEN+PROJ)
+- 10 Dateien bereinigt, 663 Zeilen Duplikat-Code entfernt
+- generated/ komplett geleert und geloescht
+- FK-012: 13 → 1, Total Issues: 21 → 5, Blocking: 20 → 4
+
+### 2026-03-14 — Final Baseline Repair (Report 13-0)
+- StreakData FK-012: API-Version umbenannt zu `ReadinessStreakData` (inkompatible Properties)
+- LocalDataService FK-014: Klasse + `LocalDataServiceProtocol` + `UserProgressServiceProtocol` erstellt
+- ExamReadinessViewModel FK-013: Preview-Extension auf korrektes init gefixt
+- ExamReadinessService: init + Protocol-Stubs hinzugefuegt
+- Stray Code entfernt: `@MainActor` in Protocol-Datei, Demo-Code in MockService
+- CategoryStat: Properties hinzugefuegt (war leerer Struct)
+- XCTestCase zu Validator Framework-Types hinzugefuegt
+- **Ergebnis: 0 Blocking Issues, 1 Warning (FK-015 Bundle.module)**
+- Kumulativ: FK-012 von 105 → 0, Total Blocking von 155 → 0
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
@@ -277,7 +313,7 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - [x] Factory-Verbesserungen: MAX_FILES 10→50, Dead Integration Path, Silent Exceptions
 - [x] Context Handoff: API Skeleton Extraction (impl_summary mit Typ-Signaturen)
 - [x] Review Handoff: Digest Accumulation über alle Review-Passes
-- [x] DeveloperReports System eingeführt (5 Reports: 1-0 bis 5-0)
+- [x] DeveloperReports System eingeführt (11 Reports in CodeAgent/, Steps-MasterLead/ für Andreas)
 - [x] Stateful Recovery: RecoveryState, Fingerprinting, Repeated Failure Detection, MAX_RECOVERY_ATTEMPTS enforced
 - [x] Step 5: Knowledge Writeback Loop (Proposal Auto-Promotion + Run Pattern Extraction)
 - [x] Role-Based Knowledge Injection: Bug Hunter, Refactor, Fix Executor empfangen jetzt Factory Knowledge

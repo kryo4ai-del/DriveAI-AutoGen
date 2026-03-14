@@ -1,0 +1,184 @@
+{
+  "timestamp": "20260314_122909",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 24,
+  "files_normalized": 1,
+  "files_written": 4,
+  "files_skipped": 20,
+  "truncated_detected": [
+    "MockTrendPersistenceService.swift (generated_code, 25 lines)",
+    "ExamReadinessService.swift (log:driveai_run_20260314_120631.txt, 165 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\AccessibilityColors.swift",
+      "to": "Models/AccessibilityColors.swift"
+    },
+    {
+      "from": "Models\\CategoryReadiness.swift",
+      "to": "Models/CategoryReadiness.swift"
+    },
+    {
+      "from": "Models\\ExamReadinessError.swift",
+      "to": "Models/ExamReadinessError.swift"
+    },
+    {
+      "from": "Models\\ExamReadinessModelsTests.swift",
+      "to": "Tests/ExamReadinessModelsTests.swift"
+    },
+    {
+      "from": "Models\\ExamReadinessServiceProtocol.swift",
+      "to": "Services/ExamReadinessServiceProtocol.swift"
+    },
+    {
+      "from": "Models\\ExamReadinessServiceTests.swift",
+      "to": "Tests/ExamReadinessServiceTests.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\ReadinessLevel.swift",
+      "to": "Models/ReadinessLevel.swift"
+    },
+    {
+      "from": "Models\\ReadinessState.swift",
+      "to": "Models/ReadinessState.swift"
+    },
+    {
+      "from": "Models\\ServiceError.swift",
+      "to": "Models/ServiceError.swift"
+    },
+    {
+      "from": "Models\\UIError.swift",
+      "to": "Models/UIError.swift"
+    },
+    {
+      "from": "Features/ExamReadiness/Data/Services/ExamReadinessService.swift",
+      "to": "Services/ExamReadinessService.swift"
+    },
+    {
+      "from": "Services\\MockTrendPersistenceService.swift",
+      "to": "Services/MockTrendPersistenceService.swift"
+    },
+    {
+      "from": "ViewModels\\ExamReadinessViewModel.swift",
+      "to": "ViewModels/ExamReadinessViewModel.swift"
+    },
+    {
+      "from": "Views\\CategoryStrengthCard.swift",
+      "to": "Models/CategoryStrengthCard.swift"
+    },
+    {
+      "from": "Views\\ReadinessScoreRingView.swift",
+      "to": "Views/ReadinessScoreRingView.swift"
+    },
+    {
+      "from": "Features/ExamReadiness/Domain/Models/StrengthRating.swift",
+      "to": "Models/StrengthRating.swift"
+    },
+    {
+      "from": "Features/ExamReadiness/Domain/Models/ExamReadinessScore.swift",
+      "to": "Models/ExamReadinessScore.swift"
+    },
+    {
+      "from": "Features/ExamReadiness/Domain/Models/ReadinessTrendPoint.swift",
+      "to": "Models/ReadinessTrendPoint.swift"
+    },
+    {
+      "from": "Domain/Protocols/TrendPersistenceServiceProtocol.swift",
+      "to": "Services/TrendPersistenceServiceProtocol.swift"
+    }
+  ],
+  "written_files": [
+    "Models\\StrengthRating.swift",
+    "Models\\ExamReadinessScore.swift",
+    "Models\\ReadinessTrendPoint.swift",
+    "Services\\TrendPersistenceServiceProtocol.swift"
+  ],
+  "skipped_files": [
+    {
+      "file": "CategoryReadiness.swift (log:driveai_run_20260314_120631.txt)",
+      "reason": "shorter version (1506 chars vs 2804 chars)"
+    },
+    {
+      "file": "ExamReadinessServiceProtocol.swift (log:driveai_run_20260314_120631.txt)",
+      "reason": "shorter version (581 chars vs 9140 chars)"
+    },
+    {
+      "file": "ReadinessLevel.swift (log:driveai_run_20260314_120631.txt)",
+      "reason": "shorter version (1052 chars vs 6149 chars)"
+    },
+    {
+      "file": "ExamReadinessService.swift (generated_code)",
+      "reason": "shorter version (1552 chars vs 5491 chars)"
+    },
+    {
+      "file": "Models/AccessibilityColors.swift",
+      "reason": "already exists in project: Models\\AccessibilityColors.swift"
+    },
+    {
+      "file": "Models/CategoryReadiness.swift",
+      "reason": "already exists in project: Models\\CategoryReadiness.swift"
+    },
+    {
+      "file": "Models/ExamReadinessError.swift",
+      "reason": "already exists in project: Models\\ExamReadinessError.swift"
+    },
+    {
+      "file": "Tests/ExamReadinessModelsTests.swift",
+      "reason": "already exists in project: Models\\ExamReadinessModelsTests.swift"
+    },
+    {
+      "file": "Services/ExamReadinessServiceProtocol.swift",
+      "reason": "already exists in project: Models\\ExamReadinessServiceProtocol.swift"
+    },
+    {
+      "file": "Tests/ExamReadinessServiceTests.swift",
+      "reason": "already exists in project: Models\\ExamReadinessServiceTests.swift"
+    },
+    {
+      "file": "Models/GeneratedHelpers.swift",
+      "reason": "already exists in project: Models\\GeneratedHelpers.swift"
+    },
+    {
+      "file": "Models/ReadinessLevel.swift",
+      "reason": "already exists in project: Models\\ReadinessLevel.swift"
+    },
+    {
+      "file": "Models/ReadinessState.swift",
+      "reason": "already exists in project: Models\\ReadinessState.swift"
+    },
+    {
+      "file": "Models/ServiceError.swift",
+      "reason": "already exists in project: Models\\ServiceError.swift"
+    },
+    {
+      "file": "Models/UIError.swift",
+      "reason": "already exists in project: Models\\UIError.swift"
+    },
+    {
+      "file": "Services/ExamReadinessService.swift",
+      "reason": "already exists in project: Services\\ExamReadinessService.swift"
+    },
+    {
+      "file": "Services/MockTrendPersistenceService.swift",
+      "reason": "already exists in project: Services\\MockTrendPersistenceService.swift"
+    },
+    {
+      "file": "ViewModels/ExamReadinessViewModel.swift",
+      "reason": "already exists in project: ViewModels\\ExamReadinessViewModel.swift"
+    },
+    {
+      "file": "Models/CategoryStrengthCard.swift",
+      "reason": "already exists in project: Models\\CategoryStrengthCard.swift"
+    },
+    {
+      "file": "Views/ReadinessScoreRingView.swift",
+      "reason": "already exists in project: Views\\ReadinessScoreRingView.swift"
+    }
+  ],
+  "errors": []
+}
