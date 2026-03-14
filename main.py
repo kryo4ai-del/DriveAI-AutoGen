@@ -839,6 +839,7 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     """
     from factory.operations.output_integrator import OutputIntegrator
     from factory.operations.completion_verifier import CompletionVerifier
+    from factory.operations.compile_hygiene_validator import CompileHygieneValidator
     from factory.operations.recovery_runner import RecoveryRunner
     from factory.operations.run_memory import record_run, print_summary as print_memory_summary
 
@@ -855,6 +856,12 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     print("\n[OpsLayer] Pass 1: Completion Verifier")
     verifier = CompletionVerifier(project_name=project_name)
     report = verifier.verify()
+
+    # --- Compile Hygiene Check (FK-011, FK-012, FK-015) ---
+    print("\n[OpsLayer] Compile Hygiene Validator")
+    hygiene = CompileHygieneValidator(project_name=project_name)
+    hygiene_report = hygiene.validate()
+    hygiene_status = hygiene_report.status.value
 
     initial_health = report.health.value
     final_health = initial_health
@@ -896,6 +903,7 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     print(f"  Initial status:     {initial_health.upper()}")
     print(f"  Recovery attempted: {'yes' if recovery_attempted else 'no'}")
     print(f"  Final status:       {final_health.upper()}")
+    print(f"  Compile hygiene:    {hygiene_status}")
     print("=" * 60)
     print()
 
@@ -912,6 +920,7 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
         "initial_health": initial_health,
         "recovery_attempted": recovery_attempted,
         "final_health": final_health,
+        "compile_hygiene": hygiene_status,
     }
 
 
