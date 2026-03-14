@@ -67,7 +67,9 @@ _INVALID_FILENAMES: frozenset[str] = frozenset({
 })
 
 # --- Guard 5: Max files per run ---
-MAX_FILES_PER_RUN = 10
+# Raised from 10 to 50: AskFin Premium generates 75 files per feature run.
+# 10 caused silent abort on any non-trivial project.
+MAX_FILES_PER_RUN = 50
 
 
 def _is_valid_filename(name: str) -> bool:

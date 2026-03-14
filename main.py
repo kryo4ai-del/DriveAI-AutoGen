@@ -307,6 +307,7 @@ async def _run_pipeline(
     session_preset: str | None = None,
     workflow_recipe: str | None = None,
     no_cd_gate: bool = False,
+    project_name: str | None = None,
 ) -> dict:
     """Execute the full agent pipeline for a single task. Returns a result dict."""
     _active = active_agents or []
@@ -397,7 +398,7 @@ async def _run_pipeline(
     _clean_generated_code()
 
     extractor = CodeExtractor()
-    integrator = ProjectIntegrator("DriveAI")
+    integrator = ProjectIntegrator(os.path.join("projects", project_name) if project_name else "DriveAI")
     code_counts = extractor.extract_swift_code(result.messages)
 
     # Guard: abort integration if extraction was aborted (too many files)
@@ -638,7 +639,9 @@ async def _run_pipeline(
     mm.add_decision(f"Run completed for task: {user_task}")
     try:
         counts = mm.extract_memory_from_conversation(all_messages)
-    except Exception:
+    except Exception as mem_extract_err:
+        print(f"\n[WARNING] Memory extraction failed: {mem_extract_err}")
+        logger.warning(f"Memory extraction failed: {mem_extract_err}")
         counts = {"decisions": 0, "architecture_notes": 0, "implementation_notes": 0, "review_notes": 0}
 
     logger.info("=" * 60)
@@ -762,7 +765,8 @@ async def _run_pipeline(
         else:
             print("\nKnowledge proposals: none generated")
     except Exception as _pe:
-        print(f"\nKnowledge proposals: error ({_pe})")
+        print(f"\n[WARNING] Knowledge proposals failed: {_pe}")
+        logger.warning(f"Knowledge proposals failed: {_pe}")
 
     # Console summary
     print()
@@ -786,9 +790,14 @@ async def _run_pipeline(
     print(f"  architecture notes : +{counts['architecture_notes']}")
     print(f"  implementation notes: +{counts['implementation_notes']}")
     print(f"  review notes       : +{counts['review_notes']}")
-    print(f"Swift files saved  : {code_counts['saved']} new, {code_counts['skipped']} unchanged")
+    if code_counts.get("aborted"):
+        print(f"Swift extraction   : ABORTED (file limit exceeded)")
+    else:
+        print(f"Swift files saved  : {code_counts['saved']} new, {code_counts['skipped']} unchanged")
     xcode_status = xcode_counts.get("status", "integrated")
-    if xcode_status == "skipped":
+    if xcode_status == "aborted":
+        print(f"Xcode integration  : ABORTED (extraction failed)")
+    elif xcode_status == "skipped":
         print(f"Xcode integration  : skipped (approval={approval_mode})")
     else:
         print(f"Xcode integration  : {xcode_counts['integrated']} copied, {xcode_counts.get('unchanged', 0)} unchanged")
@@ -804,8 +813,15 @@ async def _run_pipeline(
     print(f"Run manifest       : {manifest_path}")
     print("=" * 60)
 
+    # Determine truthful status
+    _pipeline_status = "success"
+    if code_counts.get("aborted"):
+        _pipeline_status = "extraction_aborted"
+    elif gate_ctx.get("cd_gate_stop"):
+        _pipeline_status = "cd_gate_fail"
+
     return {
-        "status": "success",
+        "status": _pipeline_status,
         "task": user_task,
         "task_source": task_source,
         "profile": profile,
@@ -1271,6 +1287,7 @@ async def main():
                     session_preset=session_preset_name,
                     workflow_recipe=workflow_recipe_name,
                     no_cd_gate=a["no_cd_gate"],
+                    project_name=a.get("project"),
                 )
                 pack_results.append(task_result)
                 GitAutoCommit().run_auto_commit(
@@ -1345,6 +1362,7 @@ async def main():
                     session_preset=session_preset_name,
                     workflow_recipe=workflow_recipe_name,
                     no_cd_gate=a["no_cd_gate"],
+                    project_name=a.get("project"),
                 )
                 task_queue.complete_task(next_task)
                 GitAutoCommit().run_auto_commit(
@@ -1430,6 +1448,7 @@ async def main():
             session_preset=session_preset_name,
             workflow_recipe=workflow_recipe_name,
             no_cd_gate=a["no_cd_gate"],
+            project_name=a.get("project"),
         )
         if queue_run and cli_task:
             task_queue.complete_task(cli_task)
@@ -1451,8 +1470,10 @@ async def main():
                 if json_output:
                     pipeline_result["operations_layer"] = ops_result
             except Exception as ops_err:
-                print(f"\n[OpsLayer] Error: {ops_err}")
-                print("[OpsLayer] Operations layer failed — pipeline result is unaffected.")
+                print(f"\n[WARNING] Operations layer failed: {ops_err}")
+                logger.warning(f"Operations layer failed: {ops_err}")
+                if json_output:
+                    pipeline_result["operations_layer"] = {"status": "error", "error": str(ops_err)}
 
     except Exception as e:
         error_msg = str(e)
