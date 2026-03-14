@@ -840,6 +840,7 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     from factory.operations.output_integrator import OutputIntegrator
     from factory.operations.completion_verifier import CompletionVerifier
     from factory.operations.compile_hygiene_validator import CompileHygieneValidator
+    from factory.operations.swift_compile_check import SwiftCompileCheck
     from factory.operations.recovery_runner import RecoveryRunner
     from factory.operations.run_memory import record_run, print_summary as print_memory_summary
 
@@ -862,6 +863,12 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     hygiene = CompileHygieneValidator(project_name=project_name)
     hygiene_report = hygiene.validate()
     hygiene_status = hygiene_report.status.value
+
+    # --- Swift Compile Check (swiftc -parse) ---
+    print("\n[OpsLayer] Swift Compile Check")
+    swift_checker = SwiftCompileCheck(project_name=project_name)
+    swift_report = swift_checker.check()
+    swift_compile_status = swift_report.status.value
 
     initial_health = report.health.value
     final_health = initial_health
@@ -904,6 +911,7 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
     print(f"  Recovery attempted: {'yes' if recovery_attempted else 'no'}")
     print(f"  Final status:       {final_health.upper()}")
     print(f"  Compile hygiene:    {hygiene_status}")
+    print(f"  Swift compile:      {swift_compile_status}")
     print("=" * 60)
     print()
 
@@ -921,6 +929,7 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
         "recovery_attempted": recovery_attempted,
         "final_health": final_health,
         "compile_hygiene": hygiene_status,
+        "swift_compile": swift_compile_status,
     }
 
 
