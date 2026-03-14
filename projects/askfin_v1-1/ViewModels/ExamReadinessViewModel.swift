@@ -1,55 +1,68 @@
 @MainActor
 final class ExamReadinessViewModel: ObservableObject {
+    @Published private(set) var readinessScore: ExamReadinessScore?
+    @Published private(set) var categoryReadiness: [CategoryReadiness] = []
+    @Published private(set) var weakCategories: [CategoryReadiness] = []
+    @Published private(set) var trendData: [ReadinessTrendPoint] = []
+    @Published private(set) var isLoading = false
+    @Published private(set) var error: Error?
+    @Published private(set) var showRetryButton = false
     
-    enum State {
-        case idle
-        case loading
-        case success(ExamReadinessResult)
-        case failure(ReadinessError)
+    private let service: ExamReadinessServiceProtocol
+    private var loadTask: Task<Void, Never>?
+    
+    init(service: ExamReadinessServiceProtocol) {
+        self.service = service
     }
     
-    @Published var state: State = .idle
-    @Published var selectedWeakCategoryID: UUID?
-    
-    // Computed convenience properties
-    var readinessResult: ExamReadinessResult? {
-        guard case .success(let result) = state else { return nil }
-        return result
+    deinit {
+        loadTask?.cancel()
     }
     
-    var isLoading: Bool {
-        guard case .loading = state else { return false }
-        return true
-    }
-    
-    var error: ReadinessError? {
-        guard case .failure(let error) = state else { return nil }
-        return error
-    }
-    
-    // Clear actions
-    func loadReadiness(forceRefresh: Bool = false) async {
-        state = .loading
-        do {
-            let result = try await analysisService.calculateReadiness(forceRefresh: forceRefresh)
-            state = .success(result)
-        } catch {
-            state = .failure(ReadinessError(from: error))
+    func loadReadiness() {
+        loadTask?.cancel()
+        loadTask = Task {
+            await performLoad()
         }
     }
     
-    func reset() {
-        state = .idle
-        selectedWeakCategoryID = nil
+    func refresh() {
+        loadReadiness()
     }
-}
-
-// Use in view
-switch viewModel.state {
-case .idle, .loading:
-    ProgressView()
-case .success(let result):
-    ReadinessScoreView(result: result)
-case .failure(let error):
-    ErrorBanner(error: error)
+    
+    func retryAfterError() {
+        error = nil
+        showRetryButton = false
+        loadReadiness()
+    }
+    
+    private func performLoad() async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            async let scoreTask = service.calculateOverallReadiness()
+            async let categoriesTask = service.getCategoryReadiness()
+            async let weakTask = service.getWeakCategories(limit: 5)
+            async let trendTask = service.getTrendData(days: 30)
+            
+            let (score, categories, weak, trend) = try await (
+                scoreTask,
+                categoriesTask,
+                weakTask,
+                trendTask
+            )
+            
+            self.readinessScore = score
+            self.categoryReadiness = categories
+            self.weakCategories = weak
+            self.trendData = trend
+            self.error = nil
+            self.showRetryButton = false
+            
+        } catch {
+            self.error = error
+            self.showRetryButton = true
+        }
+    }
 }

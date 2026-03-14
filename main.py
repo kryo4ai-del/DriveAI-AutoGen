@@ -956,12 +956,20 @@ async def _run_pipeline(
     }
 
 
-def _run_operations_layer(project_name: str, env_profile: str = "standard") -> dict:
+def _run_operations_layer(
+    project_name: str,
+    env_profile: str = "standard",
+    run_id: str | None = None,
+) -> dict:
     """Run the Operations Layer: Output Integrator -> Completion Verifier -> Recovery Runner.
 
     Returns a dict with the final health status and whether recovery was attempted.
     Recovery is stateful: each attempt receives prior failure context, fingerprint
     comparison detects repeated identical failures, and MAX_RECOVERY_ATTEMPTS is enforced.
+
+    Args:
+        run_id: Current run ID (timestamp). When set, the OutputIntegrator will
+                only process logs from this run and clean generated/ before writing.
     """
     from factory.operations.output_integrator import OutputIntegrator
     from factory.operations.completion_verifier import CompletionVerifier
@@ -980,7 +988,11 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
 
     # --- Pass 1: Integrate + Verify ---
     print("\n[OpsLayer] Pass 1: Output Integrator")
-    integrator = OutputIntegrator(project_name=project_name)
+    integrator = OutputIntegrator(
+        project_name=project_name,
+        log_filter=run_id,
+        clean_before_integrate=True,
+    )
     integrator.run()
 
     print("\n[OpsLayer] Pass 1: Completion Verifier")
@@ -1058,7 +1070,11 @@ def _run_operations_layer(project_name: str, env_profile: str = "standard") -> d
 
             # Re-integrate + re-verify after recovery
             print(f"\n[OpsLayer] Pass {attempt + 1}: Re-integrating after recovery")
-            integrator_r = OutputIntegrator(project_name=project_name)
+            integrator_r = OutputIntegrator(
+                project_name=project_name,
+                log_filter=run_id,
+                clean_before_integrate=True,
+            )
             integrator_r.run()
 
             print(f"\n[OpsLayer] Pass {attempt + 1}: Re-verifying after recovery")
@@ -1656,6 +1672,7 @@ async def main():
                 ops_result = _run_operations_layer(
                     project_name=a["project"],
                     env_profile=env_profile,
+                    run_id=run_id,
                 )
                 if json_output:
                     pipeline_result["operations_layer"] = ops_result

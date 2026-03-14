@@ -1,0 +1,38 @@
+{
+  "run_id": "20260314_120631",
+  "generated": "2026-03-14T12:29:07",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "Bug pattern: Service: Ambiguous Actor/Class Definition + Isolation Violat",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: Service: Ambiguous Actor/Class Definition + Isolation Violation. Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260314_120631",
+      "source_run": "20260314_120631",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: Task Cancellation Not Handled: Memory Leak + Stale",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Task Cancellation Not Handled: Memory Leak + Stale Updates",
+      "evidence": "Bug Hunter finding in run 20260314_120631",
+      "source_run": "20260314_120631",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

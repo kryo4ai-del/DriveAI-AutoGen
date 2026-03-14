@@ -462,17 +462,25 @@ class OutputIntegrator:
         """Execute the full integration pipeline.
 
         Steps:
-        1. Collect artifacts from all sources
-        2. Normalize content (remove agent leakage)
-        3. Normalize paths (deterministic folder placement)
-        4. Select best version per file
-        5. Write to project output directory
-        6. Generate report
+        1. Clean output directory (prevent cross-run accumulation)
+        2. Collect artifacts from current-run sources only
+        3. Normalize content (remove agent leakage)
+        4. Normalize paths (deterministic folder placement)
+        5. Select best version per file
+        6. Dedup against existing project files
+        7. Write to project output directory
+        8. Generate report
         """
         print(f"\n[OutputIntegrator] Starting integration for project: {self.project_name}")
         print(f"[OutputIntegrator] Output directory: {self.output_dir}")
 
-        # Step 1: Collect from all sources
+        # Step 1: Clean generated/ before writing (prevents cross-run accumulation)
+        if self.clean_before_integrate:
+            cleaned = self._clean_output_dir()
+            if cleaned:
+                print(f"[OutputIntegrator] Cleaned {cleaned} stale file(s) from generated/")
+
+        # Step 2: Collect from current-run sources only
         all_artifacts = self._collect_all()
         self.report.files_collected = len(all_artifacts)
         print(f"[OutputIntegrator] Collected {len(all_artifacts)} artifacts")
@@ -482,7 +490,7 @@ class OutputIntegrator:
             self.report.print_summary()
             return self.report
 
-        # Step 2: Normalize content
+        # Step 3: Normalize content
         for artifact in all_artifacts:
             original_len = len(artifact.content)
             artifact.content = _normalize_content(artifact.content)
@@ -491,14 +499,14 @@ class OutputIntegrator:
             # Recompute truncation flags after normalization
             artifact.__post_init__()
 
-        # Step 3: Detect truncated files
+        # Step 4: Detect truncated files
         for artifact in all_artifacts:
             if artifact.is_truncated:
                 self.report.truncated_detected.append(
                     f"{artifact.filename} ({artifact.source}, {artifact.line_count} lines)"
                 )
 
-        # Step 4: Group by filename and select best version
+        # Step 5: Group by filename and select best version
         by_filename: dict[str, list[Artifact]] = {}
         for artifact in all_artifacts:
             by_filename.setdefault(artifact.filename, []).append(artifact)
@@ -516,20 +524,29 @@ class OutputIntegrator:
                             f"shorter version ({len(c.content)} chars vs {len(best.content)} chars)"
                         ))
 
-        # Step 5: Normalize paths and write
+        # Step 6: Dedup against existing project files + write
         self._write_artifacts(best_artifacts)
 
-        # Step 6: Report
+        # Step 7: Report
         self.report.print_summary()
         self._write_report_json()
 
         return self.report
 
     def _collect_all(self) -> list[Artifact]:
-        """Collect artifacts from all known sources."""
+        """Collect artifacts from current-run sources only.
+
+        Sources (in priority order):
+        1. generated_code/ — always collected (current run's extraction output)
+        2. Log files — ONLY if log_filter is set (scoped to current run)
+        3. Delivery exports — skipped (historical, not current-run)
+
+        Previously this also collected from existing_output and ALL logs,
+        which caused cross-run accumulation and massive FK-012 duplicates.
+        """
         all_artifacts: list[Artifact] = []
 
-        # Source 1: generated_code/
+        # Source 1: generated_code/ (current run's extracted files)
         if GENERATED_CODE_DIR.exists():
             artifacts = collect_from_directory(
                 str(GENERATED_CODE_DIR), "generated_code"
@@ -537,11 +554,10 @@ class OutputIntegrator:
             print(f"  [generated_code] {len(artifacts)} files")
             all_artifacts.extend(artifacts)
 
-        # Source 2: Log files
-        if LOGS_DIR.exists():
+        # Source 2: Log files — ONLY when log_filter is set (current run only)
+        if self.log_filter and LOGS_DIR.exists():
             log_files = sorted(LOGS_DIR.glob("driveai_run_*.txt"))
-            if self.log_filter:
-                log_files = [f for f in log_files if self.log_filter in f.name]
+            log_files = [f for f in log_files if self.log_filter in f.name]
 
             for log_file in log_files:
                 artifacts = extract_from_log(str(log_file))
@@ -549,30 +565,72 @@ class OutputIntegrator:
                     print(f"  [log:{log_file.name}] {len(artifacts)} files")
                     all_artifacts.extend(artifacts)
 
-        # Source 3: Delivery exports
-        if DELIVERY_DIR.exists():
-            for export_dir in sorted(DELIVERY_DIR.iterdir()):
-                if export_dir.is_dir():
-                    artifacts = collect_from_directory(
-                        str(export_dir), f"export:{export_dir.name}"
-                    )
-                    if artifacts:
-                        print(f"  [export:{export_dir.name}] {len(artifacts)} files")
-                        all_artifacts.extend(artifacts)
+        if not self.log_filter and LOGS_DIR.exists():
+            log_count = len(list(LOGS_DIR.glob("driveai_run_*.txt")))
+            if log_count:
+                print(f"  [logs] {log_count} log file(s) skipped (no log_filter set)")
 
-        # Source 4: Existing project output (for merge comparison)
-        if self.output_dir.exists():
-            artifacts = collect_from_directory(
-                str(self.output_dir), "existing_output"
-            )
-            if artifacts:
-                print(f"  [existing_output] {len(artifacts)} files")
-                all_artifacts.extend(artifacts)
+        # Source 3: Delivery exports — skipped entirely
+        # These are historical snapshots and should not feed back into integration.
+
+        # Source 4: existing_output — NO LONGER COLLECTED
+        # Previously collected generated/ as "existing_output" which caused
+        # the same files to be re-integrated every run, accumulating duplicates.
 
         return all_artifacts
 
+    def _clean_output_dir(self) -> int:
+        """Remove all .swift files from the generated/ output directory.
+
+        Prevents cross-run accumulation — each integration starts fresh.
+        Returns count of removed files.
+        """
+        if not self.output_dir.exists():
+            return 0
+        removed = 0
+        for swift_file in list(self.output_dir.rglob("*.swift")):
+            try:
+                swift_file.unlink()
+                removed += 1
+            except OSError:
+                pass
+        return removed
+
+    def _build_project_file_index(self) -> dict[str, Path]:
+        """Build an index of existing Swift files in the project directory
+        (outside generated/) for deduplication.
+
+        Returns a dict mapping filename -> full path for all .swift files
+        in the project directory that are NOT inside generated/.
+        """
+        index: dict[str, Path] = {}
+        if not self.project_dir.exists():
+            return index
+
+        for swift_file in self.project_dir.rglob("*.swift"):
+            # Skip files inside generated/ — those are our own output
+            try:
+                swift_file.relative_to(self.output_dir)
+                continue  # inside generated/ → skip
+            except ValueError:
+                pass  # not inside generated/ → include
+
+            index[swift_file.name] = swift_file
+
+        return index
+
     def _write_artifacts(self, artifacts: list[Artifact]):
-        """Write normalized artifacts to the output directory."""
+        """Write normalized artifacts to the output directory.
+
+        Includes project-level dedup: skips files whose filename already
+        exists in the project directory (outside generated/) to prevent
+        FK-012 duplicate type definitions.
+        """
+        # Build project file index for dedup
+        project_files = self._build_project_file_index()
+        if project_files:
+            print(f"[OutputIntegrator] Project dedup index: {len(project_files)} existing Swift files")
+
         for artifact in artifacts:
             # Determine canonical path
             original_dir = str(Path(artifact.original_path).parent) \
@@ -587,6 +645,19 @@ class OutputIntegrator:
                 self.report.normalized_paths.append(
                     (original_relative, canonical_relative)
                 )
+
+            # --- Project-level dedup guard (FK-012 prevention) ---
+            # If the same filename already exists in the project (outside generated/),
+            # skip it to avoid duplicate type definitions.
+            if artifact.filename in project_files:
+                existing_path = project_files[artifact.filename]
+                rel_existing = str(existing_path.relative_to(self.project_dir))
+                self.report.skipped_files.append((
+                    canonical_relative,
+                    f"already exists in project: {rel_existing}"
+                ))
+                self.report.files_skipped += 1
+                continue
 
             # Build full output path
             dest_dir = self.output_dir / canonical_dir
