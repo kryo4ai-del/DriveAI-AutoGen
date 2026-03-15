@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "description": "Policy for residual compile outliers after FK-019 sanitization",
+  "classification": {
+    "release-critical": "Error in production code that blocks App Store build",
+    "debug-only": "Error in #if DEBUG / Preview code, does not affect release build",
+    "fragment": "Incomplete code fragment without valid Swift structure"
+  },
+  "dispositions": {
+    "quarantine": "Move to quarantine/ folder, excluded from compile checks",
+    "manual-fix": "Apply targeted fix (e.g. missing #endif)",
+    "ignore-for-release": "No action needed, does not affect release builds"
+  },
+  "outliers": [
+    {
+      "file": "projects/askfin_v1-1/Models/ReadinessScore+Extension.swift",
+      "classification": "fragment",
+      "errors": 3,
+      "error_types": ["expressions not allowed at top level", "extraneous '}' at top level"],
+      "disposition": "quarantine",
+      "reason": "Code fragment without enclosing extension declaration. Debug-only helper moved to quarantine."
+    },
+    {
+      "file": "projects/askfin_v1-1/Models/PreviewDataFactory.swift",
+      "classification": "debug-only",
+      "errors": 1,
+      "error_types": ["expected #else or #endif"],
+      "disposition": "manual-fix",
+      "reason": "Missing #endif at end of file. Added to close #if DEBUG block."
+    },
+    {
+      "file": "projects/askfin_v1-1/Models/WeakCategory.swift",
+      "classification": "fragment",
+      "errors": 4,
+      "error_types": ["unary operator cannot be separated from its operand", "expected expression"],
+      "disposition": "quarantine",
+      "reason": "Pure pseudo-code documentation file with placeholder syntax ({ ... }, (...)). No real Swift code. Moved to quarantine."
+    },
+    {
+      "file": "projects/askfin_v1-1/Models/Priority.swift",
+      "classification": "fragment",
+      "errors": 2,
+      "error_types": ["expected 'func' keyword", "expected '(' in argument list"],
+      "disposition": "quarantine",
+      "reason": "Pseudo-code stub with { ... } placeholder. No real implementation. Moved to quarantine."
+    },
+    {
+      "file": "projects/askfin_v1-1/Views/ExamReadinessView.swift",
+      "classification": "fragment",
+      "errors": 3,
+      "error_types": ["expected 'func' keyword", "expected ',' separator"],
+      "disposition": "quarantine",
+      "reason": "Usage example code inside struct body instead of a real View implementation. Moved to quarantine."
+    }
+  ]
+}

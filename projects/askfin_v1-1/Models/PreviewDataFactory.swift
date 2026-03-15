@@ -28,3 +28,4 @@ extension ExamReadinessResult {
     static let preview = PreviewDataFactory.readinessResult
     static let previewInsufficient = PreviewDataFactory.readinessResultInsufficient
 }
+#endif
