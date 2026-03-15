@@ -12,5 +12,29 @@
 import Foundation
 
 struct ExamSession: Sendable {
-    // Add properties
+    let id: String
+    let startTime: Date
+    var endTime: Date?
+    var answers: [String: Int]
+    var score: Int?
+    var passed: Bool?
+    let questionIds: [String]
+
+    init(
+        id: String = UUID().uuidString,
+        startTime: Date = Date(),
+        endTime: Date? = nil,
+        answers: [String: Int] = [:],
+        score: Int? = nil,
+        passed: Bool? = nil,
+        questionIds: [String] = []
+    ) {
+        self.id = id
+        self.startTime = startTime
+        self.endTime = endTime
+        self.answers = answers
+        self.score = score
+        self.passed = passed
+        self.questionIds = questionIds
+    }
 }

@@ -1,6 +1,35 @@
 {
-  "schema_version": "1.1",
-  "description": "Policy for residual compile outliers and type collisions",
+  "schema_version": "1.2",
+  "description": "Policy for residual compile outliers, type collisions, and contract reconciliation",
+  "contract_reconciliation": {
+    "policy": "consumer-declares-need",
+    "description": "Wenn ein ViewModel/Consumer ein Property oder eine Conformance von einem Typ erwartet die nicht existiert, wird die fehlende Deklaration zum referenzierten Typ hinzugefuegt — sofern es minimal und sicher ist.",
+    "rules": [
+      {
+        "type": "missing_conformance",
+        "action": "Conformance zum referenzierten Typ hinzufuegen wenn es ein Marker-Protocol ist (z.B. ObservableObject, Sendable)"
+      },
+      {
+        "type": "missing_property",
+        "action": "Property als optionales oder Default-Wert-Property hinzufuegen wenn der Typ aus dem Kontext klar ist"
+      },
+      {
+        "type": "missing_dependency",
+        "action": "Property-Deklaration im Consumer hinzufuegen wenn der Service-Typ existiert"
+      }
+    ],
+    "resolved": [
+      {
+        "consumer": "ExamSessionViewModel",
+        "fixes": [
+          "ExamTimerService: added ObservableObject conformance",
+          "ExamSession: expanded stub with full properties (id, startTime, endTime, answers, score, passed, questionIds)",
+          "ExamSessionViewModel: added examSessionService property"
+        ],
+        "date": "2026-03-15"
+      }
+    ]
+  },
   "duplicate_type_collision": {
     "policy": "dedicated-file-wins",
     "description": "Wenn ein Typ sowohl in einer eigenen Datei (TypeName.swift) als auch inline in einer anderen Datei definiert ist, gilt die eigene Datei als canonical.",

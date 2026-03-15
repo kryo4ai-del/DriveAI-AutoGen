@@ -4,8 +4,10 @@ import SwiftUI
 final class ExamSessionViewModel: BaseViewModel {
     @StateObject private var timerService: ExamTimerService
     @Published var session: ExamSession
-    
-    init(session: ExamSession, /* ... */) {
+    private let examSessionService: ExamSessionService
+
+    init(session: ExamSession, examSessionService: ExamSessionService) {
+        self.examSessionService = examSessionService
         self.session = session
         _timerService = StateObject(wrappedValue: ExamTimerService(sessionStartTime: session.startTime))
         super.init()

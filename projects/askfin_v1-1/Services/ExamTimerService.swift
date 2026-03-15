@@ -2,7 +2,7 @@ import Foundation
 import Combine
 // Features/ExamReadiness/Services/ExamTimerService.swift
 @MainActor
-final class ExamTimerService {
+final class ExamTimerService: ObservableObject {
     @Published var timeRemaining: Int = 0
     
     private var timer: Timer?
