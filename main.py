@@ -1034,6 +1034,7 @@ def _run_operations_layer(
     from factory.operations.compile_hygiene_validator import CompileHygieneValidator
     from factory.operations.swift_compile_check import SwiftCompileCheck
     from factory.operations.type_stub_generator import TypeStubGenerator
+    from factory.operations.property_shape_repairer import PropertyShapeRepairer
     from factory.operations.recovery_runner import (
         RecoveryRunner, RecoveryState, MAX_RECOVERY_ATTEMPTS,
         load_recovery_state, clear_recovery_state,
@@ -1082,6 +1083,25 @@ def _run_operations_layer(
             hygiene_status = hygiene_report.status.value
     else:
         print("\n[OpsLayer] Type Stub Generator — no FK-014 blockers, skipping.")
+
+    # --- FK-013 Property Shape Repairer ---
+    shape_report = None
+    fk013_blocking = [i for i in hygiene_report.issues
+                      if i.pattern_id == "FK-013" and i.severity.value == "blocking"]
+    if fk013_blocking:
+        print(f"\n[OpsLayer] Property Shape Repairer — {len(fk013_blocking)} FK-013 blocker(s)")
+        shape_repairer = PropertyShapeRepairer(project_name=project_name)
+        shape_report = shape_repairer.repair_from_hygiene(hygiene_report)
+        shape_report.print_summary()
+
+        # Re-run hygiene after repairs to update status
+        if shape_report.repairs_applied > 0:
+            print("\n[OpsLayer] Re-running Compile Hygiene after shape repair...")
+            hygiene = CompileHygieneValidator(project_name=project_name)
+            hygiene_report = hygiene.validate()
+            hygiene_status = hygiene_report.status.value
+    else:
+        print("\n[OpsLayer] Property Shape Repairer — no FK-013 blockers, skipping.")
 
     # --- Swift Compile Check (swiftc -parse) ---
     print("\n[OpsLayer] Swift Compile Check")
@@ -1199,6 +1219,8 @@ def _run_operations_layer(
     print(f"  Compile hygiene:    {hygiene_status}")
     if stub_report and stub_report.stubs_created > 0:
         print(f"  FK-014 stubs:       {stub_report.stubs_created} created")
+    if shape_report and shape_report.repairs_applied > 0:
+        print(f"  FK-013 repairs:     {shape_report.repairs_applied} applied")
     print(f"  Swift compile:      {swift_compile_status}")
     print("=" * 60)
     print()

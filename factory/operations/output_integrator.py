@@ -32,6 +32,25 @@ SWIFT_KEYWORDS = frozenset({
 # Minimum file length (characters) — anything shorter is likely a stub
 MIN_FILE_LENGTH = 50
 
+# Top-level type declarations (column 0 only — excludes nested types)
+_TOP_LEVEL_TYPE_RE = re.compile(
+    r'^(?:public\s+|internal\s+|private\s+|fileprivate\s+)?'
+    r'(?:final\s+)?'
+    r'(?:struct|class|enum|protocol|actor)\s+'
+    r'([A-Z][A-Za-z0-9_]+)',
+    re.MULTILINE,
+)
+
+# AI markdown contamination patterns to sanitize from generated code
+_MARKDOWN_CONTAMINATION_RE = re.compile(
+    r'^---\s*$',  # Markdown horizontal rules
+    re.MULTILINE,
+)
+_MARKDOWN_HEADING_RE = re.compile(
+    r'^#{1,4}\s+\w.*$',  # Markdown headings (# Title, ## Section)
+    re.MULTILINE,
+)
+
 # ---------------------------------------------------------------------------
 # Deterministic path normalization rules
 # ---------------------------------------------------------------------------
@@ -619,6 +638,39 @@ class OutputIntegrator:
 
         return index
 
+    def _build_project_type_index(self) -> dict[str, str]:
+        """Build an index of top-level type names declared in the project.
+
+        Returns: {TypeName: relative_path} for all top-level Swift type
+        declarations in project files (outside generated/).
+        Enables type-level dedup: if a generated file declares a type
+        already owned by a project file, it can be skipped.
+        """
+        type_index: dict[str, str] = {}
+        if not self.project_dir.exists():
+            return type_index
+
+        for swift_file in self.project_dir.rglob("*.swift"):
+            # Skip generated/
+            try:
+                swift_file.relative_to(self.output_dir)
+                continue
+            except ValueError:
+                pass
+
+            try:
+                content = swift_file.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError):
+                continue
+
+            rel_path = str(swift_file.relative_to(self.project_dir))
+            for m in _TOP_LEVEL_TYPE_RE.finditer(content):
+                type_name = m.group(1)
+                if type_name not in type_index:
+                    type_index[type_name] = rel_path
+
+        return type_index
+
     def _write_artifacts(self, artifacts: list[Artifact]):
         """Write normalized artifacts to the output directory.
 
@@ -630,6 +682,11 @@ class OutputIntegrator:
         project_files = self._build_project_file_index()
         if project_files:
             print(f"[OutputIntegrator] Project dedup index: {len(project_files)} existing Swift files")
+
+        # Build type-level index for semantic dedup
+        project_types = self._build_project_type_index()
+        if project_types:
+            print(f"[OutputIntegrator] Project type index: {len(project_types)} declared types")
 
         for artifact in artifacts:
             # Determine canonical path
@@ -658,6 +715,55 @@ class OutputIntegrator:
                 ))
                 self.report.files_skipped += 1
                 continue
+
+            # --- Type-level dedup guard (FK-012 semantic prevention) ---
+            # Even if the filename is different, skip if any top-level type
+            # declared in this artifact already exists in the project.
+            if project_types:
+                artifact_types = [
+                    m.group(1) for m in _TOP_LEVEL_TYPE_RE.finditer(artifact.content)
+                ]
+                conflicting = [
+                    (t, project_types[t]) for t in artifact_types
+                    if t in project_types
+                ]
+                if conflicting:
+                    conflict_desc = "; ".join(
+                        f"{t} owned by {p}" for t, p in conflicting
+                    )
+                    self.report.skipped_files.append((
+                        canonical_relative,
+                        f"type-level dedup: {conflict_desc}"
+                    ))
+                    self.report.files_skipped += 1
+                    continue
+
+            # --- Markdown contamination sanitization (FK-011 prevention) ---
+            sanitized_content = artifact.content
+            md_rules_removed = _MARKDOWN_CONTAMINATION_RE.findall(sanitized_content)
+            sanitized_content = _MARKDOWN_CONTAMINATION_RE.sub("", sanitized_content)
+            md_headings_removed = _MARKDOWN_HEADING_RE.findall(sanitized_content)
+            # Only remove headings that are NOT inside string literals or comments
+            if md_headings_removed:
+                clean_lines = []
+                for line in sanitized_content.splitlines(keepends=True):
+                    stripped = line.strip()
+                    if _MARKDOWN_HEADING_RE.match(stripped):
+                        # Keep if inside a string literal or doc comment
+                        if stripped.startswith("//") or stripped.startswith("/*") or stripped.startswith("*"):
+                            clean_lines.append(line)
+                        elif '"' in line and "#" in line:
+                            clean_lines.append(line)
+                        # else: drop the markdown heading line
+                    else:
+                        clean_lines.append(line)
+                sanitized_content = "".join(clean_lines)
+
+            total_md_removed = len(md_rules_removed) + len(md_headings_removed)
+            if total_md_removed > 0:
+                # Remove resulting blank line runs (3+ blank lines -> 1)
+                sanitized_content = re.sub(r'\n{3,}', '\n\n', sanitized_content)
+                artifact.content = sanitized_content
 
             # Build full output path
             dest_dir = self.output_dir / canonical_dir

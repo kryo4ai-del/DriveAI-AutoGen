@@ -82,3 +82,341 @@ Skipped (2 already in project):
   Review digest: 600 chars captured
 
 --- Test generation pass ---
+
+Knowledge proposals: 1 candidates → C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory_knowledge\proposals\proposal_20260315_082525.json
+
+============================================================
+Conversation complete.
+Messages exchanged : 10 (impl) + 10 (bugs) + 10 (creative) + 10 (ux_psych) + 10 (refactor) + 10 (tests)
+Run mode           : standard
+Approval mode      : auto
+Stop reason        : Maximum number of messages 10 reached, current message count: 10
+Memory updates:
+  decisions          : +48
+  architecture notes : +48
+  implementation notes: +49
+  review notes       : +47
+Swift files saved  : 37 new, 1 unchanged
+Xcode integration  : 18 copied, 0 unchanged
+Memory saved to    : memory/memory_store.json
+Log saved to       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\logs\driveai_run_20260315_082525.txt
+Delivery package   : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_082525
+Sprint report      : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_082525\sprint_report.md
+Run manifest       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_082525\run_manifest.json
+============================================================
+
+Git auto commit:
+  - changes staged
+  - commit created
+  - pushed to origin/main
+
+============================================================
+  Operations Layer
+============================================================
+
+[OpsLayer] Pass 1: Output Integrator
+
+[OutputIntegrator] Starting integration for project: askfin_v1-1
+[OutputIntegrator] Output directory: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\generated
+  [generated_code] 20 files
+  [log:driveai_run_20260315_082525.txt] 12 files
+[OutputIntegrator] Collected 32 artifacts
+[OutputIntegrator] Project dedup index: 157 existing Swift files
+
+==================================================
+  Output Integrator Summary
+==================================================
+  Artifacts collected:   32
+  Artifacts normalized:  10
+  Artifacts written:     3
+  Truncated detected:    6
+  Skipped (duplicates):  29
+
+  Truncated files:
+    - AssessmentResult.swift (generated_code, 48 lines)
+    - ReadinessAssessment.swift (generated_code, 74 lines)
+    - ReadinessAssessmentServiceProtocol.swift (generated_code, 205 lines)
+    - ReadinessLevelBadge.swift (generated_code, 38 lines)
+    - ExamReadinessScreen.swift (log:driveai_run_20260315_082525.txt, 142 lines)
+    - ReadinessAssessmentServiceTests.swift (log:driveai_run_20260315_082525.txt, 180 lines)
+
+  Normalized paths:
+    Models\AssessmentButtonStyle.swift -> Models/AssessmentButtonStyle.swift
+    Models\AssessmentError.swift -> Models/AssessmentError.swift
+    Models\AssessmentPersistenceServiceProtocol.swift -> Services/AssessmentPersistenceServiceProtocol.swift
+    Models\AssessmentState.swift -> Models/AssessmentState.swift
+    Models\GeneratedHelpers.swift -> Models/GeneratedHelpers.swift
+    Models\LocalDataServiceProtocol.swift -> Services/LocalDataServiceProtocol.swift
+    Models\Question.swift -> Models/Question.swift
+    Models\ReadinessAssessmentServiceProtocol.swift -> Services/ReadinessAssessmentServiceProtocol.swift
+    Models\ReadinessAssessmentTests.swift -> Tests/ReadinessAssessmentTests.swift
+    Models\ReadinessLevelTests.swift -> Tests/ReadinessLevelTests.swift
+    Models\Recommendation.swift -> Models/Recommendation.swift
+    ViewModels\ExamReadinessViewModel.swift -> ViewModels/ExamReadinessViewModel.swift
+    Views\AssessmentProgressView.swift -> Views/AssessmentProgressView.swift
+    Views/ExamReadinessScreen.swift -> Models/ExamReadinessScreen.swift
+    Views\QuestionOptionButton.swift -> Models/QuestionOptionButton.swift
+    Views\ReadinessLevelBadge.swift -> Models/ReadinessLevelBadge.swift
+    Views\ResultsView.swift -> Views/ResultsView.swift
+    ReadinessAssessmentServiceTests.swift -> Tests/ReadinessAssessmentServiceTests.swift
+==================================================
+
+[OutputIntegrator] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\integration_report_20260315_084824.json
+
+[OpsLayer] Pass 1: Completion Verifier
+
+[CompletionVerifier] Verifying project: askfin_v1-1
+[CompletionVerifier] Generated dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\generated
+[CompletionVerifier] Specs dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\specs
+[CompletionVerifier] No specs directory found at C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\specs
+[CompletionVerifier] Expected files from specs: 0
+[CompletionVerifier] Actual files found: 3
+
+=======================================================
+  Completion Verifier Summary
+=======================================================
+  Project:           askfin_v1-1
+  Spec source:       none
+  Health status:     FAILED
+  Completeness:      0%
+-------------------------------------------------------
+  Expected files:    0
+  Actual files:      3
+  Complete files:    0
+  Incomplete files:  0
+  Missing files:     0
+  Unexpected files:  3
+  Missing folders:   3
+
+  Missing folders:
+    - Models
+    - ViewModels
+    - Views
+
+  Unexpected files (not in spec):
+    + Services\AssessmentPersistenceService.swift
+    + Services\ReadinessAssessmentService.swift
+    + Tests\ReadinessAssessmentServiceTests.swift
+=======================================================
+
+[CompletionVerifier] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\completion\askfin_v1-1_completion.json
+
+[OpsLayer] Compile Hygiene Validator
+
+[CompileHygiene] Validating project: askfin_v1-1
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+[CompileHygiene] Swift files found: 160
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_v1-1
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+  Files scanned:  160
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   17
+    Blocking:     6
+    Warnings:     11
+
+  [BLOCK] FK-011  generated/Tests/ReadinessAssessmentServiceTests.swift:155
+          AI contamination: Markdown horizontal rule
+          > ---
+  [WARN ] FK-015  Models/ReadinessStrings.swift:26
+          Bundle.module is only available in Swift Package targets, not regular Xcode apps
+          > bundle: .module
+  [BLOCK] FK-012  generated/Services/AssessmentPersistenceService.swift:4
+          Duplicate protocol 'AssessmentPersistenceServiceProtocol' defined in 2 files (top-level)
+          also in: Models/AssessmentPersistenceServiceProtocol.swift:1
+  [BLOCK] FK-012  generated/Services/ReadinessAssessmentService.swift:16
+          Duplicate class 'ReadinessAssessmentService' defined in 2 files (top-level)
+          also in: Models/ReadinessAssessmentServiceProtocol.swift:16
+  [BLOCK] FK-012  generated/Services/ReadinessAssessmentService.swift:4
+          Duplicate protocol 'ReadinessAssessmentServiceProtocol' defined in 2 files (top-level)
+          also in: Models/ReadinessAssessmentServiceProtocol.swift:4
+  [WARN ] FK-013  App/PremiumHomeView.swift:35
+          Call to TopicPickerView() uses labels ['TODO', 'competenceService', 'onSelectTopic'] — no known init matches (33% match)
+          > TopicPickerView(
+  [WARN ] FK-013  Models/ExamReadinessViewModelTests.swift:6
+          Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)
+          > CategoryReadiness(id: "1", categoryName: "Signs", completionPercentage: 80, ...)
+  [WARN ] FK-013  Models/ExamReadinessViewModelTests.swift:7
+          Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)
+          > CategoryReadiness(id: "2", categoryName: "Rules", completionPercentage: 60, ...)
+  [BLOCK] FK-013  Services/MockReadinessCalculationService.swift:12
+          Call to ExamReadinessSnapshot() uses labels ['categoryBreakdown', 'correctAnswers', 'id', 'name', 'overallReadinessPercentage', 'questionsAnswered', 'readinessPercentage'] — no known init matches (0% match)
+          > ExamReadinessSnapshot(
+  [WARN ] FK-013  Views/Components/ExamCountdownCard.swift:128
+          Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)
+          > ExamCountdownCard(
+  [WARN ] FK-013  Views/Components/ExamCountdownCard.swift:136
+          Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)
+          > ExamCountdownCard(
+  [WARN ] FK-013  Views/Components/ProgressGridCard.swift:107
+          Call to ProgressGridCard() uses labels ['averageScore', 'completedCategories', 'correctAnswers', 'questionsAnswered', 'summary', 'totalCategories'] — no known init matches (16% match)
+          > ProgressGridCard(
+  [WARN ] FK-013  Views/Components/StreakIndicator.swift:83
+          Call to StreakIndicator() uses labels ['currentStreak', 'lastActivityDate', 'longestStreak', 'streak'] — no known init matches (25% match)
+          > StreakIndicator(
+  [WARN ] FK-013  Views/ExamReadinessView.swift:14
+          Call to ExamReadinessView() uses labels ['getCategoryName', 'viewModel', 'where'] — no known init matches (33% match)
+          > ExamReadinessView(
+  [WARN ] FK-013  Views/PremiumDashboardView.swift:31
+          Call to ExamStartModal() uses labels ['duration', 'isPresented', 'onStartExam'] — no known init matches (33% match)
+          > ExamStartModal(
+  [WARN ] FK-013  Views/Training/AnswerRevealView.swift:116
+          Call to DirectionalArrow() uses labels ['blue', 'color', 'direction', 'green', 'red'] — no known init matches (40% match)
+          > DirectionalArrow(
+  [BLOCK] FK-014  Models/SpacingItem.swift
+          Type 'Element' referenced in 2 files but never declared in project
+          also in: generated/Tests/ReadinessAssessmentServiceTests.swift
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_v1-1_compile_hygiene.json
+
+[OpsLayer] Type Stub Generator — 1 FK-014 blocker(s)
+[StubGen] Processing 1 FK-014 finding(s)...
+  [STUB] Element (struct) -> Models\Element.swift
+
+[StubGen] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\stubs\askfin_v1-1_stubs.json
+
+============================================================
+  Type Stub Generator (FK-014)
+============================================================
+  Project:          askfin_v1-1
+  FK-014 findings:  1
+  Stubs created:    1
+  Stubs skipped:    0
+
+  [CREATED] Element (struct) -> Models\Element.swift
+============================================================
+
+[OpsLayer] Re-running Compile Hygiene after stub generation...
+
+[CompileHygiene] Validating project: askfin_v1-1
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+[CompileHygiene] Swift files found: 161
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_v1-1
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+  Files scanned:  161
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   16
+    Blocking:     5
+    Warnings:     11
+
+  [BLOCK] FK-011  generated/Tests/ReadinessAssessmentServiceTests.swift:155
+          AI contamination: Markdown horizontal rule
+          > ---
+  [WARN ] FK-015  Models/ReadinessStrings.swift:26
+          Bundle.module is only available in Swift Package targets, not regular Xcode apps
+          > bundle: .module
+  [BLOCK] FK-012  generated/Services/AssessmentPersistenceService.swift:4
+          Duplicate protocol 'AssessmentPersistenceServiceProtocol' defined in 2 files (top-level)
+          also in: Models/AssessmentPersistenceServiceProtocol.swift:1
+  [BLOCK] FK-012  generated/Services/ReadinessAssessmentService.swift:16
+          Duplicate class 'ReadinessAssessmentService' defined in 2 files (top-level)
+          also in: Models/ReadinessAssessmentServiceProtocol.swift:16
+  [BLOCK] FK-012  generated/Services/ReadinessAssessmentService.swift:4
+          Duplicate protocol 'ReadinessAssessmentServiceProtocol' defined in 2 files (top-level)
+          also in: Models/ReadinessAssessmentServiceProtocol.swift:4
+  [WARN ] FK-013  App/PremiumHomeView.swift:35
+          Call to TopicPickerView() uses labels ['TODO', 'competenceService', 'onSelectTopic'] — no known init matches (33% match)
+          > TopicPickerView(
+  [WARN ] FK-013  Models/ExamReadinessViewModelTests.swift:6
+          Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)
+          > CategoryReadiness(id: "1", categoryName: "Signs", completionPercentage: 80, ...)
+  [WARN ] FK-013  Models/ExamReadinessViewModelTests.swift:7
+          Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)
+          > CategoryReadiness(id: "2", categoryName: "Rules", completionPercentage: 60, ...)
+  [BLOCK] FK-013  Services/MockReadinessCalculationService.swift:12
+          Call to ExamReadinessSnapshot() uses labels ['categoryBreakdown', 'correctAnswers', 'id', 'name', 'overallReadinessPercentage', 'questionsAnswered', 'readinessPercentage'] — no known init matches (0% match)
+          > ExamReadinessSnapshot(
+  [WARN ] FK-013  Views/Components/ExamCountdownCard.swift:128
+          Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)
+          > ExamCountdownCard(
+  [WARN ] FK-013  Views/Components/ExamCountdownCard.swift:136
+          Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)
+          > ExamCountdownCard(
+  [WARN ] FK-013  Views/Components/ProgressGridCard.swift:107
+          Call to ProgressGridCard() uses labels ['averageScore', 'completedCategories', 'correctAnswers', 'questionsAnswered', 'summary', 'totalCategories'] — no known init matches (16% match)
+          > ProgressGridCard(
+  [WARN ] FK-013  Views/Components/StreakIndicator.swift:83
+          Call to StreakIndicator() uses labels ['currentStreak', 'lastActivityDate', 'longestStreak', 'streak'] — no known init matches (25% match)
+          > StreakIndicator(
+  [WARN ] FK-013  Views/ExamReadinessView.swift:14
+          Call to ExamReadinessView() uses labels ['getCategoryName', 'viewModel', 'where'] — no known init matches (33% match)
+          > ExamReadinessView(
+  [WARN ] FK-013  Views/PremiumDashboardView.swift:31
+          Call to ExamStartModal() uses labels ['duration', 'isPresented', 'onStartExam'] — no known init matches (33% match)
+          > ExamStartModal(
+  [WARN ] FK-013  Views/Training/AnswerRevealView.swift:116
+          Call to DirectionalArrow() uses labels ['blue', 'color', 'direction', 'green', 'red'] — no known init matches (40% match)
+          > DirectionalArrow(
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_v1-1_compile_hygiene.json
+
+[OpsLayer] Swift Compile Check
+
+[SwiftCompile] Checking project: askfin_v1-1
+[SwiftCompile] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+[SwiftCompile] Mode: parse
+[SwiftCompile] swiftc not found on PATH — skipping.
+
+============================================================
+  Swift Compile Check
+============================================================
+  Project:          askfin_v1-1
+  Scan dir:         C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+  Mode:             skipped
+  Status:           SKIPPED
+  Skip reason:      swiftc not found on PATH
+------------------------------------------------------------
+  Files checked:    0
+  Files OK:         0
+  Files w/ errors:  0
+  Files w/ warnings:0
+  Total errors:     0
+  Total warnings:   0
+============================================================
+
+[SwiftCompile] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\compile\askfin_v1-1_swift_compile.json
+
+[OpsLayer] Health: FAILED -- too little output for recovery.
+
+============================================================
+  Operations Layer Summary
+============================================================
+  Project:            askfin_v1-1
+  Initial status:     FAILED
+  Recovery attempts:  0
+  Recovery outcome:   none
+  Final status:       FAILED
+  Compile hygiene:    BLOCKING
+  FK-014 stubs:       1 created
+  Swift compile:      SKIPPED
+============================================================
+
+
+=======================================================
+  Run Memory Summary
+=======================================================
+  Project:           askfin_v1-1
+  Runs recorded:     6
+  Latest status:     FAILED
+  Latest complete:   0%
+
+  Recovery runs:      0 of 6 runs
+=======================================================
+
+[KnowledgeWriteback] Starting writeback cycle...
+[KnowledgeWriteback] No proposals ready for promotion.
+[KnowledgeWriteback] No new run patterns detected.
+[KnowledgeWriteback] Writeback cycle complete.

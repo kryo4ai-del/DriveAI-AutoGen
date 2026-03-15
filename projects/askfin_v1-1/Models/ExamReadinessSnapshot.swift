@@ -22,6 +22,15 @@ actor RecommendationEngineService: Sendable {
 
 // ✅ Also validate snapshot integrity:
 struct ExamReadinessSnapshot {
+    let overallReadinessPercentage: Double
+    let categoryBreakdown: [CategoryReadiness]
+    let recommendedFocusCategories: [Any]
+    let examCountdown: DateComponentsValue
+    let currentStreak: Int
+    let totalQuestionsAnswered: Int
+    let estimatedCompletionDays: Int
+    let lastUpdated: Date
+
     func validate() throws {
         if categoryBreakdown.isEmpty {
             throw SnapshotError.noCategories

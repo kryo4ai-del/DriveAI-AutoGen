@@ -1,0 +1,181 @@
+{
+  "timestamp": "20260315_111002",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 20,
+  "files_normalized": 6,
+  "files_written": 0,
+  "files_skipped": 20,
+  "truncated_detected": [
+    "AssessmentResult.swift (generated_code, 48 lines)",
+    "ReadinessAssessment.swift (generated_code, 74 lines)",
+    "ReadinessAssessmentServiceProtocol.swift (generated_code, 205 lines)",
+    "ReadinessLevelBadge.swift (generated_code, 38 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\AssessmentButtonStyle.swift",
+      "to": "Models/AssessmentButtonStyle.swift"
+    },
+    {
+      "from": "Models\\AssessmentError.swift",
+      "to": "Models/AssessmentError.swift"
+    },
+    {
+      "from": "Models\\AssessmentPersistenceServiceProtocol.swift",
+      "to": "Services/AssessmentPersistenceServiceProtocol.swift"
+    },
+    {
+      "from": "Models\\AssessmentResult.swift",
+      "to": "Models/AssessmentResult.swift"
+    },
+    {
+      "from": "Models\\AssessmentState.swift",
+      "to": "Models/AssessmentState.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\LocalDataServiceProtocol.swift",
+      "to": "Services/LocalDataServiceProtocol.swift"
+    },
+    {
+      "from": "Models\\Question.swift",
+      "to": "Models/Question.swift"
+    },
+    {
+      "from": "Models\\ReadinessAssessment.swift",
+      "to": "Models/ReadinessAssessment.swift"
+    },
+    {
+      "from": "Models\\ReadinessAssessmentServiceProtocol.swift",
+      "to": "Services/ReadinessAssessmentServiceProtocol.swift"
+    },
+    {
+      "from": "Models\\ReadinessAssessmentTests.swift",
+      "to": "Tests/ReadinessAssessmentTests.swift"
+    },
+    {
+      "from": "Models\\ReadinessLevelTests.swift",
+      "to": "Tests/ReadinessLevelTests.swift"
+    },
+    {
+      "from": "Models\\Recommendation.swift",
+      "to": "Models/Recommendation.swift"
+    },
+    {
+      "from": "ViewModels\\ExamReadinessViewModel.swift",
+      "to": "ViewModels/ExamReadinessViewModel.swift"
+    },
+    {
+      "from": "ViewModels\\RecommendationViewModel.swift",
+      "to": "ViewModels/RecommendationViewModel.swift"
+    },
+    {
+      "from": "Views\\AssessmentProgressView.swift",
+      "to": "Views/AssessmentProgressView.swift"
+    },
+    {
+      "from": "Views\\ExamReadinessScreen.swift",
+      "to": "Models/ExamReadinessScreen.swift"
+    },
+    {
+      "from": "Views\\QuestionOptionButton.swift",
+      "to": "Models/QuestionOptionButton.swift"
+    },
+    {
+      "from": "Views\\ReadinessLevelBadge.swift",
+      "to": "Models/ReadinessLevelBadge.swift"
+    },
+    {
+      "from": "Views\\ResultsView.swift",
+      "to": "Views/ResultsView.swift"
+    }
+  ],
+  "written_files": [],
+  "skipped_files": [
+    {
+      "file": "Models/AssessmentButtonStyle.swift",
+      "reason": "already exists in project: Models\\AssessmentButtonStyle.swift"
+    },
+    {
+      "file": "Models/AssessmentError.swift",
+      "reason": "already exists in project: Models\\AssessmentError.swift"
+    },
+    {
+      "file": "Services/AssessmentPersistenceServiceProtocol.swift",
+      "reason": "already exists in project: Models\\AssessmentPersistenceServiceProtocol.swift"
+    },
+    {
+      "file": "Models/AssessmentResult.swift",
+      "reason": "already exists in project: Models\\AssessmentResult.swift"
+    },
+    {
+      "file": "Models/AssessmentState.swift",
+      "reason": "already exists in project: Models\\AssessmentState.swift"
+    },
+    {
+      "file": "Models/GeneratedHelpers.swift",
+      "reason": "already exists in project: Models\\GeneratedHelpers.swift"
+    },
+    {
+      "file": "Services/LocalDataServiceProtocol.swift",
+      "reason": "already exists in project: Models\\LocalDataServiceProtocol.swift"
+    },
+    {
+      "file": "Models/Question.swift",
+      "reason": "already exists in project: Models\\Question.swift"
+    },
+    {
+      "file": "Models/ReadinessAssessment.swift",
+      "reason": "already exists in project: Models\\ReadinessAssessment.swift"
+    },
+    {
+      "file": "Services/ReadinessAssessmentServiceProtocol.swift",
+      "reason": "already exists in project: Models\\ReadinessAssessmentServiceProtocol.swift"
+    },
+    {
+      "file": "Tests/ReadinessAssessmentTests.swift",
+      "reason": "already exists in project: Models\\ReadinessAssessmentTests.swift"
+    },
+    {
+      "file": "Tests/ReadinessLevelTests.swift",
+      "reason": "already exists in project: Models\\ReadinessLevelTests.swift"
+    },
+    {
+      "file": "Models/Recommendation.swift",
+      "reason": "already exists in project: Models\\Recommendation.swift"
+    },
+    {
+      "file": "ViewModels/ExamReadinessViewModel.swift",
+      "reason": "already exists in project: ViewModels\\ExamReadinessViewModel.swift"
+    },
+    {
+      "file": "ViewModels/RecommendationViewModel.swift",
+      "reason": "already exists in project: ViewModels\\RecommendationViewModel.swift"
+    },
+    {
+      "file": "Views/AssessmentProgressView.swift",
+      "reason": "already exists in project: Views\\AssessmentProgressView.swift"
+    },
+    {
+      "file": "Models/ExamReadinessScreen.swift",
+      "reason": "already exists in project: Models\\ExamReadinessScreen.swift"
+    },
+    {
+      "file": "Models/QuestionOptionButton.swift",
+      "reason": "already exists in project: Models\\QuestionOptionButton.swift"
+    },
+    {
+      "file": "Models/ReadinessLevelBadge.swift",
+      "reason": "already exists in project: Models\\ReadinessLevelBadge.swift"
+    },
+    {
+      "file": "Views/ResultsView.swift",
+      "reason": "already exists in project: Views\\ResultsView.swift"
+    }
+  ],
+  "errors": []
+}

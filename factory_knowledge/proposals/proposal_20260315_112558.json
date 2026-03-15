@@ -1,0 +1,54 @@
+{
+  "run_id": "20260315_112558",
+  "generated": "2026-03-15T11:49:40",
+  "proposal_count": 3,
+  "proposals": [
+    {
+      "title": "Product quality gap: The implementation is a generic test-taker UI (timer, b",
+      "type": "ux_insight",
+      "lesson": "Creative Director rated output as 'fail'. Key issue: The implementation is a generic test-taker UI (timer, buttons, question display) with zero acknowledgment of the product's core emotional function: moving users from exam anxiety to exam confidence. T",
+      "evidence": "CD review in run 20260315_112558: rating=fail",
+      "source_run": "20260315_112558",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "product-quality",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "Emotional design gap: Emotional Function: No Emotional Arc or Exam Confidence",
+      "type": "ux_insight",
+      "lesson": "Implementation lacked emotional engagement: Emotional Function: No Emotional Arc or Exam Confidence Journey",
+      "evidence": "CD finding in run 20260315_112558 for template=feature",
+      "source_run": "20260315_112558",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "emotional-design",
+        "ux",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: Memory Leak: pendingSaveTask Never Awaited",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Memory Leak: pendingSaveTask Never Awaited",
+      "evidence": "Bug Hunter finding in run 20260315_112558",
+      "source_run": "20260315_112558",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

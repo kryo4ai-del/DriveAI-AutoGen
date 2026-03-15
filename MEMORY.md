@@ -412,6 +412,35 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - 10 neue FK-013 Warnings (korrekt: teilweise Init-Mismatches im generierten Code)
 - Verbleibender BLOCKING: ExamReadinessSnapshot hat keine Properties, Call-Site nutzt 7 Labels
 
+### 2026-03-15 — Seventh Autonomy Proof (Report 25-0)
+- Alle 5 BLOCKING sind echte Probleme — **0 false positives erstmals**
+- CodeExtractor Dedup: 10 Files (Rekord)
+- OutputIntegrator: 3 Files geschrieben (erstmals nicht 0)
+- Stub Generator: 1 Stub (Element) automatisch erstellt
+- CD Gate: `fail` aber advisory (dev-profile, korrekt)
+- Neue Erkenntnis: OutputIntegrator schreibt in `generated/` neben bestehenden Projekt-Files
+  - FK-012 x3: AssessmentPersistenceServiceProtocol, ReadinessAssessmentService, ReadinessAssessmentServiceProtocol
+  - Root Cause: Dedup prueft nur Dateinamen, nicht Type-Inhalte
+- **Naechster Blocker**: OutputIntegrator generated/ vs Projekt-Root Duplikate (FK-012)
+
+### 2026-03-15 — OutputIntegrator Semantic Dedup + Markdown Sanitization (Report 26-0)
+- Type-Level Dedup: Neuer `_build_project_type_index()` scannt 214 Types aus 158 Files
+- OutputIntegrator prueft jetzt Type-Deklarationen, nicht nur Dateinamen
+- Markdown Sanitization: `---` und `## Heading` werden vor dem Schreiben entfernt
+- **BLOCKING vorher (Run 7): 5** (FK-011 x1, FK-012 x3, FK-013 x1)
+- **BLOCKING nachher: 1** (nur ExamReadinessSnapshot FK-013 — echtes Code-Problem)
+- 5 Dedup-Layers: CodeExtractor → ProjectIntegrator → OutputIntegrator Filename → OutputIntegrator Type → CompileHygiene
+- **Naechster Blocker**: ExamReadinessSnapshot struct ohne Properties (FK-013)
+
+### 2026-03-15 — FK-013 Property Shape Repair (Report 27-0)
+- Neues Modul: `factory/operations/property_shape_repairer.py` — deterministisch, kein LLM
+- Inferiert Property-Types aus Call-Site-Argumenten (Double, Int, Date, [Type], etc.)
+- Fuegt fehlende Properties in 0-Property-Structs ein
+- In Operations Layer nach StubGen, vor SwiftCompile
+- **ExamReadinessSnapshot**: 8 Properties aus Call-Site inferiert und eingefuegt
+- **BLOCKING: 1 -> 0** — CompileHygiene Status erstmals **WARNINGS** statt BLOCKING
+- Repair-Pipeline komplett: FK-014→StubGen, FK-013→ShapeRepairer, FK-012→TypeDedup, FK-011→Sanitization
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
