@@ -1,14 +1,22 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 15:09:20",
-  "fk013_blocking_count": 1,
+  "timestamp": "2026-03-15 17:12:56",
+  "fk013_blocking_count": 3,
   "repairs_applied": 0,
-  "repairs_skipped": 1,
+  "repairs_skipped": 3,
   "actions": [],
   "skipped": [
     {
-      "type_name": "ExamReadinessViewModel",
-      "reason": "class ExamReadinessViewModel has explicit init \u2014 adding properties alone would not fix the init mismatch (classes require explicit init update)"
+      "type_name": "ReadinessScore",
+      "reason": "type already has 7 stored properties"
+    },
+    {
+      "type_name": "ReadinessScore",
+      "reason": "type already has 7 stored properties"
+    },
+    {
+      "type_name": "ReadinessScore",
+      "reason": "type already has 7 stored properties"
     }
   ]
 }

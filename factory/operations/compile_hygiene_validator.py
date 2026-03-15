@@ -708,6 +708,9 @@ _KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
     "DriveAI",
     # Swift keywords that look like types
     "Self", "Type", "Protocol", "AnyType",
+    # Swift runtime types
+    "Hasher", "Mirror", "ObjectIdentifier", "AnyHashable",
+    "AnySequence", "AnyCollection", "AnyIterator",
     # Swift Codable protocol types
     "CodingKey", "CodingKeys", "Decoder", "Encoder",
     "KeyedDecodingContainer", "KeyedEncodingContainer",

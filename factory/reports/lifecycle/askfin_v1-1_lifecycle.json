@@ -1,23 +1,32 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 15:17:34",
-  "blocking_files_checked": 1,
+  "timestamp": "2026-03-15 17:12:56",
+  "blocking_files_checked": 3,
   "ai_generated_found": 1,
   "quarantined": 1,
-  "kept": 0,
+  "kept": 2,
   "actions": [
     {
-      "filename": "ServiceContainer.swift",
-      "original_path": "Models/ServiceContainer.swift",
-      "quarantine_path": "quarantine\\20260315_151734_ServiceContainer.swift",
-      "blocking_issue": "Call to ExamReadinessViewModel() uses labels ['examReadinessService', 'navigationService'] \u2014 no know",
+      "filename": "ReadinessCalculationServiceTests.swift",
+      "original_path": "Models/ReadinessCalculationServiceTests.swift",
+      "quarantine_path": "quarantine\\20260315_171256_ReadinessCalculationServiceTests.swift",
+      "blocking_issue": "Call to ReadinessScore() uses labels ['overall', 'timestamp'] \u2014 no known init matches (0% match)",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "1ca11bf8",
+        "commit_hash": "d5dfdff9",
         "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
-        "author_date": "2026-03-15 14:20:40 +0100"
+        "author_date": "2026-03-15 17:12:52 +0100"
       }
     }
   ],
-  "kept_reasons": []
+  "kept_reasons": [
+    {
+      "filename": "Models/ReadinessCalculationServiceTests.swift",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/ReadinessCalculationServiceTests.swift",
+      "reason": "file does not exist"
+    }
+  ]
 }

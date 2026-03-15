@@ -526,6 +526,14 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - `--profile standard` -> Sonnet + full mode (vorher: Haiku + full)
 - `--profile premium` -> Opus + full mode (vorher: Haiku + full)
 - Alle 7 Regression-Tests bestanden, explizites `--env-profile` hat weiterhin Vorrang
+- **Zweiter Bug**: `VALID_PROFILES` Tuple fehlte "standard"/"premium" → `--profile standard` wurde verworfen → gefixt
+
+### 2026-03-15 — Thirteenth Autonomy Proof (Report 38-0)
+- Noch Haiku (VALID_PROFILES Fix kam nach Run-Start), 42 Files, 11 integriert, Projekt 206 Files
+- **4 BLOCKING → 0 durch vollen Auto-Repair-Stack** (StubGen + StaleGuard)
+- StaleGuard quarantinierte ReadinessCalculationServiceTests.swift
+- **`Hasher` Bug**: Swift-Framework-Typ faelschlich als FK-014 → zu `_KNOWN_FRAMEWORK_TYPES` hinzugefuegt
+- Falschen Hasher.swift Stub geloescht
 
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
