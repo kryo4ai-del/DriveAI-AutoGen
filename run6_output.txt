@@ -2,6 +2,7 @@ Template        : feature
 Name            : ExamReadiness
 Rendered task   : Design and implement the DriveAI feature: ExamReadiness. Include architecture, SwiftUI views, ViewModels, and required supporting code.
 
+Project         : askfin_v1-1 (auto-inferred (single project in projects/))
 ============================================================
 DriveAI AutoGen — Multi-Agent Conversation
 ============================================================
@@ -16,43 +17,37 @@ Active agents   : driveai_lead, product_strategist, roadmap_agent, ios_architect
 Disabled agents : android_architect, kotlin_developer, web_architect, webapp_developer
 Template        : feature
 Name            : ExamReadiness
+Project         : askfin_v1-1
 Task            : Design and implement the DriveAI feature: ExamReadiness. Include architecture, SwiftUI views, ViewModels, and required supporting code.
 ============================================================
 
-Cleaned 13 stale file(s) from generated_code/
+Cleaned 21 stale file(s) from generated_code/
 Inline type dedup: 4 file(s) cleaned
 Swift files extracted:
-  - 2 Views
-  - 3 ViewModels
-  - 5 Services
-  - 20 Models
+  - 14 Views
+  - 6 ViewModels
+  - 1 Services
+  - 9 Models
   - 1 Helper file
 
 Xcode integration completed
 Files integrated:
-  - AppConfig.swift
-  - AppRoute.swift
-  - CategoryReadiness.swift
-  - CategoryReadinessTests.swift
-  - ExamReadinessReport.swift
-  - ExamReadinessReportTests.swift
-  - ExamReadinessReportViewModelTests.swift
-  - ExamReadinessUITests.swift
-  - ReadinessCalculationServiceTests.swift
-  - ReadinessFixtures.swift
-  - ReadinessLevel.swift
-  - ReadinessLevelTests.swift
-  - RecommendationPriority.swift
-  - RecommendationWeights.swift
-  - StudyRecommendationTests.swift
-  - ReadinessCalculationService.swift
-  - RecommendationEngineService.swift
-  - ExamReadinessReportViewModel.swift
-  - StudyRecommendationViewModel.swift
-  - ExamReadinessContainerView.swift
-Skipped (1 already in project):
+  - CacheSnapshot.swift
+  - CategoryReadiness+Extension.swift
+  - DateComponentsValue.swift
+  - ExamReadinessSnapshot.swift
+  - StudyRecommendation.swift
+  - MockReadinessCalculationService.swift
+  - ExamReadinessDashboardViewModel.swift
+  - CategoryReadinessRow.swift
+  - ExamCountdownView.swift
+  - ExamReadinessDashboardView.swift
+  - OverallReadinessCardView.swift
+  - PriorityBadgeView.swift
+Skipped (2 already in project):
+  - CategoryReadiness.swift (exists: Models\CategoryReadiness.swift)
   - GeneratedHelpers.swift (exists: Models\GeneratedHelpers.swift)
-  Implementation summary: 7192 chars for review context
+  Implementation summary: 8095 chars for review context
 
 --- Bug Hunter pass ---
   Factory knowledge: 752 chars injected
@@ -78,30 +73,3 @@ Skipped (1 already in project):
   Review digest: 600 chars captured
 
 --- Test generation pass ---
-
-Knowledge proposals: 1 candidates → C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory_knowledge\proposals\proposal_20260314_194620.json
-
-============================================================
-Conversation complete.
-Messages exchanged : 10 (impl) + 10 (bugs) + 10 (creative) + 10 (ux_psych) + 10 (refactor) + 10 (tests)
-Run mode           : standard
-Approval mode      : auto
-Stop reason        : Maximum number of messages 10 reached, current message count: 10
-Memory updates:
-  decisions          : +53
-  architecture notes : +42
-  implementation notes: +48
-  review notes       : +48
-Swift files saved  : 31 new, 0 unchanged
-Xcode integration  : 20 copied, 0 unchanged
-Memory saved to    : memory/memory_store.json
-Log saved to       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\logs\driveai_run_20260314_194620.txt
-Delivery package   : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260314_194620
-Sprint report      : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260314_194620\sprint_report.md
-Run manifest       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260314_194620\run_manifest.json
-============================================================
-
-Git auto commit:
-  - changes staged
-  - commit created
-  - pushed to origin/main

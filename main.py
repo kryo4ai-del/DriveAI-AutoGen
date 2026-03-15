@@ -234,6 +234,34 @@ def _parse_args() -> dict:
     result["mode"] = explicit_mode or profile_defaults.get("mode") or "full"
     result["approval"] = explicit_approval or profile_defaults.get("approval") or "auto"
 
+    # ── Project auto-inference ────────────────────────────────────────
+    # If --project was not explicitly given, try to infer from projects/ dir.
+    # If exactly one project directory exists, use it automatically.
+    # This ensures Operations Layer, ProjectIntegrator dedup, and
+    # CodeExtractor project-awareness are active without manual flag.
+    if not result["project"]:
+        _projects_dir = os.path.join(os.path.dirname(__file__), "projects")
+        if os.path.isdir(_projects_dir):
+            _candidates = [
+                d for d in os.listdir(_projects_dir)
+                if os.path.isdir(os.path.join(_projects_dir, d))
+                and not d.startswith(".")
+            ]
+            if len(_candidates) == 1:
+                result["project"] = _candidates[0]
+                result["_project_source"] = "auto-inferred (single project in projects/)"
+            elif len(_candidates) > 1:
+                result["_project_source"] = (
+                    f"ambiguous — {len(_candidates)} projects found: "
+                    f"{', '.join(sorted(_candidates))}. Use --project to select."
+                )
+            else:
+                result["_project_source"] = "no projects found in projects/"
+        else:
+            result["_project_source"] = "projects/ directory not found"
+    else:
+        result["_project_source"] = "explicit (--project flag)"
+
     return result
 
 
@@ -410,6 +438,10 @@ async def _run_pipeline(
         print(f"Template        : {template}")
         if template_name_value:
             print(f"Name            : {template_name_value}")
+    if project_name:
+        print(f"Project         : {project_name}")
+    else:
+        print("Project         : NONE — Operations Layer will be skipped!")
     print(f"Task            : {user_task}")
     print("=" * 60)
     print()
@@ -417,6 +449,7 @@ async def _run_pipeline(
     logger.info("=" * 60)
     logger.info(header)
     logger.info(f"Run ID          : {run_id}")
+    logger.info(f"Project         : {project_name or 'NONE'}")
     if workflow_recipe:
         logger.info(f"Workflow recipe  : {workflow_recipe}")
     if session_preset:
@@ -1386,6 +1419,17 @@ async def main():
         print(f"Name            : {template_name_value}")
         print(f"Rendered task   : {cli_task}")
         print()
+
+    # ── Project resolution logging ────────────────────────────────────
+    _proj = a.get("project")
+    _proj_src = a.get("_project_source", "unknown")
+    if _proj:
+        print(f"Project         : {_proj} ({_proj_src})")
+    else:
+        print(f"Project         : NONE — {_proj_src}")
+        print("  WARNING: Operations Layer, ProjectIntegrator dedup, and")
+        print("  CodeExtractor project-awareness will be inactive.")
+        print("  Use --project <name> to enable full validation pipeline.")
 
     # ── Queue-only commands (no pipeline run) ────────────────────────
     task_queue = TaskQueue()

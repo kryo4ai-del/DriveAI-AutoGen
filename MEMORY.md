@@ -362,6 +362,27 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - `--no-cd-gate` bleibt als expliziter Override
 - **Naechster Schritt**: Autonomy Proof Run mit Dev-Profile → sollte volle Pipeline durchlaufen
 
+### 2026-03-14 — Fifth Autonomy Proof Run (Report 20-0)
+- Run 20260314_194620, template=feature, name=ExamReadiness, model=claude-haiku-4-5, profile=dev
+- **ERSTMALS**: Alle 6 Agent-Passes ausgefuehrt (Impl + Bug + CD + UX Psych + Refactor + Test Gen)
+- **CD conditional_pass** (nicht fail!) — Pipeline waere aber auch bei fail weitergelaufen (advisory)
+- 31 Files generiert davon **7 Test-Dateien** (erstmals Tests generiert!)
+- Review Digest Chain funktioniert: Bug Hunter → CD → UX Psych → Refactor (akkumuliert)
+- Pipeline meldet "status: success" — erster erfolgreicher Run
+- **PROBLEM**: `--project askfin_v1-1` fehlte im Aufruf → Files in DriveAI/ statt Projekt
+  - Operations Layer nicht ausgefuehrt (OutputIntegrator, CompileHygiene, Recovery, RunMemory)
+  - CodeExtractor Projekt-Awareness nicht aktiv
+  - ProjectIntegrator Dedup gegen falsches Verzeichnis
+- **Naechster Schritt**: Run mit `--project askfin_v1-1` → volle Validierungs-Pipeline
+- Korrekter Aufruf: `python main.py --template feature --name ExamReadiness --profile dev --approval auto --project askfin_v1-1`
+
+### 2026-03-14 — Project Context Hardening (Report 21-0)
+- Auto-Inferenz: Wenn 1 Projekt in projects/ → automatisch verwenden (kein --project noetig)
+- Warning-Logging bei fehlendem Projekt (Console + Pipeline-Header)
+- Quelle wird geloggt: "explicit (--project flag)" vs "auto-inferred (single project)"
+- `--project` bleibt als expliziter Override wenn mehrere Projekte existieren
+- Validiert: Alle 3 Szenarien (kein Flag, explizit, Template-only) resolven korrekt auf askfin_v1-1
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
