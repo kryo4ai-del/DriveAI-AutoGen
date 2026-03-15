@@ -1,3 +1,4 @@
+import SwiftUI
 struct CategoryStrengthCard: View {
     let category: CategoryReadiness
     

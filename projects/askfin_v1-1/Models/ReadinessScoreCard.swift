@@ -1,3 +1,4 @@
+import SwiftUI
 struct ReadinessScoreCard: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     let readiness: ExamReadiness

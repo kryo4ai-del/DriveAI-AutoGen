@@ -1,3 +1,4 @@
+import SwiftUI
 struct OverallReadinessCardView: View {
     let snapshot: ExamReadinessSnapshot
     

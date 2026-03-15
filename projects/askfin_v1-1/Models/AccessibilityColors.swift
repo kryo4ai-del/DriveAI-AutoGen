@@ -1,3 +1,4 @@
+import SwiftUI
 // 1. Define accessible color combinations
 struct AccessibilityColors {
     static let weakForeground = Color(red: 0.8, green: 0, blue: 0)      // Dark red

@@ -1,3 +1,4 @@
+import SwiftUI
 struct CategoryReadinessRow: View {
     let category: CategoryReadiness
     

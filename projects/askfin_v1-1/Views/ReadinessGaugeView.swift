@@ -1,3 +1,4 @@
+import SwiftUI
 struct ReadinessGaugeView: View {
     var readinessScore: ReadinessScore
     

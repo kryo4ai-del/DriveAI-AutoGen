@@ -1,3 +1,4 @@
+import SwiftUI
 // Views/ExamReadinessCard.swift
 struct ExamReadinessCard: View {
     let readiness: ExamReadiness?

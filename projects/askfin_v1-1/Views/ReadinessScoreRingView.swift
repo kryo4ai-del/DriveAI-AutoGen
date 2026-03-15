@@ -1,3 +1,4 @@
+import SwiftUI
 struct ReadinessScoreRingView: View {
     let percentage: Int
     let level: ReadinessLevel

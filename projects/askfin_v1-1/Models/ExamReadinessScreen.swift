@@ -1,3 +1,4 @@
+import SwiftUI
 // Use semantic SwiftUI font styles that automatically scale
 struct ExamReadinessScreen: View {
     @Environment(\.sizeCategory) var sizeCategory

@@ -1,8 +1,8 @@
 """
 Import Hygiene Safeguard — deterministic, no LLM.
 
-Scans Swift files for known Foundation and Combine symbols and adds
-the appropriate import when missing and not covered by SwiftUI.
+Scans Swift files for known Foundation, Combine, and SwiftUI symbols
+and adds the appropriate import when missing.
 """
 
 import os
@@ -34,6 +34,30 @@ COMBINE_SYMBOLS = {
     "Cancellable", "Subscriber", "Subscription",
 }
 
+SWIFTUI_SYMBOLS = {
+    # Property Wrappers (SwiftUI only)
+    "StateObject", "EnvironmentObject", "Environment",
+    "AppStorage", "SceneStorage", "FocusState", "GestureState",
+    "Namespace", "FetchRequest", "Query",
+    "State", "Binding",
+    # View Protocol
+    "View",
+    # Navigation
+    "NavigationStack", "NavigationLink", "NavigationPath",
+    "NavigationView", "NavigationSplitView",
+    # Common Views
+    "Text", "Image", "Button", "List", "ForEach",
+    "VStack", "HStack", "ZStack", "ScrollView",
+    "Form", "Section", "Toggle", "Picker", "Slider",
+    "TextField", "TextEditor", "SecureField",
+    "ProgressView", "Label", "Spacer", "Divider",
+    "TabView", "Sheet", "Alert",
+    # Modifiers / Types
+    "Color", "Font", "ViewModifier", "ViewBuilder",
+    # Preview
+    "PreviewProvider",
+}
+
 # Imports that re-export Foundation
 FOUNDATION_COVERING_IMPORTS = {
     "import Foundation",
@@ -50,6 +74,11 @@ COMBINE_COVERING_IMPORTS = {
     "import SwiftUI",
 }
 
+# Only import SwiftUI itself covers SwiftUI symbols
+SWIFTUI_COVERING_IMPORTS = {
+    "import SwiftUI",
+}
+
 # Match word boundaries for symbol usage
 FOUNDATION_PATTERN = re.compile(
     r'\b(' + '|'.join(re.escape(s) for s in FOUNDATION_SYMBOLS) + r')\b'
@@ -57,6 +86,10 @@ FOUNDATION_PATTERN = re.compile(
 
 COMBINE_PATTERN = re.compile(
     r'(?:\b|@)(' + '|'.join(re.escape(s) for s in COMBINE_SYMBOLS) + r')\b'
+)
+
+SWIFTUI_PATTERN = re.compile(
+    r'(?:\b|@)(' + '|'.join(re.escape(s) for s in SWIFTUI_SYMBOLS) + r')\b'
 )
 
 
@@ -111,14 +144,22 @@ class ImportHygiene:
 
             missing_imports = []
 
-            # Check Foundation
-            if not self._has_coverage(content, FOUNDATION_COVERING_IMPORTS):
+            # Check SwiftUI first (it re-exports Foundation + Combine)
+            needs_swiftui = False
+            if not self._has_coverage(content, SWIFTUI_COVERING_IMPORTS):
+                found = self._find_symbols(content, SWIFTUI_PATTERN)
+                if found:
+                    missing_imports.append({"import": "import SwiftUI", "symbols": sorted(found)})
+                    needs_swiftui = True
+
+            # Check Foundation (skip if SwiftUI will be added — it re-exports Foundation)
+            if not needs_swiftui and not self._has_coverage(content, FOUNDATION_COVERING_IMPORTS):
                 found = self._find_symbols(content, FOUNDATION_PATTERN)
                 if found:
                     missing_imports.append({"import": "import Foundation", "symbols": sorted(found)})
 
-            # Check Combine
-            if not self._has_coverage(content, COMBINE_COVERING_IMPORTS):
+            # Check Combine (skip if SwiftUI will be added — it re-exports Combine)
+            if not needs_swiftui and not self._has_coverage(content, COMBINE_COVERING_IMPORTS):
                 found = self._find_symbols(content, COMBINE_PATTERN)
                 if found:
                     missing_imports.append({"import": "import Combine", "symbols": sorted(found)})

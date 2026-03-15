@@ -1,3 +1,4 @@
+import SwiftUI
 enum StatusBadge: String, Sendable {
     case weak, needsWork, moderate, strong
     

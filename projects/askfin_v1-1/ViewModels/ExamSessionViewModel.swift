@@ -1,4 +1,5 @@
 import Combine
+import SwiftUI
 @MainActor
 final class ExamSessionViewModel: BaseViewModel {
     @StateObject private var timerService: ExamTimerService

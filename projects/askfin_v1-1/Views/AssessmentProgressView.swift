@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 struct AssessmentProgressView: View {
     let currentQuestion: Int
     let totalQuestions: Int

@@ -1,3 +1,4 @@
+import SwiftUI
 // Views/ExamReadiness/ReadinessHeaderView.swift
 struct ReadinessHeaderView: View {
     let score: ReadinessScore

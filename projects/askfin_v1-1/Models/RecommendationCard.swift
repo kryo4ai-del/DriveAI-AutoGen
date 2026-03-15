@@ -1,3 +1,4 @@
+import SwiftUI
 struct RecommendationCard: View {
     let recommendation: Recommendation
     

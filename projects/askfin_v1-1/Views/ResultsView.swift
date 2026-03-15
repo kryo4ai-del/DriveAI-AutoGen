@@ -1,3 +1,4 @@
+import SwiftUI
 struct ResultsView: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var showScore = false

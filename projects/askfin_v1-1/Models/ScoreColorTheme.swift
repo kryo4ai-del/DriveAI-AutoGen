@@ -1,3 +1,4 @@
+import SwiftUI
 // DesignSystem.swift (centralized)
 enum ScoreColorTheme {
     case performance    // 0-60-80-100

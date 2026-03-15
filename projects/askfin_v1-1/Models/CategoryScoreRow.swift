@@ -1,3 +1,4 @@
+import SwiftUI
 struct CategoryScoreRow: View {
     let category: String
     let score: Double

@@ -1,3 +1,4 @@
+import SwiftUI
 // Models/ExamReadiness.swift
 
 enum CategoryStrength: String, Codable {

@@ -1,3 +1,4 @@
+import SwiftUI
 extension PriorityLevel {
     // ✅ Updated color palette with proper contrast
     var accessibleColor: Color {
