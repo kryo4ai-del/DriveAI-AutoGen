@@ -1,6 +1,20 @@
 {
-  "schema_version": "1.2",
-  "description": "Policy for residual compile outliers, type collisions, and contract reconciliation",
+  "schema_version": "1.3",
+  "description": "Policy for residual compile outliers, type collisions, contract reconciliation, and concurrency patterns",
+  "concurrency_patterns": {
+    "inout_async_isolation": {
+      "description": "Actor-isolated properties cannot be passed inout to async functions. Use local-copy-then-assign pattern.",
+      "canonical_fix": "var localCopy = self.property; await asyncFunc(&localCopy); self.property = localCopy",
+      "severity": "compile-error",
+      "resolved": [
+        {
+          "file": "ViewModels/ExamSessionViewModel.swift",
+          "property": "session",
+          "date": "2026-03-15"
+        }
+      ]
+    }
+  },
   "contract_reconciliation": {
     "policy": "consumer-declares-need",
     "description": "Wenn ein ViewModel/Consumer ein Property oder eine Conformance von einem Typ erwartet die nicht existiert, wird die fehlende Deklaration zum referenzierten Typ hinzugefuegt — sofern es minimal und sicher ist.",

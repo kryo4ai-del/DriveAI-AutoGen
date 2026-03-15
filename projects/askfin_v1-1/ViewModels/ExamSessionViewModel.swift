@@ -21,7 +21,9 @@ final class ExamSessionViewModel: BaseViewModel {
     
     private func handleTimeExpired() async {
         timerService.pause()
-        try? await examSessionService.completeExamSession(&session)
+        var localSession = session
+        try? await examSessionService.completeExamSession(&localSession)
+        session = localSession
         // Navigate to results
     }
 }
