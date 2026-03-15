@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 125,
+  "files_scanned": 139,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -11,9 +11,9 @@
     "FK-017"
   ],
   "status": "BLOCKING",
-  "issues_found": 2,
+  "issues_found": 12,
   "blocking": 1,
-  "warnings": 1,
+  "warnings": 11,
   "issues": [
     {
       "pattern_id": "FK-015",
@@ -24,15 +24,103 @@
       "matched_text": "bundle: .module"
     },
     {
-      "pattern_id": "FK-012",
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "App/PremiumHomeView.swift",
+      "message": "Call to TopicPickerView() uses labels ['TODO', 'competenceService', 'onSelectTopic'] — no known init matches (33% match)",
+      "line": 35,
+      "matched_text": "TopicPickerView(",
+      "type_name": "TopicPickerView"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ExamReadinessViewModelTests.swift",
+      "message": "Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)",
+      "line": 6,
+      "matched_text": "CategoryReadiness(id: \"1\", categoryName: \"Signs\", completionPercentage: 80, ...),",
+      "type_name": "CategoryReadiness"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ExamReadinessViewModelTests.swift",
+      "message": "Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)",
+      "line": 7,
+      "matched_text": "CategoryReadiness(id: \"2\", categoryName: \"Rules\", completionPercentage: 60, ...)",
+      "type_name": "CategoryReadiness"
+    },
+    {
+      "pattern_id": "FK-013",
       "severity": "blocking",
-      "file": "Models/ExamReadiness.swift",
-      "message": "Duplicate enum 'ReadinessLevel' defined in 2 files",
-      "line": 3,
-      "type_name": "ReadinessLevel",
-      "other_files": [
-        "Models/ReadinessLevel.swift:10"
-      ]
+      "file": "Services/MockReadinessCalculationService.swift",
+      "message": "Call to ExamReadinessSnapshot() uses labels ['categoryBreakdown', 'correctAnswers', 'id', 'name', 'overallReadinessPercentage', 'questionsAnswered', 'readinessPercentage'] — no known init matches (0% match)",
+      "line": 12,
+      "matched_text": "ExamReadinessSnapshot(",
+      "type_name": "ExamReadinessSnapshot"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Views/Components/ExamCountdownCard.swift",
+      "message": "Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)",
+      "line": 128,
+      "matched_text": "ExamCountdownCard(",
+      "type_name": "ExamCountdownCard"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Views/Components/ExamCountdownCard.swift",
+      "message": "Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)",
+      "line": 136,
+      "matched_text": "ExamCountdownCard(",
+      "type_name": "ExamCountdownCard"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Views/Components/ProgressGridCard.swift",
+      "message": "Call to ProgressGridCard() uses labels ['averageScore', 'completedCategories', 'correctAnswers', 'questionsAnswered', 'summary', 'totalCategories'] — no known init matches (16% match)",
+      "line": 107,
+      "matched_text": "ProgressGridCard(",
+      "type_name": "ProgressGridCard"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Views/Components/StreakIndicator.swift",
+      "message": "Call to StreakIndicator() uses labels ['currentStreak', 'lastActivityDate', 'longestStreak', 'streak'] — no known init matches (25% match)",
+      "line": 83,
+      "matched_text": "StreakIndicator(",
+      "type_name": "StreakIndicator"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Views/ExamReadinessView.swift",
+      "message": "Call to ExamReadinessView() uses labels ['getCategoryName', 'viewModel', 'where'] — no known init matches (33% match)",
+      "line": 14,
+      "matched_text": "ExamReadinessView(",
+      "type_name": "ExamReadinessView"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Views/PremiumDashboardView.swift",
+      "message": "Call to ExamStartModal() uses labels ['duration', 'isPresented', 'onStartExam'] — no known init matches (33% match)",
+      "line": 31,
+      "matched_text": "ExamStartModal(",
+      "type_name": "ExamStartModal"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Views/Training/AnswerRevealView.swift",
+      "message": "Call to DirectionalArrow() uses labels ['blue', 'color', 'direction', 'green', 'red'] — no known init matches (40% match)",
+      "line": 116,
+      "matched_text": "DirectionalArrow(",
+      "type_name": "DirectionalArrow"
     }
   ]
 }

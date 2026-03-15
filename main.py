@@ -1033,6 +1033,7 @@ def _run_operations_layer(
     from factory.operations.completion_verifier import CompletionVerifier
     from factory.operations.compile_hygiene_validator import CompileHygieneValidator
     from factory.operations.swift_compile_check import SwiftCompileCheck
+    from factory.operations.type_stub_generator import TypeStubGenerator
     from factory.operations.recovery_runner import (
         RecoveryRunner, RecoveryState, MAX_RECOVERY_ATTEMPTS,
         load_recovery_state, clear_recovery_state,
@@ -1062,6 +1063,25 @@ def _run_operations_layer(
     hygiene = CompileHygieneValidator(project_name=project_name)
     hygiene_report = hygiene.validate()
     hygiene_status = hygiene_report.status.value
+
+    # --- FK-014 Type Stub Generator ---
+    stub_report = None
+    fk014_blocking = [i for i in hygiene_report.issues
+                      if i.pattern_id == "FK-014" and i.severity.value == "blocking"]
+    if fk014_blocking:
+        print(f"\n[OpsLayer] Type Stub Generator — {len(fk014_blocking)} FK-014 blocker(s)")
+        stub_gen = TypeStubGenerator(project_name=project_name)
+        stub_report = stub_gen.generate_from_hygiene(hygiene_report)
+        stub_report.print_summary()
+
+        # Re-run hygiene after stubs to update status
+        if stub_report.stubs_created > 0:
+            print("\n[OpsLayer] Re-running Compile Hygiene after stub generation...")
+            hygiene = CompileHygieneValidator(project_name=project_name)
+            hygiene_report = hygiene.validate()
+            hygiene_status = hygiene_report.status.value
+    else:
+        print("\n[OpsLayer] Type Stub Generator — no FK-014 blockers, skipping.")
 
     # --- Swift Compile Check (swiftc -parse) ---
     print("\n[OpsLayer] Swift Compile Check")
@@ -1177,6 +1197,8 @@ def _run_operations_layer(
     print(f"  Recovery outcome:   {recovery_outcome}")
     print(f"  Final status:       {final_health.upper()}")
     print(f"  Compile hygiene:    {hygiene_status}")
+    if stub_report and stub_report.stubs_created > 0:
+        print(f"  FK-014 stubs:       {stub_report.stubs_created} created")
     print(f"  Swift compile:      {swift_compile_status}")
     print("=" * 60)
     print()

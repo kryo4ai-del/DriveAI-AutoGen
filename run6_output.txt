@@ -73,3 +73,198 @@ Skipped (2 already in project):
   Review digest: 600 chars captured
 
 --- Test generation pass ---
+
+Knowledge proposals: 1 candidates → C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory_knowledge\proposals\proposal_20260315_052126.json
+
+============================================================
+Conversation complete.
+Messages exchanged : 10 (impl) + 10 (bugs) + 10 (creative) + 10 (ux_psych) + 10 (refactor) + 10 (tests)
+Run mode           : standard
+Approval mode      : auto
+Stop reason        : Maximum number of messages 10 reached, current message count: 10
+Memory updates:
+  decisions          : +42
+  architecture notes : +41
+  implementation notes: +47
+  review notes       : +42
+Swift files saved  : 31 new, 0 unchanged
+Xcode integration  : 12 copied, 0 unchanged
+Memory saved to    : memory/memory_store.json
+Log saved to       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\logs\driveai_run_20260315_052126.txt
+Delivery package   : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_052126
+Sprint report      : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_052126\sprint_report.md
+Run manifest       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_052126\run_manifest.json
+============================================================
+
+Git auto commit:
+  - changes staged
+  - commit created
+  - pushed to origin/main
+
+============================================================
+  Operations Layer
+============================================================
+
+[OpsLayer] Pass 1: Output Integrator
+
+[OutputIntegrator] Starting integration for project: askfin_v1-1
+[OutputIntegrator] Output directory: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\generated
+  [generated_code] 14 files
+[OutputIntegrator] Collected 14 artifacts
+[OutputIntegrator] Project dedup index: 137 existing Swift files
+
+==================================================
+  Output Integrator Summary
+==================================================
+  Artifacts collected:   14
+  Artifacts normalized:  1
+  Artifacts written:     0
+  Truncated detected:    0
+  Skipped (duplicates):  14
+
+  Normalized paths:
+    Models\CacheSnapshot.swift -> Models/CacheSnapshot.swift
+    Models\CategoryReadiness+Extension.swift -> Models/CategoryReadiness+Extension.swift
+    Models\CategoryReadiness.swift -> Models/CategoryReadiness.swift
+    Models\DateComponentsValue.swift -> Models/DateComponentsValue.swift
+    Models\ExamReadinessSnapshot.swift -> Models/ExamReadinessSnapshot.swift
+    Models\GeneratedHelpers.swift -> Models/GeneratedHelpers.swift
+    Models\StudyRecommendation.swift -> Models/StudyRecommendation.swift
+    Services\MockReadinessCalculationService.swift -> Services/MockReadinessCalculationService.swift
+    ViewModels\ExamReadinessDashboardViewModel.swift -> ViewModels/ExamReadinessDashboardViewModel.swift
+    Views\CategoryReadinessRow.swift -> Models/CategoryReadinessRow.swift
+    Views\ExamCountdownView.swift -> Views/ExamCountdownView.swift
+    Views\ExamReadinessDashboardView.swift -> Views/ExamReadinessDashboardView.swift
+    Views\OverallReadinessCardView.swift -> Views/OverallReadinessCardView.swift
+    Views\PriorityBadgeView.swift -> Views/PriorityBadgeView.swift
+==================================================
+
+[OutputIntegrator] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\integration_report_20260315_054230.json
+
+[OpsLayer] Pass 1: Completion Verifier
+
+[CompletionVerifier] Verifying project: askfin_v1-1
+[CompletionVerifier] Generated dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\generated
+[CompletionVerifier] Specs dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\specs
+[CompletionVerifier] No specs directory found at C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\specs
+[CompletionVerifier] Expected files from specs: 0
+[CompletionVerifier] Actual files found: 0
+
+=======================================================
+  Completion Verifier Summary
+=======================================================
+  Project:           askfin_v1-1
+  Spec source:       none
+  Health status:     FAILED
+  Completeness:      0%
+-------------------------------------------------------
+  Expected files:    0
+  Actual files:      0
+  Complete files:    0
+  Incomplete files:  0
+  Missing files:     0
+  Missing folders:   4
+
+  Missing folders:
+    - Models
+    - Services
+    - ViewModels
+    - Views
+=======================================================
+
+[CompletionVerifier] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\completion\askfin_v1-1_completion.json
+
+[OpsLayer] Compile Hygiene Validator
+
+[CompileHygiene] Validating project: askfin_v1-1
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+[CompileHygiene] Swift files found: 137
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_v1-1
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+  Files scanned:  137
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   5
+    Blocking:     4
+    Warnings:     1
+
+  [WARN ] FK-015  Models/ReadinessStrings.swift:26
+          Bundle.module is only available in Swift Package targets, not regular Xcode apps
+          > bundle: .module
+  [BLOCK] FK-012  Models/ExamReadiness.swift:3
+          Duplicate enum 'ReadinessLevel' defined in 2 files
+          also in: Models/ReadinessLevel.swift:10
+  [BLOCK] FK-013  Services/MockReadinessCalculationService.swift:18
+          Call to DateComponentsValue() uses labels ['day', 'hour', 'minute'] — no known init matches (0% match)
+          > examCountdown: DateComponentsValue(day: 14, hour: 5, minute: 30),
+  [BLOCK] FK-014  Models/StudyRecommendation.swift
+          Type 'PriorityLevel' referenced in 2 files but never declared in project
+          also in: Views/PriorityBadgeView.swift
+  [BLOCK] FK-014  Models/CacheSnapshot.swift
+          Type 'ReadinessCalculationService' referenced in 2 files but never declared in project
+          also in: Services/MockReadinessCalculationService.swift
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_v1-1_compile_hygiene.json
+
+[OpsLayer] Swift Compile Check
+
+[SwiftCompile] Checking project: askfin_v1-1
+[SwiftCompile] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+[SwiftCompile] Mode: parse
+[SwiftCompile] swiftc not found on PATH — skipping.
+
+============================================================
+  Swift Compile Check
+============================================================
+  Project:          askfin_v1-1
+  Scan dir:         C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+  Mode:             skipped
+  Status:           SKIPPED
+  Skip reason:      swiftc not found on PATH
+------------------------------------------------------------
+  Files checked:    0
+  Files OK:         0
+  Files w/ errors:  0
+  Files w/ warnings:0
+  Total errors:     0
+  Total warnings:   0
+============================================================
+
+[SwiftCompile] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\compile\askfin_v1-1_swift_compile.json
+
+[OpsLayer] Health: FAILED -- too little output for recovery.
+
+============================================================
+  Operations Layer Summary
+============================================================
+  Project:            askfin_v1-1
+  Initial status:     FAILED
+  Recovery attempts:  0
+  Recovery outcome:   none
+  Final status:       FAILED
+  Compile hygiene:    BLOCKING
+  Swift compile:      SKIPPED
+============================================================
+
+
+=======================================================
+  Run Memory Summary
+=======================================================
+  Project:           askfin_v1-1
+  Runs recorded:     5
+  Latest status:     FAILED
+  Latest complete:   0%
+
+  Recovery runs:      0 of 5 runs
+=======================================================
+
+[KnowledgeWriteback] Starting writeback cycle...
+[KnowledgeWriteback] No proposals ready for promotion.
+[KnowledgeWriteback] No new run patterns detected.
+[KnowledgeWriteback] Writeback cycle complete.

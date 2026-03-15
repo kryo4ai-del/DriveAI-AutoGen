@@ -245,12 +245,13 @@ _FRAMEWORK_TYPES = frozenset({
 
 def _collect_type_declarations(
     swift_files: dict[str, tuple[Path, str]],
-) -> dict[str, list[tuple[str, str, int]]]:
+) -> dict[str, list[tuple[str, str, int, int]]]:
     """Collect all type declarations across all files.
 
-    Returns: {type_name: [(rel_path, kind, line_num), ...]}
+    Returns: {type_name: [(rel_path, kind, line_num, column), ...]}
+    Column 0 = top-level declaration, column > 0 = nested/internal type.
     """
-    registry: dict[str, list[tuple[str, str, int]]] = {}
+    registry: dict[str, list[tuple[str, str, int, int]]] = {}
 
     for rel_path, (_, content) in swift_files.items():
         for match in _TYPE_DECL_RE.finditer(content):
@@ -261,27 +262,45 @@ def _collect_type_declarations(
                 continue
 
             line_num = content[:match.start()].count('\n') + 1
+            # Measure indentation from the matched text itself.
+            # The regex starts with ^\s* so the leading whitespace is in
+            # the match. We count that whitespace to determine nesting.
+            matched_text = match.group(0)
+            column = len(matched_text) - len(matched_text.lstrip())
 
             if name not in registry:
                 registry[name] = []
-            registry[name].append((rel_path, kind, line_num))
+            registry[name].append((rel_path, kind, line_num, column))
 
     return registry
 
 
 def _check_fk012(
-    type_registry: dict[str, list[tuple[str, str, int]]],
+    type_registry: dict[str, list[tuple[str, str, int, int]]],
 ) -> list[HygieneIssue]:
-    """Check for duplicate type definitions."""
+    """Check for duplicate type definitions.
+
+    Nested types (column > 0) are excluded from duplicate detection because
+    Swift allows types with the same name to exist both as a nested type
+    inside another type and as a standalone top-level type.
+    """
     issues: list[HygieneIssue] = []
 
     for type_name, locations in sorted(type_registry.items()):
         if len(locations) <= 1:
             continue
 
-        # First occurrence is treated as primary
-        primary_path, primary_kind, primary_line = locations[0]
-        other_files = [f"{loc[0]}:{loc[2]}" for loc in locations[1:]]
+        # Filter to only top-level declarations (column 0)
+        top_level = [loc for loc in locations if loc[3] == 0]
+        nested = [loc for loc in locations if loc[3] > 0]
+
+        # No duplicate if 0 or 1 top-level declarations
+        if len(top_level) <= 1:
+            continue
+
+        # Multiple top-level declarations = real duplicate
+        primary_path, primary_kind, primary_line, _ = top_level[0]
+        other_files = [f"{loc[0]}:{loc[2]}" for loc in top_level[1:]]
 
         issues.append(HygieneIssue(
             pattern_id="FK-012",
@@ -290,7 +309,11 @@ def _check_fk012(
             line=primary_line,
             type_name=type_name,
             other_files=other_files,
-            message=f"Duplicate {primary_kind} '{type_name}' defined in {len(locations)} files",
+            message=(
+                f"Duplicate {primary_kind} '{type_name}' defined in "
+                f"{len(top_level)} files (top-level)"
+                + (f" (+{len(nested)} nested, ignored)" if nested else "")
+            ),
         ))
 
     return issues
@@ -397,16 +420,15 @@ def _find_init_blocks(content: str) -> list[_InitBlock]:
 
 def _collect_signatures(
     swift_files: dict[str, tuple[Path, str]],
-    type_registry: dict[str, list[tuple[str, str, int]]],
+    type_registry: dict[str, list[tuple[str, str, int, int]]],
 ) -> dict[str, list[set[str]]]:
     """Collect init parameter labels for known types.
 
     Returns: {TypeName: [set_of_param_labels, ...]}
     Each type may have multiple init overloads.
 
-    Only collects EXPLICIT init declarations. Structs with no explicit init
-    have an implicit memberwise init that we cannot reliably validate,
-    so they are excluded.
+    Collects explicit init declarations AND implicit memberwise inits for
+    structs (inferred from stored property names).
     """
     signatures: dict[str, list[set[str]]] = {}
 
@@ -482,12 +504,48 @@ def _collect_signatures(
                     signatures[owning_type] = []
                 signatures[owning_type].append(labels)
 
+    # --- Implicit memberwise init for structs ---
+    # Swift generates a memberwise init from stored properties for structs
+    # that don't have an explicit init covering all properties.
+    _STORED_PROP_RE = re.compile(
+        r'^\s+(?:let|var)\s+(\w+)\s*:', re.MULTILINE,
+    )
+    for type_name, locations in type_registry.items():
+        # Only structs get memberwise init
+        struct_locs = [loc for loc in locations if loc[1] == "struct"]
+        if not struct_locs:
+            continue
+
+        # Find the file containing this struct
+        for loc in struct_locs:
+            rel_path_loc = loc[0]
+            if rel_path_loc not in swift_files:
+                continue
+            _, content = swift_files[rel_path_loc]
+
+            # Extract stored property names from the struct body
+            prop_labels = set()
+            for prop_match in _STORED_PROP_RE.finditer(content):
+                prop_name = prop_match.group(1)
+                # Skip computed properties (look-ahead for { get/set)
+                prop_pos = prop_match.end()
+                rest = content[prop_pos:prop_pos + 50].strip()
+                if rest.startswith("{"):
+                    continue
+                prop_labels.add(prop_name)
+
+            if prop_labels:
+                if type_name not in signatures:
+                    signatures[type_name] = []
+                # Add memberwise init signature (all stored properties)
+                signatures[type_name].append(prop_labels)
+
     return signatures
 
 
 def _check_fk013(
     swift_files: dict[str, tuple[Path, str]],
-    type_registry: dict[str, list[tuple[str, str, int]]],
+    type_registry: dict[str, list[tuple[str, str, int, int]]],
 ) -> list[HygieneIssue]:
     """Check for call-site parameter mismatches.
 
@@ -685,7 +743,7 @@ def _collect_type_references(
 
 def _check_fk014(
     swift_files: dict[str, tuple[Path, str]],
-    type_registry: dict[str, list[tuple[str, str, int]]],
+    type_registry: dict[str, list[tuple[str, str, int, int]]],
 ) -> list[HygieneIssue]:
     """Check for referenced types that have no declaration in the project.
 
@@ -754,7 +812,7 @@ _LAYER_PATH_RE = re.compile(
 
 
 def _check_fk017(
-    type_registry: dict[str, list[tuple[str, str, int]]],
+    type_registry: dict[str, list[tuple[str, str, int, int]]],
 ) -> list[HygieneIssue]:
     """Check for namespace collisions between feature layers.
 
@@ -770,7 +828,7 @@ def _check_fk017(
 
         # Check if locations span different feature layers
         layers: dict[str, list[str]] = {}
-        for rel_path, kind, line_num in locations:
+        for rel_path, kind, line_num, _col in locations:
             layer_match = _LAYER_PATH_RE.match(rel_path)
             layer = layer_match.group(1) if layer_match else "_root"
             if layer not in layers:

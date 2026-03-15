@@ -383,6 +383,35 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - `--project` bleibt als expliziter Override wenn mehrere Projekte existieren
 - Validiert: Alle 3 Szenarien (kein Flag, explizit, Template-only) resolven korrekt auf askfin_v1-1
 
+### 2026-03-15 — Sixth Autonomy Proof (Report 22-0)
+- **Erster Run mit Auto-Inferenz**: `--project` weggelassen → `askfin_v1-1` automatisch erkannt
+- **Operations Layer erstmals automatisch aktiv**: OutputIntegrator (137-File Index), CompileHygiene (137 Files), RunMemory, KnowledgeWriteback
+- CD Gate: `conditional_pass` (konsistent, Parser korrekt)
+- Alle 6 Pipeline-Passes ausgefuehrt (Impl → Bug → CD → UX → Refactor → Tests)
+- CompileHygiene: 4 BLOCKING, 1 WARNING
+  - FK-012: ReadinessLevel nested enum (false positive)
+  - FK-013: DateComponentsValue Init nicht erkannt
+  - FK-014 (x2): PriorityLevel + ReadinessCalculationService nicht deklariert
+- **Naechster Blocker**: FK-014 — Factory erzeugt Code der Typen referenziert die nie deklariert werden
+- **Empfehlung**: Type-Stub-Generator als Post-Generation-Fix
+
+### 2026-03-15 — FK-014 Type Stub Generator (Report 23-0)
+- Neues Modul: `factory/operations/type_stub_generator.py` — deterministisch, kein LLM
+- Inferiert Typ-Art aus Namenskonvention (Service->class, Level->enum, View->SwiftUI struct, etc.)
+- Generiert minimale kompilierbare Stubs ins Projekt
+- In Operations Layer eingefuegt: zwischen CompileHygiene und SwiftCompile
+- Re-run CompileHygiene nach Stub-Erstellung
+- **Validiert**: FK-014 von 1 -> 0 reduziert, Blocking total von 3 -> 2
+
+### 2026-03-15 — Compile Hygiene Truthfulness (Report 24-0)
+- FK-012 Fix: Column-aware Duplikat-Erkennung (nested types column>0 ignoriert)
+- FK-013 Fix: Memberwise init aus stored properties erkannt (nicht nur explizite inits)
+- Type-Registry auf 4-Tupel erweitert: (rel_path, kind, line_num, column)
+- **BLOCKING vorher: 4** (FK-012 x1 + FK-013 x1 + FK-014 x2)
+- **BLOCKING nachher: 1** (ExamReadinessSnapshot — echtes Problem, kein false positive)
+- 10 neue FK-013 Warnings (korrekt: teilweise Init-Mismatches im generierten Code)
+- Verbleibender BLOCKING: ExamReadinessSnapshot hat keine Properties, Call-Site nutzt 7 Labels
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
