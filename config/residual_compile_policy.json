@@ -1,6 +1,20 @@
 {
-  "schema_version": "1.3",
-  "description": "Policy for residual compile outliers, type collisions, contract reconciliation, and concurrency patterns",
+  "schema_version": "1.4",
+  "description": "Policy for residual compile outliers, type collisions, contract reconciliation, concurrency patterns, and infrastructure types",
+  "missing_infrastructure_type": {
+    "policy": "stub-or-minimal-implementation",
+    "description": "Wenn ein Infrastructure-Typ (Monitor, Manager, Client) referenziert wird aber nicht existiert, erstelle eine minimale Implementierung wenn der Verwendungskontext klar ist, oder einen Stub wenn nicht.",
+    "preference": "Wenn der Typ ein Singleton-Pattern nutzt (.shared), erstelle eine minimal-funktionale Implementierung statt nur eines Stubs.",
+    "resolved": [
+      {
+        "type": "NetworkMonitor",
+        "file": "Services/NetworkMonitor.swift",
+        "approach": "minimal-implementation",
+        "based_on": "NWPathMonitor (Network framework)",
+        "date": "2026-03-15"
+      }
+    ]
+  },
   "concurrency_patterns": {
     "inout_async_isolation": {
       "description": "Actor-isolated properties cannot be passed inout to async functions. Use local-copy-then-assign pattern.",
