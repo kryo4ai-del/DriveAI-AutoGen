@@ -1,20 +1,17 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 11:49:42",
+  "timestamp": "2026-03-15 16:33:54",
   "fk014_count": 1,
   "stubs_created": 1,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "ExamSession",
+      "type_name": "ReadinessCalculationResult",
       "kind": "struct",
-      "file_path": "Models\\ExamSession.swift",
+      "file_path": "Models\\ReadinessCalculationResult.swift",
       "ref_files": [
-        "Models/AppCoordinator.swift",
-        "Models/ExamSessionViewModelTests.swift",
-        "Models/QuestionRepositoryProtocol.swift",
-        "Services/PersistenceService.swift",
-        "ViewModels/ExamSessionViewModel.swift"
+        "Models/ReadinessCalculator.swift",
+        "Models/ReadinessError.swift"
       ]
     }
   ],

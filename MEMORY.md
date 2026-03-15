@@ -509,6 +509,24 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **Engpass ist jetzt Code-Gen-Output** (Haiku bei wiederholtem Feature), nicht mehr Pipeline/Repair
 - **Empfehlung**: standard-Profile (Sonnet) oder anderes Feature testen
 
+### 2026-03-15 — Twelfth Autonomy Proof (Report 36-0) — standard profile
+- **45 Swift Files generiert** (39 impl + 6 fix) — deutlich mehr als Haiku-Runs
+- **7 Passes** (erstmals Fix Execution!) — standard profile setzt run_mode: full
+- 16 Files integriert, Projekt wuchs auf 194 Files, 270 Types
+- FK-014 `ReadinessCalculationResult` automatisch durch StubGen geloest
+- **0 BLOCKING nach Auto-Fix**, 19 Warnings
+- MOSTLY_COMPLETE / 95% — Baseline stabil unter realistischer Last
+- **Bug**: Modell blieb Haiku trotz `--profile standard` — Profile setzt run_mode aber nicht model
+- **Empfehlung**: Profile-System Model-Resolution debuggen
+
+### 2026-03-15 — Profile Model Resolution Fix (Report 37-0)
+- Root Cause: `--profile` und `--env-profile` waren getrennte Systeme — `--profile standard` setzte nur run_mode, nicht das LLM-Modell
+- Fix: Profile-zu-EnvProfile-Bridge — wenn `--profile` einem LLM-Profile entspricht (dev/standard/premium), wird es automatisch als env_profile genutzt
+- `PROFILE_DEFAULTS` um `standard` und `premium` erweitert
+- `--profile standard` -> Sonnet + full mode (vorher: Haiku + full)
+- `--profile premium` -> Opus + full mode (vorher: Haiku + full)
+- Alle 7 Regression-Tests bestanden, explizites `--env-profile` hat weiterhin Vorrang
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

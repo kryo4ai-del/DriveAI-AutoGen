@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 177,
+  "files_scanned": 194,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -11,9 +11,9 @@
     "FK-017"
   ],
   "status": "WARNINGS",
-  "issues_found": 13,
+  "issues_found": 19,
   "blocking": 0,
-  "warnings": 13,
+  "warnings": 19,
   "issues": [
     {
       "pattern_id": "FK-015",
@@ -58,6 +58,60 @@
       "line": 33,
       "matched_text": "sut = ExamSessionViewModel(",
       "type_name": "ExamSessionViewModel"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/TestData.swift",
+      "message": "Call to Question() uses labels ['answers', 'category', 'correctAnswerIndex', 'id', 'text'] — no known init matches (40% match)",
+      "line": 7,
+      "matched_text": "Question(id: \"Q1\", category: \"Traffic Signs\", text: \"What does a red octagon mean?\",",
+      "type_name": "Question"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/TestData.swift",
+      "message": "Call to Question() uses labels ['answers', 'category', 'correctAnswerIndex', 'id', 'text'] — no known init matches (40% match)",
+      "line": 9,
+      "matched_text": "Question(id: \"Q2\", category: \"Traffic Signs\", text: \"What does a triangle mean?\",",
+      "type_name": "Question"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/TestData.swift",
+      "message": "Call to Question() uses labels ['answers', 'category', 'correctAnswerIndex', 'id', 'text'] — no known init matches (40% match)",
+      "line": 11,
+      "matched_text": "Question(id: \"Q3\", category: \"Right of Way\", text: \"Who has right of way?\",",
+      "type_name": "Question"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/TestData.swift",
+      "message": "Call to Question() uses labels ['answers', 'category', 'correctAnswerIndex', 'id', 'text'] — no known init matches (40% match)",
+      "line": 13,
+      "matched_text": "Question(id: \"Q4\", category: \"Right of Way\", text: \"At intersection, who goes first?\",",
+      "type_name": "Question"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/TestData.swift",
+      "message": "Call to Question() uses labels ['answers', 'category', 'correctAnswerIndex', 'id', 'text'] — no known init matches (40% match)",
+      "line": 15,
+      "matched_text": "Question(id: \"Q5\", category: \"Parking\", text: \"Where can you park?\",",
+      "type_name": "Question"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/TestData.swift",
+      "message": "Call to Question() uses labels ['answers', 'category', 'correctAnswerIndex', 'id', 'text'] — no known init matches (40% match)",
+      "line": 17,
+      "matched_text": "Question(id: \"Q6\", category: \"Parking\", text: \"What does red curb mean?\",",
+      "type_name": "Question"
     },
     {
       "pattern_id": "FK-013",

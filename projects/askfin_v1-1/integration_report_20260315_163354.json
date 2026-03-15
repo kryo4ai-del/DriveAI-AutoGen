@@ -1,0 +1,193 @@
+{
+  "timestamp": "20260315_163354",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 23,
+  "files_normalized": 3,
+  "files_written": 0,
+  "files_skipped": 23,
+  "truncated_detected": [
+    "GeneratedHelpers.swift (generated_code, 15 lines)",
+    "Priority.swift (generated_code, 1 lines)",
+    "ReadinessConfiguration.swift (generated_code, 13 lines)",
+    "ExamReadinessDashboard.swift (log:driveai_run_20260315_160750.txt, 257 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\DataServiceProtocol.swift",
+      "to": "Services/DataServiceProtocol.swift"
+    },
+    {
+      "from": "Models\\DriveAIApp.swift",
+      "to": "Models/DriveAIApp.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\PerformanceTrend.swift",
+      "to": "Models/PerformanceTrend.swift"
+    },
+    {
+      "from": "Models\\PredictionEngine.swift",
+      "to": "Models/PredictionEngine.swift"
+    },
+    {
+      "from": "Models\\Priority.swift",
+      "to": "Models/Priority.swift"
+    },
+    {
+      "from": "Models\\ReadinessCalculator.swift",
+      "to": "Models/ReadinessCalculator.swift"
+    },
+    {
+      "from": "Models\\ReadinessCalculatorTests.swift",
+      "to": "Tests/ReadinessCalculatorTests.swift"
+    },
+    {
+      "from": "Models\\ReadinessConfig.swift",
+      "to": "Models/ReadinessConfig.swift"
+    },
+    {
+      "from": "Models\\ReadinessConfiguration.swift",
+      "to": "Models/ReadinessConfiguration.swift"
+    },
+    {
+      "from": "Models\\ReadinessError.swift",
+      "to": "Models/ReadinessError.swift"
+    },
+    {
+      "from": "Models\\ReadinessPrediction.swift",
+      "to": "Models/ReadinessPrediction.swift"
+    },
+    {
+      "from": "Sources/Models/ReadinessScore.swift",
+      "to": "Models/ReadinessScore.swift"
+    },
+    {
+      "from": "Models\\TestData.swift",
+      "to": "Models/TestData.swift"
+    },
+    {
+      "from": "Models\\TrendAnalyzer.swift",
+      "to": "Models/TrendAnalyzer.swift"
+    },
+    {
+      "from": "Models\\WeakArea.swift",
+      "to": "Models/WeakArea.swift"
+    },
+    {
+      "from": "Services\\MockDataService.swift",
+      "to": "Services/MockDataService.swift"
+    },
+    {
+      "from": "Sources/Features/ExamReadiness/ExamReadinessViewModel.swift",
+      "to": "ViewModels/ExamReadinessViewModel.swift"
+    },
+    {
+      "from": "Views\\CategoryScoreRow.swift",
+      "to": "Models/CategoryScoreRow.swift"
+    },
+    {
+      "from": "Sources/Features/ExamReadiness/ExamReadinessDashboard.swift",
+      "to": "Models/ExamReadinessDashboard.swift"
+    }
+  ],
+  "written_files": [],
+  "skipped_files": [
+    {
+      "file": "ReadinessScore.swift (generated_code)",
+      "reason": "shorter version (168 chars vs 5531 chars)"
+    },
+    {
+      "file": "ExamReadinessViewModel.swift (generated_code)",
+      "reason": "shorter version (108 chars vs 2161 chars)"
+    },
+    {
+      "file": "ExamReadinessDashboard.swift (generated_code)",
+      "reason": "shorter version (8866 chars vs 9257 chars)"
+    },
+    {
+      "file": "Services/DataServiceProtocol.swift",
+      "reason": "already exists in project: Models\\DataServiceProtocol.swift"
+    },
+    {
+      "file": "Models/DriveAIApp.swift",
+      "reason": "already exists in project: Models\\DriveAIApp.swift"
+    },
+    {
+      "file": "Models/GeneratedHelpers.swift",
+      "reason": "already exists in project: Models\\GeneratedHelpers.swift"
+    },
+    {
+      "file": "Models/PerformanceTrend.swift",
+      "reason": "already exists in project: Models\\PerformanceTrend.swift"
+    },
+    {
+      "file": "Models/PredictionEngine.swift",
+      "reason": "already exists in project: Models\\PredictionEngine.swift"
+    },
+    {
+      "file": "Models/Priority.swift",
+      "reason": "already exists in project: Models\\Priority.swift"
+    },
+    {
+      "file": "Models/ReadinessCalculator.swift",
+      "reason": "already exists in project: Models\\ReadinessCalculator.swift"
+    },
+    {
+      "file": "Tests/ReadinessCalculatorTests.swift",
+      "reason": "already exists in project: Models\\ReadinessCalculatorTests.swift"
+    },
+    {
+      "file": "Models/ReadinessConfig.swift",
+      "reason": "already exists in project: Models\\ReadinessConfig.swift"
+    },
+    {
+      "file": "Models/ReadinessConfiguration.swift",
+      "reason": "already exists in project: Models\\ReadinessConfiguration.swift"
+    },
+    {
+      "file": "Models/ReadinessError.swift",
+      "reason": "already exists in project: Models\\ReadinessError.swift"
+    },
+    {
+      "file": "Models/ReadinessPrediction.swift",
+      "reason": "already exists in project: Models\\ReadinessPrediction.swift"
+    },
+    {
+      "file": "Models/ReadinessScore.swift",
+      "reason": "already exists in project: Models\\ReadinessScore.swift"
+    },
+    {
+      "file": "Models/TestData.swift",
+      "reason": "already exists in project: Models\\TestData.swift"
+    },
+    {
+      "file": "Models/TrendAnalyzer.swift",
+      "reason": "already exists in project: Models\\TrendAnalyzer.swift"
+    },
+    {
+      "file": "Models/WeakArea.swift",
+      "reason": "already exists in project: Models\\WeakArea.swift"
+    },
+    {
+      "file": "Services/MockDataService.swift",
+      "reason": "already exists in project: Services\\MockDataService.swift"
+    },
+    {
+      "file": "ViewModels/ExamReadinessViewModel.swift",
+      "reason": "already exists in project: ViewModels\\ExamReadinessViewModel.swift"
+    },
+    {
+      "file": "Models/CategoryScoreRow.swift",
+      "reason": "already exists in project: Models\\CategoryScoreRow.swift"
+    },
+    {
+      "file": "Models/ExamReadinessDashboard.swift",
+      "reason": "already exists in project: Models\\ExamReadinessDashboard.swift"
+    }
+  ],
+  "errors": []
+}

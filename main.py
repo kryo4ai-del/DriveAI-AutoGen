@@ -35,13 +35,15 @@ if sys.stdout.encoding != "utf-8":
 
 VALID_MODES = ("quick", "standard", "full")
 VALID_APPROVALS = ("auto", "ask", "off")
-VALID_PROFILES = ("fast", "dev", "safe", "agentic")
+VALID_PROFILES = ("fast", "dev", "standard", "premium", "safe", "agentic")
 
 PROFILE_DEFAULTS = {
-    "fast":    {"mode": "quick",    "approval": "off"},
-    "dev":     {"mode": "standard", "approval": "auto"},
-    "safe":    {"mode": "standard", "approval": "ask"},
-    "agentic": {"mode": "full",     "approval": "auto"},
+    "fast":     {"mode": "quick",    "approval": "off"},
+    "dev":      {"mode": "standard", "approval": "auto"},
+    "standard": {"mode": "full",     "approval": "auto"},
+    "premium":  {"mode": "full",     "approval": "auto"},
+    "safe":     {"mode": "standard", "approval": "ask"},
+    "agentic":  {"mode": "full",     "approval": "auto"},
 }
 
 
@@ -1328,10 +1330,18 @@ async def main():
 
     # ── Resolve final config: CLI explicit > recipe direct > preset > profile defaults > system defaults
     profile = a["profile"] or preset_cfg.get("profile")
+
+    # If --profile matches an LLM profile name (dev/standard/premium) and no
+    # explicit --env-profile was given, use --profile as the env_profile too.
+    # This ensures `--profile standard` activates claude-sonnet-4-6 as intended.
+    _llm_profile_names = {"dev", "standard", "premium"}
+    _profile_as_env = profile if (profile and profile in _llm_profile_names) else None
+
     env_profile_raw = (
         a["explicit_env_profile"]
         or recipe_cfg.get("env_profile")
         or preset_cfg.get("env_profile")
+        or _profile_as_env
         or "dev"
     )
     profile_defaults = PROFILE_DEFAULTS.get(profile, {})

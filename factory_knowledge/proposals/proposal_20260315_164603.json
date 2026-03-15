@@ -1,0 +1,39 @@
+{
+  "run_id": "20260315_164603",
+  "generated": "2026-03-15T17:12:52",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: **Critical Issues Found:** 3 duplicated `ExamReadinessViewModel` definitions create runtime ambiguity and crash risk. **High-Priority Issues:** 3 dupl. Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260315_164603",
+      "source_run": "20260315_164603",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: Unhandled Task Cancellation in refreshReadiness()",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Unhandled Task Cancellation in refreshReadiness()",
+      "evidence": "Bug Hunter finding in run 20260315_164603",
+      "source_run": "20260315_164603",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}
