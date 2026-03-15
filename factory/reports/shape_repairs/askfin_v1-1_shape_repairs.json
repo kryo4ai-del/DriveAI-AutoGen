@@ -1,49 +1,14 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 11:21:11",
+  "timestamp": "2026-03-15 11:49:42",
   "fk013_blocking_count": 1,
-  "repairs_applied": 1,
-  "repairs_skipped": 0,
-  "actions": [
+  "repairs_applied": 0,
+  "repairs_skipped": 1,
+  "actions": [],
+  "skipped": [
     {
-      "type_name": "ExamReadinessSnapshot",
-      "file_path": "Models\\ExamReadinessSnapshot.swift",
-      "properties_added": [
-        {
-          "name": "overallReadinessPercentage",
-          "type": "Double"
-        },
-        {
-          "name": "categoryBreakdown",
-          "type": "[CategoryReadiness]"
-        },
-        {
-          "name": "recommendedFocusCategories",
-          "type": "[Any]"
-        },
-        {
-          "name": "examCountdown",
-          "type": "DateComponentsValue"
-        },
-        {
-          "name": "currentStreak",
-          "type": "Int"
-        },
-        {
-          "name": "totalQuestionsAnswered",
-          "type": "Int"
-        },
-        {
-          "name": "estimatedCompletionDays",
-          "type": "Int"
-        },
-        {
-          "name": "lastUpdated",
-          "type": "Date"
-        }
-      ],
-      "source_call_site": "Services/MockReadinessCalculationService.swift"
+      "type_name": "AnswerButtonView",
+      "reason": "struct already has 1 stored properties"
     }
-  ],
-  "skipped": []
+  ]
 }

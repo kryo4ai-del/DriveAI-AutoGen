@@ -1,0 +1,163 @@
+{
+  "timestamp": "20260315_114942",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 18,
+  "files_normalized": 2,
+  "files_written": 0,
+  "files_skipped": 18,
+  "truncated_detected": [
+    "ExamConfig.swift (generated_code, 8 lines)",
+    "GeneratedHelpers.swift (generated_code, 202 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\AppCoordinator.swift",
+      "to": "Models/AppCoordinator.swift"
+    },
+    {
+      "from": "Models\\ExamConfig.swift",
+      "to": "Models/ExamConfig.swift"
+    },
+    {
+      "from": "Models\\ExamSessionViewModelTests.swift",
+      "to": "Tests/ExamSessionViewModelTests.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\PersistenceError.swift",
+      "to": "Models/PersistenceError.swift"
+    },
+    {
+      "from": "Models\\Question.swift",
+      "to": "Models/Question.swift"
+    },
+    {
+      "from": "Models\\QuestionRepository.swift",
+      "to": "Models/QuestionRepository.swift"
+    },
+    {
+      "from": "Models\\QuestionRepositoryProtocol.swift",
+      "to": "Services/QuestionRepositoryProtocol.swift"
+    },
+    {
+      "from": "Models\\UserProgress.swift",
+      "to": "Models/UserProgress.swift"
+    },
+    {
+      "from": "Services\\ExamTimerService.swift",
+      "to": "Services/ExamTimerService.swift"
+    },
+    {
+      "from": "Services\\PersistenceService.swift",
+      "to": "Services/PersistenceService.swift"
+    },
+    {
+      "from": "ViewModels\\BaseViewModel.swift",
+      "to": "ViewModels/BaseViewModel.swift"
+    },
+    {
+      "from": "ViewModels\\ExamSessionViewModel.swift",
+      "to": "ViewModels/ExamSessionViewModel.swift"
+    },
+    {
+      "from": "ViewModels\\OfflineStatusViewModel.swift",
+      "to": "ViewModels/OfflineStatusViewModel.swift"
+    },
+    {
+      "from": "Views\\AnswerButtonView.swift",
+      "to": "Views/AnswerButtonView.swift"
+    },
+    {
+      "from": "Views\\ExamSimulationView.swift",
+      "to": "Views/ExamSimulationView.swift"
+    },
+    {
+      "from": "Views\\ExamTimerView.swift",
+      "to": "Views/ExamTimerView.swift"
+    },
+    {
+      "from": "Views\\QuestionCardView.swift",
+      "to": "Views/Training/QuestionCardView.swift"
+    }
+  ],
+  "written_files": [],
+  "skipped_files": [
+    {
+      "file": "Models/AppCoordinator.swift",
+      "reason": "already exists in project: Models\\AppCoordinator.swift"
+    },
+    {
+      "file": "Models/ExamConfig.swift",
+      "reason": "already exists in project: Models\\ExamConfig.swift"
+    },
+    {
+      "file": "Tests/ExamSessionViewModelTests.swift",
+      "reason": "already exists in project: Models\\ExamSessionViewModelTests.swift"
+    },
+    {
+      "file": "Models/GeneratedHelpers.swift",
+      "reason": "already exists in project: Models\\GeneratedHelpers.swift"
+    },
+    {
+      "file": "Models/PersistenceError.swift",
+      "reason": "already exists in project: Models\\PersistenceError.swift"
+    },
+    {
+      "file": "Models/Question.swift",
+      "reason": "already exists in project: Models\\Question.swift"
+    },
+    {
+      "file": "Models/QuestionRepository.swift",
+      "reason": "already exists in project: Models\\QuestionRepository.swift"
+    },
+    {
+      "file": "Services/QuestionRepositoryProtocol.swift",
+      "reason": "already exists in project: Models\\QuestionRepositoryProtocol.swift"
+    },
+    {
+      "file": "Models/UserProgress.swift",
+      "reason": "already exists in project: Models\\UserProgress.swift"
+    },
+    {
+      "file": "Services/ExamTimerService.swift",
+      "reason": "already exists in project: Services\\ExamTimerService.swift"
+    },
+    {
+      "file": "Services/PersistenceService.swift",
+      "reason": "already exists in project: Services\\PersistenceService.swift"
+    },
+    {
+      "file": "ViewModels/BaseViewModel.swift",
+      "reason": "already exists in project: ViewModels\\BaseViewModel.swift"
+    },
+    {
+      "file": "ViewModels/ExamSessionViewModel.swift",
+      "reason": "already exists in project: ViewModels\\ExamSessionViewModel.swift"
+    },
+    {
+      "file": "ViewModels/OfflineStatusViewModel.swift",
+      "reason": "already exists in project: ViewModels\\OfflineStatusViewModel.swift"
+    },
+    {
+      "file": "Views/AnswerButtonView.swift",
+      "reason": "already exists in project: Views\\AnswerButtonView.swift"
+    },
+    {
+      "file": "Views/ExamSimulationView.swift",
+      "reason": "already exists in project: Views\\Simulation\\ExamSimulationView.swift"
+    },
+    {
+      "file": "Views/ExamTimerView.swift",
+      "reason": "already exists in project: Views\\ExamTimerView.swift"
+    },
+    {
+      "file": "Views/Training/QuestionCardView.swift",
+      "reason": "already exists in project: Views\\Training\\QuestionCardView.swift"
+    }
+  ],
+  "errors": []
+}

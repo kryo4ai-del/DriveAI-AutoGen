@@ -29,7 +29,7 @@ DriveAI-AutoGen/
 ├── CLAUDE.md                        ← Diese Datei
 │
 ├── projects/                        ← Generierte Projekte
-│   └── askfin_v1-1/                 ← AskFin Premium iOS App (75 Swift Files)
+│   └── askfin_v1-1/                 ← AskFin Premium iOS App (~170 Swift Files)
 │       ├── App/                     ← App Entry Point
 │       ├── Models/                  ← Swift Datenmodelle
 │       ├── Services/                ← Business Logic
@@ -44,16 +44,20 @@ DriveAI-AutoGen/
 │   ├── agent_toggles.json          ← 21 aktiv, 4 deaktiviert
 │   └── agent_roles.json            ← Agent System Messages
 ├── factory/                         ← Factory Operations Layer
-│   ├── operations/                  ← Post-Generation Validierung
-│   │   ├── compile_hygiene_validator.py  ← FK-011 bis FK-017 (Regex)
+│   ├── operations/                  ← Post-Generation Validierung + Auto-Repair
+│   │   ├── compile_hygiene_validator.py  ← FK-011 bis FK-017 (Column-aware, Memberwise-Init)
 │   │   ├── swift_compile_check.py        ← swiftc -parse Validierung
-│   │   ├── output_integrator.py          ← Code-Integration
+│   │   ├── output_integrator.py          ← Code-Integration + Type-Level Dedup + Markdown Sanitization
 │   │   ├── completion_verifier.py        ← Vollstaendigkeitspruefung
+│   │   ├── type_stub_generator.py        ← Auto-Stub fuer FK-014 fehlende Typen
+│   │   ├── property_shape_repairer.py    ← Auto-Repair fuer FK-013 Struct-Property-Mismatches
 │   │   ├── recovery_runner.py            ← Automatische Reparatur
 │   │   └── run_memory.py                 ← Run-History
 │   └── reports/                     ← Generierte Reports
 │       ├── hygiene/                 ← Compile Hygiene Reports (JSON)
-│       └── compile/                 ← Swift Compile Reports (JSON)
+│       ├── compile/                 ← Swift Compile Reports (JSON)
+│       ├── stubs/                   ← Type Stub Reports (JSON)
+│       └── shape_repairs/           ← Property Shape Repair Reports (JSON)
 ├── factory_knowledge/               ← Factory Knowledge System
 │   ├── knowledge.json               ← 18 Eintraege (FK-001 bis FK-018)
 │   ├── index.json                   ← Uebersichts-Index
@@ -101,9 +105,10 @@ DriveAI-AutoGen/
 ## AskFin Premium iOS App (askfin_v1-1)
 - **Typ**: SwiftUI MVVM Coaching App (nicht Scanner Tool)
 - **4 Pillars**: Training Mode, Exam Simulation, Skill Map, Readiness Score
-- **75 Swift Files** in `projects/askfin_v1-1/`
-- **Status**: Factory-generiert, Xcode-Compile-Fixes auf Mac durchgefuehrt (2026-03-13)
+- **~170 Swift Files** in `projects/askfin_v1-1/`
+- **Status**: Factory-generiert, 8 Autonomy Proof Runs durchgefuehrt (2026-03-15)
 - **Bearbeitung**: Mac (Xcode) + Windows (Factory/Claude Code)
+- **Projekt-Inferenz**: Automatisch erkannt wenn `--project` weggelassen wird
 
 ## AI App Factory
 - **21 aktive Agents** (Python, AutoGen-basiert, 100% Anthropic Claude)
@@ -112,10 +117,17 @@ DriveAI-AutoGen/
 
 ## Operations Layer Pipeline
 ```
-Output Integrator → Completion Verifier → Compile Hygiene Validator → Swift Compile Check → Recovery Runner → Run Memory
+Output Integrator → Completion Verifier → Compile Hygiene Validator
+  → Type Stub Generator (FK-014) → Re-Hygiene
+  → Property Shape Repairer (FK-013) → Re-Hygiene
+  → Swift Compile Check → Recovery Runner → Run Memory → Knowledge Writeback
 ```
-- **Compile Hygiene Validator**: 6 Regex-Checks (FK-011 bis FK-017) — laeuft ueberall
+- **Output Integrator**: 5-Layer Dedup (Filename + Type-Level + Markdown Sanitization)
+- **Compile Hygiene Validator**: 6 Checks (FK-011 bis FK-017), Column-aware, Memberwise-Init-Erkennung
+- **Type Stub Generator**: Automatische Stubs fuer FK-014 (fehlende Typ-Deklarationen)
+- **Property Shape Repairer**: Automatische Struct-Property-Reparatur bei FK-013 (0%-Match)
 - **Swift Compile Check**: swiftc -parse Validierung — nur Mac/Linux (SKIPPED auf Windows)
+- **5 Dedup-Layers**: CodeExtractor → ProjectIntegrator → OutputIntegrator Filename → OutputIntegrator Type → CompileHygiene
 
 ## Factory Knowledge System
 - **18 Eintraege** (FK-001 bis FK-018)
@@ -155,6 +167,14 @@ DeveloperReports/
 **Regel**: Vor dem Erstellen prüfen welche Nummer als nächstes dran ist. Reports sind dauerhaft und dienen als Projekthistorie. Code-Agent-Reports → `CodeAgent/`, Master-Lead-Steps → `Steps-MasterLead/`.
 
 ## Erledigtes
+- [2026-03-15] Property Shape Repairer: FK-013 Struct-Property-Reparatur (0-Property-Structs)
+- [2026-03-15] OutputIntegrator Semantic Dedup: Type-Level Dedup + Markdown Sanitization
+- [2026-03-15] Compile Hygiene Truthfulness: Column-aware FK-012, Memberwise-Init FK-013
+- [2026-03-15] Type Stub Generator: Automatische FK-014 Stub-Generierung
+- [2026-03-15] Project Context Hardening: Auto-Inferenz aus projects/ Verzeichnis
+- [2026-03-15] CD Gate Profile-Awareness: dev-profile = advisory (fail nicht blockierend)
+- [2026-03-15] CD Rating Parser Fix: Agent-spezifische Extraktion statt letzter Match
+- [2026-03-15] 8 Autonomy Proof Runs (Run 3-8) mit progressiver Verbesserung
 - [2026-03-14] Swift Compile Check: swiftc-basierte Syntax-Validierung + Pipeline-Integration
 - [2026-03-14] Compile Hygiene Validator Round 3: FK-013, FK-014, FK-017 (6 Checks total)
 - [2026-03-14] Compile Hygiene Validator Round 2: FK-011, FK-012, FK-015

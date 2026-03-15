@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 158,
+  "files_scanned": 173,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,10 +10,10 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "WARNINGS",
-  "issues_found": 12,
-  "blocking": 0,
-  "warnings": 12,
+  "status": "BLOCKING",
+  "issues_found": 14,
+  "blocking": 1,
+  "warnings": 13,
   "issues": [
     {
       "pattern_id": "FK-015",
@@ -53,11 +53,29 @@
     {
       "pattern_id": "FK-013",
       "severity": "warning",
+      "file": "Models/ExamSessionViewModelTests.swift",
+      "message": "Call to ExamSessionViewModel() uses labels ['examSessionService', 'persistenceService', 'questionRepository', 'session', 'timerService'] — no known init matches (20% match)",
+      "line": 33,
+      "matched_text": "sut = ExamSessionViewModel(",
+      "type_name": "ExamSessionViewModel"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
       "file": "Services/MockReadinessCalculationService.swift",
       "message": "Call to ExamReadinessSnapshot() uses labels ['categoryBreakdown', 'correctAnswers', 'id', 'name', 'overallReadinessPercentage', 'questionsAnswered', 'readinessPercentage'] — no known init matches (28% match)",
       "line": 12,
       "matched_text": "ExamReadinessSnapshot(",
       "type_name": "ExamReadinessSnapshot"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "blocking",
+      "file": "Views/AnswerButtonView.swift",
+      "message": "Call to AnswerButtonView() uses labels ['answerIndex', 'isCorrect', 'isSelected', 'label', 'showFeedback'] — no known init matches (0% match)",
+      "line": 16,
+      "matched_text": "AnswerButtonView(label: \"Test\", isSelected: false, isCorrect: false, showFeedback: false, answerInde",
+      "type_name": "AnswerButtonView"
     },
     {
       "pattern_id": "FK-013",

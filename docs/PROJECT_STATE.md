@@ -1,6 +1,6 @@
 # AskFin Project State
 
-Last Updated: 2026-03-14 — Factory Operations Layer complete
+Last Updated: 2026-03-15 — 8 Autonomy Proofs, Auto-Repair Pipeline complete
 
 ---
 
@@ -19,11 +19,13 @@ The app provides a complete learning experience with 4 pillars:
 - Skill Map (competency tracking per category)
 - Readiness Score (exam readiness assessment)
 
-Architecture: SwiftUI + MVVM (75 Swift files)
+Architecture: SwiftUI + MVVM (~170 Swift files)
 
 Location: `projects/askfin_v1-1/`
 
 Built using the AI App Factory with 21 autonomous agents.
+
+8 autonomy proof runs completed (2026-03-14 to 2026-03-15) with progressive improvement from 5 blocking issues down to 1.
 
 ---
 
@@ -214,23 +216,26 @@ Priority order:
 
 Agents run in multi-pass pipeline.
 
-Pass 1 – Implementation
+Pass 1 – Implementation (CodeExtractor with inline type dedup)
 Pass 2 – Bug Review
-Pass 3 – Creative Director Review (advisory)
-Pass 4 – CD Soft Gate (FAIL stops pipeline)
-Pass 5 – UX Psychology Review (advisory)
-Pass 6 – Refactor
-Pass 7 – Test Generation
-Pass 8 – Fix Execution
+Pass 3 – Creative Director Review (advisory, profile-aware gate)
+Pass 4 – UX Psychology Review (advisory)
+Pass 5 – Refactor
+Pass 6 – Test Generation
 
 After agent pipeline — Operations Layer:
 
-Output Integration
+Output Integration (5-layer dedup: filename + type-level + markdown sanitization)
 Completion Verification
-Compile Hygiene Validation (6 regex checks)
+Compile Hygiene Validation (6 checks, column-aware, memberwise-init recognition)
+Type Stub Generator (auto-fix FK-014 missing type declarations)
+Re-run Compile Hygiene (if stubs created)
+Property Shape Repairer (auto-fix FK-013 struct property mismatches)
+Re-run Compile Hygiene (if repairs applied)
 Swift Compile Check (swiftc -parse)
 Recovery (if needed)
 Run Memory
+Knowledge Writeback
 Git Commit
 Git Push
 

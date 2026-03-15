@@ -441,6 +441,14 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **BLOCKING: 1 -> 0** — CompileHygiene Status erstmals **WARNINGS** statt BLOCKING
 - Repair-Pipeline komplett: FK-014→StubGen, FK-013→ShapeRepairer, FK-012→TypeDedup, FK-011→Sanitization
 
+### 2026-03-15 — Eighth Autonomy Proof (Report 28-0)
+- StubGen: ExamSession automatisch geloest (FK-014)
+- OutputIntegrator: 233 Types im Index, 0 Duplikate durchgelassen
+- FK-012 und FK-011: Kein einziger Fall mehr (Type-Dedup + Sanitization wirken)
+- ShapeRepairer: AnswerButtonView uebersprungen (zaehlt @State/body als stored property)
+- **BLOCKING initial: 2, nach Auto-Fix: 1** (nur FK-013 AnswerButtonView)
+- **Naechster Fix**: SwiftUI-Awareness im Property-Counter (@State/@Binding/body ausschliessen)
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

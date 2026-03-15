@@ -17,7 +17,7 @@ DriveAI-AutoGen/
 │   ├── creative_director.py    # Premium design & experience review
 │   └── ux_psychology.py        # Behavioral psychology review
 ├── projects/
-│   └── askfin_v1-1/            # AskFin Premium iOS App (75 Swift files)
+│   └── askfin_v1-1/            # AskFin Premium iOS App (~170 Swift files)
 │       ├── App/                # App entry point
 │       ├── Models/             # Swift data models
 │       ├── Services/           # Business logic
@@ -27,14 +27,18 @@ DriveAI-AutoGen/
 │   ├── operations/             # Post-generation validation & recovery
 │   │   ├── compile_hygiene_validator.py  # 6 regex checks (FK-011 to FK-017)
 │   │   ├── swift_compile_check.py        # swiftc -parse syntax validation
-│   │   ├── output_integrator.py          # Code integration
+│   │   ├── output_integrator.py          # Code integration + type-level dedup
 │   │   ├── completion_verifier.py        # Completeness verification
+│   │   ├── type_stub_generator.py        # Auto-generate stubs for FK-014 missing types
+│   │   ├── property_shape_repairer.py    # Auto-repair FK-013 struct property mismatches
 │   │   ├── recovery_runner.py            # Automatic recovery
 │   │   └── run_memory.py                 # Run history
 │   └── reports/                # Generated validation reports (JSON)
 │       ├── hygiene/            # Compile hygiene reports
-│       └── compile/            # Swift compile reports
-├── factory_knowledge/          # Factory Knowledge System (17 entries)
+│       ├── compile/            # Swift compile reports
+│       ├── stubs/              # Type stub generation reports
+│       └── shape_repairs/      # Property shape repair reports
+├── factory_knowledge/          # Factory Knowledge System (18 entries)
 │   ├── knowledge.json          # FK-001 to FK-017
 │   ├── index.json              # Overview index
 │   ├── knowledge_reader.py     # Deterministic entry selection
