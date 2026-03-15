@@ -5,13 +5,13 @@
 
     /// Resolves the asset-catalog color with a visible DEBUG fallback
     /// when the asset is absent (HIGH-002).
-    private var gaugeColor: Color {
+// [FK-019 sanitized]     private var gaugeColor: Color {
         #if DEBUG
         guard UIColor(named: score.label.colorName) != nil else {
             return .pink // visible signal that the catalog entry is missing
         }
         #endif
-        return Color(score.label.colorName)
+// [FK-019 sanitized]         return Color(score.label.colorName)
     }
 }
 

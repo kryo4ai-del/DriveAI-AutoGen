@@ -11,9 +11,9 @@ struct ExamReadinessView: View {
 }
 
 // Usage (in Profile or Dashboard):
-ExamReadinessView(
-    viewModel: vm,
-    getCategoryName: { id in
-        allCategories.first(where: { $0.id == id })?.name ?? id
+// [FK-019 sanitized] ExamReadinessView(
+// [FK-019 sanitized]     viewModel: vm,
+// [FK-019 sanitized]     getCategoryName: { id in
+// [FK-019 sanitized]         allCategories.first(where: { $0.id == id })?.name ?? id
     }
-)
+// [FK-019 sanitized] )

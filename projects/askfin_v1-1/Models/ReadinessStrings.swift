@@ -29,7 +29,7 @@ enum ReadinessStrings {
 }
 
 // Usage
-let suggestion = ReadinessStrings.focusCategory(
-    name: category.name,
-    questions: category.remaining
-)
+// [FK-019 sanitized] let suggestion = ReadinessStrings.focusCategory(
+// [FK-019 sanitized]     name: category.name,
+// [FK-019 sanitized]     questions: category.remaining
+// [FK-019 sanitized] )

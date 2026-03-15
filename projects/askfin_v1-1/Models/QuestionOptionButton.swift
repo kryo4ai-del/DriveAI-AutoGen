@@ -18,15 +18,15 @@ struct QuestionOptionButton: View {
 }
 
 // Question container
-VStack(spacing: 16) {
-    Text(viewModel.currentQuestion?.text ?? "")
-        .accessibilityLabel("Question")
-        .accessibilityValue(viewModel.currentQuestion?.text ?? "")
+// [FK-019 sanitized] VStack(spacing: 16) {
+// [FK-019 sanitized]     Text(viewModel.currentQuestion?.text ?? "")
+// [FK-019 sanitized]         .accessibilityLabel("Question")
+// [FK-019 sanitized]         .accessibilityValue(viewModel.currentQuestion?.text ?? "")
     
-    ForEach(viewModel.currentQuestion?.options ?? []) { option in
-        QuestionOptionButton(option: option, isSelected: false) {
-            viewModel.submitAnswer(option)
+// [FK-019 sanitized]     ForEach(viewModel.currentQuestion?.options ?? []) { option in
+// [FK-019 sanitized]         QuestionOptionButton(option: option, isSelected: false) {
+// [FK-019 sanitized]             viewModel.submitAnswer(option)
         }
     }
 }
-.accessibilityElement(children: .contain)
+// [FK-019 sanitized] .accessibilityElement(children: .contain)

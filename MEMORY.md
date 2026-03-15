@@ -552,6 +552,25 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **Aktueller Status: NO_ACTION** — Baseline sauber, kein offener Blocker
 - Empfehlung: Anderes Feature testen, Mac-Compile, oder auf neue Anforderung warten
 
+### 2026-03-15 — Swift Compile Reality Check (Report 42-0)
+- **Erster echter swiftc Parse-Check auf Mac** (Xcode 26.3)
+- **227 Files, 211 sauber (93%), 16 mit Fehlern (7%)**
+- 4 Fehler-Patterns (alle Factory-Central, nicht projekt-spezifisch):
+  - P1: Top-Level Statements (11 Files) — Usage-Beispiele als echten Code generiert
+  - P2: Strukturelle Fragmente (4 Files) — Code ohne umschliessende Struktur
+  - P3: Abgeschnittener Code (2 Files) — Truncation nach @MainActor
+  - P4: Pseudo-Code (1 File) — `{ ... }` Platzhalter
+- **Naechster Fix**: Top-Level-Statement-Cleaner als FK-019 oder CodeExtractor-Verbesserung
+- `_commands/` Queue funktioniert (Windows -> Mac -> Windows via Git)
+
+### 2026-03-15 — FK-019 Top-Level Sanitizer (Report 43-0)
+- Neues Modul: `factory/operations/toplevel_sanitizer.py`
+- Scope-basierte Analyse: findet Code ausserhalb von struct/class/enum/extension Blocks
+- Dangling-Decorator-Erkennung (@MainActor ohne folgende Deklaration)
+- **28 Files sanitized, 130 Zeilen auskommentiert** (14 von 15 Mac-Fehlern gefixt)
+- Erwartete Compile-Sauberkeit: 93% -> **~99%**
+- 1 verbleibendes File: PreviewDataFactory.swift (fehlendes #endif — strukturell, nicht sanitierbar)
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

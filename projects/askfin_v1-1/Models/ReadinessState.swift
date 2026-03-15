@@ -5,9 +5,9 @@ enum ReadinessState {
 }
 
 // In ViewModel:
-@Published var readinessState: ReadinessState = .notStarted
+// [FK-019 sanitized] @Published var readinessState: ReadinessState = .notStarted
 
 // Handle UI differently:
-if case .notStarted = readinessState {
+// [FK-019 sanitized] if case .notStarted = readinessState {
     // Show "Start your first quiz" prompt
 }

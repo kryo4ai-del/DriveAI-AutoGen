@@ -12,4 +12,4 @@ enum PersistenceError: LocalizedError {
     }
 }
 
-@MainActor
+// [FK-019 sanitized] @MainActor

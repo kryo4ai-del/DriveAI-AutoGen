@@ -14,32 +14,32 @@ struct AccessibilityColors {
 }
 
 // 2. Use in card
-Text(category.strength.label)
-    .font(.caption2)
-    .fontWeight(.semibold)
-    .foregroundColor(strengthForegroundColor(category.strength))
-    .padding(.horizontal, 8)
-    .padding(.vertical, 4)
-    .background(strengthBackgroundColor(category.strength))
-    .cornerRadius(4)
+// [FK-019 sanitized] Text(category.strength.label)
+// [FK-019 sanitized]     .font(.caption2)
+// [FK-019 sanitized]     .fontWeight(.semibold)
+// [FK-019 sanitized]     .foregroundColor(strengthForegroundColor(category.strength))
+// [FK-019 sanitized]     .padding(.horizontal, 8)
+// [FK-019 sanitized]     .padding(.vertical, 4)
+// [FK-019 sanitized]     .background(strengthBackgroundColor(category.strength))
+// [FK-019 sanitized]     .cornerRadius(4)
     // ✅ Add accessibility
-    .accessibilityLabel("Stärke: \(category.strength.label)")
+// [FK-019 sanitized]     .accessibilityLabel("Stärke: \(category.strength.label)")
 
 // 3. Color helper functions
-private func strengthForegroundColor(_ strength: StrengthRating) -> Color {
-    switch strength {
-    case .weak: return AccessibilityColors.weakForeground
-    case .moderate: return AccessibilityColors.moderateForeground
-    case .strong: return AccessibilityColors.strongForeground
-    case .excellent: return AccessibilityColors.excellentForeground
+// [FK-019 sanitized] private func strengthForegroundColor(_ strength: StrengthRating) -> Color {
+// [FK-019 sanitized]     switch strength {
+// [FK-019 sanitized]     case .weak: return AccessibilityColors.weakForeground
+// [FK-019 sanitized]     case .moderate: return AccessibilityColors.moderateForeground
+// [FK-019 sanitized]     case .strong: return AccessibilityColors.strongForeground
+// [FK-019 sanitized]     case .excellent: return AccessibilityColors.excellentForeground
     }
 }
 
-private func strengthBackgroundColor(_ strength: StrengthRating) -> Color {
-    switch strength {
-    case .weak: return AccessibilityColors.weakBackground
-    case .moderate: return AccessibilityColors.moderateBackground
-    case .strong: return AccessibilityColors.strongBackground
-    case .excellent: return AccessibilityColors.excellentBackground
+// [FK-019 sanitized] private func strengthBackgroundColor(_ strength: StrengthRating) -> Color {
+// [FK-019 sanitized]     switch strength {
+// [FK-019 sanitized]     case .weak: return AccessibilityColors.weakBackground
+// [FK-019 sanitized]     case .moderate: return AccessibilityColors.moderateBackground
+// [FK-019 sanitized]     case .strong: return AccessibilityColors.strongBackground
+// [FK-019 sanitized]     case .excellent: return AccessibilityColors.excellentBackground
     }
 }

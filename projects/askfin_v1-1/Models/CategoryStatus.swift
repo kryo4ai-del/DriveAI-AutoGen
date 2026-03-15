@@ -5,9 +5,9 @@ enum CategoryStatus {
     case mastered
 }
 
-var status: CategoryStatus {
-    if questionsAttempted == 0 { return .notStarted }
-    if isWeak { return .weak }
-    if isMastered { return .mastered }
-    return .developing
+// [FK-019 sanitized] var status: CategoryStatus {
+// [FK-019 sanitized]     if questionsAttempted == 0 { return .notStarted }
+// [FK-019 sanitized]     if isWeak { return .weak }
+// [FK-019 sanitized]     if isMastered { return .mastered }
+// [FK-019 sanitized]     return .developing
 }

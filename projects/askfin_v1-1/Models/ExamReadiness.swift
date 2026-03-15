@@ -13,4 +13,4 @@ struct ExamReadiness: Identifiable, Codable {
 }
 
 // In Views, wrap with Text()
-Text(readiness.readinessLevel.label) // SwiftUI auto-localizes
+// [FK-019 sanitized] Text(readiness.readinessLevel.label) // SwiftUI auto-localizes

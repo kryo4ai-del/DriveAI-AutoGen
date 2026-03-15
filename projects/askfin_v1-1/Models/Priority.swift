@@ -1,3 +1,3 @@
 enum Priority: Comparable { ... }
-let order: [Priority] = [.critical, .high, .medium]
+// [FK-019 sanitized] let order: [Priority] = [.critical, .high, .medium]
 // Comparison operator never defined

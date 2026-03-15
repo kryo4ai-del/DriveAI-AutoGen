@@ -5,6 +5,6 @@ struct MotivationState {
     var todayMinutesSpent: Int
 }
 
-func checkStreakMilestone() -> StreakMilestone? // returns badge (7, 14, 30 days)
-func getDailyGoalProgress() -> Double // 0–1
-func generateMotivationalMessage() -> String // context-aware German text
+// [FK-019 sanitized] func checkStreakMilestone() -> StreakMilestone? // returns badge (7, 14, 30 days)
+// [FK-019 sanitized] func getDailyGoalProgress() -> Double // 0–1
+// [FK-019 sanitized] func generateMotivationalMessage() -> String // context-aware German text

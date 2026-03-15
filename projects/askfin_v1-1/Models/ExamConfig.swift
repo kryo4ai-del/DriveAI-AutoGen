@@ -5,4 +5,4 @@ enum ExamConfig {
 }
 
 // Use:
-session.passed = score >= ExamConfig.passingThreshold
+// [FK-019 sanitized] session.passed = score >= ExamConfig.passingThreshold

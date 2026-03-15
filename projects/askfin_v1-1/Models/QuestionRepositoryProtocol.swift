@@ -33,7 +33,7 @@ protocol PersistenceServiceProtocol {
     func loadUserProgress() throws -> UserProgress?
 }
 
-@MainActor
+// [FK-019 sanitized] @MainActor
 
 // Features/ExamReadiness/Services/ExamSessionService.swift
 @MainActor

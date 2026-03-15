@@ -1,6 +1,6 @@
 // Services are singletons; no need for [weak self]
-group.addTask {
-    try await self.readinessForCategory(category)
+// [FK-019 sanitized] group.addTask {
+// [FK-019 sanitized]     try await self.readinessForCategory(category)
 }
 
 // Or if you must:

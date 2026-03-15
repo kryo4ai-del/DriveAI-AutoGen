@@ -7,4 +7,4 @@ struct ReadinessThresholds {
 }
 
 // Usage:
-if Double(overallScore) >= ReadinessThresholds.readyForExam * 100 { ... }
+// [FK-019 sanitized] if Double(overallScore) >= ReadinessThresholds.readyForExam * 100 { ... }

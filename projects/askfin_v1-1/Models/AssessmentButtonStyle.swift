@@ -14,7 +14,7 @@ struct AssessmentButtonStyle: ButtonStyle {
 }
 
 // Usage
-Button(action: { viewModel.submitAnswer(selectedOption) }) {
-    Text("Submit Answer")
+// [FK-019 sanitized] Button(action: { viewModel.submitAnswer(selectedOption) }) {
+// [FK-019 sanitized]     Text("Submit Answer")
 }
-.buttonStyle(AssessmentButtonStyle())
+// [FK-019 sanitized] .buttonStyle(AssessmentButtonStyle())

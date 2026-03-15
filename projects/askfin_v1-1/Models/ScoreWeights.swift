@@ -10,4 +10,4 @@ private enum ScoreWeights {
     static var streakDivisor: Double { streakFullBonusDays / streakBonusCap }
 }
 
-let streakBonus = min(Double(streak) / ScoreWeights.streakDivisor, ScoreWeights.streakBonusCap)
+// [FK-019 sanitized] let streakBonus = min(Double(streak) / ScoreWeights.streakDivisor, ScoreWeights.streakBonusCap)

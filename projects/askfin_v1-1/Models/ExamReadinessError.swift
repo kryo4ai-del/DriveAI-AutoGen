@@ -33,7 +33,7 @@ enum ExamReadinessError: LocalizedError, Codable {
 }
 
 // 2. Refactor service method
-@MainActor
+// [FK-019 sanitized] @MainActor
 
 // 3. In ViewModel, handle specific errors
-@MainActor
+// [FK-019 sanitized] @MainActor

@@ -8,12 +8,12 @@ enum UIError: LocalizedError {
     }
 }
 
-catch {
-    if let uiError = error as? UIError, uiError.isTransient {
-        self.showRetryButton = true
-        self.error = error.localizedDescription
-    } else {
-        self.showRetryButton = false
-        self.error = "Fehler: \(error.localizedDescription)"
+// [FK-019 sanitized] catch {
+// [FK-019 sanitized]     if let uiError = error as? UIError, uiError.isTransient {
+// [FK-019 sanitized]         self.showRetryButton = true
+// [FK-019 sanitized]         self.error = error.localizedDescription
+// [FK-019 sanitized]     } else {
+// [FK-019 sanitized]         self.showRetryButton = false
+// [FK-019 sanitized]         self.error = "Fehler: \(error.localizedDescription)"
     }
 }

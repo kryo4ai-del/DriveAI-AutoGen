@@ -1,9 +1,9 @@
-func calculateReadiness() async -> Result<ReadinessCalculationResult, ReadinessError> {
-    do {
+// [FK-019 sanitized] func calculateReadiness() async -> Result<ReadinessCalculationResult, ReadinessError> {
+// [FK-019 sanitized]     do {
         // ... existing code
-        return .success(ReadinessCalculationResult(...))
-    } catch {
-        return .failure(.calculationFailed(error))
+// [FK-019 sanitized]         return .success(ReadinessCalculationResult(...))
+// [FK-019 sanitized]     } catch {
+// [FK-019 sanitized]         return .failure(.calculationFailed(error))
     }
 }
 

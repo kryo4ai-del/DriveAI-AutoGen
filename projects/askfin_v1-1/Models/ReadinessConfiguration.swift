@@ -19,4 +19,4 @@ struct ReadinessConfiguration {
 }
 
 // Usage
-let gap = ReadinessConfiguration.passThreshold - metric.correctPercentage
+// [FK-019 sanitized] let gap = ReadinessConfiguration.passThreshold - metric.correctPercentage
