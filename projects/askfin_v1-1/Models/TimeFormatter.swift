@@ -28,8 +28,8 @@ struct TimeFormatter {
 // Usage
 // [FK-019 sanitized] var timeInvestedFormatted: String {
 // [FK-019 sanitized]     TimeFormatter.format(timeInvestedMinutes)
-}
+// [FK-019 sanitized] }
 
 // [FK-019 sanitized] var timeEstimate: String {
 // [FK-019 sanitized]     TimeFormatter.format(estimatedMinutes, style: .estimated)
-}
+// [FK-019 sanitized] }

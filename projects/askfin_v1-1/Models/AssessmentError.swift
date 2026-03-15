@@ -21,4 +21,4 @@ enum AssessmentError: LocalizedError {
 // [FK-019 sanitized] private func handleError(_ error: AssessmentError) {
 // [FK-019 sanitized]     errorMessage = error.localizedDescription
 // [FK-019 sanitized]     showError = true
-}
+// [FK-019 sanitized] }

@@ -32,8 +32,8 @@ struct AccessibilityColors {
 // [FK-019 sanitized]     case .moderate: return AccessibilityColors.moderateForeground
 // [FK-019 sanitized]     case .strong: return AccessibilityColors.strongForeground
 // [FK-019 sanitized]     case .excellent: return AccessibilityColors.excellentForeground
-    }
-}
+// [FK-019 sanitized]     }
+// [FK-019 sanitized] }
 
 // [FK-019 sanitized] private func strengthBackgroundColor(_ strength: StrengthRating) -> Color {
 // [FK-019 sanitized]     switch strength {
@@ -41,5 +41,5 @@ struct AccessibilityColors {
 // [FK-019 sanitized]     case .moderate: return AccessibilityColors.moderateBackground
 // [FK-019 sanitized]     case .strong: return AccessibilityColors.strongBackground
 // [FK-019 sanitized]     case .excellent: return AccessibilityColors.excellentBackground
-    }
-}
+// [FK-019 sanitized]     }
+// [FK-019 sanitized] }

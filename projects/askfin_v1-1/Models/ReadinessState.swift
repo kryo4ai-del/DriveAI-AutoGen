@@ -10,4 +10,4 @@ enum ReadinessState {
 // Handle UI differently:
 // [FK-019 sanitized] if case .notStarted = readinessState {
     // Show "Start your first quiz" prompt
-}
+// [FK-019 sanitized] }

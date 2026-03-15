@@ -291,18 +291,42 @@ class TopLevelSanitizer:
                 self.report.files_clean += 1
                 continue
 
-            # Comment out problematic lines
+            # Comment out problematic lines AND their brace-balanced blocks
             lines = content.splitlines()
             commented_count = 0
             problem_descs = []
+            already_commented: set[int] = set()
 
             for line_num, _, reason in problems:
-                if line_num < len(lines):
-                    original = lines[line_num]
-                    if not original.strip().startswith("//"):
-                        lines[line_num] = f"// [FK-019 sanitized] {original}"
-                        commented_count += 1
-                        problem_descs.append(f"L{line_num + 1}: {reason}")
+                if line_num in already_commented or line_num >= len(lines):
+                    continue
+
+                original = lines[line_num]
+                if original.strip().startswith("//"):
+                    continue
+
+                # Comment out this line
+                lines[line_num] = f"// [FK-019 sanitized] {original}"
+                already_commented.add(line_num)
+                commented_count += 1
+                problem_descs.append(f"L{line_num + 1}: {reason}")
+
+                # If this line opens a brace block, comment out everything
+                # until the matching closing brace
+                open_braces = original.count('{') - original.count('}')
+                if open_braces > 0:
+                    depth = open_braces
+                    for k in range(line_num + 1, len(lines)):
+                        if k in already_commented:
+                            continue
+                        block_line = lines[k]
+                        if not block_line.strip().startswith("//"):
+                            lines[k] = f"// [FK-019 sanitized] {block_line}"
+                            already_commented.add(k)
+                            commented_count += 1
+                        depth += block_line.count('{') - block_line.count('}')
+                        if depth <= 0:
+                            break
 
             if commented_count > 0:
                 # Write back

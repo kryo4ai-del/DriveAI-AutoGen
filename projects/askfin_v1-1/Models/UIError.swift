@@ -15,5 +15,5 @@ enum UIError: LocalizedError {
 // [FK-019 sanitized]     } else {
 // [FK-019 sanitized]         self.showRetryButton = false
 // [FK-019 sanitized]         self.error = "Fehler: \(error.localizedDescription)"
-    }
-}
+// [FK-019 sanitized]     }
+// [FK-019 sanitized] }

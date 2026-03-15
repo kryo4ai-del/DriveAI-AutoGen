@@ -6,5 +6,5 @@
 // [FK-019 sanitized]         return "Welche allgemeine Regel liegt dieser Situation zugrunde?"
 // [FK-019 sanitized]     case .standard:
 // [FK-019 sanitized]         return "Was wäre in dieser Situation die sicherste Entscheidung?"
-    }
-}
+// [FK-019 sanitized]     }
+// [FK-019 sanitized] }

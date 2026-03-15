@@ -15,5 +15,5 @@ struct ExamReadinessView: View {
 // [FK-019 sanitized]     viewModel: vm,
 // [FK-019 sanitized]     getCategoryName: { id in
 // [FK-019 sanitized]         allCategories.first(where: { $0.id == id })?.name ?? id
-    }
+// [FK-019 sanitized]     }
 // [FK-019 sanitized] )
