@@ -203,17 +203,17 @@ _STORED_PROP_RE = re.compile(
     r'^\s+(?:let|var)\s+(\w+)\s*:', re.MULTILINE,
 )
 
-_STRUCT_DECL_RE = re.compile(
-    r'^(struct\s+[A-Z][A-Za-z0-9_]+[^\{]*\{)',
+_TYPE_DECL_RE = re.compile(
+    r'^((?:struct|class)\s+[A-Z][A-Za-z0-9_]+[^\{]*\{)',
     re.MULTILINE,
 )
 
 
 def _count_stored_properties(content: str, type_name: str) -> int:
-    """Count stored properties in a struct definition."""
-    # Find the struct block
+    """Count stored properties in a struct or class definition."""
+    # Find the type block (struct or class)
     pattern = re.compile(
-        rf'^(?:public\s+|internal\s+)?struct\s+{re.escape(type_name)}\b',
+        rf'^(?:public\s+|internal\s+|private\s+)?(?:final\s+)?(?:struct|class)\s+{re.escape(type_name)}\b',
         re.MULTILINE,
     )
     match = pattern.search(content)
@@ -280,13 +280,13 @@ def _count_stored_properties(content: str, type_name: str) -> int:
 
 def _insert_properties(content: str, type_name: str,
                        properties: list[tuple[str, str]]) -> str | None:
-    """Insert stored properties into a struct definition.
+    """Insert stored properties into a struct or class definition.
 
-    Returns modified content, or None if the struct cannot be found or
+    Returns modified content, or None if the type cannot be found or
     already has stored properties.
     """
     pattern = re.compile(
-        rf'^((?:public\s+|internal\s+)?struct\s+{re.escape(type_name)}[^\{{]*\{{)',
+        rf'^((?:public\s+|internal\s+|private\s+)?(?:final\s+)?(?:struct|class)\s+{re.escape(type_name)}[^\{{]*\{{)',
         re.MULTILINE,
     )
     match = pattern.search(content)
@@ -342,40 +342,64 @@ class PropertyShapeRepairer:
             type_name = issue.type_name
             call_site_file = issue.file
 
-            # Find the struct definition file
-            struct_files = list(self.project_dir.rglob("*.swift"))
-            struct_file = None
-            struct_content = None
+            # Find the type definition file (struct or class)
+            all_swift_files = list(self.project_dir.rglob("*.swift"))
+            target_file = None
+            target_content = None
 
             type_decl_re = re.compile(
-                rf'^(?:public\s+|internal\s+)?struct\s+{re.escape(type_name)}\b',
+                rf'^(?:public\s+|internal\s+|private\s+)?(?:final\s+)?(?:struct|class)\s+{re.escape(type_name)}\b',
                 re.MULTILINE,
             )
 
-            for sf in struct_files:
+            for sf in all_swift_files:
                 try:
                     c = sf.read_text(encoding="utf-8")
                 except (OSError, UnicodeDecodeError):
                     continue
                 if type_decl_re.search(c):
-                    struct_file = sf
-                    struct_content = c
+                    target_file = sf
+                    target_content = c
                     break
 
-            if not struct_file or not struct_content:
+            if not target_file or not target_content:
                 self.report.skipped.append({
                     "type_name": type_name,
-                    "reason": f"struct {type_name} not found in project",
+                    "reason": f"type {type_name} (struct or class) not found in project",
                 })
                 self.report.repairs_skipped += 1
                 continue
 
-            # Check if struct already has stored properties
-            prop_count = _count_stored_properties(struct_content, type_name)
+            # For classes: check if an explicit init already exists.
+            # Unlike structs, classes don't get auto-generated memberwise inits,
+            # so adding properties alone won't fix the init mismatch.
+            is_class = bool(re.search(
+                rf'^(?:public\s+|internal\s+|private\s+)?(?:final\s+)?class\s+{re.escape(type_name)}\b',
+                target_content, re.MULTILINE,
+            ))
+            if is_class:
+                has_explicit_init = bool(re.search(
+                    r'^\s+(?:public\s+|internal\s+|private\s+|convenience\s+)*init\s*\(',
+                    target_content, re.MULTILINE,
+                ))
+                if has_explicit_init:
+                    self.report.skipped.append({
+                        "type_name": type_name,
+                        "reason": (
+                            f"class {type_name} has explicit init — "
+                            f"adding properties alone would not fix the init mismatch "
+                            f"(classes require explicit init update)"
+                        ),
+                    })
+                    self.report.repairs_skipped += 1
+                    continue
+
+            # Check if type already has stored properties
+            prop_count = _count_stored_properties(target_content, type_name)
             if prop_count > 0:
                 self.report.skipped.append({
                     "type_name": type_name,
-                    "reason": f"struct already has {prop_count} stored properties",
+                    "reason": f"type already has {prop_count} stored properties",
                 })
                 self.report.repairs_skipped += 1
                 continue
@@ -383,7 +407,7 @@ class PropertyShapeRepairer:
             if prop_count == -1:
                 self.report.skipped.append({
                     "type_name": type_name,
-                    "reason": "could not parse struct body",
+                    "reason": "could not parse type body",
                 })
                 self.report.repairs_skipped += 1
                 continue
@@ -415,19 +439,19 @@ class PropertyShapeRepairer:
                 inferred_type = _infer_type(label, value)
                 properties.append((label, inferred_type))
 
-            # Insert properties into the struct
-            modified = _insert_properties(struct_content, type_name, properties)
+            # Insert properties into the type definition
+            modified = _insert_properties(target_content, type_name, properties)
             if modified is None:
                 self.report.skipped.append({
                     "type_name": type_name,
-                    "reason": "could not insert properties into struct",
+                    "reason": "could not insert properties into type definition",
                 })
                 self.report.repairs_skipped += 1
                 continue
 
             # Write back
-            struct_file.write_text(modified, encoding="utf-8")
-            rel_path = str(struct_file.relative_to(self.project_dir))
+            target_file.write_text(modified, encoding="utf-8")
+            rel_path = str(target_file.relative_to(self.project_dir))
 
             self.report.actions.append(RepairAction(
                 type_name=type_name,

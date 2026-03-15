@@ -1,14 +1,14 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 11:49:42",
+  "timestamp": "2026-03-15 14:43:07",
   "fk013_blocking_count": 1,
   "repairs_applied": 0,
   "repairs_skipped": 1,
   "actions": [],
   "skipped": [
     {
-      "type_name": "AnswerButtonView",
-      "reason": "struct already has 1 stored properties"
+      "type_name": "ExamReadinessViewModel",
+      "reason": "class ExamReadinessViewModel has explicit init \u2014 adding properties alone would not fix the init mismatch (classes require explicit init update)"
     }
   ]
 }

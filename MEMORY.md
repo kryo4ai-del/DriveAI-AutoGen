@@ -465,6 +465,23 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Recovery Gate: Nicht mehr false-FAILED blockiert
 - `classify_health()` Regression-Tests alle bestanden
 
+### 2026-03-15 — Ninth Autonomy Proof (Report 31-0)
+- **MOSTLY_COMPLETE / 95%** — erstmals positiver CompletionVerifier + RunMemory
+- CompletionVerifier Evidence-Mode im Live-Run bestaetigt
+- Recovery Gate: "no recovery needed" statt false "too little output"
+- 1 BLOCKING: FK-013 ExamReadinessViewModel (class, nicht struct) → ShapeRepairer braucht class-Awareness
+- Kein FK-011, FK-012, FK-014 — alle Auto-Repairs stabil
+- DriveAI/ Ordner geloescht, Fallback entfernt
+- **Naechster Fix**: ShapeRepairer class-Support (struct|class statt nur struct)
+
+### 2026-03-15 — PropertyShapeRepairer Class Support (Report 32-0)
+- Regex erweitert: `struct` → `(?:struct|class)` in 4 Stellen
+- Neuer Guard: Classes mit explizitem init werden uebersprungen (Swift hat keine memberwise init fuer classes)
+- ExamReadinessViewModel: Korrekt gefunden + korrekt uebersprungen (init(service:) existiert)
+- Properties-Einfuegung bei Classes ohne init funktioniert (getestet)
+- Verbleibender BLOCKING: Init-Signatur-Mismatch (ServiceContainer nutzt falsche Labels)
+- **Das ist ein Code-Gen-Problem, kein Repairer-Problem**
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
