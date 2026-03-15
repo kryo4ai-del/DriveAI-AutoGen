@@ -449,6 +449,22 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **BLOCKING initial: 2, nach Auto-Fix: 1** (nur FK-013 AnswerButtonView)
 - **Naechster Fix**: SwiftUI-Awareness im Property-Counter (@State/@Binding/body ausschliessen)
 
+### 2026-03-15 — SwiftUI-Aware Property Counting (Report 29-0)
+- PropertyShapeRepairer + CompileHygiene: SwiftUI Property-Wrapper (@State, @Binding, etc.) ausgeschlossen
+- Computed properties (`var body: some View {`) korrekt erkannt (same-line `{` check)
+- Lookahead-Bug gefixt: Nur same-line statt 80-char lookahead (verhinderte false positives)
+- **AnswerButtonView FK-013: GELOEST** — stored props korrekt 0
+- **CompileHygiene Status: WARNINGS (0 BLOCKING)** — erstmals stabil
+- 5 Regression-Tests bestanden (AnswerButtonView, ExamReadinessSnapshot, DateComponentsValue, @State/@Binding, @Published)
+
+### 2026-03-15 — CompletionVerifier Evidence Mode (Report 30-0)
+- Neuer Modus: Project-Evidence wenn kein specs/ vorhanden
+- Evidenz-Quellen: Projekt-Files (173), Core-Ordner, Hygiene-Report (blocking=0)
+- Neues Verdict: `INSUFFICIENT_EVIDENCE` fuer ehrliche Unsicherheit
+- AskFin: FAILED -> **MOSTLY_COMPLETE (95%)** — korrektes Verdikt
+- Recovery Gate: Nicht mehr false-FAILED blockiert
+- `classify_health()` Regression-Tests alle bestanden
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

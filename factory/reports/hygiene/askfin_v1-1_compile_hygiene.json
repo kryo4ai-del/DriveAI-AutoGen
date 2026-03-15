@@ -10,9 +10,9 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "BLOCKING",
-  "issues_found": 14,
-  "blocking": 1,
+  "status": "WARNINGS",
+  "issues_found": 13,
+  "blocking": 0,
   "warnings": 13,
   "issues": [
     {
@@ -67,15 +67,6 @@
       "line": 12,
       "matched_text": "ExamReadinessSnapshot(",
       "type_name": "ExamReadinessSnapshot"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "blocking",
-      "file": "Views/AnswerButtonView.swift",
-      "message": "Call to AnswerButtonView() uses labels ['answerIndex', 'isCorrect', 'isSelected', 'label', 'showFeedback'] — no known init matches (0% match)",
-      "line": 16,
-      "matched_text": "AnswerButtonView(label: \"Test\", isSelected: false, isCorrect: false, showFeedback: false, answerInde",
-      "type_name": "AnswerButtonView"
     },
     {
       "pattern_id": "FK-013",

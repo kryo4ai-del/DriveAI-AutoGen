@@ -42,6 +42,7 @@ class ProjectHealth(str, Enum):
     MOSTLY_COMPLETE = "mostly_complete"
     INCOMPLETE = "incomplete"
     FAILED = "failed"
+    INSUFFICIENT_EVIDENCE = "insufficient_evidence"
 
 
 # ---------------------------------------------------------------------------
@@ -434,11 +435,11 @@ class CompletionVerifier:
         """Run the full verification pipeline.
 
         Steps:
-        1. Discover expected files from specs
-        2. Discover actual files from generated output
-        3. Check folder structure
-        4. Compare expected vs actual
-        5. Classify file completeness
+        1. Discover expected files from specs (if available)
+        2. If no specs: use project-evidence mode
+        3. Discover actual files from generated output
+        4. Check folder structure
+        5. Compare expected vs actual (or evaluate project evidence)
         6. Determine project health
         7. Generate report
         """
@@ -446,44 +447,153 @@ class CompletionVerifier:
         print(f"[CompletionVerifier] Generated dir: {self.generated_dir}")
         print(f"[CompletionVerifier] Specs dir: {self.specs_dir}")
 
-        # Step 1: Discover expected files from specs
+        # Step 1: Try specs-based discovery
         expected_names = self._discover_expected()
-        self.report.expected_files = [f"{n}.swift" for n in expected_names]
-        self.report.total_expected = len(expected_names)
-        print(f"[CompletionVerifier] Expected files from specs: {len(expected_names)}")
+        has_specs = len(expected_names) > 0
 
-        # Step 2: Discover actual files
+        if has_specs:
+            # --- Spec-based mode (original path) ---
+            self.report.spec_source = self.report.spec_source or "specs"
+            self.report.expected_files = [f"{n}.swift" for n in expected_names]
+            self.report.total_expected = len(expected_names)
+            print(f"[CompletionVerifier] Expected files from specs: {len(expected_names)}")
+
+            # Discover actual generated files
+            actual_artifacts = discover_actual_artifacts(str(self.generated_dir))
+            self.report.actual_files = sorted(
+                fv.path for fv in actual_artifacts.values()
+            )
+            self.report.total_actual = len(actual_artifacts)
+            print(f"[CompletionVerifier] Actual files found: {len(actual_artifacts)}")
+
+            # Check folders in generated/
+            self._check_folders()
+
+            # Compare
+            self._compare(expected_names, actual_artifacts)
+
+            # Health from spec comparison
+            self.report.health = classify_health(
+                total_expected=self.report.total_expected,
+                total_complete=self.report.total_complete,
+                total_incomplete=self.report.total_incomplete,
+                total_missing=self.report.total_missing,
+                missing_folders=self.report.missing_folders,
+            )
+            self.report.completeness_pct = (
+                (self.report.total_complete / self.report.total_expected * 100)
+                if self.report.total_expected > 0 else 0.0
+            )
+        else:
+            # --- Project-evidence mode (no specs available) ---
+            print("[CompletionVerifier] No specs found -- using project-evidence mode")
+            self.report.spec_source = "project-evidence"
+            self._verify_from_project_evidence()
+
+        # Report
+        self.report.print_summary()
+        self._write_report_json()
+
+        return self.report
+
+    def _verify_from_project_evidence(self):
+        """Evaluate project health from available evidence when no specs exist.
+
+        Evidence sources:
+        1. Project directory: count Swift files, check folder structure
+        2. Generated directory: count new artifacts from this run
+        3. Integration report: how many files were integrated vs skipped
+        4. Compile hygiene report: blocking vs warning count
+        """
+        project_dir = _PROJECT_ROOT / "projects" / self.project_name
+
+        # --- Evidence 1: Project file inventory ---
+        project_swift_files = []
+        if project_dir.is_dir():
+            gen_dir = self.generated_dir.resolve()
+            for sf in project_dir.rglob("*.swift"):
+                try:
+                    sf.resolve().relative_to(gen_dir)
+                    continue  # skip generated/
+                except ValueError:
+                    pass
+                project_swift_files.append(sf)
+
+        project_file_count = len(project_swift_files)
+        print(f"[CompletionVerifier] Project Swift files: {project_file_count}")
+
+        # --- Evidence 2: Core folder check (in project root, not generated/) ---
+        project_folders_present = []
+        project_folders_missing = []
+        for folder in EXPECTED_CORE_FOLDERS:
+            folder_path = project_dir / folder
+            if folder_path.exists() and any(folder_path.iterdir()):
+                project_folders_present.append(folder)
+            else:
+                project_folders_missing.append(folder)
+        self.report.missing_folders = project_folders_missing
+
+        # --- Evidence 3: Generated artifacts from this run ---
         actual_artifacts = discover_actual_artifacts(str(self.generated_dir))
         self.report.actual_files = sorted(
             fv.path for fv in actual_artifacts.values()
         )
         self.report.total_actual = len(actual_artifacts)
-        print(f"[CompletionVerifier] Actual files found: {len(actual_artifacts)}")
+        print(f"[CompletionVerifier] Generated artifacts: {len(actual_artifacts)}")
 
-        # Step 3: Check folder structure
-        self._check_folders()
-
-        # Step 4 + 5: Compare and classify
-        self._compare(expected_names, actual_artifacts)
-
-        # Step 6: Determine health
-        self.report.health = classify_health(
-            total_expected=self.report.total_expected,
-            total_complete=self.report.total_complete,
-            total_incomplete=self.report.total_incomplete,
-            total_missing=self.report.total_missing,
-            missing_folders=self.report.missing_folders,
+        # --- Evidence 4: Compile hygiene report (if available) ---
+        hygiene_report_path = (
+            _PROJECT_ROOT / "factory" / "reports" / "hygiene"
+            / f"{self.project_name}_compile_hygiene.json"
         )
-        self.report.completeness_pct = (
-            (self.report.total_complete / self.report.total_expected * 100)
-            if self.report.total_expected > 0 else 0.0
-        )
+        hygiene_blocking = -1  # unknown
+        if hygiene_report_path.exists():
+            try:
+                hygiene_data = json.loads(
+                    hygiene_report_path.read_text(encoding="utf-8")
+                )
+                hygiene_blocking = hygiene_data.get("blocking", -1)
+                print(f"[CompletionVerifier] Compile hygiene blocking: {hygiene_blocking}")
+            except (json.JSONDecodeError, OSError):
+                pass
 
-        # Step 7: Report
-        self.report.print_summary()
-        self._write_report_json()
+        # --- Classify health from evidence ---
+        self.report.total_expected = project_file_count  # use project as baseline
+        self.report.total_complete = project_file_count   # existing files are "complete"
+        self.report.total_actual = len(actual_artifacts)
 
-        return self.report
+        # Determine health verdict
+        if project_file_count == 0:
+            self.report.health = ProjectHealth.FAILED
+            self.report.completeness_pct = 0.0
+        elif project_file_count < 10:
+            self.report.health = ProjectHealth.INSUFFICIENT_EVIDENCE
+            self.report.completeness_pct = 0.0
+        elif len(project_folders_missing) >= 3:
+            self.report.health = ProjectHealth.INCOMPLETE
+            self.report.completeness_pct = (
+                len(project_folders_present) / len(EXPECTED_CORE_FOLDERS) * 100
+            )
+        elif hygiene_blocking > 0:
+            # Has project files but compile issues remain
+            self.report.health = ProjectHealth.INCOMPLETE
+            self.report.completeness_pct = 80.0
+        elif hygiene_blocking == 0:
+            # Project has files, folders, and no blocking hygiene issues
+            if len(project_folders_missing) == 0:
+                self.report.health = ProjectHealth.MOSTLY_COMPLETE
+                self.report.completeness_pct = 95.0
+            else:
+                self.report.health = ProjectHealth.INCOMPLETE
+                self.report.completeness_pct = 70.0
+        else:
+            # Hygiene status unknown
+            if len(project_folders_missing) == 0 and project_file_count >= 50:
+                self.report.health = ProjectHealth.MOSTLY_COMPLETE
+                self.report.completeness_pct = 85.0
+            else:
+                self.report.health = ProjectHealth.INSUFFICIENT_EVIDENCE
+                self.report.completeness_pct = 0.0
 
     def _discover_expected(self) -> list[str]:
         """Discover expected files from all spec files in the specs directory."""

@@ -492,7 +492,9 @@ async def _run_pipeline(
     _clean_generated_code()
 
     extractor = CodeExtractor()
-    integrator = ProjectIntegrator(os.path.join("projects", project_name) if project_name else "DriveAI")
+    if not project_name:
+        print("WARNING: No project context — ProjectIntegrator and CodeExtractor project-awareness inactive.")
+    integrator = ProjectIntegrator(os.path.join("projects", project_name) if project_name else "generated_code")
     code_counts = extractor.extract_swift_code(result.messages, project_name=project_name)
 
     # Guard: abort integration if extraction was aborted (too many files)
@@ -1202,6 +1204,9 @@ def _run_operations_layer(
             # Exhausted all attempts
             print(f"\n[OpsLayer] Recovery exhausted ({MAX_RECOVERY_ATTEMPTS} attempts). "
                   f"Final health: {final_health.upper()}")
+    elif initial_health == "insufficient_evidence":
+        print(f"\n[OpsLayer] Health: INSUFFICIENT_EVIDENCE -- no specs available, "
+              f"project-evidence mode used. Recovery not triggered.")
     else:
         # FAILED
         print(f"\n[OpsLayer] Health: FAILED -- too little output for recovery.")

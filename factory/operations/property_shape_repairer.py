@@ -237,17 +237,43 @@ def _count_stored_properties(content: str, type_name: str) -> int:
 
     struct_body = content[brace_pos + 1: i - 1]
 
-    # Count stored properties at the FIRST indentation level only.
-    # This regex requires exactly 4 spaces (one indent level) to avoid
-    # matching local variables inside functions/closures.
-    direct_prop_re = re.compile(r'^    (?:let|var)\s+(\w+)\s*:', re.MULTILINE)
+    # SwiftUI property wrappers — these are NOT part of memberwise init
+    _SWIFTUI_WRAPPERS = {
+        "@State", "@Binding", "@Environment", "@EnvironmentObject",
+        "@ObservedObject", "@StateObject", "@Published", "@AppStorage",
+        "@SceneStorage", "@FocusState", "@GestureState", "@Namespace",
+        "@FetchRequest", "@Query",
+    }
+
+    # Match first-indentation-level let/var declarations.
+    # Also captures the full line prefix to detect property wrappers.
+    direct_prop_re = re.compile(
+        r'^(    (?:@\w+(?:\(.*?\))?\s+)*)(let|var)\s+(\w+)\s*:(.*?)$',
+        re.MULTILINE,
+    )
     count = 0
     for prop_match in direct_prop_re.finditer(struct_body):
-        prop_end = prop_match.end()
-        rest = struct_body[prop_end:prop_end + 50].strip()
-        # Skip if starts with { (computed property)
-        if not rest.startswith("{"):
-            count += 1
+        prefix = prop_match.group(1).strip()   # e.g. "@State" or "@Binding"
+        prop_name = prop_match.group(3)
+        type_and_rest = prop_match.group(4)
+
+        # Skip property-wrapper members (not part of memberwise init)
+        if any(prefix.startswith(w) for w in _SWIFTUI_WRAPPERS):
+            continue
+
+        # Skip computed properties: type annotation followed by { on the
+        # SAME LINE. Covers `var body: some View {` and similar.
+        # Only check the current line's remainder — never look past newlines
+        # to avoid false positives from init/func blocks below.
+        same_line_rest = type_and_rest.strip()
+        if same_line_rest.endswith("{"):
+            # { at end of same line → computed property (e.g. `var body: some View {`)
+            eq_pos = same_line_rest.find('=')
+            brace_pos_la = same_line_rest.rfind('{')
+            if eq_pos == -1 or brace_pos_la < eq_pos:
+                continue
+
+        count += 1
 
     return count
 

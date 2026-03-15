@@ -507,8 +507,16 @@ def _collect_signatures(
     # --- Implicit memberwise init for structs ---
     # Swift generates a memberwise init from stored properties for structs
     # that don't have an explicit init covering all properties.
+    # Property wrappers (@State, @Binding, etc.) are NOT part of memberwise init.
+    _SWIFTUI_WRAPPER_PREFIXES = (
+        "@State", "@Binding", "@Environment", "@EnvironmentObject",
+        "@ObservedObject", "@StateObject", "@Published", "@AppStorage",
+        "@SceneStorage", "@FocusState", "@GestureState", "@Namespace",
+        "@FetchRequest", "@Query",
+    )
     _STORED_PROP_RE = re.compile(
-        r'^\s+(?:let|var)\s+(\w+)\s*:', re.MULTILINE,
+        r'^(\s+(?:@\w+(?:\(.*?\))?\s+)*)(?:let|var)\s+(\w+)\s*:(.*?)$',
+        re.MULTILINE,
     )
     for type_name, locations in type_registry.items():
         # Only structs get memberwise init
@@ -526,12 +534,24 @@ def _collect_signatures(
             # Extract stored property names from the struct body
             prop_labels = set()
             for prop_match in _STORED_PROP_RE.finditer(content):
-                prop_name = prop_match.group(1)
-                # Skip computed properties (look-ahead for { get/set)
-                prop_pos = prop_match.end()
-                rest = content[prop_pos:prop_pos + 50].strip()
-                if rest.startswith("{"):
+                prefix = prop_match.group(1).strip()
+                prop_name = prop_match.group(2)
+                type_and_rest = prop_match.group(3)
+
+                # Skip property-wrapper members
+                if any(prefix.startswith(w) for w in _SWIFTUI_WRAPPER_PREFIXES):
                     continue
+
+                # Skip computed properties: { at end of same line
+                # Only check same-line remainder to avoid false positives
+                # from init/func blocks on subsequent lines.
+                same_line_rest = type_and_rest.strip()
+                if same_line_rest.endswith("{"):
+                    eq_idx = same_line_rest.find('=')
+                    brace_idx = same_line_rest.rfind('{')
+                    if eq_idx == -1 or brace_idx < eq_idx:
+                        continue
+
                 prop_labels.add(prop_name)
 
             if prop_labels:

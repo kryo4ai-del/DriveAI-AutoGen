@@ -1,0 +1,54 @@
+{
+  "run_id": "20260315_135518",
+  "generated": "2026-03-15T14:20:40",
+  "proposal_count": 3,
+  "proposals": [
+    {
+      "title": "Product quality gap: ReadinessHeaderView + CategoryBreakdownView present exa",
+      "type": "ux_insight",
+      "lesson": "Creative Director rated output as 'fail'. Key issue: ReadinessHeaderView + CategoryBreakdownView present exam readiness as raw data visualization (percentage, color codes, score breakdown). There's no emotional moment—no acknowledgment of progress made,",
+      "evidence": "CD review in run 20260315_135518: rating=fail",
+      "source_run": "20260315_135518",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "product-quality",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "Emotional design gap: Emotional Function: No Emotional Arc — Screen Feels Lik",
+      "type": "ux_insight",
+      "lesson": "Implementation lacked emotional engagement: Emotional Function: No Emotional Arc — Screen Feels Like a Report Card",
+      "evidence": "CD finding in run 20260315_135518 for template=feature",
+      "source_run": "20260315_135518",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "emotional-design",
+        "ux",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: This refactor consolidates **5 duplicate ViewModels and 4 service versions** into a single canonical implementation, addressing all critical compilati. Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260315_135518",
+      "source_run": "20260315_135518",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    }
+  ]
+}
