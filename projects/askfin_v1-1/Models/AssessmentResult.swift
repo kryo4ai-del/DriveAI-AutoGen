@@ -30,19 +30,4 @@ struct AssessmentResult: Identifiable, Codable {
     }
 }
 
-// MARK: - Weak Area
-
-struct WeakArea: Identifiable, Codable {
-    let id: UUID
-    let categoryId: String
-    let categoryName: String
-    let accuracy: Double
-    let priority: Int // 1 = highest
-    let suggestedQuestionCount: Int
-    
-    var needsImprovement: Bool {
-        accuracy < 70
-    }
-}
-
 // MARK: - Recommendation

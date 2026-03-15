@@ -16,20 +16,3 @@ struct Recommendation: Identifiable, Codable {
         case focusedQuiz
     }
 }
-
-struct WeakArea: Identifiable, Codable {
-    let id: UUID
-    let categoryId: String
-    let categoryName: String
-    let accuracy: Double
-    let priority: Int
-    let suggestedQuestionCount: Int
-    
-    var needsImprovement: Bool {
-        accuracy < 70
-    }
-    
-    var improvementGap: Double {
-        max(0, 70 - accuracy)
-    }
-}

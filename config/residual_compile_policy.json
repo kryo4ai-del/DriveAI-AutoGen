@@ -1,6 +1,19 @@
 {
-  "schema_version": "1.0",
-  "description": "Policy for residual compile outliers after FK-019 sanitization",
+  "schema_version": "1.1",
+  "description": "Policy for residual compile outliers and type collisions",
+  "duplicate_type_collision": {
+    "policy": "dedicated-file-wins",
+    "description": "Wenn ein Typ sowohl in einer eigenen Datei (TypeName.swift) als auch inline in einer anderen Datei definiert ist, gilt die eigene Datei als canonical.",
+    "non_canonical_action": "remove_inline_definition",
+    "resolved": [
+      {
+        "type": "WeakArea",
+        "canonical": "Models/WeakArea.swift",
+        "removed_from": ["Models/AssessmentResult.swift", "Models/Recommendation.swift"],
+        "date": "2026-03-15"
+      }
+    ]
+  },
   "classification": {
     "release-critical": "Error in production code that blocks App Store build",
     "debug-only": "Error in #if DEBUG / Preview code, does not affect release build",
