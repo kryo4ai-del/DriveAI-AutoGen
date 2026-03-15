@@ -608,6 +608,13 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Errors: 14 → **4** (1 Root Cause: WeakArea 3x dupliziert)
 - **Einziger verbleibender Blocker**: WeakArea in 3 Files definiert (AssessmentResult, WeakArea, Recommendation)
 
+### 2026-03-15 — WeakArea Dedup + Typecheck (Report 49-0)
+- Policy: `dedicated-file-wins` in `residual_compile_policy.json`
+- WeakArea inline-Duplikate aus AssessmentResult + Recommendation entfernt
+- **WeakArea: GELOEST (0 Errors)**
+- Neuer Blocker: ExamSessionViewModel.swift (10 Errors — @StateObject braucht SwiftUI, fehlende Properties)
+- Typecheck-Fortschritt: 19 → 35 → 4 → 14 → 4 → **10 (1 File)**
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
