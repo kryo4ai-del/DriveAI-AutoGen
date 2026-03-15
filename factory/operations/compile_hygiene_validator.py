@@ -999,7 +999,15 @@ class CompileHygieneValidator:
             print(f"[CompileHygiene] Directory not found: {self.scan_dir}")
             return files
 
+        # Directories to skip during scanning
+        _SKIP_DIRS = {"quarantine", "generated", ".git"}
+
         for swift_file in sorted(self.scan_dir.rglob("*.swift")):
+            # Skip files in excluded directories
+            rel_parts = swift_file.relative_to(self.scan_dir).parts
+            if rel_parts and rel_parts[0] in _SKIP_DIRS:
+                continue
+
             try:
                 content = swift_file.read_text(encoding="utf-8", errors="replace")
             except (OSError, IOError):

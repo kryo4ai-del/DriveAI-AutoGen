@@ -1,0 +1,23 @@
+{
+  "run_id": "20260315_152736",
+  "generated": "2026-03-15T15:43:56",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "SwiftUI lifecycle pattern: Memory leak",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Memory leak",
+      "evidence": "Bug Hunter finding in run 20260315_152736",
+      "source_run": "20260315_152736",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

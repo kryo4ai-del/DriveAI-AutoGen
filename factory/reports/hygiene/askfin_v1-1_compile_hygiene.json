@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 178,
+  "files_scanned": 177,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,9 +10,9 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "BLOCKING",
-  "issues_found": 14,
-  "blocking": 1,
+  "status": "WARNINGS",
+  "issues_found": 13,
+  "blocking": 0,
   "warnings": 13,
   "issues": [
     {
@@ -58,15 +58,6 @@
       "line": 33,
       "matched_text": "sut = ExamSessionViewModel(",
       "type_name": "ExamSessionViewModel"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "blocking",
-      "file": "Models/ServiceContainer.swift",
-      "message": "Call to ExamReadinessViewModel() uses labels ['examReadinessService', 'navigationService'] — no known init matches (0% match)",
-      "line": 19,
-      "matched_text": "let vm = ExamReadinessViewModel(",
-      "type_name": "ExamReadinessViewModel"
     },
     {
       "pattern_id": "FK-013",

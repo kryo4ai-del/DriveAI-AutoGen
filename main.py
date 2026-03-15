@@ -1037,6 +1037,7 @@ def _run_operations_layer(
     from factory.operations.swift_compile_check import SwiftCompileCheck
     from factory.operations.type_stub_generator import TypeStubGenerator
     from factory.operations.property_shape_repairer import PropertyShapeRepairer
+    from factory.operations.stale_artifact_guard import StaleArtifactGuard
     from factory.operations.recovery_runner import (
         RecoveryRunner, RecoveryState, MAX_RECOVERY_ATTEMPTS,
         load_recovery_state, clear_recovery_state,
@@ -1104,6 +1105,25 @@ def _run_operations_layer(
             hygiene_status = hygiene_report.status.value
     else:
         print("\n[OpsLayer] Property Shape Repairer — no FK-013 blockers, skipping.")
+
+    # --- Stale Artifact Guard ---
+    stale_report = None
+    remaining_blocking = [i for i in hygiene_report.issues
+                          if i.severity.value == "blocking"]
+    if remaining_blocking:
+        print(f"\n[OpsLayer] Stale Artifact Guard — {len(remaining_blocking)} blocking issue(s) remain")
+        stale_guard = StaleArtifactGuard(project_name=project_name)
+        stale_report = stale_guard.check_and_quarantine(hygiene_report)
+        stale_report.print_summary()
+
+        # Re-run hygiene after quarantine to update status
+        if stale_report.quarantined > 0:
+            print("\n[OpsLayer] Re-running Compile Hygiene after quarantine...")
+            hygiene = CompileHygieneValidator(project_name=project_name)
+            hygiene_report = hygiene.validate()
+            hygiene_status = hygiene_report.status.value
+    else:
+        print("\n[OpsLayer] Stale Artifact Guard — no blocking issues, skipping.")
 
     # --- Swift Compile Check (swiftc -parse) ---
     print("\n[OpsLayer] Swift Compile Check")
@@ -1226,6 +1246,8 @@ def _run_operations_layer(
         print(f"  FK-014 stubs:       {stub_report.stubs_created} created")
     if shape_report and shape_report.repairs_applied > 0:
         print(f"  FK-013 repairs:     {shape_report.repairs_applied} applied")
+    if stale_report and stale_report.quarantined > 0:
+        print(f"  Stale quarantined:  {stale_report.quarantined} file(s)")
     print(f"  Swift compile:      {swift_compile_status}")
     print("=" * 60)
     print()

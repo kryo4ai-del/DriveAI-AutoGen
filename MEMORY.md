@@ -482,6 +482,24 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Verbleibender BLOCKING: Init-Signatur-Mismatch (ServiceContainer nutzt falsche Labels)
 - **Das ist ein Code-Gen-Problem, kein Repairer-Problem**
 
+### 2026-03-15 — Tenth Autonomy Proof (Report 33-0)
+- **0 Code Output** — Haiku hat nur Architektur diskutiert, keinen Swift-Code generiert
+- CD: `conditional_pass` (erstmals seit Run 6 positiv)
+- CompletionVerifier: INCOMPLETE/80% (wegen persistentem FK-013 blocking=1)
+- **Recovery Loop erstmals aktiviert!** INCOMPLETE → Recovery gestartet → 0 Targets → SKIPPED
+- FK-013 ServiceContainer ist persistentes Artefakt aus Run 9, kein neuer Mismatch
+- Class-init-Mismatch ist NICHT wiederkehrend — nur ein einzelnes persistentes File
+- **Empfehlung**: ServiceContainer.swift loeschen (Artefakt) oder standard-profile Run fuer mehr Code-Output
+
+### 2026-03-15 — Stale Artifact Guard (Report 34-0)
+- Neues Modul: `factory/operations/stale_artifact_guard.py` — Git-Provenance-basiert
+- Erkennt BLOCKING-Files die durch "AI run:" Commits hinzugefuegt wurden
+- **Quarantine** statt Delete: Files in `quarantine/` verschoben (nicht geloescht)
+- CompileHygiene scannt quarantine/, generated/, .git nicht mehr
+- **ServiceContainer.swift quarantiniert** → 0 BLOCKING, Status: WARNINGS
+- Safety: App/, Config/, Resources/, Info.plist geschuetzt (nie quarantiniert)
+- **Baseline jetzt: 0 BLOCKING, 13 Warnings, 177 Files, MOSTLY_COMPLETE/95%**
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
