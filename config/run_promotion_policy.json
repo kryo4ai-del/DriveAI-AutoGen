@@ -1,0 +1,62 @@
+{
+  "_doc": "Run Promotion Policy — governs when to escalate from cheaper to more expensive profiles.",
+
+  "tiers": {
+    "static_validation": {
+      "cost": "zero",
+      "description": "Run CompileHygiene, CompletionVerifier, or StubGen without an LLM run.",
+      "answers": "Are there new blocking issues? Did a prior fix work? Is the baseline still clean?",
+      "command": "python -c \"from factory.operations.compile_hygiene_validator import CompileHygieneValidator; CompileHygieneValidator(project_name='askfin_v1-1').validate()\""
+    },
+    "dev": {
+      "cost": "low",
+      "model": "claude-haiku-4-5",
+      "estimated_tokens_per_run": 50000,
+      "description": "Quick iteration, architecture discussion, lightweight code generation.",
+      "answers": "Does the pipeline run end-to-end? Do new agents/passes work? Is the Ops Layer stable?",
+      "preconditions": ["static_validation shows 0 BLOCKING or a specific question needs LLM"]
+    },
+    "standard": {
+      "cost": "medium",
+      "model": "claude-sonnet-4-6",
+      "estimated_tokens_per_run": 200000,
+      "description": "Full code generation, quality reviews, fix execution. Production-grade output.",
+      "answers": "Does the factory produce compilable, well-structured code under realistic load?",
+      "preconditions": [
+        "dev runs show the pipeline is stable (MOSTLY_COMPLETE)",
+        "a specific code-quality or generation-volume question cannot be answered with dev",
+        "static validation confirms 0 BLOCKING on current baseline"
+      ]
+    },
+    "premium": {
+      "cost": "high",
+      "model": "claude-opus-4-6",
+      "estimated_tokens_per_run": 500000,
+      "description": "Maximum quality. Complex architecture decisions, deep refactoring.",
+      "answers": "Is the architecture fundamentally sound? Are there subtle design issues?",
+      "preconditions": [
+        "standard runs produce compilable output but quality/architecture needs improvement",
+        "a specific deep-reasoning question cannot be answered with standard",
+        "budget explicitly approved for premium run"
+      ]
+    }
+  },
+
+  "promotion_rules": {
+    "static_to_dev": "Promote when static validation cannot answer the current question (e.g., need to test new agent behavior, pipeline flow, or code extraction).",
+    "dev_to_standard": "Promote when dev runs are stable (MOSTLY_COMPLETE) but code output is insufficient (too few files, Haiku limits reached, or code quality question).",
+    "standard_to_premium": "Promote only when standard output is compilable but architecture/design quality needs expert review. Requires explicit budget approval.",
+    "any_to_static": "Demote when the current question can be answered by running CompileHygiene, CompletionVerifier, or reading existing reports — no LLM needed."
+  },
+
+  "current_state_assessment": {
+    "last_updated": "2026-03-15",
+    "baseline_status": "MOSTLY_COMPLETE / 95%",
+    "blocking_issues": 0,
+    "project_files": 227,
+    "last_run_profile": "standard",
+    "last_run_result": "3 FK-014 auto-fixed, 0 BLOCKING final",
+    "recommended_next": "static_validation",
+    "reason": "Sonnet run proved the pipeline works under load. No open question requires another LLM run. Next step is static validation after ClosedRange fix, or a different feature template to test breadth."
+  }
+}

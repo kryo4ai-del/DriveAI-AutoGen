@@ -535,6 +535,23 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **`Hasher` Bug**: Swift-Framework-Typ faelschlich als FK-014 → zu `_KNOWN_FRAMEWORK_TYPES` hinzugefuegt
 - Falschen Hasher.swift Stub geloescht
 
+### 2026-03-15 — Fourteenth Autonomy Proof (Report 40-0) — ERSTER SONNET RUN
+- **Model: claude-sonnet-4-6 BESTAETIGT** — Profile-Fix funktioniert
+- **62 Swift Files** (42 impl + 20 fix) — Rekord! 47% mehr als Haiku
+- **21 Files integriert**, Projekt auf 227 Files + 302 Types gewachsen
+- Sonnet generiert Tests, Views, Extensions, Protocols (nicht nur Models)
+- 21 Code-Artifacts aus Logs (Sonnet schreibt Code in Review-Passes!)
+- 3 FK-014 → StubGen automatisch → 0 BLOCKING
+- **ClosedRange Bug**: Swift-Framework-Typ → zu Known-Types hinzugefuegt + Stub geloescht
+- Weitere Swift-Runtime-Types hinzugefuegt (Range, Substring, Character, etc.)
+
+### 2026-03-15 — Run Promotion Policy (Report 41-0)
+- `config/run_promotion_policy.json` — Tier-Definitionen + Promotion-Rules
+- `factory/promotion_advisor.py` — Deterministischer Advisor, CLI: `python -m factory.promotion_advisor`
+- 4 Tiers: static_validation (0) → dev (50k) → standard (200k) → premium (500k)
+- **Aktueller Status: NO_ACTION** — Baseline sauber, kein offener Blocker
+- Empfehlung: Anderes Feature testen, Mac-Compile, oder auf neue Anforderung warten
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

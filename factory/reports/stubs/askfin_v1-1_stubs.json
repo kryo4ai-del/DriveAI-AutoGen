@@ -1,17 +1,38 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 17:12:56",
-  "fk014_count": 1,
-  "stubs_created": 1,
+  "timestamp": "2026-03-15 19:04:25",
+  "fk014_count": 3,
+  "stubs_created": 3,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Hasher",
+      "type_name": "ClosedRange",
       "kind": "struct",
-      "file_path": "Models\\Hasher.swift",
+      "file_path": "Models\\ClosedRange.swift",
       "ref_files": [
-        "Models/ReadinessDestination.swift",
-        "Models/StudyRecommendation.swift"
+        "Models/ReadinessMilestone.swift",
+        "Services/ReadinessService.swift"
+      ]
+    },
+    {
+      "type_name": "ReadinessLabel",
+      "kind": "struct",
+      "file_path": "Models\\ReadinessLabel.swift",
+      "ref_files": [
+        "Models/ReadinessScore+Extension.swift",
+        "Models/ReadinessScoreGauge.swift",
+        "Models/ReadinessScoreTests.swift"
+      ]
+    },
+    {
+      "type_name": "Trend",
+      "kind": "struct",
+      "file_path": "Models\\Trend.swift",
+      "ref_files": [
+        "Models/ReadinessScoreTests.swift",
+        "Models/ReadinessScoringEngine.swift",
+        "Models/TrendBadge.swift",
+        "Services/ReadinessService.swift"
       ]
     }
   ],

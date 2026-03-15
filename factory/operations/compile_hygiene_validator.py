@@ -711,6 +711,10 @@ _KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
     # Swift runtime types
     "Hasher", "Mirror", "ObjectIdentifier", "AnyHashable",
     "AnySequence", "AnyCollection", "AnyIterator",
+    "ClosedRange", "Range", "PartialRangeFrom", "PartialRangeThrough",
+    "PartialRangeUpTo", "CountableRange", "CountableClosedRange",
+    "Substring", "Character", "UnicodeScalar", "StaticString",
+    "UnsafePointer", "UnsafeMutablePointer", "UnsafeBufferPointer",
     # Swift Codable protocol types
     "CodingKey", "CodingKeys", "Decoder", "Encoder",
     "KeyedDecodingContainer", "KeyedEncodingContainer",

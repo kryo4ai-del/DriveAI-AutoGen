@@ -1,0 +1,371 @@
+{
+  "timestamp": "20260315_190425",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 54,
+  "files_normalized": 7,
+  "files_written": 2,
+  "files_skipped": 52,
+  "truncated_detected": [
+    "MockReadinessService.swift (log:driveai_run_20260315_175902.txt, 61 lines)",
+    "ExamReadinessViewModel.swift (log:driveai_run_20260315_175902.txt, 57 lines)",
+    "CategoryReadinessRow.swift (log:driveai_run_20260315_175902.txt, 64 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\CategoryReadiness+Extension.swift",
+      "to": "Models/CategoryReadiness+Extension.swift"
+    },
+    {
+      "from": "Models\\CategoryReadiness.swift",
+      "to": "Models/CategoryReadiness.swift"
+    },
+    {
+      "from": "Models\\CategoryReadinessCodableTests.swift",
+      "to": "Tests/CategoryReadinessCodableTests.swift"
+    },
+    {
+      "from": "Models\\CategoryReadinessInvariantTests.swift",
+      "to": "Tests/CategoryReadinessInvariantTests.swift"
+    },
+    {
+      "from": "Models\\CategoryReadinessRateTests.swift",
+      "to": "Tests/CategoryReadinessRateTests.swift"
+    },
+    {
+      "from": "Models\\CategoryReadinessStatusTests.swift",
+      "to": "Tests/CategoryReadinessStatusTests.swift"
+    },
+    {
+      "from": "Models\\CategoryStatus.swift",
+      "to": "Models/CategoryStatus.swift"
+    },
+    {
+      "from": "Models\\ExamDateState.swift",
+      "to": "Models/ExamDateState.swift"
+    },
+    {
+      "from": "ExamReadinessSnapshot.swift",
+      "to": "Models/ExamReadinessSnapshot.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\ProgressRepositoryProtocol.swift",
+      "to": "Services/ProgressRepositoryProtocol.swift"
+    },
+    {
+      "from": "QuestionRepositoryProtocol.swift",
+      "to": "Services/QuestionRepositoryProtocol.swift"
+    },
+    {
+      "from": "Models\\ReadinessRecommendation+Extension.swift",
+      "to": "Models/ReadinessRecommendation+Extension.swift"
+    },
+    {
+      "from": "Models\\ReadinessRecommendation.swift",
+      "to": "Models/ReadinessRecommendation.swift"
+    },
+    {
+      "from": "Models\\ReadinessScore+Extension.swift",
+      "to": "Models/ReadinessScore+Extension.swift"
+    },
+    {
+      "from": "Models\\ReadinessScore.swift",
+      "to": "Models/ReadinessScore.swift"
+    },
+    {
+      "from": "Models\\ReadinessScoreTests.swift",
+      "to": "Tests/ReadinessScoreTests.swift"
+    },
+    {
+      "from": "Models\\ReadinessScoringEngine.swift",
+      "to": "Models/ReadinessScoringEngine.swift"
+    },
+    {
+      "from": "ReadinessServiceProtocol.swift",
+      "to": "Services/ReadinessServiceProtocol.swift"
+    },
+    {
+      "from": "Models\\RecommendationDestination.swift",
+      "to": "Models/RecommendationDestination.swift"
+    },
+    {
+      "from": "Models\\ScoreWeights.swift",
+      "to": "Models/ScoreWeights.swift"
+    },
+    {
+      "from": "Models\\ServiceError.swift",
+      "to": "Models/ServiceError.swift"
+    },
+    {
+      "from": "Models\\UserProfileRepositoryProtocol.swift",
+      "to": "Services/UserProfileRepositoryProtocol.swift"
+    },
+    {
+      "from": "Services\\ReadinessService.swift",
+      "to": "Services/ReadinessService.swift"
+    },
+    {
+      "from": "ViewModels\\ExamReadinessViewModel.swift",
+      "to": "ViewModels/ExamReadinessViewModel.swift"
+    },
+    {
+      "from": "Views\\CategoryBreakdownSection.swift",
+      "to": "Models/CategoryBreakdownSection.swift"
+    },
+    {
+      "from": "Views\\CategoryReadinessRow.swift",
+      "to": "Models/CategoryReadinessRow.swift"
+    },
+    {
+      "from": "Views\\ExamReadinessView.swift",
+      "to": "Views/ExamReadinessView.swift"
+    },
+    {
+      "from": "Views\\ReadinessHeaderSection.swift",
+      "to": "Models/ReadinessHeaderSection.swift"
+    },
+    {
+      "from": "Views\\ReadinessScoreGauge.swift",
+      "to": "Models/ReadinessScoreGauge.swift"
+    },
+    {
+      "from": "Views\\RecommendationCard.swift",
+      "to": "Models/RecommendationCard.swift"
+    },
+    {
+      "from": "RecommendationsSection.swift",
+      "to": "Models/RecommendationsSection.swift"
+    },
+    {
+      "from": "Views\\TrendBadge.swift",
+      "to": "Models/TrendBadge.swift"
+    },
+    {
+      "from": "ReadinessScoreFormatter.swift",
+      "to": "Models/ReadinessScoreFormatter.swift"
+    },
+    {
+      "from": "UserProfile.swift",
+      "to": "Models/UserProfile.swift"
+    }
+  ],
+  "written_files": [
+    "Services\\MockReadinessService.swift",
+    "Models\\ReadinessScoreFormatter.swift"
+  ],
+  "skipped_files": [
+    {
+      "file": "CategoryReadiness.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (2533 chars vs 2533 chars)"
+    },
+    {
+      "file": "ExamReadinessSnapshot.swift (generated_code)",
+      "reason": "shorter version (2137 chars vs 2271 chars)"
+    },
+    {
+      "file": "ProgressRepositoryProtocol.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (190 chars vs 363 chars)"
+    },
+    {
+      "file": "QuestionRepositoryProtocol.swift (generated_code)",
+      "reason": "shorter version (244 chars vs 265 chars)"
+    },
+    {
+      "file": "ReadinessRecommendation.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (1682 chars vs 1682 chars)"
+    },
+    {
+      "file": "ReadinessScore.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (6067 chars vs 6067 chars)"
+    },
+    {
+      "file": "ReadinessScoringEngine.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (8397 chars vs 8397 chars)"
+    },
+    {
+      "file": "ReadinessServiceProtocol.swift (generated_code)",
+      "reason": "shorter version (357 chars vs 496 chars)"
+    },
+    {
+      "file": "UserProfileRepositoryProtocol.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (124 chars vs 200 chars)"
+    },
+    {
+      "file": "ReadinessService.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (3752 chars vs 3752 chars)"
+    },
+    {
+      "file": "ExamReadinessViewModel.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (1450 chars vs 3503 chars)"
+    },
+    {
+      "file": "CategoryBreakdownSection.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (2556 chars vs 2650 chars)"
+    },
+    {
+      "file": "CategoryReadinessRow.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (2198 chars vs 3835 chars)"
+    },
+    {
+      "file": "ExamReadinessView.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (2039 chars vs 2640 chars)"
+    },
+    {
+      "file": "ReadinessHeaderSection.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (1883 chars vs 2229 chars)"
+    },
+    {
+      "file": "ReadinessScoreGauge.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (1921 chars vs 3520 chars)"
+    },
+    {
+      "file": "RecommendationsSection.swift (generated_code)",
+      "reason": "shorter version (958 chars vs 1019 chars)"
+    },
+    {
+      "file": "TrendBadge.swift (log:driveai_run_20260315_175902.txt)",
+      "reason": "shorter version (981 chars vs 1417 chars)"
+    },
+    {
+      "file": "Models/CategoryReadiness+Extension.swift",
+      "reason": "already exists in project: Models\\CategoryReadiness+Extension.swift"
+    },
+    {
+      "file": "Models/CategoryReadiness.swift",
+      "reason": "already exists in project: Models\\CategoryReadiness.swift"
+    },
+    {
+      "file": "Tests/CategoryReadinessCodableTests.swift",
+      "reason": "already exists in project: Models\\CategoryReadinessCodableTests.swift"
+    },
+    {
+      "file": "Tests/CategoryReadinessInvariantTests.swift",
+      "reason": "already exists in project: Models\\CategoryReadinessInvariantTests.swift"
+    },
+    {
+      "file": "Tests/CategoryReadinessRateTests.swift",
+      "reason": "already exists in project: Models\\CategoryReadinessRateTests.swift"
+    },
+    {
+      "file": "Tests/CategoryReadinessStatusTests.swift",
+      "reason": "already exists in project: Models\\CategoryReadinessStatusTests.swift"
+    },
+    {
+      "file": "Models/CategoryStatus.swift",
+      "reason": "already exists in project: Models\\CategoryStatus.swift"
+    },
+    {
+      "file": "Models/ExamDateState.swift",
+      "reason": "already exists in project: Models\\ExamDateState.swift"
+    },
+    {
+      "file": "Models/ExamReadinessSnapshot.swift",
+      "reason": "already exists in project: Models\\ExamReadinessSnapshot.swift"
+    },
+    {
+      "file": "Models/GeneratedHelpers.swift",
+      "reason": "already exists in project: Models\\GeneratedHelpers.swift"
+    },
+    {
+      "file": "Services/ProgressRepositoryProtocol.swift",
+      "reason": "already exists in project: Models\\ProgressRepositoryProtocol.swift"
+    },
+    {
+      "file": "Services/QuestionRepositoryProtocol.swift",
+      "reason": "already exists in project: Models\\QuestionRepositoryProtocol.swift"
+    },
+    {
+      "file": "Models/ReadinessRecommendation+Extension.swift",
+      "reason": "already exists in project: Models\\ReadinessRecommendation+Extension.swift"
+    },
+    {
+      "file": "Models/ReadinessRecommendation.swift",
+      "reason": "already exists in project: Models\\ReadinessRecommendation.swift"
+    },
+    {
+      "file": "Models/ReadinessScore+Extension.swift",
+      "reason": "already exists in project: Models\\ReadinessScore+Extension.swift"
+    },
+    {
+      "file": "Models/ReadinessScore.swift",
+      "reason": "already exists in project: Models\\ReadinessScore.swift"
+    },
+    {
+      "file": "Tests/ReadinessScoreTests.swift",
+      "reason": "already exists in project: Models\\ReadinessScoreTests.swift"
+    },
+    {
+      "file": "Models/ReadinessScoringEngine.swift",
+      "reason": "already exists in project: Models\\ReadinessScoringEngine.swift"
+    },
+    {
+      "file": "Services/ReadinessServiceProtocol.swift",
+      "reason": "already exists in project: Models\\ReadinessServiceProtocol.swift"
+    },
+    {
+      "file": "Models/RecommendationDestination.swift",
+      "reason": "already exists in project: Models\\RecommendationDestination.swift"
+    },
+    {
+      "file": "Models/ScoreWeights.swift",
+      "reason": "already exists in project: Models\\ScoreWeights.swift"
+    },
+    {
+      "file": "Models/ServiceError.swift",
+      "reason": "already exists in project: Models\\ServiceError.swift"
+    },
+    {
+      "file": "Services/UserProfileRepositoryProtocol.swift",
+      "reason": "already exists in project: Models\\UserProfileRepositoryProtocol.swift"
+    },
+    {
+      "file": "Services/ReadinessService.swift",
+      "reason": "already exists in project: Services\\ReadinessService.swift"
+    },
+    {
+      "file": "ViewModels/ExamReadinessViewModel.swift",
+      "reason": "already exists in project: ViewModels\\ExamReadinessViewModel.swift"
+    },
+    {
+      "file": "Models/CategoryBreakdownSection.swift",
+      "reason": "already exists in project: Models\\CategoryBreakdownSection.swift"
+    },
+    {
+      "file": "Models/CategoryReadinessRow.swift",
+      "reason": "already exists in project: Models\\CategoryReadinessRow.swift"
+    },
+    {
+      "file": "Views/ExamReadinessView.swift",
+      "reason": "already exists in project: Views\\ExamReadinessView.swift"
+    },
+    {
+      "file": "Models/ReadinessHeaderSection.swift",
+      "reason": "already exists in project: Models\\ReadinessHeaderSection.swift"
+    },
+    {
+      "file": "Models/ReadinessScoreGauge.swift",
+      "reason": "already exists in project: Models\\ReadinessScoreGauge.swift"
+    },
+    {
+      "file": "Models/RecommendationCard.swift",
+      "reason": "already exists in project: Models\\RecommendationCard.swift"
+    },
+    {
+      "file": "Models/RecommendationsSection.swift",
+      "reason": "already exists in project: Models\\RecommendationsSection.swift"
+    },
+    {
+      "file": "Models/TrendBadge.swift",
+      "reason": "already exists in project: Models\\TrendBadge.swift"
+    },
+    {
+      "file": "Models/UserProfile.swift",
+      "reason": "type-level dedup: UserProfile owned by Models\\UserProfileRepositoryProtocol.swift"
+    }
+  ],
+  "errors": []
+}

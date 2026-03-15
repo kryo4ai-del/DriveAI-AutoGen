@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 204,
+  "files_scanned": 228,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -11,9 +11,9 @@
     "FK-017"
   ],
   "status": "WARNINGS",
-  "issues_found": 19,
+  "issues_found": 22,
   "blocking": 0,
-  "warnings": 19,
+  "warnings": 22,
   "issues": [
     {
       "pattern_id": "FK-015",
@@ -58,6 +58,24 @@
       "line": 33,
       "matched_text": "sut = ExamSessionViewModel(",
       "type_name": "ExamSessionViewModel"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ReadinessScoreTests.swift",
+      "message": "Call to ReadinessScore() uses labels ['computedAt', 'trend', 'value'] — no known init matches (33% match)",
+      "line": 19,
+      "matched_text": "let score = ReadinessScore(value: value, computedAt: .now, trend: .stable)",
+      "type_name": "ReadinessScore"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ReadinessScoreTests.swift",
+      "message": "Call to ReadinessScore() uses labels ['computedAt', 'trend', 'value'] — no known init matches (33% match)",
+      "line": 34,
+      "matched_text": "let score = ReadinessScore(value: 0.75, computedAt: .now, trend: trend)",
+      "type_name": "ReadinessScore"
     },
     {
       "pattern_id": "FK-013",
@@ -121,6 +139,15 @@
       "line": 12,
       "matched_text": "ExamReadinessSnapshot(",
       "type_name": "ExamReadinessSnapshot"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Services/ReadinessService.swift",
+      "message": "Call to ReadinessScore() uses labels ['computedAt', 'trend', 'value'] — no known init matches (33% match)",
+      "line": 45,
+      "matched_text": "let finalScore = ReadinessScore(",
+      "type_name": "ReadinessScore"
     },
     {
       "pattern_id": "FK-013",
