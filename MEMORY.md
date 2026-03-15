@@ -500,6 +500,15 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Safety: App/, Config/, Resources/, Info.plist geschuetzt (nie quarantiniert)
 - **Baseline jetzt: 0 BLOCKING, 13 Warnings, 177 Files, MOSTLY_COMPLETE/95%**
 
+### 2026-03-15 — Eleventh Autonomy Proof (Report 35-0)
+- **Sauberster Run aller Zeiten**: 0 BLOCKING, MOSTLY_COMPLETE/95%, kein Ops-Layer-Eingriff noetig
+- Kein StubGen, kein ShapeRepair, kein StaleGuard, kein Recovery
+- Haiku-Limit: Nur 1 File generiert (GeneratedHelpers, uebersprungen)
+- CD: "not detected" (Haiku generierte kein Rating-Label)
+- 10 Runs im RunMemory, davon 1 Recovery-Run
+- **Engpass ist jetzt Code-Gen-Output** (Haiku bei wiederholtem Feature), nicht mehr Pipeline/Repair
+- **Empfehlung**: standard-Profile (Sonnet) oder anderes Feature testen
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

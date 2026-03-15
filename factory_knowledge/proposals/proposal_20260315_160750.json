@@ -1,0 +1,22 @@
+{
+  "run_id": "20260315_160750",
+  "generated": "2026-03-15T16:33:52",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "Bug pattern: Force-Unwrap Array Access Without Bounds Check",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: Force-Unwrap Array Access Without Bounds Check. Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260315_160750",
+      "source_run": "20260315_160750",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    }
+  ]
+}

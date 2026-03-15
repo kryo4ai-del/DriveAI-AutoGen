@@ -46,3 +46,217 @@ Skipped (1 already in project):
 --- Refactor pass ---
   Prior review context: 1906 chars injected
   Factory knowledge: 896 chars injected
+  Review digest: 600 chars captured
+
+--- Test generation pass ---
+
+Knowledge proposals: 1 candidates → C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory_knowledge\proposals\proposal_20260315_152736.json
+
+============================================================
+Conversation complete.
+Messages exchanged : 10 (impl) + 10 (bugs) + 10 (creative) + 10 (ux_psych) + 10 (refactor) + 10 (tests)
+Run mode           : standard
+Approval mode      : auto
+Stop reason        : Maximum number of messages 10 reached, current message count: 10
+Memory updates:
+  decisions          : +26
+  architecture notes : +51
+  implementation notes: +54
+  review notes       : +53
+Swift files saved  : 1 new, 0 unchanged
+Xcode integration  : 0 copied, 0 unchanged
+Memory saved to    : memory/memory_store.json
+Log saved to       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\logs\driveai_run_20260315_152736.txt
+Delivery package   : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_152736
+Sprint report      : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_152736\sprint_report.md
+Run manifest       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260315_152736\run_manifest.json
+============================================================
+
+Git auto commit:
+  - changes staged
+  - commit created
+  - pushed to origin/main
+
+============================================================
+  Operations Layer
+============================================================
+
+[OpsLayer] Pass 1: Output Integrator
+
+[OutputIntegrator] Starting integration for project: askfin_v1-1
+[OutputIntegrator] Output directory: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\generated
+  [generated_code] 1 files
+[OutputIntegrator] Collected 1 artifacts
+[OutputIntegrator] Project dedup index: 178 existing Swift files
+[OutputIntegrator] Project type index: 242 declared types
+
+==================================================
+  Output Integrator Summary
+==================================================
+  Artifacts collected:   1
+  Artifacts normalized:  0
+  Artifacts written:     0
+  Truncated detected:    1
+  Skipped (duplicates):  1
+
+  Truncated files:
+    - GeneratedHelpers.swift (generated_code, 13 lines)
+
+  Normalized paths:
+    Models\GeneratedHelpers.swift -> Models/GeneratedHelpers.swift
+==================================================
+
+[OutputIntegrator] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\integration_report_20260315_154357.json
+
+[OpsLayer] Pass 1: Completion Verifier
+
+[CompletionVerifier] Verifying project: askfin_v1-1
+[CompletionVerifier] Generated dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\generated
+[CompletionVerifier] Specs dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\specs
+[CompletionVerifier] No specs directory found at C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1\specs
+[CompletionVerifier] No specs found -- using project-evidence mode
+[CompletionVerifier] Project Swift files: 178
+[CompletionVerifier] Generated artifacts: 0
+[CompletionVerifier] Compile hygiene blocking: 0
+
+=======================================================
+  Completion Verifier Summary
+=======================================================
+  Project:           askfin_v1-1
+  Spec source:       project-evidence
+  Health status:     MOSTLY_COMPLETE
+  Completeness:      95%
+-------------------------------------------------------
+  Expected files:    178
+  Actual files:      0
+  Complete files:    178
+  Incomplete files:  0
+  Missing files:     0
+=======================================================
+
+[CompletionVerifier] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\completion\askfin_v1-1_completion.json
+
+[OpsLayer] Compile Hygiene Validator
+
+[CompileHygiene] Validating project: askfin_v1-1
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+[CompileHygiene] Swift files found: 177
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_v1-1
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+  Files scanned:  177
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         WARNINGS
+------------------------------------------------------------
+  Issues found:   13
+    Blocking:     0
+    Warnings:     13
+
+  [WARN ] FK-015  Models/ReadinessStrings.swift:26
+          Bundle.module is only available in Swift Package targets, not regular Xcode apps
+          > bundle: .module
+  [WARN ] FK-013  App/PremiumHomeView.swift:35
+          Call to TopicPickerView() uses labels ['TODO', 'competenceService', 'onSelectTopic'] — no known init matches (33% match)
+          > TopicPickerView(
+  [WARN ] FK-013  Models/ExamReadinessViewModelTests.swift:6
+          Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)
+          > CategoryReadiness(id: "1", categoryName: "Signs", completionPercentage: 80, ...)
+  [WARN ] FK-013  Models/ExamReadinessViewModelTests.swift:7
+          Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)
+          > CategoryReadiness(id: "2", categoryName: "Rules", completionPercentage: 60, ...)
+  [WARN ] FK-013  Models/ExamSessionViewModelTests.swift:33
+          Call to ExamSessionViewModel() uses labels ['examSessionService', 'persistenceService', 'questionRepository', 'session', 'timerService'] — no known init matches (20% match)
+          > sut = ExamSessionViewModel(
+  [WARN ] FK-013  Services/MockReadinessCalculationService.swift:12
+          Call to ExamReadinessSnapshot() uses labels ['categoryBreakdown', 'correctAnswers', 'id', 'name', 'overallReadinessPercentage', 'questionsAnswered', 'readinessPercentage'] — no known init matches (28% match)
+          > ExamReadinessSnapshot(
+  [WARN ] FK-013  Views/Components/ExamCountdownCard.swift:128
+          Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)
+          > ExamCountdownCard(
+  [WARN ] FK-013  Views/Components/ExamCountdownCard.swift:136
+          Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)
+          > ExamCountdownCard(
+  [WARN ] FK-013  Views/Components/ProgressGridCard.swift:107
+          Call to ProgressGridCard() uses labels ['averageScore', 'completedCategories', 'correctAnswers', 'questionsAnswered', 'summary', 'totalCategories'] — no known init matches (16% match)
+          > ProgressGridCard(
+  [WARN ] FK-013  Views/Components/StreakIndicator.swift:83
+          Call to StreakIndicator() uses labels ['currentStreak', 'lastActivityDate', 'longestStreak', 'streak'] — no known init matches (25% match)
+          > StreakIndicator(
+  [WARN ] FK-013  Views/ExamReadinessView.swift:14
+          Call to ExamReadinessView() uses labels ['getCategoryName', 'viewModel', 'where'] — no known init matches (33% match)
+          > ExamReadinessView(
+  [WARN ] FK-013  Views/PremiumDashboardView.swift:31
+          Call to ExamStartModal() uses labels ['duration', 'isPresented', 'onStartExam'] — no known init matches (33% match)
+          > ExamStartModal(
+  [WARN ] FK-013  Views/Training/AnswerRevealView.swift:116
+          Call to DirectionalArrow() uses labels ['blue', 'color', 'direction', 'green', 'red'] — no known init matches (40% match)
+          > DirectionalArrow(
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_v1-1_compile_hygiene.json
+
+[OpsLayer] Type Stub Generator — no FK-014 blockers, skipping.
+
+[OpsLayer] Property Shape Repairer — no FK-013 blockers, skipping.
+
+[OpsLayer] Stale Artifact Guard — no blocking issues, skipping.
+
+[OpsLayer] Swift Compile Check
+
+[SwiftCompile] Checking project: askfin_v1-1
+[SwiftCompile] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+[SwiftCompile] Mode: parse
+[SwiftCompile] swiftc not found on PATH — skipping.
+
+============================================================
+  Swift Compile Check
+============================================================
+  Project:          askfin_v1-1
+  Scan dir:         C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_v1-1
+  Mode:             skipped
+  Status:           SKIPPED
+  Skip reason:      swiftc not found on PATH
+------------------------------------------------------------
+  Files checked:    0
+  Files OK:         0
+  Files w/ errors:  0
+  Files w/ warnings:0
+  Total errors:     0
+  Total warnings:   0
+============================================================
+
+[SwiftCompile] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\compile\askfin_v1-1_swift_compile.json
+
+[OpsLayer] Health: MOSTLY_COMPLETE -- no recovery needed.
+
+============================================================
+  Operations Layer Summary
+============================================================
+  Project:            askfin_v1-1
+  Initial status:     MOSTLY_COMPLETE
+  Recovery attempts:  0
+  Recovery outcome:   none
+  Final status:       MOSTLY_COMPLETE
+  Compile hygiene:    WARNINGS
+  Swift compile:      SKIPPED
+============================================================
+
+
+=======================================================
+  Run Memory Summary
+=======================================================
+  Project:           askfin_v1-1
+  Runs recorded:     10
+  Latest status:     MOSTLY_COMPLETE
+  Latest complete:   95%
+
+  Recovery runs:      1 of 10 runs
+=======================================================
+
+[KnowledgeWriteback] Starting writeback cycle...
+[KnowledgeWriteback] No proposals ready for promotion.
+[KnowledgeWriteback] No new run patterns detected.
+[KnowledgeWriteback] Writeback cycle complete.
