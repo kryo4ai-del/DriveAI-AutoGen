@@ -571,6 +571,12 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Erwartete Compile-Sauberkeit: 93% -> **~99%**
 - 1 verbleibendes File: PreviewDataFactory.swift (fehlendes #endif — strukturell, nicht sanitierbar)
 
+### 2026-03-15 — Swift Compile Recheck (Report 44-0)
+- 3 Mac-Checks durchgefuehrt: 19 Errors → 35 (v1 Bug) → **4 Errors (Block-Aware Fix)**
+- **99.1% compile-sauber** (225 von 227 Files)
+- 2 verbleibende Files: ReadinessScore+Extension (Fragment), PreviewDataFactory (#endif fehlt)
+- Beide Debug-only Code — blockieren kein Release-Build
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
