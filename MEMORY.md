@@ -625,6 +625,13 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
   3. `examSessionService` nicht als Property deklariert
 - **Alle Import-Klassen geloest** (Foundation + Combine + SwiftUI)
 
+### 2026-03-15 — ViewModel Contract Reconciliation (Report 51-0)
+- Policy: `consumer-declares-need` in `residual_compile_policy.json`
+- 3 Fixes: ExamTimerService+ObservableObject, ExamSession Properties, examSessionService Property
+- Errors: 8 → **2** (1 unique)
+- Verbleibend: Swift Concurrency Error (`actor-isolated property 'session' cannot be passed inout to async`)
+- **Typecheck-Fortschritt**: 19 → 35 → 4 → 14 → 4 → 10 → 8 → **2**
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
