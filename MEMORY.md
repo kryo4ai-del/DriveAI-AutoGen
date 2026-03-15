@@ -577,6 +577,13 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - 2 verbleibende Files: ReadinessScore+Extension (Fragment), PreviewDataFactory (#endif fehlt)
 - Beide Debug-only Code — blockieren kein Release-Build
 
+### 2026-03-15 — Residual Compile Policy + 100% Clean (Report 45-0)
+- `config/residual_compile_policy.json` — Klassifizierung: release-critical / debug-only / fragment
+- PreviewDataFactory.swift: `#endif` manuell eingefuegt (Mac-Agent)
+- 4 Files quarantiniert: ReadinessScore+Extension, WeakCategory, Priority, ExamReadinessView
+- **223/223 Files = 0 Errors = Exit Code 0 = 100% CLEAN PARSE**
+- Compile-Fortschritt: 93% → 85% (v1 Bug) → 99.1% → **100%**
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
