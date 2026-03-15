@@ -584,6 +584,14 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **223/223 Files = 0 Errors = Exit Code 0 = 100% CLEAN PARSE**
 - Compile-Fortschritt: 93% → 85% (v1 Bug) → 99.1% → **100%**
 
+### 2026-03-15 — Xcode Build Reality Check (Report 46-0)
+- Kein .xcodeproj/Package.swift vorhanden → `swiftc -typecheck` mit iOS Simulator SDK
+- **215 App-Files: 213 clean (99.1%), 2 fehlende `import Foundation`**
+- Root Causes: ExamReadinessError.swift + MockTrendPersistenceService.swift
+- 8 Test-Files brauchen Xcode-Projekt (erwartbar)
+- 4 Warnings (Swift 6 Sendable — nicht blockierend)
+- **Naechster Schritt**: .xcodeproj erstellen + 2 Import-Fixes
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
