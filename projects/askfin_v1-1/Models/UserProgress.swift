@@ -1,3 +1,4 @@
+import Foundation
 struct UserProgress: Codable {
     var totalQuestionsAnswered: Int = 0
     var correctAnswers: Int = 0

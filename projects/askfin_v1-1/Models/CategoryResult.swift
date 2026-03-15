@@ -1,3 +1,4 @@
+import Foundation
 struct CategoryResult: Codable, Sendable {
     let questionsAttempted: Int
     let questionsCorrect: Int

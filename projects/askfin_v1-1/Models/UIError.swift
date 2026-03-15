@@ -1,3 +1,4 @@
+import Foundation
 enum UIError: LocalizedError {
     case transient(String)      // Retry recommended
     case persistent(String)     // User action needed

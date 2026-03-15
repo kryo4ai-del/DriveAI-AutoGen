@@ -1,3 +1,4 @@
+import Foundation
 struct CategoryStat: Sendable {
     let categoryID: UUID
     let categoryName: String

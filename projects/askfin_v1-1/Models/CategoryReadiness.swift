@@ -1,3 +1,4 @@
+import Foundation
 // CategoryReadiness.swift — SINGLE DEFINITION
 struct CategoryReadiness: Identifiable, Codable, Equatable {
     let id: String                    // NOT categoryId

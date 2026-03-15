@@ -1,3 +1,4 @@
+import Foundation
 // Configuration/ReadinessConfiguration.swift
 struct ReadinessConfiguration {
     static let passThreshold: Int = 75

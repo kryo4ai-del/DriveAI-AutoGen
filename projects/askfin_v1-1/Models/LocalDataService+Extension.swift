@@ -1,3 +1,4 @@
+import Foundation
 // Extensions/LocalDataService+Readiness.swift
 extension LocalDataService {
     

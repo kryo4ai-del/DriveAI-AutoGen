@@ -1,3 +1,4 @@
+import Foundation
 // Tests/ExamReadinessViewModelTests.swift
 @MainActor
 final class ExamReadinessViewModelTests: XCTestCase {

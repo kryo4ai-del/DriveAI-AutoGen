@@ -1,3 +1,4 @@
+import Foundation
 enum ExamConfig {
     static let totalQuestions = 30
     static let passingThreshold = 24 // 80%

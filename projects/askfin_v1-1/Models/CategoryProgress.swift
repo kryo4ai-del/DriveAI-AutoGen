@@ -1,3 +1,4 @@
+import Foundation
 // Models/CategoryProgress.swift
 struct CategoryProgress: Identifiable, Codable {
     let id: UUID

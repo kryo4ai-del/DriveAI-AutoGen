@@ -1,3 +1,4 @@
+import Foundation
 struct AssessmentProgressView: View {
     let currentQuestion: Int
     let totalQuestions: Int

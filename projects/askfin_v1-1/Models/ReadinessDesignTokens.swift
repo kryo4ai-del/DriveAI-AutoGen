@@ -1,3 +1,4 @@
+import Foundation
 // Views/Components/DesignSystem.swift (extend if needed)
 struct ReadinessDesignTokens {
     static let gaugeSize: CGFloat = 200

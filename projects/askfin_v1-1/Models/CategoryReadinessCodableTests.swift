@@ -1,3 +1,4 @@
+import Foundation
 final class CategoryReadinessCodableTests: XCTestCase {
 
     func test_codableRoundTrip_preservesAllValues() throws {

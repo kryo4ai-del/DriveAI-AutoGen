@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 final class ReadinessDataService: ReadinessDataServiceProtocol {
     private let localDataService: LocalDataServiceProtocol

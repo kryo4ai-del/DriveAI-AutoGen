@@ -1,3 +1,4 @@
+import Foundation
 // Services/Cache/CachedReadinessMetrics.swift
 
 @MainActor

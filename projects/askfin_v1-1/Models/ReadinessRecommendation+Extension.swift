@@ -1,3 +1,4 @@
+import Foundation
 // Stable ID based on type + target category:
 extension ReadinessRecommendation {
     static func stableID(type: RecommendationType, categoryID: String?) -> UUID {

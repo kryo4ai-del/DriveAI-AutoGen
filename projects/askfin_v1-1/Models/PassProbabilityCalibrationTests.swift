@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 final class PassProbabilityCalibrationTests: XCTestCase {
     func testBoundaryConditions() {

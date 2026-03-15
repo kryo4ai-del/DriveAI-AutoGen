@@ -1,3 +1,4 @@
+import Foundation
 // App/AppCoordinator.swift
 @MainActor
 final class AppCoordinator: ObservableObject {

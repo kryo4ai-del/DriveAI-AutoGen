@@ -1,3 +1,4 @@
+import Foundation
 // Mock for testing
 class MockReadinessCalculationService: ReadinessCalculationService {
     var mockSnapshot: ExamReadinessSnapshot?

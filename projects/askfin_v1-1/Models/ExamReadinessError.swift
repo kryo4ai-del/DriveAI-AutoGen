@@ -1,3 +1,4 @@
+import Foundation
 // 1. Define proper error types
 enum ExamReadinessError: LocalizedError, Codable {
     case noCategoryData(reason: String)

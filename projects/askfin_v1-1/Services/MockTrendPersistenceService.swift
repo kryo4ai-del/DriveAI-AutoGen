@@ -1,3 +1,4 @@
+import Foundation
 // Create a test double
 class MockTrendPersistenceService: TrendPersistenceServiceProtocol {
     var savedPoints: [ReadinessTrendPoint] = []

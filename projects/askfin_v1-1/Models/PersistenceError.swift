@@ -1,3 +1,4 @@
+import Foundation
 enum PersistenceError: LocalizedError {
     case corruptedSession(id: String, underlyingError: Error)
     case atomicWriteFailed

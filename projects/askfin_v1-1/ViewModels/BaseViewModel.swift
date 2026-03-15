@@ -1,3 +1,4 @@
+import Foundation
 // Features/Common/ViewModels/BaseViewModel.swift
 @MainActor
 class BaseViewModel: ObservableObject {

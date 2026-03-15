@@ -1,3 +1,4 @@
+import Foundation
 struct DateComponentsValue: Codable, Equatable, Sendable {
     let day: Int
     let hour: Int

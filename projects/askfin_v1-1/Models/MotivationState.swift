@@ -1,3 +1,4 @@
+import Foundation
 struct MotivationState {
     var currentStreak: Int // days of consecutive practice
     var lastPracticeDate: Date

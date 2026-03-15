@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 class PredictionEngine: ObservableObject {
     private let readinessCalculator: ReadinessCalculator

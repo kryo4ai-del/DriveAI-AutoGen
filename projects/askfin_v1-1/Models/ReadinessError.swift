@@ -1,3 +1,4 @@
+import Foundation
 // [FK-019 sanitized] func calculateReadiness() async -> Result<ReadinessCalculationResult, ReadinessError> {
 // [FK-019 sanitized]     do {
         // ... existing code

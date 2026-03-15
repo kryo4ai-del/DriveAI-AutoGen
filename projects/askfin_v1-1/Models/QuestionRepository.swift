@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 final class QuestionRepository: QuestionRepositoryProtocol {
     private var cachedQuestions: [Question]?

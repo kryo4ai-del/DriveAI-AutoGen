@@ -1,3 +1,4 @@
+import Foundation
 actor RecommendationEngineService: Sendable {
     func generateRecommendations(
         snapshot: ExamReadinessSnapshot

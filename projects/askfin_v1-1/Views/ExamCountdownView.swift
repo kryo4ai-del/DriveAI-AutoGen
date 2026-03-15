@@ -1,3 +1,4 @@
+import Foundation
 struct ExamCountdownView: View {
     let countdown: DateComponentsValue
     

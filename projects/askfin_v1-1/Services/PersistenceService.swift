@@ -1,3 +1,4 @@
+import Foundation
 // Services/PersistenceService.swift
 @MainActor
 final class PersistenceService: PersistenceServiceProtocol {

@@ -1,3 +1,4 @@
+import Foundation
 enum AssessmentError: LocalizedError {
     case failedToLoadQuestions
     case processingFailed

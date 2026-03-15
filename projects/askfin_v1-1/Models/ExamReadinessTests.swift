@@ -1,4 +1,5 @@
 import XCTest
+import Foundation
 @testable import DriveAI
 
 final class ExamReadinessTests: XCTestCase {

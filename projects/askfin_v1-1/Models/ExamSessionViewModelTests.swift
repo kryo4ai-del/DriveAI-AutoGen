@@ -1,6 +1,7 @@
 // Tests/Features/ExamReadiness/ViewModels/ExamSessionViewModelTests.swift
 import XCTest
 import Combine
+import Foundation
 // [FK-019 sanitized] @testable import DriveAI
 
 @MainActor

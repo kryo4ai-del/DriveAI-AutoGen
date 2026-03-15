@@ -1,3 +1,4 @@
+import Foundation
 protocol AssessmentPersistenceServiceProtocol: AnyObject {
     func save(_ assessment: ReadinessAssessment) async throws
     func fetchLatestAssessment() async throws -> ReadinessAssessment?
