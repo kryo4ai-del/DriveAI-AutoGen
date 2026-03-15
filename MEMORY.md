@@ -630,7 +630,13 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - 3 Fixes: ExamTimerService+ObservableObject, ExamSession Properties, examSessionService Property
 - Errors: 8 → **2** (1 unique)
 - Verbleibend: Swift Concurrency Error (`actor-isolated property 'session' cannot be passed inout to async`)
-- **Typecheck-Fortschritt**: 19 → 35 → 4 → 14 → 4 → 10 → 8 → **2**
+- **Typecheck-Fortschritt**: 19 → 35 → 4 → 14 → 4 → 10 → 8 → 2 → **2 (neues File)**
+
+### 2026-03-15 — Concurrency Pattern Fix (Report 52-0)
+- Policy: `local-copy-then-assign` fuer inout+async auf actor-isolated Properties
+- ExamSessionViewModel: **0 Errors** (Concurrency geloest)
+- Neuer Blocker (vorher maskiert): OfflineStatusViewModel — `NetworkMonitor` nicht im Scope
+- Das ist ein FK-014-Klasse Problem (fehlender Typ) — braucht Stub oder Implementierung
 
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
