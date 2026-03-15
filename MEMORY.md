@@ -613,7 +613,17 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - WeakArea inline-Duplikate aus AssessmentResult + Recommendation entfernt
 - **WeakArea: GELOEST (0 Errors)**
 - Neuer Blocker: ExamSessionViewModel.swift (10 Errors — @StateObject braucht SwiftUI, fehlende Properties)
-- Typecheck-Fortschritt: 19 → 35 → 4 → 14 → 4 → **10 (1 File)**
+- Typecheck-Fortschritt: 19 → 35 → 4 → 14 → 4 → 10 → **8 (1 File)**
+
+### 2026-03-15 — SwiftUI Import Hygiene (Report 50-0)
+- import_hygiene.py um 40+ SwiftUI-Symbole erweitert
+- **29 Files gefixt** (inkl. ExamSessionViewModel)
+- Errors: 10 → **8** (Import geloest, strukturelle Fehler bleiben)
+- Verbleibender Blocker: ExamSessionViewModel.swift — 3 strukturelle Probleme:
+  1. ExamTimerService conformt nicht zu ObservableObject
+  2. ExamSession hat kein Property `startTime`
+  3. `examSessionService` nicht als Property deklariert
+- **Alle Import-Klassen geloest** (Foundation + Combine + SwiftUI)
 
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
