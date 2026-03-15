@@ -1,3 +1,4 @@
+import Combine
 @MainActor
 final class ExamReadinessViewModel: ObservableObject {
     @Published private(set) var readinessScore: ExamReadinessScore?

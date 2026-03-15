@@ -1,8 +1,8 @@
 """
 Import Hygiene Safeguard — deterministic, no LLM.
 
-Scans Swift files for known Foundation symbols and adds
-`import Foundation` when missing and not covered by SwiftUI.
+Scans Swift files for known Foundation and Combine symbols and adds
+the appropriate import when missing and not covered by SwiftUI.
 """
 
 import os
@@ -27,6 +27,13 @@ FOUNDATION_SYMBOLS = {
     "DispatchQueue",
 }
 
+COMBINE_SYMBOLS = {
+    "ObservableObject", "Published", "AnyCancellable",
+    "PassthroughSubject", "CurrentValueSubject",
+    "AnyPublisher", "Just", "Future",
+    "Cancellable", "Subscriber", "Subscription",
+}
+
 # Imports that re-export Foundation
 FOUNDATION_COVERING_IMPORTS = {
     "import Foundation",
@@ -37,9 +44,19 @@ FOUNDATION_COVERING_IMPORTS = {
     "import MapKit",
 }
 
+# Imports that re-export Combine
+COMBINE_COVERING_IMPORTS = {
+    "import Combine",
+    "import SwiftUI",
+}
+
 # Match word boundaries for symbol usage
-SYMBOL_PATTERN = re.compile(
+FOUNDATION_PATTERN = re.compile(
     r'\b(' + '|'.join(re.escape(s) for s in FOUNDATION_SYMBOLS) + r')\b'
+)
+
+COMBINE_PATTERN = re.compile(
+    r'(?:\b|@)(' + '|'.join(re.escape(s) for s in COMBINE_SYMBOLS) + r')\b'
 )
 
 
@@ -50,25 +67,24 @@ class ImportHygiene:
         self.skipped_files = []
         self.already_covered = []
 
-    def _has_foundation_coverage(self, content: str) -> bool:
+    def _has_coverage(self, content: str, covering_imports: set) -> bool:
         for line in content.splitlines():
             stripped = line.strip()
-            if stripped in FOUNDATION_COVERING_IMPORTS:
+            if stripped in covering_imports:
                 return True
         return False
 
-    def _uses_foundation_symbols(self, content: str) -> set:
-        # Skip comments and strings (simple heuristic: skip lines starting with //)
+    def _find_symbols(self, content: str, pattern: re.Pattern) -> set:
         used = set()
         for line in content.splitlines():
             stripped = line.strip()
             if stripped.startswith("//"):
                 continue
-            matches = SYMBOL_PATTERN.findall(line)
+            matches = pattern.findall(line)
             used.update(matches)
         return used
 
-    def _insert_import(self, content: str) -> str:
+    def _insert_import(self, content: str, import_statement: str) -> str:
         lines = content.splitlines()
         # Find last import line
         last_import_idx = -1
@@ -77,15 +93,14 @@ class ImportHygiene:
                 last_import_idx = i
 
         if last_import_idx >= 0:
-            lines.insert(last_import_idx + 1, "import Foundation")
+            lines.insert(last_import_idx + 1, import_statement)
         else:
-            # No imports at all — add at top
-            lines.insert(0, "import Foundation")
+            lines.insert(0, import_statement)
 
         return "\n".join(lines) + ("\n" if content.endswith("\n") else "")
 
     def scan(self) -> list:
-        """Scan and return list of files needing import Foundation."""
+        """Scan and return list of files needing imports."""
         needs_fix = []
         for swift_file in sorted(self.project_root.rglob("*.swift")):
             rel = swift_file.relative_to(self.project_root)
@@ -94,30 +109,41 @@ class ImportHygiene:
 
             content = swift_file.read_text(encoding="utf-8", errors="replace")
 
-            if self._has_foundation_coverage(content):
-                self.already_covered.append(str(rel))
-                continue
+            missing_imports = []
 
-            used = self._uses_foundation_symbols(content)
-            if used:
-                needs_fix.append({"file": str(rel), "symbols": sorted(used)})
+            # Check Foundation
+            if not self._has_coverage(content, FOUNDATION_COVERING_IMPORTS):
+                found = self._find_symbols(content, FOUNDATION_PATTERN)
+                if found:
+                    missing_imports.append({"import": "import Foundation", "symbols": sorted(found)})
+
+            # Check Combine
+            if not self._has_coverage(content, COMBINE_COVERING_IMPORTS):
+                found = self._find_symbols(content, COMBINE_PATTERN)
+                if found:
+                    missing_imports.append({"import": "import Combine", "symbols": sorted(found)})
+
+            if missing_imports:
+                needs_fix.append({"file": str(rel), "missing": missing_imports})
 
         return needs_fix
 
     def fix(self) -> dict:
-        """Scan and fix all files needing import Foundation."""
+        """Scan and fix all files needing imports."""
         needs_fix = self.scan()
 
         for entry in needs_fix:
             filepath = self.project_root / entry["file"]
             content = filepath.read_text(encoding="utf-8", errors="replace")
-            new_content = self._insert_import(content)
-            filepath.write_text(new_content, encoding="utf-8")
+
+            for missing in entry["missing"]:
+                content = self._insert_import(content, missing["import"])
+
+            filepath.write_text(content, encoding="utf-8")
             self.fixed_files.append(entry)
 
         return {
             "fixed": len(self.fixed_files),
-            "already_covered": len(self.already_covered),
             "files": self.fixed_files,
         }
 
@@ -125,6 +151,7 @@ class ImportHygiene:
 if __name__ == "__main__":
     h = ImportHygiene()
     result = h.fix()
-    print(f"Fixed {result['fixed']} files, {result['already_covered']} already covered.")
+    print(f"Fixed {result['fixed']} files.")
     for f in result["files"]:
-        print(f"  {f['file']}: {', '.join(f['symbols'])}")
+        for m in f["missing"]:
+            print(f"  {f['file']}: {m['import']} ({', '.join(m['symbols'])})")

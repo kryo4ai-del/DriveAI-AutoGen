@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 @MainActor
 final class OfflineStatusViewModel: ObservableObject {
     @Published var isOnline = true

@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 // Features/ExamReadiness/Services/ExamTimerService.swift
 @MainActor
 final class ExamTimerService {

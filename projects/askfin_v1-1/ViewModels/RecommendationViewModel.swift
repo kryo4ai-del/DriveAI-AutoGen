@@ -1,3 +1,4 @@
+import Combine
 @MainActor
 final class RecommendationViewModel: ObservableObject {
     @Published var weakAreas: [WeakArea] = []

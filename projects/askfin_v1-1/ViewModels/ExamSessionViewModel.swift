@@ -1,3 +1,4 @@
+import Combine
 @MainActor
 final class ExamSessionViewModel: BaseViewModel {
     @StateObject private var timerService: ExamTimerService
