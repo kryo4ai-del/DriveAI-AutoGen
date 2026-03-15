@@ -602,6 +602,12 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Import-Hygiene muss um Combine-Symbole erweitert werden
 - WeakArea-Duplikat ist ein strukturelles Problem (CodeExtractor/Dedup)
 
+### 2026-03-15 — Combine Import Hygiene (Report 48-0)
+- import_hygiene.py um 11 Combine-Symbole erweitert (ObservableObject, Published, etc.)
+- **11 Files gefixt** (inkl. RecommendationViewModel)
+- Errors: 14 → **4** (1 Root Cause: WeakArea 3x dupliziert)
+- **Einziger verbleibender Blocker**: WeakArea in 3 Files definiert (AssessmentResult, WeakArea, Recommendation)
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
