@@ -592,6 +592,16 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - 4 Warnings (Swift 6 Sendable — nicht blockierend)
 - **Naechster Schritt**: .xcodeproj erstellen + 2 Import-Fixes
 
+### 2026-03-15 — Import Hygiene + Typecheck (Reports 46-0, 47-0)
+- `factory/operations/import_hygiene.py` auf Mac erstellt (deterministisch, 30+ Foundation-Symbole)
+- **41 Files gefixt** (fehlende `import Foundation` praeventiv ergaenzt)
+- 2 originale Root-Cause Errors (Foundation) geloest
+- **Neue Errors aufgedeckt**:
+  - RecommendationViewModel: fehlendes `import Combine` (ObservableObject/@Published)
+  - WeakArea: 3x dupliziert (AssessmentResult, WeakArea, Recommendation) → Typ-Ambiguitaet
+- Import-Hygiene muss um Combine-Symbole erweitert werden
+- WeakArea-Duplikat ist ein strukturelles Problem (CodeExtractor/Dedup)
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
