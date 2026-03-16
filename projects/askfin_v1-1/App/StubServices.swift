@@ -14,6 +14,12 @@ import Combine
 final class StubExamSimulationService: ExamSimulationServiceProtocol {
 
     private var savedResults: [SimulationResult] = []
+    var historyStore: SessionHistoryStore?
+
+    init(historyStore: SessionHistoryStore? = nil) {
+        self.historyStore = historyStore
+    }
+
 
     func generateQuestions(for config: SimulationConfig) throws -> [ExamQuestion] {
         let topics = TopicArea.allCases
@@ -81,6 +87,7 @@ final class StubExamSimulationService: ExamSimulationServiceProtocol {
 
     func save(_ result: SimulationResult) async throws {
         savedResults.append(result)
+        historyStore?.addResult(result)
     }
 
     func loadHistory() async throws -> [SimulationResult] {

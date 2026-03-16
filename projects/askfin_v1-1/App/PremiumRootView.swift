@@ -32,7 +32,7 @@ struct PremiumRootView: View {
 
             NavigationStack {
                 ExamSimulationView(
-                    simulationService: StubExamSimulationService(),
+                    simulationService: StubExamSimulationService(historyStore: historyStore),
                     readinessService: StubReadinessScoreService()
                 )
             }

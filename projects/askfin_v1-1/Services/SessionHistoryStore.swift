@@ -11,6 +11,11 @@ final class SessionHistoryStore: ObservableObject {
         load()
     }
 
+    func addResult(_ result: SimulationResult) {
+        results.insert(result, at: 0)
+        save()
+    }
+
     func addTrainingResult(correct: Int, total: Int, duration: TimeInterval) {
         let fehlerpunkte = total - correct
         let result = SimulationResult.build(
