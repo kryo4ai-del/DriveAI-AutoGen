@@ -35,26 +35,6 @@ struct ReadinessAssessment: Identifiable, Codable {
     }
 }
 
-// MARK: - Category Result
-
-struct CategoryResult: Identifiable, Codable {
-    let id: UUID
-    let categoryId: String
-    let categoryName: String
-    let questionsAsked: Int
-    let correctAnswers: Int
-    let difficulty: DifficultyBreakdown
-    
-    var accuracy: Double {
-        guard questionsAsked > 0 else { return 0 }
-        return (Double(correctAnswers) / Double(questionsAsked)) * 100
-    }
-    
-    var needsImprovement: Bool {
-        accuracy < 70
-    }
-}
-
 struct DifficultyBreakdown: Codable {
     let easy: QuestionStats
     let medium: QuestionStats

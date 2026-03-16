@@ -1,29 +1,39 @@
 import Foundation
-struct CategoryResult: Codable, Sendable {
-    let questionsAttempted: Int
-    let questionsCorrect: Int
-    let questionsTotal: Int
-    let scorePercentage: Double
-    let lastAttemptDate: Date?
-    
-    /// Factory to compute from raw attempts
-    static func from(
-        categoryId: String,
-        attempts: [QuestionAttempt]
-    ) -> CategoryResult {
-        let correct = attempts.filter { $0.isCorrect }.count
-        let total = attempts.count
-        
-        let percentage: Double = total > 0
-            ? Double(correct) / Double(total) * 100
-            : 0.0  // ✅ Safe default
-        
-        return CategoryResult(
-            questionsAttempted: attempts.count,
-            questionsCorrect: correct,
-            questionsTotal: total,
-            scorePercentage: percentage,
-            lastAttemptDate: attempts.map { $0.timestamp }.max()
+
+struct CategoryResult: Identifiable, Codable, Sendable {
+    let id: UUID
+    let categoryId: String
+    let categoryName: String
+    let questionsAsked: Int
+    let correctAnswers: Int
+    let difficulty: DifficultyBreakdown
+
+    var accuracy: Double {
+        guard questionsAsked > 0 else { return 0 }
+        return (Double(correctAnswers) / Double(questionsAsked)) * 100
+    }
+
+    var needsImprovement: Bool {
+        accuracy < 70
+    }
+
+    init(
+        id: UUID = UUID(),
+        categoryId: String = "",
+        categoryName: String = "",
+        questionsAsked: Int = 0,
+        correctAnswers: Int = 0,
+        difficulty: DifficultyBreakdown = DifficultyBreakdown(
+            easy: .init(asked: 0, correct: 0),
+            medium: .init(asked: 0, correct: 0),
+            hard: .init(asked: 0, correct: 0)
         )
+    ) {
+        self.id = id
+        self.categoryId = categoryId
+        self.categoryName = categoryName
+        self.questionsAsked = questionsAsked
+        self.correctAnswers = correctAnswers
+        self.difficulty = difficulty
     }
 }
