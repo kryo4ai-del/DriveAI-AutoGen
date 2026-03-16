@@ -61,7 +61,7 @@ class ExamReadinessService: ExamReadinessServiceProtocol {
         ExamReadinessScore(
             overall: 0,
             percentageInt: 0,
-            level: .notStarted,
+            level: .notReady,
             calculatedAt: Date(),
             weakCategoryCount: 0,
             categoriesAboveThreshold: 0

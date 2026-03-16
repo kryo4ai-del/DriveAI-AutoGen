@@ -31,7 +31,16 @@ enum ReadinessLevel: String, Codable, CaseIterable, Equatable {
         case .excellent: return "Excellent"
         }
     }
-    
+
+    var emoji: String {
+        switch self {
+        case .notReady: return "🔴"
+        case .partiallyReady: return "🟠"
+        case .ready: return "🟢"
+        case .excellent: return "🌟"
+        }
+    }
+
     var color: Color {
         switch self {
         case .notReady: return .red
