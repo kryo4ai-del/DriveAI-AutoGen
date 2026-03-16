@@ -13,7 +13,7 @@ struct AnswerButtonView: View {
                 .frame(minHeight: 56) // ✅ Well above 44pt minimum
                 .padding(.vertical, 12) // ✅ Ensures spacing
         }
-        .accessibilityFrame(CGRect(x: 0, y: 0, width: 300, height: 56)) // Verify in preview
+        .accessibilityElement(children: .combine)
     }
 }
 

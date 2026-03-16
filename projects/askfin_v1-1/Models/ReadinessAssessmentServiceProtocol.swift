@@ -132,28 +132,26 @@ final class ReadinessAssessmentService: ReadinessAssessmentServiceProtocol {
                     id: UUID(),
                     categoryId: result.categoryId,
                     categoryName: result.categoryName,
-                    accuracy: result.accuracy,
-                    priority: index + 1,
-                    suggestedQuestionCount: calculateSuggestedQuestions(
-                        accuracy: result.accuracy
-                    )
+                    score: result.accuracy,
+                    questionsAnswered: result.questionsAsked,
+                    correctAnswers: result.correctAnswers,
+                    priority: index == 0 ? .critical : (index < 3 ? .high : .medium)
                 )
             }
-        
+
         let recommendations = weakAreas.enumerated().map { index, area in
             Recommendation(
                 id: UUID(),
                 title: "Improve \(area.categoryName)",
-                description: "Your accuracy is \(String(format: "%.0f", area.accuracy))%. "
-                    + "Practice \(area.suggestedQuestionCount) more questions to reach 70%.",
+                description: "Your score is \(String(format: "%.0f", area.score))%. Practice more to reach 70%.",
                 categoryId: area.categoryId,
                 categoryName: area.categoryName,
-                estimatedMinutes: area.suggestedQuestionCount * 2,
+                estimatedMinutes: max(10, Int((70 - area.score) / 10) * 10),
                 actionType: .practiceCategory,
                 priority: index + 1
             )
         }
-        
+
         return (weakAreas, recommendations)
     }
     

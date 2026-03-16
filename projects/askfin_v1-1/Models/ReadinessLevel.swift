@@ -32,6 +32,8 @@ enum ReadinessLevel: String, Codable, CaseIterable, Equatable {
         }
     }
 
+    var label: String { displayName }
+
     var emoji: String {
         switch self {
         case .notReady: return "🔴"

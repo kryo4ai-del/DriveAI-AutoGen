@@ -1,5 +1,6 @@
 import SwiftUI
 struct ResultsView: View {
+    let assessment: ReadinessAssessment
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var showScore = false
     

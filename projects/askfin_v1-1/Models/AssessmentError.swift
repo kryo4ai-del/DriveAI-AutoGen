@@ -4,6 +4,8 @@ enum AssessmentError: LocalizedError {
     case processingFailed
     case invalidAnswers
     case persistenceFailed
+    case noQuestionsAvailable
+    case invalidQuestions
     
     var errorDescription: String? {
         switch self {
@@ -15,6 +17,10 @@ enum AssessmentError: LocalizedError {
             return "Invalid answer data"
         case .persistenceFailed:
             return "Could not save your results"
+        case .noQuestionsAvailable:
+            return "No questions available"
+        case .invalidQuestions:
+            return "Invalid questions"
         }
     }
 }

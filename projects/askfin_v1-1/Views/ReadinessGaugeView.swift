@@ -11,7 +11,7 @@ struct ReadinessGaugeView: View {
             
             // Gauge fill
             Circle()
-                .trim(from: 0, to: readinessScore.overall / 100)
+                .trim(from: 0, to: readinessScore.value)
                 .stroke(
                     LinearGradient(
                         gradient: Gradient(colors: [
@@ -29,11 +29,11 @@ struct ReadinessGaugeView: View {
             
             // Center text with sufficient contrast
             VStack(spacing: 8) {
-                Text(String(format: "%.0f%%", readinessScore.overall))
+                Text(String(format: "%.0f%%", Double(readinessScore.score)))
                     .font(.system(size: 48, weight: .bold, design: .rounded))
                     .foregroundColor(.black) // ✅ Black on white = 21:1 contrast
                 
-                Text(readinessScore.confidenceLevel.displayName)
+                Text(readinessScore.milestone.rawValue)
                     .font(.caption)
                     .foregroundColor(.gray) // ✅ Dark gray on white = 7.5:1 contrast
             }
@@ -41,7 +41,7 @@ struct ReadinessGaugeView: View {
             .accessibilityLabel("Exam Readiness")
             .accessibilityValue(
                 String(format: NSLocalizedString("%.0f Prozent", comment: "Percentage"), 
-                       readinessScore.overall)
+                       Double(readinessScore.score))
             )
         }
     }

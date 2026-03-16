@@ -10,17 +10,17 @@ struct ReadinessHeaderView: View {
                     .stroke(Color.gray.opacity(0.2), lineWidth: 12)
                 
                 Circle()
-                    .trim(from: 0, to: CGFloat(score.overallScore) / 100)
-                    .stroke(score.overallScore >= 70 ? Color.green : Color.red, style: StrokeStyle(lineWidth: 12, lineCap: .round))
+                    .trim(from: 0, to: CGFloat(score.score) / 100)
+                    .stroke(score.score >= 70 ? Color.green : Color.red, style: StrokeStyle(lineWidth: 12, lineCap: .round))
                     .rotationEffect(.degrees(-90))
-                    .animation(.easeInOut(duration: 0.8), value: score.overallScore)
+                    .animation(.easeInOut(duration: 0.8), value: score.score)
                 
                 VStack(spacing: 4) {
-                    Text("\(score.overallScore)%")
+                    Text("\(score.score)%")
                         .font(.system(size: 44, weight: .bold, design: .rounded))
                         .minimumScaleFactor(0.7)
                     
-                    Text(score.readinessLabel)
+                    Text(score.label.rawValue)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -28,9 +28,9 @@ struct ReadinessHeaderView: View {
             .frame(height: 200)
             .accessibilityElement(children: .combine)
             .accessibilityLabel("Overall Readiness")
-            .accessibilityValue("\(score.overallScore)% \(score.readinessLabel)")
+            .accessibilityValue("\(score.score)% \(score.label)")
             
-            Text(score.isReadyForExam ? "You're ready for the exam!" : "Keep practicing")
+            Text(score.isExamReady ? "You're ready for the exam!" : "Keep practicing")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -53,10 +53,7 @@ struct CategoryBreakdownView: View {
                 .accessibilityAddTraits(.isHeader)
             
             ForEach(categories) { category in
-                CategoryReadinessRow(
-                    category: category,
-                    onTap: { onSelectCategory(category.categoryId) }
-                )
+                CategoryReadinessRow(category: category)
             }
         }
         .accessibilityElement(children: .contain)
