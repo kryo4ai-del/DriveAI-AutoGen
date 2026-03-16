@@ -26,6 +26,7 @@
 		187050CE0ABE8E5F77D66DCE /* ReadinessConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ABBBD795B7377C49A3B2B7 /* ReadinessConfig.swift */; };
 		18AC1C34F1D1D973E685F046 /* CacheSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064A9B5D4004A5FDFA2B6FE6 /* CacheSnapshot.swift */; };
 		1ACAD24F5067951724974842 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82C96927F72EA95ABFB1B03 /* TimeFormatter.swift */; };
+		1B3ACAFAAB102B5B4D264E42 /* SessionHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932550E10CC24829AB394E30 /* SessionHistoryStore.swift */; };
 		1D0BCA4928AA73EEE11ED2CF /* ReadinessScoreRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EDA6CD94E773346B090549 /* ReadinessScoreRingView.swift */; };
 		1DA3A2233F39E10C49D85767 /* ReadinessHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD9D4079719BAB3339A31CB /* ReadinessHeaderView.swift */; };
 		1DCC359762B14C7F27142491 /* ReadinessScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE0DBBA6B02DEC808281119 /* ReadinessScore.swift */; };
@@ -330,6 +331,7 @@
 		913A6195C124D56E97B1CC12 /* ReadinessConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessConfiguration.swift; sourceTree = "<group>"; };
 		91924AC101490B73ADC899ED /* PremiumDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumDashboardView.swift; sourceTree = "<group>"; };
 		9259BE5C1EB1A3DE09EF9019 /* CategorySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionViewModel.swift; sourceTree = "<group>"; };
+		932550E10CC24829AB394E30 /* SessionHistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHistoryStore.swift; sourceTree = "<group>"; };
 		9566DC869429C80C6CD63206 /* DashboardSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardSubViews.swift; sourceTree = "<group>"; };
 		96873037F6B7562EFDBEE7B6 /* AssessmentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentError.swift; sourceTree = "<group>"; };
 		98A8842FFF42F4F2625C0B5C /* ExamReadinessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamReadinessViewModel.swift; sourceTree = "<group>"; };
@@ -456,6 +458,7 @@
 				9C4068BB2CEBE9D0B8B7C55A /* ReadinessAnalysisService.swift */,
 				A512E989C79842410EE8163C /* ReadinessCalculationService.swift */,
 				8049122E0C3848497703F778 /* ReadinessScoreService.swift */,
+				932550E10CC24829AB394E30 /* SessionHistoryStore.swift */,
 				15DE92ABF79EBD319247F02B /* TopicCompetenceService.swift */,
 				A9AE5BB014048883CC5FEBD1 /* TrainingSessionManager.swift */,
 				D45F15B0863121D2C569E6F8 /* TrendPersistenceServiceProtocol.swift */,
@@ -950,6 +953,7 @@
 				EF6FBA7EAADE2433066AFF9D /* ScoringCalculator.swift in Sources */,
 				42B43B73089DC82D9DE67553 /* ServiceError.swift in Sources */,
 				4330EA030139A8B2833A0E85 /* SessionBriefView.swift in Sources */,
+				1B3ACAFAAB102B5B4D264E42 /* SessionHistoryStore.swift in Sources */,
 				5EF9814C494CD7B70D165DDC /* SessionPhase.swift in Sources */,
 				17E9272E66CC3159912F164F /* SessionQuestion.swift in Sources */,
 				E2FE9402CEE13F2F765F06F5 /* SessionSummaryView.swift in Sources */,

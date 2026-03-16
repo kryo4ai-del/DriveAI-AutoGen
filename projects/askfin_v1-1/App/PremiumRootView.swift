@@ -14,6 +14,7 @@ import SwiftUI
 struct PremiumRootView: View {
 
     @ObservedObject var competenceService: TopicCompetenceService
+    @ObservedObject var historyStore: SessionHistoryStore
 
     var body: some View {
         TabView {
@@ -39,7 +40,7 @@ struct PremiumRootView: View {
 
             NavigationStack {
                 ExamHistoryView(
-                    history: [],
+                    history: historyStore.results,
                     onSelectResult: { _ in }
                 )
             }
