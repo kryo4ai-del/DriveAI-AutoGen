@@ -1,7 +1,10 @@
-struct ExamReadinessResult {
-    static let preview = ExamReadinessResult(...)
-    static let previewInsufficient = ExamReadinessResult(...)
-    static let previewExcellent = ExamReadinessResult(...)
-}
+import Foundation
 
-// Similar in CategoryMetric, WeakCategory, etc.
+struct ExamReadinessResult {
+    let overallScore: Int
+    let categoryMetrics: [CategoryMetric]
+    let recommendations: [StudyRecommendation]
+    let weakCategories: [String]
+    let metrics: ReadinessMetrics
+    let generatedAt: Date
+}
