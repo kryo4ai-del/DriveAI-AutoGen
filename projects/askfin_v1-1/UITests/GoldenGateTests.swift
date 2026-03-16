@@ -85,9 +85,21 @@ final class GoldenGateTests: XCTestCase {
         XCTAssertTrue(homeBtn.waitForExistence(timeout: 5), "Should return to Home after training")
     }
 
-    // MARK: - Gate 6: Persistence — state survives restart
+    // MARK: - Gate 7: Skill Map — Lernstand renders
 
-    func testGate6_StatePersistsAcrossRestart() {
+    func testGate7_SkillMapRenders() {
+        let lernstandTab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Lernstand'")).firstMatch
+        XCTAssertTrue(lernstandTab.waitForExistence(timeout: 5), "Lernstand tab should exist")
+        lernstandTab.tap()
+        sleep(2)
+        // Verify content renders (not empty)
+        let anyContent = app.staticTexts.firstMatch
+        XCTAssertTrue(anyContent.exists, "Skill Map should render content")
+    }
+
+    // MARK: - Gate 8: Persistence — state survives restart
+
+    func testGate8_StatePersistsAcrossRestart() {
         // Read current state
         let texts = app.staticTexts.allElementsBoundByIndex.compactMap { $0.exists ? $0.label : nil }
         let hasReadiness = texts.contains(where: { $0.contains("%") })
