@@ -121,6 +121,7 @@
 		8263D303564F5416ADE67F38 /* PersistenceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4E90D2A4A626BFDB2596B8 /* PersistenceError.swift */; };
 		848DFBF0160042B2421FBEED /* LocalDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFAF9819715227FE6987449 /* LocalDataService.swift */; };
 		86E1E879ADFC79546B52E5E3 /* PremiumLocalDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD27D16C8FE2A7D508B1407 /* PremiumLocalDataService.swift */; };
+		870C54ECAB3E80F1E8E2F88E /* TrainingJourneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45CE415E807CBD205163D10 /* TrainingJourneyTests.swift */; };
 		879EE96749CA97115B37E43F /* CompetenceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F06D5C712EA0E695B3E6F /* CompetenceLevel.swift */; };
 		87FFC7B49301645D12B1BD24 /* AnswerOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D42FBFB15BA5E5F7F8A20B /* AnswerOption.swift */; };
 		881C5462324ACD8906A9A925 /* AssessmentPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA2E60D038852BDEA9229EC /* AssessmentPersistenceServiceProtocol.swift */; };
@@ -393,6 +394,7 @@
 		E27FDA27DCF184237816A4E2 /* AssessmentButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentButtonStyle.swift; sourceTree = "<group>"; };
 		E35295BE3A68A8972BF190B9 /* TopicDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailView.swift; sourceTree = "<group>"; };
 		E41F72605ABDDA57B671E6AB /* ExamQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamQuestion.swift; sourceTree = "<group>"; };
+		E45CE415E807CBD205163D10 /* TrainingJourneyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingJourneyTests.swift; sourceTree = "<group>"; };
 		E4914C1596E1670AD34DEA46 /* SkillMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillMapViewModel.swift; sourceTree = "<group>"; };
 		E74B4BE44A11BEAFE9F6461C /* ExamSimulationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSimulationService.swift; sourceTree = "<group>"; };
 		E78AA43CB054181F9E66BDC4 /* ExamSimulationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSimulationError.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				98E3CD910480235AE54C1531 /* InFlowSmokeTests.swift */,
+				E45CE415E807CBD205163D10 /* TrainingJourneyTests.swift */,
 			);
 			path = UITests;
 			sourceTree = "<group>";
@@ -786,6 +789,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6298987E3B5ADBAE4711F0E7 /* InFlowSmokeTests.swift in Sources */,
+				870C54ECAB3E80F1E8E2F88E /* TrainingJourneyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
