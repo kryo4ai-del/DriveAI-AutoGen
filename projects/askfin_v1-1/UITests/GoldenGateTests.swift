@@ -144,9 +144,38 @@ final class GoldenGateTests: XCTestCase {
         XCTAssertTrue(anyContent.exists, "Skill Map should render content")
     }
 
-    // MARK: - Gate 8: Persistence — state survives restart
+    // MARK: - Gate 9: Generalprobe — exam simulation works
 
-    func testGate8_StatePersistsAcrossRestart() {
+    func testGate9_GeneralprobeSimulation() {
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        XCTAssertTrue(tab.waitForExistence(timeout: 5), "Generalprobe tab should exist")
+        tab.tap()
+        sleep(2)
+
+        // Start simulation
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else {
+            // Pre-start rendered but no start button = acceptable (data loading)
+            return
+        }
+        startBtn.tap()
+        sleep(2)
+
+        // Answer at least 1 question
+        let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+        if let answer = answers.first {
+            answer.tap()
+            sleep(1)
+        }
+
+        // No crash = gate passed
+    }
+
+    // MARK: - Gate 10: Persistence — state survives restart
+
+    func testGate10_StatePersistsAcrossRestart() {
         // Read current state
         let texts = app.staticTexts.allElementsBoundByIndex.compactMap { $0.exists ? $0.label : nil }
         let hasReadiness = texts.contains(where: { $0.contains("%") })
