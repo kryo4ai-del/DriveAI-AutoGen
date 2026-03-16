@@ -66,6 +66,7 @@ final class ExamTimerService: ObservableObject {
     }
     
     deinit {
-        stop()
+        timer?.invalidate()
+        timer = nil
     }
 }

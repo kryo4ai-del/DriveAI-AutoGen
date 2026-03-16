@@ -48,14 +48,14 @@ final class PersistenceService: PersistenceServiceProtocol {
             return try JSONDecoder().decode(ExamSession.self, from: data)
         } catch {
             // Try to recover from latest backup
-            if let backup = try backupManager.restoreLatestBackup(for: id, to: fileURL) {
+            if (try? backupManager.restoreLatestBackup(for: id, to: fileURL)) != nil {
                 return try loadExamSession(id) // Retry with restored version
             }
-            
+
             // No recovery possible — log and fail gracefully
             logCorruption(id: id, error: error)
             try fileManager.removeItem(at: fileURL)
-            throw PersistenceError.corruptedSession(id: id)
+            throw PersistenceError.corruptedSession(id: id, underlyingError: error)
         }
     }
     

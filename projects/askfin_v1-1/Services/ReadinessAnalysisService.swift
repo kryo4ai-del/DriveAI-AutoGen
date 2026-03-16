@@ -90,7 +90,7 @@ final class ReadinessAnalysisService: Sendable {
             overallScore: overallScore,
             categoryMetrics: categoryMetrics,
             recommendations: recommendations.sorted { $0.impactScore > $1.impactScore }.prefix(5).map { $0 },
-            weakCategories: weakCategories,
+            weakCategories: weakCategories.map { $0.categoryName },
             metrics: metrics,
             generatedAt: .now
         )
