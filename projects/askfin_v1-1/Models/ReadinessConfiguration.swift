@@ -1,4 +1,12 @@
 import Foundation
+
+struct ScoringWeights {
+    let categoryPerformance: Double
+    let streak: Double
+    let timeInvested: Double
+    let recentTrend: Double
+}
+
 // Configuration/ReadinessConfiguration.swift
 struct ReadinessConfiguration {
     static let passThreshold: Int = 75
