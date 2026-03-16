@@ -13,22 +13,21 @@ struct ReadinessLevelBadge: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        .background(
-            // Use dark variant for contrast
-            Group {
-                switch level {
-                case .notReady:
-                    Color(red: 0.8, green: 0.2, blue: 0.2) // Dark red
-                case .developing:
-                    Color(red: 0.85, green: 0.5, blue: 0.1) // Dark orange
-                case .prepared:
-                    Color(red: 0.8, green: 0.75, blue: 0.1) // Dark yellow
-                case .wellPrepared:
-                    Color(red: 0.2, green: 0.7, blue: 0.2) // Dark green
-                }
-            }
-        )
+        .background(backgroundColor)
         .cornerRadius(8)
+    }
+
+    private var backgroundColor: Color {
+        switch level {
+        case .notReady:
+            return Color(red: 0.8, green: 0.2, blue: 0.2)
+        case .partiallyReady:
+            return Color(red: 0.85, green: 0.5, blue: 0.1)
+        case .ready:
+            return Color(red: 0.2, green: 0.7, blue: 0.2)
+        case .excellent:
+            return Color(red: 0.1, green: 0.4, blue: 0.8)
+        }
     }
 }
 
