@@ -8,7 +8,8 @@
 
 import Foundation
 
-enum PriorityLevel: String, Sendable {
-    case unknown
-    // Add real cases
+enum PriorityLevel: String, Codable, Sendable {
+    case high
+    case medium
+    case low
 }

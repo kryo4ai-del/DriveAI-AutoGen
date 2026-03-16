@@ -88,7 +88,9 @@ enum StrengthRating: String, Codable, CaseIterable, Equatable {
     var displayName: String {
         rawValue.capitalized
     }
-    
+
+    var label: String { displayName }
+
     var color: Color {
         switch self {
         case .weak: return .red

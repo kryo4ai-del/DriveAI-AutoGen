@@ -18,6 +18,12 @@ struct CategoryReadiness: Identifiable, Codable, Equatable {
     var isWeakCategory: Bool {
         strength == .weak
     }
+
+    var isWeak: Bool { isWeakCategory }
+
+    var isMastered: Bool {
+        strength == .excellent || strength == .strong
+    }
 }
 
 // ExamReadinessScore.swift — SINGLE DEFINITION

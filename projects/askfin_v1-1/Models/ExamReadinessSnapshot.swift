@@ -37,6 +37,14 @@ struct ExamReadinessSnapshot {
     let daysUntilExam: Int?
     let topRecommendations: [Recommendation]
 
+    var weakCategories: [CategoryReadiness] {
+        categoryBreakdown.filter { $0.isWeak }
+    }
+
+    var masteredCategories: [CategoryReadiness] {
+        categoryBreakdown.filter { $0.isMastered }
+    }
+
     func validate() throws {
         if categoryBreakdown.isEmpty {
             throw SnapshotError.noCategories
