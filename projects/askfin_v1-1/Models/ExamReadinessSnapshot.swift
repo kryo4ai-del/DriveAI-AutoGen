@@ -31,6 +31,10 @@ struct ExamReadinessSnapshot {
     let totalQuestionsAnswered: Int
     let estimatedCompletionDays: Int
     let lastUpdated: Date
+    let score: ReadinessScore
+    let contextualStatement: String
+    let examHasPassed: Bool
+    let daysUntilExam: Int?
 
     func validate() throws {
         if categoryBreakdown.isEmpty {

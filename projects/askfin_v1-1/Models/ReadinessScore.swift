@@ -34,6 +34,21 @@ struct ReadinessScore: Codable {
         }
     }
 
+    // MARK: - Trend
+
+    enum Trend: String, Codable {
+        case improving
+        case stable
+        case declining
+    }
+
+    var trend: Trend {
+        guard let delta else { return .stable }
+        if delta > 0 { return .improving }
+        if delta < 0 { return .declining }
+        return .stable
+    }
+
     // MARK: - Stability Constants
 
     /// Maximum points the score may drop within one calendar day.
