@@ -11,7 +11,7 @@
 
 import Foundation
 
-struct ExamSession: Sendable {
+struct ExamSession: Sendable, Hashable {
     let id: String
     let startTime: Date
     var endTime: Date?
