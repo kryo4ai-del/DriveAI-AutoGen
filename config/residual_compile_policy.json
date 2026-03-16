@@ -68,6 +68,13 @@
         "canonical": "Models/WeakArea.swift",
         "removed_from": ["Models/AssessmentResult.swift", "Models/Recommendation.swift"],
         "date": "2026-03-15"
+      },
+      {
+        "type": "LocalDataServiceProtocol",
+        "canonical": "Models/LocalDataServiceProtocol.swift",
+        "removed_from": ["Services/LocalDataService.swift"],
+        "note": "Merged methods from both definitions, AnyObject changed to Sendable",
+        "date": "2026-03-16"
       }
     ]
   },
