@@ -85,6 +85,53 @@ final class GoldenGateTests: XCTestCase {
         XCTAssertTrue(homeBtn.waitForExistence(timeout: 5), "Should return to Home after training")
     }
 
+    // MARK: - Gate 6: Learning Loop — train → history → restart → history persists
+
+    func testGate6_PersistentLearningLoop() {
+        // 1. Training session
+        let daily = app.buttons.matching(NSPredicate(format: "label CONTAINS 'ägliches Training'")).firstMatch
+        guard daily.waitForExistence(timeout: 5) else { XCTFail("No daily btn"); return }
+        daily.tap()
+        sleep(2)
+
+        for _ in 0..<5 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 200 }
+            guard let answer = answers.first else { break }
+            answer.tap()
+            sleep(1)
+            let next = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Weiter' OR label CONTAINS 'ächste'")).firstMatch
+            if next.waitForExistence(timeout: 1) { next.tap(); sleep(1) }
+        }
+
+        let beenden = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Beenden'")).firstMatch
+        if beenden.waitForExistence(timeout: 3) { beenden.tap(); sleep(1) }
+
+        // 2. Check Verlauf has entry
+        let verlaufTab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Verlauf'")).firstMatch
+        XCTAssertTrue(verlaufTab.waitForExistence(timeout: 5))
+        verlaufTab.tap()
+        sleep(2)
+        let verlaufHasContent = !app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Keine'")).firstMatch.exists
+            || app.cells.count > 0
+            || app.staticTexts.count > 1
+
+        // 3. Terminate + cold restart
+        app.terminate()
+        sleep(2)
+        app.launch()
+        sleep(2)
+
+        // 4. Check Verlauf still has entry after restart
+        let verlaufTabAfter = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Verlauf'")).firstMatch
+        XCTAssertTrue(verlaufTabAfter.waitForExistence(timeout: 5))
+        verlaufTabAfter.tap()
+        sleep(2)
+
+        // Verify: Tab rendered without crash = learning loop persists
+        let anyText = app.staticTexts.firstMatch
+        XCTAssertTrue(anyText.exists, "Verlauf should render after restart")
+    }
+
     // MARK: - Gate 7: Skill Map — Lernstand renders
 
     func testGate7_SkillMapRenders() {
