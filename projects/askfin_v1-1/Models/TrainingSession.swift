@@ -199,7 +199,7 @@ struct CategoryStats: Codable {
     let bestScore: Double
     let lastAttemptDate: Date?
     let totalQuestionsAvailable: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case categoryId = "category_id"
         case categoryName = "category_name"

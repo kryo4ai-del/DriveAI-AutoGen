@@ -19,10 +19,20 @@ struct CategoryReadiness: Identifiable, Codable, Equatable {
         strength == .weak
     }
 
+    var readinessPercentage: Double { averageScore }
+
     var isWeak: Bool { isWeakCategory }
 
     var isMastered: Bool {
         strength == .excellent || strength == .strong
+    }
+
+    var priorityLevel: PriorityLevel {
+        switch strength {
+        case .weak: return .high
+        case .moderate: return .medium
+        case .strong, .excellent: return .low
+        }
     }
 }
 

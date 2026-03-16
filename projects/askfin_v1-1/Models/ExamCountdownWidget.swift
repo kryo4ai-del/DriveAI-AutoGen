@@ -39,18 +39,4 @@ struct ExamCountdownWidget: View {
     }
 }
 
-#Preview {
-    ExamCountdownWidget(
-        readiness: ExamReadiness(
-            id: UUID(),
-            examDate: Date().addingTimeInterval(86400 * 45),
-            readinessScore: 73,
-            readinessLevel: .onTrack,
-            daysUntilExam: 45,
-            totalCategories: 22,
-            readyCategoryCount: 18,
-            averageStrength: .fair,
-            lastUpdated: Date()
-        )
-    )
-}
+// TODO: Preview requires full ExamReadiness setup

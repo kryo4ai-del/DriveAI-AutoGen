@@ -40,6 +40,14 @@ struct ReadinessScore: Codable {
         case improving
         case stable
         case declining
+
+        var systemImage: String {
+            switch self {
+            case .improving: return "arrow.up.right"
+            case .stable: return "arrow.right"
+            case .declining: return "arrow.down.right"
+            }
+        }
     }
 
     var trend: Trend {

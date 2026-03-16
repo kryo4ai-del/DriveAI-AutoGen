@@ -26,7 +26,7 @@ struct ReadinessAssessment: Identifiable, Codable {
         self.correctAnswers = correctAnswers
         self.categoryResults = categoryResults.sorted { $0.accuracy < $1.accuracy }
         self.overallScore = Self.calculateScore(correctAnswers, totalQuestions)
-        self.readinessLevel = ReadinessLevel(score: self.overallScore)
+        self.readinessLevel = ReadinessLevel(percentage: Int(self.overallScore))
     }
     
     static func calculateScore(_ correct: Int, _ total: Int) -> Double {

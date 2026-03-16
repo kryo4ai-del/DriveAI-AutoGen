@@ -1,5 +1,11 @@
 import SwiftUI
 struct AnswerButtonView: View {
+    let label: String
+    var isSelected: Bool = false
+    var isCorrect: Bool = false
+    var showFeedback: Bool = false
+    var answerIndex: Int = 0
+
     var body: some View {
         Button(action: {}) {
             Text(label)

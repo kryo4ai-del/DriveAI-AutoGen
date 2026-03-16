@@ -10,7 +10,7 @@ struct ReadinessScoreCard: View {
             
             Circle()
                 .trim(from: 0, to: CGFloat(readiness.readinessScore) / 100)
-                .stroke(readiness.readinessLevel.color, ...)
+                .stroke(readiness.readinessLevel.color, style: StrokeStyle(lineWidth: 8, lineCap: .round))
                 // ✅ Respect accessibility preference
                 .animation(
                     reduceMotion ? nil : .easeInOut(duration: 0.6),

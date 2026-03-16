@@ -5,9 +5,3 @@ protocol ProgressRepositoryProtocol: AnyObject {
     func fetchCurrentStreak() async throws -> Int
     func fetchPreviousReadinessScore() async throws -> ReadinessScore?
 }
-
-struct CategoryStats {
-    let attempted: Int
-    let correct: Int
-    let lastAttempted: Date?
-}

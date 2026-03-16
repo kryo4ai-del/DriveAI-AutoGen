@@ -1,3 +1,5 @@
+import Foundation
+
 @MainActor
 protocol PassProbabilityValidatorProtocol: Sendable {
     func validate(config: ReadinessAlgorithmConfig) throws
@@ -17,10 +19,7 @@ final class PassProbabilityValidator: PassProbabilityValidatorProtocol {
             
             // Verify monotonic increase
             if prob < previousProb {
-                throw ReadinessError(
-                    message: "Algorithm produces non-monotonic probabilities",
-                    code: "EA_VALIDATION_FAIL"
-                )
+                throw ReadinessError.invalidInput
             }
             previousProb = prob
         }
