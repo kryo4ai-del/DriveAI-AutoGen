@@ -4,6 +4,10 @@ import Foundation
 protocol ExamReadinessServiceProtocol {
     func calculateReadiness(categoryProgress: [CategoryProgress]) -> ExamReadiness
     func getWeakAreas(readiness: ExamReadiness, allCategories: [QuestionCategory]) -> [QuestionCategory]
+    func calculateOverallReadiness() async throws -> ExamReadinessScore
+    func getCategoryReadiness() async throws -> [CategoryReadiness]
+    func getWeakCategories(limit: Int) async throws -> [CategoryReadiness]
+    func getTrendData(days: Int) async throws -> [ReadinessTrendPoint]
 }
 
 class ExamReadinessService: ExamReadinessServiceProtocol {
@@ -51,5 +55,28 @@ class ExamReadinessService: ExamReadinessServiceProtocol {
     
     func getWeakAreas(readiness: ExamReadiness, allCategories: [QuestionCategory]) -> [QuestionCategory] {
         allCategories.filter { readiness.weakCategories.contains($0.id) }
+    }
+
+    func calculateOverallReadiness() async throws -> ExamReadinessScore {
+        ExamReadinessScore(
+            overall: 0,
+            percentageInt: 0,
+            level: .notStarted,
+            calculatedAt: Date(),
+            weakCategoryCount: 0,
+            categoriesAboveThreshold: 0
+        )
+    }
+
+    func getCategoryReadiness() async throws -> [CategoryReadiness] {
+        []
+    }
+
+    func getWeakCategories(limit: Int) async throws -> [CategoryReadiness] {
+        []
+    }
+
+    func getTrendData(days: Int) async throws -> [ReadinessTrendPoint] {
+        []
     }
 }
