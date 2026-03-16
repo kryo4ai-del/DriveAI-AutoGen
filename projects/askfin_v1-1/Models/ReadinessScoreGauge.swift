@@ -89,21 +89,4 @@ private extension ReadinessScore.ReadinessLabel {
 #endif
 
 // MARK: - Preview
-
-#Preview("All Labels") {
-    VStack(spacing: 24) {
-        ForEach(ReadinessScore.ReadinessLabel.allCases, id: \.self) { label in
-            let value: Double = switch label {
-            case .notReady:    0.20
-            case .developing:  0.52
-            case .almostReady: 0.72
-            case .ready:       0.85
-            case .examReady:   0.95
-            }
-            ReadinessScoreGauge(
-                score: ReadinessScore(value: value, computedAt: .now, trend: .stable)
-            )
-        }
-    }
-    .padding()
-}
+// TODO: Preview requires ReadinessScore convenience init

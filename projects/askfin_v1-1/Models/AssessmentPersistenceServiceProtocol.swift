@@ -35,8 +35,8 @@ final class AssessmentPersistenceService: AssessmentPersistenceServiceProtocol {
         let sorted = try files.sorted { url1, url2 in
             let attrs1 = try fileManager.attributesOfItem(atPath: url1.path)
             let attrs2 = try fileManager.attributesOfItem(atPath: url2.path)
-            let date1 = attrs1[.contentModificationDate] as? Date ?? Date.distantPast
-            let date2 = attrs2[.contentModificationDate] as? Date ?? Date.distantPast
+            let date1 = attrs1[FileAttributeKey.modificationDate] as? Date ?? Date.distantPast
+            let date2 = attrs2[FileAttributeKey.modificationDate] as? Date ?? Date.distantPast
             return date1 > date2
         }
         

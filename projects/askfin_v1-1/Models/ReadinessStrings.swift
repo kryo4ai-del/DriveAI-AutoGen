@@ -23,7 +23,7 @@ enum ReadinessStrings {
             localized: .init(
                 "Fokussiere auf \(name) – \(questions) \(questionsText) offen"
             ),
-            bundle: .module
+            bundle: .main
         )
     }
 }

@@ -1,4 +1,22 @@
 import SwiftUI
+
+private extension Int {
+    var color: Color {
+        switch self {
+        case 1: return .red
+        case 2: return .orange
+        default: return .yellow
+        }
+    }
+    var label: String {
+        switch self {
+        case 1: return "High"
+        case 2: return "Medium"
+        default: return "Low"
+        }
+    }
+}
+
 struct RecommendationCard: View {
     let recommendation: Recommendation
     

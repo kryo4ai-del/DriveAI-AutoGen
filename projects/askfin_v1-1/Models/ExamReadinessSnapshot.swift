@@ -25,7 +25,7 @@ actor RecommendationEngineService: Sendable {
 struct ExamReadinessSnapshot {
     let overallReadinessPercentage: Double
     let categoryBreakdown: [CategoryReadiness]
-    let recommendedFocusCategories: [Any]
+    let recommendedFocusCategories: [String]
     let examCountdown: DateComponentsValue
     let currentStreak: Int
     let totalQuestionsAnswered: Int
