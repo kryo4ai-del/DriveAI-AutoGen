@@ -27,3 +27,12 @@ targets:
     settings:
       INFOPLIST_FILE: App/Info.plist
       PRODUCT_BUNDLE_IDENTIFIER: com.askfin.premium
+  AskFinUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: UITests
+    dependencies:
+      - target: AskFinPremium
+    settings:
+      SWIFT_VERSION: "5.9"
