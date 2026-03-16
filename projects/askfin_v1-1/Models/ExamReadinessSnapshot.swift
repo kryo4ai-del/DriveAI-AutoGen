@@ -35,6 +35,7 @@ struct ExamReadinessSnapshot {
     let contextualStatement: String
     let examHasPassed: Bool
     let daysUntilExam: Int?
+    let topRecommendations: [Recommendation]
 
     func validate() throws {
         if categoryBreakdown.isEmpty {

@@ -6,12 +6,18 @@ struct ScoringCalculator {
         let timeInvested: Double = 0.20
         let recentTrend: Double = 0.15
         
+        static let `default` = Weights()
+
         func validate() throws {
             let total = categoryPerformance + streakScore + timeInvested + recentTrend
             guard abs(total - 1.0) < 0.001 else {
                 throw WeightingError.doNotSumToOne
             }
         }
+    }
+
+    enum WeightingError: Error {
+        case doNotSumToOne
     }
     
     static func calculateOverallScore(

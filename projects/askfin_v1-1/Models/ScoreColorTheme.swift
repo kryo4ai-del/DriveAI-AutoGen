@@ -16,7 +16,9 @@ enum ScoreColorTheme {
             switch score {
             case 90...: return Color(red: 0.1, green: 0.75, blue: 0.2)
             case 75..<90: return Color(red: 0.2, green: 0.8, blue: 0.3)
-            // ...
+            case 60..<75: return .yellow
+            case 40..<60: return .orange
+            default: return .red
             }
         }
     }

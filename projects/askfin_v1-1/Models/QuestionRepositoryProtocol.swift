@@ -61,7 +61,7 @@ final class ExamSessionService {
             answers: [:],
             score: nil,
             passed: nil,
-            questionIds: questions.map { $0.id }
+            questionIds: questions.map { $0.id.uuidString }
         )
         try persistenceService.saveExamSession(session)
         return session
@@ -71,7 +71,7 @@ final class ExamSessionService {
         var score = 0
         for (questionId, selectedAnswerIndex) in session.answers {
             let question = try await questionRepository.getQuestion(by: questionId)
-            if question.correctAnswer == selectedAnswerIndex {
+            if question.correctAnswer == String(selectedAnswerIndex) {
                 score += 1
             }
         }
@@ -115,13 +115,13 @@ final class ProgressTrackingService {
         
         for (questionId, selectedAnswer) in session.answers {
             let question = try await questionRepository.getQuestion(by: questionId)
-            let isCorrect = question.correctAnswer == selectedAnswer
-            progress.recordAnswer(category: question.category, isCorrect: isCorrect)
+            let isCorrect = question.correctAnswer == String(selectedAnswer)
+            progress.recordAnswer(category: QuestionCategory(id: question.categoryId, name: question.categoryName), isCorrect: isCorrect)
         }
-        
+
         try persistenceService.saveUserProgress(progress)
     }
-    
+
     func recordQuestionAnswer(
         questionId: String,
         selectedAnswer: Int,
@@ -129,7 +129,7 @@ final class ProgressTrackingService {
     ) async throws {
         var progress = try loadProgress()
         let question = try await questionRepository.getQuestion(by: questionId)
-        progress.recordAnswer(category: question.category, isCorrect: isCorrect)
+        progress.recordAnswer(category: QuestionCategory(id: question.categoryId, name: question.categoryName), isCorrect: isCorrect)
         try persistenceService.saveUserProgress(progress)
     }
 }

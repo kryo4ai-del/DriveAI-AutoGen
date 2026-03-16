@@ -9,12 +9,6 @@
 
 import Foundation
 
-// MARK: - Question Access
-
-protocol QuestionRepositoryProtocol {
-    func allQuestions() -> [ExamQuestion]
-}
-
 // MARK: - Simulation Persistence
 
 /// Must be actor-isolated. Called from async contexts in ExamSimulationService.
