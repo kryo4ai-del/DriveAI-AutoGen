@@ -14,8 +14,9 @@ class TrendAnalyzer: ObservableObject {
             let userAnswers = try await dataService.fetchUserAnswerHistory()
             let questions = try await dataService.fetchAllQuestions()
             
-            let categorized = Dictionary(grouping: userAnswers) { answer in
-                questions.first(where: { $0.id == answer.questionId })?.category ?? "Unknown"
+            let categorized = Dictionary(grouping: userAnswers) { (answer: UserAnswer) -> String in
+                let question = questions.first(where: { $0.id.uuidString == answer.questionId })
+                return question?.categoryId ?? "Unknown"
             }
             
             return categorized.map { category, answers in
