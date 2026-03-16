@@ -139,6 +139,38 @@ Output Integrator → Completion Verifier → Compile Hygiene Validator
 - **Run Pattern Extraction**: Recurring failures + Recovery outcomes → Knowledge
 - **Role-Based Injection**: Bug Hunter, Refactor, Fix Executor empfangen validated+ Knowledge
 
+## Quality Gate (PFLICHT bei jedem Prompt)
+
+> **Vor jeder Ausfuehrung** eines Prompts vom User oder Master Lead:
+> Pruefe ob der Prompt ins aktuelle Konzept passt.
+
+### Pruefkriterien
+1. **Konzept-Konsistenz**: Passt der Prompt zur aktuellen Projektphase und Architektur?
+2. **Overengineering-Check**: Fuegt der Prompt eine Schicht/Abstraktion hinzu die das Problem nicht braucht?
+3. **Scope-Drift**: Weicht der Prompt vom aktuellen Fokus ab ohne erklaerten Grund?
+4. **Fehler im Prompt**: Enthaelt der Prompt falsche Annahmen, veraltete Referenzen, oder widersprüchliche Anforderungen?
+5. **Kosten-Nutzen**: Wird ein teurer Run/Ansatz vorgeschlagen obwohl ein guenstigerer ausreicht?
+
+### Verhalten
+- **Alles OK**: Prompt ausfuehren, kein Kommentar noetig
+- **Kleinigkeit**: Kurzer Hinweis, dann trotzdem ausfuehren
+- **Gravierendes Problem**: **STOPP** — Prompt NICHT ausfuehren, stattdessen:
+  - Klar benennen was das Problem ist
+  - Vergleich zum bestehenden Konzept/Prinzip zeigen
+  - Alternativen vorschlagen (z.B. guenstigerer Ansatz, anderer Scope)
+  - Entscheidung dem User ueberlassen
+
+### Beispiele fuer STOPP
+- Prompt will eine 6. Abstraktionsschicht auf ein 2-Destinations-Problem bauen
+- Prompt startet einen teuren Sonnet-Run obwohl ein statischer Check reicht
+- Prompt will AskFin-Files manuell patchen statt einen Factory-Layer-Fix zu bauen
+- Prompt widerspricht einer bereits getroffenen Architektur-Entscheidung
+- Prompt dupliziert Arbeit die ein anderer Agent bereits erledigt hat
+
+### Prinzip
+> "Small single-responsibility agents" + "avoid large monolithic systems"
+> Lieber einen hoeheren Hebel finden als Micro-Layers stapeln.
+
 ## Konventionen
 - Sprache mit User: Deutsch
 - Commit-Messages: Englisch
