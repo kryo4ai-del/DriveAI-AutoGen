@@ -8,6 +8,7 @@ protocol LocalDataServiceProtocol: Sendable {
     func getTotalTimeSpentMinutes() async throws -> Int
     func getLearningStreakData() async throws -> ReadinessStreakData
     func getRecentPerformanceMetrics() async throws -> RecentMetrics
+    func fetchUserAnswerHistory() async throws -> [UserAnswer]
 }
 
 struct QuestionCategory: Identifiable, Codable {

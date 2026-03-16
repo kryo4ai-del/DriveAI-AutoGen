@@ -33,4 +33,20 @@ extension LocalDataService {
             lastSessionDate: Date()
         )
     }
+
+    func fetchAllQuestions() async throws -> [Question] {
+        []
+    }
+
+    func fetchQuestionsByCategory(_ categoryId: String) async throws -> [Question] {
+        []
+    }
+
+    func fetchCategory(byId: String) async throws -> QuestionCategory? {
+        nil
+    }
+
+    func fetchUserAnswerHistory() async throws -> [UserAnswer] {
+        []
+    }
 }
