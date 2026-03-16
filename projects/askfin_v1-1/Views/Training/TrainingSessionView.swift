@@ -32,6 +32,7 @@ struct TrainingSessionView: View {
                     value: phaseTag
                 )
         }
+        .onAppear { viewModel.startSession() }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
