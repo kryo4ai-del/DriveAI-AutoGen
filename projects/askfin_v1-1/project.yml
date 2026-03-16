@@ -1,0 +1,29 @@
+name: AskFinPremium
+options:
+  bundleIdPrefix: com.askfin
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "26.3"
+settings:
+  SWIFT_VERSION: "5.9"
+  CODE_SIGN_IDENTITY: ""
+  CODE_SIGNING_REQUIRED: "NO"
+  CODE_SIGNING_ALLOWED: "NO"
+targets:
+  AskFinPremium:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Models
+        excludes:
+          - "**/*Tests*"
+          - "**/TestData.swift"
+      - path: Views
+      - path: ViewModels
+      - path: Services
+        excludes:
+          - "**/Mock*"
+    settings:
+      INFOPLIST_FILE: App/Info.plist
+      PRODUCT_BUNDLE_IDENTIFIER: com.askfin.premium
