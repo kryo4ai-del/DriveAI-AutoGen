@@ -16,6 +16,8 @@ struct PremiumHomeView: View {
     @ObservedObject var competenceService: TopicCompetenceService
     @State private var navigationPath = NavigationPath()
     @State private var showTopicPicker = false
+    @State private var showDailyTraining = false
+    @State private var showWeaknessTraining = false
 
     var body: some View {
         ScrollView {
@@ -36,12 +38,45 @@ struct PremiumHomeView: View {
                     competenceService: competenceService,
                     onSelectTopic: { topic in
                         showTopicPicker = false
-                        // TODO: Navigate to TrainingSessionView with topic focus
                     }
                 )
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Abbrechen") { showTopicPicker = false }
+                    }
+                }
+            }
+        }
+        .fullScreenCover(isPresented: $showDailyTraining) {
+            NavigationStack {
+                TrainingSessionView {
+                    TrainingSessionViewModel(
+                        competenceService: competenceService,
+                        questionBank: MockQuestionBank(),
+                        haptics: HapticFeedback(),
+                        sessionType: .adaptive
+                    )
+                }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Beenden") { showDailyTraining = false }
+                    }
+                }
+            }
+        }
+        .fullScreenCover(isPresented: $showWeaknessTraining) {
+            NavigationStack {
+                TrainingSessionView {
+                    TrainingSessionViewModel(
+                        competenceService: competenceService,
+                        questionBank: MockQuestionBank(),
+                        haptics: HapticFeedback(),
+                        sessionType: .weaknessFocus
+                    )
+                }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Beenden") { showWeaknessTraining = false }
                     }
                 }
             }
@@ -80,7 +115,7 @@ struct PremiumHomeView: View {
                 icon: "bolt.fill",
                 color: .green
             ) {
-                // TODO: Navigate to TrainingSessionView (daily adaptive)
+                showDailyTraining = true
             }
 
             actionButton(
@@ -98,7 +133,7 @@ struct PremiumHomeView: View {
                 icon: "exclamationmark.triangle.fill",
                 color: .orange
             ) {
-                // TODO: Navigate to TrainingSessionView (weakness queue)
+                showWeaknessTraining = true
             }
         }
         .padding(.horizontal, 20)
