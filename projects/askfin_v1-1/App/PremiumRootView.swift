@@ -15,6 +15,7 @@ struct PremiumRootView: View {
 
     @ObservedObject var competenceService: TopicCompetenceService
     @ObservedObject var historyStore: SessionHistoryStore
+    @State private var selectedResult: SimulationResult?
 
     var body: some View {
         TabView {
@@ -41,9 +42,19 @@ struct PremiumRootView: View {
             NavigationStack {
                 ExamHistoryView(
                     history: historyStore.results,
-                    onSelectResult: { _ in }
+                    onSelectResult: { result in selectedResult = result }
                 )
             }
+                .sheet(item: $selectedResult) { result in
+                    NavigationStack {
+                        SimulationResultView(
+                            result: result,
+                            readinessScore: nil,
+                            onRetry: { selectedResult = nil },
+                            onDismiss: { selectedResult = nil }
+                        )
+                    }
+                }
             .tabItem { Label("Verlauf", systemImage: "clock.arrow.circlepath") }
         }
         .tint(.green)
