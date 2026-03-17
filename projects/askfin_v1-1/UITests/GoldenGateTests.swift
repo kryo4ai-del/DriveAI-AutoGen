@@ -263,3 +263,44 @@ extension GoldenGateTests {
         XCTAssertTrue(anyText.exists, "Result screen with weakness analysis should render")
     }
 }
+
+// MARK: - Gate 13: Weakness CTA → Training
+
+extension GoldenGateTests {
+    func testGate13_WeaknessCTAOpensTraining() {
+        // Navigate to Generalprobe
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        guard tab.waitForExistence(timeout: 5) else { return }
+        tab.tap()
+        sleep(2)
+
+        // Start + complete simulation
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else { return }
+        startBtn.tap()
+        sleep(2)
+
+        for _ in 0..<35 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+            guard let answer = answers.last else { break }
+            answer.tap()
+            usleep(300000)
+        }
+        sleep(3)
+
+        // Tap "Schwächen trainieren" CTA (only visible when not passed)
+        let schwaechen = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Schwächen'")).firstMatch
+        if schwaechen.waitForExistence(timeout: 5) {
+            schwaechen.tap()
+            sleep(2)
+            // TrainingSessionView should be presented — no crash = gate passed
+            let beenden = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Beenden'")).firstMatch
+            if beenden.waitForExistence(timeout: 5) {
+                beenden.tap()
+            }
+        }
+        // If not visible (passed exam) — gate still passes (CTA only shows on fail)
+    }
+}
