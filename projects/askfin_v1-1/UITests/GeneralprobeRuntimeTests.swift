@@ -64,3 +64,35 @@ final class GeneralprobeRuntimeTests: XCTestCase {
         a.name = name; a.lifetime = .keepAlways; add(a)
     }
 }
+
+extension GeneralprobeRuntimeTests {
+    func testWeaknessAnalysisAfterExam() {
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        guard tab.waitForExistence(timeout: 5) else { XCTFail("No Generalprobe tab"); return }
+        tab.tap()
+        sleep(2)
+
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else { return }
+        startBtn.tap()
+        sleep(2)
+
+        for _ in 0..<35 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+            guard let answer = answers.first else { break }
+            answer.tap()
+            usleep(300000)
+        }
+
+        sleep(3)
+        screenshot("weakness_result_screen")
+
+        let resultTexts = app.staticTexts.allElementsBoundByIndex.map { $0.label }
+        print("=== RESULT SCREEN ===")
+        resultTexts.prefix(20).forEach { print("  \($0)") }
+
+        XCTAssertFalse(resultTexts.isEmpty, "Result screen should show content")
+    }
+}
