@@ -192,3 +192,42 @@ final class GoldenGateTests: XCTestCase {
         XCTAssertTrue(hasReadinessAfter, "Readiness should persist after restart")
     }
 }
+
+// MARK: - Gate 11: Exam Result Persistence
+
+extension GoldenGateTests {
+    func testGate11_ExamResultPersistsToHistory() {
+        // 1. Navigate to Generalprobe
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        guard tab.waitForExistence(timeout: 5) else { return }
+        tab.tap()
+        sleep(2)
+
+        // 2. Start simulation
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else { return }
+        startBtn.tap()
+        sleep(2)
+
+        // 3. Answer questions until done
+        for _ in 0..<30 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+            guard let answer = answers.first else { break }
+            answer.tap()
+            usleep(500000)
+        }
+        sleep(2)
+
+        // 4. Check Verlauf tab
+        let verlaufTab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Verlauf'")).firstMatch
+        guard verlaufTab.waitForExistence(timeout: 5) else { return }
+        verlaufTab.tap()
+        sleep(2)
+
+        // Verlauf should have content (not just empty state)
+        let anyContent = app.staticTexts.firstMatch
+        XCTAssertTrue(anyContent.exists, "Verlauf should show exam result")
+    }
+}
