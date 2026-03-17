@@ -13,6 +13,7 @@ struct SimulationResultView: View {
 
     @StateObject private var viewModel: SimulationResultViewModel
     @State private var showingAnswerReview = false
+    @State private var selectedGap: SimulationResultViewModel.TopicGap?
 
     let onRetry: () -> Void
     let onDismiss: () -> Void
@@ -101,6 +102,7 @@ struct SimulationResultView: View {
                     .padding(.horizontal, 20)
 
                 ForEach(viewModel.gapAnalysis) { gap in
+                  Button(action: { selectedGap = gap }) {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(gap.displayName)
@@ -117,6 +119,8 @@ struct SimulationResultView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 8)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
 
