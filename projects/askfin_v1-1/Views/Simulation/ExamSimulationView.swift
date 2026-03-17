@@ -14,6 +14,7 @@ struct ExamSimulationView: View {
 
     @StateObject private var viewModel: ExamSimulationViewModel
     @Environment(\.dismiss) private var dismiss
+    @State private var showWeaknessTraining = false
 
     init(
         simulationService: ExamSimulationServiceProtocol,
@@ -41,7 +42,8 @@ struct ExamSimulationView: View {
                     result: result,
                     readinessScore: viewModel.currentReadiness,
                     onRetry: { viewModel.startSimulation() },
-                    onDismiss: { dismiss() }
+                    onDismiss: { dismiss() },
+                    onTrainWeaknesses: { showWeaknessTraining = true }
                 )
             }
 
@@ -58,6 +60,23 @@ struct ExamSimulationView: View {
             Text(viewModel.errorMessage ?? "")
         }
         .onDisappear { viewModel.cancelIfNeeded() }
+        .fullScreenCover(isPresented: $showWeaknessTraining) {
+            NavigationStack {
+                TrainingSessionView {
+                    TrainingSessionViewModel(
+                        competenceService: TopicCompetenceService(),
+                        questionBank: MockQuestionBank(),
+                        haptics: HapticFeedback(),
+                        sessionType: .weaknessFocus
+                    )
+                }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Beenden") { showWeaknessTraining = false }
+                    }
+                }
+            }
+        }
         .task { await viewModel.loadPreStartData() }
     }
 

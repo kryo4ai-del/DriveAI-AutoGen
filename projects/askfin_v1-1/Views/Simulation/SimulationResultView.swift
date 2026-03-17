@@ -16,12 +16,14 @@ struct SimulationResultView: View {
 
     let onRetry: () -> Void
     let onDismiss: () -> Void
+    var onTrainWeaknesses: (() -> Void)? = nil
 
     init(
         result: SimulationResult,
         readinessScore: ReadinessScore?,
         onRetry: @escaping () -> Void,
-        onDismiss: @escaping () -> Void
+        onDismiss: @escaping () -> Void,
+        onTrainWeaknesses: (() -> Void)? = nil
     ) {
         let score = readinessScore ?? ReadinessScore(
             score: result.readinessScoreAtTime,
@@ -37,6 +39,7 @@ struct SimulationResultView: View {
         ))
         self.onRetry = onRetry
         self.onDismiss = onDismiss
+        self.onTrainWeaknesses = onTrainWeaknesses
     }
 
     var body: some View {
@@ -161,7 +164,7 @@ struct SimulationResultView: View {
             if !viewModel.result.passed {
                 Button(action: {
                     // Navigate to Training Mode weakness queue
-                    onDismiss()
+                    if let train = onTrainWeaknesses { train() } else { onDismiss() }
                 }) {
                     actionButtonContent("Schwächen trainieren", color: .green)
                 }
