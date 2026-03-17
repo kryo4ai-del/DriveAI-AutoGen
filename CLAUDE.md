@@ -103,6 +103,16 @@ DriveAI-AutoGen/
 - android_architect, kotlin_developer, web_architect, webapp_developer
 
 ## AskFin Premium iOS App (askfin_v1-1)
+
+### Mac Baseline (Stand 2026-03-17)
+- **Xcode Build**: SUCCEEDED (xcodegen, iPhone 17 Pro Simulator)
+- **Golden Gates**: 13 Gates, 20+ XCUITests, 0 Failures
+- **4 Pillars**: Alle runtime-validiert (Training, Skill Map, Generalprobe, Readiness)
+- **Persistence**: UserDefaults, ueberlebt Cold Restart
+- **Insight-to-Action**: Generalprobe → Gap-Analyse → Drilldown → Training
+- **Quarantine**: 9 Files INTENTIONALLY DEFERRED (siehe quarantine/QUARANTINE_STATUS.md)
+- **Commands**: 069 ausgefuehrt, Reports bis 109-0
+
 - **Typ**: SwiftUI MVVM Coaching App (nicht Scanner Tool)
 - **4 Pillars**: Training Mode, Exam Simulation, Skill Map, Readiness Score
 - **~170 Swift Files** in `projects/askfin_v1-1/`
@@ -178,7 +188,27 @@ Output Integrator → Completion Verifier → Compile Hygiene Validator
 - Alle Änderungen in CLAUDE.md + MEMORY.md dokumentieren
 - `_logs/` für Mac ↔ Windows Austausch via Git
 
-## DeveloperReports (Grundregel)
+## Reports (Grundregel)
+> **PFLICHT bei jedem Command**: Zwei Dateien schreiben.
+
+### Aktueller Report-Pfad (ab Command 062)
+```
+MasterPrompt/reportAgent/    ← NEUER Pfad fuer alle Reports
+  102-0_Quarantine Cleanup Report.md
+  103-0_ReadinessService Rehabilitation Report.md
+  ...
+```
+
+### Alter Report-Pfad (Commands 001-061)
+```
+DeveloperReports/CodeAgent/  ← Reports 1-0 bis 101-0
+```
+
+### Bei jedem Command ausfuehren
+1. `_commands/XXX_..._result.md` — Detailliertes Ergebnis
+2. `MasterPrompt/reportAgent/NNN-0_Titel.md` — Kompakter Report
+
+## DeveloperReports (alt, bis Report 101-0)
 > **PFLICHT bei jedem Agent-Wechsel**: Jeder strukturierte Report wird als `.md` gespeichert.
 
 **Ordnerstruktur**:
