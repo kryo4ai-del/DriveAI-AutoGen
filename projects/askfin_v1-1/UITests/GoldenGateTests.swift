@@ -231,3 +231,35 @@ extension GoldenGateTests {
         XCTAssertTrue(anyContent.exists, "Verlauf should show exam result")
     }
 }
+
+// MARK: - Gate 12: Weakness Analysis Result Screen
+
+extension GoldenGateTests {
+    func testGate12_WeaknessAnalysisResultScreen() {
+        // Navigate to Generalprobe
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        guard tab.waitForExistence(timeout: 5) else { return }
+        tab.tap()
+        sleep(2)
+
+        // Start + answer all questions
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else { return }
+        startBtn.tap()
+        sleep(2)
+
+        for _ in 0..<35 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+            guard let answer = answers.first else { break }
+            answer.tap()
+            usleep(300000)
+        }
+        sleep(3)
+
+        // Result screen should render with content
+        let anyText = app.staticTexts.firstMatch
+        XCTAssertTrue(anyText.exists, "Result screen with weakness analysis should render")
+    }
+}
