@@ -96,3 +96,60 @@ extension GeneralprobeRuntimeTests {
         XCTAssertFalse(resultTexts.isEmpty, "Result screen should show content")
     }
 }
+
+extension GeneralprobeRuntimeTests {
+    func testCTAButtonsAfterExam() {
+        // Navigate to Generalprobe + complete exam
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        guard tab.waitForExistence(timeout: 5) else { return }
+        tab.tap()
+        sleep(2)
+
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else { return }
+        startBtn.tap()
+        sleep(2)
+
+        // Answer all questions (wrong answers to trigger "not passed")
+        for _ in 0..<35 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+            guard let answer = answers.last else { break } // pick LAST = likely wrong
+            answer.tap()
+            usleep(300000)
+        }
+        sleep(3)
+
+        // Check which CTAs are visible
+        let schwaechen = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Schwächen'")).firstMatch
+        let antworten = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Antworten'")).firstMatch
+        let nochmal = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Nochmal'")).firstMatch
+        let fertig = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Fertig'")).firstMatch
+
+        print("=== CTAs VISIBLE ===")
+        print("  Schwächen trainieren: \(schwaechen.exists)")
+        print("  Alle Antworten: \(antworten.exists)")
+        print("  Nochmal simulieren: \(nochmal.exists)")
+        print("  Fertig: \(fertig.exists)")
+
+        // Tap "Alle Antworten ansehen" if available (opens sheet)
+        if antworten.waitForExistence(timeout: 3) {
+            antworten.tap()
+            sleep(2)
+            screenshot("cta_answer_review")
+
+            // Dismiss sheet
+            let dismissBtn = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Fertig'")).firstMatch
+            if dismissBtn.waitForExistence(timeout: 3) { dismissBtn.tap(); sleep(1) }
+        }
+
+        // Tap "Nochmal simulieren" if available
+        if nochmal.waitForExistence(timeout: 3) {
+            nochmal.tap()
+            sleep(2)
+            screenshot("cta_retry")
+            // Should restart simulation — no crash = success
+        }
+    }
+}
