@@ -659,3 +659,35 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - [x] Role-Based Knowledge Injection: Bug Hunter, Refactor, Fix Executor empfangen jetzt Factory Knowledge
 - [ ] AskFin Premium: Training Mode Spec → Factory Run
 - [ ] AskFin Premium: Skill Map Spec → Factory Run
+
+### 2026-03-16/17 — AskFin Mac Baseline (Commands 001-060, Reports 42-101)
+
+#### Compile-to-Ship Journey
+- **swiftc parse**: 227 Files → 0 Errors (29 fix-rounds, 20 quarantined)
+- **Xcode Build**: BUILD SUCCEEDED (xcodegen → AskFinPremium.xcodeproj)
+- **Simulator**: App startet, alle 4 Tabs + 3 Home Flows funktional
+- **Persistence**: UserDefaults via TopicCompetenceService, überlebt Cold Restart (0% → 100%)
+
+#### 4 Pillars Runtime-Validiert
+1. **Training Mode**: End-to-End Journey (5 Fragen, Brief → Question → Reveal → Summary)
+2. **Skill Map**: SkillMapView mit Domain-Sections, TopicCells, Kompetenz-Farben
+3. **Exam Simulation**: Pre-Start → 30 Fragen Timed → Result mit Gap-Analyse
+4. **Readiness Score**: 0% → 100% nach Training, persistiert über Restart
+
+#### Insight-to-Action Loop
+Generalprobe Result → "Schwächen trainieren" CTA → TrainingSessionView(.weaknessFocus)
+
+#### Golden Gate Suite
+- **13 Gates**: Build, Launch, Shell, Flows, Journey, Learning Loop, Skill Map, Generalprobe, Persistence, Exam Result, Weakness Analysis, Weakness CTA
+- **20 XCUITests**: 0 Failures
+- Script: `projects/askfin_v1-1/scripts/run_golden_gates.sh`
+
+#### Quarantined Files (20)
+- Code-Fragmente, Pseudo-Code, fehlende Typ-Netzwerke
+- Nicht blockierend für Build/Runtime
+
+#### Outside Scope
+- Real Backend/API (aktuell Mock/Stub)
+- App Store Signing/Distribution
+- CI/CD Pipeline
+- Quarantine Cleanup
