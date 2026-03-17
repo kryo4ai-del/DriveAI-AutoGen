@@ -61,6 +61,45 @@ struct SimulationResultView: View {
         .sheet(isPresented: $showingAnswerReview) {
             AnswerReviewSheet(questionResults: viewModel.questionReviewItems)
         }
+        .sheet(item: $selectedGap) { gap in
+            NavigationStack {
+                VStack(spacing: 24) {
+                    Spacer()
+                    Text(gap.displayName)
+                        .font(.title2.weight(.bold))
+                        .foregroundColor(.white)
+                    Text("\(gap.fehlerpunkte) Fehlerpunkte")
+                        .font(.title3)
+                        .foregroundColor(gap.fehlerpunkte >= 5 ? .red : .orange)
+                    Text(gap.recommendation)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                    Spacer()
+                    Button(action: {
+                        selectedGap = nil
+                        onTrainWeaknesses?()
+                    }) {
+                        Text("Jetzt ueben")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(Color.green)
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 20)
+                }
+                .background(Color.black.ignoresSafeArea())
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Fertig") { selectedGap = nil }
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Header
