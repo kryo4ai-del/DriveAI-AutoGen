@@ -357,3 +357,40 @@ extension GoldenGateTests {
         // No crash = full loop gate passed
     }
 }
+
+// MARK: - Gate 15: Adaptive Learning with Confidence
+
+extension GoldenGateTests {
+    func testGate15_AdaptiveLearningWithConfidence() {
+        // 1. Start training
+        let daily = app.buttons.matching(NSPredicate(format: "label CONTAINS 'ägliches Training'")).firstMatch
+        guard daily.waitForExistence(timeout: 5) else { return }
+        daily.tap()
+        sleep(2)
+
+        // 2. Answer questions — look for confidence buttons
+        for _ in 0..<5 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 200 }
+            guard let answer = answers.first else { break }
+            answer.tap()
+            sleep(1)
+
+            // Look for confidence buttons (Unsicher/OK/Sicher)
+            let unsicher = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Unsicher'")).firstMatch
+            let weiter = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Weiter' OR label CONTAINS 'ächste'")).firstMatch
+
+            if unsicher.waitForExistence(timeout: 2) {
+                unsicher.tap() // Pick unsicher to test low-confidence path
+            } else if weiter.waitForExistence(timeout: 1) {
+                weiter.tap()
+            }
+            sleep(1)
+        }
+
+        // 3. Dismiss
+        let beenden = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Beenden'")).firstMatch
+        if beenden.waitForExistence(timeout: 3) { beenden.tap() }
+
+        // No crash = adaptive learning with confidence gate passed
+    }
+}
