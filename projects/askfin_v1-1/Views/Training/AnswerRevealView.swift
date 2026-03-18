@@ -10,6 +10,7 @@ struct AnswerRevealView: View {
     let previousCompetenceLevel: CompetenceLevel
     let currentCompetenceLevel: CompetenceLevel
     let onContinue: () -> Void
+    var onConfidence: ((UserConfidence) -> Void)? = nil
 
     @State private var isExplanationExpanded = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion

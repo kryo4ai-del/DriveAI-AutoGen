@@ -3,6 +3,12 @@ import Combine
 import SwiftUI
 
 /// Per-question result recorded during a training session.
+enum UserConfidence: Int, Codable {
+    case unsure = 0
+    case okay = 1
+    case confident = 2
+}
+
 struct SessionResult: Identifiable {
     let id = UUID()
     let questionID: UUID
@@ -10,6 +16,7 @@ struct SessionResult: Identifiable {
     let wasCorrect: Bool
     let selectedDirection: SwipeDirection
     let answeredAt: Date
+    var confidence: UserConfidence = .okay
 }
 
 enum SessionSetupError: Equatable {
