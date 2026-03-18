@@ -294,6 +294,27 @@ final class TrainingSessionViewModel: ObservableObject {
         guard !topics.isEmpty else { return "Allgemeines Training" }
         let names = topics.prefix(3).map(\.displayName).joined(separator: ", ")
         let extra = max(0, topics.count - 3)
-        return extra > 0 ? "\(names) +\(extra) weitere" : names
+        let topicList = extra > 0 ? "\(names) +\(extra) weitere" : names
+
+        // Adaptive focus reason
+        let reason: String
+        switch sessionType {
+        case .weaknessFocus:
+            reason = "Fokus auf deine Schwächen"
+        case .adaptive:
+            let weakCount = competenceService.weakestTopics().count
+            if weakCount > 0 {
+                reason = "Adaptiv — \(weakCount) schwache Themen priorisiert"
+            } else {
+                reason = "Adaptiv — alle Themen gut, Wiederholung"
+            }
+        case .coverageGaps:
+            reason = "Lücken schließen"
+        case .spacingReview:
+            reason = "Wiederholung fälliger Themen"
+        case .custom:
+            reason = "Dein gewähltes Thema"
+        }
+        return "\(reason)\n\(topicList)"
     }
 }
