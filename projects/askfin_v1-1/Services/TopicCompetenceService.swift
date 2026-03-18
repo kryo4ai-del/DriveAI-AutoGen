@@ -45,7 +45,8 @@ class TopicCompetenceService: ObservableObject {
                 competence.correctAnswers += 1
             }
             competence.lastReviewedDate = Date()
-            competence.weightedAccuracy = Double(competence.correctAnswers) / Double(competence.totalAnswers)
+            let rawAccuracy = Double(competence.correctAnswers) / Double(competence.totalAnswers)
+            competence.weightedAccuracy = rawAccuracy
             competenceMap[topicId] = competence
         } else {
             var newCompetence = TopicCompetence(id: topicId, topic: TopicArea(rawValue: topicId) ?? .general)
@@ -78,6 +79,7 @@ class TopicCompetenceService: ObservableObject {
     
     /// Record a session result and update competence.
     func record(result: SessionResult) {
+        let confidenceWeight = confidenceMultiplier(result.confidence)
         recordAnswer(topicId: result.topic.rawValue, questionId: result.questionID.uuidString, isCorrect: result.wasCorrect)
     }
     
@@ -165,6 +167,14 @@ class TopicCompetenceService: ObservableObject {
         }
     }
     
+    private func confidenceMultiplier(_ confidence: UserConfidence) -> Double {
+        switch confidence {
+        case .unsure: return 0.7
+        case .okay: return 1.0
+        case .confident: return 1.2
+        }
+    }
+
     private func persistState() {
         if let encoded = try? JSONEncoder().encode(competenceMap) {
             defaults.set(encoded, forKey: competenceKey)
