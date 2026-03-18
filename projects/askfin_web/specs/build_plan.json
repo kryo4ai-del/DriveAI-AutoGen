@@ -1,0 +1,366 @@
+{
+  "project_name": "askfin_web",
+  "created": "2026-03-18T18:03:43.941994",
+  "status": "completed",
+  "steps": [
+    {
+      "id": "step_001",
+      "name": "TrainingMode — Foundation",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "TrainingMode",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Core types, type definitions, enums and union types for TrainingMode"
+    },
+    {
+      "id": "step_002",
+      "name": "TrainingMode — Domain",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "TrainingMode",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_001"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Services, repositories, business logic for TrainingMode"
+    },
+    {
+      "id": "step_003",
+      "name": "TrainingMode — Application",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "TrainingMode",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_002"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "ViewModels, state management, navigation for TrainingMode"
+    },
+    {
+      "id": "step_004",
+      "name": "TrainingMode — Presentation",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "TrainingMode",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_003"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Views, UI components, layouts for TrainingMode"
+    },
+    {
+      "id": "step_005",
+      "name": "TrainingMode — Polish",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "TrainingMode",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_004"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Animations, accessibility, performance polish for TrainingMode"
+    },
+    {
+      "id": "step_006",
+      "name": "ExamSimulation — Foundation",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "ExamSimulation",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_005"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Core types, type definitions, enums and union types for ExamSimulation"
+    },
+    {
+      "id": "step_007",
+      "name": "ExamSimulation — Domain",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "ExamSimulation",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_006"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Services, repositories, business logic for ExamSimulation"
+    },
+    {
+      "id": "step_008",
+      "name": "ExamSimulation — Application",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "ExamSimulation",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_007"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "ViewModels, state management, navigation for ExamSimulation"
+    },
+    {
+      "id": "step_009",
+      "name": "ExamSimulation — Presentation",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "ExamSimulation",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_008"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Views, UI components, layouts for ExamSimulation"
+    },
+    {
+      "id": "step_010",
+      "name": "ExamSimulation — Polish",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "ExamSimulation",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_009"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Animations, accessibility, performance polish for ExamSimulation"
+    },
+    {
+      "id": "step_011",
+      "name": "SkillMap — Foundation",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "SkillMap",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_005"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Core types, type definitions, enums and union types for SkillMap"
+    },
+    {
+      "id": "step_012",
+      "name": "SkillMap — Domain",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "SkillMap",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_011"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Services, repositories, business logic for SkillMap"
+    },
+    {
+      "id": "step_013",
+      "name": "SkillMap — Application",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "SkillMap",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_012"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "ViewModels, state management, navigation for SkillMap"
+    },
+    {
+      "id": "step_014",
+      "name": "SkillMap — Presentation",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "SkillMap",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_013"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Views, UI components, layouts for SkillMap"
+    },
+    {
+      "id": "step_015",
+      "name": "SkillMap — Polish",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "SkillMap",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_014"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Animations, accessibility, performance polish for SkillMap"
+    },
+    {
+      "id": "step_016",
+      "name": "ReadinessScore — Foundation",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "ReadinessScore",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_005",
+        "step_010"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Core types, type definitions, enums and union types for ReadinessScore"
+    },
+    {
+      "id": "step_017",
+      "name": "ReadinessScore — Domain",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "ReadinessScore",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_016"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Services, repositories, business logic for ReadinessScore"
+    },
+    {
+      "id": "step_018",
+      "name": "ReadinessScore — Application",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "ReadinessScore",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_017"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "ViewModels, state management, navigation for ReadinessScore"
+    },
+    {
+      "id": "step_019",
+      "name": "ReadinessScore — Presentation",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "ReadinessScore",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_018"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Views, UI components, layouts for ReadinessScore"
+    },
+    {
+      "id": "step_020",
+      "name": "ReadinessScore — Polish",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "ReadinessScore",
+      "line": "web",
+      "language": "typescript",
+      "depends_on": [
+        "step_019"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Animations, accessibility, performance polish for ReadinessScore"
+    }
+  ]
+}

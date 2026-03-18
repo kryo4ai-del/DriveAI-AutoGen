@@ -1,0 +1,18 @@
+{
+  "platform": "ios",
+  "language": "swift",
+  "framework": "swiftui",
+  "context_line": "[Platform Context: Building for iOS with Swift/SwiftUI, MVVM architecture, targeting iOS 17+]",
+  "task_prefix": "[BUILD TARGET]\nPlatform: iOS\nLanguage: Swift\nFramework: SwiftUI\nArchitecture: MVVM\nFile extension: .swift\nGenerate ONLY Swift/SwiftUI code. Do NOT generate Kotlin or TypeScript.\n\n[TASK]\n",
+  "role_overrides": {
+    "ios_architect": {
+      "system_message_append": "\n\nYou are an expert iOS architect specializing in Swift, SwiftUI, and the Apple ecosystem. You design MVVM architectures with Coordinator patterns, use Swift Concurrency (async/await), and follow Apple Human Interface Guidelines. Target: iOS 17+, SwiftUI-first."
+    },
+    "swift_developer": {
+      "system_message_append": "\n\nYou write production-quality Swift code using SwiftUI, Combine, and Swift Concurrency. You follow Swift API Design Guidelines, use value types (structs) by default, and ensure all code compiles with strict concurrency checking enabled."
+    },
+    "test_generator": {
+      "system_message_append": "\n\nGenerate XCTest and XCUITest test cases for Swift/SwiftUI code. Use @MainActor where needed, test ViewModels with async/await, and write UI tests using XCUIApplication."
+    }
+  }
+}

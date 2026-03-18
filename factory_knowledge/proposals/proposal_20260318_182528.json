@@ -1,0 +1,23 @@
+{
+  "run_id": "20260318_182528",
+  "generated": "2026-03-18T18:48:53",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: **Status:** Emergency refactor of FK-018 escalation (40 duplicate files → 10 canonical types). Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260318_182528",
+      "source_run": "20260318_182528",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    }
+  ]
+}

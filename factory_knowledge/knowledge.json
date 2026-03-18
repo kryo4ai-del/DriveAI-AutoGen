@@ -22,7 +22,12 @@
         "motivation",
         "product-identity"
       ],
-      "lesson": "Define the emotional core of the product before building features. Ask: why would a user open this tomorrow without being told to?"
+      "lesson": "Define the emotional core of the product before building features. Ask: why would a user open this tomorrow without being told to?",
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-12",
+      "validation_count": 0
     },
     {
       "id": "FK-002",
@@ -46,7 +51,12 @@
         "feedback",
         "emotional-design",
         "ux-writing"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-12",
+      "validation_count": 0
     },
     {
       "id": "FK-003",
@@ -70,7 +80,12 @@
         "domain-specific",
         "retention"
       ],
-      "effect": "Transforms utility tool into goal-oriented coaching experience. User sees meaningful progress toward their actual objective."
+      "effect": "Transforms utility tool into goal-oriented coaching experience. User sees meaningful progress toward their actual objective.",
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-12",
+      "validation_count": 0
     },
     {
       "id": "FK-004",
@@ -97,7 +112,12 @@
         "SelectorGroupChat",
         "team.reset()",
         "_run_with_retry()"
-      ]
+      ],
+      "project": null,
+      "platform": null,
+      "language": null,
+      "last_validated": "2026-03-12",
+      "validation_count": 1
     },
     {
       "id": "FK-005",
@@ -123,7 +143,12 @@
       "components": [
         "CodeExtractor.build_implementation_summary()",
         "team.reset()"
-      ]
+      ],
+      "project": null,
+      "platform": null,
+      "language": null,
+      "last_validated": "2026-03-12",
+      "validation_count": 1
     },
     {
       "id": "FK-006",
@@ -146,7 +171,12 @@
         "advisory",
         "pipeline-stability",
         "incremental-rollout"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-12",
+      "validation_count": 1
     },
     {
       "id": "FK-007",
@@ -172,7 +202,12 @@
         "retention",
         "learning-science"
       ],
-      "lesson": "Every answer reveal should include a brief explanation connecting the correct answer to the underlying principle. Format: 'Richtig, weil [Regel/Prinzip]' or 'Die richtige Antwort ist X, weil [Grund]'."
+      "lesson": "Every answer reveal should include a brief explanation connecting the correct answer to the underlying principle. Format: 'Richtig, weil [Regel/Prinzip]' or 'Die richtige Antwort ist X, weil [Grund]'.",
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-13",
+      "validation_count": 0
     },
     {
       "id": "FK-008",
@@ -198,7 +233,12 @@
         "motivation",
         "mid-session"
       ],
-      "lesson": "After each task/question, show a brief competence signal: current accuracy, topic being tested, whether it is a strength or gap. Keep it lightweight (one line, not a full dashboard)."
+      "lesson": "After each task/question, show a brief competence signal: current accuracy, topic being tested, whether it is a strength or gap. Keep it lightweight (one line, not a full dashboard).",
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-13",
+      "validation_count": 0
     },
     {
       "id": "FK-009",
@@ -224,7 +264,12 @@
         "task-differentiation",
         "schema-activation"
       ],
-      "lesson": "Add a subtle type indicator (micro-label or icon) to each task so users know what kind of thinking is required before they engage. This is not visual decoration — it is a cognitive scaffolding mechanism."
+      "lesson": "Add a subtle type indicator (micro-label or icon) to each task so users know what kind of thinking is required before they engage. This is not visual decoration — it is a cognitive scaffolding mechanism.",
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-13",
+      "validation_count": 0
     },
     {
       "id": "FK-010",
@@ -250,7 +295,12 @@
         "forgetting-curve",
         "learning-science"
       ],
-      "lesson": "When a user gets a topic wrong, re-expose them to a different question from the same topic within the same session (3-8 questions later). Across sessions, use expanding intervals (1 day, 3 days, 7 days) for weak topics."
+      "lesson": "When a user gets a topic wrong, re-expose them to a different question from the same topic within the same session (3-8 questions later). Across sessions, use expanding intervals (1 day, 3 days, 7 days) for weak topics.",
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-13",
+      "validation_count": 0
     },
     {
       "id": "FK-011",
@@ -273,7 +323,15 @@
         "compile_hygiene",
         "generation_safety",
         "post-generation-validation"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios"
+      ],
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-012",
@@ -296,7 +354,17 @@
         "compile_hygiene",
         "type_consistency",
         "architecture_pattern"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-013",
@@ -319,7 +387,17 @@
         "compile_hygiene",
         "generation_safety",
         "cross-file-consistency"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-014",
@@ -342,7 +420,17 @@
         "compile_hygiene",
         "type_consistency",
         "generation_safety"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-015",
@@ -365,7 +453,15 @@
         "xcode_integration",
         "compile_hygiene",
         "localization"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios"
+      ],
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-016",
@@ -388,7 +484,15 @@
         "compile_hygiene",
         "swift_language_rules",
         "generation_safety"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios"
+      ],
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-017",
@@ -411,7 +515,17 @@
         "architecture_pattern",
         "type_consistency",
         "namespace_hygiene"
-      ]
+      ],
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-018",
@@ -453,7 +567,12 @@
           "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory_knowledge\\proposals\\proposal_20260313_113101.json",
           "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory_knowledge\\proposals\\proposal_20260313_150826.json"
         ]
-      }
+      },
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": null,
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     },
     {
       "id": "FK-019",
@@ -487,7 +606,12 @@
           "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory_knowledge\\proposals\\proposal_20260313_092851.json",
           "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory_knowledge\\proposals\\proposal_20260314_182358.json"
         ]
-      }
+      },
+      "project": "askfin_v1-1",
+      "platform": "ios",
+      "language": "swift",
+      "last_validated": "2026-03-14",
+      "validation_count": 1
     }
   ]
 }

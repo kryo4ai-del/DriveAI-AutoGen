@@ -1,0 +1,30 @@
+project: "AskFin Android"
+description: "Kotlin/Jetpack Compose port of AskFin Premium"
+build_mode: layered
+target_lines:
+  - android
+
+features:
+  - name: "TrainingMode"
+    type: feature
+    priority: 1
+    description: "Adaptive question practice with 3 modes (daily, topic, weakness). Uses Jetpack Compose for UI, Hilt for DI, and Room for local persistence. Questions loaded from JSON asset."
+    depends_on: []
+
+  - name: "ExamSimulation"
+    type: feature
+    priority: 1
+    description: "Timed 30-question mock exam with gap analysis. Uses CountDownTimer, StateFlow for exam state, and Compose animations for transitions."
+    depends_on: ["TrainingMode"]
+
+  - name: "SkillMap"
+    type: screen
+    priority: 2
+    description: "Competency tracking per category with visual grid. Uses LazyVerticalGrid, custom Compose canvas for competence indicators, and Flow-based data binding."
+    depends_on: ["TrainingMode"]
+
+  - name: "ReadinessScore"
+    type: screen
+    priority: 2
+    description: "0-100% exam readiness milestone display. Uses animated CircularProgressIndicator, persistence via DataStore, and reactive updates from training data."
+    depends_on: ["TrainingMode", "ExamSimulation"]

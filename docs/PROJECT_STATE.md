@@ -1,6 +1,6 @@
 # AskFin Project State
 
-Last Updated: 2026-03-15 — 8 Autonomy Proofs, Auto-Repair Pipeline complete
+Last Updated: 2026-03-18 — App Store Prep complete, 131 Reports, 15 Golden Gates
 
 ---
 
@@ -12,288 +12,146 @@ Slogan: "Nutze Fin und sage Ja"
 
 An AI-powered iOS coaching app for German driver's license exam preparation.
 
-The app provides a complete learning experience with 4 pillars:
-
-- Training Mode (structured question practice)
-- Exam Simulation (realistic exam conditions)
-- Skill Map (competency tracking per category)
-- Readiness Score (exam readiness assessment)
-
-Architecture: SwiftUI + MVVM (~170 Swift files)
+Architecture: SwiftUI + MVVM (~200+ Swift files)
 
 Location: `projects/askfin_v1-1/`
 
-Built using the AI App Factory with 21 autonomous agents.
-
-8 autonomy proof runs completed (2026-03-14 to 2026-03-15) with progressive improvement from 5 blocking issues down to 1.
+Built using the AI App Factory with 21 autonomous agents + 14 Autonomy Proof Runs.
 
 ---
 
 # Current System Status
 
-The core application architecture is stable and implemented.
-
-Major subsystems exist and are functional.
-
----
-
-# Implemented Systems
-
-## App Infrastructure
-
-Navigation system  
-Design system  
-Theme system  
-SwiftUI MVVM architecture  
-
-Entry Flow:
-
-DriveAIApp
-→ AppNavigationView
-→ OnboardingView (first launch)
-→ HomeDashboardView (two sections: Questions + Traffic Signs)
+| Aspect | Status |
+|---|---|
+| Xcode Build | SUCCEEDED (xcodegen, iPhone 17 Pro Simulator) |
+| Golden Gates | 15 Gates, 20+ XCUITests, 0 Failures |
+| App Runtime | Stable, all features functional |
+| Persistence | UserDefaults, survives Cold Restart |
+| App Store Prep | Metadata + Privacy + Screenshots + Icon Spec done |
+| Submission Blockers | App Icon (1024x1024) + Apple Developer Account |
 
 ---
 
-## Image Analysis Pipeline
+# 4 Product Pillars (all gate-protected)
 
-Implemented components:
+## 1. Training Mode
+- 3 Modi: Adaptiv, Thema, Schwaechen
+- 173 echte Fuehrerschein-Fragen (JSON Bundle)
+- Adaptive Selection (schwache Kategorien priorisiert)
+- Learning Signal Persistence (per-Question richtig/falsch)
+- Confidence-basierte Kompetenz-Berechnung
+- User Feedback Loop (Erklaerung nach jeder Antwort)
+- Adaptive Visibility (Kategorie-Label, Schwaechen-Indikator)
 
-OCRRecognitionService  
-ImageAnalysisService  
-QuestionParsingEngine  
-MultipleChoiceDetection  
-QuestionAnalysisService  
-LLMQuestionSolverService  
+## 2. Exam Simulation (Generalprobe)
+- Pre-Start → Timed Exam (30 Fragen) → Result
+- Gap-Analyse mit Kategorie-Breakdown
+- Drilldown auf Einzelfragen (richtig/falsch)
+- "Thema ueben" CTA direkt aus falsch beantworteten Fragen
+- "Schwaechen trainieren" CTA → TrainingSessionView(.weaknessFocus)
+- Ergebnis-Persistenz in Verlauf
 
-Pipeline:
+## 3. Skill Map (Lernstand)
+- Domain-Grid mit Topic-Cells
+- Kompetenz-Level pro Kategorie
+- Reagiert auf Training-Updates
+- Nutzt echte Confidence-Daten
 
-Image  
-→ OCR  
-→ Question Parsing  
-→ Answer Detection  
-→ Solver  
-→ Result
-
----
-
-## Answer System
-
-Answer prediction implemented.
-
-Models:
-
-Answer  
-AnswerResult  
-AnswerConfidence  
-
-Solver returns:
-
-predictedAnswer  
-explanation  
-confidence
+## 4. Readiness Score
+- 0-100% Milestone-basiert
+- Persistiert ueber Restart
+- Reflektiert echten Lernfortschritt
 
 ---
 
-## Explanation System
+# Insight-to-Action Loop
 
-AnswerExplanationFlow implemented.
-
-Displays:
-
-Correct answer  
-Explanation  
-Confidence
+```
+Generalprobe → Result Screen → Gap-Analyse → Drilldown
+  → "Thema ueben" CTA → Training fuer betroffene Kategorie
+  → "Schwaechen trainieren" CTA → WeaknessFocus Training
+```
 
 ---
 
-## Learning Mode
+# Golden Gate Suite (15 Gates)
 
-Two modes supported:
+| Gate | Schuetzt |
+|---|---|
+| 1. Build | Xcode Build SUCCEEDED |
+| 2. Launch | App startet im Simulator |
+| 3. Shell | 4/4 Tabs navigierbar |
+| 4. Home Flows | 3/3 Home Entry Cards funktional |
+| 5. Training Journey | End-to-End Training Roundtrip |
+| 6. Persistent Learning Loop | Training → History → Restart → State |
+| 7. Skill Map | Lernstand Tab + Skill Map Rendering |
+| 8. Persistence | State ueberlebt Cold Restart |
+| 9. Generalprobe | Exam Simulation Flow |
+| 10. Exam Result Persistence | Generalprobe-Ergebnis in Verlauf |
+| 11. Exam Result History | Verlauf Detail-View |
+| 12. Weakness Analysis | Gap-Analyse auf Result Screen |
+| 13. Weakness CTA | "Schwaechen trainieren" → Training |
+| 14. Full Loop | Generalprobe → Drilldown → "Thema ueben" → Training |
+| 15. Adaptive Learning | Training → Confidence → Skill Map Reflection |
 
-Assist Mode
-
-AI immediately provides answer.
-
-Learning Mode
-
-User selects answer  
-→ Submit  
-→ AI evaluates result.
-
-Displays:
-
-User Answer  
-Correct Answer  
-Explanation  
-Confidence
-
----
-
-## Question History
-
-Implemented.
-
-Stored data:
-
-questionText
-userAnswer
-correctAnswer
-confidence
-isCorrect
-timestamp
-imageData (JPEG thumbnail, optional)
-
-Storage:
-
-QuestionHistoryService
-Uses JSON + UserDefaults
-
-Features:
-
-History screen
-Filter (all / correct / incorrect)
-Clear history
-Image thumbnail in history row
-Full image in detail view
-Debug panel integration
+Script: `projects/askfin_v1-1/scripts/run_golden_gates.sh`
 
 ---
 
-## Debug System
+# App Store Readiness
 
-AnalysisDebugPanel implemented.
+| Artefakt | Status |
+|---|---|
+| APP_STORE_METADATA.md | Fertig (Name, Subtitle, Beschreibung, Keywords) |
+| PRIVACY_POLICY.md | Fertig (Offline-only, keine Daten) |
+| APP_ICON_SPEC.md | Spec fertig, Icon muss erstellt werden |
+| APP_STORE_CHECKLIST.md | Aktualisiert, 2 Blocker offen |
+| Screenshot Tests | Automatisiert (4 Hauptscreens) |
+| Launch Strategy | TestFlight → Soft Launch → Full Release |
 
-Displays:
-
-OCR output  
-Parsed question  
-Detected answers  
-Solver decision  
-Latest history entry
-
----
-
-# Current Feature Status
-
-Feature | Status
-------- | -------
-OCR Recognition | Complete
-Question Parsing | Complete
-Multiple Choice Detection | Complete
-LLM Solver | Complete
-Answer Explanation | Complete
-Confidence System | Complete
-Learning Mode | Complete
-Question History | Complete
-History Image Support | Complete
-WeaknessDetection | Complete
-LearningStatistics | Complete
-TrafficSignRecognition | Complete
-TrafficSignHistory | Complete
-TrafficSignStatistics | Complete
-TrafficSignWeaknessDetection | Complete
-AppConfig + Developer Mode | Complete
-SampleValidation | Complete
-BuildReadiness / Xcode Compile Clean | Complete
-RuntimeSafetyAndMockBoot | Complete
-RealUserJourneyTestFlow | Complete
-AskFinBrandingIntegration | Complete
+Submission Blockers:
+1. App Icon (1024x1024 PNG)
+2. Apple Developer Account
 
 ---
 
-# Next Planned Features
+# Quarantine (7 Files FROZEN)
 
-Priority order:
-
-1. CoreML model swap for TrafficSignRecognitionService
-2. QuestionCategoryDetection
-3. OfflineRuleEngine
+Status: FROZEN until next generation cycle.
+Alle zu tief inkompatibel fuer sichere Rehabilitation.
+Siehe: `quarantine/QUARANTINE_STATUS.md`
 
 ---
 
 # Development Pipeline
 
-Agents run in multi-pass pipeline.
+## Agent Pipeline (6 Passes)
+1. Implementation (CodeExtractor with inline type dedup)
+2. Bug Review
+3. Creative Director Review (advisory, profile-aware gate)
+4. UX Psychology Review (advisory)
+5. Refactor
+6. Test Generation
 
-Pass 1 – Implementation (CodeExtractor with inline type dedup)
-Pass 2 – Bug Review
-Pass 3 – Creative Director Review (advisory, profile-aware gate)
-Pass 4 – UX Psychology Review (advisory)
-Pass 5 – Refactor
-Pass 6 – Test Generation
+## Operations Layer (Post-Generation)
+Output Integration (5-layer dedup) → Completion Verification → Compile Hygiene (6 checks) → Type Stub Generator → Property Shape Repairer → Swift Compile Check → Recovery → Run Memory → Knowledge Writeback
 
-After agent pipeline — Operations Layer:
-
-Output Integration (5-layer dedup: filename + type-level + markdown sanitization)
-Completion Verification
-Compile Hygiene Validation (6 checks, column-aware, memberwise-init recognition)
-Type Stub Generator (auto-fix FK-014 missing type declarations)
-Re-run Compile Hygiene (if stubs created)
-Property Shape Repairer (auto-fix FK-013 struct property mismatches)
-Re-run Compile Hygiene (if repairs applied)
-Swift Compile Check (swiftc -parse)
-Recovery (if needed)
-Run Memory
-Knowledge Writeback
-Git Commit
-Git Push
+## Two-Agent System
+- Windows: Factory/Prompts/Quality Gate
+- Mac: Build/Test/Runtime via `_commands/` Git Queue
+- Reports: `MasterPrompt/reportAgent/` (ab Report 102)
 
 ---
 
-# Project Documentation
+# Report History
 
-The project uses structured documentation.
-
-docs/
-
-memory.md
-architecture.md
-roadmap.md
-commands.md
-PROJECT_STATE.md
-compile_hygiene_validator.md
-swift_compile_check.md
-factory_error_pattern_seed_round_1.md
-factory_premium_product_principles.md
-askfin_premium_reframing.md
-creative_director_integration_plan.md
-ux_psychology_review_layer.md
-commercial_strategy_generator.md
-
-These files provide context for AI agents and developers.
-
----
-
-# Current App Capabilities
-
-User can:
-
-Import screenshot
-Analyze question
-See predicted answer
-Read explanation
-See confidence score
-Use learning mode
-Review question history (with image thumbnails)
-View full image in history detail
-
-The app now represents a functional learning assistant prototype.
-
----
-
-# Long-Term Vision
-
-DriveAI is the first application built using a broader system:
-
-AI App Factory
-
-Future apps may include:
-
-Education apps  
-Games  
-Utility apps  
-Web apps  
-AI tools
-
-The AI development system will generate and maintain applications automatically.
+| Range | Phase |
+|---|---|
+| 1-0 to 41-0 | Factory Core + Operations Layer + 14 Proof Runs |
+| 42-0 to 70-0 | Compile-to-Ship (swiftc → typecheck → Xcode Build) |
+| 71-0 to 84-0 | Runtime + Simulator + Golden Gates |
+| 85-0 to 101-0 | Feature Expansion + Quarantine Cleanup |
+| 102-0 to 112-0 | MasterPrompt Dispatch + Factory Reflection |
+| 113-0 to 122-0 | Adaptive Learning |
+| 123-0 to 131-0 | App Store Prep + Launch Strategy |

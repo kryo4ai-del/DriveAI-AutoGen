@@ -1,0 +1,78 @@
+{
+  "project_name": "askfin_android",
+  "created": "2026-03-18T18:03:46.460867",
+  "status": "completed",
+  "steps": [
+    {
+      "id": "step_001",
+      "name": "TrainingMode",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "TrainingMode",
+      "line": "android",
+      "language": "kotlin",
+      "depends_on": [],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Adaptive question practice with 3 modes (daily, topic, weakness). Uses Jetpack Compose for UI, Hilt for DI, and Room for local persistence. Questions loaded from JSON asset."
+    },
+    {
+      "id": "step_002",
+      "name": "ExamSimulation",
+      "step_type": "feature",
+      "template": "feature",
+      "template_name": "ExamSimulation",
+      "line": "android",
+      "language": "kotlin",
+      "depends_on": [
+        "step_001"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 1,
+      "description": "Timed 30-question mock exam with gap analysis. Uses CountDownTimer, StateFlow for exam state, and Compose animations for transitions."
+    },
+    {
+      "id": "step_003",
+      "name": "SkillMap",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "SkillMap",
+      "line": "android",
+      "language": "kotlin",
+      "depends_on": [
+        "step_001"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "Competency tracking per category with visual grid. Uses LazyVerticalGrid, custom Compose canvas for competence indicators, and Flow-based data binding."
+    },
+    {
+      "id": "step_004",
+      "name": "ReadinessScore",
+      "step_type": "screen",
+      "template": "screen",
+      "template_name": "ReadinessScore",
+      "line": "android",
+      "language": "kotlin",
+      "depends_on": [
+        "step_001",
+        "step_002"
+      ],
+      "status": "completed",
+      "result": {
+        "dry_run": true
+      },
+      "priority": 2,
+      "description": "0-100% exam readiness milestone display. Uses animated CircularProgressIndicator, persistence via DataStore, and reactive updates from training data."
+    }
+  ]
+}

@@ -104,20 +104,24 @@ DriveAI-AutoGen/
 
 ## AskFin Premium iOS App (askfin_v1-1)
 
-### Mac Baseline (Stand 2026-03-17)
+### Mac Baseline (Stand 2026-03-18)
 - **Xcode Build**: SUCCEEDED (xcodegen, iPhone 17 Pro Simulator)
-- **Golden Gates**: 13 Gates, 20+ XCUITests, 0 Failures
-- **4 Pillars**: Alle runtime-validiert (Training, Skill Map, Generalprobe, Readiness)
-- **Persistence**: UserDefaults, ueberlebt Cold Restart
-- **Insight-to-Action**: Generalprobe → Gap-Analyse → Drilldown → Training
-- **Quarantine**: 9 Files INTENTIONALLY DEFERRED (siehe quarantine/QUARANTINE_STATUS.md)
-- **Commands**: 069 ausgefuehrt, Reports bis 109-0
+- **Golden Gates**: 15 Gates, 20+ XCUITests, 0 Failures
+- **4 Pillars**: Alle runtime-validiert + gate-geschuetzt (Training, Skill Map, Generalprobe, Readiness)
+- **Adaptive Learning**: Echte Fragen-DB (173 Fuehrerschein-Fragen), Confidence-basierte Selektion, Learning Signal Persistence
+- **Persistence**: UserDefaults (Competence + History + Learning Signals), ueberlebt Cold Restart
+- **Insight-to-Action Loop**: Generalprobe → Gap-Analyse → Drilldown → "Thema ueben" CTA → Training
+- **Schwaechen-Training CTA**: Result → "Schwaechen trainieren" → TrainingSessionView(.weaknessFocus)
+- **App Store Prep**: Metadata, Privacy Policy, Screenshots (automatisiert), Icon Spec — submission-ready (fehlt: Icon + Developer Account)
+- **Quarantine**: 7 Files FROZEN (siehe quarantine/QUARANTINE_STATUS.md)
+- **Commands**: 092 ausgefuehrt, Reports bis 131-0
+- **MasterPrompt Dispatch**: Reports ab 102-0 in `MasterPrompt/reportAgent/`
 
-- **Typ**: SwiftUI MVVM Coaching App (nicht Scanner Tool)
+- **Typ**: SwiftUI MVVM Coaching App (Fuehrerschein-Pruefungsvorbereitung)
 - **4 Pillars**: Training Mode, Exam Simulation, Skill Map, Readiness Score
-- **~170 Swift Files** in `projects/askfin_v1-1/`
-- **Status**: Factory-generiert, 8 Autonomy Proof Runs durchgefuehrt (2026-03-15)
-- **Bearbeitung**: Mac (Xcode) + Windows (Factory/Claude Code)
+- **~200+ Swift Files** in `projects/askfin_v1-1/`
+- **Status**: Factory-generiert, 14 Autonomy Proof Runs, App Store Prep abgeschlossen
+- **Bearbeitung**: Mac (Xcode/Build/Runtime) + Windows (Factory/Prompts/Quality Gate)
 - **Projekt-Inferenz**: Automatisch erkannt wenn `--project` weggelassen wird
 
 ## AI App Factory
@@ -149,37 +153,9 @@ Output Integrator → Completion Verifier → Compile Hygiene Validator
 - **Run Pattern Extraction**: Recurring failures + Recovery outcomes → Knowledge
 - **Role-Based Injection**: Bug Hunter, Refactor, Fix Executor empfangen validated+ Knowledge
 
-## Quality Gate (PFLICHT bei jedem Prompt)
-
-> **Vor jeder Ausfuehrung** eines Prompts vom User oder Master Lead:
-> Pruefe ob der Prompt ins aktuelle Konzept passt.
-
-### Pruefkriterien
-1. **Konzept-Konsistenz**: Passt der Prompt zur aktuellen Projektphase und Architektur?
-2. **Overengineering-Check**: Fuegt der Prompt eine Schicht/Abstraktion hinzu die das Problem nicht braucht?
-3. **Scope-Drift**: Weicht der Prompt vom aktuellen Fokus ab ohne erklaerten Grund?
-4. **Fehler im Prompt**: Enthaelt der Prompt falsche Annahmen, veraltete Referenzen, oder widersprüchliche Anforderungen?
-5. **Kosten-Nutzen**: Wird ein teurer Run/Ansatz vorgeschlagen obwohl ein guenstigerer ausreicht?
-
-### Verhalten
-- **Alles OK**: Prompt ausfuehren, kein Kommentar noetig
-- **Kleinigkeit**: Kurzer Hinweis, dann trotzdem ausfuehren
-- **Gravierendes Problem**: **STOPP** — Prompt NICHT ausfuehren, stattdessen:
-  - Klar benennen was das Problem ist
-  - Vergleich zum bestehenden Konzept/Prinzip zeigen
-  - Alternativen vorschlagen (z.B. guenstigerer Ansatz, anderer Scope)
-  - Entscheidung dem User ueberlassen
-
-### Beispiele fuer STOPP
-- Prompt will eine 6. Abstraktionsschicht auf ein 2-Destinations-Problem bauen
-- Prompt startet einen teuren Sonnet-Run obwohl ein statischer Check reicht
-- Prompt will AskFin-Files manuell patchen statt einen Factory-Layer-Fix zu bauen
-- Prompt widerspricht einer bereits getroffenen Architektur-Entscheidung
-- Prompt dupliziert Arbeit die ein anderer Agent bereits erledigt hat
-
-### Prinzip
-> "Small single-responsibility agents" + "avoid large monolithic systems"
-> Lieber einen hoeheren Hebel finden als Micro-Layers stapeln.
+## Quality Gate
+> **PFLICHT bei jedem Prompt.** Regeln: `~/.claude/docs/QUALITY-GATE.md` (zentral, projektuebergreifend).
+> Gilt automatisch — Prompt Pilot prueft vor Ausfuehrung, Agents lesen die Datei direkt.
 
 ## Konventionen
 - Sprache mit User: Deutsch

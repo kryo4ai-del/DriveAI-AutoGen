@@ -1,0 +1,30 @@
+project: "AskFin Premium"
+description: "AI-powered iOS coaching app for German driver's license exam"
+build_mode: layered
+target_lines:
+  - ios
+
+features:
+  - name: "TrainingMode"
+    type: feature
+    priority: 1
+    description: "Adaptive question practice with 3 modes"
+    depends_on: []
+
+  - name: "ExamSimulation"
+    type: feature
+    priority: 1
+    description: "Timed 30-question mock exam with gap analysis"
+    depends_on: ["TrainingMode"]
+
+  - name: "SkillMap"
+    type: screen
+    priority: 2
+    description: "Competency tracking per category"
+    depends_on: ["TrainingMode"]
+
+  - name: "ReadinessScore"
+    type: screen
+    priority: 2
+    description: "0-100% exam readiness assessment"
+    depends_on: ["TrainingMode", "ExamSimulation"]

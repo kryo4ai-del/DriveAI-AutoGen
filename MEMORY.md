@@ -638,6 +638,64 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Neuer Blocker (vorher maskiert): OfflineStatusViewModel — `NetworkMonitor` nicht im Scope
 - Das ist ein FK-014-Klasse Problem (fehlender Typ) — braucht Stub oder Implementierung
 
+### 2026-03-15 — NetworkMonitor + Protocol Mismatch (Reports 52-0, 53-0)
+- NetworkMonitor: Minimale NWPathMonitor-Implementierung erstellt → **geloest**
+- Neuer Blocker (maskiert): ExamReadinessServiceProtocol fehlen 4 Methoden
+  - calculateOverallReadiness(), getCategoryReadiness(), getWeakCategories(limit:), getTrendData(days:)
+- Das ist ein Protocol-Contract-Mismatch (Consumer erwartet Methoden die im Protocol nicht definiert sind)
+- **Typecheck: 19 → 35 → 4 → 14 → 4 → 10 → 8 → 2 → 2 → 8 (neues File)**
+
+### 2026-03-16/17/18 — AskFin Mac Baseline → App Store Prep (Reports 46-131)
+
+#### Compile-to-Ship Journey (Reports 46-70)
+- **Import Hygiene**: Foundation + Combine + SwiftUI (41+11+29 Files gefixt)
+- **WeakArea Dedup**: `dedicated-file-wins` Policy
+- **Contract Reconciliation**: ViewModel, Protocol, Enum, Snapshot Contracts gefixt
+- **Concurrency Fix**: `local-copy-then-assign` fuer actor-isolated inout+async
+- **Batch Fix Loop**: Ab Report 65 mehrere Fixes pro Command
+- **100% Typecheck Clean**: 0 Errors nach allen Fixes
+
+#### Xcode Build + Runtime (Reports 71-84)
+- **Xcode Build**: SUCCEEDED (xcodegen → AskFinPremium.xcodeproj)
+- **Simulator Launch**: App startet, alle 4 Tabs funktional
+- **Home Flows**: Taegliches Training + Thema ueben + Schwaechen trainieren
+- **End-to-End Journey**: Brief → 5 Fragen → Ende → Home
+- **Persistence**: UserDefaults via TopicCompetenceService, Cold Restart bestaetigt
+- **Golden Gate Suite**: 13 Gates, 20 XCUITests, 0 Failures
+
+#### Feature Expansion (Reports 85-112)
+- **Quarantine Cleanup**: 10 Files geloescht, 3 rehabilitiert, 7 frozen
+- **Exam Result Persistence**: Generalprobe → Verlauf
+- **Schwaechen-Training CTA**: Result → TrainingSessionView(.weaknessFocus)
+- **Insight-to-Action Loop**: Result → Gap → Drilldown → "Thema ueben" → Training
+- **Factory Reflection**: Report 112 — komplette Bestandsaufnahme
+
+#### Adaptive Learning (Reports 113-122)
+- **Echte Fragen-DB**: 173 Fuehrerschein-Fragen (questions.json)
+- **QuestionLoader**: JSON-Bundle → QuestionBankProtocol
+- **Adaptive Selection**: Schwache Kategorien priorisiert, beantwortete Fragen vermieden
+- **Learning Signal Persistence**: Per-Question richtig/falsch in UserDefaults
+- **Confidence Integration**: TopicCompetenceService nutzt echte Antwort-Daten
+- **User Feedback Loop**: Richtig/falsch Banner + Erklaerung nach jeder Antwort
+- **Adaptive Visibility**: Kategorie-Label, Schwaechen-Indikator, Fortschritts-Counter
+- **15 Golden Gates**: Adaptive Learning Gate hinzugefuegt
+
+#### App Store Prep (Reports 123-131)
+- **Factory Transition**: Report 123 — Template-Konzept fuer wiederverwendbare Learning Apps
+- **Quality Gate STOPP**: Template-Schema-Abstraktion als Overengineering gestoppt (Report 124)
+- **Asset Catalog**: AccentColor + AppIcon Placeholder
+- **Visual Identity**: Dark Theme, Dunkelblau/Teal Gradient, SF Symbols
+- **Screenshot Tests**: Automatisiert fuer alle 4 Hauptscreens
+- **App Store Metadata**: Name, Subtitle, Beschreibung, Keywords, Kategorie
+- **Privacy Policy**: Offline-only, keine Datenerhebung
+- **Launch Strategy**: TestFlight → Soft Launch → Full Release
+- **Submission Blockers**: Nur noch App Icon (1024x1024) + Apple Developer Account
+
+#### MasterPrompt Dispatch (ab Report 102)
+- Reports in `MasterPrompt/reportAgent/` statt `DeveloperReports/CodeAgent/`
+- Commands weiterhin in `_commands/`
+- Mac-Agent arbeitet autonom mit Quality Gate
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)

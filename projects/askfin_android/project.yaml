@@ -1,0 +1,36 @@
+project:
+  name: "AskFin Android"
+  slug: "askfin_android"
+  description: "AI-powered Android coaching app for German driver's license exam — Kotlin/Jetpack Compose port"
+  version: "1.0.0"
+
+lines:
+  ios:
+    status: disabled
+  android:
+    status: active
+    language: kotlin
+    framework: jetpack_compose
+    architecture: mvvm
+    build_tool: gradle
+    min_target: "Android API 26 (8.0)"
+  web:
+    status: disabled
+  backend:
+    status: disabled
+
+pipeline:
+  code_extraction: kotlin
+  templates:
+    - feature
+    - screen
+    - viewmodel
+    - service
+  operations_layer: true
+  cd_gate: true
+
+metadata:
+  created: "2026-03-18"
+  last_run: ""
+  total_runs: 0
+  status: "development"

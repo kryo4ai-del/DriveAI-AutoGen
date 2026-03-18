@@ -1,0 +1,42 @@
+project:
+  name: "AskFin Premium"
+  slug: "askfin_v1-1"
+  description: "AI-powered iOS coaching app for German driver's license exam"
+  version: "1.0.0"
+
+lines:
+  ios:
+    status: active
+    language: swift
+    framework: swiftui
+    architecture: mvvm
+    build_tool: xcodegen
+    min_target: "iOS 17.0"
+  android:
+    status: planned
+    language: kotlin
+    framework: jetpack_compose
+  web:
+    status: planned
+    language: typescript
+    framework: nextjs
+  backend:
+    status: disabled
+    language: python
+    framework: fastapi
+
+pipeline:
+  code_extraction: swift
+  templates:
+    - feature
+    - screen
+    - viewmodel
+    - service
+  operations_layer: true
+  cd_gate: true
+
+metadata:
+  created: "2026-03-12"
+  last_run: ""
+  total_runs: 131
+  status: "app_store_prep"

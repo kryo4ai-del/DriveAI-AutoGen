@@ -1,0 +1,36 @@
+project:
+  name: "AskFin Web"
+  slug: "askfin_web"
+  description: "AI-powered web coaching app for German driver's license exam — TypeScript/Next.js port"
+  version: "1.0.0"
+
+lines:
+  ios:
+    status: disabled
+  android:
+    status: disabled
+  web:
+    status: active
+    language: typescript
+    framework: nextjs
+    architecture: app_router
+    build_tool: npm
+    min_target: "Next.js 14+, React 18+"
+  backend:
+    status: disabled
+
+pipeline:
+  code_extraction: typescript
+  templates:
+    - feature
+    - screen
+    - viewmodel
+    - service
+  operations_layer: true
+  cd_gate: true
+
+metadata:
+  created: "2026-03-18"
+  last_run: ""
+  total_runs: 0
+  status: "development"

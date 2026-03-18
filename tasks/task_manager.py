@@ -56,18 +56,30 @@ def setup_logger(run_id: str) -> tuple[logging.Logger, str]:
 
 
 class TaskManager:
-    def __init__(self, enabled_agents: set[str] | None = None):
+    def __init__(self, enabled_agents: set[str] | None = None, platform: str = "ios"):
         """
         enabled_agents: set of agent names to instantiate.
         None means all agents are enabled.
         Core agents (driveai_lead, swift_developer) are always instantiated.
+        platform: target platform for role resolution ("ios", "android", "web").
         """
+        self._platform = platform
+        self._platform_resolver = None
+        try:
+            from config.platform_role_resolver import PlatformRoleResolver
+            self._platform_resolver = PlatformRoleResolver(platform)
+        except Exception:
+            pass
+
         def _on(name: str) -> bool:
             return enabled_agents is None or name in enabled_agents
 
         # Core agents — always created
         self.lead_agent = create_lead_agent()
         self.swift_developer_agent = create_swift_developer_agent()
+
+        # Apply platform role resolution to core agents
+        self._apply_platform_roles()
 
         # Optional agents — created only if enabled
         self.product_strategist_agent = create_product_strategist_agent() if _on("product_strategist") else None
@@ -104,6 +116,42 @@ class TaskManager:
         self.compliance_manager = ComplianceManager()
         self.bootstrap_manager = BootstrapManager()
         self.orchestration_manager = OrchestrationManager()
+
+    def _apply_platform_roles(self):
+        """Apply platform-specific role overrides to agents' system messages."""
+        if not self._platform_resolver or self._platform == "ios":
+            return  # iOS is the default — no changes needed
+
+        # Collect all agent instances that have system_message
+        agents_to_resolve = [
+            self.lead_agent,
+            self.swift_developer_agent,
+        ]
+        # Add optional agents
+        for attr_name in (
+            "ios_architect_agent", "reviewer_agent", "bug_hunter_agent",
+            "refactor_agent", "test_generator_agent", "creative_director_agent",
+            "ux_psychology_agent", "product_strategist_agent", "roadmap_agent",
+            "content_script_agent", "change_watch_agent", "accessibility_agent",
+            "opportunity_agent", "legal_risk_agent",
+        ):
+            agent = getattr(self, attr_name, None)
+            if agent is not None:
+                agents_to_resolve.append(agent)
+
+        for agent in agents_to_resolve:
+            agent_name = getattr(agent, "name", "")
+            old_msg = getattr(agent, "_system_message", "") or ""
+            if not old_msg:
+                # Try _system_messages list (AutoGen internal)
+                msgs = getattr(agent, "_system_messages", [])
+                if msgs:
+                    old_msg = msgs[0].content if hasattr(msgs[0], "content") else str(msgs[0])
+            new_msg = self._platform_resolver.resolve_role(agent_name, old_msg)
+            if new_msg != old_msg:
+                # Update the agent's system message
+                if hasattr(agent, "_system_message"):
+                    agent._system_message = new_msg
 
     def get_agents_summary(self) -> dict:
         summary = {
@@ -182,8 +230,14 @@ class TaskManager:
             f"Factory — {compliance_summary}\n"
             f"Factory — {bootstrap_summary}\n"
             f"Factory — {self.orchestration_manager.get_summary()}\n\n"
-            f"Task:\n{user_task}"
+            f"Task:\n{self._apply_task_platform_prefix(user_task)}"
         )
+
+    def _apply_task_platform_prefix(self, task: str) -> str:
+        """Prepend platform build target instructions to a task if non-iOS."""
+        if self._platform_resolver and self._platform != "ios":
+            return self._platform_resolver.get_task_with_platform_prefix(task)
+        return task
 
     def create_team(self) -> SelectorGroupChat:
         from config.llm_config import get_llm_config

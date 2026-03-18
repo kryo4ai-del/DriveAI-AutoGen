@@ -1,0 +1,30 @@
+project: "AskFin Web"
+description: "TypeScript/Next.js port of AskFin Premium"
+build_mode: layered
+target_lines:
+  - web
+
+features:
+  - name: "TrainingMode"
+    type: feature
+    priority: 1
+    description: "Adaptive question practice with 3 modes (daily, topic, weakness). Uses React Server Components, custom hooks for state, and localStorage for persistence. Questions loaded from JSON."
+    depends_on: []
+
+  - name: "ExamSimulation"
+    type: feature
+    priority: 1
+    description: "Timed 30-question mock exam with gap analysis. Uses useReducer for exam state, CSS transitions, and server actions for result persistence."
+    depends_on: ["TrainingMode"]
+
+  - name: "SkillMap"
+    type: screen
+    priority: 2
+    description: "Competency tracking per category with visual grid. Uses CSS Grid, custom SVG for competence indicators, and React context for data binding."
+    depends_on: ["TrainingMode"]
+
+  - name: "ReadinessScore"
+    type: screen
+    priority: 2
+    description: "0-100% exam readiness milestone display. Uses animated SVG progress ring, localStorage persistence, and reactive updates from training context."
+    depends_on: ["TrainingMode", "ExamSimulation"]
