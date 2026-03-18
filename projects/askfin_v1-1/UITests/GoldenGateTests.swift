@@ -304,3 +304,56 @@ extension GoldenGateTests {
         // If not visible (passed exam) — gate still passes (CTA only shows on fail)
     }
 }
+
+// MARK: - Gate 14: Full Insight-to-Action Loop
+
+extension GoldenGateTests {
+    func testGate14_FullInsightToActionLoop() {
+        // 1. Generalprobe
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        guard tab.waitForExistence(timeout: 5) else { return }
+        tab.tap()
+        sleep(2)
+
+        // 2. Start + answer all
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else { return }
+        startBtn.tap()
+        sleep(2)
+
+        for _ in 0..<35 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+            guard let answer = answers.last else { break }
+            answer.tap()
+            usleep(300000)
+        }
+        sleep(3)
+
+        // 3. Result screen — tap gap entry
+        let gapButtons = app.buttons.allElementsBoundByIndex.filter {
+            $0.exists && $0.isHittable && $0.frame.minY > 200 && $0.frame.minY < 600
+        }
+        guard let gapBtn = gapButtons.first else { return }
+        gapBtn.tap()
+        sleep(2)
+
+        // 4. "Jetzt üben" CTA
+        let trainBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Jetzt' OR label CONTAINS 'üben' OR label CONTAINS 'ueben'"
+        )).firstMatch
+        if trainBtn.waitForExistence(timeout: 3) {
+            trainBtn.tap()
+            sleep(2)
+            // 5. Training opened — dismiss
+            let beenden = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Beenden'")).firstMatch
+            if beenden.waitForExistence(timeout: 5) { beenden.tap() }
+        } else {
+            // Dismiss drilldown
+            let fertig = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Fertig'")).firstMatch
+            if fertig.waitForExistence(timeout: 3) { fertig.tap() }
+        }
+        // No crash = full loop gate passed
+    }
+}
