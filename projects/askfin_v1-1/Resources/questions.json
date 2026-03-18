@@ -1,52 +1,2424 @@
 [
-  {"id":"q001","topic":"trafficSigns","text":"Was bedeutet ein rotes achteckiges Verkehrszeichen?","options":["Vorfahrt gewähren","Halt! Vorfahrt gewähren","Einfahrt verboten","Parkverbot"],"correctIndex":1,"explanation":"Das Stoppschild (Zeichen 206) verlangt, dass Sie an der Haltelinie anhalten und Vorfahrt gewähren.","fehlerpunkte":4},
-  {"id":"q002","topic":"trafficSigns","text":"Was zeigt ein blaues rundes Schild mit weißem Pfeil nach rechts an?","options":["Rechts abbiegen verboten","Vorgeschriebene Fahrtrichtung rechts","Einbahnstraße","Sackgasse rechts"],"correctIndex":1,"explanation":"Zeichen 209 schreibt die Fahrtrichtung rechts vor.","fehlerpunkte":3},
-  {"id":"q003","topic":"trafficSigns","text":"Was bedeutet ein rundes Schild mit rotem Rand und der Zahl 30?","options":["Mindestgeschwindigkeit 30 km/h","Höchstgeschwindigkeit 30 km/h","30er-Zone beginnt","Empfohlene Geschwindigkeit 30 km/h"],"correctIndex":1,"explanation":"Zeichen 274 gibt die zulässige Höchstgeschwindigkeit an.","fehlerpunkte":3},
-  {"id":"q004","topic":"trafficSigns","text":"Was bedeutet ein dreieckiges Schild mit rotem Rand und einem Ausrufezeichen?","options":["Gefahrstelle","Vorfahrt gewähren","Baustelle","Stau"],"correctIndex":0,"explanation":"Zeichen 101 warnt vor einer Gefahrstelle. Geschwindigkeit verringern und bremsbereit sein.","fehlerpunkte":4},
-  {"id":"q005","topic":"rightOfWay","text":"An einer Kreuzung ohne Schilder gilt:","options":["Rechts vor links","Links vor rechts","Wer schneller ist fährt zuerst","Der von der größeren Straße hat Vorfahrt"],"correctIndex":0,"explanation":"Ohne Beschilderung gilt die Grundregel: rechts vor links (§ 8 StVO).","fehlerpunkte":5},
-  {"id":"q006","topic":"rightOfWay","text":"Was bedeutet das Zeichen 'Vorfahrt gewähren' (Dreieck auf der Spitze)?","options":["Sie haben Vorfahrt","Sie müssen warten","Kreisverkehr","Einbahnstraße endet"],"correctIndex":1,"explanation":"Zeichen 205 bedeutet: Sie müssen dem Querverkehr Vorfahrt gewähren.","fehlerpunkte":5},
-  {"id":"q007","topic":"rightOfWay","text":"Wer hat Vorfahrt im Kreisverkehr mit Zeichen 215?","options":["Einfahrender Verkehr","Verkehr im Kreisverkehr","Rechts vor links","Der Schnellere"],"correctIndex":1,"explanation":"Bei Zeichen 215 (Kreisverkehr) hat der Verkehr im Kreis Vorfahrt.","fehlerpunkte":5},
-  {"id":"q008","topic":"rightOfWay","text":"Ein Polizist regelt den Verkehr. Er steht mit ausgestreckten Armen quer zu Ihnen. Was bedeutet das?","options":["Freie Fahrt","Halt! Warten","Rechts abbiegen","Vorsichtig weiterfahren"],"correctIndex":1,"explanation":"Stehen die ausgestreckten Arme quer zu Ihrer Fahrtrichtung, bedeutet das 'Halt' (§ 36 StVO).","fehlerpunkte":5},
-  {"id":"q009","topic":"speed","text":"Wie schnell dürfen Sie innerorts fahren, wenn kein Schild etwas anderes anzeigt?","options":["30 km/h","50 km/h","60 km/h","70 km/h"],"correctIndex":1,"explanation":"Innerhalb geschlossener Ortschaften gilt eine Höchstgeschwindigkeit von 50 km/h (§ 3 StVO).","fehlerpunkte":3},
-  {"id":"q010","topic":"speed","text":"Was ist die Richtgeschwindigkeit auf Autobahnen?","options":["100 km/h","120 km/h","130 km/h","Keine Begrenzung"],"correctIndex":2,"explanation":"Die Richtgeschwindigkeit auf Autobahnen beträgt 130 km/h. Es ist eine Empfehlung, kein Limit.","fehlerpunkte":3},
-  {"id":"q011","topic":"speed","text":"Wie schnell dürfen Sie außerorts mit einem PKW fahren?","options":["80 km/h","100 km/h","120 km/h","130 km/h"],"correctIndex":1,"explanation":"Außerhalb geschlossener Ortschaften gilt für PKW eine Höchstgeschwindigkeit von 100 km/h.","fehlerpunkte":3},
-  {"id":"q012","topic":"distance","text":"Wie groß muss der Sicherheitsabstand zum vorausfahrenden Fahrzeug bei 100 km/h mindestens sein?","options":["25 Meter","50 Meter","75 Meter","100 Meter"],"correctIndex":1,"explanation":"Faustregel: halber Tacho in Metern. Bei 100 km/h also mindestens 50 Meter.","fehlerpunkte":4},
-  {"id":"q013","topic":"distance","text":"Welcher Seitenabstand muss beim Überholen von Radfahrern innerorts eingehalten werden?","options":["0,5 Meter","1,0 Meter","1,5 Meter","2,0 Meter"],"correctIndex":2,"explanation":"Innerorts mindestens 1,5 Meter, außerorts mindestens 2 Meter Seitenabstand.","fehlerpunkte":4},
-  {"id":"q014","topic":"overtaking","text":"Wann ist das Überholen verboten?","options":["Bei unklarer Verkehrslage","Auf dreispurigen Straßen","Auf Autobahnen","Bei Tageslicht"],"correctIndex":0,"explanation":"Bei unklarer Verkehrslage ist das Überholen verboten (§ 5 StVO).","fehlerpunkte":4},
-  {"id":"q015","topic":"overtaking","text":"Darf man rechts überholen?","options":["Ja, immer","Nein, nie","Ja, innerorts bei mehreren Fahrstreifen","Ja, auf der Autobahn"],"correctIndex":2,"explanation":"Innerorts darf man rechts überholen, wenn mehrere markierte Fahrstreifen vorhanden sind.","fehlerpunkte":4},
-  {"id":"q016","topic":"parking","text":"Wie weit müssen Sie mindestens vor einem Fußgängerüberweg parken?","options":["3 Meter","5 Meter","10 Meter","15 Meter"],"correctIndex":1,"explanation":"Vor Fußgängerüberwegen ist das Parken bis zu 5 Meter davor verboten.","fehlerpunkte":3},
-  {"id":"q017","topic":"parking","text":"Was ist der Unterschied zwischen Halten und Parken?","options":["Halten ist bis 3 Minuten","Parken ist über 3 Minuten oder Fahrer verlässt Fahrzeug","Kein Unterschied","Halten ist nur auf der rechten Seite erlaubt"],"correctIndex":1,"explanation":"Parken liegt vor, wenn man länger als 3 Minuten hält oder das Fahrzeug verlässt.","fehlerpunkte":3},
-  {"id":"q018","topic":"turning","text":"Wer hat beim Abbiegen Vorrang?","options":["Abbiegender Verkehr","Entgegenkommender Geradeausverkehr","Der Schnellere","Niemand"],"correctIndex":1,"explanation":"Beim Abbiegen muss man entgegenkommenden Fahrzeugen und Fußgängern/Radfahrern Vorrang gewähren.","fehlerpunkte":4},
-  {"id":"q019","topic":"highway","text":"Was ist die Mindestgeschwindigkeit auf der Autobahn?","options":["60 km/h","80 km/h","Es gibt keine Mindestgeschwindigkeit auf der Autobahn","100 km/h"],"correctIndex":2,"explanation":"Es gibt keine Mindestgeschwindigkeit auf der Autobahn, aber Fahrzeuge müssen bauartbedingt mindestens 60 km/h fahren können.","fehlerpunkte":3},
-  {"id":"q020","topic":"highway","text":"Was müssen Sie bei einer Panne auf der Autobahn tun?","options":["Auf der Fahrbahn stehen bleiben","Warndreieck in 100m Entfernung aufstellen","Hupen","Weiterfahren bis zur nächsten Ausfahrt"],"correctIndex":1,"explanation":"Bei einer Panne: Warnblinkanlage einschalten, Warndreieck aufstellen (mind. 100m auf Autobahn), hinter der Leitplanke warten.","fehlerpunkte":4},
-  {"id":"q021","topic":"railwayCrossing","text":"Was bedeutet ein blinkendes rotes Licht am Bahnübergang?","options":["Freie Fahrt","Halt! Zug nähert sich","Achtung, Schranke hebt sich","Bahnübergang defekt"],"correctIndex":1,"explanation":"Blinkendes rotes Licht am Bahnübergang bedeutet: Halt! Ein Zug nähert sich.","fehlerpunkte":5},
-  {"id":"q022","topic":"visibility","text":"Wann müssen Sie das Abblendlicht einschalten?","options":["Nur bei Nacht","Bei Dämmerung und Dunkelheit oder schlechter Sicht","Nur im Tunnel","Nur bei Regen"],"correctIndex":1,"explanation":"Bei Dämmerung, Dunkelheit oder wenn die Sichtverhältnisse es erfordern, muss Abblendlicht eingeschaltet werden.","fehlerpunkte":3},
-  {"id":"q023","topic":"visibility","text":"Was müssen Sie bei Nebel mit einer Sichtweite unter 50 Metern beachten?","options":["Höchstgeschwindigkeit 50 km/h, Nebelschlussleuchte erlaubt","Höchstgeschwindigkeit 80 km/h","Nur Fernlicht verwenden","Warnblinkanlage einschalten"],"correctIndex":0,"explanation":"Bei Nebel unter 50m Sicht: max. 50 km/h, Nebelschlussleuchte darf verwendet werden.","fehlerpunkte":4},
-  {"id":"q024","topic":"emergency","text":"Was ist die richtige Reihenfolge bei einem Unfall?","options":["Polizei rufen, Erste Hilfe, Unfallstelle sichern","Unfallstelle sichern, Erste Hilfe, Notruf absetzen","Fotos machen, Polizei rufen, weiterfahren","Erste Hilfe, Fotos, Versicherung anrufen"],"correctIndex":1,"explanation":"Richtige Reihenfolge: 1. Unfallstelle sichern, 2. Erste Hilfe leisten, 3. Notruf (112) absetzen.","fehlerpunkte":5},
-  {"id":"q025","topic":"emergency","text":"Wie bilden Sie eine Rettungsgasse auf einer zweispurigen Autobahn?","options":["Alle nach rechts","Linke Spur nach links, rechte Spur nach rechts","Alle auf den Standstreifen","Hintereinander auf der rechten Spur"],"correctIndex":1,"explanation":"Auf einer zweispurigen Autobahn: linke Spur fährt nach links, rechte Spur nach rechts.","fehlerpunkte":4},
-  {"id":"q026","topic":"alcoholDrugs","text":"Ab welchem Blutalkoholwert liegt eine Ordnungswidrigkeit vor?","options":["0,0 Promille","0,3 Promille","0,5 Promille","1,1 Promille"],"correctIndex":2,"explanation":"Ab 0,5 Promille liegt eine Ordnungswidrigkeit vor. Ab 1,1 Promille ist es eine Straftat.","fehlerpunkte":4},
-  {"id":"q027","topic":"alcoholDrugs","text":"Welche Promillegrenze gilt für Fahranfänger in der Probezeit?","options":["0,0 Promille","0,3 Promille","0,5 Promille","0,8 Promille"],"correctIndex":0,"explanation":"Für Fahranfänger in der Probezeit und unter 21 Jahren gilt die 0,0-Promille-Grenze.","fehlerpunkte":4},
-  {"id":"q028","topic":"passengers","text":"Bis zu welchem Alter müssen Kinder im Auto einen Kindersitz benutzen?","options":["Bis 10 Jahre","Bis 12 Jahre oder 150 cm Körpergröße","Bis 14 Jahre","Bis 16 Jahre"],"correctIndex":1,"explanation":"Kinder bis 12 Jahre oder unter 150 cm müssen in einem geeigneten Kindersitz gesichert werden.","fehlerpunkte":3},
-  {"id":"q029","topic":"vehicleTech","text":"Was müssen Sie vor Fahrtantritt am Fahrzeug prüfen?","options":["Nur den Kraftstoff","Reifen, Beleuchtung, Bremsen, Flüssigkeiten","Nur die Reifen","Nur das Licht"],"correctIndex":1,"explanation":"Vor Fahrtantritt sollten Sie Reifen (Druck, Profil), Beleuchtung, Bremsen und Flüssigkeitsstände prüfen.","fehlerpunkte":3},
-  {"id":"q030","topic":"vehicleTech","text":"Wie viel mm Profiltiefe müssen Reifen mindestens haben?","options":["1,0 mm","1,6 mm","2,0 mm","3,0 mm"],"correctIndex":1,"explanation":"Die gesetzlich vorgeschriebene Mindestprofiltiefe beträgt 1,6 mm.","fehlerpunkte":3},
-  {"id":"q031","topic":"environment","text":"Was bedeutet eine Umweltzone (grüne Plakette)?","options":["Nur Elektrofahrzeuge erlaubt","Nur Fahrzeuge mit grüner Plakette dürfen einfahren","Tempolimit 30","Parkverbot"],"correctIndex":1,"explanation":"In einer Umweltzone dürfen nur Fahrzeuge mit der entsprechenden Feinstaubplakette fahren.","fehlerpunkte":3},
-  {"id":"q032","topic":"general","text":"Welche Pflichten haben Sie als Fahrzeugführer bei einer Polizeikontrolle?","options":["Führerschein und Fahrzeugschein vorzeigen","Alkoholtest verweigern","Nichts, Sie dürfen weiterfahren","Nur den Führerschein zeigen"],"correctIndex":0,"explanation":"Sie müssen Führerschein und Fahrzeugschein (Zulassungsbescheinigung Teil I) vorzeigen.","fehlerpunkte":3},
-  {"id":"q033","topic":"trafficSigns","text":"Was bedeutet ein rundes blaues Schild mit weißem Fahrrad?","options":["Fahrradverbot","Fahrradweg, Benutzungspflicht","Fahrradparkplatz","Fahrradverleih"],"correctIndex":1,"explanation":"Zeichen 237: Radfahrer müssen diesen Radweg benutzen (Benutzungspflicht).","fehlerpunkte":3},
-  {"id":"q034","topic":"trafficSigns","text":"Was zeigt ein weißes Schild mit schwarzem Ortsnamen an?","options":["Ortseingang","Ortsausgang","Sehenswürdigkeit","Kreisgrenze"],"correctIndex":0,"explanation":"Zeichen 310 markiert den Beginn einer geschlossenen Ortschaft. Ab hier gilt innerorts 50 km/h.","fehlerpunkte":3},
-  {"id":"q035","topic":"rightOfWay","text":"Wer darf zuerst fahren, wenn ein Fahrzeug aus einer Grundstückseinfahrt kommt?","options":["Das Fahrzeug aus der Einfahrt","Der Verkehr auf der Straße","Rechts vor links","Der Schnellere"],"correctIndex":1,"explanation":"Wer aus einem Grundstück oder einer Garage auf die Straße fährt, muss den fließenden Verkehr durchlassen.","fehlerpunkte":4},
-  {"id":"q036","topic":"speed","text":"Wie schnell dürfen Sie in einer Spielstraße (verkehrsberuhigter Bereich) fahren?","options":["10 km/h","20 km/h","Schrittgeschwindigkeit (ca. 4-7 km/h)","30 km/h"],"correctIndex":2,"explanation":"In einem verkehrsberuhigten Bereich darf nur mit Schrittgeschwindigkeit gefahren werden.","fehlerpunkte":3},
-  {"id":"q037","topic":"distance","text":"Wie berechnet man den Bremsweg bei einer Gefahrbremsung?","options":["(Geschwindigkeit/10)²","(Geschwindigkeit/10)² / 2","Geschwindigkeit × 3","Geschwindigkeit / 2"],"correctIndex":1,"explanation":"Bremsweg bei Gefahrbremsung = (Geschwindigkeit/10)² / 2. Bei 100 km/h: (100/10)²/2 = 50 Meter.","fehlerpunkte":4},
-  {"id":"q038","topic":"parking","text":"Welches Zeichen verbietet das Halten?","options":["Rundes blaues Schild mit rotem X","Rundes blaues Schild mit rotem Strich","Dreieckiges Schild mit Kreuz","Viereckiges Schild mit P"],"correctIndex":0,"explanation":"Zeichen 283 (rundes Schild, blau mit rotem X) bedeutet absolutes Haltverbot.","fehlerpunkte":3},
-  {"id":"q039","topic":"turning","text":"Wie müssen Sie sich beim Linksabbiegen einordnen?","options":["Rechte Fahrspur","Mitte der Fahrbahn","Zur Fahrbahnmitte hin einordnen","Egal welche Spur"],"correctIndex":2,"explanation":"Zum Linksabbiegen müssen Sie sich rechtzeitig zur Fahrbahnmitte hin einordnen.","fehlerpunkte":3},
-  {"id":"q040","topic":"emergency","text":"Welche Notrufnummer gilt europaweit?","options":["110","112","911","119"],"correctIndex":1,"explanation":"Die europaweit gültige Notrufnummer ist 112.","fehlerpunkte":4},
-  {"id":"q041","topic":"alcoholDrugs","text":"Was droht bei Fahren unter Drogeneinfluss?","options":["Nur Bußgeld","Fahrverbot und Bußgeld","Keine Strafe bei geringer Menge","Nur Verwarnung"],"correctIndex":1,"explanation":"Fahren unter Drogeneinfluss führt zu Bußgeld, Fahrverbot und Punkten. Bei Gefährdung auch Freiheitsstrafe.","fehlerpunkte":4},
-  {"id":"q042","topic":"visibility","text":"Wann dürfen Sie die Nebelschlussleuchte benutzen?","options":["Bei jedem Regen","Nur bei Sichtweite unter 50 Metern durch Nebel","Bei Dunkelheit","Auf der Autobahn immer"],"correctIndex":1,"explanation":"Die Nebelschlussleuchte darf nur bei Sichtweite unter 50 Metern benutzt werden.","fehlerpunkte":3},
-  {"id":"q043","topic":"highway","text":"Wo dürfen Sie auf der Autobahn anhalten?","options":["Auf dem Standstreifen bei einer Panne","Überall kurz zum Telefonieren","An Parkplätzen und Raststätten","Auf der rechten Fahrspur"],"correctIndex":2,"explanation":"Auf der Autobahn darf man nur an gekennzeichneten Parkplätzen und Raststätten anhalten. Standstreifen nur bei Notfall.","fehlerpunkte":3},
-  {"id":"q044","topic":"railwayCrossing","text":"Wie verhalten Sie sich an einem Bahnübergang ohne Schranke?","options":["Schnell überqueren","Anhalten, schauen, hören, dann vorsichtig überqueren","Hupen und weiterfahren","Nur bei grünem Licht fahren"],"correctIndex":1,"explanation":"An Bahnübergängen ohne Schranke: Geschwindigkeit mäßigen, Sichtverhältnisse prüfen, auf Züge achten.","fehlerpunkte":5},
-  {"id":"q045","topic":"passengers","text":"Müssen Mitfahrer auf dem Rücksitz angeschnallt sein?","options":["Nein, nur auf dem Vordersitz","Ja, alle Insassen müssen angeschnallt sein","Nur Kinder","Nur auf der Autobahn"],"correctIndex":1,"explanation":"Alle Fahrzeuginsassen müssen während der Fahrt angeschnallt sein (§ 21a StVO).","fehlerpunkte":3},
-  {"id":"q046","topic":"vehicleTech","text":"Was bedeutet eine gelbe Warnleuchte in Form eines Motors im Armaturenbrett?","options":["Ölstand prüfen","Motorkontrollleuchte — Werkstatt aufsuchen","Batterie leer","Reifendruck zu niedrig"],"correctIndex":1,"explanation":"Die Motorkontrollleuchte weist auf ein Problem im Motormanagement hin. Werkstatt aufsuchen.","fehlerpunkte":3},
-  {"id":"q047","topic":"environment","text":"Wie können Sie kraftstoffsparend fahren?","options":["Hohe Drehzahlen, niedrige Gänge","Früh hochschalten, vorausschauend fahren","Motor im Stand warmlaufen lassen","Immer Vollgas"],"correctIndex":1,"explanation":"Kraftstoffsparend: früh hochschalten, vorausschauend fahren, Motor nicht im Stand warmlaufen lassen.","fehlerpunkte":3},
-  {"id":"q048","topic":"general","text":"Was ist die Probezeit für Fahranfänger?","options":["1 Jahr","2 Jahre","3 Jahre","5 Jahre"],"correctIndex":1,"explanation":"Die Probezeit für Fahranfänger beträgt 2 Jahre ab Erteilung der Fahrerlaubnis.","fehlerpunkte":3},
-  {"id":"q049","topic":"overtaking","text":"Wo ist das Überholen grundsätzlich verboten?","options":["Auf geraden Straßen","An Fußgängerüberwegen","Auf Autobahnen","Bei Tageslicht"],"correctIndex":1,"explanation":"An Fußgängerüberwegen und bei unklarer Verkehrslage ist Überholen verboten.","fehlerpunkte":4},
-  {"id":"q050","topic":"distance","text":"Was ist der Reaktionsweg bei 50 km/h?","options":["5 Meter","10 Meter","15 Meter","25 Meter"],"correctIndex":2,"explanation":"Reaktionsweg = (Geschwindigkeit/10) × 3. Bei 50 km/h: (50/10) × 3 = 15 Meter.","fehlerpunkte":3}
+  {
+    "id": "q001",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein rotes achteckiges Verkehrszeichen?",
+    "options": [
+      "Vorfahrt gewähren",
+      "Halt! Vorfahrt gewähren",
+      "Einfahrt verboten",
+      "Parkverbot"
+    ],
+    "correctIndex": 1,
+    "explanation": "Das Stoppschild (Zeichen 206) verlangt, dass Sie an der Haltelinie anhalten und Vorfahrt gewähren.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q002",
+    "topic": "trafficSigns",
+    "text": "Was zeigt ein blaues rundes Schild mit weißem Pfeil nach rechts an?",
+    "options": [
+      "Rechts abbiegen verboten",
+      "Vorgeschriebene Fahrtrichtung rechts",
+      "Einbahnstraße",
+      "Sackgasse rechts"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 209 schreibt die Fahrtrichtung rechts vor.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q003",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein rundes Schild mit rotem Rand und der Zahl 30?",
+    "options": [
+      "Mindestgeschwindigkeit 30 km/h",
+      "Höchstgeschwindigkeit 30 km/h",
+      "30er-Zone beginnt",
+      "Empfohlene Geschwindigkeit 30 km/h"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 274 gibt die zulässige Höchstgeschwindigkeit an.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q004",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein dreieckiges Schild mit rotem Rand und einem Ausrufezeichen?",
+    "options": [
+      "Gefahrstelle",
+      "Vorfahrt gewähren",
+      "Baustelle",
+      "Stau"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 101 warnt vor einer Gefahrstelle. Geschwindigkeit verringern und bremsbereit sein.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q005",
+    "topic": "rightOfWay",
+    "text": "An einer Kreuzung ohne Schilder gilt:",
+    "options": [
+      "Rechts vor links",
+      "Links vor rechts",
+      "Wer schneller ist fährt zuerst",
+      "Der von der größeren Straße hat Vorfahrt"
+    ],
+    "correctIndex": 0,
+    "explanation": "Ohne Beschilderung gilt die Grundregel: rechts vor links (§ 8 StVO).",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q006",
+    "topic": "rightOfWay",
+    "text": "Was bedeutet das Zeichen 'Vorfahrt gewähren' (Dreieck auf der Spitze)?",
+    "options": [
+      "Sie haben Vorfahrt",
+      "Sie müssen warten",
+      "Kreisverkehr",
+      "Einbahnstraße endet"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 205 bedeutet: Sie müssen dem Querverkehr Vorfahrt gewähren.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q007",
+    "topic": "rightOfWay",
+    "text": "Wer hat Vorfahrt im Kreisverkehr mit Zeichen 215?",
+    "options": [
+      "Einfahrender Verkehr",
+      "Verkehr im Kreisverkehr",
+      "Rechts vor links",
+      "Der Schnellere"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei Zeichen 215 (Kreisverkehr) hat der Verkehr im Kreis Vorfahrt.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q008",
+    "topic": "rightOfWay",
+    "text": "Ein Polizist regelt den Verkehr. Er steht mit ausgestreckten Armen quer zu Ihnen. Was bedeutet das?",
+    "options": [
+      "Freie Fahrt",
+      "Halt! Warten",
+      "Rechts abbiegen",
+      "Vorsichtig weiterfahren"
+    ],
+    "correctIndex": 1,
+    "explanation": "Stehen die ausgestreckten Arme quer zu Ihrer Fahrtrichtung, bedeutet das 'Halt' (§ 36 StVO).",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q009",
+    "topic": "speed",
+    "text": "Wie schnell dürfen Sie innerorts fahren, wenn kein Schild etwas anderes anzeigt?",
+    "options": [
+      "30 km/h",
+      "50 km/h",
+      "60 km/h",
+      "70 km/h"
+    ],
+    "correctIndex": 1,
+    "explanation": "Innerhalb geschlossener Ortschaften gilt eine Höchstgeschwindigkeit von 50 km/h (§ 3 StVO).",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q010",
+    "topic": "speed",
+    "text": "Was ist die Richtgeschwindigkeit auf Autobahnen?",
+    "options": [
+      "100 km/h",
+      "120 km/h",
+      "130 km/h",
+      "Keine Begrenzung"
+    ],
+    "correctIndex": 2,
+    "explanation": "Die Richtgeschwindigkeit auf Autobahnen beträgt 130 km/h. Es ist eine Empfehlung, kein Limit.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q011",
+    "topic": "speed",
+    "text": "Wie schnell dürfen Sie außerorts mit einem PKW fahren?",
+    "options": [
+      "80 km/h",
+      "100 km/h",
+      "120 km/h",
+      "130 km/h"
+    ],
+    "correctIndex": 1,
+    "explanation": "Außerhalb geschlossener Ortschaften gilt für PKW eine Höchstgeschwindigkeit von 100 km/h.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q012",
+    "topic": "distance",
+    "text": "Wie groß muss der Sicherheitsabstand zum vorausfahrenden Fahrzeug bei 100 km/h mindestens sein?",
+    "options": [
+      "25 Meter",
+      "50 Meter",
+      "75 Meter",
+      "100 Meter"
+    ],
+    "correctIndex": 1,
+    "explanation": "Faustregel: halber Tacho in Metern. Bei 100 km/h also mindestens 50 Meter.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q013",
+    "topic": "distance",
+    "text": "Welcher Seitenabstand muss beim Überholen von Radfahrern innerorts eingehalten werden?",
+    "options": [
+      "0,5 Meter",
+      "1,0 Meter",
+      "1,5 Meter",
+      "2,0 Meter"
+    ],
+    "correctIndex": 2,
+    "explanation": "Innerorts mindestens 1,5 Meter, außerorts mindestens 2 Meter Seitenabstand.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q014",
+    "topic": "overtaking",
+    "text": "Wann ist das Überholen verboten?",
+    "options": [
+      "Bei unklarer Verkehrslage",
+      "Auf dreispurigen Straßen",
+      "Auf Autobahnen",
+      "Bei Tageslicht"
+    ],
+    "correctIndex": 0,
+    "explanation": "Bei unklarer Verkehrslage ist das Überholen verboten (§ 5 StVO).",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q015",
+    "topic": "overtaking",
+    "text": "Darf man rechts überholen?",
+    "options": [
+      "Ja, immer",
+      "Nein, nie",
+      "Ja, innerorts bei mehreren Fahrstreifen",
+      "Ja, auf der Autobahn"
+    ],
+    "correctIndex": 2,
+    "explanation": "Innerorts darf man rechts überholen, wenn mehrere markierte Fahrstreifen vorhanden sind.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q016",
+    "topic": "parking",
+    "text": "Wie weit müssen Sie mindestens vor einem Fußgängerüberweg parken?",
+    "options": [
+      "3 Meter",
+      "5 Meter",
+      "10 Meter",
+      "15 Meter"
+    ],
+    "correctIndex": 1,
+    "explanation": "Vor Fußgängerüberwegen ist das Parken bis zu 5 Meter davor verboten.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q017",
+    "topic": "parking",
+    "text": "Was ist der Unterschied zwischen Halten und Parken?",
+    "options": [
+      "Halten ist bis 3 Minuten",
+      "Parken ist über 3 Minuten oder Fahrer verlässt Fahrzeug",
+      "Kein Unterschied",
+      "Halten ist nur auf der rechten Seite erlaubt"
+    ],
+    "correctIndex": 1,
+    "explanation": "Parken liegt vor, wenn man länger als 3 Minuten hält oder das Fahrzeug verlässt.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q018",
+    "topic": "turning",
+    "text": "Wer hat beim Abbiegen Vorrang?",
+    "options": [
+      "Abbiegender Verkehr",
+      "Entgegenkommender Geradeausverkehr",
+      "Der Schnellere",
+      "Niemand"
+    ],
+    "correctIndex": 1,
+    "explanation": "Beim Abbiegen muss man entgegenkommenden Fahrzeugen und Fußgängern/Radfahrern Vorrang gewähren.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q019",
+    "topic": "highway",
+    "text": "Was ist die Mindestgeschwindigkeit auf der Autobahn?",
+    "options": [
+      "60 km/h",
+      "80 km/h",
+      "Es gibt keine Mindestgeschwindigkeit auf der Autobahn",
+      "100 km/h"
+    ],
+    "correctIndex": 2,
+    "explanation": "Es gibt keine Mindestgeschwindigkeit auf der Autobahn, aber Fahrzeuge müssen bauartbedingt mindestens 60 km/h fahren können.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q020",
+    "topic": "highway",
+    "text": "Was müssen Sie bei einer Panne auf der Autobahn tun?",
+    "options": [
+      "Auf der Fahrbahn stehen bleiben",
+      "Warndreieck in 100m Entfernung aufstellen",
+      "Hupen",
+      "Weiterfahren bis zur nächsten Ausfahrt"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei einer Panne: Warnblinkanlage einschalten, Warndreieck aufstellen (mind. 100m auf Autobahn), hinter der Leitplanke warten.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q021",
+    "topic": "railwayCrossing",
+    "text": "Was bedeutet ein blinkendes rotes Licht am Bahnübergang?",
+    "options": [
+      "Freie Fahrt",
+      "Halt! Zug nähert sich",
+      "Achtung, Schranke hebt sich",
+      "Bahnübergang defekt"
+    ],
+    "correctIndex": 1,
+    "explanation": "Blinkendes rotes Licht am Bahnübergang bedeutet: Halt! Ein Zug nähert sich.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q022",
+    "topic": "visibility",
+    "text": "Wann müssen Sie das Abblendlicht einschalten?",
+    "options": [
+      "Nur bei Nacht",
+      "Bei Dämmerung und Dunkelheit oder schlechter Sicht",
+      "Nur im Tunnel",
+      "Nur bei Regen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei Dämmerung, Dunkelheit oder wenn die Sichtverhältnisse es erfordern, muss Abblendlicht eingeschaltet werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q023",
+    "topic": "visibility",
+    "text": "Was müssen Sie bei Nebel mit einer Sichtweite unter 50 Metern beachten?",
+    "options": [
+      "Höchstgeschwindigkeit 50 km/h, Nebelschlussleuchte erlaubt",
+      "Höchstgeschwindigkeit 80 km/h",
+      "Nur Fernlicht verwenden",
+      "Warnblinkanlage einschalten"
+    ],
+    "correctIndex": 0,
+    "explanation": "Bei Nebel unter 50m Sicht: max. 50 km/h, Nebelschlussleuchte darf verwendet werden.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q024",
+    "topic": "emergency",
+    "text": "Was ist die richtige Reihenfolge bei einem Unfall?",
+    "options": [
+      "Polizei rufen, Erste Hilfe, Unfallstelle sichern",
+      "Unfallstelle sichern, Erste Hilfe, Notruf absetzen",
+      "Fotos machen, Polizei rufen, weiterfahren",
+      "Erste Hilfe, Fotos, Versicherung anrufen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Richtige Reihenfolge: 1. Unfallstelle sichern, 2. Erste Hilfe leisten, 3. Notruf (112) absetzen.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q025",
+    "topic": "emergency",
+    "text": "Wie bilden Sie eine Rettungsgasse auf einer zweispurigen Autobahn?",
+    "options": [
+      "Alle nach rechts",
+      "Linke Spur nach links, rechte Spur nach rechts",
+      "Alle auf den Standstreifen",
+      "Hintereinander auf der rechten Spur"
+    ],
+    "correctIndex": 1,
+    "explanation": "Auf einer zweispurigen Autobahn: linke Spur fährt nach links, rechte Spur nach rechts.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q026",
+    "topic": "alcoholDrugs",
+    "text": "Ab welchem Blutalkoholwert liegt eine Ordnungswidrigkeit vor?",
+    "options": [
+      "0,0 Promille",
+      "0,3 Promille",
+      "0,5 Promille",
+      "1,1 Promille"
+    ],
+    "correctIndex": 2,
+    "explanation": "Ab 0,5 Promille liegt eine Ordnungswidrigkeit vor. Ab 1,1 Promille ist es eine Straftat.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q027",
+    "topic": "alcoholDrugs",
+    "text": "Welche Promillegrenze gilt für Fahranfänger in der Probezeit?",
+    "options": [
+      "0,0 Promille",
+      "0,3 Promille",
+      "0,5 Promille",
+      "0,8 Promille"
+    ],
+    "correctIndex": 0,
+    "explanation": "Für Fahranfänger in der Probezeit und unter 21 Jahren gilt die 0,0-Promille-Grenze.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q028",
+    "topic": "passengers",
+    "text": "Bis zu welchem Alter müssen Kinder im Auto einen Kindersitz benutzen?",
+    "options": [
+      "Bis 10 Jahre",
+      "Bis 12 Jahre oder 150 cm Körpergröße",
+      "Bis 14 Jahre",
+      "Bis 16 Jahre"
+    ],
+    "correctIndex": 1,
+    "explanation": "Kinder bis 12 Jahre oder unter 150 cm müssen in einem geeigneten Kindersitz gesichert werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q029",
+    "topic": "vehicleTech",
+    "text": "Was müssen Sie vor Fahrtantritt am Fahrzeug prüfen?",
+    "options": [
+      "Nur den Kraftstoff",
+      "Reifen, Beleuchtung, Bremsen, Flüssigkeiten",
+      "Nur die Reifen",
+      "Nur das Licht"
+    ],
+    "correctIndex": 1,
+    "explanation": "Vor Fahrtantritt sollten Sie Reifen (Druck, Profil), Beleuchtung, Bremsen und Flüssigkeitsstände prüfen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q030",
+    "topic": "vehicleTech",
+    "text": "Wie viel mm Profiltiefe müssen Reifen mindestens haben?",
+    "options": [
+      "1,0 mm",
+      "1,6 mm",
+      "2,0 mm",
+      "3,0 mm"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die gesetzlich vorgeschriebene Mindestprofiltiefe beträgt 1,6 mm.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q031",
+    "topic": "environment",
+    "text": "Was bedeutet eine Umweltzone (grüne Plakette)?",
+    "options": [
+      "Nur Elektrofahrzeuge erlaubt",
+      "Nur Fahrzeuge mit grüner Plakette dürfen einfahren",
+      "Tempolimit 30",
+      "Parkverbot"
+    ],
+    "correctIndex": 1,
+    "explanation": "In einer Umweltzone dürfen nur Fahrzeuge mit der entsprechenden Feinstaubplakette fahren.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q032",
+    "topic": "general",
+    "text": "Welche Pflichten haben Sie als Fahrzeugführer bei einer Polizeikontrolle?",
+    "options": [
+      "Führerschein und Fahrzeugschein vorzeigen",
+      "Alkoholtest verweigern",
+      "Nichts, Sie dürfen weiterfahren",
+      "Nur den Führerschein zeigen"
+    ],
+    "correctIndex": 0,
+    "explanation": "Sie müssen Führerschein und Fahrzeugschein (Zulassungsbescheinigung Teil I) vorzeigen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q033",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein rundes blaues Schild mit weißem Fahrrad?",
+    "options": [
+      "Fahrradverbot",
+      "Fahrradweg, Benutzungspflicht",
+      "Fahrradparkplatz",
+      "Fahrradverleih"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 237: Radfahrer müssen diesen Radweg benutzen (Benutzungspflicht).",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q034",
+    "topic": "trafficSigns",
+    "text": "Was zeigt ein weißes Schild mit schwarzem Ortsnamen an?",
+    "options": [
+      "Ortseingang",
+      "Ortsausgang",
+      "Sehenswürdigkeit",
+      "Kreisgrenze"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 310 markiert den Beginn einer geschlossenen Ortschaft. Ab hier gilt innerorts 50 km/h.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q035",
+    "topic": "rightOfWay",
+    "text": "Wer darf zuerst fahren, wenn ein Fahrzeug aus einer Grundstückseinfahrt kommt?",
+    "options": [
+      "Das Fahrzeug aus der Einfahrt",
+      "Der Verkehr auf der Straße",
+      "Rechts vor links",
+      "Der Schnellere"
+    ],
+    "correctIndex": 1,
+    "explanation": "Wer aus einem Grundstück oder einer Garage auf die Straße fährt, muss den fließenden Verkehr durchlassen.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q036",
+    "topic": "speed",
+    "text": "Wie schnell dürfen Sie in einer Spielstraße (verkehrsberuhigter Bereich) fahren?",
+    "options": [
+      "10 km/h",
+      "20 km/h",
+      "Schrittgeschwindigkeit (ca. 4-7 km/h)",
+      "30 km/h"
+    ],
+    "correctIndex": 2,
+    "explanation": "In einem verkehrsberuhigten Bereich darf nur mit Schrittgeschwindigkeit gefahren werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q037",
+    "topic": "distance",
+    "text": "Wie berechnet man den Bremsweg bei einer Gefahrbremsung?",
+    "options": [
+      "(Geschwindigkeit/10)²",
+      "(Geschwindigkeit/10)² / 2",
+      "Geschwindigkeit × 3",
+      "Geschwindigkeit / 2"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bremsweg bei Gefahrbremsung = (Geschwindigkeit/10)² / 2. Bei 100 km/h: (100/10)²/2 = 50 Meter.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q038",
+    "topic": "parking",
+    "text": "Welches Zeichen verbietet das Halten?",
+    "options": [
+      "Rundes blaues Schild mit rotem X",
+      "Rundes blaues Schild mit rotem Strich",
+      "Dreieckiges Schild mit Kreuz",
+      "Viereckiges Schild mit P"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 283 (rundes Schild, blau mit rotem X) bedeutet absolutes Haltverbot.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q039",
+    "topic": "turning",
+    "text": "Wie müssen Sie sich beim Linksabbiegen einordnen?",
+    "options": [
+      "Rechte Fahrspur",
+      "Mitte der Fahrbahn",
+      "Zur Fahrbahnmitte hin einordnen",
+      "Egal welche Spur"
+    ],
+    "correctIndex": 2,
+    "explanation": "Zum Linksabbiegen müssen Sie sich rechtzeitig zur Fahrbahnmitte hin einordnen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q040",
+    "topic": "emergency",
+    "text": "Welche Notrufnummer gilt europaweit?",
+    "options": [
+      "110",
+      "112",
+      "911",
+      "119"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die europaweit gültige Notrufnummer ist 112.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q041",
+    "topic": "alcoholDrugs",
+    "text": "Was droht bei Fahren unter Drogeneinfluss?",
+    "options": [
+      "Nur Bußgeld",
+      "Fahrverbot und Bußgeld",
+      "Keine Strafe bei geringer Menge",
+      "Nur Verwarnung"
+    ],
+    "correctIndex": 1,
+    "explanation": "Fahren unter Drogeneinfluss führt zu Bußgeld, Fahrverbot und Punkten. Bei Gefährdung auch Freiheitsstrafe.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q042",
+    "topic": "visibility",
+    "text": "Wann dürfen Sie die Nebelschlussleuchte benutzen?",
+    "options": [
+      "Bei jedem Regen",
+      "Nur bei Sichtweite unter 50 Metern durch Nebel",
+      "Bei Dunkelheit",
+      "Auf der Autobahn immer"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die Nebelschlussleuchte darf nur bei Sichtweite unter 50 Metern benutzt werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q043",
+    "topic": "highway",
+    "text": "Wo dürfen Sie auf der Autobahn anhalten?",
+    "options": [
+      "Auf dem Standstreifen bei einer Panne",
+      "Überall kurz zum Telefonieren",
+      "An Parkplätzen und Raststätten",
+      "Auf der rechten Fahrspur"
+    ],
+    "correctIndex": 2,
+    "explanation": "Auf der Autobahn darf man nur an gekennzeichneten Parkplätzen und Raststätten anhalten. Standstreifen nur bei Notfall.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q044",
+    "topic": "railwayCrossing",
+    "text": "Wie verhalten Sie sich an einem Bahnübergang ohne Schranke?",
+    "options": [
+      "Schnell überqueren",
+      "Anhalten, schauen, hören, dann vorsichtig überqueren",
+      "Hupen und weiterfahren",
+      "Nur bei grünem Licht fahren"
+    ],
+    "correctIndex": 1,
+    "explanation": "An Bahnübergängen ohne Schranke: Geschwindigkeit mäßigen, Sichtverhältnisse prüfen, auf Züge achten.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q045",
+    "topic": "passengers",
+    "text": "Müssen Mitfahrer auf dem Rücksitz angeschnallt sein?",
+    "options": [
+      "Nein, nur auf dem Vordersitz",
+      "Ja, alle Insassen müssen angeschnallt sein",
+      "Nur Kinder",
+      "Nur auf der Autobahn"
+    ],
+    "correctIndex": 1,
+    "explanation": "Alle Fahrzeuginsassen müssen während der Fahrt angeschnallt sein (§ 21a StVO).",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q046",
+    "topic": "vehicleTech",
+    "text": "Was bedeutet eine gelbe Warnleuchte in Form eines Motors im Armaturenbrett?",
+    "options": [
+      "Ölstand prüfen",
+      "Motorkontrollleuchte — Werkstatt aufsuchen",
+      "Batterie leer",
+      "Reifendruck zu niedrig"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die Motorkontrollleuchte weist auf ein Problem im Motormanagement hin. Werkstatt aufsuchen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q047",
+    "topic": "environment",
+    "text": "Wie können Sie kraftstoffsparend fahren?",
+    "options": [
+      "Hohe Drehzahlen, niedrige Gänge",
+      "Früh hochschalten, vorausschauend fahren",
+      "Motor im Stand warmlaufen lassen",
+      "Immer Vollgas"
+    ],
+    "correctIndex": 1,
+    "explanation": "Kraftstoffsparend: früh hochschalten, vorausschauend fahren, Motor nicht im Stand warmlaufen lassen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q048",
+    "topic": "general",
+    "text": "Was ist die Probezeit für Fahranfänger?",
+    "options": [
+      "1 Jahr",
+      "2 Jahre",
+      "3 Jahre",
+      "5 Jahre"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die Probezeit für Fahranfänger beträgt 2 Jahre ab Erteilung der Fahrerlaubnis.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q049",
+    "topic": "overtaking",
+    "text": "Wo ist das Überholen grundsätzlich verboten?",
+    "options": [
+      "Auf geraden Straßen",
+      "An Fußgängerüberwegen",
+      "Auf Autobahnen",
+      "Bei Tageslicht"
+    ],
+    "correctIndex": 1,
+    "explanation": "An Fußgängerüberwegen und bei unklarer Verkehrslage ist Überholen verboten.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q050",
+    "topic": "distance",
+    "text": "Was ist der Reaktionsweg bei 50 km/h?",
+    "options": [
+      "5 Meter",
+      "10 Meter",
+      "15 Meter",
+      "25 Meter"
+    ],
+    "correctIndex": 2,
+    "explanation": "Reaktionsweg = (Geschwindigkeit/10) × 3. Bei 50 km/h: (50/10) × 3 = 15 Meter.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q051",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein rundes Schild mit rotem Rand und einem Querbalken?",
+    "options": [
+      "Durchfahrt verboten",
+      "Einbahnstraße",
+      "Überholverbot",
+      "Haltverbot"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 250: Verbot für Fahrzeuge aller Art. Durchfahrt ist verboten.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q052",
+    "topic": "trafficSigns",
+    "text": "Was zeigt ein blaues viereckiges Schild mit weißem P an?",
+    "options": [
+      "Parkplatz",
+      "Polizei",
+      "Pannenhilfe",
+      "Postamt"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 314 kennzeichnet einen Parkplatz.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q053",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein dreieckiges Schild mit rotem Rand und Kindern darauf?",
+    "options": [
+      "Spielplatz",
+      "Kinder! Geschwindigkeit verringern",
+      "Schulbus hält",
+      "Kindertagesstätte"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 136 warnt vor Kindern. Besondere Vorsicht und Geschwindigkeit verringern.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q054",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein durchgestrichenes Ortsschild?",
+    "options": [
+      "Ortsende — außerorts Regeln gelten",
+      "Ort existiert nicht mehr",
+      "Umleitung",
+      "Gesperrte Straße"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 311 markiert das Ende einer geschlossenen Ortschaft. Ab hier gelten Außerorts-Regeln.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q055",
+    "topic": "trafficSigns",
+    "text": "Was zeigt ein rundes Schild mit blauem Grund und Zahl 30 an?",
+    "options": [
+      "Höchstgeschwindigkeit 30",
+      "Mindestgeschwindigkeit 30 km/h",
+      "30er-Zone",
+      "Empfohlene 30 km/h"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 275: Vorgeschriebene Mindestgeschwindigkeit. Langsamer fahren ist verboten.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q056",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein weißes Schild mit schwarzem Pfeil nach oben und Zahl?",
+    "options": [
+      "Entfernungsangabe",
+      "Strecke mit Überholverbot",
+      "Vorwegweiser",
+      "Kilometerstein"
+    ],
+    "correctIndex": 0,
+    "explanation": "Wegweiser zeigen die Entfernung und Richtung zu einem Ziel an.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q057",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet Zeichen 267 (roter Kreis, weißer Querbalken)?",
+    "options": [
+      "Verbot der Einfahrt",
+      "Durchfahrt verboten",
+      "Haltverbot",
+      "Überholverbot"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 267 verbietet die Einfahrt. Man darf diese Straße nicht in dieser Richtung befahren.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q058",
+    "topic": "trafficSigns",
+    "text": "Was zeigt ein grünes viereckiges Schild mit weißer Autobahn-Silhouette?",
+    "options": [
+      "Autobahn beginnt",
+      "Schnellstraße",
+      "Mautpflichtige Strecke",
+      "Rastplatz"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 330.1 zeigt den Beginn einer Autobahn an.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q059",
+    "topic": "trafficSigns",
+    "text": "Was bedeutet ein gelbes Schild mit schwarzem Diamant?",
+    "options": [
+      "Vorfahrtstraße",
+      "Gefahrstelle",
+      "Baustelle",
+      "Sackgasse"
+    ],
+    "correctIndex": 0,
+    "explanation": "Zeichen 306: Sie befinden sich auf einer Vorfahrtstraße.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q060",
+    "topic": "trafficSigns",
+    "text": "Was zeigt ein Zusatzschild mit Schneeflocke unter einem Gefahrzeichen?",
+    "options": [
+      "Winterdienst",
+      "Gefahr bei Schnee und Eis",
+      "Schneeketten-Pflicht",
+      "Winterreifenpflicht"
+    ],
+    "correctIndex": 1,
+    "explanation": "Das Zusatzschild weist darauf hin, dass die Gefahr besonders bei Schnee und Eis besteht.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q061",
+    "topic": "rightOfWay",
+    "text": "Wer hat Vorfahrt bei einem abknickenden Vorfahrtstraßen-Verlauf?",
+    "options": [
+      "Wer der Vorfahrtstraße folgt",
+      "Immer rechts vor links",
+      "Der Schnellere",
+      "Niemand — alle halten"
+    ],
+    "correctIndex": 0,
+    "explanation": "Wer der abknickenden Vorfahrtstraße folgt, hat Vorfahrt. Abbieger müssen blinken.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q062",
+    "topic": "rightOfWay",
+    "text": "Ein Rettungswagen mit Blaulicht und Martinshorn nähert sich. Was müssen Sie tun?",
+    "options": [
+      "Weiterfahren, er wird ausweichen",
+      "Sofort stehenbleiben",
+      "Freie Bahn schaffen, ausweichen",
+      "Hupen als Warnung"
+    ],
+    "correctIndex": 2,
+    "explanation": "Bei Blaulicht und Martinshorn müssen Sie sofort freie Bahn schaffen (§ 38 StVO).",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q063",
+    "topic": "rightOfWay",
+    "text": "An einer T-Kreuzung ohne Schilder: Wer hat Vorfahrt?",
+    "options": [
+      "Der von der durchgehenden Straße",
+      "Rechts vor links gilt",
+      "Der Abbiegende",
+      "Niemand"
+    ],
+    "correctIndex": 1,
+    "explanation": "Ohne Beschilderung gilt auch an T-Kreuzungen rechts vor links.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q064",
+    "topic": "rightOfWay",
+    "text": "Ein Linienbus will von einer Haltestelle abfahren und blinkt. Was müssen Sie tun?",
+    "options": [
+      "Hupen und überholen",
+      "Warten und ihn abfahren lassen",
+      "Schnell vorbeifahren",
+      "Lichthupe geben"
+    ],
+    "correctIndex": 1,
+    "explanation": "Linienbusse haben beim Abfahren von Haltestellen Vorrang. Sie müssen warten.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q065",
+    "topic": "rightOfWay",
+    "text": "Was bedeutet ein Grünpfeil an einer Ampel?",
+    "options": [
+      "Freie Fahrt",
+      "Nach Anhalten darf man bei Rot rechts abbiegen",
+      "Nur Linksabbieger",
+      "Fußgänger haben Vorrang"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der Grünpfeil erlaubt das Rechtsabbiegen nach vorherigem Anhalten, auch bei Rot.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q066",
+    "topic": "rightOfWay",
+    "text": "Wem müssen Sie beim Abbiegen Vorrang gewähren?",
+    "options": [
+      "Niemandem",
+      "Fußgängern und Radfahrern, die die Straße überqueren",
+      "Nur dem Gegenverkehr",
+      "Nur Bussen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Beim Abbiegen müssen Fußgänger und Radfahrer, die die Straße überqueren, durchgelassen werden.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q067",
+    "topic": "rightOfWay",
+    "text": "An einer Einmündung mit Zeichen 205: Wer hat Vorfahrt?",
+    "options": [
+      "Sie",
+      "Der Querverkehr",
+      "Rechts vor links",
+      "Der Schnellere"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 205 (Dreieck auf der Spitze): Vorfahrt gewähren. Der Querverkehr hat Vorfahrt.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q068",
+    "topic": "rightOfWay",
+    "text": "Ein Fahrzeug der Straßenbahn nähert sich. Hat die Straßenbahn Vorrang?",
+    "options": [
+      "Nie",
+      "Immer",
+      "Nur bei eigener Gleisführung",
+      "Nur wenn sie blinkt"
+    ],
+    "correctIndex": 2,
+    "explanation": "Straßenbahnen haben grundsätzlich Vorrang, wenn sie auf eigener Gleisführung fahren.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q069",
+    "topic": "rightOfWay",
+    "text": "Zwei Fahrzeuge kommen sich an einer Engstelle entgegen. Wer muss warten?",
+    "options": [
+      "Immer der Bergauffahrende",
+      "Immer der Bergabfahrende",
+      "Wer das Hindernis auf seiner Seite hat",
+      "Der Schnellere"
+    ],
+    "correctIndex": 2,
+    "explanation": "Wer das Hindernis auf seiner Fahrbahnseite hat, muss warten und dem anderen Vorrang lassen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q070",
+    "topic": "rightOfWay",
+    "text": "Eine Ampel zeigt Gelb. Was bedeutet das?",
+    "options": [
+      "Gas geben",
+      "Vor der Kreuzung anhalten, wenn möglich",
+      "Weiterfahren, Gelb ist nur Hinweis",
+      "Sofort bremsen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Gelb bedeutet: Anhalten, wenn dies gefahrlos möglich ist. Nur bei Gefahr weiterfahren.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q071",
+    "topic": "speed",
+    "text": "Welche Geschwindigkeit gilt für LKW über 3,5t außerorts?",
+    "options": [
+      "60 km/h",
+      "80 km/h",
+      "100 km/h",
+      "130 km/h"
+    ],
+    "correctIndex": 1,
+    "explanation": "LKW über 3,5t dürfen außerorts maximal 80 km/h fahren.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q072",
+    "topic": "speed",
+    "text": "Wie schnell dürfen Sie mit Anhänger auf der Autobahn fahren?",
+    "options": [
+      "60 km/h",
+      "80 km/h",
+      "100 km/h",
+      "130 km/h"
+    ],
+    "correctIndex": 1,
+    "explanation": "PKW mit Anhänger dürfen auf der Autobahn maximal 80 km/h fahren (ohne Tempo-100-Plakette).",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q073",
+    "topic": "speed",
+    "text": "Was passiert bei 20 km/h zu schnell innerorts?",
+    "options": [
+      "Nur Verwarnung",
+      "Bußgeld",
+      "Bußgeld und 1 Punkt",
+      "Fahrverbot"
+    ],
+    "correctIndex": 2,
+    "explanation": "Ab 16 km/h zu schnell innerorts: Bußgeld und 1 Punkt in Flensburg.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q074",
+    "topic": "speed",
+    "text": "In einer Zone 30: Welche besondere Regel gilt?",
+    "options": [
+      "Rechts vor links, keine Ampeln",
+      "Nur Anlieger dürfen fahren",
+      "Fußgänger haben immer Vorrang",
+      "Nur einspurig fahren"
+    ],
+    "correctIndex": 0,
+    "explanation": "In Tempo-30-Zonen gilt in der Regel rechts vor links und es gibt keine Ampeln.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q075",
+    "topic": "speed",
+    "text": "Bei nasser Fahrbahn sollte die Geschwindigkeit um wie viel reduziert werden?",
+    "options": [
+      "10%",
+      "20%",
+      "30-50%",
+      "Nicht nötig"
+    ],
+    "correctIndex": 2,
+    "explanation": "Bei Nässe verlängert sich der Bremsweg erheblich. Geschwindigkeit um 30-50% reduzieren.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q076",
+    "topic": "speed",
+    "text": "Wie schnell dürfen Mofas maximal fahren?",
+    "options": [
+      "15 km/h",
+      "25 km/h",
+      "45 km/h",
+      "50 km/h"
+    ],
+    "correctIndex": 1,
+    "explanation": "Mofas dürfen bauartbedingt maximal 25 km/h fahren.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q077",
+    "topic": "speed",
+    "text": "Ab welcher Geschwindigkeitsüberschreitung droht ein Fahrverbot innerorts?",
+    "options": [
+      "21 km/h",
+      "26 km/h",
+      "31 km/h",
+      "41 km/h"
+    ],
+    "correctIndex": 2,
+    "explanation": "Ab 31 km/h zu schnell innerorts droht ein Fahrverbot von 1 Monat.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q078",
+    "topic": "speed",
+    "text": "Wie beeinflusst die Geschwindigkeit den Bremsweg?",
+    "options": [
+      "Linear: doppelte Geschwindigkeit = doppelter Bremsweg",
+      "Quadratisch: doppelte Geschwindigkeit = vierfacher Bremsweg",
+      "Gar nicht",
+      "Logarithmisch"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der Bremsweg wächst quadratisch mit der Geschwindigkeit. Doppelte Geschwindigkeit = 4-facher Bremsweg.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q079",
+    "topic": "distance",
+    "text": "Was ist der Anhalteweg?",
+    "options": [
+      "Nur Bremsweg",
+      "Reaktionsweg + Bremsweg",
+      "Nur Reaktionsweg",
+      "Geschwindigkeit × 2"
+    ],
+    "correctIndex": 1,
+    "explanation": "Anhalteweg = Reaktionsweg + Bremsweg. Bei 50 km/h: 15m + 25m = 40m.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q080",
+    "topic": "distance",
+    "text": "Welcher Abstand muss beim Parken vor einer Kreuzung eingehalten werden?",
+    "options": [
+      "3 Meter",
+      "5 Meter",
+      "8 Meter",
+      "10 Meter"
+    ],
+    "correctIndex": 1,
+    "explanation": "Vor Kreuzungen und Einmündungen muss ein Abstand von 5 Metern eingehalten werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q081",
+    "topic": "distance",
+    "text": "Wie groß muss der Abstand zu einem Andreaskreuz sein?",
+    "options": [
+      "3 Meter",
+      "5 Meter",
+      "10 Meter",
+      "15 Meter"
+    ],
+    "correctIndex": 1,
+    "explanation": "Innerorts muss 5m Abstand zum Andreaskreuz gehalten werden, außerorts 50m.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q082",
+    "topic": "distance",
+    "text": "Bei 2 Sekunden Abstand und 100 km/h: Wie viel Meter Abstand haben Sie?",
+    "options": [
+      "28 Meter",
+      "56 Meter",
+      "100 Meter",
+      "200 Meter"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei 100 km/h legen Sie pro Sekunde ca. 28 Meter zurück. 2 Sekunden = ca. 56 Meter.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q083",
+    "topic": "distance",
+    "text": "Bei Kolonnenverkehr auf der Autobahn: Welcher Abstand gilt?",
+    "options": [
+      "Halber Tacho",
+      "Viertel Tacho",
+      "Kein besonderer",
+      "2 Sekunden"
+    ],
+    "correctIndex": 0,
+    "explanation": "Auch bei Kolonnenverkehr gilt: Sicherheitsabstand = halber Tacho in Metern.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q084",
+    "topic": "distance",
+    "text": "Wie weit müssen Sie hinter einem Haltestellenschild einer Straßenbahn halten?",
+    "options": [
+      "3 Meter",
+      "5 Meter",
+      "10 Meter",
+      "15 Meter"
+    ],
+    "correctIndex": 2,
+    "explanation": "Hinter Haltestellenschildern einer Straßenbahn muss mindestens 10 Meter Abstand gehalten werden, wenn Fahrgäste ein-/aussteigen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q085",
+    "topic": "overtaking",
+    "text": "Darf man in einer Kolonne überholen?",
+    "options": [
+      "Ja, immer",
+      "Nein, nur einzelne Fahrzeuge",
+      "Ja, wenn die Gegenfahrbahn frei ist",
+      "Nur auf Autobahnen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Man darf in einer Kolonne nur einzelne Fahrzeuge überholen, nicht die ganze Kolonne.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q086",
+    "topic": "overtaking",
+    "text": "Ab wann beginnt ein Überholvorgang?",
+    "options": [
+      "Beim Blinken",
+      "Beim Ausscheren",
+      "Beim Beschleunigen",
+      "Beim Schulterblick"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der Überholvorgang beginnt mit dem Ausscheren aus der eigenen Fahrspur.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q087",
+    "topic": "overtaking",
+    "text": "Wie verhalten Sie sich, wenn Sie überholt werden?",
+    "options": [
+      "Beschleunigen",
+      "Geschwindigkeit beibehalten, nicht behindern",
+      "Bremsen",
+      "Hupen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Wer überholt wird, darf die Geschwindigkeit nicht erhöhen und muss das Überholen ermöglichen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q088",
+    "topic": "overtaking",
+    "text": "An welchen Stellen ist Überholen besonders gefährlich?",
+    "options": [
+      "Auf geraden Straßen",
+      "In Kurven und an Kuppen",
+      "Auf Autobahnen",
+      "Bei Tageslicht"
+    ],
+    "correctIndex": 1,
+    "explanation": "In Kurven und an Kuppen ist die Sicht eingeschränkt, Überholen besonders gefährlich.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q089",
+    "topic": "overtaking",
+    "text": "Darf man einen Überholvorgang abbrechen?",
+    "options": [
+      "Nein, nie",
+      "Ja, wenn man sich verschätzt hat",
+      "Nur auf der Autobahn",
+      "Nur bei Regen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Wenn Sie bemerken, dass der Überholvorgang gefährlich wird, müssen Sie ihn abbrechen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q090",
+    "topic": "overtaking",
+    "text": "Darf eine durchgezogene Linie zum Überholen überfahren werden?",
+    "options": [
+      "Ja, wenn genug Platz ist",
+      "Nein, das ist verboten",
+      "Nur nachts",
+      "Nur auf Landstraßen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Eine durchgezogene Linie darf zum Überholen nicht überfahren werden.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q091",
+    "topic": "overtaking",
+    "text": "Wie weit vor einem Fußgängerüberweg ist Überholen verboten?",
+    "options": [
+      "5 Meter",
+      "10 Meter",
+      "Direkt am Zebrastreifen",
+      "Generell verboten am Zebrastreifen"
+    ],
+    "correctIndex": 3,
+    "explanation": "An Fußgängerüberwegen ist Überholen generell verboten.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q092",
+    "topic": "parking",
+    "text": "Darf man auf dem Gehweg parken?",
+    "options": [
+      "Ja, immer",
+      "Nein, nur wenn ein Schild es erlaubt",
+      "Ja, wenn genug Platz bleibt",
+      "Nur nachts"
+    ],
+    "correctIndex": 1,
+    "explanation": "Parken auf dem Gehweg ist nur erlaubt, wenn Zeichen 315 es ausdrücklich gestattet.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q093",
+    "topic": "parking",
+    "text": "Wie weit müssen Sie von einer Ampel entfernt parken?",
+    "options": [
+      "5 Meter",
+      "10 Meter",
+      "15 Meter",
+      "Kein Mindestabstand"
+    ],
+    "correctIndex": 1,
+    "explanation": "Vor und hinter Lichtzeichenanlagen muss 10 Meter Abstand gehalten werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q094",
+    "topic": "parking",
+    "text": "Wann darf man in zweiter Reihe halten?",
+    "options": [
+      "Nie",
+      "Zum Ein-/Aussteigen lassen, maximal 3 Minuten",
+      "Immer kurz",
+      "Nur auf breiten Straßen"
+    ],
+    "correctIndex": 1,
+    "explanation": "In zweiter Reihe darf man nur kurz zum Ein- oder Aussteigenlassen halten (max. 3 Min).",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q095",
+    "topic": "parking",
+    "text": "Was müssen Sie beim Einparken in eine Parklücke beachten?",
+    "options": [
+      "Nur auf die Lücke achten",
+      "Schulterblick, Blinken, langsam rangieren",
+      "Schnell einparken",
+      "Hupen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Blinken Sie, machen Sie einen Schulterblick und rangieren Sie langsam und vorsichtig.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q096",
+    "topic": "parking",
+    "text": "Darf man vor einer abgesenkten Bordsteinkante parken?",
+    "options": [
+      "Ja",
+      "Nein",
+      "Nur zum Be-/Entladen",
+      "Nur nachts"
+    ],
+    "correctIndex": 1,
+    "explanation": "Vor abgesenkten Bordsteinkanten (z.B. Einfahrten) ist das Parken verboten.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q097",
+    "topic": "parking",
+    "text": "Was ist beim Verlassen des geparkten Fahrzeugs Pflicht?",
+    "options": [
+      "Nichts",
+      "Handbremse anziehen, Gang einlegen, Lenkrad einschlagen am Berg",
+      "Nur Schlüssel abziehen",
+      "Fenster schließen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Handbremse anziehen, Gang einlegen (bei Automatik P), am Berg Räder einschlagen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q098",
+    "topic": "parking",
+    "text": "Wie erkennen Sie ein absolutes Haltverbot?",
+    "options": [
+      "Rundes Schild, blau mit einem roten Strich",
+      "Rundes Schild, blau mit rotem X",
+      "Dreieckiges Schild",
+      "Viereckiges Schild mit Kreuz"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zeichen 283: Rundes blaues Schild mit rotem X = absolutes Haltverbot.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q099",
+    "topic": "turning",
+    "text": "Wann müssen Sie beim Abbiegen blinken?",
+    "options": [
+      "Nicht nötig",
+      "Rechtzeitig vor dem Abbiegen",
+      "Nur wenn andere Fahrzeuge da sind",
+      "Nur beim Linksabbiegen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Sie müssen rechtzeitig und deutlich vor dem Abbiegen den Fahrtrichtungsanzeiger betätigen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q100",
+    "topic": "turning",
+    "text": "Was müssen Sie beim Rechtsabbiegen besonders beachten?",
+    "options": [
+      "Nur den Gegenverkehr",
+      "Radfahrer und Fußgänger rechts neben Ihnen",
+      "Nur die Ampel",
+      "Nichts Besonderes"
+    ],
+    "correctIndex": 1,
+    "explanation": "Beim Rechtsabbiegen besonders auf Radfahrer und Fußgänger achten (toter Winkel!).",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q101",
+    "topic": "turning",
+    "text": "Was ist der tote Winkel?",
+    "options": [
+      "Ein Bereich, der nicht im Spiegel sichtbar ist",
+      "Eine Kurve ohne Sicht",
+      "Ein Parkverbot",
+      "Eine Fahrbahnverengung"
+    ],
+    "correctIndex": 0,
+    "explanation": "Der tote Winkel ist der Bereich neben dem Fahrzeug, der weder im Rück- noch im Seitenspiegel sichtbar ist.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q102",
+    "topic": "turning",
+    "text": "Wie verhalten Sie sich beim Linksabbiegen an einer Kreuzung mit Gegenverkehr?",
+    "options": [
+      "Schnell abbiegen",
+      "Vor dem Gegenverkehr abbiegen",
+      "Gegenverkehr durchlassen, dann abbiegen",
+      "Hupen und abbiegen"
+    ],
+    "correctIndex": 2,
+    "explanation": "Beim Linksabbiegen müssen Sie den Gegenverkehr durchlassen, bevor Sie abbiegen.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q103",
+    "topic": "turning",
+    "text": "Darf man an einer roten Ampel mit Grünpfeil rechts abbiegen?",
+    "options": [
+      "Ja, sofort",
+      "Ja, nach vorherigem Anhalten",
+      "Nein, nie bei Rot",
+      "Nur nachts"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei grünem Pfeil darf man nach Anhalten bei Rot rechts abbiegen, wenn niemand gefährdet wird.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q104",
+    "topic": "turning",
+    "text": "Was bedeutet 'tangentiales Abbiegen'?",
+    "options": [
+      "Abbiegen ohne Blinken",
+      "Linksabbieger passieren sich voreinander",
+      "Abbiegen in der Kurve",
+      "Abbiegen mit Handzeichen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Tangentiales Abbiegen: Zwei Linksabbieger passieren sich voreinander (nicht hintereinander).",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q105",
+    "topic": "turning",
+    "text": "In welche Richtung müssen Sie beim Abbiegen zuerst schauen?",
+    "options": [
+      "In die Abbiegerichtung",
+      "In den Rückspiegel",
+      "Schulterblick in die Gegenrichtung",
+      "Auf die Ampel"
+    ],
+    "correctIndex": 1,
+    "explanation": "Vor dem Abbiegen: Rückspiegel, Seitenspiegel, Blinken, Schulterblick, dann Abbiegen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q106",
+    "topic": "turning",
+    "text": "Was gilt an einer Kreuzung mit abknickender Vorfahrt?",
+    "options": [
+      "Immer rechts vor links",
+      "Wer der Vorfahrt folgt hat Vorrang",
+      "Alle anhalten",
+      "Lichthupe geben"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei abknickender Vorfahrt hat Vorrang, wer dem Verlauf der Vorfahrtstraße folgt.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q107",
+    "topic": "highway",
+    "text": "Was müssen Sie beim Auffahren auf die Autobahn beachten?",
+    "options": [
+      "Auf dem Beschleunigungsstreifen beschleunigen und einfädeln",
+      "Sofort auf die linke Spur fahren",
+      "Auf dem Standstreifen fahren",
+      "Anhalten und warten"
+    ],
+    "correctIndex": 0,
+    "explanation": "Auf dem Beschleunigungsstreifen auf Autobahngeschwindigkeit beschleunigen und vorsichtig einfädeln.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q108",
+    "topic": "highway",
+    "text": "Darf man auf der Autobahn wenden?",
+    "options": [
+      "Ja, wenn die Fahrbahn frei ist",
+      "Nein, das ist strikt verboten",
+      "Nur an Raststätten",
+      "Nur bei Stau"
+    ],
+    "correctIndex": 1,
+    "explanation": "Wenden auf der Autobahn ist strikt verboten und extrem gefährlich.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q109",
+    "topic": "highway",
+    "text": "Was ist der Standstreifen?",
+    "options": [
+      "Eine zusätzliche Fahrspur",
+      "Notfallstreifen für Pannen",
+      "Überholspur",
+      "Busspur"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der Standstreifen ist nur für Notfälle und Pannen vorgesehen, nicht zum Fahren.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q110",
+    "topic": "highway",
+    "text": "Was tun bei Stau auf der Autobahn?",
+    "options": [
+      "Auf dem Standstreifen überholen",
+      "Rettungsgasse bilden und warten",
+      "Wenden",
+      "Aussteigen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei Stau: Rettungsgasse bilden, Warnblinkanlage einschalten, Motor aus bei längerem Stau.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q111",
+    "topic": "highway",
+    "text": "Welches Fahrzeug darf nicht auf die Autobahn?",
+    "options": [
+      "LKW",
+      "PKW mit Anhänger",
+      "Mofa",
+      "Wohnmobil"
+    ],
+    "correctIndex": 2,
+    "explanation": "Fahrzeuge die bauartbedingt nicht mindestens 60 km/h fahren können, dürfen nicht auf die Autobahn.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q112",
+    "topic": "highway",
+    "text": "Was machen Sie bei Aquaplaning auf der Autobahn?",
+    "options": [
+      "Stark bremsen",
+      "Gas wegnehmen, Lenkrad gerade halten, nicht bremsen",
+      "Beschleunigen",
+      "Lenken"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei Aquaplaning: Gas wegnehmen, nicht bremsen, nicht lenken. Warten bis Reifen wieder Kontakt haben.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q113",
+    "topic": "highway",
+    "text": "Wie verhalten Sie sich in einem Tunnel auf der Autobahn?",
+    "options": [
+      "Sonnenbrille aufsetzen",
+      "Abblendlicht einschalten, Radio leiser, Abstand halten",
+      "Fernlicht einschalten",
+      "Fenster öffnen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Im Tunnel: Abblendlicht ein, Sonnenbrille ab, Radio leiser (Durchsagen), ausreichend Abstand.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q114",
+    "topic": "railwayCrossing",
+    "text": "Was bedeutet ein Andreaskreuz?",
+    "options": [
+      "Sackgasse",
+      "Bahnübergang — Schienenfahrzeuge haben Vorrang",
+      "Kreuzung",
+      "Fußgängerüberweg"
+    ],
+    "correctIndex": 1,
+    "explanation": "Das Andreaskreuz (Zeichen 201) zeigt einen Bahnübergang an. Schienenfahrzeuge haben absoluten Vorrang.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q115",
+    "topic": "railwayCrossing",
+    "text": "Dürfen Sie einen Bahnübergang überqueren, wenn die Schranke sich senkt?",
+    "options": [
+      "Ja, wenn Sie schnell sind",
+      "Nein, sofort anhalten",
+      "Nur Fußgänger dürfen noch",
+      "Ja, bis sie ganz unten ist"
+    ],
+    "correctIndex": 1,
+    "explanation": "Sobald die Schranke sich senkt, müssen alle Verkehrsteilnehmer sofort anhalten.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q116",
+    "topic": "railwayCrossing",
+    "text": "Wie verhalten Sie sich, wenn Ihr Fahrzeug auf einem Bahnübergang liegenbleibt?",
+    "options": [
+      "Im Auto warten",
+      "Sofort aussteigen, Personen vom Gleis entfernen, Notrufsäule nutzen",
+      "Versuchen das Auto zu schieben",
+      "Hupen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Sofort alle Insassen raus, vom Gleis entfernen, Notrufsäule oder 112 anrufen.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q117",
+    "topic": "railwayCrossing",
+    "text": "Was zeigen die Baken (rot-weiß gestreift) vor einem Bahnübergang an?",
+    "options": [
+      "Entfernung zum Bahnübergang",
+      "Geschwindigkeitsbegrenzung",
+      "Parkverbot",
+      "Überholverbot"
+    ],
+    "correctIndex": 0,
+    "explanation": "Die Baken zeigen die Entfernung zum Bahnübergang an: 3 Streifen=240m, 2=160m, 1=80m.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q118",
+    "topic": "railwayCrossing",
+    "text": "Wer hat am Bahnübergang immer Vorrang?",
+    "options": [
+      "PKW",
+      "LKW",
+      "Schienenfahrzeuge",
+      "Fußgänger"
+    ],
+    "correctIndex": 2,
+    "explanation": "Schienenfahrzeuge haben am Bahnübergang immer absoluten Vorrang.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q119",
+    "topic": "railwayCrossing",
+    "text": "Darf man direkt vor einem Bahnübergang überholen?",
+    "options": [
+      "Ja",
+      "Nein",
+      "Nur Fahrräder",
+      "Nur bei offener Schranke"
+    ],
+    "correctIndex": 1,
+    "explanation": "Unmittelbar vor und auf Bahnübergängen ist Überholen verboten.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q120",
+    "topic": "railwayCrossing",
+    "text": "Was bedeuten zwei rote Wechselblinklichter am Bahnübergang?",
+    "options": [
+      "Freie Fahrt",
+      "Halt! Zug nähert sich",
+      "Schranke hebt sich",
+      "Bahnübergang außer Betrieb"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zwei rote Wechselblinklichter bedeuten: Halt! Ein Zug nähert sich.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q121",
+    "topic": "railwayCrossing",
+    "text": "Wie weit vor einem Bahnübergang mit Andreaskreuz darf man innerorts nicht parken?",
+    "options": [
+      "3 Meter",
+      "5 Meter",
+      "10 Meter",
+      "15 Meter"
+    ],
+    "correctIndex": 1,
+    "explanation": "Innerorts: 5 Meter Parkverbot vor dem Andreaskreuz. Außerorts: 50 Meter.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q122",
+    "topic": "visibility",
+    "text": "Wann müssen Sie das Fernlicht ausschalten?",
+    "options": [
+      "Bei Gegenverkehr oder vorausfahrenden Fahrzeugen",
+      "Nie",
+      "Nur in der Stadt",
+      "Nur bei Regen"
+    ],
+    "correctIndex": 0,
+    "explanation": "Fernlicht muss abgeblendet werden bei Gegenverkehr, vorausfahrenden Fahrzeugen und bei ausreichender Beleuchtung.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q123",
+    "topic": "visibility",
+    "text": "Was müssen Sie bei Regen auf der Autobahn beachten?",
+    "options": [
+      "Fernlicht einschalten",
+      "Geschwindigkeit anpassen, Abblendlicht, mehr Abstand",
+      "Normal weiterfahren",
+      "Nebelschlussleuchte einschalten"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei Regen: Geschwindigkeit reduzieren, Abblendlicht einschalten, Sicherheitsabstand vergrößern.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q124",
+    "topic": "visibility",
+    "text": "Wann dürfen Sie die Lichthupe benutzen?",
+    "options": [
+      "Zum Drängeln",
+      "Zum Warnen vor Gefahren oder außerorts zum Überholen ankündigen",
+      "Immer",
+      "Nur nachts"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die Lichthupe darf zum Warnen oder außerorts zum Ankündigen des Überholens verwendet werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q125",
+    "topic": "visibility",
+    "text": "Was ist bei Fahrten in der Dämmerung besonders zu beachten?",
+    "options": [
+      "Nichts",
+      "Wild kann die Straße überqueren, Sicht eingeschränkt",
+      "Schneller fahren",
+      "Fernlicht immer an"
+    ],
+    "correctIndex": 1,
+    "explanation": "In der Dämmerung ist Wildwechsel häufig und die Sicht eingeschränkt. Vorsichtig fahren.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q126",
+    "topic": "visibility",
+    "text": "Welches Licht benutzen Sie in einer gut beleuchteten Stadt?",
+    "options": [
+      "Fernlicht",
+      "Abblendlicht",
+      "Standlicht",
+      "Kein Licht"
+    ],
+    "correctIndex": 1,
+    "explanation": "In der Stadt wird Abblendlicht verwendet. Fernlicht blendet andere Verkehrsteilnehmer.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q127",
+    "topic": "visibility",
+    "text": "Was müssen Sie tun, wenn Sie durch Gegenverkehr geblendet werden?",
+    "options": [
+      "Zurückblenden",
+      "Geschwindigkeit verringern, rechten Fahrbahnrand anschauen",
+      "Anhalten",
+      "Augen schließen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei Blendung: Geschwindigkeit verringern, zum rechten Fahrbahnrand schauen, notfalls anhalten.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q128",
+    "topic": "visibility",
+    "text": "Welches Licht ist bei einer Fahrt bei Tag Pflicht?",
+    "options": [
+      "Keines",
+      "Tagfahrlicht oder Abblendlicht empfohlen",
+      "Fernlicht",
+      "Nebelscheinwerfer"
+    ],
+    "correctIndex": 1,
+    "explanation": "Tagfahrlicht oder Abblendlicht wird empfohlen. In einigen Ländern ist es Pflicht.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q129",
+    "topic": "emergency",
+    "text": "Was gehört zum Verbandkasten im Auto?",
+    "options": [
+      "Nur Pflaster",
+      "Warndreieck",
+      "Sterile Kompressen, Verbandpäckchen, Schere, Handschuhe",
+      "Medikamente"
+    ],
+    "correctIndex": 2,
+    "explanation": "Der Verbandkasten muss Kompressen, Verbandpäckchen, Schere, Einmalhandschuhe und mehr enthalten.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q130",
+    "topic": "emergency",
+    "text": "In welcher Reihenfolge gehen Sie bei Erster Hilfe vor?",
+    "options": [
+      "Beatmen, Herzdruckmassage",
+      "Ansprechen, Notruf, stabile Seitenlage/Wiederbelebung",
+      "Sofort Herzdruckmassage",
+      "Arzt anrufen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Ansprechen, Hilfe rufen, Notruf 112, dann lebensrettende Maßnahmen.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q131",
+    "topic": "emergency",
+    "text": "Wie legen Sie einen Bewusstlosen in die stabile Seitenlage?",
+    "options": [
+      "Auf den Rücken",
+      "Auf die Seite, Kopf überstreckt, Mund nach unten",
+      "Sitzen lassen",
+      "Aufrecht halten"
+    ],
+    "correctIndex": 1,
+    "explanation": "Stabile Seitenlage: Auf die Seite drehen, Kopf überstrecken, damit Atemwege frei bleiben.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q132",
+    "topic": "emergency",
+    "text": "Wie oft drücken Sie bei der Herzdruckmassage pro Minute?",
+    "options": [
+      "30 mal",
+      "60 mal",
+      "100-120 mal",
+      "200 mal"
+    ],
+    "correctIndex": 2,
+    "explanation": "Die Herzdruckmassage wird mit einer Frequenz von 100-120 Kompressionen pro Minute durchgeführt.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q133",
+    "topic": "emergency",
+    "text": "Was müssen Sie nach einem Unfall mit Personenschaden tun?",
+    "options": [
+      "Weiterfahren",
+      "Unfallstelle sichern, Erste Hilfe, Polizei rufen",
+      "Nur Versicherung anrufen",
+      "Fotos machen und gehen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Bei Personenschaden: Unfallstelle sichern, Erste Hilfe leisten, Polizei/Rettung (112) rufen.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q134",
+    "topic": "emergency",
+    "text": "Wann müssen Sie die Warnblinkanlage einschalten?",
+    "options": [
+      "Im Stau",
+      "Bei Panne, Unfall, als Warnung vor Gefahren",
+      "Beim Parken",
+      "Beim Überholen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Warnblinkanlage bei Panne, Unfall, Stauende oder anderen Gefahrensituationen einschalten.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q135",
+    "topic": "emergency",
+    "text": "Wie weit muss das Warndreieck auf Landstraßen aufgestellt werden?",
+    "options": [
+      "50 Meter",
+      "100 Meter",
+      "150 Meter",
+      "200 Meter"
+    ],
+    "correctIndex": 1,
+    "explanation": "Auf Landstraßen: Warndreieck mindestens 100 Meter vor der Gefahrenstelle aufstellen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q136",
+    "topic": "alcoholDrugs",
+    "text": "Ab welchem Promillewert ist Fahren eine Straftat?",
+    "options": [
+      "0,5 Promille",
+      "0,8 Promille",
+      "1,1 Promille",
+      "1,6 Promille"
+    ],
+    "correctIndex": 2,
+    "explanation": "Ab 1,1 Promille ist Fahren eine absolute Straftat, unabhängig von Ausfallerscheinungen.",
+    "fehlerpunkte": 5
+  },
+  {
+    "id": "q137",
+    "topic": "alcoholDrugs",
+    "text": "Was passiert bei 0,5 Promille ohne Auffälligkeiten?",
+    "options": [
+      "Nichts",
+      "500€ Bußgeld, 2 Punkte, 1 Monat Fahrverbot",
+      "Nur Verwarnung",
+      "10€ Bußgeld"
+    ],
+    "correctIndex": 1,
+    "explanation": "Ab 0,5 Promille: 500€ (Erstverstoß), 2 Punkte, 1 Monat Fahrverbot.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q138",
+    "topic": "alcoholDrugs",
+    "text": "Wie lange dauert der Abbau von 1 Promille Alkohol im Blut?",
+    "options": [
+      "1-2 Stunden",
+      "Ca. 10 Stunden",
+      "30 Minuten",
+      "24 Stunden"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der Körper baut ca. 0,1 Promille pro Stunde ab. 1 Promille braucht also ca. 10 Stunden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q139",
+    "topic": "alcoholDrugs",
+    "text": "Darf man nach Cannabis-Konsum Auto fahren?",
+    "options": [
+      "Ja, nach 2 Stunden",
+      "Nein, der THC-Wert muss unter dem Grenzwert liegen",
+      "Ja, immer",
+      "Nur auf Landstraßen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Fahren unter Cannabis-Einfluss ist verboten, wenn der THC-Wert den Grenzwert überschreitet.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q140",
+    "topic": "alcoholDrugs",
+    "text": "Was bewirkt Alkohol beim Fahren?",
+    "options": [
+      "Bessere Reaktion",
+      "Längere Reaktionszeit, Tunnelblick, Selbstüberschätzung",
+      "Bessere Sicht",
+      "Keine Wirkung"
+    ],
+    "correctIndex": 1,
+    "explanation": "Alkohol verlängert die Reaktionszeit, verengt das Blickfeld und führt zu Selbstüberschätzung.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q141",
+    "topic": "alcoholDrugs",
+    "text": "Was droht Fahranfängern bei Alkohol am Steuer?",
+    "options": [
+      "Nur Bußgeld",
+      "Verlängerung der Probezeit, Aufbauseminar, Bußgeld",
+      "Nichts bei unter 0,5 Promille",
+      "Nur Verwarnung"
+    ],
+    "correctIndex": 1,
+    "explanation": "Fahranfänger: 0,0 Promille. Verstoß: 250€, 1 Punkt, Probezeitverlängerung, Aufbauseminar.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q142",
+    "topic": "alcoholDrugs",
+    "text": "Können Medikamente die Fahrtüchtigkeit beeinträchtigen?",
+    "options": [
+      "Nein, nie",
+      "Ja, viele Medikamente können müde machen oder die Reaktion verlangsamen",
+      "Nur Schmerzmittel",
+      "Nur Schlafmittel"
+    ],
+    "correctIndex": 1,
+    "explanation": "Viele Medikamente beeinträchtigen die Fahrtüchtigkeit. Beipackzettel beachten!",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q143",
+    "topic": "passengers",
+    "text": "Wie viele Personen dürfen in einem 5-Sitzer-PKW mitfahren?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "So viele wie Gurte da sind"
+    ],
+    "correctIndex": 1,
+    "explanation": "Es dürfen so viele Personen mitfahren, wie zugelassene Sitzplätze vorhanden sind.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q144",
+    "topic": "passengers",
+    "text": "Dürfen Kinder auf dem Beifahrersitz mitfahren?",
+    "options": [
+      "Nie",
+      "Ja, mit geeignetem Kindersitz und deaktiviertem Airbag (rückwärts)",
+      "Immer ohne Einschränkung",
+      "Nur ab 12 Jahren"
+    ],
+    "correctIndex": 1,
+    "explanation": "Kinder dürfen vorne sitzen mit geeignetem Kindersitz. Bei rückwärtsgerichtetem Sitz muss der Airbag aus sein.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q145",
+    "topic": "passengers",
+    "text": "Was passiert, wenn ein Beifahrer nicht angeschnallt ist?",
+    "options": [
+      "Nur der Beifahrer zahlt",
+      "Der Fahrer zahlt 30€ Bußgeld",
+      "Nichts",
+      "Fahrverbot für den Fahrer"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der Fahrer ist verantwortlich und zahlt 30€ Bußgeld für jeden nicht angeschnallten Mitfahrer.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q146",
+    "topic": "passengers",
+    "text": "Darf man Tiere ungesichert im Auto transportieren?",
+    "options": [
+      "Ja",
+      "Nein, Tiere müssen gesichert werden (Transportbox, Gurt)",
+      "Nur kleine Tiere",
+      "Nur auf dem Rücksitz"
+    ],
+    "correctIndex": 1,
+    "explanation": "Tiere gelten als Ladung und müssen gesichert transportiert werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q147",
+    "topic": "passengers",
+    "text": "Ab welchem Alter darf man ein Mofa fahren?",
+    "options": [
+      "14 Jahre",
+      "15 Jahre",
+      "16 Jahre",
+      "18 Jahre"
+    ],
+    "correctIndex": 1,
+    "explanation": "Ein Mofa darf ab 15 Jahren mit Mofa-Prüfbescheinigung gefahren werden.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q148",
+    "topic": "passengers",
+    "text": "Wie müssen Sie Ladung auf dem Dachgepäckträger sichern?",
+    "options": [
+      "Gar nicht",
+      "Mit Spanngurten fest verzurren",
+      "Nur abdecken",
+      "Mit Klebeband"
+    ],
+    "correctIndex": 1,
+    "explanation": "Ladung auf dem Dach muss mit geeigneten Spanngurten oder Netzen fest gesichert werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q149",
+    "topic": "passengers",
+    "text": "Darf ein 17-Jähriger mit 'Begleitetem Fahren' alleine fahren?",
+    "options": [
+      "Ja",
+      "Nein, immer mit eingetragener Begleitperson",
+      "Ja, auf kurzen Strecken",
+      "Ja, tagsüber"
+    ],
+    "correctIndex": 1,
+    "explanation": "Beim Begleiteten Fahren ab 17 muss immer eine eingetragene Begleitperson dabei sein.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q150",
+    "topic": "passengers",
+    "text": "Wer haftet, wenn ein Kind nicht richtig gesichert ist?",
+    "options": [
+      "Das Kind",
+      "Der Fahrzeugführer",
+      "Die Eltern",
+      "Niemand"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der Fahrzeugführer ist für die Sicherung aller Insassen verantwortlich.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q151",
+    "topic": "vehicleTech",
+    "text": "Was bedeutet die rote Ölkanne im Armaturenbrett?",
+    "options": [
+      "Ölwechsel bald fällig",
+      "Öldruck zu niedrig — sofort anhalten!",
+      "Ölstand OK",
+      "Öltemperatur hoch"
+    ],
+    "correctIndex": 1,
+    "explanation": "Rote Öldruckwarnleuchte: Sofort anhalten und Motor abstellen! Weiterfahren kann den Motor zerstören.",
+    "fehlerpunkte": 4
+  },
+  {
+    "id": "q152",
+    "topic": "vehicleTech",
+    "text": "Wann müssen Sie Winterreifen verwenden?",
+    "options": [
+      "Von Oktober bis März",
+      "Bei winterlichen Straßenverhältnissen (Eis, Schnee, Glätte)",
+      "Nur bei Schnee",
+      "Nie, ist freiwillig"
+    ],
+    "correctIndex": 1,
+    "explanation": "Situative Winterreifenpflicht: Bei Eis, Schnee, Schneematsch oder Reifglätte.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q153",
+    "topic": "vehicleTech",
+    "text": "Was bedeutet ABS?",
+    "options": [
+      "Automatisches Bremssystem",
+      "Antiblockiersystem — verhindert Blockieren der Räder beim Bremsen",
+      "Allrad-Bremssystem",
+      "Anti-Beschleunigungs-System"
+    ],
+    "correctIndex": 1,
+    "explanation": "ABS verhindert das Blockieren der Räder und ermöglicht Lenken während des Bremsens.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q154",
+    "topic": "vehicleTech",
+    "text": "Wie oft muss ein PKW zur Hauptuntersuchung (TÜV)?",
+    "options": [
+      "Jedes Jahr",
+      "Alle 2 Jahre (Neuwagen erstmals nach 3 Jahren)",
+      "Alle 3 Jahre",
+      "Alle 5 Jahre"
+    ],
+    "correctIndex": 1,
+    "explanation": "PKW müssen alle 2 Jahre zur HU. Neuwagen erstmals nach 3 Jahren.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q155",
+    "topic": "vehicleTech",
+    "text": "Was ist ESP?",
+    "options": [
+      "Elektronisches Stabilitätsprogramm",
+      "Elektronisches Sicherheitsprogramm",
+      "Extra-Sicherheits-Paket",
+      "Einpark-System-Programm"
+    ],
+    "correctIndex": 0,
+    "explanation": "ESP erkennt kritische Fahrsituationen (Schleudern) und bremst einzelne Räder gezielt ab.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q156",
+    "topic": "vehicleTech",
+    "text": "Wie prüfen Sie den Reifendruck?",
+    "options": [
+      "Durch Drauftreten",
+      "Mit einem Reifendruckprüfer an der Tankstelle",
+      "Am Aussehen",
+      "Gar nicht nötig"
+    ],
+    "correctIndex": 1,
+    "explanation": "Reifendruck alle 2-4 Wochen an der Tankstelle prüfen. Werte stehen in der Tankklappe/Bedienungsanleitung.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q157",
+    "topic": "vehicleTech",
+    "text": "Was passiert bei zu wenig Kühlflüssigkeit?",
+    "options": [
+      "Nichts",
+      "Motor kann überhitzen und schwer beschädigt werden",
+      "Auto fährt langsamer",
+      "Nur im Winter ein Problem"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zu wenig Kühlflüssigkeit führt zur Motorüberhitzung. Sofort anhalten wenn Temperaturanzeige im roten Bereich.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q158",
+    "topic": "environment",
+    "text": "Was ist Start-Stopp-Automatik?",
+    "options": [
+      "Automatisches Starten des Motors",
+      "Motor schaltet sich bei Stillstand automatisch ab und startet beim Losfahren",
+      "Automatisches Parken",
+      "Tempomat"
+    ],
+    "correctIndex": 1,
+    "explanation": "Start-Stopp-Automatik spart Kraftstoff, indem der Motor bei Stillstand (z.B. Ampel) abgeschaltet wird.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q159",
+    "topic": "environment",
+    "text": "Warum sollte man den Motor im Stand nicht laufen lassen?",
+    "options": [
+      "Schadet dem Motor nicht",
+      "Unnötiger Kraftstoffverbrauch, Lärm- und Abgasbelästigung, verboten",
+      "Motor muss warmlaufen",
+      "Ist erlaubt"
+    ],
+    "correctIndex": 1,
+    "explanation": "Unnötiges Laufenlassen des Motors ist verboten (§ 30 StVO), verschwendet Kraftstoff und belastet die Umwelt.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q160",
+    "topic": "environment",
+    "text": "Was versteht man unter Lärmschutz im Straßenverkehr?",
+    "options": [
+      "Nichts",
+      "Unnötiges Hupen, lautes Gas geben und Motorenlärm vermeiden",
+      "Nur nachts leise fahren",
+      "Nur in Wohngebieten"
+    ],
+    "correctIndex": 1,
+    "explanation": "Unnötiger Lärm und vermeidbares Laufenlassen des Motors sind verboten (§ 30 StVO).",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q161",
+    "topic": "environment",
+    "text": "Was ist der Vorteil von Elektrofahrzeugen?",
+    "options": [
+      "Keine Wartung nötig",
+      "Keine lokalen Emissionen, leiser, oft günstiger im Betrieb",
+      "Schneller als Verbrenner",
+      "Keine Steuern"
+    ],
+    "correctIndex": 1,
+    "explanation": "Elektrofahrzeuge produzieren keine lokalen Emissionen und sind leiser als Verbrenner.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q162",
+    "topic": "environment",
+    "text": "Was ist bei der Entsorgung von Altöl zu beachten?",
+    "options": [
+      "In den Hausmüll",
+      "Als Sondermüll bei Sammelstellen abgeben",
+      "In den Abfluss kippen",
+      "Verbrennen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Altöl ist Sondermüll und muss bei autorisierten Sammelstellen abgegeben werden.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q163",
+    "topic": "environment",
+    "text": "Was bedeutet die CO2-Effizienzklasse bei Neuwagen?",
+    "options": [
+      "Motorleistung",
+      "Umweltbelastung durch CO2-Ausstoß im Vergleich zum Gewicht",
+      "Kraftstoffart",
+      "Reichweite"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die CO2-Effizienzklasse zeigt den CO2-Ausstoß eines Fahrzeugs relativ zu seinem Gewicht.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q164",
+    "topic": "environment",
+    "text": "Warum ist vorausschauendes Fahren umweltfreundlich?",
+    "options": [
+      "Weil man schneller ankommt",
+      "Weniger Brems- und Beschleunigungsvorgänge sparen Kraftstoff",
+      "Weil die Reifen länger halten",
+      "Es ist nicht umweltfreundlicher"
+    ],
+    "correctIndex": 1,
+    "explanation": "Gleichmäßiges, vorausschauendes Fahren vermeidet unnötiges Bremsen und Beschleunigen.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q165",
+    "topic": "environment",
+    "text": "Was können Sie tun, um den Kraftstoffverbrauch zu senken?",
+    "options": [
+      "Dachgepäckträger immer montiert lassen",
+      "Reifendruck prüfen, unnötiges Gewicht entfernen, Klimaanlage sparsam nutzen",
+      "Immer im höchsten Gang fahren",
+      "Motor warmfahren lassen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Korrekter Reifendruck, wenig Gewicht, sparsame Klimaanlage und aerodynamisches Fahren senken den Verbrauch.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q166",
+    "topic": "general",
+    "text": "Was ist die Aufgabe des TÜV?",
+    "options": [
+      "Autos verkaufen",
+      "Technische Überwachung und Hauptuntersuchung",
+      "Führerscheine ausstellen",
+      "Straßen bauen"
+    ],
+    "correctIndex": 1,
+    "explanation": "Der TÜV führt die Hauptuntersuchung durch und prüft die Verkehrssicherheit von Fahrzeugen.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q167",
+    "topic": "general",
+    "text": "Was ist ein Fahrtenbuch?",
+    "options": [
+      "Ein Tagebuch",
+      "Ein amtlich angeordnetes Buch zur Dokumentation aller Fahrten",
+      "Ein Navigationsgerät",
+      "Eine Versicherungspolice"
+    ],
+    "correctIndex": 1,
+    "explanation": "Ein Fahrtenbuch kann von der Behörde angeordnet werden, um alle Fahrten zu dokumentieren.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q168",
+    "topic": "general",
+    "text": "Wann verlängert sich die Probezeit?",
+    "options": [
+      "Bei einem A-Verstoß oder zwei B-Verstößen",
+      "Nach 1 Jahr automatisch",
+      "Nie",
+      "Bei jedem Strafzettel"
+    ],
+    "correctIndex": 0,
+    "explanation": "Die Probezeit verlängert sich um 2 Jahre bei einem A-Verstoß oder zwei B-Verstößen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q169",
+    "topic": "general",
+    "text": "Ab wie vielen Punkten in Flensburg wird der Führerschein entzogen?",
+    "options": [
+      "4 Punkte",
+      "6 Punkte",
+      "8 Punkte",
+      "10 Punkte"
+    ],
+    "correctIndex": 2,
+    "explanation": "Bei 8 Punkten im Fahreignungsregister wird die Fahrerlaubnis entzogen.",
+    "fehlerpunkte": 3
+  },
+  {
+    "id": "q170",
+    "topic": "general",
+    "text": "Was ist eine MPU?",
+    "options": [
+      "Motor-Prüf-Untersuchung",
+      "Medizinisch-Psychologische Untersuchung (Idiotentest)",
+      "Maut-Prüfungs-Unterlage",
+      "Mindest-Prüfungs-Umfang"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die MPU wird angeordnet bei Zweifeln an der Fahreignung (z.B. nach Alkohol/Drogen am Steuer).",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q171",
+    "topic": "general",
+    "text": "Was müssen Sie im Ausland im Auto mitführen?",
+    "options": [
+      "Nur Führerschein",
+      "Je nach Land: Warnweste, Warndreieck, Verbandskasten, Vignette",
+      "Nur Reisepass",
+      "Nichts Besonderes"
+    ],
+    "correctIndex": 1,
+    "explanation": "Die Pflichtausstattung variiert je nach Land. Informieren Sie sich vor der Reise.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q172",
+    "topic": "general",
+    "text": "Wer darf ein Fahrzeug mit der Klasse B führen?",
+    "options": [
+      "Nur PKW",
+      "PKW bis 3,5t zGM und Anhänger bis 750kg",
+      "LKW",
+      "Busse"
+    ],
+    "correctIndex": 1,
+    "explanation": "Klasse B: PKW bis 3.500 kg zulässiger Gesamtmasse, Anhänger bis 750 kg.",
+    "fehlerpunkte": 2
+  },
+  {
+    "id": "q173",
+    "topic": "general",
+    "text": "Was bedeutet 'Fahren ohne Fahrerlaubnis'?",
+    "options": [
+      "Ordnungswidrigkeit",
+      "Straftat mit Geld- oder Freiheitsstrafe",
+      "Nur Bußgeld",
+      "Verwarnung"
+    ],
+    "correctIndex": 1,
+    "explanation": "Fahren ohne Fahrerlaubnis ist eine Straftat nach § 21 StVG.",
+    "fehlerpunkte": 4
+  }
 ]
