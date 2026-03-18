@@ -194,6 +194,7 @@
 		E0B05956B8448C3DB489CCF3 /* CategoryReadinessRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4900E7B1DB95982A45D4AA /* CategoryReadinessRow.swift */; };
 		E23C09E3596D784BA1B15D5D /* ExamSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D61915B5C5DFD48D2B9BB64 /* ExamSession.swift */; };
 		E25DD19BE5F085E9F45EA42B /* PremiumRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DA3D496869B724B855511D /* PremiumRootView.swift */; };
+		E275CEF84C0BE88783DD81EA /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2DE92C2CA20E52F8DE971F /* ScreenshotTests.swift */; };
 		E2FE9402CEE13F2F765F06F5 /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22B0606D358AC75C787019 /* SessionSummaryView.swift */; };
 		E3B6C6C1880DB2324E1DED51 /* AssessmentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96873037F6B7562EFDBEE7B6 /* AssessmentError.swift */; };
 		E54F709FCF603E9100AD42CE /* RevealMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E1A120DDA4911F9CD9460 /* RevealMode.swift */; };
@@ -408,6 +409,7 @@
 		DA6D67C162F8E6AEADEDC5A9 /* SessionQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionQuestion.swift; sourceTree = "<group>"; };
 		DA712B6A4CC017A525735741 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		DC1D8604FBB5DFBF95769E02 /* ProgressGridCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressGridCard.swift; sourceTree = "<group>"; };
+		DD2DE92C2CA20E52F8DE971F /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 		DD8B3B1842B60F3E6E1E4889 /* Trend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trend.swift; sourceTree = "<group>"; };
 		E013BBB2D3021B587784AC2D /* AskFinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskFinApp.swift; sourceTree = "<group>"; };
 		E27FDA27DCF184237816A4E2 /* AssessmentButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentButtonStyle.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 				98E3CD910480235AE54C1531 /* InFlowSmokeTests.swift */,
 				F5C2824C8EA7328A596A0509 /* MultiSessionTests.swift */,
 				7EBFF837B2A856D9D30B8EC2 /* PostSessionStateTests.swift */,
+				DD2DE92C2CA20E52F8DE971F /* ScreenshotTests.swift */,
 				5FEB1C4A8F214CBC391B3428 /* SkillMapRuntimeTests.swift */,
 				E45CE415E807CBD205163D10 /* TrainingJourneyTests.swift */,
 			);
@@ -844,6 +847,7 @@
 				6298987E3B5ADBAE4711F0E7 /* InFlowSmokeTests.swift in Sources */,
 				C03A5B0E4B282591A529A7ED /* MultiSessionTests.swift in Sources */,
 				5EA87DBB00CF19956592E82C /* PostSessionStateTests.swift in Sources */,
+				E275CEF84C0BE88783DD81EA /* ScreenshotTests.swift in Sources */,
 				26DE26239A05AA854B406161 /* SkillMapRuntimeTests.swift in Sources */,
 				870C54ECAB3E80F1E8E2F88E /* TrainingJourneyTests.swift in Sources */,
 			);
