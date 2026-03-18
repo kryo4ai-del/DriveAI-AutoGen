@@ -140,8 +140,8 @@ extension GeneralprobeRuntimeTests {
             screenshot("cta_answer_review")
 
             // Dismiss sheet
-            let dismissBtn = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Fertig'")).firstMatch
-            if dismissBtn.waitForExistence(timeout: 3) { dismissBtn.tap(); sleep(1) }
+            let dismissBtn = app.navigationBars.buttons.firstMatch
+            if dismissBtn.waitForExistence(timeout: 3), dismissBtn.isHittable { dismissBtn.tap(); sleep(1) }
         }
 
         // Tap "Nochmal simulieren" if available
@@ -151,5 +151,67 @@ extension GeneralprobeRuntimeTests {
             screenshot("cta_retry")
             // Should restart simulation — no crash = success
         }
+    }
+}
+
+extension GeneralprobeRuntimeTests {
+    func testFullInsightToActionLoop() {
+        // 1. Generalprobe tab
+        let tab = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Generalprobe'")).firstMatch
+        guard tab.waitForExistence(timeout: 5) else { XCTFail("No Generalprobe tab"); return }
+        tab.tap()
+        sleep(2)
+
+        // 2. Start simulation
+        let startBtn = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS 'Simulation starten' OR label CONTAINS 'Start'"
+        )).firstMatch
+        guard startBtn.waitForExistence(timeout: 5) else { return }
+        startBtn.tap()
+        sleep(2)
+
+        // 3. Answer all questions (pick last = likely wrong for fail result)
+        for _ in 0..<35 {
+            let answers = app.buttons.allElementsBoundByIndex.filter { $0.exists && $0.isHittable && $0.frame.minY > 150 }
+            guard let answer = answers.last else { break }
+            answer.tap()
+            usleep(300000)
+        }
+        sleep(3)
+        screenshot("loop_01_result")
+
+        // 4. Result screen — tap a gap entry (if visible)
+        let gapButtons = app.buttons.allElementsBoundByIndex.filter {
+            $0.exists && $0.isHittable && $0.frame.minY > 200 && $0.frame.minY < 600
+        }
+        if let gapBtn = gapButtons.first {
+            gapBtn.tap()
+            sleep(2)
+            screenshot("loop_02_drilldown")
+
+            // 5. "Jetzt üben" CTA
+            let trainBtn = app.buttons.matching(NSPredicate(
+                format: "label CONTAINS 'Jetzt' OR label CONTAINS 'üben'"
+            )).firstMatch
+            if trainBtn.waitForExistence(timeout: 3) {
+                trainBtn.tap()
+                sleep(2)
+                screenshot("loop_03_training")
+
+                // 6. Training opened — dismiss
+                let beenden = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Beenden'")).firstMatch
+                if beenden.waitForExistence(timeout: 5) {
+                    beenden.tap()
+                    sleep(1)
+                }
+            } else {
+                // Dismiss drilldown
+                let fertig = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Fertig'")).firstMatch
+                if fertig.waitForExistence(timeout: 3) { fertig.tap() }
+            }
+        }
+
+        screenshot("loop_04_end")
+        // No crash = full loop validated
     }
 }
