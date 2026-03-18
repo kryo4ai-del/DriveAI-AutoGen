@@ -1,29 +1,60 @@
-# AskFin Premium — App Store Checklist
+# AskFin Premium — App Store Submission Checklist
 
-## Erledigt
+## Code & Build ✅
+- [x] Xcode Build SUCCEEDED
+- [x] 15 Golden Gates, 0 Failures
+- [x] 4 Pillars runtime-validiert
+- [x] 173 echte Führerschein-Fragen
+- [x] Adaptive Learning mit Confidence
+- [x] Persistence überlebt Cold Restart
+
+## App Store Metadata ✅
 - [x] Bundle ID: com.askfin.premium
 - [x] Display Name: AskFin
 - [x] Version: 1.0 (Build 1)
-- [x] Info.plist: komplett (UILaunchScreen, Orientations, Scene Manifest)
-- [x] Asset Catalog: Assets.xcassets erstellt
-- [x] AccentColor: Grün (#34C744)
-- [x] AppIcon Slot: Vorhanden (1024x1024 Placeholder)
 - [x] Deployment Target: iOS 17.0
-- [x] Sprache: Deutsch
+- [x] Beschreibung (APP_STORE_METADATA.md)
+- [x] Keywords (10, 95 Zeichen)
+- [x] Screenshot-Captions (5 Screens)
+- [x] Kategorie: Bildung
 
-## Offen — braucht Designer
-- [ ] App Icon: 1024x1024 PNG (Platzhalter erstellt, echtes Design fehlt)
-- [ ] Screenshots: 5 Key-Screens (Home, Training, Skill Map, Generalprobe, Result)
-- [ ] App Store Description (Titel, Subtitle, Keywords, Beschreibung)
-- [ ] Privacy Policy URL
-- [ ] Support URL
+## Visual Assets ✅ (teilweise)
+- [x] Asset Catalog (Assets.xcassets)
+- [x] AccentColor (#34C744)
+- [x] AppIcon Slot vorbereitet
+- [x] 6 Screenshots captured
+- [ ] **App Icon Grafik** (1024x1024) → siehe APP_ICON_SPEC.md
 
-## Offen — braucht Developer
-- [ ] Code Signing (Apple Developer Account)
+## Privacy & Compliance ✅
+- [x] Privacy Policy (PRIVACY_POLICY.md)
+- [x] "Keine Daten erhoben" — stärkste Position
+- [x] Kein Tracking, kein Analytics, kein Netzwerk
+- [ ] **Privacy Policy URL hosten** (GitHub Pages empfohlen)
+- [ ] **Support-E-Mail einsetzen** in Privacy Policy
+
+## Apple Developer Account ❌
+- [ ] Apple Developer Program Mitgliedschaft (99€/Jahr)
+- [ ] Code Signing Certificate
 - [ ] Provisioning Profile
-- [ ] TestFlight Build
 - [ ] App Store Connect Eintrag
 
-## Offen — braucht Content
-- [ ] Fragen-Dataset auf 300+ erweitern
-- [ ] Fragen-Review (inhaltliche Korrektheit prüfen)
+## Submission-Bereitschaft
+
+| Bereich | Status | Blocker |
+|---|---|---|
+| Code | ✅ Fertig | — |
+| Metadata | ✅ Fertig | — |
+| Screenshots | ✅ Fertig | — |
+| Privacy | ✅ Draft fertig | URL hosten + E-Mail |
+| App Icon | ⚠️ Slot bereit | Grafik erstellen |
+| Developer Account | ❌ Fehlt | Apple Registrierung |
+
+## Nächste Schritte (in Reihenfolge)
+
+1. App Icon Grafik erstellen (Designer oder Tool)
+2. Privacy Policy URL hosten
+3. Apple Developer Account registrieren
+4. Code Signing einrichten
+5. TestFlight Build hochladen
+6. App Store Connect Eintrag anlegen
+7. Submit for Review
