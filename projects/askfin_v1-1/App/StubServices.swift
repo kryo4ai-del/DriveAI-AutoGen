@@ -115,7 +115,10 @@ final class InMemoryPersistenceStore: PersistenceStore {
 
 final class MockQuestionBank: QuestionBankProtocol {
     func randomQuestion(for topic: TopicArea, revealMode: RevealMode) -> SessionQuestion? {
-        SessionQuestion(
+        if let real = QuestionLoader.shared.sessionQuestion(for: topic, revealMode: revealMode) {
+            return real
+        }
+        return SessionQuestion(
             text: "Demo-Frage zu \(topic.displayName)",
             options: SwipeDirection.allCases.enumerated().map { index, dir in
                 AnswerOption(text: "Antwort \(dir.answerLetter)", swipeDirection: dir)

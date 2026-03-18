@@ -49,6 +49,7 @@
 		27B394F240B2A7D31A1C3A88 /* Trend.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8B3B1842B60F3E6E1E4889 /* Trend.swift */; };
 		2894F6CF0F12F4600825D2BB /* StubServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47AD0344A83EF16C861AE57 /* StubServices.swift */; };
 		28C2DD1D19C254B848BF0DB8 /* ReadinessAlgorithmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D2646FD91A5F8A4A88CD86 /* ReadinessAlgorithmConfig.swift */; };
+		2A3E54083ECE5489C9079427 /* QuestionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB52A96064865028029CB44 /* QuestionLoader.swift */; };
 		2A5AECB5DC20A61D44C5EFE7 /* HapticFeedbackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8B2C0FFE6B74C6355F83CE /* HapticFeedbackProtocol.swift */; };
 		2A9ACC56158C57C20C745B24 /* PassProbabilityValidatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7764257A0D30460A8A6E2C /* PassProbabilityValidatorProtocol.swift */; };
 		2B727215150B5713342B8D0D /* QuestionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D06AFE6F73C7FF98EEB96C /* QuestionRepositoryProtocol.swift */; };
@@ -204,6 +205,7 @@
 		EE4875E1A1AECEA0CFA605F6 /* ExamReadinessCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05161E39929FFF12048A00EC /* ExamReadinessCard.swift */; };
 		EF6FBA7EAADE2433066AFF9D /* ScoringCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77D65315C1DF26AD86A5ED8 /* ScoringCalculator.swift */; };
 		F09009CC8BBB83D5E670A30F /* ExamConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826197EC09D6F151B9C14379 /* ExamConfig.swift */; };
+		F55F30D4EAF5C54BC2FB8A65 /* questions.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B5682486FB3845B99905974 /* questions.json */; };
 		F623EA7BC8FD47A98DECDA44 /* ReadinessDesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B589AF6EF4D0492891D2081 /* ReadinessDesignTokens.swift */; };
 		F6AE318665ED848240556653 /* CategoryStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48958FD205FE109EC636086 /* CategoryStrength.swift */; };
 		F84936F428E94B5BE7BCC91B /* StreakIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE77361FC9D6F55D67A0CBE2 /* StreakIndicator.swift */; };
@@ -351,8 +353,10 @@
 		9B289FF08D9DC6BCA6942158 /* TrainingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSession.swift; sourceTree = "<group>"; };
 		9B3820E0F7CA68F2B4CE4402 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
 		9B4E50952A3AF18D83F918BB /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		9B5682486FB3845B99905974 /* questions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = questions.json; sourceTree = "<group>"; };
 		9C0B3884721DA44E94F7643C /* ExamSimulationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSimulationViewModel.swift; sourceTree = "<group>"; };
 		9C4068BB2CEBE9D0B8B7C55A /* ReadinessAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessAnalysisService.swift; sourceTree = "<group>"; };
+		9DB52A96064865028029CB44 /* QuestionLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionLoader.swift; sourceTree = "<group>"; };
 		9FD159F2103447401C83F855 /* ReadinessHeaderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessHeaderSection.swift; sourceTree = "<group>"; };
 		A087C5BE4C90B64AD71CBC92 /* DataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceProtocol.swift; sourceTree = "<group>"; };
 		A12F06D5C712EA0E695B3E6F /* CompetenceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetenceLevel.swift; sourceTree = "<group>"; };
@@ -465,6 +469,7 @@
 				0230ACC5B1F3AE0CA09E65BA /* PersistenceStore.swift */,
 				CFD27D16C8FE2A7D508B1407 /* PremiumLocalDataService.swift */,
 				B4AC3198EDC7C83B4D6D03E1 /* QuestionBankProtocol.swift */,
+				9DB52A96064865028029CB44 /* QuestionLoader.swift */,
 				9C4068BB2CEBE9D0B8B7C55A /* ReadinessAnalysisService.swift */,
 				A512E989C79842410EE8163C /* ReadinessCalculationService.swift */,
 				8049122E0C3848497703F778 /* ReadinessScoreService.swift */,
@@ -724,12 +729,21 @@
 			children = (
 				445B0609F47603F504B40AED /* App */,
 				5E5F32DC472B7F640218BA0D /* Models */,
+				DF65094004494D954F74D6F0 /* Resources */,
 				213C986CB4EB5BA9E68297AF /* Services */,
 				383CB9BAE84BF7A7E023D41C /* UITests */,
 				475C9B501FF0B9B292BCAFA6 /* ViewModels */,
 				AE0516E378860212C61510DB /* Views */,
 				07629DAC3A71C0E3B7D6274B /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		DF65094004494D954F74D6F0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9B5682486FB3845B99905974 /* questions.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -758,6 +772,7 @@
 			buildConfigurationList = 5A5AC797B092CA9D2EB5477E /* Build configuration list for PBXNativeTarget "AskFinPremium" */;
 			buildPhases = (
 				E85516E75A7A226B32F602D9 /* Sources */,
+				BD7DC96F1765CE228FF06718 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -803,6 +818,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BD7DC96F1765CE228FF06718 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F55F30D4EAF5C54BC2FB8A65 /* questions.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D6CA132C9B246DFF0ABFB7E1 /* Sources */ = {
@@ -921,6 +947,7 @@
 				5554914BAC98B837158E40FA /* QuestionBankProtocol.swift in Sources */,
 				24FDDADB8045A7DCA315B31B /* QuestionCard.swift in Sources */,
 				BE42CD3D6FFD517FDD97A69E /* QuestionCardView.swift in Sources */,
+				2A3E54083ECE5489C9079427 /* QuestionLoader.swift in Sources */,
 				35584D80BC1DC572D90F46E9 /* QuestionOptionButton.swift in Sources */,
 				3BCCA8C40CDCDF8D827FEAD4 /* QuestionRepository.swift in Sources */,
 				2B727215150B5713342B8D0D /* QuestionRepositoryProtocol.swift in Sources */,

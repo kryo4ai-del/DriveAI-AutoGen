@@ -22,6 +22,7 @@ targets:
       - path: Views
       - path: ViewModels
       - path: Services
+      - path: Resources
         excludes:
           - "**/Mock*"
     settings:
