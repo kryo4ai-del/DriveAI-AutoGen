@@ -103,6 +103,7 @@
 		5EA87DBB00CF19956592E82C /* PostSessionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBFF837B2A856D9D30B8EC2 /* PostSessionStateTests.swift */; };
 		5EF9814C494CD7B70D165DDC /* SessionPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437BB41913A5066BD42866BA /* SessionPhase.swift */; };
 		6298987E3B5ADBAE4711F0E7 /* InFlowSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E3CD910480235AE54C1531 /* InFlowSmokeTests.swift */; };
+		63094D73D3B3834921E5E769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FD2B485041C1FE3E05C37D8 /* Assets.xcassets */; };
 		65F4137B0E4F789B05E72D90 /* TopicDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35295BE3A68A8972BF190B9 /* TopicDetailView.swift */; };
 		685D29BE207F3171FBFA2FEA /* SimulationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D8E8DB78CD4759CD607081 /* SimulationConfig.swift */; };
 		686E798E728EFC383F069AA2 /* ExamDateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6ADCA7A510F83A5AAAD6C /* ExamDateState.swift */; };
@@ -255,6 +256,7 @@
 		1D61915B5C5DFD48D2B9BB64 /* ExamSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSession.swift; sourceTree = "<group>"; };
 		1DDEA023B69C6DA9F46B857F /* ReadinessGaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessGaugeView.swift; sourceTree = "<group>"; };
 		1EE8272ABBCA0F31146D548E /* FehlerpunkteCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FehlerpunkteCategory.swift; sourceTree = "<group>"; };
+		1FD2B485041C1FE3E05C37D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		202760B470F8E5DEEE0F193C /* SimulationMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationMode.swift; sourceTree = "<group>"; };
 		207E79960093B7BC0FA35581 /* PremiumHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumHomeView.swift; sourceTree = "<group>"; };
 		20DB4E8609F269DEA5D55772 /* ReadinessViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessViewState.swift; sourceTree = "<group>"; };
@@ -741,6 +743,7 @@
 		DF65094004494D954F74D6F0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1FD2B485041C1FE3E05C37D8 /* Assets.xcassets */,
 				9B5682486FB3845B99905974 /* questions.json */,
 			);
 			path = Resources;
@@ -824,6 +827,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63094D73D3B3834921E5E769 /* Assets.xcassets in Resources */,
 				F55F30D4EAF5C54BC2FB8A65 /* questions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1206,6 +1210,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1239,6 +1244,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
