@@ -37,7 +37,7 @@ class TopicCompetenceService: ObservableObject {
     // MARK: - Core API
     
     /// Record an answer and update competence + spacing
-    func recordAnswer(topicId: String, questionId: String, isCorrect: Bool) {
+    func recordAnswer(topicId: String, questionId: String, isCorrect: Bool, confidenceWeight: Double = 1.0) {
         // Update competence
         if var competence = competenceMap[topicId] {
             competence.totalAnswers += 1
@@ -45,7 +45,7 @@ class TopicCompetenceService: ObservableObject {
                 competence.correctAnswers += 1
             }
             competence.lastReviewedDate = Date()
-            let rawAccuracy = Double(competence.correctAnswers) / Double(competence.totalAnswers)
+            let rawAccuracy = Double(competence.correctAnswers) / Double(competence.totalAnswers) * confidenceWeight
             competence.weightedAccuracy = rawAccuracy
             competenceMap[topicId] = competence
         } else {
@@ -80,7 +80,7 @@ class TopicCompetenceService: ObservableObject {
     /// Record a session result and update competence.
     func record(result: SessionResult) {
         let confidenceWeight = confidenceMultiplier(result.confidence)
-        recordAnswer(topicId: result.topic.rawValue, questionId: result.questionID.uuidString, isCorrect: result.wasCorrect)
+        recordAnswer(topicId: result.topic.rawValue, questionId: result.questionID.uuidString, isCorrect: result.wasCorrect, confidenceWeight: confidenceWeight)
     }
     
     /// Return topics that are due for spaced repetition review.
