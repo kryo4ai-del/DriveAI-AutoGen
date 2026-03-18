@@ -1,0 +1,1 @@
+enum class DifficultyLevel { EASY, MEDIUM, HARD }

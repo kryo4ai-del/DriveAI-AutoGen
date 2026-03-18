@@ -416,8 +416,16 @@ class CompletionVerifier:
         project_name: str = "askfin_premium",
         generated_dir: str | None = None,
         specs_dir: str | None = None,
+        language: str = "swift",
     ):
         self.project_name = project_name
+        self._language = language
+        self._file_extensions = {
+            "swift": [".swift"],
+            "kotlin": [".kt"],
+            "typescript": [".ts", ".tsx"],
+            "python": [".py"],
+        }.get(language, [".swift"])
 
         if generated_dir:
             self.generated_dir = Path(generated_dir)
@@ -511,16 +519,18 @@ class CompletionVerifier:
         project_swift_files = []
         if project_dir.is_dir():
             gen_dir = self.generated_dir.resolve()
-            for sf in project_dir.rglob("*.swift"):
-                try:
-                    sf.resolve().relative_to(gen_dir)
-                    continue  # skip generated/
-                except ValueError:
-                    pass
-                project_swift_files.append(sf)
+            for ext in self._file_extensions:
+                for sf in project_dir.rglob(f"*{ext}"):
+                    try:
+                        sf.resolve().relative_to(gen_dir)
+                        continue  # skip generated/
+                    except ValueError:
+                        pass
+                    project_swift_files.append(sf)
 
         project_file_count = len(project_swift_files)
-        print(f"[CompletionVerifier] Project Swift files: {project_file_count}")
+        _lang_label = self._language.title()
+        print(f"[CompletionVerifier] Project {_lang_label} files: {project_file_count}")
 
         # --- Evidence 2: Core folder check (in project root, not generated/) ---
         project_folders_present = []

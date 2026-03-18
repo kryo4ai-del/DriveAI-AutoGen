@@ -383,15 +383,18 @@ def extract_from_log(log_path: str) -> list[Artifact]:
 # Filesystem collection
 # ---------------------------------------------------------------------------
 
-def collect_from_directory(directory: str, source_label: str) -> list[Artifact]:
-    """Recursively collect all .swift files from a directory."""
+def collect_from_directory(directory: str, source_label: str,
+                           file_extensions: list[str] | None = None) -> list[Artifact]:
+    """Recursively collect all source files from a directory."""
+    extensions = file_extensions or [".swift"]
     artifacts: list[Artifact] = []
     root = Path(directory)
 
     if not root.exists():
         return artifacts
 
-    for swift_file in root.rglob("*.swift"):
+    for ext in extensions:
+      for swift_file in root.rglob(f"*{ext}"):
         try:
             content = swift_file.read_text(encoding="utf-8", errors="replace")
         except (OSError, IOError):
@@ -452,6 +455,7 @@ class OutputIntegrator:
         output_base: str | None = None,
         log_filter: str | None = None,
         clean_before_integrate: bool = True,
+        file_extensions: list[str] | None = None,
     ):
         """
         Args:
@@ -475,6 +479,7 @@ class OutputIntegrator:
         # Project root dir (non-generated) for dedup checking
         self.project_dir = _PROJECT_ROOT / "projects" / project_name
 
+        self._extensions = file_extensions or [".swift"]
         self.report = IntegrationReport()
 
     def run(self) -> IntegrationReport:
@@ -599,7 +604,7 @@ class OutputIntegrator:
         return all_artifacts
 
     def _clean_output_dir(self) -> int:
-        """Remove all .swift files from the generated/ output directory.
+        """Remove all source files from the generated/ output directory.
 
         Prevents cross-run accumulation — each integration starts fresh.
         Returns count of removed files.
@@ -607,26 +612,25 @@ class OutputIntegrator:
         if not self.output_dir.exists():
             return 0
         removed = 0
-        for swift_file in list(self.output_dir.rglob("*.swift")):
-            try:
-                swift_file.unlink()
-                removed += 1
-            except OSError:
-                pass
+        for ext in self._extensions:
+            for src_file in list(self.output_dir.rglob(f"*{ext}")):
+                try:
+                    src_file.unlink()
+                    removed += 1
+                except OSError:
+                    pass
         return removed
 
     def _build_project_file_index(self) -> dict[str, Path]:
-        """Build an index of existing Swift files in the project directory
+        """Build an index of existing source files in the project directory
         (outside generated/) for deduplication.
-
-        Returns a dict mapping filename -> full path for all .swift files
-        in the project directory that are NOT inside generated/.
         """
         index: dict[str, Path] = {}
         if not self.project_dir.exists():
             return index
 
-        for swift_file in self.project_dir.rglob("*.swift"):
+        for ext in self._extensions:
+          for swift_file in self.project_dir.rglob(f"*{ext}"):
             # Skip files inside generated/ — those are our own output
             try:
                 swift_file.relative_to(self.output_dir)
@@ -650,7 +654,8 @@ class OutputIntegrator:
         if not self.project_dir.exists():
             return type_index
 
-        for swift_file in self.project_dir.rglob("*.swift"):
+        for ext in self._extensions:
+          for swift_file in self.project_dir.rglob(f"*{ext}"):
             # Skip generated/
             try:
                 swift_file.relative_to(self.output_dir)

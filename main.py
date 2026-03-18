@@ -921,10 +921,19 @@ async def main():
         # ── Operations Layer (post-run) ──────────────────────────────
         if not a["no_ops_layer"] and a["project"]:
             try:
+                # Determine language for operations layer
+                _ops_language = "swift"
+                try:
+                    from factory.project_config import load_project_config as _lpc
+                    _ops_cfg = _lpc(a["project"])
+                    _ops_language = _ops_cfg.get_extraction_language()
+                except Exception:
+                    pass
                 ops_result = _run_operations_layer(
                     project_name=a["project"],
                     env_profile=env_profile,
                     run_id=run_id,
+                    language=_ops_language,
                 )
                 if json_output:
                     pipeline_result["operations_layer"] = ops_result

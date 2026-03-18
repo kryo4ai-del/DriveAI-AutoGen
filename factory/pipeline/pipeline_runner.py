@@ -288,9 +288,18 @@ async def run_pipeline(
     print(f"Code extraction : {_extraction_lang} (via {type(extractor).__name__})")
     logger.info(f"[Extraction] language={_extraction_lang} extractor={type(extractor).__name__}")
 
+    # Determine file extensions for this language
+    _file_extensions = {
+        "swift": [".swift"], "kotlin": [".kt"],
+        "typescript": [".ts", ".tsx"], "python": [".py"],
+    }.get(_extraction_lang, [".swift"])
+
     if not project_name:
         print("WARNING: No project context — ProjectIntegrator and CodeExtractor project-awareness inactive.")
-    integrator = ProjectIntegrator(os.path.join("projects", project_name) if project_name else "generated_code")
+    integrator = ProjectIntegrator(
+        os.path.join("projects", project_name) if project_name else "generated_code",
+        file_extensions=_file_extensions,
+    )
     code_counts = extractor.extract_code(result.messages, project_name=project_name)
 
     # Guard: abort integration if extraction was aborted (too many files)
@@ -758,7 +767,8 @@ async def run_pipeline(
     if code_counts.get("aborted"):
         print(f"Swift extraction   : ABORTED (file limit exceeded)")
     else:
-        print(f"Swift files saved  : {code_counts['saved']} new, {code_counts['skipped']} unchanged")
+        _lang_label = _extraction_lang.title()
+        print(f"{_lang_label} files saved  : {code_counts['saved']} new, {code_counts['skipped']} unchanged")
     xcode_status = xcode_counts.get("status", "integrated")
     if xcode_status == "aborted":
         print(f"Xcode integration  : ABORTED (extraction failed)")
@@ -817,6 +827,7 @@ def run_operations_layer(
     project_name: str,
     env_profile: str = "standard",
     run_id: str | None = None,
+    language: str = "swift",
 ) -> dict:
     """Run the Operations Layer: Output Integrator -> Completion Verifier -> Recovery Runner.
 
@@ -841,9 +852,15 @@ def run_operations_layer(
     )
     from factory.operations.run_memory import record_run, print_summary as print_memory_summary
 
+    # Resolve file extensions for this language
+    _file_extensions = {
+        "swift": [".swift"], "kotlin": [".kt"],
+        "typescript": [".ts", ".tsx"], "python": [".py"],
+    }.get(language, [".swift"])
+
     print()
     print("=" * 60)
-    print("  Operations Layer")
+    print(f"  Operations Layer ({language})")
     print("=" * 60)
 
     # --- Pass 1: Integrate + Verify ---
@@ -852,16 +869,17 @@ def run_operations_layer(
         project_name=project_name,
         log_filter=run_id,
         clean_before_integrate=True,
+        file_extensions=_file_extensions,
     )
     integrator.run()
 
     print("\n[OpsLayer] Pass 1: Completion Verifier")
-    verifier = CompletionVerifier(project_name=project_name)
+    verifier = CompletionVerifier(project_name=project_name, language=language)
     report = verifier.verify()
 
     # --- Compile Hygiene Check (FK-011, FK-012, FK-015) ---
     print("\n[OpsLayer] Compile Hygiene Validator")
-    hygiene = CompileHygieneValidator(project_name=project_name)
+    hygiene = CompileHygieneValidator(project_name=project_name, language=language)
     hygiene_report = hygiene.validate()
     hygiene_status = hygiene_report.status.value
 
@@ -878,7 +896,7 @@ def run_operations_layer(
         # Re-run hygiene after stubs to update status
         if stub_report.stubs_created > 0:
             print("\n[OpsLayer] Re-running Compile Hygiene after stub generation...")
-            hygiene = CompileHygieneValidator(project_name=project_name)
+            hygiene = CompileHygieneValidator(project_name=project_name, language=language)
             hygiene_report = hygiene.validate()
             hygiene_status = hygiene_report.status.value
     else:
@@ -897,7 +915,7 @@ def run_operations_layer(
         # Re-run hygiene after repairs to update status
         if shape_report.repairs_applied > 0:
             print("\n[OpsLayer] Re-running Compile Hygiene after shape repair...")
-            hygiene = CompileHygieneValidator(project_name=project_name)
+            hygiene = CompileHygieneValidator(project_name=project_name, language=language)
             hygiene_report = hygiene.validate()
             hygiene_status = hygiene_report.status.value
     else:
@@ -916,7 +934,7 @@ def run_operations_layer(
         # Re-run hygiene after quarantine to update status
         if stale_report.quarantined > 0:
             print("\n[OpsLayer] Re-running Compile Hygiene after quarantine...")
-            hygiene = CompileHygieneValidator(project_name=project_name)
+            hygiene = CompileHygieneValidator(project_name=project_name, language=language)
             hygiene_report = hygiene.validate()
             hygiene_status = hygiene_report.status.value
     else:
@@ -991,11 +1009,12 @@ def run_operations_layer(
                 project_name=project_name,
                 log_filter=run_id,
                 clean_before_integrate=True,
+                file_extensions=_file_extensions,
             )
             integrator_r.run()
 
             print(f"\n[OpsLayer] Pass {attempt + 1}: Re-verifying after recovery")
-            verifier_r = CompletionVerifier(project_name=project_name)
+            verifier_r = CompletionVerifier(project_name=project_name, language=language)
             report = verifier_r.verify()
             final_health = report.health.value
 

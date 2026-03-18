@@ -942,13 +942,20 @@ class CompileHygieneValidator:
         self,
         project_name: str,
         scan_dir: str | None = None,
+        language: str = "swift",
     ):
         self.project_name = project_name
+        self._language = language
+        self._file_extensions = {
+            "swift": [".swift"],
+            "kotlin": [".kt"],
+            "typescript": [".ts", ".tsx"],
+            "python": [".py"],
+        }.get(language, [".swift"])
 
         if scan_dir:
             self.scan_dir = Path(scan_dir)
         else:
-            # Default: projects/<name>/ (scan all .swift recursively)
             self.scan_dir = _PROJECT_ROOT / "projects" / project_name
 
         self.report = HygieneReport(
@@ -965,10 +972,11 @@ class CompileHygieneValidator:
         # Step 1: Discover and read all Swift files
         swift_files = self._discover_swift_files()
         self.report.files_scanned = len(swift_files)
-        print(f"[CompileHygiene] Swift files found: {len(swift_files)}")
+        _lang_label = self._language.title()
+        print(f"[CompileHygiene] {_lang_label} files found: {len(swift_files)}")
 
         if not swift_files:
-            print("[CompileHygiene] No Swift files found — nothing to validate.")
+            print(f"[CompileHygiene] No {_lang_label} files found — nothing to validate.")
             self.report.status = HygieneStatus.CLEAN
             self._print_and_save()
             return self.report
@@ -996,7 +1004,7 @@ class CompileHygieneValidator:
         return self.report
 
     def _discover_swift_files(self) -> dict[str, tuple[Path, str]]:
-        """Discover all .swift files in scan_dir.
+        """Discover all source files in scan_dir.
 
         Returns: {relative_path: (absolute_path, content)}
         """
@@ -1007,9 +1015,14 @@ class CompileHygieneValidator:
             return files
 
         # Directories to skip during scanning
-        _SKIP_DIRS = {"quarantine", "generated", ".git"}
+        _SKIP_DIRS = {"quarantine", "generated", ".git", "node_modules", "build", ".gradle"}
 
-        for swift_file in sorted(self.scan_dir.rglob("*.swift")):
+        all_source_files = []
+        for ext in self._file_extensions:
+            all_source_files.extend(sorted(self.scan_dir.rglob(f"*{ext}")))
+        all_source_files.sort()
+
+        for swift_file in all_source_files:
             # Skip files in excluded directories
             rel_parts = swift_file.relative_to(self.scan_dir).parts
             if rel_parts and rel_parts[0] in _SKIP_DIRS:

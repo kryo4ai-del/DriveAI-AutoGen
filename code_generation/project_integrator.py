@@ -13,8 +13,16 @@ SUBFOLDER_MAP = {
 }
 
 
+def _strip_extension(filename: str) -> str:
+    """Strip any known source extension from a filename."""
+    for ext in (".swift", ".kt", ".ts", ".tsx", ".py"):
+        if filename.endswith(ext):
+            return filename[:-len(ext)]
+    return filename
+
+
 def _detect_target_folder(filename: str) -> str:
-    name = filename.replace(".swift", "")
+    name = _strip_extension(filename)
     for suffix, folder in SUBFOLDER_MAP.items():
         if name.endswith(suffix):
             return folder
@@ -36,13 +44,14 @@ GENERATED_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "genera
 
 
 class ProjectIntegrator:
-    def __init__(self, xcode_project_path: str):
+    def __init__(self, xcode_project_path: str, file_extensions: list[str] | None = None):
         # Resolve relative to the project root (same level as main.py)
         project_root = os.path.dirname(os.path.dirname(__file__))
         self.xcode_root = os.path.join(project_root, xcode_project_path)
+        self._extensions = file_extensions or [".swift"]
 
     def _build_project_file_index(self) -> dict[str, str]:
-        """Build filename → relative_path index of all .swift files in the project.
+        """Build filename → relative_path index of all source files in the project.
 
         Excludes generated_code/ to avoid self-referencing.
         """
@@ -51,15 +60,15 @@ class ProjectIntegrator:
         if not root.is_dir():
             return index
         generated = Path(GENERATED_DIR).resolve()
-        for swift_file in root.rglob("*.swift"):
-            # Skip files inside generated_code/
-            try:
-                swift_file.resolve().relative_to(generated)
-                continue
-            except ValueError:
-                pass
-            rel = str(swift_file.relative_to(root))
-            index[swift_file.name] = rel
+        for ext in self._extensions:
+            for src_file in root.rglob(f"*{ext}"):
+                try:
+                    src_file.resolve().relative_to(generated)
+                    continue
+                except ValueError:
+                    pass
+                rel = str(src_file.relative_to(root))
+                index[src_file.name] = rel
         return index
 
     def integrate_generated_code(self, approval: str = "auto") -> dict:
@@ -94,7 +103,7 @@ class ProjectIntegrator:
                 continue
 
             for filename in os.listdir(src_dir):
-                if not filename.endswith(".swift"):
+                if not any(filename.endswith(ext) for ext in self._extensions):
                     continue
 
                 # --- Guard: Skip if file already exists anywhere in project ---
