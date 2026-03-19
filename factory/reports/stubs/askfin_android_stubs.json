@@ -1,44 +1,17 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 17:41:50",
-  "fk014_count": 4,
-  "stubs_created": 4,
+  "timestamp": "2026-03-19 18:35:22",
+  "fk014_count": 1,
+  "stubs_created": 1,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Database",
+      "type_name": "TimeUnit",
       "kind": "struct",
-      "file_path": "Models\\Database.kt",
+      "file_path": "Models\\TimeUnit.kt",
       "ref_files": [
-        "Models/AppDatabase.kt",
-        "Models/SkillMapDatabase.kt"
-      ]
-    },
-    {
-      "type_name": "PrimaryKey",
-      "kind": "struct",
-      "file_path": "Models\\PrimaryKey.kt",
-      "ref_files": [
-        "Models/ReadinessScoreHistoryEntity.kt",
-        "Models/UserAnswerEntity.kt"
-      ]
-    },
-    {
-      "type_name": "TypeConverter",
-      "kind": "struct",
-      "file_path": "Models\\TypeConverter.kt",
-      "ref_files": [
-        "Models/DateTimeConverter.kt",
-        "Models/LocalDateTimeConverters.kt"
-      ]
-    },
-    {
-      "type_name": "TypeConverters",
-      "kind": "struct",
-      "file_path": "Models\\TypeConverters.kt",
-      "ref_files": [
-        "Models/AppDatabase.kt",
-        "Models/ExamResult.kt"
+        "Services/ReadinessCalculationService.kt",
+        "ViewModels/ReadinessUiState.kt"
       ]
     }
   ],
