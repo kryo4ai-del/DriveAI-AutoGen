@@ -1,0 +1,23 @@
+{
+  "run_id": "20260319_165533",
+  "generated": "2026-03-19T17:19:06",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "SwiftUI lifecycle pattern: Memory Leak in SkillMapViewModel - ViewModelScope",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Memory Leak in SkillMapViewModel - ViewModelScope",
+      "evidence": "Bug Hunter finding in run 20260319_165533",
+      "source_run": "20260319_165533",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}
