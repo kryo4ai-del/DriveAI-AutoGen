@@ -843,6 +843,14 @@ def _collect_type_references(
     return references
 
 
+def _is_likely_enum_case(identifier: str) -> bool:
+    """Check if an identifier is likely a Kotlin/TS enum case value (not a type).
+    Enum cases are typically ALL_CAPS or ALL_CAPS_WITH_UNDERSCORES."""
+    if len(identifier) < 2:
+        return False
+    return all(c.isupper() or c == "_" for c in identifier)
+
+
 def _check_fk014(
     swift_files: dict[str, tuple[Path, str]],
     type_registry: dict[str, list[tuple[str, str, int, int]]],
@@ -864,6 +872,10 @@ def _check_fk014(
     for type_name, ref_files in sorted(references.items()):
         # Skip framework types
         if type_name in _framework_exclusions:
+            continue
+
+        # Skip likely enum case values (ALL_CAPS) for Kotlin/TypeScript
+        if language in ("kotlin", "typescript") and _is_likely_enum_case(type_name):
             continue
 
         # Skip if declared in the project

@@ -1,0 +1,60 @@
+============================================================
+  Factory Orchestrator — Build Plan
+============================================================
+  Project    : AskFin Android (askfin_android)
+  Lines      : android (active)
+  Features   : 20
+  Build Steps: 20 (20 android)
+
+  Step 1: [android] TrainingMode — Foundation (feature) — PENDING
+  Step 2: [android] TrainingMode — Domain (feature) — PENDING (depends: TrainingMode — Foundation)
+  Step 3: [android] TrainingMode — Application (feature) — PENDING (depends: TrainingMode — Domain)
+  Step 4: [android] TrainingMode — Presentation (feature) — PENDING (depends: TrainingMode — Application)
+  Step 5: [android] TrainingMode — Polish (feature) — PENDING (depends: TrainingMode — Presentation)
+  Step 6: [android] ExamSimulation — Foundation (feature) — PENDING (depends: TrainingMode — Polish)
+  Step 7: [android] ExamSimulation — Domain (feature) — PENDING (depends: ExamSimulation — Foundation)
+  Step 8: [android] ExamSimulation — Application (feature) — PENDING (depends: ExamSimulation — Domain)
+  Step 9: [android] ExamSimulation — Presentation (feature) — PENDING (depends: ExamSimulation — Application)
+  Step 10: [android] ExamSimulation — Polish (feature) — PENDING (depends: ExamSimulation — Presentation)
+  Step 11: [android] SkillMap — Foundation (screen) — PENDING (depends: TrainingMode — Polish)
+  Step 12: [android] SkillMap — Domain (screen) — PENDING (depends: SkillMap — Foundation)
+  Step 13: [android] SkillMap — Application (screen) — PENDING (depends: SkillMap — Domain)
+  Step 14: [android] SkillMap — Presentation (screen) — PENDING (depends: SkillMap — Application)
+  Step 15: [android] SkillMap — Polish (screen) — PENDING (depends: SkillMap — Presentation)
+  Step 16: [android] ReadinessScore — Foundation (screen) — PENDING (depends: TrainingMode — Polish, ExamSimulation — Polish)
+  Step 17: [android] ReadinessScore — Domain (screen) — PENDING (depends: ReadinessScore — Foundation)
+  Step 18: [android] ReadinessScore — Application (screen) — PENDING (depends: ReadinessScore — Domain)
+  Step 19: [android] ReadinessScore — Presentation (screen) — PENDING (depends: ReadinessScore — Application)
+  Step 20: [android] ReadinessScore — Polish (screen) — PENDING (depends: ReadinessScore — Presentation)
+============================================================
+
+Executing plan...
+
+  Step 1: TrainingMode — Foundation
+    Line    : android (kotlin)
+    Command : C:\Python314\python.exe main.py --template feature --name TrainingMode --profile dev --approval auto --project askfin_android
+    Status  : RUNNING...
+    Status  : FAILED (timeout)
+    → Skipping TrainingMode — Domain (depends on failed step)
+    → Skipping TrainingMode — Application (depends on failed step)
+    → Skipping TrainingMode — Presentation (depends on failed step)
+    → Skipping TrainingMode — Polish (depends on failed step)
+    → Skipping ExamSimulation — Foundation (depends on failed step)
+    → Skipping ExamSimulation — Domain (depends on failed step)
+    → Skipping ExamSimulation — Application (depends on failed step)
+    → Skipping ExamSimulation — Presentation (depends on failed step)
+    → Skipping ExamSimulation — Polish (depends on failed step)
+    → Skipping ReadinessScore — Foundation (depends on failed step)
+    → Skipping ReadinessScore — Domain (depends on failed step)
+    → Skipping ReadinessScore — Application (depends on failed step)
+    → Skipping ReadinessScore — Presentation (depends on failed step)
+    → Skipping ReadinessScore — Polish (depends on failed step)
+    → Skipping SkillMap — Foundation (depends on failed step)
+    → Skipping SkillMap — Domain (depends on failed step)
+    → Skipping SkillMap — Application (depends on failed step)
+    → Skipping SkillMap — Presentation (depends on failed step)
+    → Skipping SkillMap — Polish (depends on failed step)
+
+============================================================
+  Plan Summary: 20 steps, 0 completed, 1 failed, 19 skipped, 0 pending
+============================================================

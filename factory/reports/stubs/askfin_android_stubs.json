@@ -1,45 +1,14 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-18 19:32:04",
-  "fk014_count": 19,
-  "stubs_created": 19,
+  "timestamp": "2026-03-19 02:22:22",
+  "fk014_count": 8,
+  "stubs_created": 8,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Answer",
-      "kind": "struct",
-      "file_path": "Models\\Answer.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/Question.kt"
-      ]
-    },
-    {
-      "type_name": "Boolean",
-      "kind": "struct",
-      "file_path": "Models\\Boolean.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/UserAnswer.kt"
-      ]
-    },
-    {
-      "type_name": "DifficultyLevel",
-      "kind": "enum",
-      "file_path": "Models\\DifficultyLevel.swift",
-      "ref_files": [
-        "Models/DifficultyLevel.kt",
-        "Models/GeneratedHelpers.kt",
-        "Models/Question.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionQuery.kt",
-        "Models/QuestionTests.kt"
-      ]
-    },
-    {
       "type_name": "EASY",
       "kind": "struct",
-      "file_path": "Models\\EASY.swift",
+      "file_path": "Models\\EASY.kt",
       "ref_files": [
         "Models/DifficultyLevel.kt",
         "Models/QuestionTests.kt"
@@ -48,148 +17,48 @@
     {
       "type_name": "HARD",
       "kind": "struct",
-      "file_path": "Models\\HARD.swift",
+      "file_path": "Models\\HARD.kt",
       "ref_files": [
         "Models/DifficultyLevel.kt",
         "Models/QuestionFactoryTests.kt",
         "Models/QuestionTests.kt"
-      ]
-    },
-    {
-      "type_name": "IllegalArgumentException",
-      "kind": "struct",
-      "file_path": "Models\\IllegalArgumentException.swift",
-      "ref_files": [
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "type_name": "Instant",
-      "kind": "struct",
-      "file_path": "Models\\Instant.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/Question.kt",
-        "Models/QuestionCategory.kt",
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt",
-        "Models/UserAnswer.kt"
       ]
     },
     {
       "type_name": "MEDIUM",
       "kind": "struct",
-      "file_path": "Models\\MEDIUM.swift",
+      "file_path": "Models\\MEDIUM.kt",
       "ref_files": [
         "Models/DifficultyLevel.kt",
-        "Models/Question.kt",
         "Models/QuestionFactoryTests.kt",
         "Models/QuestionTests.kt"
       ]
     },
     {
-      "type_name": "Question",
-      "kind": "struct",
-      "file_path": "Models\\Question.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionQuery.kt",
-        "Models/QuestionRepository.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt",
-        "Models/UserAnswer.kt"
-      ]
-    },
-    {
-      "type_name": "QuestionCategory",
-      "kind": "enum",
-      "file_path": "Models\\QuestionCategory.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/Question.kt",
-        "Models/QuestionCategory.kt",
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionQuery.kt",
-        "Models/QuestionRepository.kt",
-        "Models/QuestionStatsRepository.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
       "type_name": "TECHNIK",
       "kind": "struct",
-      "file_path": "Models\\TECHNIK.swift",
+      "file_path": "Models\\TECHNIK.kt",
       "ref_files": [
         "Models/QuestionCorrectAnswerIndexTests.kt",
         "Models/QuestionExtensionTests.kt",
         "Models/QuestionFactoryTests.kt",
         "Models/QuestionTests.kt",
         "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "type_name": "Test",
-      "kind": "struct",
-      "file_path": "Models\\Test.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "type_name": "Thread",
-      "kind": "struct",
-      "file_path": "Models\\Thread.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/QuestionFactoryTests.kt"
       ]
     },
     {
       "type_name": "UMWELT_ENERGIE",
       "kind": "struct",
-      "file_path": "Models\\UMWELT_ENERGIE.swift",
+      "file_path": "Models\\UMWELT_ENERGIE.kt",
       "ref_files": [
         "Models/QuestionExtensionTests.kt",
         "Models/QuestionValidationTests.kt"
       ]
     },
     {
-      "type_name": "Unit",
-      "kind": "struct",
-      "file_path": "Models\\Unit.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/QuestionCategory.kt",
-        "Models/QuestionRepository.kt"
-      ]
-    },
-    {
-      "type_name": "UserAnswer",
-      "kind": "struct",
-      "file_path": "Models\\UserAnswer.swift",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/QuestionRepository.kt",
-        "Models/UserAnswer.kt"
-      ]
-    },
-    {
       "type_name": "VERHALTEN",
       "kind": "struct",
-      "file_path": "Models\\VERHALTEN.swift",
+      "file_path": "Models\\VERHALTEN.kt",
       "ref_files": [
         "Models/QuestionCorrectAnswerIndexTests.kt",
         "Models/QuestionExtensionTests.kt",
@@ -200,7 +69,7 @@
     {
       "type_name": "VERKEHRSZEICHEN",
       "kind": "struct",
-      "file_path": "Models\\VERKEHRSZEICHEN.swift",
+      "file_path": "Models\\VERKEHRSZEICHEN.kt",
       "ref_files": [
         "Models/QuestionCorrectAnswerIndexTests.kt",
         "Models/QuestionExtensionTests.kt",
@@ -212,9 +81,8 @@
     {
       "type_name": "VORFAHRT",
       "kind": "struct",
-      "file_path": "Models\\VORFAHRT.swift",
+      "file_path": "Models\\VORFAHRT.kt",
       "ref_files": [
-        "Models/GeneratedHelpers.kt",
         "Models/QuestionCorrectAnswerIndexTests.kt",
         "Models/QuestionExtensionTests.kt",
         "Models/QuestionFactoryTests.kt",

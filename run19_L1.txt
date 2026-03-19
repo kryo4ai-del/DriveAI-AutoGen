@@ -1,0 +1,50 @@
+Project         : askfin_android (explicit (--project flag))
+Project config  : AskFin Android v1.0.0 [development]
+Project lines   : ios (disabled), android (active), web (disabled), backend (disabled)
+Project config  : AskFin Android v1.0.0
+Active lines    : android
+Extraction      : kotlin
+Factory Brain   : 19 entries (2 failure_case, 4 ux_insight, 2 motivational_mechanic, 3 technical_pattern, 1 success_pattern, 7 error_pattern)
+Platform roles  : android (agents receive platform-specific instructions)
+============================================================
+DriveAI AutoGen — Multi-Agent Conversation
+============================================================
+Project context : loaded
+Memory          : entries loaded
+Profile         : dev
+Env profile     : dev
+Model           : claude-haiku-4-5
+Run mode        : standard
+Approval mode   : auto
+Active agents   : driveai_lead, product_strategist, roadmap_agent, ios_architect, swift_developer, reviewer, bug_hunter, refactor_agent, test_generator, content_script_agent, change_watch_agent, accessibility_agent, opportunity_agent, legal_risk_agent, project_bootstrap_agent, autonomous_project_orchestrator, creative_director, ux_psychology
+Disabled agents : android_architect, kotlin_developer, web_architect, webapp_developer
+Project         : askfin_android
+Task            : Generate ONLY foundational Kotlin types for TrainingMode: data classes (Question, Answer, UserAnswer), enums (TrainingMode, QuestionCategory, Difficulty), interfaces (QuestionRepository, UserProgressRepository). Package: com.driveai.askfin.data.models. NO UI, NO Compose, NO ViewModel.
+============================================================
+
+Code extraction : kotlin (via KotlinCodeExtractor)
+
+--- Bug Hunter pass ---
+  Factory knowledge: 752 chars injected
+  Review digest: 600 chars captured
+
+--- Creative Director pass (advisory) ---
+  Prior review context: 646 chars injected
+  Factory knowledge: 1105 chars injected
+  Review digest: 600 chars captured
+  CD rating candidates (1):
+    [bug_hunter] msg #1: conditional_pass ←
+  Selected: conditional_pass from bug_hunter
+  Reason: fallback — no creative_director rating found, using first match from 'bug_hunter' (msg #1, 1 total candidate(s))
+  [CD GATE] Conditional pass — from bug_hunter, continuing.
+
+--- UX Psychology pass (advisory) ---
+  Prior review context: 1279 chars injected
+  Review digest: 600 chars captured
+
+--- Refactor pass ---
+  Prior review context: 1906 chars injected
+  Factory knowledge: 896 chars injected
+  Review digest: 600 chars captured
+
+--- Test generation pass ---

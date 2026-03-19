@@ -1,7 +1,7 @@
 {
   "project": "askfin_android",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_android",
-  "files_scanned": 11,
+  "files_scanned": 24,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,160 +10,9 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "BLOCKING",
-  "issues_found": 13,
-  "blocking": 13,
+  "status": "CLEAN",
+  "issues_found": 0,
+  "blocking": 0,
   "warnings": 0,
-  "issues": [
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/Question.kt",
-      "message": "Type 'DifficultyLevel' referenced in 4 files but never declared in project",
-      "type_name": "DifficultyLevel",
-      "other_files": [
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionQuery.kt",
-        "Models/QuestionTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionFactoryTests.kt",
-      "message": "Type 'HARD' referenced in 2 files but never declared in project",
-      "type_name": "HARD",
-      "other_files": [
-        "Models/QuestionTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/Question.kt",
-      "message": "Type 'Instant' referenced in 5 files but never declared in project",
-      "type_name": "Instant",
-      "other_files": [
-        "Models/QuestionCategory.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt",
-        "Models/UserAnswer.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/Question.kt",
-      "message": "Type 'MEDIUM' referenced in 3 files but never declared in project",
-      "type_name": "MEDIUM",
-      "other_files": [
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionFactoryTests.kt",
-      "message": "Type 'Question' referenced in 6 files but never declared in project",
-      "type_name": "Question",
-      "other_files": [
-        "Models/QuestionQuery.kt",
-        "Models/QuestionRepository.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt",
-        "Models/UserAnswer.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/Question.kt",
-      "message": "Type 'QuestionCategory' referenced in 8 files but never declared in project",
-      "type_name": "QuestionCategory",
-      "other_files": [
-        "Models/QuestionCategory.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionQuery.kt",
-        "Models/QuestionRepository.kt",
-        "Models/QuestionStatsRepository.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionFactoryTests.kt",
-      "message": "Type 'TECHNIK' referenced in 3 files but never declared in project",
-      "type_name": "TECHNIK",
-      "other_files": [
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionFactoryTests.kt",
-      "message": "Type 'Test' referenced in 3 files but never declared in project",
-      "type_name": "Test",
-      "other_files": [
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionCategory.kt",
-      "message": "Type 'Unit' referenced in 2 files but never declared in project",
-      "type_name": "Unit",
-      "other_files": [
-        "Models/QuestionRepository.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionRepository.kt",
-      "message": "Type 'UserAnswer' referenced in 2 files but never declared in project",
-      "type_name": "UserAnswer",
-      "other_files": [
-        "Models/UserAnswer.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionTests.kt",
-      "message": "Type 'VERHALTEN' referenced in 2 files but never declared in project",
-      "type_name": "VERHALTEN",
-      "other_files": [
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionFactoryTests.kt",
-      "message": "Type 'VERKEHRSZEICHEN' referenced in 3 files but never declared in project",
-      "type_name": "VERKEHRSZEICHEN",
-      "other_files": [
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/QuestionFactoryTests.kt",
-      "message": "Type 'VORFAHRT' referenced in 3 files but never declared in project",
-      "type_name": "VORFAHRT",
-      "other_files": [
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    }
-  ]
+  "issues": []
 }
