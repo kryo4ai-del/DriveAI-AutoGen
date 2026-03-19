@@ -1,35 +1,19 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 15:10:24",
-  "fk014_count": 3,
-  "stubs_created": 3,
+  "timestamp": "2026-03-19 16:34:02",
+  "fk014_count": 1,
+  "stubs_created": 1,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "ApplicationContext",
-      "kind": "struct",
-      "file_path": "Models\\ApplicationContext.kt",
+      "type_name": "Category",
+      "kind": "enum",
+      "file_path": "Models\\Category.kt",
       "ref_files": [
-        "Models/HapticFeedback.kt",
-        "Models/HapticModule.kt"
-      ]
-    },
-    {
-      "type_name": "LocalContext",
-      "kind": "struct",
-      "file_path": "Models\\LocalContext.kt",
-      "ref_files": [
-        "Models/TransitionToNextQuestion.kt",
-        "Views/ExamSimulationScreen.kt"
-      ]
-    },
-    {
-      "type_name": "Throwable",
-      "kind": "struct",
-      "file_path": "Models\\Throwable.kt",
-      "ref_files": [
-        "Models/ExamSimulationUiState.kt",
-        "Models/TrainingModeUiState.kt"
+        "Models/CategoriesSection.kt",
+        "Models/ExamReadinessData.kt",
+        "Models/RefreshResult.kt",
+        "ViewModels/SkillMapUiState.kt"
       ]
     }
   ],
