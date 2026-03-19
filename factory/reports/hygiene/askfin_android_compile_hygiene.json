@@ -1,7 +1,7 @@
 {
   "project": "askfin_android",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_android",
-  "files_scanned": 67,
+  "files_scanned": 83,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,9 +10,17 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "CLEAN",
-  "issues_found": 0,
+  "status": "WARNINGS",
+  "issues_found": 1,
   "blocking": 0,
-  "warnings": 0,
-  "issues": []
+  "warnings": 1,
+  "issues": [
+    {
+      "pattern_id": "FK-017",
+      "severity": "warning",
+      "file": "Models/ExamRoute.kt",
+      "message": "Generic type name 'Question' has high collision risk. Consider prefixing with feature/domain name.",
+      "type_name": "Question"
+    }
+  ]
 }

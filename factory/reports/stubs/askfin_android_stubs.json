@@ -1,17 +1,81 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 14:21:23",
-  "fk014_count": 1,
-  "stubs_created": 1,
+  "timestamp": "2026-03-19 14:48:25",
+  "fk014_count": 8,
+  "stubs_created": 8,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "SavedStateHandle",
+      "type_name": "BeforeEach",
       "kind": "struct",
-      "file_path": "Models\\SavedStateHandle.kt",
+      "file_path": "Models\\BeforeEach.kt",
       "ref_files": [
-        "ViewModels/ExamResultState.kt",
-        "ViewModels/ExamViewModel.kt"
+        "Models/ExamQuestionScreenTest.kt",
+        "Models/ExamSimulationViewModelTest.kt"
+      ]
+    },
+    {
+      "type_name": "Bold",
+      "kind": "struct",
+      "file_path": "Models\\Bold.kt",
+      "ref_files": [
+        "Models/AnswerButton.kt",
+        "Views/ExamStartScreen.kt"
+      ]
+    },
+    {
+      "type_name": "CardDefaults",
+      "kind": "struct",
+      "file_path": "Models\\CardDefaults.kt",
+      "ref_files": [
+        "Views/ExamProgressBar.kt",
+        "Views/ExamStartScreen.kt",
+        "Views/TimerDisplay.kt"
+      ]
+    },
+    {
+      "type_name": "Default",
+      "kind": "struct",
+      "file_path": "Models\\Default.kt",
+      "ref_files": [
+        "Models/TimerState.kt",
+        "Views/ExamStartScreen.kt"
+      ]
+    },
+    {
+      "type_name": "Dispatchers",
+      "kind": "struct",
+      "file_path": "Models\\Dispatchers.kt",
+      "ref_files": [
+        "Models/ExamSimulationViewModelTest.kt",
+        "Models/TimerState.kt"
+      ]
+    },
+    {
+      "type_name": "FontFamily",
+      "kind": "struct",
+      "file_path": "Models\\FontFamily.kt",
+      "ref_files": [
+        "Views/ExamProgressBar.kt",
+        "Views/TimerDisplay.kt"
+      ]
+    },
+    {
+      "type_name": "Monospace",
+      "kind": "struct",
+      "file_path": "Models\\Monospace.kt",
+      "ref_files": [
+        "Views/ExamProgressBar.kt",
+        "Views/TimerDisplay.kt"
+      ]
+    },
+    {
+      "type_name": "TextAlign",
+      "kind": "struct",
+      "file_path": "Models\\TextAlign.kt",
+      "ref_files": [
+        "Models/TrainingModeProgressBar.kt",
+        "Views/ExamStartScreen.kt"
       ]
     }
   ],
