@@ -612,6 +612,80 @@
       "language": "swift",
       "last_validated": "2026-03-14",
       "validation_count": 1
+    },
+    {
+      "id": "FK-020",
+      "type": "error_pattern",
+      "content": "Haiku model generates architecture discussion instead of extractable code for Domain/Service layer tasks. Use Sonnet (standard profile) for Domain layer generation.",
+      "source": "step_21_android_build",
+      "confidence": "validated",
+      "product_type": "android_app",
+      "project": "askfin_android",
+      "platform": "android",
+      "language": "kotlin",
+      "applicable_to": [
+        "android",
+        "ios",
+        "web"
+      ],
+      "tags": [
+        "haiku",
+        "domain",
+        "code_generation",
+        "model_selection"
+      ],
+      "created": "2026-03-18",
+      "last_validated": "2026-03-18",
+      "validation_count": 1
+    },
+    {
+      "id": "FK-021",
+      "type": "technical_pattern",
+      "content": "Layered build order successfully prevents FK-014 cascade: Foundation types exist before Domain references them. 5-layer sequence (Foundation->Domain->Application->Presentation->Polish) validated for Android/Kotlin.",
+      "source": "step_21_android_build",
+      "confidence": "validated",
+      "product_type": "android_app",
+      "project": "askfin_android",
+      "platform": "android",
+      "language": "kotlin",
+      "applicable_to": [
+        "android",
+        "ios",
+        "web"
+      ],
+      "tags": [
+        "layered_build",
+        "fk014",
+        "architecture",
+        "validated"
+      ],
+      "created": "2026-03-18",
+      "last_validated": "2026-03-18",
+      "validation_count": 1
+    },
+    {
+      "id": "FK-022",
+      "type": "technical_pattern",
+      "content": "Kotlin ProjectIntegrator needs content-aware routing: @Composable files must route to Views/, not Models/. File extension alone is insufficient for Kotlin/TypeScript — read file content for routing.",
+      "source": "step_21_android_build",
+      "confidence": "validated",
+      "product_type": "android_app",
+      "project": "askfin_android",
+      "platform": "android",
+      "language": "kotlin",
+      "applicable_to": [
+        "android",
+        "web"
+      ],
+      "tags": [
+        "routing",
+        "integrator",
+        "composable",
+        "kotlin"
+      ],
+      "created": "2026-03-18",
+      "last_validated": "2026-03-18",
+      "validation_count": 1
     }
   ]
 }

@@ -21,11 +21,41 @@ def _strip_extension(filename: str) -> str:
     return filename
 
 
-def _detect_target_folder(filename: str) -> str:
+def _detect_target_folder(filename: str, file_path: str | None = None) -> str:
+    """Detect target subfolder. Uses filename suffix first, then file content for Kotlin/TS."""
     name = _strip_extension(filename)
     for suffix, folder in SUBFOLDER_MAP.items():
         if name.endswith(suffix):
             return folder
+
+    # Content-based routing for Kotlin/TypeScript files
+    if file_path and os.path.isfile(file_path):
+        ext = os.path.splitext(filename)[1]
+        if ext in (".kt", ".ts", ".tsx"):
+            try:
+                with open(file_path, encoding="utf-8") as f:
+                    head = f.read(2000)  # first 2000 chars
+                if ext == ".kt":
+                    if "@Composable" in head:
+                        return "Views"
+                    if "@HiltViewModel" in head or ": ViewModel()" in head:
+                        return "ViewModels"
+                    if "interface" in head and "Service" in head:
+                        return "Services"
+                elif ext in (".ts", ".tsx"):
+                    if "export function use" in head:
+                        return "hooks"
+                    if "createContext" in head:
+                        return "contexts"
+                    if "fetch(" in head or "axios" in head:
+                        return "services"
+                    if ext == ".tsx":
+                        return "components"
+                    if "export interface" in head or "export type" in head:
+                        return "types"
+            except Exception:
+                pass
+
     return "Models"
 
 
@@ -111,7 +141,8 @@ class ProjectIntegrator:
                     skipped_existing.append((filename, project_files[filename]))
                     continue
 
-                target_folder = _detect_target_folder(filename)
+                src_path_for_routing = os.path.join(src_dir, filename)
+                target_folder = _detect_target_folder(filename, file_path=src_path_for_routing)
                 dest_dir = os.path.join(self.xcode_root, target_folder)
                 dest_path = os.path.join(dest_dir, filename)
 

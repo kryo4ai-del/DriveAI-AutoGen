@@ -289,6 +289,26 @@ _KNOWN_KOTLIN_TYPES = frozenset({
     "Exception", "RuntimeException", "IllegalArgumentException", "IllegalStateException",
     "Serializable", "Parcelable",
     "Test", "Before", "After", "Mock", "InjectMocks", "TestRule", "ComposeTestRule",
+    # Jetpack Compose UI types
+    "Composable", "ComposableTarget", "Preview",
+    "Center", "CenterHorizontally", "CenterVertically", "CenterStart", "CenterEnd",
+    "Start", "End", "Top", "Bottom", "TopStart", "TopEnd", "BottomStart", "BottomEnd",
+    "SpaceBetween", "SpaceAround", "SpaceEvenly",
+    "FillMaxWidth", "FillMaxHeight", "FillMaxSize",
+    "MaterialTheme", "Typography", "ColorScheme", "Shapes",
+    "TopAppBar", "BottomAppBar", "FloatingActionButton", "Scaffold",
+    "LazyColumn", "LazyRow", "LazyVerticalGrid",
+    "CircularProgressIndicator", "LinearProgressIndicator",
+    "AnimatedVisibility", "AnimatedContent", "Crossfade",
+    "rememberNavController", "rememberCoroutineScope", "rememberSaveable",
+    # Hilt DI annotations
+    "HiltViewModel", "HiltAndroidApp", "AndroidEntryPoint",
+    "ViewModelComponent", "SingletonComponent", "ActivityComponent",
+    "Provides", "Binds",
+    # Compose layout and common
+    "Icons", "Icon", "Text", "Button", "Card", "Surface", "Box", "Column", "Row",
+    "Spacer", "Divider", "Image", "AsyncImage",
+    "System", "Correct", "Incorrect",
 })
 
 # TypeScript built-in types

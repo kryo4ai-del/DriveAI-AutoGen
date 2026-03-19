@@ -1,29 +1,63 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 10:52:28",
-  "fk014_count": 2,
-  "stubs_created": 2,
+  "timestamp": "2026-03-19 11:36:16",
+  "fk014_count": 6,
+  "stubs_created": 6,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Composable",
+      "type_name": "Center",
       "kind": "struct",
-      "file_path": "Models\\Composable.kt",
+      "file_path": "Models\\Center.kt",
       "ref_files": [
-        "Models/AnswerOption.kt",
-        "Models/FeedbackPanel.kt",
-        "Models/QuestionCard.kt",
-        "Models/TrainingScreen.kt",
-        "Models/TransitionToNextQuestion.kt"
+        "Models/CompletionState.kt",
+        "Models/TrainingModeProgressBar.kt"
       ]
     },
     {
-      "type_name": "System",
+      "type_name": "CenterHorizontally",
       "kind": "struct",
-      "file_path": "Models\\System.kt",
+      "file_path": "Models\\CenterHorizontally.kt",
+      "ref_files": [
+        "Models/CompletionState.kt",
+        "Models/TrainingModeProgressBar.kt"
+      ]
+    },
+    {
+      "type_name": "Correct",
+      "kind": "struct",
+      "file_path": "Models\\Correct.kt",
+      "ref_files": [
+        "Models/AccessibilityLabels.kt",
+        "Models/AccessibilityUtils.kt"
+      ]
+    },
+    {
+      "type_name": "HiltViewModel",
+      "kind": "class",
+      "file_path": "Services\\HiltViewModel.kt",
       "ref_files": [
         "Models/TrainingUiState.kt",
-        "ViewModels/TrainingViewModel.kt"
+        "ViewModels/TrainingModeViewModel.kt"
+      ]
+    },
+    {
+      "type_name": "Incorrect",
+      "kind": "struct",
+      "file_path": "Models\\Incorrect.kt",
+      "ref_files": [
+        "Models/AccessibilityLabels.kt",
+        "Models/AccessibilityUtils.kt"
+      ]
+    },
+    {
+      "type_name": "MaterialTheme",
+      "kind": "struct",
+      "file_path": "Models\\MaterialTheme.kt",
+      "ref_files": [
+        "Models/AnswerButton.kt",
+        "Models/CompletionState.kt",
+        "Models/TrainingModeProgressBar.kt"
       ]
     }
   ],
