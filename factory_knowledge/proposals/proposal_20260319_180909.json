@@ -1,0 +1,39 @@
+{
+  "run_id": "20260319_180909",
+  "generated": "2026-03-19T18:35:19",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: - `ReadinessScore.kt`: 6 copies with field drift (`categoryScores` default, `recommendedFocus` field). Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260319_180909",
+      "source_run": "20260319_180909",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: memory leak",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: memory leak",
+      "evidence": "Bug Hunter finding in run 20260319_180909",
+      "source_run": "20260319_180909",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}
