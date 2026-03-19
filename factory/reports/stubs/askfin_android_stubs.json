@@ -1,64 +1,44 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 17:19:10",
-  "fk014_count": 6,
-  "stubs_created": 6,
+  "timestamp": "2026-03-19 17:41:50",
+  "fk014_count": 4,
+  "stubs_created": 4,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Info",
+      "type_name": "Database",
       "kind": "struct",
-      "file_path": "Models\\Info.kt",
+      "file_path": "Models\\Database.kt",
       "ref_files": [
-        "Views/CompetenceBar.kt",
-        "Views/EmptySkillState.kt",
-        "Views/ExamStartScreen.kt"
-      ]
-    },
-    {
-      "type_name": "InstallIn",
-      "kind": "struct",
-      "file_path": "Models\\InstallIn.kt",
-      "ref_files": [
-        "Models/HapticModule.kt",
-        "Models/SkillMapModule.kt"
-      ]
-    },
-    {
-      "type_name": "Role",
-      "kind": "struct",
-      "file_path": "Models\\Role.kt",
-      "ref_files": [
-        "Views/CompetenceBar.kt",
-        "Views/TimerDisplay.kt"
-      ]
-    },
-    {
-      "type_name": "RoundedCornerShape",
-      "kind": "struct",
-      "file_path": "Models\\RoundedCornerShape.kt",
-      "ref_files": [
-        "Views/CompetenceBar.kt",
-        "Views/ShimmerLoader.kt",
-        "Views/SkillCard.kt"
-      ]
-    },
-    {
-      "type_name": "SkillEntity",
-      "kind": "struct",
-      "file_path": "Models\\SkillEntity.kt",
-      "ref_files": [
-        "Models/SkillMapDao.kt",
+        "Models/AppDatabase.kt",
         "Models/SkillMapDatabase.kt"
       ]
     },
     {
-      "type_name": "SkillUiModel",
+      "type_name": "PrimaryKey",
       "kind": "struct",
-      "file_path": "Models\\SkillUiModel.kt",
+      "file_path": "Models\\PrimaryKey.kt",
       "ref_files": [
-        "Models/SkillMapRepositoryImpl.kt",
-        "Views/SkillCard.kt"
+        "Models/ReadinessScoreHistoryEntity.kt",
+        "Models/UserAnswerEntity.kt"
+      ]
+    },
+    {
+      "type_name": "TypeConverter",
+      "kind": "struct",
+      "file_path": "Models\\TypeConverter.kt",
+      "ref_files": [
+        "Models/DateTimeConverter.kt",
+        "Models/LocalDateTimeConverters.kt"
+      ]
+    },
+    {
+      "type_name": "TypeConverters",
+      "kind": "struct",
+      "file_path": "Models\\TypeConverters.kt",
+      "ref_files": [
+        "Models/AppDatabase.kt",
+        "Models/ExamResult.kt"
       ]
     }
   ],
