@@ -1,65 +1,44 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 19:02:50",
-  "fk014_count": 6,
-  "stubs_created": 6,
+  "timestamp": "2026-03-19 19:23:47",
+  "fk014_count": 4,
+  "stubs_created": 4,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Assertive",
+      "type_name": "EaseInOutQuad",
       "kind": "struct",
-      "file_path": "Models\\Assertive.kt",
+      "file_path": "Models\\EaseInOutQuad.kt",
       "ref_files": [
-        "Models/LoadingScreen.kt",
-        "Views/MotivationalMessage.kt"
+        "Models/AnimationSpecs.kt",
+        "Views/TrendArrow.kt"
       ]
     },
     {
-      "type_name": "Filled",
+      "type_name": "Insert",
       "kind": "struct",
-      "file_path": "Models\\Filled.kt",
+      "file_path": "Models\\Insert.kt",
       "ref_files": [
-        "Models/AnswerButton.kt",
-        "Views/MilestoneRow.kt",
-        "Views/TrendBadge.kt"
+        "Models/ReadinessDao.kt",
+        "Models/SkillMapDao.kt"
       ]
     },
     {
-      "type_name": "LiveRegionMode",
-      "kind": "enum",
-      "file_path": "Models\\LiveRegionMode.kt",
+      "type_name": "OnConflictStrategy",
+      "kind": "struct",
+      "file_path": "Models\\OnConflictStrategy.kt",
       "ref_files": [
-        "Models/LoadingScreen.kt",
-        "Views/MotivationalMessage.kt"
+        "Models/ReadinessDao.kt",
+        "Models/SkillMapDao.kt"
       ]
     },
     {
-      "type_name": "Locale",
+      "type_name": "Query",
       "kind": "struct",
-      "file_path": "Models\\Locale.kt",
+      "file_path": "Models\\Query.kt",
       "ref_files": [
-        "Models/DateFormatterImpl.kt",
-        "ViewModels/DateFormatterImpl.kt",
-        "Views/MilestoneRow.kt"
-      ]
-    },
-    {
-      "type_name": "Rule",
-      "kind": "struct",
-      "file_path": "Models\\Rule.kt",
-      "ref_files": [
-        "Models/ExamQuestionScreenTest.kt",
-        "Models/ReadinessScreenTest.kt"
-      ]
-    },
-    {
-      "type_name": "SemiBold",
-      "kind": "struct",
-      "file_path": "Models\\SemiBold.kt",
-      "ref_files": [
-        "Views/MilestoneRow.kt",
-        "Views/ReadinessErrorContent.kt",
-        "Views/TrendBadge.kt"
+        "Models/ReadinessDao.kt",
+        "Models/SkillMapDao.kt"
       ]
     }
   ],

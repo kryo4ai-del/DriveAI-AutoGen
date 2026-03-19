@@ -1,6 +1,6 @@
 # DriveAI-AutoGen
 
-Multi-agent AI App Factory built with Microsoft AutoGen and 100% Anthropic Claude for iOS app development.
+Multi-agent AI App Factory built with Microsoft AutoGen and 100% Anthropic Claude. Builds iOS, Android, and Web apps autonomously from specs.
 
 ## Current Product: AskFin Premium
 
@@ -38,37 +38,42 @@ Multi-agent AI App Factory built with Microsoft AutoGen and 100% Anthropic Claud
 DriveAI-AutoGen/
 ├── agents/                    # 21 AI agents (Python, AutoGen v0.4+)
 ├── projects/
-│   └── askfin_v1-1/           # AskFin Premium iOS App (~200+ Swift files)
-│       ├── App/               # App entry point
-│       ├── Models/            # Swift data models
-│       ├── Services/          # Business logic
-│       ├── ViewModels/        # MVVM ViewModels
-│       ├── Views/             # SwiftUI Views
-│       ├── UITests/           # XCUITests + Golden Gates
-│       ├── Resources/         # questions.json + Assets
-│       └── scripts/           # run_golden_gates.sh
-├── factory/                   # Operations Layer (post-generation validation)
-│   └── operations/            # Compile hygiene, type stubs, shape repair
-├── factory_knowledge/         # 18 knowledge entries (FK-001 to FK-018)
-├── config/                    # LLM config, model router, agent toggles
-├── control_center/            # Streamlit Dashboard
+│   ├── askfin_v1-1/           # AskFin Premium iOS (234 Swift files, App Store ready)
+│   ├── askfin_android/        # AskFin Android (204 Kotlin files, 4 features built)
+│   └── askfin_web/            # AskFin Web (TypeScript/React, spec ready)
+├── factory/
+│   ├── pipeline/              # Extracted pipeline runner
+│   ├── orchestrator/          # Build planner (flat + layered + quality gates)
+│   ├── brain/                 # Cross-project knowledge store (22 FK entries)
+│   ├── operations/            # Compile hygiene, type stubs, shape repair, sanitizer
+│   ├── status/                # Factory status dashboard
+│   └── promotion_advisor.py   # Run promotion policy
+├── code_generation/
+│   ├── extractors/            # Platform extractors (Swift, Kotlin, TypeScript, Python)
+│   ├── code_extractor.py      # Original Swift extraction (battle-tested)
+│   └── project_integrator.py  # Content-aware file routing
+├── config/
+│   ├── platform_roles/        # ios.json, android.json, web.json
+│   ├── llm_profiles.json      # dev (Haiku) / standard (Sonnet) / premium (Opus)
+│   └── agent_roles.json       # Agent system messages
+├── factory_knowledge/         # 22 knowledge entries (FK-001 to FK-022)
 ├── MasterPrompt/              # Cross-platform command dispatch
-│   ├── incomePrompt/          # Incoming prompts
-│   ├── processed/             # Executed prompts
-│   └── reportAgent/           # Reports (102-0+)
-├── _commands/                 # Mac ↔ Windows command queue
-└── DeveloperReports/          # Historical reports (1-0 to 101-0)
+├── _commands/                 # Mac <-> Windows command queue (65+ commands)
+└── DeveloperReports/          # 100+ development reports
 ```
 
 ## Tech Stack
 
 | Component | Technology |
 |---|---|
-| LLM | Anthropic Claude (Sonnet 4.6 + Haiku 4.5) |
-| Framework | Python + AutoGen AgentChat v0.4+ |
-| iOS App | Swift + SwiftUI + MVVM |
-| Build | xcodegen → Xcode 26.3 |
-| Testing | XCUITest + Golden Gates |
+| LLM | Anthropic Claude (Sonnet 4.6 + Haiku 4.5 + Opus 4.6) |
+| Framework | Python + AutoGen AgentChat v0.7.5 |
+| iOS Line | Swift + SwiftUI + MVVM |
+| Android Line | Kotlin + Jetpack Compose + Hilt |
+| Web Line | TypeScript + React + Next.js |
+| Build (iOS) | xcodegen → Xcode 26.3 |
+| Testing | XCUITest Golden Gates (15 gates, 0 failures) |
+| Knowledge | Factory Brain (22 entries, cross-project) |
 
 ## 3-Tier Model System
 
@@ -81,8 +86,17 @@ DriveAI-AutoGen/
 ## Quick Start
 
 ```bash
-# Factory run (generates iOS code)
+# iOS run (auto-infers project from projects/)
 python main.py --template feature --name <Name> --profile standard --approval auto
+
+# Android run
+python main.py --project askfin_android --template feature --name <Name> --profile dev --approval auto
+
+# Factory status dashboard
+python main.py --factory-status
+
+# Orchestrator dry-run (layered build plan)
+python main.py --orchestrate-layered-dry askfin_android
 
 # Golden Gates (Mac only)
 cd projects/askfin_v1-1 && bash scripts/run_golden_gates.sh
@@ -104,3 +118,39 @@ cd projects/askfin_v1-1 && bash scripts/run_golden_gates.sh
 | Feature Expansion | 85-112 | Quarantine cleanup, insight-to-action loop |
 | Adaptive Learning | 113-122 | Real questions, confidence, learning signals |
 | App Store Prep | 123-131 | Metadata, privacy, screenshots, launch strategy |
+| **Multi-Platform Factory** | **Steps 1-23** | **Pipeline extraction, 3 extractors, orchestrator, brain, Android build (204 .kt files)** |
+
+## Multi-Platform Architecture (Phase 2)
+
+The factory now supports 3 production lines from a single codebase:
+
+```
+                    ┌─────────────────┐
+                    │  Factory Brain   │  22 cross-project learnings
+                    │   (knowledge)    │
+                    └────────┬────────┘
+                             │
+                    ┌────────┴────────┐
+                    │   Orchestrator   │  Spec → Build Plan → Execute
+                    │  (layered/flat)  │
+                    └────────┬────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+     ┌────────┴──────┐ ┌────┴──────┐ ┌─────┴───────┐
+     │  iOS Line     │ │ Android   │ │  Web Line   │
+     │  Swift/SwiftUI│ │ Kotlin/   │ │ TypeScript/ │
+     │  234 files    │ │ Compose   │ │ React/Next  │
+     │  App Store ✅ │ │ 204 files │ │ Spec ready  │
+     └───────────────┘ └───────────┘ └─────────────┘
+```
+
+## 5-Stage Validation Strategy
+
+| Stage | Description | Status |
+|---|---|---|
+| 1 | AskFin on ALL platforms autonomously | iOS ✅ Android partial, Web pending |
+| 2 | AskFin v2 (improved by Brain learnings) | Not started |
+| 3 | New app (Gaming) without intervention | Not started |
+| 4 | Intelligence + Validation layers | Not started |
+| 5 | Deployment + Operations automation | Not started |

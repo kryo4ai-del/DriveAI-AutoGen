@@ -696,6 +696,102 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Commands weiterhin in `_commands/`
 - Mac-Agent arbeitet autonom mit Quality Gate
 
+### 2026-03-18 — Phase 2: Factory Multi-Platform Umbau (Steps 1-23)
+
+#### Pipeline Extraction + Project Config (Steps 1-2)
+- `factory/pipeline/pipeline_runner.py`: Pipeline aus main.py extrahiert (~1000 Zeilen)
+- `factory/project_config.py`: Per-Project YAML Config (lines, platform, language, framework)
+- `projects/askfin_v1-1/project.yaml`: iOS active, android/web planned
+- main.py von ~1850 auf ~900 Zeilen reduziert
+
+#### Multi-Platform Extractors (Steps 3, 6, 7)
+- `code_generation/extractors/`: Plugin-System mit BaseCodeExtractor ABC
+- **SwiftCodeExtractor**: Wraps existing battle-tested logic
+- **KotlinCodeExtractor**: Full implementation (data class, sealed class, @Composable, @HiltViewModel detection)
+- **TypeScriptCodeExtractor**: Full implementation (React components, hooks, types, .tsx/.ts routing)
+- **PythonCodeExtractor**: Skeleton (NotImplementedError)
+- 12 Kotlin + 15 TypeScript Unit Tests bestanden
+
+#### Factory Brain (Step 4)
+- `factory/brain/brain.py`: Cross-Project Knowledge Store
+- 22 Entries (FK-001 bis FK-022), query/filter/rank nach Platform/Language/Tags
+- Backward-kompatibel mit bestehendem `knowledge_reader.py`
+
+#### Factory Orchestrator (Steps 5, 9, 10)
+- `factory/orchestrator/`: Build-Planung aus Specs
+- **Flat Mode**: 1 Step pro Feature
+- **Layered Mode**: 5 Steps pro Feature (Foundation → Domain → Application → Presentation → Polish)
+- **Quality Gates**: Layer-spezifische Validierung + Import-Boundary-Checker
+- CLI: `--orchestrate-dry`, `--orchestrate-layered-dry`, `--show-plan`, `--factory-status`
+
+#### Agent Platform Roles (Step 8)
+- `config/platform_roles/`: ios.json, android.json, web.json
+- `config/platform_role_resolver.py`: Agent-Messages platform-aware
+- Template Task Rendering mit Platform-Prefix
+
+#### Multi-Project Setup (Step 11)
+- `projects/askfin_android/`: Kotlin/Compose, build_spec.yaml (4 Features)
+- `projects/askfin_web/`: TypeScript/Next.js, build_spec.yaml (4 Features)
+- 3 Projekte total, 3 Active Lines (iOS, Android, Web)
+
+#### Operations Layer Kotlin-Awareness (Steps 14, 16, 18, 22)
+- **ProjectIntegrator**: Content-aware Routing (@Composable → Views/, @HiltViewModel → ViewModels/)
+- **CompileHygieneValidator**: Kotlin Type-Declaration Regex + 150+ Kotlin Built-in Exclusions
+- **TypeStubGenerator**: Language-aware (.kt/.ts/.swift Stubs)
+- **FK-014 Enum Case Fix**: ALL_CAPS Identifiers excluded (Kotlin enum values)
+
+#### Project Context Routing (Step 20)
+- `project_context/context_loader.py`: Per-Project context statt globaler Roadbook
+- `projects/askfin_android/project_context.md`: Kotlin/Compose Architektur
+- `projects/askfin_web/project_context.md`: TypeScript/React Architektur
+
+#### AskFin Android Build (Steps 13, 15, 17, 21, 23)
+- **5 Proof Runs**: Pipeline verifiziert (Run 13-17), dann Full Build (Run 21+23)
+- **4 Features x 5 Layers = 20 Pipeline-Runs** (Step 23)
+- **204 .kt Files generiert** — echtes Kotlin/Compose, kein Swift
+- TrainingMode: 50 Files (Foundation + Presentation stark, Domain schwach bei Haiku)
+- ExamSimulation: 47 Files
+- SkillMap: 45 Files
+- ReadinessScore: 62 Files
+- **Erkenntnis FK-020**: Haiku generiert bei Domain-Layer Architektur-Text statt Code → Sonnet noetig
+
+#### Factory Status Dashboard (Step 12)
+- `factory/status/factory_status.py`: CEO-Dashboard ueber alle Projekte
+- `--factory-status`: 3 Projekte, 3 Lines, Brain Stats, Build Plans
+- `--factory-summary`: 5-Zeilen Kompakt-Uebersicht
+- `--factory-status --json`: Strukturierter JSON Output
+
+## Aktueller Stand (2026-03-19)
+
+### Factory
+| Komponente | Status |
+|---|---|
+| Pipeline Runner | Extrahiert, platform-aware |
+| Code Extractors | Swift + Kotlin + TypeScript implementiert |
+| Project Config | YAML-basiert, 3 Projekte |
+| Factory Brain | 22 Entries, cross-project query |
+| Orchestrator | Flat + Layered + Quality Gates |
+| Operations Layer | Kotlin-aware (Integrator, Hygiene, StubGen, Repairer) |
+| Agent Platform Roles | iOS/Android/Web Templates |
+| Run Promotion | Policy + Advisor |
+| Factory Status | CEO Dashboard |
+
+### Projekte
+| Projekt | Platform | Files | Status |
+|---|---|---|---|
+| AskFin Premium (iOS) | Swift/SwiftUI | 234 | App Store Prep (Submission-ready, fehlt Icon + Dev Account) |
+| AskFin Android | Kotlin/Compose | 204 | 4 Features generiert (Domain schwach bei Haiku) |
+| AskFin Web | TypeScript/React | 0 | Spec ready, Build pending |
+
+### Validierungsstrategie (5 Stufen)
+| Stufe | Beschreibung | Status |
+|---|---|---|
+| 1 | AskFin Multi-Platform autonom bauen | iOS ✅ Android teilweise, Web pending |
+| 2 | AskFin v2 (verbessert durch Brain) | Nicht gestartet |
+| 3 | Neue App (Gaming) ohne Eingriff | Nicht gestartet |
+| 4 | Intelligence + Validation Layer | Nicht gestartet |
+| 5 | Deployment + Operations | Nicht gestartet |
+
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
 - [x] Creative Director Advisory Pass implementieren (Step 2 done)
@@ -718,34 +814,3 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - [ ] AskFin Premium: Training Mode Spec → Factory Run
 - [ ] AskFin Premium: Skill Map Spec → Factory Run
 
-### 2026-03-16/17 — AskFin Mac Baseline (Commands 001-060, Reports 42-101)
-
-#### Compile-to-Ship Journey
-- **swiftc parse**: 227 Files → 0 Errors (29 fix-rounds, 20 quarantined)
-- **Xcode Build**: BUILD SUCCEEDED (xcodegen → AskFinPremium.xcodeproj)
-- **Simulator**: App startet, alle 4 Tabs + 3 Home Flows funktional
-- **Persistence**: UserDefaults via TopicCompetenceService, überlebt Cold Restart (0% → 100%)
-
-#### 4 Pillars Runtime-Validiert
-1. **Training Mode**: End-to-End Journey (5 Fragen, Brief → Question → Reveal → Summary)
-2. **Skill Map**: SkillMapView mit Domain-Sections, TopicCells, Kompetenz-Farben
-3. **Exam Simulation**: Pre-Start → 30 Fragen Timed → Result mit Gap-Analyse
-4. **Readiness Score**: 0% → 100% nach Training, persistiert über Restart
-
-#### Insight-to-Action Loop
-Generalprobe Result → "Schwächen trainieren" CTA → TrainingSessionView(.weaknessFocus)
-
-#### Golden Gate Suite
-- **13 Gates**: Build, Launch, Shell, Flows, Journey, Learning Loop, Skill Map, Generalprobe, Persistence, Exam Result, Weakness Analysis, Weakness CTA
-- **20 XCUITests**: 0 Failures
-- Script: `projects/askfin_v1-1/scripts/run_golden_gates.sh`
-
-#### Quarantined Files (20)
-- Code-Fragmente, Pseudo-Code, fehlende Typ-Netzwerke
-- Nicht blockierend für Build/Runtime
-
-#### Outside Scope
-- Real Backend/API (aktuell Mock/Stub)
-- App Store Signing/Distribution
-- CI/CD Pipeline
-- Quarantine Cleanup

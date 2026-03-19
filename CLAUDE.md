@@ -1,8 +1,8 @@
 # DriveAI-AutoGen - Projektkontext
 
 ## Projektübersicht
-- **Name**: DriveAI-AutoGen (AI App Factory + AskFin iOS App)
-- **Typ**: Multi-Agent AI System (Python) + SwiftUI iOS App (Swift)
+- **Name**: DriveAI-AutoGen (Multi-Platform AI App Factory)
+- **Typ**: Multi-Agent AI System (Python) + iOS/Android/Web App Generation
 - **Repo**: GitHub `kryo4ai-del/DriveAI-AutoGen`
 - **Lokal Windows**: `C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\`
 - **Lokal Mac**: `/Users/andreasott/DriveAI-AutoGen/`
