@@ -1,19 +1,64 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 16:34:02",
-  "fk014_count": 1,
-  "stubs_created": 1,
+  "timestamp": "2026-03-19 17:19:10",
+  "fk014_count": 6,
+  "stubs_created": 6,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Category",
-      "kind": "enum",
-      "file_path": "Models\\Category.kt",
+      "type_name": "Info",
+      "kind": "struct",
+      "file_path": "Models\\Info.kt",
       "ref_files": [
-        "Models/CategoriesSection.kt",
-        "Models/ExamReadinessData.kt",
-        "Models/RefreshResult.kt",
-        "ViewModels/SkillMapUiState.kt"
+        "Views/CompetenceBar.kt",
+        "Views/EmptySkillState.kt",
+        "Views/ExamStartScreen.kt"
+      ]
+    },
+    {
+      "type_name": "InstallIn",
+      "kind": "struct",
+      "file_path": "Models\\InstallIn.kt",
+      "ref_files": [
+        "Models/HapticModule.kt",
+        "Models/SkillMapModule.kt"
+      ]
+    },
+    {
+      "type_name": "Role",
+      "kind": "struct",
+      "file_path": "Models\\Role.kt",
+      "ref_files": [
+        "Views/CompetenceBar.kt",
+        "Views/TimerDisplay.kt"
+      ]
+    },
+    {
+      "type_name": "RoundedCornerShape",
+      "kind": "struct",
+      "file_path": "Models\\RoundedCornerShape.kt",
+      "ref_files": [
+        "Views/CompetenceBar.kt",
+        "Views/ShimmerLoader.kt",
+        "Views/SkillCard.kt"
+      ]
+    },
+    {
+      "type_name": "SkillEntity",
+      "kind": "struct",
+      "file_path": "Models\\SkillEntity.kt",
+      "ref_files": [
+        "Models/SkillMapDao.kt",
+        "Models/SkillMapDatabase.kt"
+      ]
+    },
+    {
+      "type_name": "SkillUiModel",
+      "kind": "struct",
+      "file_path": "Models\\SkillUiModel.kt",
+      "ref_files": [
+        "Models/SkillMapRepositoryImpl.kt",
+        "Views/SkillCard.kt"
       ]
     }
   ],
