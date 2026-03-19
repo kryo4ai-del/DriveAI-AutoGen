@@ -1,0 +1,62 @@
+Project         : askfin_android (explicit (--project flag))
+Project config  : AskFin Android v1.0.0 [development]
+Project lines   : ios (disabled), android (active), web (disabled), backend (disabled)
+Project config  : AskFin Android v1.0.0
+Active lines    : android
+Extraction      : kotlin
+Factory Brain   : 19 entries (2 failure_case, 4 ux_insight, 2 motivational_mechanic, 3 technical_pattern, 1 success_pattern, 7 error_pattern)
+Platform roles  : android (agents receive platform-specific instructions)
+============================================================
+DriveAI AutoGen — Multi-Agent Conversation
+============================================================
+Project context : loaded
+Memory          : entries loaded
+Profile         : dev
+Env profile     : dev
+Model           : claude-haiku-4-5
+Run mode        : standard
+Approval mode   : auto
+Active agents   : driveai_lead, product_strategist, roadmap_agent, ios_architect, swift_developer, reviewer, bug_hunter, refactor_agent, test_generator, content_script_agent, change_watch_agent, accessibility_agent, opportunity_agent, legal_risk_agent, project_bootstrap_agent, autonomous_project_orchestrator, creative_director, ux_psychology
+Disabled agents : android_architect, kotlin_developer, web_architect, webapp_developer
+Project         : askfin_android
+Task            : Generate ONLY foundational Kotlin types for TrainingMode: data classes (Question, Answer, UserAnswer), enums (TrainingMode, QuestionCategory, Difficulty), interfaces (QuestionRepository, UserProgressRepository). Package: com.driveai.askfin.data.models. NO UI, NO Compose, NO ViewModel.
+============================================================
+
+Code extraction : kotlin (via KotlinCodeExtractor)
+Inline type dedup: 2 file(s) cleaned
+Kotlin files extracted:
+  - 1 Views
+  - 3 Services
+  - 32 Models
+  - 1 Helpers
+
+Xcode integration completed
+Files integrated:
+  - Answer.kt
+  - AnswerTest.kt
+  - DataResult.kt
+  - Difficulty.kt
+  - DifficultyTest.kt
+  - GeneratedHelpers.kt
+  - PaginationParams.kt
+  - Question.kt
+  - QuestionCategory.kt
+  - QuestionCategoryTest.kt
+  - TrainingMode.kt
+  - TrainingModeTest.kt
+  - UserAnswer.kt
+  - UserAnswerDao.kt
+  - UserAnswerEntity.kt
+  - UserPerformanceStats.kt
+  - ValidationRules.kt
+  - QuestionRepository.kt
+  - CategoryStatsView.kt
+  Implementation summary: 10954 chars for review context
+
+--- Bug Hunter pass ---
+  Factory knowledge: 752 chars injected
+  Review digest: 600 chars captured
+
+--- Creative Director pass (advisory) ---
+  Prior review context: 646 chars injected
+  Factory knowledge: 1105 chars injected

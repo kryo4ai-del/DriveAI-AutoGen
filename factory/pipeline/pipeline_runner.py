@@ -191,7 +191,7 @@ async def run_pipeline(
         if _active_lines:
             _platform = _active_lines[0]
 
-    manager = TaskManager(enabled_agents=enabled_set, platform=_platform)
+    manager = TaskManager(enabled_agents=enabled_set, platform=_platform, project_name=project_name)
     if _platform != "ios":
         print(f"Platform roles  : {_platform} (agents receive platform-specific instructions)")
         logger.info(f"[PlatformRoles] platform={_platform}")

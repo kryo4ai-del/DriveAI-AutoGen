@@ -56,7 +56,7 @@ def setup_logger(run_id: str) -> tuple[logging.Logger, str]:
 
 
 class TaskManager:
-    def __init__(self, enabled_agents: set[str] | None = None, platform: str = "ios"):
+    def __init__(self, enabled_agents: set[str] | None = None, platform: str = "ios", project_name: str | None = None):
         """
         enabled_agents: set of agent names to instantiate.
         None means all agents are enabled.
@@ -103,7 +103,7 @@ class TaskManager:
         self.creative_director_agent = create_creative_director_agent() if _on("creative_director") else None
         self.ux_psychology_agent = create_ux_psychology_agent() if _on("ux_psychology") else None
 
-        self.project_context = load_project_context()
+        self.project_context = load_project_context(project_name=project_name)
         self.memory_manager = MemoryManager()
         self.feature_planner = FeaturePlanner()
         self.idea_manager = IdeaManager()

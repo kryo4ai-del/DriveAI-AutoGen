@@ -2,7 +2,8 @@
 # The heart of the factory. Orchestrates builds across production lines.
 
 import os
-import subprocess
+import asyncio
+from factory.pipeline.pipeline_runner import run_pipeline, run_operations_layer
 import sys
 from datetime import datetime
 
@@ -157,44 +158,44 @@ class FactoryOrchestrator:
                 step.status = "running"
                 print(f"    Status  : RUNNING...")
                 try:
-                    result = subprocess.run(
-                        cmd,
-                        capture_output=True,
-                        text=True,
-                        timeout=600,
-                        cwd=os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-                    )
-                    if result.returncode == 0:
-                        step.status = "completed"
-                        print(f"    Status  : COMPLETED (exit 0)")
-                    else:
-                        step.status = "failed"
-                        print(f"    Status  : FAILED (exit {result.returncode})")
-                        # Skip dependent steps
-                        self._skip_dependents(plan, step.id)
-
-                    step.result = {
-                        "returncode": result.returncode,
-                        "stdout_tail": result.stdout[-500:] if result.stdout else "",
-                        "stderr_tail": result.stderr[-500:] if result.stderr else "",
-                    }
+                    from tasks.task_manager import setup_logger
+                    _logger, _log_path = setup_logger(f"orchestrator_{step.id}")
+                    loop = asyncio.new_event_loop()
+                    pipeline_result = loop.run_until_complete(run_pipeline(
+                        user_task=step.task_prompt if hasattr(step, 'task_prompt') and step.task_prompt else f"Build {step.name} for {step.line}",
+                        task_source=f"orchestrator ({step.id})",
+                        run_mode="full",
+                        approval_mode=approval,
+                        run_id=f"orch_{step.id}",
+                        logger=_logger,
+                        log_path=_log_path,
+                        profile=profile,
+                        env_profile=profile,
+                        template=step.template if step.template != "custom" else None,
+                        template_name_value=step.template_name,
+                        project_name=self.project_name,
+                    ))
+                    loop.close()
+                    step.status = "completed"
+                    step.result = pipeline_result
+                    print(f"    Status  : COMPLETED")
                     report.step_results.append({
                         "step_id": step.id,
                         "name": step.name,
                         "command": cmd_str,
                         "status": step.status,
-                        "returncode": result.returncode,
                     })
-                except subprocess.TimeoutExpired:
+                except Exception as _e:
                     step.status = "failed"
-                    step.result = {"error": "timeout"}
-                    print(f"    Status  : FAILED (timeout)")
+                    step.result = {"error": str(_e)}
+                    print(f"    Status  : FAILED ({_e})")
                     self._skip_dependents(plan, step.id)
                     report.step_results.append({
                         "step_id": step.id,
                         "name": step.name,
                         "command": cmd_str,
-                        "status": "timeout",
+                        "status": "failed",
+                        "error": str(_e),
                     })
                 except Exception as e:
                     step.status = "failed"
