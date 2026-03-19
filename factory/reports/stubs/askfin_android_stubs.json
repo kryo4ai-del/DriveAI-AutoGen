@@ -1,63 +1,17 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 11:36:16",
-  "fk014_count": 6,
-  "stubs_created": 6,
+  "timestamp": "2026-03-19 14:21:23",
+  "fk014_count": 1,
+  "stubs_created": 1,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Center",
+      "type_name": "SavedStateHandle",
       "kind": "struct",
-      "file_path": "Models\\Center.kt",
+      "file_path": "Models\\SavedStateHandle.kt",
       "ref_files": [
-        "Models/CompletionState.kt",
-        "Models/TrainingModeProgressBar.kt"
-      ]
-    },
-    {
-      "type_name": "CenterHorizontally",
-      "kind": "struct",
-      "file_path": "Models\\CenterHorizontally.kt",
-      "ref_files": [
-        "Models/CompletionState.kt",
-        "Models/TrainingModeProgressBar.kt"
-      ]
-    },
-    {
-      "type_name": "Correct",
-      "kind": "struct",
-      "file_path": "Models\\Correct.kt",
-      "ref_files": [
-        "Models/AccessibilityLabels.kt",
-        "Models/AccessibilityUtils.kt"
-      ]
-    },
-    {
-      "type_name": "HiltViewModel",
-      "kind": "class",
-      "file_path": "Services\\HiltViewModel.kt",
-      "ref_files": [
-        "Models/TrainingUiState.kt",
-        "ViewModels/TrainingModeViewModel.kt"
-      ]
-    },
-    {
-      "type_name": "Incorrect",
-      "kind": "struct",
-      "file_path": "Models\\Incorrect.kt",
-      "ref_files": [
-        "Models/AccessibilityLabels.kt",
-        "Models/AccessibilityUtils.kt"
-      ]
-    },
-    {
-      "type_name": "MaterialTheme",
-      "kind": "struct",
-      "file_path": "Models\\MaterialTheme.kt",
-      "ref_files": [
-        "Models/AnswerButton.kt",
-        "Models/CompletionState.kt",
-        "Models/TrainingModeProgressBar.kt"
+        "ViewModels/ExamResultState.kt",
+        "ViewModels/ExamViewModel.kt"
       ]
     }
   ],
