@@ -1,42 +1,32 @@
+@Entity(tableName = "questions")
 data class Question(
-    val id: String,
+    @PrimaryKey val id: String,
     val text: String,
-    val category: QuestionCategory,
-    val answers: List<Answer>,
+    @ColumnInfo(name = "category") val category: QuestionCategory,
+    // Store JSON array as string
+    @ColumnInfo(name = "answers_json") val answersJson: String,
     val correctAnswerIndex: Int,
-    val explanation: String,
-    val createdAt: Instant,  // ✅ Require explicit value from persistence layer
-    val imageUrl: String? = null,
-    val difficulty: DifficultyLevel = DifficultyLevel.MEDIUM
-) {
-    init {
-        require(id.isNotBlank()) { "Question ID cannot be blank" }
-        require(text.isNotBlank()) { "Question text cannot be blank" }
-        require(answers.isNotEmpty()) { "Question must have at least one answer" }
-        require(correctAnswerIndex in answers.indices) { "Correct answer index out of bounds" }
-        require(explanation.isNotBlank()) { "Explanation cannot be blank" }
-    }
+    val explanation: String
+)
 
-    companion object {
-        fun create(
-            id: String,
-            text: String,
-            category: QuestionCategory,
-            answers: List<Answer>,
-            correctAnswerIndex: Int,
-            explanation: String,
-            imageUrl: String? = null,
-            difficulty: DifficultyLevel = DifficultyLevel.MEDIUM
-        ) = Question(
-            id = id,
-            text = text,
-            category = category,
-            answers = answers,
-            correctAnswerIndex = correctAnswerIndex,
-            explanation = explanation,
-            createdAt = Instant.now(),  // ✅ Fresh timestamp per creation
-            imageUrl = imageUrl,
-            difficulty = difficulty
+@Entity(
+    tableName = "user_answers",
+    foreignKeys = [
+        ForeignKey(
+            entity = Question::class,
+            parentColumns = ["id"],
+            childColumns = ["question_id"]
         )
-    }
-}
+    ],
+    indices = [
+        Index("user_id"),
+        Index("question_id"),
+        Index("user_id", "question_id")
+    ]
+)
+    @ColumnInfo(name = "user_id") val userId: String,
+    @ColumnInfo(name = "question_id") val questionId: String,
+    @ColumnInfo(name = "selected_answer_index") val selectedAnswerIndex: Int,
+    val isCorrect: Boolean,
+    val timestamp: Long
+)

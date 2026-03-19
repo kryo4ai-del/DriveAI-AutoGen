@@ -1,0 +1,120 @@
+{
+  "project": "askfin_android",
+  "timestamp": "2026-03-18 19:32:04",
+  "blocking_files_checked": 19,
+  "ai_generated_found": 4,
+  "quarantined": 4,
+  "kept": 15,
+  "actions": [
+    {
+      "filename": "GeneratedHelpers.kt",
+      "original_path": "Models/GeneratedHelpers.kt",
+      "quarantine_path": "quarantine\\20260318_193204_GeneratedHelpers.kt",
+      "blocking_issue": "Type 'Answer' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "f8012b7f",
+        "commit_message": "AI run: Generate ONLY the foundational Kotlin types for a TrainingMode feature i",
+        "author_date": "2026-03-18 19:32:02 +0100"
+      }
+    },
+    {
+      "filename": "DifficultyLevel.kt",
+      "original_path": "Models/DifficultyLevel.kt",
+      "quarantine_path": "quarantine\\20260318_193204_DifficultyLevel.kt",
+      "blocking_issue": "Type 'DifficultyLevel' referenced in 6 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "f8012b7f",
+        "commit_message": "AI run: Generate ONLY the foundational Kotlin types for a TrainingMode feature i",
+        "author_date": "2026-03-18 19:32:02 +0100"
+      }
+    },
+    {
+      "filename": "QuestionCorrectAnswerIndexTests.kt",
+      "original_path": "Models/QuestionCorrectAnswerIndexTests.kt",
+      "quarantine_path": "quarantine\\20260318_193204_QuestionCorrectAnswerIndexTests.kt",
+      "blocking_issue": "Type 'IllegalArgumentException' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "f8012b7f",
+        "commit_message": "AI run: Generate ONLY the foundational Kotlin types for a TrainingMode feature i",
+        "author_date": "2026-03-18 19:32:02 +0100"
+      }
+    },
+    {
+      "filename": "QuestionExtensionTests.kt",
+      "original_path": "Models/QuestionExtensionTests.kt",
+      "quarantine_path": "quarantine\\20260318_193204_QuestionExtensionTests.kt",
+      "blocking_issue": "Type 'UMWELT_ENERGIE' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "f8012b7f",
+        "commit_message": "AI run: Generate ONLY the foundational Kotlin types for a TrainingMode feature i",
+        "author_date": "2026-03-18 19:32:02 +0100"
+      }
+    }
+  ],
+  "kept_reasons": [
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/DifficultyLevel.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/DifficultyLevel.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/DifficultyLevel.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/QuestionCorrectAnswerIndexTests.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/QuestionCorrectAnswerIndexTests.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/QuestionCorrectAnswerIndexTests.kt",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/GeneratedHelpers.kt",
+      "reason": "file does not exist"
+    }
+  ]
+}

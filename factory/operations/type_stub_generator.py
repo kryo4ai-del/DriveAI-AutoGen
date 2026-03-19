@@ -162,12 +162,75 @@ class StubReport:
 # Main generator
 # ---------------------------------------------------------------------------
 
-class TypeStubGenerator:
-    """Generate Swift stubs for FK-014 missing type declarations."""
+def _generate_kotlin_stub(type_name: str, kind: str, ref_files: list[str]) -> str:
+    """Generate a minimal Kotlin stub for a missing type."""
+    refs = "\n".join(f"//   - {f}" for f in ref_files[:5])
+    header = (
+        f"// {type_name}.kt\n"
+        f"// Auto-generated stub — type was referenced but never declared.\n"
+        f"// Referenced in:\n"
+        f"{refs}\n"
+        f"//\n"
+        f"// TODO: Replace this stub with a full implementation.\n\n"
+        f"package com.driveai.stub\n\n"
+    )
+    if kind == "protocol":
+        return header + f"interface {type_name} {{\n    // Add required members\n}}\n"
+    if kind == "enum":
+        return header + f"enum class {type_name} {{\n    UNKNOWN\n    // Add real cases\n}}\n"
+    if kind == "view":
+        return header + (
+            f"import androidx.compose.runtime.Composable\n\n"
+            f"@Composable\nfun {type_name}() {{\n    // Stub composable\n}}\n"
+        )
+    if kind == "class":
+        return header + f"class {type_name} {{\n    // Add implementation\n}}\n"
+    # Default: data class
+    return header + f"data class {type_name}(val id: String = \"\")\n"
 
-    def __init__(self, project_name: str, project_dir: Path | None = None):
+
+def _generate_typescript_stub(type_name: str, kind: str, ref_files: list[str]) -> str:
+    """Generate a minimal TypeScript stub for a missing type."""
+    refs = "\n".join(f"//   - {f}" for f in ref_files[:5])
+    header = (
+        f"// {type_name}.ts\n"
+        f"// Auto-generated stub — type was referenced but never declared.\n"
+        f"// Referenced in:\n"
+        f"{refs}\n"
+        f"//\n"
+        f"// TODO: Replace this stub with a full implementation.\n\n"
+    )
+    if kind == "protocol":
+        return header + f"export interface {type_name} {{\n  // Add required members\n}}\n"
+    if kind == "enum":
+        return header + f"export enum {type_name} {{\n  Unknown = 'unknown',\n}}\n"
+    if kind in ("class", "view"):
+        return header + f"export class {type_name} {{\n  // Add implementation\n}}\n"
+    # Default: interface
+    return header + f"export interface {type_name} {{\n  id?: string;\n}}\n"
+
+
+# File extension per language
+_LANG_EXTENSION = {"swift": ".swift", "kotlin": ".kt", "typescript": ".ts", "python": ".py"}
+
+# Stub generator per language
+_STUB_GENERATORS = {
+    "swift": _generate_stub,
+    "kotlin": _generate_kotlin_stub,
+    "typescript": _generate_typescript_stub,
+}
+
+
+class TypeStubGenerator:
+    """Generate stubs for FK-014 missing type declarations."""
+
+    def __init__(self, project_name: str, project_dir: Path | None = None,
+                 language: str = "swift"):
         self.project_name = project_name
         self.project_dir = project_dir or (_PROJECT_ROOT / "projects" / project_name)
+        self._language = language
+        self._extension = _LANG_EXTENSION.get(language, ".swift")
+        self._generator = _STUB_GENERATORS.get(language, _generate_stub)
         self.report = StubReport(project=project_name)
 
     def generate_from_hygiene(self, hygiene_report) -> StubReport:
@@ -194,7 +257,7 @@ class TypeStubGenerator:
             ref_files = [issue.file] + (issue.other_files or [])
 
             # Skip if a file with this name already exists in the project
-            existing = list(self.project_dir.rglob(f"{type_name}.swift"))
+            existing = list(self.project_dir.rglob(f"{type_name}{self._extension}"))
             if existing:
                 self.report.skipped.append({
                     "type_name": type_name,
@@ -208,10 +271,10 @@ class TypeStubGenerator:
             folder = _infer_folder(kind)
             target_dir = self.project_dir / folder
             target_dir.mkdir(parents=True, exist_ok=True)
-            target_file = target_dir / f"{type_name}.swift"
+            target_file = target_dir / f"{type_name}{self._extension}"
 
             # Generate and write stub
-            stub_content = _generate_stub(type_name, kind, ref_files)
+            stub_content = self._generator(type_name, kind, ref_files)
             target_file.write_text(stub_content, encoding="utf-8")
 
             rel_path = str(target_file.relative_to(self.project_dir))

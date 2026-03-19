@@ -232,19 +232,92 @@ _TYPE_DECL_RE = re.compile(
     re.MULTILINE,
 )
 
+# Kotlin type declarations
+_KOTLIN_TYPE_DECL_RE = re.compile(
+    r'^\s*(?:public\s+|internal\s+|private\s+|protected\s+)?'
+    r'(?:abstract\s+|open\s+|data\s+|sealed\s+|enum\s+|annotation\s+)?'
+    r'(class|object|interface)\s+'
+    r'([A-Z][A-Za-z0-9_]+)',
+    re.MULTILINE,
+)
+
+# TypeScript type declarations
+_TYPESCRIPT_TYPE_DECL_RE = re.compile(
+    r'^\s*(?:export\s+)?(?:default\s+)?'
+    r'(class|interface|type|enum|function|const)\s+'
+    r'([A-Za-z][A-Za-z0-9_]+)',
+    re.MULTILINE,
+)
+
+# Per-language type declaration regex
+_LANG_TYPE_DECL_RE = {
+    "swift": _TYPE_DECL_RE,
+    "kotlin": _KOTLIN_TYPE_DECL_RE,
+    "typescript": _TYPESCRIPT_TYPE_DECL_RE,
+}
+
 # Types from Apple frameworks or Swift patterns that can appear in multiple files legitimately
 _FRAMEWORK_TYPES = frozenset({
     "String", "Int", "Double", "Bool", "Float", "Date", "UUID",
     "Array", "Dictionary", "Set", "Optional", "Result", "Error",
     "URL", "Data", "Void", "Never", "Any", "AnyObject",
     "View", "App", "Scene", "PreviewProvider",
-    # Codable nested enums — every Codable type defines its own CodingKeys
     "CodingKeys", "TypeValue", "CodingKey",
 })
+
+# Kotlin built-in types
+_KNOWN_KOTLIN_TYPES = frozenset({
+    "Boolean", "Byte", "Short", "Int", "Long", "Float", "Double", "Char", "String",
+    "Unit", "Nothing", "Any", "Pair", "Triple",
+    "List", "MutableList", "Set", "MutableSet", "Map", "MutableMap",
+    "Sequence", "Array", "IntArray", "LongArray", "FloatArray", "DoubleArray",
+    "Comparable", "Iterable", "Collection", "MutableCollection", "Result", "Lazy",
+    "Job", "Deferred", "Flow", "StateFlow", "MutableStateFlow", "SharedFlow",
+    "CoroutineScope", "CoroutineContext", "Dispatcher",
+    "Context", "Application", "Activity", "Fragment", "Intent", "Bundle",
+    "View", "ViewGroup", "LayoutInflater", "MenuItem",
+    "ViewModel", "AndroidViewModel", "LiveData", "MutableLiveData",
+    "NavController", "NavHost", "NavGraph",
+    "Modifier", "Color", "TextStyle", "FontWeight", "Dp", "Sp",
+    "PaddingValues", "Arrangement", "Alignment",
+    "LazyListState", "ScrollState", "SnackbarHostState",
+    "NavHostController", "NavBackStackEntry",
+    "Module", "Component", "Singleton", "Inject",
+    "RoomDatabase", "Dao", "Entity",
+    "Thread", "Runnable", "Instant", "Duration", "LocalDate", "LocalDateTime",
+    "UUID", "URI", "URL", "File", "Path",
+    "Exception", "RuntimeException", "IllegalArgumentException", "IllegalStateException",
+    "Serializable", "Parcelable",
+    "Test", "Before", "After", "Mock", "InjectMocks", "TestRule", "ComposeTestRule",
+})
+
+# TypeScript built-in types
+_KNOWN_TYPESCRIPT_TYPES = frozenset({
+    "string", "number", "boolean", "void", "null", "undefined", "never", "any", "unknown",
+    "object", "symbol", "bigint",
+    "Array", "Map", "Set", "WeakMap", "WeakSet", "Promise", "Date", "RegExp", "Error",
+    "Record", "Partial", "Required", "Readonly", "Pick", "Omit", "Exclude", "Extract",
+    "ReturnType", "Parameters", "InstanceType",
+    "ReactNode", "ReactElement", "FC", "Component", "MouseEvent", "ChangeEvent",
+    "FormEvent", "KeyboardEvent", "Ref", "MutableRefObject", "RefObject",
+    "Dispatch", "SetStateAction", "Reducer",
+    "CSSProperties", "HTMLElement", "HTMLInputElement", "HTMLDivElement",
+    "NextPage", "GetServerSideProps", "GetStaticProps", "Metadata",
+    "NextRequest", "NextResponse",
+    "Buffer", "Stream", "EventEmitter", "Process",
+})
+
+# Per-language framework types
+_LANG_FRAMEWORK_TYPES = {
+    "swift": _FRAMEWORK_TYPES,
+    "kotlin": _KNOWN_KOTLIN_TYPES,
+    "typescript": _KNOWN_TYPESCRIPT_TYPES,
+}
 
 
 def _collect_type_declarations(
     swift_files: dict[str, tuple[Path, str]],
+    language: str = "swift",
 ) -> dict[str, list[tuple[str, str, int, int]]]:
     """Collect all type declarations across all files.
 
@@ -252,13 +325,15 @@ def _collect_type_declarations(
     Column 0 = top-level declaration, column > 0 = nested/internal type.
     """
     registry: dict[str, list[tuple[str, str, int, int]]] = {}
+    type_re = _LANG_TYPE_DECL_RE.get(language, _TYPE_DECL_RE)
+    framework_types = _LANG_FRAMEWORK_TYPES.get(language, _FRAMEWORK_TYPES)
 
     for rel_path, (_, content) in swift_files.items():
-        for match in _TYPE_DECL_RE.finditer(content):
+        for match in type_re.finditer(content):
             kind = match.group(1)
             name = match.group(2)
 
-            if name in _FRAMEWORK_TYPES:
+            if name in framework_types:
                 continue
 
             line_num = content[:match.start()].count('\n') + 1
@@ -771,6 +846,7 @@ def _collect_type_references(
 def _check_fk014(
     swift_files: dict[str, tuple[Path, str]],
     type_registry: dict[str, list[tuple[str, str, int, int]]],
+    language: str = "swift",
 ) -> list[HygieneIssue]:
     """Check for referenced types that have no declaration in the project.
 
@@ -784,9 +860,10 @@ def _check_fk014(
     references = _collect_type_references(swift_files)
     declared_types = set(type_registry.keys())
 
+    _framework_exclusions = _LANG_FRAMEWORK_TYPES.get(language, _KNOWN_FRAMEWORK_TYPES)
     for type_name, ref_files in sorted(references.items()):
         # Skip framework types
-        if type_name in _KNOWN_FRAMEWORK_TYPES:
+        if type_name in _framework_exclusions:
             continue
 
         # Skip if declared in the project
@@ -987,12 +1064,12 @@ class CompileHygieneValidator:
             self.report.issues.extend(_check_fk015(file_path, content, rel_path))
 
         # Step 3: Build type registry (shared by FK-012, FK-013, FK-014, FK-017)
-        type_registry = _collect_type_declarations(swift_files)
+        type_registry = _collect_type_declarations(swift_files, language=self._language)
 
         # Step 4: Run cross-file checks
         self.report.issues.extend(_check_fk012(type_registry))
         self.report.issues.extend(_check_fk013(swift_files, type_registry))
-        self.report.issues.extend(_check_fk014(swift_files, type_registry))
+        self.report.issues.extend(_check_fk014(swift_files, type_registry, language=self._language))
         self.report.issues.extend(_check_fk017(type_registry))
 
         # Step 5: Classify status

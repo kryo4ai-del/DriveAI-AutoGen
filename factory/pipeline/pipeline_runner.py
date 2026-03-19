@@ -889,7 +889,7 @@ def run_operations_layer(
                       if i.pattern_id == "FK-014" and i.severity.value == "blocking"]
     if fk014_blocking:
         print(f"\n[OpsLayer] Type Stub Generator — {len(fk014_blocking)} FK-014 blocker(s)")
-        stub_gen = TypeStubGenerator(project_name=project_name)
+        stub_gen = TypeStubGenerator(project_name=project_name, language=language)
         stub_report = stub_gen.generate_from_hygiene(hygiene_report)
         stub_report.print_summary()
 
