@@ -1,47 +1,29 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 10:04:33",
-  "fk014_count": 4,
-  "stubs_created": 4,
+  "timestamp": "2026-03-19 10:52:28",
+  "fk014_count": 2,
+  "stubs_created": 2,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "DisplayName",
+      "type_name": "Composable",
       "kind": "struct",
-      "file_path": "Models\\DisplayName.kt",
+      "file_path": "Models\\Composable.kt",
       "ref_files": [
-        "Models/AnswerTest.kt",
-        "Models/DifficultyTest.kt",
-        "Models/QuestionCategoryTest.kt",
-        "Models/TrainingModeTest.kt"
+        "Models/AnswerOption.kt",
+        "Models/FeedbackPanel.kt",
+        "Models/QuestionCard.kt",
+        "Models/TrainingScreen.kt",
+        "Models/TransitionToNextQuestion.kt"
       ]
     },
     {
-      "type_name": "Invalid",
+      "type_name": "System",
       "kind": "struct",
-      "file_path": "Models\\Invalid.kt",
+      "file_path": "Models\\System.kt",
       "ref_files": [
-        "Models/DifficultyTest.kt",
-        "Models/QuestionCategoryTest.kt"
-      ]
-    },
-    {
-      "type_name": "Nested",
-      "kind": "struct",
-      "file_path": "Models\\Nested.kt",
-      "ref_files": [
-        "Models/AnswerTest.kt",
-        "Models/QuestionCategoryTest.kt",
-        "Models/TrainingModeTest.kt"
-      ]
-    },
-    {
-      "type_name": "Pagination",
-      "kind": "struct",
-      "file_path": "Models\\Pagination.kt",
-      "ref_files": [
-        "Models/GeneratedHelpers.kt",
-        "Models/QuestionRepository.kt"
+        "Models/TrainingUiState.kt",
+        "ViewModels/TrainingViewModel.kt"
       ]
     }
   ],

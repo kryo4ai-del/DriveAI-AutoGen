@@ -1,0 +1,46 @@
+Project         : askfin_android (explicit (--project flag))
+Project config  : AskFin Android v1.0.0 [development]
+Project lines   : ios (disabled), android (active), web (disabled), backend (disabled)
+Project config  : AskFin Android v1.0.0
+Active lines    : android
+Extraction      : kotlin
+Factory Brain   : 19 entries (2 failure_case, 4 ux_insight, 2 motivational_mechanic, 3 technical_pattern, 1 success_pattern, 7 error_pattern)
+Platform roles  : android (agents receive platform-specific instructions)
+============================================================
+DriveAI AutoGen — Multi-Agent Conversation
+============================================================
+Project context : loaded
+Memory          : entries loaded
+Profile         : dev
+Env profile     : dev
+Model           : claude-haiku-4-5
+Run mode        : standard
+Approval mode   : auto
+Active agents   : driveai_lead, product_strategist, roadmap_agent, ios_architect, swift_developer, reviewer, bug_hunter, refactor_agent, test_generator, content_script_agent, change_watch_agent, accessibility_agent, opportunity_agent, legal_risk_agent, project_bootstrap_agent, autonomous_project_orchestrator, creative_director, ux_psychology
+Disabled agents : android_architect, kotlin_developer, web_architect, webapp_developer
+Project         : askfin_android
+Task            : Generate ONLY Jetpack Compose UI for TrainingMode. Use ViewModels already in the project. Create: TrainingScreen, QuestionCard, AnswerButton (with correct/incorrect feedback), TrainingResultScreen (session summary). Use Material3, collectAsState() for ViewModel binding. Package: com.driveai.askfin.ui.screens.
+============================================================
+
+Code extraction : kotlin (via KotlinCodeExtractor)
+Inline type dedup: 1 file(s) cleaned
+Kotlin files extracted:
+  - 12 Views
+  - 2 Models
+  - 1 Helpers
+
+Xcode integration completed
+Files integrated:
+  - AnswerUiModel.kt
+  - AnswerButton.kt
+  - LoadingScreen.kt
+Skipped (5 already in project):
+  - GeneratedHelpers.kt (exists: Models\GeneratedHelpers.kt)
+  - Question.kt (exists: Models\Question.kt)
+  - FeedbackPanel.kt (exists: Models\FeedbackPanel.kt)
+  - QuestionCard.kt (exists: Models\QuestionCard.kt)
+  - TrainingScreen.kt (exists: Models\TrainingScreen.kt)
+  Implementation summary: 2683 chars for review context
+
+--- Bug Hunter pass ---
+  Factory knowledge: 752 chars injected
