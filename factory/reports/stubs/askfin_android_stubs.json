@@ -1,81 +1,35 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 14:48:25",
-  "fk014_count": 8,
-  "stubs_created": 8,
+  "timestamp": "2026-03-19 15:10:24",
+  "fk014_count": 3,
+  "stubs_created": 3,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "BeforeEach",
+      "type_name": "ApplicationContext",
       "kind": "struct",
-      "file_path": "Models\\BeforeEach.kt",
+      "file_path": "Models\\ApplicationContext.kt",
       "ref_files": [
-        "Models/ExamQuestionScreenTest.kt",
-        "Models/ExamSimulationViewModelTest.kt"
+        "Models/HapticFeedback.kt",
+        "Models/HapticModule.kt"
       ]
     },
     {
-      "type_name": "Bold",
+      "type_name": "LocalContext",
       "kind": "struct",
-      "file_path": "Models\\Bold.kt",
+      "file_path": "Models\\LocalContext.kt",
       "ref_files": [
-        "Models/AnswerButton.kt",
-        "Views/ExamStartScreen.kt"
+        "Models/TransitionToNextQuestion.kt",
+        "Views/ExamSimulationScreen.kt"
       ]
     },
     {
-      "type_name": "CardDefaults",
+      "type_name": "Throwable",
       "kind": "struct",
-      "file_path": "Models\\CardDefaults.kt",
+      "file_path": "Models\\Throwable.kt",
       "ref_files": [
-        "Views/ExamProgressBar.kt",
-        "Views/ExamStartScreen.kt",
-        "Views/TimerDisplay.kt"
-      ]
-    },
-    {
-      "type_name": "Default",
-      "kind": "struct",
-      "file_path": "Models\\Default.kt",
-      "ref_files": [
-        "Models/TimerState.kt",
-        "Views/ExamStartScreen.kt"
-      ]
-    },
-    {
-      "type_name": "Dispatchers",
-      "kind": "struct",
-      "file_path": "Models\\Dispatchers.kt",
-      "ref_files": [
-        "Models/ExamSimulationViewModelTest.kt",
-        "Models/TimerState.kt"
-      ]
-    },
-    {
-      "type_name": "FontFamily",
-      "kind": "struct",
-      "file_path": "Models\\FontFamily.kt",
-      "ref_files": [
-        "Views/ExamProgressBar.kt",
-        "Views/TimerDisplay.kt"
-      ]
-    },
-    {
-      "type_name": "Monospace",
-      "kind": "struct",
-      "file_path": "Models\\Monospace.kt",
-      "ref_files": [
-        "Views/ExamProgressBar.kt",
-        "Views/TimerDisplay.kt"
-      ]
-    },
-    {
-      "type_name": "TextAlign",
-      "kind": "struct",
-      "file_path": "Models\\TextAlign.kt",
-      "ref_files": [
-        "Models/TrainingModeProgressBar.kt",
-        "Views/ExamStartScreen.kt"
+        "Models/ExamSimulationUiState.kt",
+        "Models/TrainingModeUiState.kt"
       ]
     }
   ],

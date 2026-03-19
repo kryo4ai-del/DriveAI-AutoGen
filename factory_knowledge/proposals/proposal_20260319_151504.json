@@ -1,0 +1,53 @@
+{
+  "run_id": "20260319_151504",
+  "generated": "2026-03-19T15:39:55",
+  "proposal_count": 3,
+  "proposals": [
+    {
+      "title": "Bug pattern: [CRASH] Duplicate Type Definitions (FK-012)",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: [CRASH] Duplicate Type Definitions (FK-012). Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260319_151504",
+      "source_run": "20260319_151504",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "Product quality gap: This is a foundational data model for a *driver's licen",
+      "type": "ux_insight",
+      "lesson": "Creative Director rated output as 'fail'. Key issue: This is a foundational data model for a *driver's license exam learning app*, but the types contain zero coaching, motivation, or exam-readiness signals. `SkillMapData` is pure metrics—numbers with no",
+      "evidence": "CD review in run 20260319_151504: rating=fail",
+      "source_run": "20260319_151504",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "product-quality",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: | SkillMapResult.kt | 3 duplicates | 1 sealed class hierarchy | FK-012 |. Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260319_151504",
+      "source_run": "20260319_151504",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    }
+  ]
+}
