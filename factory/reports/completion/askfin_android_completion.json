@@ -1,12 +1,12 @@
 {
   "project_name": "askfin_android",
   "spec_source": "project-evidence",
-  "health": "failed",
-  "completeness_pct": 0.0,
+  "health": "incomplete",
+  "completeness_pct": 70.0,
   "summary": {
-    "expected": 0,
+    "expected": 19,
     "actual": 0,
-    "complete": 0,
+    "complete": 19,
     "incomplete": 0,
     "missing": 0
   },
@@ -15,10 +15,8 @@
   "suspicious_files": [],
   "unexpected_files": [],
   "missing_folders": [
-    "Models",
     "Services",
-    "ViewModels",
-    "Views"
+    "ViewModels"
   ],
   "file_details": []
 }

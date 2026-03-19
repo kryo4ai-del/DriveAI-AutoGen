@@ -1,93 +1,47 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 02:22:22",
-  "fk014_count": 8,
-  "stubs_created": 8,
+  "timestamp": "2026-03-19 10:04:33",
+  "fk014_count": 4,
+  "stubs_created": 4,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "EASY",
+      "type_name": "DisplayName",
       "kind": "struct",
-      "file_path": "Models\\EASY.kt",
+      "file_path": "Models\\DisplayName.kt",
       "ref_files": [
-        "Models/DifficultyLevel.kt",
-        "Models/QuestionTests.kt"
+        "Models/AnswerTest.kt",
+        "Models/DifficultyTest.kt",
+        "Models/QuestionCategoryTest.kt",
+        "Models/TrainingModeTest.kt"
       ]
     },
     {
-      "type_name": "HARD",
+      "type_name": "Invalid",
       "kind": "struct",
-      "file_path": "Models\\HARD.kt",
+      "file_path": "Models\\Invalid.kt",
       "ref_files": [
-        "Models/DifficultyLevel.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionTests.kt"
+        "Models/DifficultyTest.kt",
+        "Models/QuestionCategoryTest.kt"
       ]
     },
     {
-      "type_name": "MEDIUM",
+      "type_name": "Nested",
       "kind": "struct",
-      "file_path": "Models\\MEDIUM.kt",
+      "file_path": "Models\\Nested.kt",
       "ref_files": [
-        "Models/DifficultyLevel.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionTests.kt"
+        "Models/AnswerTest.kt",
+        "Models/QuestionCategoryTest.kt",
+        "Models/TrainingModeTest.kt"
       ]
     },
     {
-      "type_name": "TECHNIK",
+      "type_name": "Pagination",
       "kind": "struct",
-      "file_path": "Models\\TECHNIK.kt",
+      "file_path": "Models\\Pagination.kt",
       "ref_files": [
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "type_name": "UMWELT_ENERGIE",
-      "kind": "struct",
-      "file_path": "Models\\UMWELT_ENERGIE.kt",
-      "ref_files": [
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "type_name": "VERHALTEN",
-      "kind": "struct",
-      "file_path": "Models\\VERHALTEN.kt",
-      "ref_files": [
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "type_name": "VERKEHRSZEICHEN",
-      "kind": "struct",
-      "file_path": "Models\\VERKEHRSZEICHEN.kt",
-      "ref_files": [
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
-      ]
-    },
-    {
-      "type_name": "VORFAHRT",
-      "kind": "struct",
-      "file_path": "Models\\VORFAHRT.kt",
-      "ref_files": [
-        "Models/QuestionCorrectAnswerIndexTests.kt",
-        "Models/QuestionExtensionTests.kt",
-        "Models/QuestionFactoryTests.kt",
-        "Models/QuestionTests.kt",
-        "Models/QuestionValidationTests.kt"
+        "Models/GeneratedHelpers.kt",
+        "Models/QuestionRepository.kt"
       ]
     }
   ],
