@@ -1,17 +1,65 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 18:35:22",
-  "fk014_count": 1,
-  "stubs_created": 1,
+  "timestamp": "2026-03-19 19:02:50",
+  "fk014_count": 6,
+  "stubs_created": 6,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "TimeUnit",
+      "type_name": "Assertive",
       "kind": "struct",
-      "file_path": "Models\\TimeUnit.kt",
+      "file_path": "Models\\Assertive.kt",
       "ref_files": [
-        "Services/ReadinessCalculationService.kt",
-        "ViewModels/ReadinessUiState.kt"
+        "Models/LoadingScreen.kt",
+        "Views/MotivationalMessage.kt"
+      ]
+    },
+    {
+      "type_name": "Filled",
+      "kind": "struct",
+      "file_path": "Models\\Filled.kt",
+      "ref_files": [
+        "Models/AnswerButton.kt",
+        "Views/MilestoneRow.kt",
+        "Views/TrendBadge.kt"
+      ]
+    },
+    {
+      "type_name": "LiveRegionMode",
+      "kind": "enum",
+      "file_path": "Models\\LiveRegionMode.kt",
+      "ref_files": [
+        "Models/LoadingScreen.kt",
+        "Views/MotivationalMessage.kt"
+      ]
+    },
+    {
+      "type_name": "Locale",
+      "kind": "struct",
+      "file_path": "Models\\Locale.kt",
+      "ref_files": [
+        "Models/DateFormatterImpl.kt",
+        "ViewModels/DateFormatterImpl.kt",
+        "Views/MilestoneRow.kt"
+      ]
+    },
+    {
+      "type_name": "Rule",
+      "kind": "struct",
+      "file_path": "Models\\Rule.kt",
+      "ref_files": [
+        "Models/ExamQuestionScreenTest.kt",
+        "Models/ReadinessScreenTest.kt"
+      ]
+    },
+    {
+      "type_name": "SemiBold",
+      "kind": "struct",
+      "file_path": "Models\\SemiBold.kt",
+      "ref_files": [
+        "Views/MilestoneRow.kt",
+        "Views/ReadinessErrorContent.kt",
+        "Views/TrendBadge.kt"
       ]
     }
   ],

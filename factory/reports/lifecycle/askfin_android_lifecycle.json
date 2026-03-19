@@ -1,21 +1,21 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 14:21:23",
+  "timestamp": "2026-03-19 19:02:50",
   "blocking_files_checked": 1,
   "ai_generated_found": 1,
   "quarantined": 1,
   "kept": 0,
   "actions": [
     {
-      "filename": "ExamResultState.kt",
-      "original_path": "Models/ExamResultState.kt",
-      "quarantine_path": "quarantine\\20260319_142123_ExamResultState.kt",
-      "blocking_issue": "Duplicate class 'ExamResultState' defined in 2 files (top-level)",
+      "filename": "DateFormatterImpl.kt",
+      "original_path": "Models/DateFormatterImpl.kt",
+      "quarantine_path": "quarantine\\20260319_190250_DateFormatterImpl.kt",
+      "blocking_issue": "Duplicate interface 'DateFormatter' defined in 2 files (top-level)",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "5500734a",
-        "commit_message": "AI run: Generate ONLY ViewModel Kotlin code for ExamSimulation. Use existing Fou",
-        "author_date": "2026-03-19 14:21:21 +0100"
+        "commit_hash": "2394377e",
+        "commit_message": "AI run: Generate ONLY Compose UI for ReadinessScore. Create: ReadinessScreen (la",
+        "author_date": "2026-03-19 19:02:48 +0100"
       }
     }
   ],
