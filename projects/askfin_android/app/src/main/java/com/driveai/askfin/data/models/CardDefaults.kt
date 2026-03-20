@@ -1,0 +1,12 @@
+// CardDefaults.kt
+// Auto-generated stub — type was referenced but never declared.
+// Referenced in:
+//   - Views/ExamProgressBar.kt
+//   - Views/ExamStartScreen.kt
+//   - Views/TimerDisplay.kt
+//
+// TODO: Replace this stub with a full implementation.
+
+package com.driveai.askfin.data.models
+
+data class CardDefaults(val id: String = "")

@@ -90,6 +90,9 @@ def _parse_args() -> dict:
         "show_plan": None,
         "factory_status": False,
         "factory_summary": False,
+        "assemble": None,
+        "assemble_dry": None,
+        "create_handoff": None,
     }
     explicit_mode = None
     explicit_approval = None
@@ -236,6 +239,15 @@ def _parse_args() -> dict:
             i += 1
         elif args[i] == "--factory-summary":
             result["factory_summary"] = True
+        elif args[i] == "--assemble" and i + 1 < len(args):
+            result["assemble"] = args[i + 1]
+            i += 2
+        elif args[i] == "--assemble-dry" and i + 1 < len(args):
+            result["assemble_dry"] = args[i + 1]
+            i += 2
+        elif args[i] == "--create-handoff" and i + 1 < len(args):
+            result["create_handoff"] = args[i + 1]
+            i += 2
             i += 1
         elif not args[i].startswith("--"):
             result["task"] = args[i]
@@ -548,7 +560,37 @@ async def main():
                           approval=approval_mode or "auto")
         return
 
-    # Resolve task from file if provided (highest priority)
+    # ── Assembly commands ───────────────────────────────────────
+    if a["create_handoff"]:
+        from factory.assembly import AssemblyManager
+        mgr = AssemblyManager()
+        handoff = mgr.create_handoff(a["create_handoff"])
+        print(handoff.summary())
+        handoff_path = os.path.join("projects", a["create_handoff"], "specs", "production_handoff.json")
+        handoff.save(handoff_path)
+        print(f"  Handoff saved to: {handoff_path}")
+        return
+
+    if a["assemble_dry"]:
+        from factory.assembly import AssemblyManager
+        mgr = AssemblyManager()
+        handoff = mgr.create_handoff(a["assemble_dry"])
+        mgr.start_assembly(handoff, dry_run=True)
+        return
+
+    if a["assemble"]:
+        from factory.assembly import AssemblyManager
+        mgr = AssemblyManager()
+        handoff = mgr.create_handoff(a["assemble"])
+        if not handoff.is_ready_for_assembly():
+            print(handoff.summary())
+            print("  Assembly blocked: production output not ready.")
+            return
+        report = mgr.start_assembly(handoff, dry_run=False)
+        print(report.summary())
+        return
+
+        # Resolve task from file if provided (highest priority)
     cli_task = a["task"]
     template_used = None
     template_name_value = None
