@@ -12,6 +12,8 @@ from factory.pre_production.agents._keywords import extract_keywords
 from factory.pre_production.config import AGENT_MODEL_MAP
 from factory.pre_production.tools.web_research import search_and_fetch
 
+load_dotenv()
+
 AGENT_NAME = "AudienceAnalyst"
 
 

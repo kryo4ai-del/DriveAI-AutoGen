@@ -1,0 +1,28 @@
+{
+  "project": "askfin_web",
+  "timestamp": "2026-03-20 02:20:34",
+  "blocking_files_checked": 2,
+  "ai_generated_found": 1,
+  "quarantined": 1,
+  "kept": 1,
+  "actions": [
+    {
+      "filename": "GeneratedHelpers.ts",
+      "original_path": "Models/GeneratedHelpers.ts",
+      "quarantine_path": "quarantine\\20260320_022034_GeneratedHelpers.ts",
+      "blocking_issue": "AI contamination: Markdown heading in Swift file",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    }
+  ],
+  "kept_reasons": [
+    {
+      "filename": "Models/GeneratedHelpers.ts",
+      "reason": "file does not exist"
+    }
+  ]
+}
