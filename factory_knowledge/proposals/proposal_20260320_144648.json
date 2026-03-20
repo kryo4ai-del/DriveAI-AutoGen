@@ -1,0 +1,23 @@
+{
+  "run_id": "20260320_144648",
+  "generated": "2026-03-20T15:07:12",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "SwiftUI lifecycle pattern: Missing setInterval Cleanup [Memory Leak Risk]",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: Missing setInterval Cleanup [Memory Leak Risk]",
+      "evidence": "Bug Hunter finding in run 20260320_144648",
+      "source_run": "20260320_144648",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

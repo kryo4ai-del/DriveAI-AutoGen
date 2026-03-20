@@ -1,16 +1,352 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 03:08:33",
-  "blocking_files_checked": 9,
-  "ai_generated_found": 1,
-  "quarantined": 1,
-  "kept": 8,
+  "timestamp": "2026-03-20 14:48:37",
+  "blocking_files_checked": 52,
+  "ai_generated_found": 29,
+  "quarantined": 29,
+  "kept": 23,
   "actions": [
     {
-      "filename": "initializeQuestions.ts",
-      "original_path": "Models/initializeQuestions.ts",
-      "quarantine_path": "quarantine\\20260320_030833_initializeQuestions.ts",
-      "blocking_issue": "Duplicate function 'getAllCategories' defined in 2 files (top-level)",
+      "filename": "Answer.ts",
+      "original_path": "src/types/Answer.ts",
+      "quarantine_path": "quarantine\\20260320_144836_Answer.ts",
+      "blocking_issue": "Duplicate interface 'Answer' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "ApiResponse.ts",
+      "original_path": "services/ApiResponse.ts",
+      "quarantine_path": "quarantine\\20260320_144836_ApiResponse.ts",
+      "blocking_issue": "Duplicate interface 'ApiResponse' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "CategoryStats.ts",
+      "original_path": "src/types/CategoryStats.ts",
+      "quarantine_path": "quarantine\\20260320_144836_CategoryStats.ts",
+      "blocking_issue": "Duplicate interface 'CategoryStats' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "DifficultyLevel.ts",
+      "original_path": "src/types/DifficultyLevel.ts",
+      "quarantine_path": "quarantine\\20260320_144836_DifficultyLevel.ts",
+      "blocking_issue": "Duplicate const 'DIFFICULTY_ORDER' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "ExamRepository.ts",
+      "original_path": "types/ExamRepository.ts",
+      "quarantine_path": "quarantine\\20260320_144836_ExamRepository.ts",
+      "blocking_issue": "Duplicate class 'ExamRepositoryError' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "4c8e1a3b",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for ExamSimulation feature.",
+        "author_date": "2026-03-20 14:46:54 +0100"
+      }
+    },
+    {
+      "filename": "canTransition.ts",
+      "original_path": "Models/canTransition.ts",
+      "quarantine_path": "quarantine\\20260320_144836_canTransition.ts",
+      "blocking_issue": "Duplicate enum 'ExamState' defined in 2 files (top-level) (+1 nested, ignored)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "4c8e1a3b",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for ExamSimulation feature.",
+        "author_date": "2026-03-20 14:46:54 +0100"
+      }
+    },
+    {
+      "filename": "TRAINING_PASS_THRESHOLD.ts",
+      "original_path": "Models/TRAINING_PASS_THRESHOLD.ts",
+      "quarantine_path": "quarantine\\20260320_144836_TRAINING_PASS_THRESHOLD.ts",
+      "blocking_issue": "Duplicate const 'MAX_WEAKNESS_AREAS_DISPLAY' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "a6f27fe9",
+        "commit_message": "AI run: Generate ONLY React components TSX for TrainingMode in a Next.js app. Us",
+        "author_date": "2026-03-20 03:57:06 +0100"
+      }
+    },
+    {
+      "filename": "loadAllQuestions.ts",
+      "original_path": "Models/loadAllQuestions.ts",
+      "quarantine_path": "quarantine\\20260320_144836_loadAllQuestions.ts",
+      "blocking_issue": "Duplicate const 'QUESTIONS_DATABASE' defined in 2 files (top-level) (+1 nested, ignored)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "377b9622",
+        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
+        "author_date": "2026-03-20 03:08:31 +0100"
+      }
+    },
+    {
+      "filename": "QUESTION_DEFAULTS.ts",
+      "original_path": "Models/QUESTION_DEFAULTS.ts",
+      "quarantine_path": "quarantine\\20260320_144836_QUESTION_DEFAULTS.ts",
+      "blocking_issue": "Duplicate const 'QUESTION_DEFAULTS' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "Question.ts",
+      "original_path": "src/types/Question.ts",
+      "quarantine_path": "quarantine\\20260320_144836_Question.ts",
+      "blocking_issue": "Duplicate interface 'Question' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "QuestionRepository.ts",
+      "original_path": "src/types/QuestionRepository.ts",
+      "quarantine_path": "quarantine\\20260320_144836_QuestionRepository.ts",
+      "blocking_issue": "Duplicate interface 'QuestionRepository' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "b838edce",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:42:47 +0100"
+      }
+    },
+    {
+      "filename": "IQuestionRepository.ts",
+      "original_path": "src/types/IQuestionRepository.ts",
+      "quarantine_path": "quarantine\\20260320_144836_IQuestionRepository.ts",
+      "blocking_issue": "Duplicate type 'Result' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "TrainingScreen.tsx",
+      "original_path": "components/TrainingScreen.tsx",
+      "quarantine_path": "quarantine\\20260320_144836_TrainingScreen.tsx",
+      "blocking_issue": "Duplicate function 'TrainingEmptyScreen' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "a6f27fe9",
+        "commit_message": "AI run: Generate ONLY React components TSX for TrainingMode in a Next.js app. Us",
+        "author_date": "2026-03-20 03:57:06 +0100"
+      }
+    },
+    {
+      "filename": "TrainingQuestion.tsx",
+      "original_path": "components/TrainingQuestion.tsx",
+      "quarantine_path": "quarantine\\20260320_144836_TrainingQuestion.tsx",
+      "blocking_issue": "Duplicate function 'TrainingQuestion' defined in 3 files (top-level) (+1 nested, ignored)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "377b9622",
+        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
+        "author_date": "2026-03-20 03:08:31 +0100"
+      }
+    },
+    {
+      "filename": "TrainingSession.ts",
+      "original_path": "src/types/TrainingSession.ts",
+      "quarantine_path": "quarantine\\20260320_144836_TrainingSession.ts",
+      "blocking_issue": "Duplicate interface 'TrainingSession' defined in 2 files (top-level) (+1 nested, ignored)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "TrainingSessionResult.ts",
+      "original_path": "src/types/TrainingSessionResult.ts",
+      "quarantine_path": "quarantine\\20260320_144836_TrainingSessionResult.ts",
+      "blocking_issue": "Duplicate interface 'TrainingSessionResult' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "a6f27fe9",
+        "commit_message": "AI run: Generate ONLY React components TSX for TrainingMode in a Next.js app. Us",
+        "author_date": "2026-03-20 03:57:06 +0100"
+      }
+    },
+    {
+      "filename": "User.ts",
+      "original_path": "src/hooks/User.ts",
+      "quarantine_path": "quarantine\\20260320_144836_User.ts",
+      "blocking_issue": "Duplicate interface 'User' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "UserAnswer.ts",
+      "original_path": "src/hooks/UserAnswer.ts",
+      "quarantine_path": "quarantine\\20260320_144836_UserAnswer.ts",
+      "blocking_issue": "Duplicate interface 'UserAnswer' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "UserStatistics.ts",
+      "original_path": "src/hooks/UserStatistics.ts",
+      "quarantine_path": "quarantine\\20260320_144836_UserStatistics.ts",
+      "blocking_issue": "Duplicate interface 'UserStatistics' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "assertValidCategory.ts",
+      "original_path": "services/assertValidCategory.ts",
+      "quarantine_path": "quarantine\\20260320_144836_assertValidCategory.ts",
+      "blocking_issue": "Duplicate const 'VALID_CATEGORIES' defined in 2 files (top-level) (+2 nested, ignored)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "b838edce",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:42:47 +0100"
+      }
+    },
+    {
+      "filename": "WeaknessData.ts",
+      "original_path": "src/types/WeaknessData.ts",
+      "quarantine_path": "quarantine\\20260320_144836_WeaknessData.ts",
+      "blocking_issue": "Duplicate interface 'WeaknessData' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "assertValidQuestion.ts",
+      "original_path": "Models/assertValidQuestion.ts",
+      "quarantine_path": "quarantine\\20260320_144836_assertValidQuestion.ts",
+      "blocking_issue": "Duplicate function 'assertValidQuestion' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "b838edce",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:42:47 +0100"
+      }
+    },
+    {
+      "filename": "calculateScore.ts",
+      "original_path": "Models/calculateScore.ts",
+      "quarantine_path": "quarantine\\20260320_144836_calculateScore.ts",
+      "blocking_issue": "Duplicate function 'calculateScore' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "377b9622",
+        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
+        "author_date": "2026-03-20 03:08:31 +0100"
+      }
+    },
+    {
+      "filename": "createSession.ts",
+      "original_path": "Models/createSession.ts",
+      "quarantine_path": "quarantine\\20260320_144836_createSession.ts",
+      "blocking_issue": "Duplicate function 'createSession' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "377b9622",
+        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
+        "author_date": "2026-03-20 03:08:31 +0100"
+      }
+    },
+    {
+      "filename": "getQuestionById.ts",
+      "original_path": "Models/getQuestionById.ts",
+      "quarantine_path": "quarantine\\20260320_144836_getQuestionById.ts",
+      "blocking_issue": "Duplicate function 'getQuestionById' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "377b9622",
+        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
+        "author_date": "2026-03-20 03:08:31 +0100"
+      }
+    },
+    {
+      "filename": "isDifficultyHarder.ts",
+      "original_path": "Models/isDifficultyHarder.ts",
+      "quarantine_path": "quarantine\\20260320_144836_isDifficultyHarder.ts",
+      "blocking_issue": "Duplicate function 'isDifficultyHarder' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "868a191f",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:20:32 +0100"
+      }
+    },
+    {
+      "filename": "recordAnswer.ts",
+      "original_path": "Models/recordAnswer.ts",
+      "quarantine_path": "quarantine\\20260320_144836_recordAnswer.ts",
+      "blocking_issue": "Duplicate function 'recordAnswer' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "377b9622",
+        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
+        "author_date": "2026-03-20 03:08:31 +0100"
+      }
+    },
+    {
+      "filename": "roundPercentage.ts",
+      "original_path": "Models/roundPercentage.ts",
+      "quarantine_path": "quarantine\\20260320_144837_roundPercentage.ts",
+      "blocking_issue": "Duplicate function 'roundPercentage' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "377b9622",
+        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
+        "author_date": "2026-03-20 03:08:31 +0100"
+      }
+    },
+    {
+      "filename": "selectAdaptiveQuestions.ts",
+      "original_path": "Models/selectAdaptiveQuestions.ts",
+      "quarantine_path": "quarantine\\20260320_144837_selectAdaptiveQuestions.ts",
+      "blocking_issue": "Duplicate function 'selectAdaptiveQuestions' defined in 2 files (top-level)",
       "provenance": {
         "is_ai_generated": true,
         "commit_hash": "377b9622",
@@ -21,35 +357,95 @@
   ],
   "kept_reasons": [
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "Models/TRAINING_PASS_THRESHOLD.ts",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "src/types/Answer.ts",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "Models/TRAINING_PASS_THRESHOLD.ts",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "src/types/Answer.ts",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "components/TrainingScreen.tsx",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "components/TrainingScreen.tsx",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "src/types/Answer.ts",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/initializeQuestions.ts",
+      "filename": "services/assertValidCategory.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "src/hooks/UserStatistics.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "src/hooks/UserAnswer.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/loadAllQuestions.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "src/types/Question.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "src/types/TrainingSession.ts",
+      "reason": "file does not exist"
+    },
+    {
+      "filename": "Models/roundPercentage.ts",
       "reason": "file does not exist"
     }
   ]

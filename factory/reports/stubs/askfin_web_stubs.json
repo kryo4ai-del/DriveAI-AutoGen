@@ -1,27 +1,398 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 04:17:22",
-  "fk014_count": 2,
-  "stubs_created": 2,
+  "timestamp": "2026-03-20 14:48:35",
+  "fk014_count": 43,
+  "stubs_created": 43,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "React",
+      "type_name": "Accelerate",
       "kind": "struct",
-      "file_path": "Models\\React.ts",
+      "file_path": "Models\\Accelerate.ts",
       "ref_files": [
-        "Views/TrainingModeView.tsx",
-        "components/QuestionSkeleton.tsx",
-        "components/TrainingLayout.tsx"
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
       ]
     },
     {
-      "type_name": "Select",
+      "type_name": "Adaptives",
       "kind": "struct",
-      "file_path": "Models\\Select.ts",
+      "file_path": "Models\\Adaptives.ts",
+      "ref_files": [
+        "src/app/page.tsx",
+        "src/app/training/page.tsx"
+      ]
+    },
+    {
+      "type_name": "AskFin",
+      "kind": "struct",
+      "file_path": "Models\\AskFin.ts",
+      "ref_files": [
+        "src/app/layout.tsx",
+        "src/app/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Available",
+      "kind": "struct",
+      "file_path": "Models\\Available.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Boolean",
+      "kind": "struct",
+      "file_path": "Models\\Boolean.ts",
+      "ref_files": [
+        "Models/selectAdaptiveQuestions.ts",
+        "src/types/selectAdaptiveQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Brake",
+      "kind": "struct",
+      "file_path": "Models\\Brake.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Check",
+      "kind": "struct",
+      "file_path": "Models\\Check.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Complete",
+      "kind": "struct",
+      "file_path": "Models\\Complete.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Config",
+      "kind": "struct",
+      "file_path": "Models\\Config.ts",
+      "ref_files": [
+        "src/types/tailwind.config.ts",
+        "tailwind.config.ts"
+      ]
+    },
+    {
+      "type_name": "During",
+      "kind": "struct",
+      "file_path": "Models\\During.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Enter",
+      "kind": "struct",
+      "file_path": "Models\\Enter.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Failed",
+      "kind": "struct",
+      "file_path": "Models\\Failed.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Found",
+      "kind": "struct",
+      "file_path": "Models\\Found.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Fragentraining",
+      "kind": "struct",
+      "file_path": "Models\\Fragentraining.ts",
+      "ref_files": [
+        "src/app/page.tsx",
+        "src/app/training/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Fuehrerschein",
+      "kind": "struct",
+      "file_path": "Models\\Fuehrerschein.ts",
+      "ref_files": [
+        "src/app/layout.tsx",
+        "src/app/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Generalprobe",
+      "kind": "struct",
+      "file_path": "Models\\Generalprobe.ts",
+      "ref_files": [
+        "src/app/exam/page.tsx",
+        "src/app/layout.tsx",
+        "src/app/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Headlights",
+      "kind": "struct",
+      "file_path": "Models\\Headlights.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Maintain",
+      "kind": "struct",
+      "file_path": "Models\\Maintain.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Models",
+      "kind": "struct",
+      "file_path": "Models\\Models.ts",
+      "ref_files": [
+        "src/components/TrainingScreen.tsx",
+        "src/services/fetchQuestion.ts"
+      ]
+    },
+    {
+      "type_name": "Most",
+      "kind": "struct",
+      "file_path": "Models\\Most.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Move",
+      "kind": "struct",
+      "file_path": "Models\\Move.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Never",
+      "kind": "struct",
+      "file_path": "Models\\Never.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Next",
+      "kind": "struct",
+      "file_path": "Models\\Next.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Only",
+      "kind": "struct",
+      "file_path": "Models\\Only.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Pool",
+      "kind": "struct",
+      "file_path": "Models\\Pool.ts",
+      "ref_files": [
+        "Models/createSession.ts",
+        "src/types/createSession.ts"
+      ]
+    },
+    {
+      "type_name": "Proceed",
+      "kind": "struct",
+      "file_path": "Models\\Proceed.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Pruefungsbereitschaft",
+      "kind": "struct",
+      "file_path": "Models\\Pruefungsbereitschaft.ts",
+      "ref_files": [
+        "src/app/page.tsx",
+        "src/app/readiness/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Pruefungssimulation",
+      "kind": "struct",
+      "file_path": "Models\\Pruefungssimulation.ts",
+      "ref_files": [
+        "src/app/exam/page.tsx",
+        "src/app/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Readiness",
+      "kind": "struct",
+      "file_path": "Models\\Readiness.ts",
+      "ref_files": [
+        "src/app/layout.tsx",
+        "src/app/page.tsx",
+        "src/app/readiness/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Reload",
+      "kind": "struct",
+      "file_path": "Models\\Reload.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Retry",
+      "kind": "struct",
+      "file_path": "Models\\Retry.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Score",
+      "kind": "struct",
+      "file_path": "Models\\Score.ts",
+      "ref_files": [
+        "src/app/page.tsx",
+        "src/app/readiness/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Skill",
+      "kind": "struct",
+      "file_path": "Models\\Skill.ts",
+      "ref_files": [
+        "src/app/layout.tsx",
+        "src/app/page.tsx",
+        "src/app/skillmap/page.tsx"
+      ]
+    },
+    {
+      "type_name": "Speed",
+      "kind": "struct",
+      "file_path": "Models\\Speed.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Steer",
+      "kind": "struct",
+      "file_path": "Models\\Steer.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Stop",
+      "kind": "struct",
+      "file_path": "Models\\Stop.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "Submit",
+      "kind": "struct",
+      "file_path": "Models\\Submit.ts",
+      "ref_files": [
+        "components/TrainingQuestion.tsx",
+        "src/components/TrainingQuestion.tsx"
+      ]
+    },
+    {
+      "type_name": "Time",
+      "kind": "struct",
+      "file_path": "Models\\Time.ts",
+      "ref_files": [
+        "src/types/ValidCategory.ts",
+        "types/ValidCategory.ts"
+      ]
+    },
+    {
+      "type_name": "Total",
+      "kind": "struct",
+      "file_path": "Models\\Total.ts",
       "ref_files": [
         "Views/TrainingModeView.tsx",
-        "components/TrainingQuestion.tsx"
+        "src/components/TrainingModeView.tsx"
+      ]
+    },
+    {
+      "type_name": "TrainingResult",
+      "kind": "struct",
+      "file_path": "Models\\TrainingResult.ts",
+      "ref_files": [
+        "components/TrainingScreen.tsx",
+        "src/components/TrainingScreen.tsx"
+      ]
+    },
+    {
+      "type_name": "Turn",
+      "kind": "struct",
+      "file_path": "Models\\Turn.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "What",
+      "kind": "struct",
+      "file_path": "Models\\What.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
+      ]
+    },
+    {
+      "type_name": "When",
+      "kind": "struct",
+      "file_path": "Models\\When.ts",
+      "ref_files": [
+        "Models/loadAllQuestions.ts",
+        "src/types/loadAllQuestions.ts"
       ]
     }
   ],

@@ -1,7 +1,7 @@
 {
   "project": "askfin_web",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_web",
-  "files_scanned": 50,
+  "files_scanned": 132,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,9 +10,28 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "CLEAN",
-  "issues_found": 0,
-  "blocking": 0,
-  "warnings": 0,
-  "issues": []
+  "status": "BLOCKING",
+  "issues_found": 2,
+  "blocking": 1,
+  "warnings": 1,
+  "issues": [
+    {
+      "pattern_id": "FK-012",
+      "severity": "blocking",
+      "file": "src/components/TrainingQuestion.tsx",
+      "message": "Duplicate function 'TrainingQuestion' defined in 2 files (top-level) (+1 nested, ignored)",
+      "line": 3,
+      "type_name": "TrainingQuestion",
+      "other_files": [
+        "types/TrainingQuestion.ts:4"
+      ]
+    },
+    {
+      "pattern_id": "FK-017",
+      "severity": "warning",
+      "file": "Models/Session.ts",
+      "message": "Generic type name 'Session' has high collision risk. Consider prefixing with feature/domain name.",
+      "type_name": "Session"
+    }
+  ]
 }
