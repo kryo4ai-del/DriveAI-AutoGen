@@ -1,17 +1,17 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 18:01:58",
+  "timestamp": "2026-03-20 18:21:04",
   "fk014_count": 1,
   "stubs_created": 1,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "SkillMapProps",
+      "type_name": "Performance",
       "kind": "struct",
-      "file_path": "Models\\SkillMapProps.ts",
+      "file_path": "Models\\Performance.ts",
       "ref_files": [
-        "Models/SkillMap.ts",
-        "components/SkillMap.tsx"
+        "Models/TREND_LABELS.ts",
+        "components/ExamResultScreen.tsx"
       ]
     }
   ],

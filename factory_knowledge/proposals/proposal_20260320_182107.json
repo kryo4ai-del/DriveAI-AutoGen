@@ -1,0 +1,22 @@
+{
+  "run_id": "20260320_182107",
+  "generated": "2026-03-20T18:41:18",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "Bug pattern: Missing Service Implementations",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: Missing Service Implementations. Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260320_182107",
+      "source_run": "20260320_182107",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    }
+  ]
+}

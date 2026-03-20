@@ -1,33 +1,21 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 18:01:58",
-  "blocking_files_checked": 2,
-  "ai_generated_found": 2,
-  "quarantined": 2,
+  "timestamp": "2026-03-20 18:21:05",
+  "blocking_files_checked": 1,
+  "ai_generated_found": 1,
+  "quarantined": 1,
   "kept": 0,
   "actions": [
     {
-      "filename": "SkillMap.tsx",
-      "original_path": "components/SkillMap.tsx",
-      "quarantine_path": "quarantine\\20260320_180158_SkillMap.tsx",
-      "blocking_issue": "Duplicate function 'SkillMap' defined in 2 files (top-level)",
+      "filename": "isReadinessData.ts",
+      "original_path": "services/isReadinessData.ts",
+      "quarantine_path": "quarantine\\20260320_182105_isReadinessData.ts",
+      "blocking_issue": "Duplicate const 'data' defined in 2 files (top-level) (+8 nested, ignored)",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "2dd24f94",
-        "commit_message": "AI run: Enhance SkillMap React code. Add animated progress bars. Color transitio",
-        "author_date": "2026-03-20 18:01:47 +0100"
-      }
-    },
-    {
-      "filename": "getProgressColor.tsx",
-      "original_path": "components/getProgressColor.tsx",
-      "quarantine_path": "quarantine\\20260320_180158_getProgressColor.tsx",
-      "blocking_issue": "Duplicate function 'getProgressColor' defined in 2 files (top-level)",
-      "provenance": {
-        "is_ai_generated": true,
-        "commit_hash": "2dd24f94",
-        "commit_message": "AI run: Enhance SkillMap React code. Add animated progress bars. Color transitio",
-        "author_date": "2026-03-20 18:01:47 +0100"
+        "commit_hash": "0c693bb2",
+        "commit_message": "AI run: Generate ONLY TypeScript types for ReadinessScore. Create: interface Rea",
+        "author_date": "2026-03-20 18:20:55 +0100"
       }
     }
   ],
