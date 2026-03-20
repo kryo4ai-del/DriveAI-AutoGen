@@ -1,45 +1,26 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 15:46:56",
-  "fk014_count": 4,
-  "stubs_created": 4,
+  "timestamp": "2026-03-20 16:11:13",
+  "fk014_count": 2,
+  "stubs_created": 2,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Areas",
+      "type_name": "Please",
       "kind": "struct",
-      "file_path": "Models\\Areas.ts",
+      "file_path": "Models\\Please.ts",
       "ref_files": [
-        "components/ExamResultScreen.tsx",
-        "components/GeneratedHelpers.tsx"
+        "components/LoadingSkeleton.tsx",
+        "types/TimerAnnouncement.ts"
       ]
     },
     {
-      "type_name": "Category",
-      "kind": "enum",
-      "file_path": "Models\\Category.ts",
-      "ref_files": [
-        "components/ExamResultScreen.tsx",
-        "components/GeneratedHelpers.tsx"
-      ]
-    },
-    {
-      "type_name": "Progress",
+      "type_name": "Unknown",
       "kind": "struct",
-      "file_path": "Models\\Progress.ts",
+      "file_path": "Models\\Unknown.ts",
       "ref_files": [
-        "components/ExamQuestionScreen.tsx",
-        "components/GeneratedHelpers.tsx"
-      ]
-    },
-    {
-      "type_name": "Review",
-      "kind": "struct",
-      "file_path": "Models\\Review.ts",
-      "ref_files": [
-        "components/ExamResultScreen.tsx",
-        "components/ExamStartScreen.tsx",
-        "components/GeneratedHelpers.tsx"
+        "Models/Category.ts",
+        "Models/WeakCategory.ts"
       ]
     }
   ],
