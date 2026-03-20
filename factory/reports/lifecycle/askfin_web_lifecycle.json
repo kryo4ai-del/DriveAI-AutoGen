@@ -1,28 +1,35 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 02:20:34",
+  "timestamp": "2026-03-20 02:42:49",
   "blocking_files_checked": 2,
-  "ai_generated_found": 1,
-  "quarantined": 1,
-  "kept": 1,
+  "ai_generated_found": 2,
+  "quarantined": 2,
+  "kept": 0,
   "actions": [
     {
-      "filename": "GeneratedHelpers.ts",
-      "original_path": "Models/GeneratedHelpers.ts",
-      "quarantine_path": "quarantine\\20260320_022034_GeneratedHelpers.ts",
-      "blocking_issue": "AI contamination: Markdown heading in Swift file",
+      "filename": "CATEGORY_LABELS.ts",
+      "original_path": "Models/CATEGORY_LABELS.ts",
+      "quarantine_path": "quarantine\\20260320_024249_CATEGORY_LABELS.ts",
+      "blocking_issue": "Duplicate enum 'QuestionCategory' defined in 2 files (top-level) (+2 nested, ignored)",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "868a191f",
+        "commit_hash": "b838edce",
         "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
-        "author_date": "2026-03-20 02:20:32 +0100"
+        "author_date": "2026-03-20 02:42:47 +0100"
+      }
+    },
+    {
+      "filename": "validateQuestion.ts",
+      "original_path": "Models/validateQuestion.ts",
+      "quarantine_path": "quarantine\\20260320_024249_validateQuestion.ts",
+      "blocking_issue": "Duplicate function 'validateQuestion' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "b838edce",
+        "commit_message": "AI run: Generate ONLY foundational TypeScript types for TrainingMode in a Next.j",
+        "author_date": "2026-03-20 02:42:47 +0100"
       }
     }
   ],
-  "kept_reasons": [
-    {
-      "filename": "Models/GeneratedHelpers.ts",
-      "reason": "file does not exist"
-    }
-  ]
+  "kept_reasons": []
 }
