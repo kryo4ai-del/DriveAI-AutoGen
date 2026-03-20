@@ -1,66 +1,26 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 03:08:32",
-  "fk014_count": 6,
-  "stubs_created": 6,
+  "timestamp": "2026-03-20 03:57:08",
+  "fk014_count": 2,
+  "stubs_created": 2,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Count",
+      "type_name": "Loading",
       "kind": "struct",
-      "file_path": "Models\\Count.ts",
+      "file_path": "Models\\Loading.ts",
       "ref_files": [
-        "Models/createSession.ts",
-        "Models/initializeQuestions.ts"
+        "components/GeneratedHelpers.tsx",
+        "components/TrainingScreen.tsx"
       ]
     },
     {
-      "type_name": "Invalid",
+      "type_name": "Training",
       "kind": "struct",
-      "file_path": "Models\\Invalid.ts",
+      "file_path": "Models\\Training.ts",
       "ref_files": [
-        "services/assertValidCategory.ts",
-        "types/AnswerResult.ts",
-        "types/ValidCategory.ts"
-      ]
-    },
-    {
-      "type_name": "Math",
-      "kind": "struct",
-      "file_path": "Models\\Math.ts",
-      "ref_files": [
-        "Models/calculateScore.ts",
-        "Models/initializeQuestions.ts",
-        "Models/loadAllQuestions.ts",
-        "Models/roundPercentage.ts",
-        "Models/selectAdaptiveQuestions.ts"
-      ]
-    },
-    {
-      "type_name": "Number",
-      "kind": "struct",
-      "file_path": "Models\\Number.ts",
-      "ref_files": [
-        "Models/createSession.ts",
-        "types/ValidCategory.ts"
-      ]
-    },
-    {
-      "type_name": "Questions",
-      "kind": "struct",
-      "file_path": "Models\\Questions.ts",
-      "ref_files": [
-        "Models/initializeQuestions.ts",
-        "types/ValidCategory.ts"
-      ]
-    },
-    {
-      "type_name": "Session",
-      "kind": "struct",
-      "file_path": "Models\\Session.ts",
-      "ref_files": [
-        "types/AnswerResult.ts",
-        "types/ValidCategory.ts"
+        "components/GeneratedHelpers.tsx",
+        "components/TrainingScreen.tsx"
       ]
     }
   ],

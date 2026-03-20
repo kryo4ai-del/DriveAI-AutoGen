@@ -63,3 +63,245 @@ Skipped (1 already in project):
 --- Refactor pass ---
   Prior review context: 1906 chars injected
   Factory knowledge: 896 chars injected
+  Review digest: 600 chars captured
+
+--- Test generation pass ---
+
+Knowledge proposals: 1 candidates → C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory_knowledge\proposals\proposal_20260320_033550.json
+
+============================================================
+Conversation complete.
+Messages exchanged : 10 (impl) + 10 (bugs) + 10 (creative) + 10 (ux_psych) + 10 (refactor) + 10 (tests)
+Run mode           : standard
+Approval mode      : auto
+Stop reason        : Maximum number of messages 10 reached, current message count: 10
+Memory updates:
+  decisions          : +28
+  architecture notes : +37
+  implementation notes: +51
+  review notes       : +49
+Typescript files saved  : 13 new, 1 unchanged
+Xcode integration  : 6 copied, 0 unchanged
+Memory saved to    : memory/memory_store.json
+Log saved to       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\logs\driveai_run_20260320_033550.txt
+Delivery package   : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260320_033550
+Sprint report      : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260320_033550\sprint_report.md
+Run manifest       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260320_033550\run_manifest.json
+============================================================
+
+Git auto commit:
+  - changes staged
+  - commit created
+  - pushed to origin/main
+
+============================================================
+  Operations Layer (typescript)
+============================================================
+
+[OpsLayer] Pass 1: Output Integrator
+
+[OutputIntegrator] Starting integration for project: askfin_web
+[OutputIntegrator] Output directory: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web\generated
+  [generated_code] 0 files
+[OutputIntegrator] Collected 0 artifacts
+[OutputIntegrator] No artifacts found. Nothing to integrate.
+
+==================================================
+  Output Integrator Summary
+==================================================
+  Artifacts collected:   0
+  Artifacts normalized:  0
+  Artifacts written:     0
+  Truncated detected:    0
+  Skipped (duplicates):  0
+==================================================
+
+
+[OpsLayer] Pass 1: Completion Verifier
+
+[CompletionVerifier] Verifying project: askfin_web
+[CompletionVerifier] Generated dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web\generated
+[CompletionVerifier] Specs dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web\specs
+[CompletionVerifier] No spec files found
+[CompletionVerifier] No specs found -- using project-evidence mode
+[CompletionVerifier] Project Typescript files: 48
+[CompletionVerifier] Generated artifacts: 0
+[CompletionVerifier] Compile hygiene blocking: 0
+
+=======================================================
+  Completion Verifier Summary
+=======================================================
+  Project:           askfin_web
+  Spec source:       project-evidence
+  Health status:     INCOMPLETE
+  Completeness:      70%
+-------------------------------------------------------
+  Expected files:    48
+  Actual files:      0
+  Complete files:    48
+  Incomplete files:  0
+  Missing files:     0
+  Missing folders:   2
+
+  Missing folders:
+    - ViewModels
+    - Views
+=======================================================
+
+[CompletionVerifier] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\completion\askfin_web_completion.json
+
+[OpsLayer] Compile Hygiene Validator
+
+[CompileHygiene] Validating project: askfin_web
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+[CompileHygiene] Typescript files found: 44
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_web
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+  Files scanned:  44
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   2
+    Blocking:     2
+    Warnings:     0
+
+  [BLOCK] FK-014  components/GeneratedHelpers.tsx
+          Type 'Loading' referenced in 2 files but never declared in project
+          also in: components/TrainingScreen.tsx
+  [BLOCK] FK-014  components/GeneratedHelpers.tsx
+          Type 'Training' referenced in 2 files but never declared in project
+          also in: components/TrainingScreen.tsx
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_web_compile_hygiene.json
+
+[OpsLayer] Type Stub Generator — 2 FK-014 blocker(s)
+[StubGen] Processing 2 FK-014 finding(s)...
+  [STUB] Loading (struct) -> Models\Loading.ts
+  [STUB] Training (struct) -> Models\Training.ts
+
+[StubGen] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\stubs\askfin_web_stubs.json
+
+============================================================
+  Type Stub Generator (FK-014)
+============================================================
+  Project:          askfin_web
+  FK-014 findings:  2
+  Stubs created:    2
+  Stubs skipped:    0
+
+  [CREATED] Loading (struct) -> Models\Loading.ts
+  [CREATED] Training (struct) -> Models\Training.ts
+============================================================
+
+[OpsLayer] Re-running Compile Hygiene after stub generation...
+
+[CompileHygiene] Validating project: askfin_web
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+[CompileHygiene] Typescript files found: 46
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_web
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+  Files scanned:  46
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         CLEAN
+------------------------------------------------------------
+  Issues found:   0
+    Blocking:     0
+    Warnings:     0
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_web_compile_hygiene.json
+
+[OpsLayer] Property Shape Repairer — no FK-013 blockers, skipping.
+
+[OpsLayer] Stale Artifact Guard — no blocking issues, skipping.
+
+[OpsLayer] Swift Compile Check
+
+[SwiftCompile] Checking project: askfin_web
+[SwiftCompile] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+[SwiftCompile] Mode: parse
+[SwiftCompile] swiftc not found on PATH — skipping.
+
+============================================================
+  Swift Compile Check
+============================================================
+  Project:          askfin_web
+  Scan dir:         C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+  Mode:             skipped
+  Status:           SKIPPED
+  Skip reason:      swiftc not found on PATH
+------------------------------------------------------------
+  Files checked:    0
+  Files OK:         0
+  Files w/ errors:  0
+  Files w/ warnings:0
+  Total errors:     0
+  Total warnings:   0
+============================================================
+
+[SwiftCompile] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\compile\askfin_web_swift_compile.json
+
+[OpsLayer] Health: INCOMPLETE -- recovery attempt 1/2
+
+[RecoveryRunner] Starting recovery for project: askfin_web
+[RecoveryRunner] Attempt: 1 / 2
+[RecoveryRunner] Mode: execute
+[RecoveryRunner] Health status: incomplete
+[RecoveryRunner] No missing or incomplete files found. No recovery needed.
+
+=======================================================
+  Recovery Runner Summary
+=======================================================
+  Project:              askfin_web
+  Health before:        incomplete
+  Recovery targets:     0
+  Attempt:              1 / 2
+  Mode:                 execute
+  Outcome:              SKIPPED
+  Prompt file:          
+  Command:              
+=======================================================
+
+[RecoveryRunner] Summary saved to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\recovery\askfin_web_recovery_summary.json
+
+[OpsLayer] Recovery stopped: skipped
+
+============================================================
+  Operations Layer Summary
+============================================================
+  Project:            askfin_web
+  Initial status:     INCOMPLETE
+  Recovery attempts:  1
+  Recovery outcome:   skipped
+  Final status:       INCOMPLETE
+  Compile hygiene:    CLEAN
+  FK-014 stubs:       2 created
+  Swift compile:      SKIPPED
+============================================================
+
+
+=======================================================
+  Run Memory Summary
+=======================================================
+  Project:           askfin_web
+  Runs recorded:     5
+  Latest status:     INCOMPLETE
+  Latest complete:   70%
+  Latest recovery:   skipped (1 attempts)
+
+  Recovery runs:      4 of 5 runs
+=======================================================
+
+[KnowledgeWriteback] Starting writeback cycle...
+[KnowledgeWriteback] No proposals ready for promotion.
+[KnowledgeWriteback] No new run patterns detected.
+[KnowledgeWriteback] Writeback cycle complete.
