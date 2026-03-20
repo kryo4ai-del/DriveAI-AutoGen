@@ -1,33 +1,33 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 16:29:47",
+  "timestamp": "2026-03-20 18:01:58",
   "blocking_files_checked": 2,
   "ai_generated_found": 2,
   "quarantined": 2,
   "kept": 0,
   "actions": [
     {
-      "filename": "SkillMapOverview.tsx",
-      "original_path": "components/SkillMapOverview.tsx",
-      "quarantine_path": "quarantine\\20260320_162947_SkillMapOverview.tsx",
-      "blocking_issue": "Duplicate function 'SkillMapOverview' defined in 2 files (top-level)",
+      "filename": "SkillMap.tsx",
+      "original_path": "components/SkillMap.tsx",
+      "quarantine_path": "quarantine\\20260320_180158_SkillMap.tsx",
+      "blocking_issue": "Duplicate function 'SkillMap' defined in 2 files (top-level)",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "b678109a",
-        "commit_message": "AI run: Generate ONLY TypeScript types for SkillMap. Use existing types. Create:",
-        "author_date": "2026-03-20 16:29:36 +0100"
+        "commit_hash": "2dd24f94",
+        "commit_message": "AI run: Enhance SkillMap React code. Add animated progress bars. Color transitio",
+        "author_date": "2026-03-20 18:01:47 +0100"
       }
     },
     {
-      "filename": "calculateAccuracy.ts",
-      "original_path": "Models/calculateAccuracy.ts",
-      "quarantine_path": "quarantine\\20260320_162947_calculateAccuracy.ts",
-      "blocking_issue": "Duplicate function 'buildSkillMap' defined in 2 files (top-level) (+1 nested, ignored)",
+      "filename": "getProgressColor.tsx",
+      "original_path": "components/getProgressColor.tsx",
+      "quarantine_path": "quarantine\\20260320_180158_getProgressColor.tsx",
+      "blocking_issue": "Duplicate function 'getProgressColor' defined in 2 files (top-level)",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "b678109a",
-        "commit_message": "AI run: Generate ONLY TypeScript types for SkillMap. Use existing types. Create:",
-        "author_date": "2026-03-20 16:29:36 +0100"
+        "commit_hash": "2dd24f94",
+        "commit_message": "AI run: Enhance SkillMap React code. Add animated progress bars. Color transitio",
+        "author_date": "2026-03-20 18:01:47 +0100"
       }
     }
   ],

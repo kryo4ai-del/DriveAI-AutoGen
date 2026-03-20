@@ -796,7 +796,7 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 
 ## Aktueller Stand (2026-03-20)
 
-### Factory
+### Factory Core
 | Komponente | Status |
 |---|---|
 | Pipeline Runner | Extrahiert, platform-aware |
@@ -809,12 +809,25 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 | Run Promotion | Policy + Advisor |
 | Factory Status | CEO Dashboard |
 
+### Swarm Factory (NEU — Pre-Production + Market Strategy)
+| Komponente | Status |
+|---|---|
+| Phase 1: Pre-Production Pipeline | KOMPLETT (12 Steps, 7 Agents, E2E getestet) |
+| Phase 2: Market Strategy Pipeline | KOMPLETT (7 Steps, 5 Agents, E2E getestet) |
+| Document Secretary (Agent 13) | KOMPLETT (6 PDF-Typen, HTML→PDF via Playwright) |
+| Web-Research-Tool | SerpAPI + Cache + URL-Fetch |
+| Memory-Agent | Learnings + Run-Logs (persistent) |
+| CEO-Gate | Interaktiv + Programmatisch |
+| Input-Loader | Phase 1 → Phase 2 Verbindung |
+| EchoMatch Runs | Phase 1 #003 (GO), Phase 2 #001 |
+
 ### Projekte
 | Projekt | Platform | Files | Status |
 |---|---|---|---|
-| AskFin Premium (iOS) | Swift/SwiftUI | 234 | App Store Prep (Submission-ready, fehlt Icon + Dev Account) |
+| AskFin Premium (iOS) | Swift/SwiftUI | 234 | App Store Prep (fehlt Icon + Dev Account) |
 | AskFin Android | Kotlin/Compose | 204 | 4 Features generiert (Domain schwach bei Haiku) |
 | AskFin Web | TypeScript/React | 0 | Spec ready, Build pending |
+| EchoMatch (Swarm Factory) | Unity (geplant) | — | Phase 1+2 abgeschlossen, 11 Reports + 6 PDFs |
 
 ### Validierungsstrategie (5 Stufen)
 | Stufe | Beschreibung | Status |

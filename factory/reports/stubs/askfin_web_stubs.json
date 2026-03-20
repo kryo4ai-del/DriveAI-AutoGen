@@ -1,27 +1,17 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 17:38:35",
-  "fk014_count": 2,
-  "stubs_created": 2,
+  "timestamp": "2026-03-20 18:01:58",
+  "fk014_count": 1,
+  "stubs_created": 1,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Overall",
+      "type_name": "SkillMapProps",
       "kind": "struct",
-      "file_path": "Models\\Overall.ts",
+      "file_path": "Models\\SkillMapProps.ts",
       "ref_files": [
-        "components/CategoryCompetenceCard.tsx",
-        "components/GeneratedHelpers.tsx",
-        "components/SkillMapHeader.tsx"
-      ]
-    },
-    {
-      "type_name": "Your",
-      "kind": "struct",
-      "file_path": "Models\\Your.ts",
-      "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "components/SkillMapHeader.tsx"
+        "Models/SkillMap.ts",
+        "components/SkillMap.tsx"
       ]
     }
   ],

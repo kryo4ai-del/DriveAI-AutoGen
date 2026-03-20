@@ -47,6 +47,9 @@ DriveAI-AutoGen/
 │   ├── brain/                 # Cross-project knowledge store (22 FK entries)
 │   ├── operations/            # Compile hygiene, type stubs, shape repair, sanitizer
 │   ├── status/                # Factory status dashboard
+│   ├── pre_production/        # Swarm Factory Phase 1: Pre-Production Pipeline (7 Agents)
+│   ├── market_strategy/       # Swarm Factory Phase 2: Market Strategy Pipeline (5 Agents)
+│   ├── document_secretary/    # Agent 13: Professional PDF Generator (6 Types)
 │   └── promotion_advisor.py   # Run promotion policy
 ├── code_generation/
 │   ├── extractors/            # Platform extractors (Swift, Kotlin, TypeScript, Python)
@@ -144,6 +147,41 @@ The factory now supports 3 production lines from a single codebase:
      │  App Store ✅ │ │ 204 files │ │ Spec ready  │
      └───────────────┘ └───────────┘ └─────────────┘
 ```
+
+## Swarm Factory: Autonomous Product Pipeline
+
+Fully autonomous pipeline from raw idea to investor-grade documents.
+
+### Phase 1: Pre-Production (7 Agents)
+```
+CEO Idea → Memory → [Trend + Competitor + Audience] → Concept Brief → Legal → Risk → CEO Gate
+```
+
+### Phase 2: Market Strategy (5 Agents)
+```
+Phase 1 Output → [Platform + Monetization] → [Marketing + Release] → Cost Calculation
+```
+
+### Document Secretary (Agent 13)
+Generates 6 professional PDF document types:
+- CEO Briefing Phase 1 & 2
+- Marketing Konzept (agency-grade)
+- Investor Summary
+- Technical Brief
+- Legal & Compliance Summary
+
+```bash
+# Run full pipeline
+python -m factory.pre_production.pipeline --idea "Your app idea" --title "AppName"
+python -m factory.pre_production.ceo_gate --run-dir factory/pre_production/output/001_appname --decision GO
+python -m factory.market_strategy.pipeline --run-dir factory/pre_production/output/001_appname
+python -m factory.document_secretary.secretary --type all --p1-dir factory/pre_production/output/001_appname --p2-dir factory/market_strategy/output/001_appname
+```
+
+### First Product: EchoMatch
+- Phase 1 Run #003: 6 reports, CEO Gate: **GO**
+- Phase 2 Run #001: 5 reports
+- 6 professional PDFs generated (CEO, Investor, Marketing, Tech, Legal)
 
 ## 5-Stage Validation Strategy
 
