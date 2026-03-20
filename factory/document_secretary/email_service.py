@@ -39,10 +39,7 @@ def send_document(filepath: str, subject: str, body: str = "") -> bool:
         msg.attach(MIMEText(body or f"Anbei: {Path(filepath).name}", "plain"))
 
         with open(filepath, "rb") as f:
-            part = MIMEBase(
-                "application",
-                "vnd.openxmlformats-officedocument.wordprocessingml.document",
-            )
+            part = MIMEBase("application", "pdf")
             part.set_payload(f.read())
             encoders.encode_base64(part)
             part.add_header(
