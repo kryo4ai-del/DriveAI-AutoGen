@@ -29,47 +29,43 @@ DriveAI-AutoGen/
 ├── CLAUDE.md                        ← Diese Datei
 │
 ├── projects/                        ← Generierte Projekte
-│   └── askfin_v1-1/                 ← AskFin Premium iOS App (~170 Swift Files)
-│       ├── App/                     ← App Entry Point
-│       ├── Models/                  ← Swift Datenmodelle
-│       ├── Services/                ← Business Logic
-│       ├── ViewModels/              ← MVVM ViewModels
-│       └── Views/                   ← SwiftUI Views
+│   ├── askfin_v1-1/                 ← AskFin Premium iOS App (234 Swift Files)
+│   ├── askfin_android/              ← AskFin Android (204 Kotlin Files)
+│   └── askfin_web/                  ← AskFin Web (TypeScript/React, Spec ready)
+│
+├── factory/                         ← Factory Core
+│   ├── pipeline/                    ← Extrahierter Pipeline Runner
+│   ├── orchestrator/                ← Build-Planer (flat + layered + quality gates)
+│   ├── brain/                       ← Cross-Project Knowledge Store (22 FK Entries)
+│   ├── operations/                  ← Post-Generation Validierung + Auto-Repair
+│   ├── status/                      ← Factory Status Dashboard
+│   ├── pre_production/              ← Swarm Factory Phase 1: Pre-Production Pipeline
+│   │   ├── agents/                  ← 7 Agents (Trend, Competitor, Audience, Concept, Legal, Risk, Memory)
+│   │   ├── tools/                   ← Web Research Tool (SerpAPI + Caching)
+│   │   ├── memory/                  ← Learnings + Run-Logs
+│   │   ├── output/                  ← Phase 1 Reports pro Run
+│   │   ├── pipeline.py              ← Phase 1 Pipeline Runner
+│   │   ├── ceo_gate.py              ← Kill-or-Go Entscheidung
+│   │   └── config.py                ← Agent-Model-Mapping
+│   ├── market_strategy/             ← Swarm Factory Phase 2: Market Strategy Pipeline
+│   │   ├── agents/                  ← 5 Agents (Platform, Monetization, Marketing, Release, Cost)
+│   │   ├── output/                  ← Phase 2 Reports pro Run
+│   │   ├── pipeline.py              ← Phase 2 Pipeline Runner
+│   │   ├── input_loader.py          ← Laedt Phase 1 Output als Input
+│   │   └── config.py                ← Agent-Model-Mapping
+│   └── document_secretary/          ← Agent 13: PDF-Dokument-Generator
+│       ├── templates/               ← 6 Templates (CEO P1/P2, Marketing, Investor, Tech, Legal)
+│       ├── pdf_builder.py           ← HTML/CSS → PDF via Playwright
+│       ├── email_service.py         ← SMTP E-Mail-Versand
+│       ├── secretary.py             ← Orchestrator + CLI
+│       └── output/                  ← Generierte PDFs
 │
 ├── agents/                          ← AI Agenten (Python, AutoGen)
 ├── config/                          ← Konfiguration
-│   ├── llm_config.py               ← LLM Config (Anthropic + Ollama)
-│   ├── llm_profiles.json           ← 3 Profile: dev/standard/premium
-│   ├── model_router.py             ← 3-Tier Routing (Sonnet + Haiku)
-│   ├── agent_toggles.json          ← 21 aktiv, 4 deaktiviert
-│   └── agent_roles.json            ← Agent System Messages
-├── factory/                         ← Factory Operations Layer
-│   ├── operations/                  ← Post-Generation Validierung + Auto-Repair
-│   │   ├── compile_hygiene_validator.py  ← FK-011 bis FK-017 (Column-aware, Memberwise-Init)
-│   │   ├── swift_compile_check.py        ← swiftc -parse Validierung
-│   │   ├── output_integrator.py          ← Code-Integration + Type-Level Dedup + Markdown Sanitization
-│   │   ├── completion_verifier.py        ← Vollstaendigkeitspruefung
-│   │   ├── type_stub_generator.py        ← Auto-Stub fuer FK-014 fehlende Typen
-│   │   ├── property_shape_repairer.py    ← Auto-Repair fuer FK-013 Struct-Property-Mismatches
-│   │   ├── recovery_runner.py            ← Automatische Reparatur
-│   │   └── run_memory.py                 ← Run-History
-│   └── reports/                     ← Generierte Reports
-│       ├── hygiene/                 ← Compile Hygiene Reports (JSON)
-│       ├── compile/                 ← Swift Compile Reports (JSON)
-│       ├── stubs/                   ← Type Stub Reports (JSON)
-│       └── shape_repairs/           ← Property Shape Repair Reports (JSON)
-├── factory_knowledge/               ← Factory Knowledge System
-│   ├── knowledge.json               ← 18 Eintraege (FK-001 bis FK-018)
-│   ├── index.json                   ← Uebersichts-Index
-│   ├── knowledge_reader.py          ← Deterministische Entry-Selektion
-│   ├── proposal_generator.py        ← Run-basierte Knowledge-Kandidaten
-│   └── knowledge_writeback.py       ← Feedback Loop (Auto-Promotion + Pattern Extraction)
-├── factory_strategy/                ← Commercial Strategy Generator
+├── factory_knowledge/               ← Factory Knowledge System (22 Entries)
+├── code_generation/                 ← Code Extractors (Swift, Kotlin, TypeScript)
 ├── control_center/                  ← Streamlit Dashboard (19 Pages)
 ├── briefings/                       ← Daily Briefing Agent
-├── strategy/                        ← Weekly Strategy Reports
-├── research/                        ← Auto Research Agent
-├── research_graph/                  ← Knowledge Graph (Nodes + Edges)
 ├── docs/                            ← Dokumentation
 ├── _logs/                           ← Shared Logs (Mac ↔ Windows via Git)
 └── venv/                            ← Python Virtual Environment
@@ -204,7 +200,32 @@ DeveloperReports/
 
 **Regel**: Vor dem Erstellen prüfen welche Nummer als nächstes dran ist. Reports sind dauerhaft und dienen als Projekthistorie. Code-Agent-Reports → `CodeAgent/`, Master-Lead-Steps → `Steps-MasterLead/`.
 
+## Swarm Factory (Pre-Production + Market Strategy)
+
+### Phase 1: Pre-Production Pipeline (12 Steps — KOMPLETT)
+```
+CEO-Idee → Memory-Briefing → [Trend+Competitor+Audience parallel] → Concept Brief → Legal → Risk → CEO-Gate → Memory
+```
+- 7 Agents (6x Sonnet, 1x Haiku), Web-Recherche via SerpAPI + Caching
+- EchoMatch E2E Run #003: alle 6 Reports generiert, CEO-Gate: **GO**
+- Output: `factory/pre_production/output/003_echomatch/`
+
+### Phase 2: Market Strategy Pipeline (7 Steps — KOMPLETT)
+```
+Phase-1-Input → [Platform+Monetization] → [Marketing+Release] → Cost Calculation
+```
+- 5 Agents (alle Sonnet), Wave-basierte Ausfuehrung
+- EchoMatch E2E Run #001: alle 5 Reports generiert
+- Output: `factory/market_strategy/output/001_echomatch/`
+
+### Document Secretary (Agent 13 — KOMPLETT)
+- 6 PDF-Typen: CEO Briefing P1/P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary
+- HTML/CSS → PDF via Playwright (Chromium)
+- CLI: `python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ...`
+- E-Mail-Versand via SMTP (.env Config)
+
 ## Erledigtes
+- [2026-03-20] Swarm Factory Phase 1 + Phase 2 + Document Secretary komplett implementiert und getestet
 - [2026-03-15] Property Shape Repairer: FK-013 Struct-Property-Reparatur (0-Property-Structs)
 - [2026-03-15] OutputIntegrator Semantic Dedup: Type-Level Dedup + Markdown Sanitization
 - [2026-03-15] Compile Hygiene Truthfulness: Column-aware FK-012, Memberwise-Init FK-013

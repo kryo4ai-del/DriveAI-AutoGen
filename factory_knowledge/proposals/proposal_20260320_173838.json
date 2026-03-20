@@ -1,0 +1,54 @@
+{
+  "run_id": "20260320_173838",
+  "generated": "2026-03-20T18:01:47",
+  "proposal_count": 3,
+  "proposals": [
+    {
+      "title": "Product quality gap: Generic output detected",
+      "type": "ux_insight",
+      "lesson": "Creative Director rated output as 'fail'. Key issue: Generic output detected",
+      "evidence": "CD review in run 20260320_173838: rating=fail",
+      "source_run": "20260320_173838",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "product-quality",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: - [ ] Delete duplicate files from manifest. Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260320_173838",
+      "source_run": "20260320_173838",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "SwiftUI lifecycle pattern: memory leak",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: memory leak",
+      "evidence": "Bug Hunter finding in run 20260320_173838",
+      "source_run": "20260320_173838",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

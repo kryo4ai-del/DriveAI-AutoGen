@@ -761,7 +761,40 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - `--factory-summary`: 5-Zeilen Kompakt-Uebersicht
 - `--factory-status --json`: Strukturierter JSON Output
 
-## Aktueller Stand (2026-03-19)
+### 2026-03-20 — Swarm Factory: Pre-Production Pipeline (Phase 1, 12 Steps)
+- **Komplett implementiert und E2E getestet**
+- 12 Steps: Scaffold → Web-Research-Tool → Memory-Agent → 3 Research Agents → Concept-Analyst → Legal → Risk → Pipeline-Runner → CEO-Gate → E2E-Test
+- 7 Agents: Trend-Scout, Competitor-Scan, Audience-Analyst (Sonnet + SerpAPI), Concept-Analyst (Sonnet, Synthese), Legal-Research (Sonnet + SerpAPI), Risk-Assessment (Sonnet), Memory-Agent (Haiku, File I/O)
+- Web-Research-Tool: SerpAPI + In-Memory-Cache + URL-Fetching (BeautifulSoup)
+- Pipeline-Runner: Sequential, Error-Handling pro Agent, Reports als .md in output/
+- CEO-Gate: Interaktiv oder programmatisch, Memory-Integration
+- **EchoMatch E2E Run #003**: Alle 6 Reports erfolgreich, ~18 SerpAPI Credits, CEO-Gate: GO
+- Pfad: `factory/pre_production/`
+
+### 2026-03-20 — Swarm Factory: Market Strategy Pipeline (Phase 2, 7 Steps)
+- **Komplett implementiert und E2E getestet**
+- 7 Steps: Scaffold + Config + Input-Loader → Platform + Monetization → Marketing + Release → Cost Calculation → Pipeline-Runner → Memory Integration → E2E-Test
+- 5 Agents: Platform-Strategy (Sonnet + SerpAPI), Monetization-Architect (Sonnet + SerpAPI), Marketing-Strategy (Sonnet + SerpAPI), Release-Planner (Sonnet, keine Web-Recherche), Cost-Calculation (Sonnet, keine Web-Recherche)
+- Input-Loader: Laedt Phase 1 Output, validiert CEO-Gate = GO
+- Pipeline-Runner: 3-Wave-Ausfuehrung, Wave-Abhaengigkeiten
+- **EchoMatch E2E Run #001**: Alle 5 Reports erfolgreich, ~14 SerpAPI Credits
+- Pfad: `factory/market_strategy/`
+
+### 2026-03-20 — Document Secretary (Agent 13)
+- **6 PDF-Dokument-Typen implementiert**
+- v1: python-docx (.docx) → v2: HTML/CSS → PDF via Playwright (Chromium)
+- Weasyprint fehlte GTK/Pango auf Windows → Playwright als Renderer
+- Templates: CEO Briefing P1, CEO Briefing P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary
+- Jedes Template: 1 Claude Sonnet Call → JSON → PdfBuilder → PDF
+- JSON-Repair-Fallback bei Truncation (max_tokens 6000-16000 je nach Komplexitaet)
+- CLI: `python -m factory.document_secretary.secretary --type <type> --p1-dir ... --p2-dir ...`
+- `--type all` generiert alle 6 Dokumente auf einmal
+- E-Mail-Versand via SMTP (.env BRIEFING_SMTP_* Variablen)
+- **EchoMatch PDFs**: CEO P1 (87KB), CEO P2 (67KB), Marketing (101KB), Investor (129KB), Tech (38KB), Legal (38KB)
+- Pfad: `factory/document_secretary/`
+- Dependencies: `python-docx` (v1 backup), `playwright` + Chromium, `beautifulsoup4`, `anthropic`
+
+## Aktueller Stand (2026-03-20)
 
 ### Factory
 | Komponente | Status |
