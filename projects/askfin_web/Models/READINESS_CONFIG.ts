@@ -1,0 +1,4 @@
+export const READINESS_CONFIG = {
+  THRESHOLD: 80,
+  REFRESH_INTERVAL_MS: 300000,
+} as const;

@@ -1,21 +1,21 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 18:21:05",
+  "timestamp": "2026-03-20 18:41:27",
   "blocking_files_checked": 1,
   "ai_generated_found": 1,
   "quarantined": 1,
   "kept": 0,
   "actions": [
     {
-      "filename": "isReadinessData.ts",
-      "original_path": "services/isReadinessData.ts",
-      "quarantine_path": "quarantine\\20260320_182105_isReadinessData.ts",
-      "blocking_issue": "Duplicate const 'data' defined in 2 files (top-level) (+8 nested, ignored)",
+      "filename": "ReadinessMetrics.ts",
+      "original_path": "types/ReadinessMetrics.ts",
+      "quarantine_path": "quarantine\\20260320_184127_ReadinessMetrics.ts",
+      "blocking_issue": "Duplicate function 'normalizeTrendData' defined in 2 files (top-level)",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "0c693bb2",
-        "commit_message": "AI run: Generate ONLY TypeScript types for ReadinessScore. Create: interface Rea",
-        "author_date": "2026-03-20 18:20:55 +0100"
+        "commit_hash": "f85e0a7e",
+        "commit_message": "AI run: Generate ONLY TypeScript services for ReadinessScore. Create: ReadinessC",
+        "author_date": "2026-03-20 18:41:18 +0100"
       }
     }
   ],
