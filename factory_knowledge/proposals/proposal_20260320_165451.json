@@ -1,0 +1,37 @@
+{
+  "run_id": "20260320_165451",
+  "generated": "2026-03-20T17:17:48",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "Bug pattern: Missing useSkillMap Hook Implementation",
+      "type": "failure_case",
+      "lesson": "Critical bug detected: Missing useSkillMap Hook Implementation. Screen generation should guard against this.",
+      "evidence": "Bug Hunter flagged as CRITICAL in run 20260320_165451",
+      "source_run": "20260320_165451",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "bug-pattern",
+        "code-quality"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    },
+    {
+      "title": "Product quality gap: The generated hooks provide mechanical data abstraction",
+      "type": "ux_insight",
+      "lesson": "Creative Director rated output as 'fail'. Key issue: The generated hooks provide mechanical data abstraction (`calculateProgress()` returns a number; `sortCategories()` returns an array). There is no answer to the core product question: \"Why would a lea",
+      "evidence": "CD review in run 20260320_165451: rating=fail",
+      "source_run": "20260320_165451",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "product-quality",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    }
+  ]
+}
