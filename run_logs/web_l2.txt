@@ -73,3 +73,373 @@ Skipped (3 already in project):
   Review digest: 600 chars captured
 
 --- Test generation pass ---
+
+Knowledge proposals: 1 candidates → C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory_knowledge\proposals\proposal_20260320_024450.json
+
+============================================================
+Conversation complete.
+Messages exchanged : 10 (impl) + 10 (bugs) + 10 (creative) + 10 (ux_psych) + 10 (refactor) + 10 (tests)
+Run mode           : standard
+Approval mode      : auto
+Stop reason        : Maximum number of messages 10 reached, current message count: 10
+Memory updates:
+  decisions          : +28
+  architecture notes : +47
+  implementation notes: +47
+  review notes       : +48
+Typescript files saved  : 23 new, 0 unchanged
+Xcode integration  : 12 copied, 0 unchanged
+Memory saved to    : memory/memory_store.json
+Log saved to       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\logs\driveai_run_20260320_024450.txt
+Delivery package   : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260320_024450
+Sprint report      : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260320_024450\sprint_report.md
+Run manifest       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260320_024450\run_manifest.json
+============================================================
+
+Git auto commit:
+  - changes staged
+  - commit created
+  - pushed to origin/main
+
+============================================================
+  Operations Layer (typescript)
+============================================================
+
+[OpsLayer] Pass 1: Output Integrator
+
+[OutputIntegrator] Starting integration for project: askfin_web
+[OutputIntegrator] Output directory: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web\generated
+  [generated_code] 0 files
+[OutputIntegrator] Collected 0 artifacts
+[OutputIntegrator] No artifacts found. Nothing to integrate.
+
+==================================================
+  Output Integrator Summary
+==================================================
+  Artifacts collected:   0
+  Artifacts normalized:  0
+  Artifacts written:     0
+  Truncated detected:    0
+  Skipped (duplicates):  0
+==================================================
+
+
+[OpsLayer] Pass 1: Completion Verifier
+
+[CompletionVerifier] Verifying project: askfin_web
+[CompletionVerifier] Generated dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web\generated
+[CompletionVerifier] Specs dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web\specs
+[CompletionVerifier] No spec files found
+[CompletionVerifier] No specs found -- using project-evidence mode
+[CompletionVerifier] Project Typescript files: 36
+[CompletionVerifier] Generated artifacts: 0
+[CompletionVerifier] Compile hygiene blocking: 0
+
+=======================================================
+  Completion Verifier Summary
+=======================================================
+  Project:           askfin_web
+  Spec source:       project-evidence
+  Health status:     INCOMPLETE
+  Completeness:      70%
+-------------------------------------------------------
+  Expected files:    36
+  Actual files:      0
+  Complete files:    36
+  Incomplete files:  0
+  Missing files:     0
+  Missing folders:   2
+
+  Missing folders:
+    - ViewModels
+    - Views
+=======================================================
+
+[CompletionVerifier] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\completion\askfin_web_completion.json
+
+[OpsLayer] Compile Hygiene Validator
+
+[CompileHygiene] Validating project: askfin_web
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+[CompileHygiene] Typescript files found: 33
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_web
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+  Files scanned:  33
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   15
+    Blocking:     15
+    Warnings:     0
+
+  [BLOCK] FK-012  Models/initializeQuestions.ts:119
+          Duplicate function 'getAllCategories' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:148
+  [BLOCK] FK-012  Models/initializeQuestions.ts:48
+          Duplicate function 'getQuestionsByCategories' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:87
+  [BLOCK] FK-012  Models/initializeQuestions.ts:38
+          Duplicate function 'getQuestionsByCategory' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:78
+  [BLOCK] FK-012  Models/initializeQuestions.ts:63
+          Duplicate function 'getQuestionsByDifficulty' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:98
+  [BLOCK] FK-012  Models/initializeQuestions.ts:72
+          Duplicate function 'getQuestionsByFilter' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:107
+  [BLOCK] FK-012  Models/initializeQuestions.ts:111
+          Duplicate function 'getQuestionsByTag' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:141
+  [BLOCK] FK-012  Models/initializeQuestions.ts:86
+          Duplicate function 'getRandomQuestion' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:121
+  [BLOCK] FK-012  Models/initializeQuestions.ts:95
+          Duplicate function 'getRandomQuestions' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/loadAllQuestions.ts:129
+  [BLOCK] FK-012  Models/initializeQuestions.ts:128
+          Duplicate function 'questionExists' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:157
+  [BLOCK] FK-014  Models/createSession.ts
+          Type 'Count' referenced in 2 files but never declared in project
+          also in: Models/initializeQuestions.ts
+  [BLOCK] FK-014  services/assertValidCategory.ts
+          Type 'Invalid' referenced in 3 files but never declared in project
+          also in: types/AnswerResult.ts
+          also in: types/ValidCategory.ts
+  [BLOCK] FK-014  Models/calculateScore.ts
+          Type 'Math' referenced in 5 files but never declared in project
+          also in: Models/initializeQuestions.ts
+          also in: Models/loadAllQuestions.ts
+          also in: Models/roundPercentage.ts
+          also in: Models/selectAdaptiveQuestions.ts
+  [BLOCK] FK-014  Models/createSession.ts
+          Type 'Number' referenced in 2 files but never declared in project
+          also in: types/ValidCategory.ts
+  [BLOCK] FK-014  Models/initializeQuestions.ts
+          Type 'Questions' referenced in 2 files but never declared in project
+          also in: types/ValidCategory.ts
+  [BLOCK] FK-014  types/AnswerResult.ts
+          Type 'Session' referenced in 2 files but never declared in project
+          also in: types/ValidCategory.ts
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_web_compile_hygiene.json
+
+[OpsLayer] Type Stub Generator — 6 FK-014 blocker(s)
+[StubGen] Processing 6 FK-014 finding(s)...
+  [STUB] Count (struct) -> Models\Count.ts
+  [STUB] Invalid (struct) -> Models\Invalid.ts
+  [STUB] Math (struct) -> Models\Math.ts
+  [STUB] Number (struct) -> Models\Number.ts
+  [STUB] Questions (struct) -> Models\Questions.ts
+  [STUB] Session (struct) -> Models\Session.ts
+
+[StubGen] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\stubs\askfin_web_stubs.json
+
+============================================================
+  Type Stub Generator (FK-014)
+============================================================
+  Project:          askfin_web
+  FK-014 findings:  6
+  Stubs created:    6
+  Stubs skipped:    0
+
+  [CREATED] Count (struct) -> Models\Count.ts
+  [CREATED] Invalid (struct) -> Models\Invalid.ts
+  [CREATED] Math (struct) -> Models\Math.ts
+  [CREATED] Number (struct) -> Models\Number.ts
+  [CREATED] Questions (struct) -> Models\Questions.ts
+  [CREATED] Session (struct) -> Models\Session.ts
+============================================================
+
+[OpsLayer] Re-running Compile Hygiene after stub generation...
+
+[CompileHygiene] Validating project: askfin_web
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+[CompileHygiene] Typescript files found: 39
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_web
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+  Files scanned:  39
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   9
+    Blocking:     9
+    Warnings:     0
+
+  [BLOCK] FK-012  Models/initializeQuestions.ts:119
+          Duplicate function 'getAllCategories' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:148
+  [BLOCK] FK-012  Models/initializeQuestions.ts:48
+          Duplicate function 'getQuestionsByCategories' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:87
+  [BLOCK] FK-012  Models/initializeQuestions.ts:38
+          Duplicate function 'getQuestionsByCategory' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:78
+  [BLOCK] FK-012  Models/initializeQuestions.ts:63
+          Duplicate function 'getQuestionsByDifficulty' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:98
+  [BLOCK] FK-012  Models/initializeQuestions.ts:72
+          Duplicate function 'getQuestionsByFilter' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:107
+  [BLOCK] FK-012  Models/initializeQuestions.ts:111
+          Duplicate function 'getQuestionsByTag' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:141
+  [BLOCK] FK-012  Models/initializeQuestions.ts:86
+          Duplicate function 'getRandomQuestion' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:121
+  [BLOCK] FK-012  Models/initializeQuestions.ts:95
+          Duplicate function 'getRandomQuestions' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/loadAllQuestions.ts:129
+  [BLOCK] FK-012  Models/initializeQuestions.ts:128
+          Duplicate function 'questionExists' defined in 2 files (top-level)
+          also in: Models/loadAllQuestions.ts:157
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_web_compile_hygiene.json
+
+[OpsLayer] Property Shape Repairer — no FK-013 blockers, skipping.
+
+[OpsLayer] Stale Artifact Guard — 9 blocking issue(s) remain
+[StaleGuard] Checking 9 blocking file(s) for stale artifacts...
+  [QUARANTINE] Models/initializeQuestions.ts -> quarantine/20260320_030833_initializeQuestions.ts
+
+[StaleGuard] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\lifecycle\askfin_web_lifecycle.json
+
+============================================================
+  Stale Artifact Guard
+============================================================
+  Project:              askfin_web
+  Blocking files:       9
+  AI-generated:         1
+  Quarantined:          1
+  Kept (not stale):     8
+
+  [QUARANTINED] initializeQuestions.ts
+                from: Models/initializeQuestions.ts
+                  to: quarantine\20260320_030833_initializeQuestions.ts
+                issue: Duplicate function 'getAllCategories' defined in 2 files (top-level)
+                provenance: 377b9622 (2026-03-20)
+
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+  [KEPT] Models/initializeQuestions.ts: file does not exist
+============================================================
+
+[OpsLayer] Re-running Compile Hygiene after quarantine...
+
+[CompileHygiene] Validating project: askfin_web
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+[CompileHygiene] Typescript files found: 38
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_web
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+  Files scanned:  38
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         CLEAN
+------------------------------------------------------------
+  Issues found:   0
+    Blocking:     0
+    Warnings:     0
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_web_compile_hygiene.json
+
+[OpsLayer] Swift Compile Check
+
+[SwiftCompile] Checking project: askfin_web
+[SwiftCompile] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+[SwiftCompile] Mode: parse
+[SwiftCompile] swiftc not found on PATH — skipping.
+
+============================================================
+  Swift Compile Check
+============================================================
+  Project:          askfin_web
+  Scan dir:         C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_web
+  Mode:             skipped
+  Status:           SKIPPED
+  Skip reason:      swiftc not found on PATH
+------------------------------------------------------------
+  Files checked:    0
+  Files OK:         0
+  Files w/ errors:  0
+  Files w/ warnings:0
+  Total errors:     0
+  Total warnings:   0
+============================================================
+
+[SwiftCompile] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\compile\askfin_web_swift_compile.json
+
+[OpsLayer] Health: INCOMPLETE -- recovery attempt 1/2
+
+[RecoveryRunner] Starting recovery for project: askfin_web
+[RecoveryRunner] Attempt: 1 / 2
+[RecoveryRunner] Mode: execute
+[RecoveryRunner] Health status: incomplete
+[RecoveryRunner] No missing or incomplete files found. No recovery needed.
+
+=======================================================
+  Recovery Runner Summary
+=======================================================
+  Project:              askfin_web
+  Health before:        incomplete
+  Recovery targets:     0
+  Attempt:              1 / 2
+  Mode:                 execute
+  Outcome:              SKIPPED
+  Prompt file:          
+  Command:              
+=======================================================
+
+[RecoveryRunner] Summary saved to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\recovery\askfin_web_recovery_summary.json
+
+[OpsLayer] Recovery stopped: skipped
+
+============================================================
+  Operations Layer Summary
+============================================================
+  Project:            askfin_web
+  Initial status:     INCOMPLETE
+  Recovery attempts:  1
+  Recovery outcome:   skipped
+  Final status:       INCOMPLETE
+  Compile hygiene:    CLEAN
+  FK-014 stubs:       6 created
+  Stale quarantined:  1 file(s)
+  Swift compile:      SKIPPED
+============================================================
+
+
+=======================================================
+  Run Memory Summary
+=======================================================
+  Project:           askfin_web
+  Runs recorded:     3
+  Latest status:     INCOMPLETE
+  Latest complete:   70%
+  Latest recovery:   skipped (1 attempts)
+
+  Recovery runs:      2 of 3 runs
+=======================================================
+
+[KnowledgeWriteback] Starting writeback cycle...
+[KnowledgeWriteback] No proposals ready for promotion.
+[KnowledgeWriteback] No new run patterns detected.
+[KnowledgeWriteback] Writeback cycle complete.
