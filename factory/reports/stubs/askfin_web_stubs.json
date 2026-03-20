@@ -1,26 +1,17 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 16:11:13",
-  "fk014_count": 2,
-  "stubs_created": 2,
+  "timestamp": "2026-03-20 16:29:46",
+  "fk014_count": 1,
+  "stubs_created": 1,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Please",
+      "type_name": "SkillMapOverviewProps",
       "kind": "struct",
-      "file_path": "Models\\Please.ts",
+      "file_path": "Models\\SkillMapOverviewProps.ts",
       "ref_files": [
-        "components/LoadingSkeleton.tsx",
-        "types/TimerAnnouncement.ts"
-      ]
-    },
-    {
-      "type_name": "Unknown",
-      "kind": "struct",
-      "file_path": "Models\\Unknown.ts",
-      "ref_files": [
-        "Models/Category.ts",
-        "Models/WeakCategory.ts"
+        "Models/SkillMapOverview.ts",
+        "components/SkillMapOverview.tsx"
       ]
     }
   ],

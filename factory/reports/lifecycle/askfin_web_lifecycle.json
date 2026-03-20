@@ -1,15 +1,35 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 15:46:56",
-  "blocking_files_checked": 1,
-  "ai_generated_found": 0,
-  "quarantined": 0,
-  "kept": 1,
-  "actions": [],
-  "kept_reasons": [
+  "timestamp": "2026-03-20 16:29:47",
+  "blocking_files_checked": 2,
+  "ai_generated_found": 2,
+  "quarantined": 2,
+  "kept": 0,
+  "actions": [
     {
-      "filename": "Models/Category.ts",
-      "reason": "not AI-generated (commit: )"
+      "filename": "SkillMapOverview.tsx",
+      "original_path": "components/SkillMapOverview.tsx",
+      "quarantine_path": "quarantine\\20260320_162947_SkillMapOverview.tsx",
+      "blocking_issue": "Duplicate function 'SkillMapOverview' defined in 2 files (top-level)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "b678109a",
+        "commit_message": "AI run: Generate ONLY TypeScript types for SkillMap. Use existing types. Create:",
+        "author_date": "2026-03-20 16:29:36 +0100"
+      }
+    },
+    {
+      "filename": "calculateAccuracy.ts",
+      "original_path": "Models/calculateAccuracy.ts",
+      "quarantine_path": "quarantine\\20260320_162947_calculateAccuracy.ts",
+      "blocking_issue": "Duplicate function 'buildSkillMap' defined in 2 files (top-level) (+1 nested, ignored)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "b678109a",
+        "commit_message": "AI run: Generate ONLY TypeScript types for SkillMap. Use existing types. Create:",
+        "author_date": "2026-03-20 16:29:36 +0100"
+      }
     }
-  ]
+  ],
+  "kept_reasons": []
 }

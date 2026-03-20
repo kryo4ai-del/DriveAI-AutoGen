@@ -734,6 +734,39 @@
       "created": "2026-03-20",
       "last_validated": "2026-03-20",
       "validation_count": 2
+    },
+    {
+      "id": "FK-025",
+      "type": "ux_insight",
+      "title": "Product quality gap: Generic output detected",
+      "description": "Creative Director rated output as 'fail'. Key issue: Generic output detected",
+      "context": "Auto-promoted: observed in 2 proposals across runs 20260319_163314, 20260320_161115.",
+      "source_project": "askfin",
+      "product_type": "learning_app",
+      "applicable_to": [
+        "learning_app"
+      ],
+      "confidence": "validated",
+      "created": "2026-03-20",
+      "updated": "2026-03-20",
+      "tags": [
+        "auto-promoted",
+        "cd-review",
+        "product-quality"
+      ],
+      "lesson": "Creative Director rated output as 'fail'. Key issue: Generic output detected",
+      "writeback_source": "proposal_promotion",
+      "writeback_evidence": {
+        "observation_count": 2,
+        "run_ids": [
+          "20260319_163314",
+          "20260320_161115"
+        ],
+        "source_files": [
+          "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory_knowledge\\proposals\\proposal_20260319_163314.json",
+          "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory_knowledge\\proposals\\proposal_20260320_161115.json"
+        ]
+      }
     }
   ]
 }
