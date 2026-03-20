@@ -1,62 +1,45 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 15:07:20",
-  "fk014_count": 6,
-  "stubs_created": 6,
+  "timestamp": "2026-03-20 15:46:56",
+  "fk014_count": 4,
+  "stubs_created": 4,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Exam",
+      "type_name": "Areas",
       "kind": "struct",
-      "file_path": "Models\\Exam.ts",
+      "file_path": "Models\\Areas.ts",
       "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "types/TimerAnnouncement.ts"
+        "components/ExamResultScreen.tsx",
+        "components/GeneratedHelpers.tsx"
       ]
     },
     {
-      "type_name": "GapAnalysisReport",
-      "kind": "struct",
-      "file_path": "Models\\GapAnalysisReport.ts",
-      "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "types/AccessibleRecommendation.ts"
-      ]
-    },
-    {
-      "type_name": "NodeJS",
-      "kind": "struct",
-      "file_path": "Models\\NodeJS.ts",
-      "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "types/TimerConfig.ts"
-      ]
-    },
-    {
-      "type_name": "Timeout",
-      "kind": "struct",
-      "file_path": "Models\\Timeout.ts",
-      "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "types/TimerConfig.ts"
-      ]
-    },
-    {
-      "type_name": "Timer",
-      "kind": "struct",
-      "file_path": "Models\\Timer.ts",
-      "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "types/TimerConfig.ts"
-      ]
-    },
-    {
-      "type_name": "WeakCategory",
+      "type_name": "Category",
       "kind": "enum",
-      "file_path": "Models\\WeakCategory.ts",
+      "file_path": "Models\\Category.ts",
       "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "types/AccessibleWeakCategory.ts"
+        "components/ExamResultScreen.tsx",
+        "components/GeneratedHelpers.tsx"
+      ]
+    },
+    {
+      "type_name": "Progress",
+      "kind": "struct",
+      "file_path": "Models\\Progress.ts",
+      "ref_files": [
+        "components/ExamQuestionScreen.tsx",
+        "components/GeneratedHelpers.tsx"
+      ]
+    },
+    {
+      "type_name": "Review",
+      "kind": "struct",
+      "file_path": "Models\\Review.ts",
+      "ref_files": [
+        "components/ExamResultScreen.tsx",
+        "components/ExamStartScreen.tsx",
+        "components/GeneratedHelpers.tsx"
       ]
     }
   ],

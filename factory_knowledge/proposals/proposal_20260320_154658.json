@@ -1,0 +1,39 @@
+{
+  "run_id": "20260320_154658",
+  "generated": "2026-03-20T16:11:02",
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "title": "Emotional design gap: Emotional Engagement: Missing \"Why\" Explanations Break ",
+      "type": "ux_insight",
+      "lesson": "Implementation lacked emotional engagement: Emotional Engagement: Missing \"Why\" Explanations Break Learning Psychology",
+      "evidence": "CD finding in run 20260320_154658 for template=None",
+      "source_run": "20260320_154658",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "emotional-design",
+        "ux",
+        "cd-review"
+      ],
+      "status": "pending_review",
+      "reason": "Product quality insights from CD reviews can improve future implementation prompts."
+    },
+    {
+      "title": "File duplication in code generation output",
+      "type": "failure_case",
+      "lesson": "Code generation produced duplicate files: **Action:** Remove duplicate files entirely.. Extraction pipeline needs deduplication.",
+      "evidence": "Refactor pass in run 20260320_154658",
+      "source_run": "20260320_154658",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "code-generation",
+        "duplication",
+        "pipeline"
+      ],
+      "status": "pending_review",
+      "reason": "Recurring failure patterns should be captured to prevent repetition in future projects."
+    }
+  ]
+}

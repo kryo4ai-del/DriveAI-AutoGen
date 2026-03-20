@@ -1,7 +1,7 @@
 {
   "project": "askfin_web",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_web",
-  "files_scanned": 148,
+  "files_scanned": 157,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,11 +10,21 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "WARNINGS",
-  "issues_found": 2,
-  "blocking": 0,
+  "status": "BLOCKING",
+  "issues_found": 3,
+  "blocking": 1,
   "warnings": 2,
   "issues": [
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/Category.ts",
+      "message": "Type 'Unknown' referenced in 2 files but never declared in project",
+      "type_name": "Unknown",
+      "other_files": [
+        "Models/WeakCategory.ts"
+      ]
+    },
     {
       "pattern_id": "FK-017",
       "severity": "warning",

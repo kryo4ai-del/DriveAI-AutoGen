@@ -1,23 +1,15 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 15:07:21",
+  "timestamp": "2026-03-20 15:46:56",
   "blocking_files_checked": 1,
-  "ai_generated_found": 1,
-  "quarantined": 1,
-  "kept": 0,
-  "actions": [
+  "ai_generated_found": 0,
+  "quarantined": 0,
+  "kept": 1,
+  "actions": [],
+  "kept_reasons": [
     {
-      "filename": "TrainingQuestion.tsx",
-      "original_path": "src/components/TrainingQuestion.tsx",
-      "quarantine_path": "quarantine\\20260320_150721_TrainingQuestion.tsx",
-      "blocking_issue": "Duplicate function 'TrainingQuestion' defined in 2 files (top-level) (+1 nested, ignored)",
-      "provenance": {
-        "is_ai_generated": true,
-        "commit_hash": "377b9622",
-        "commit_message": "AI run: Generate ONLY service and business logic TypeScript code for TrainingMod",
-        "author_date": "2026-03-20 03:08:31 +0100"
-      }
+      "filename": "Models/Category.ts",
+      "reason": "not AI-generated (commit: )"
     }
-  ],
-  "kept_reasons": []
+  ]
 }
