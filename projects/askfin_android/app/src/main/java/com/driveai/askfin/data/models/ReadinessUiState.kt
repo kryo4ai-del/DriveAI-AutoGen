@@ -1,8 +1,10 @@
 package com.driveai.askfin.data.models
+import java.io.IOException
+import kotlinx.coroutines.flow.MutableStateFlow
 
 sealed class ReadinessUiState {
     // ... existing states ...
-    
+
     data class Error(
         val message: String,
         val isRetrying: Boolean = false,
@@ -15,8 +17,10 @@ enum class ErrorCategory {
     NETWORK, VALIDATION, SERVER, UNKNOWN
 }
 
-private fun fetchAndUpdate(...) {
-    try { ... }
+private val _uiState = MutableStateFlow<ReadinessUiState>(ReadinessUiState.Error(""))
+
+private fun fetchAndUpdate() {
+    try { }
     catch (e: IOException) {
         _uiState.value = ReadinessUiState.Error(
             message = "Network unavailable",

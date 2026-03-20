@@ -1,4 +1,17 @@
 package com.driveai.askfin.ui.components
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.EaseInOutQuad
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 @Composable
 fun TrendArrow(trendPercentage: Float, modifier: Modifier = Modifier) {

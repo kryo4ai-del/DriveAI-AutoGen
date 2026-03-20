@@ -1,4 +1,7 @@
 package com.driveai.askfin.ui.components
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.Text
 
 @Composable
 fun FeedbackPanel(feedback: String, isCorrect: Boolean) {

@@ -29,8 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.ui.platform.LocalAccessibilityManager
-import com.driveai.skillmap.data.models.CompetenceLevel
-import com.driveai.skillmap.ui.theme.SkillMapColors
+import com.driveai.askfin.data.models.CompetenceLevel
+import com.driveai.askfin.ui.theme.SkillMapColors
+import androidx.compose.ui.semantics.semantics
 
 @Composable
 fun CompetenceBar(

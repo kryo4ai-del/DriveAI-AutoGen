@@ -1,4 +1,28 @@
 package com.driveai.askfin.ui.components
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.border
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.background
+import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
+
+data class Answer(val text: String)
 
 @Composable
 fun AnswerButton(
@@ -10,7 +34,26 @@ fun AnswerButton(
     modifier: Modifier = Modifier
 ) {
     // ... color animations ...
-    
+    val borderColor = when {
+        isAnswered && isSelected && isCorrect -> Color(0xFF4CAF50)
+        isAnswered && isSelected && !isCorrect -> Color(0xFFf44336)
+        isSelected -> Color(0xFF2196F3)
+        else -> Color.Gray
+    }
+
+    val backgroundColor = when {
+        isAnswered && isSelected && isCorrect -> Color(0xFFE8F5E9)
+        isAnswered && isSelected && !isCorrect -> Color(0xFFFFEBEE)
+        isSelected -> Color(0xFFE3F2FD)
+        else -> Color.White
+    }
+
+    val textColor = when {
+        isAnswered && isSelected && isCorrect -> Color(0xFF4CAF50)
+        isAnswered && isSelected && !isCorrect -> Color(0xFFf44336)
+        else -> Color.Black
+    }
+
     Box(
         modifier = modifier
             .fillMaxWidth()

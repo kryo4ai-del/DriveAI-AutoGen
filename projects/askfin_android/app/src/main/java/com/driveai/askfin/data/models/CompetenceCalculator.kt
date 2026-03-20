@@ -1,4 +1,21 @@
 package com.driveai.askfin.data.models
+import javax.inject.Singleton
+import javax.inject.Inject
+import kotlin.math.exp
+
+data class ConfidenceInterval(val lower: Float, val upper: Float, val center: Float)
+
+data class CompetenceScore(val value: Float, val confidenceInterval: ConfidenceInterval, val sampleSize: Int)
+
+data class UserAnswer(val isCorrect: Boolean, val answeredAt: Long)
+
+@Singleton
+class ConfidenceIntervalCalculator @Inject constructor() {
+    fun calculate(correctCount: Int, total: Int): ConfidenceInterval {
+        val p = if (total == 0) 0f else correctCount.toFloat() / total
+        return ConfidenceInterval(p, p, p)
+    }
+}
 
 @Singleton
 class CompetenceCalculator @Inject constructor(
@@ -49,5 +66,13 @@ class CompetenceCalculator @Inject constructor(
         }
 
         return ((weightedSum / weightTotal) * 100.0).toFloat().coerceIn(0f, 100f)
+    }
+
+    private fun calculateStreakBonus(answers: List<UserAnswer>, index: Int): Double {
+        var streak = 0
+        for (i in index downTo 0) {
+            if (answers[i].isCorrect) streak++ else break
+        }
+        return if (streak > 1) 0.1 * (streak - 1) else 0.0
     }
 }

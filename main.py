@@ -92,6 +92,8 @@ def _parse_args() -> dict:
         "factory_summary": False,
         "assemble": None,
         "assemble_dry": None,
+        "no_llm_repair": False,
+        "repair_model": "claude-haiku-4-5",
         "create_handoff": None,
     }
     explicit_mode = None
@@ -244,6 +246,14 @@ def _parse_args() -> dict:
             i += 2
         elif args[i] == "--assemble-dry" and i + 1 < len(args):
             result["assemble_dry"] = args[i + 1]
+        elif args[i] == "--no-llm-repair":
+            result["no_llm_repair"] = True
+            i += 1
+            continue
+        elif args[i] == "--repair-model" and i + 1 < len(args):
+            result["repair_model"] = args[i + 1]
+            i += 2
+            continue
             i += 2
         elif args[i] == "--create-handoff" and i + 1 < len(args):
             result["create_handoff"] = args[i + 1]

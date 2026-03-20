@@ -1,26 +1,27 @@
 {
   "project": "askfin_web",
-  "timestamp": "2026-03-20 03:57:08",
+  "timestamp": "2026-03-20 04:17:22",
   "fk014_count": 2,
   "stubs_created": 2,
   "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "Loading",
+      "type_name": "React",
       "kind": "struct",
-      "file_path": "Models\\Loading.ts",
+      "file_path": "Models\\React.ts",
       "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "components/TrainingScreen.tsx"
+        "Views/TrainingModeView.tsx",
+        "components/QuestionSkeleton.tsx",
+        "components/TrainingLayout.tsx"
       ]
     },
     {
-      "type_name": "Training",
+      "type_name": "Select",
       "kind": "struct",
-      "file_path": "Models\\Training.ts",
+      "file_path": "Models\\Select.ts",
       "ref_files": [
-        "components/GeneratedHelpers.tsx",
-        "components/TrainingScreen.tsx"
+        "Views/TrainingModeView.tsx",
+        "components/TrainingQuestion.tsx"
       ]
     }
   ],

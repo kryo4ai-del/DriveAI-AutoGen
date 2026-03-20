@@ -13,8 +13,20 @@ data class MilestoneUiModel(
     val isAchieved: Boolean
 )
 
-fun com.driveai.askfin.data.models.Milestone.toUiModel(
-    formatter: com.driveai.askfin.domain.formatters.DateFormatter
+data class Milestone(
+    val id: String,
+    val name: String,
+    val description: String,
+    val achievedDate: Any?,
+    val isAchieved: Boolean
+)
+
+interface DateFormatter {
+    fun formatMilestoneDate(date: Any): String
+}
+
+fun Milestone.toUiModel(
+    formatter: DateFormatter
 ): MilestoneUiModel = MilestoneUiModel(
     id = this.id,
     name = this.name,

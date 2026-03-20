@@ -1,4 +1,5 @@
 package com.driveai.askfin.data.models
+import kotlin.math.exp
 
 /**
  * Applies time-decay weighting to answers.

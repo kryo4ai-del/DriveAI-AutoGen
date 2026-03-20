@@ -1,16 +1,19 @@
 package com.driveai.askfin.data.models
 
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+
 // Extend QuestionListUiState:
 data class QuestionListUiState(
-    // ... existing fields ...
+    val questions: List<String> = emptyList(),
+    val filteredQuestions: List<String> = emptyList(),
     val filteredCount: Int = 0,
-    val resultSummary: String = ""  // e.g., "5 questions match your filters"
+    val resultSummary: String = ""
 )
 
 // Update in applyFilters:
-private fun applyFilters(...) {
-    var filtered = _uiState.value.questions
-    // ... filtering logic ...
+private fun applyFilters(uiState: QuestionListUiState): QuestionListUiState {
+    var filtered = uiState.questions
     
     val resultSummary = when {
         filtered.isEmpty() -> "No questions match your filters. Try adjusting difficulty or search."
@@ -18,7 +21,7 @@ private fun applyFilters(...) {
         else -> "${filtered.size} questions found."
     }
     
-    _uiState.value = _uiState.value.copy(
+    return uiState.copy(
         filteredQuestions = filtered,
         filteredCount = filtered.size,
         resultSummary = resultSummary
@@ -26,5 +29,7 @@ private fun applyFilters(...) {
 }
 
 // In UI Composable:
-Text(viewModel.uiState.value.resultSummary)
-    .announceForAccessibility() // Screen reader announces count
+@Composable
+fun ResultSummaryText(resultSummary: String) {
+    Text(resultSummary)
+}

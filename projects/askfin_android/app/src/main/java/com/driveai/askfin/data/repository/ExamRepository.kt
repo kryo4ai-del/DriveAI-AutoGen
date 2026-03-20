@@ -3,6 +3,14 @@ package com.driveai.askfin.data.repository
 import kotlinx.coroutines.flow.Flow
 
 /**
+ * Placeholder data classes for exam domain models.
+ */
+data class Question(val id: String, val text: String)
+data class Answer(val questionId: String, val selectedOption: String)
+data class ExamSession(val id: String, val questions: List<Question>, val answers: List<Answer> = emptyList())
+data class ExamResult(val sessionId: String, val score: Int, val total: Int)
+
+/**
  * Repository interface for exam operations.
  * Implementations handle persistence (local/remote) and business logic.
  */

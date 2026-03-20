@@ -2,8 +2,6 @@ package com.driveai.askfin.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.driveai.askfin.domain.models.Category
-import com.driveai.askfin.domain.services.SkillMapService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +11,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // ============================================================================
-// STATE & ENUMS
+// PLACEHOLDER TYPES
+// ============================================================================
+
+data class Category(
+    val name: String = "",
+    val competencePercentage: Float = 0f,
+)
+
+interface SkillMapService {
+    suspend fun getSkillMap(): List<Category>
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum class SortOption {
+    COMPETENCE_ASC,
+    COMPETENCE_DESC,
+    NAME_ASC,
+    NAME_DESC,
+}
+
+enum class FilterOption {
+    ALL,
+    STRONG,
+    WEAK,
+}
+
+// ============================================================================
+// STATE
 // ============================================================================
 
 data class SkillMapUiState(
@@ -30,6 +58,8 @@ data class SkillMapUiState(
 // ============================================================================
 
 @HiltViewModel
+class SkillMapViewModel @Inject constructor(
+    private val skillMapService: SkillMapService,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SkillMapUiState())
@@ -168,10 +198,10 @@ data class SkillMapUiState(
 
         // Apply sort
         return when (sortBy) {
-            SortOption.COMPETENCE_ASC -> filtered.sortBy { it.competencePercentage }
-            SortOption.COMPETENCE_DESC -> filtered.sortByDescending { it.competencePercentage }
-            SortOption.NAME_ASC -> filtered.sortBy { it.name }
-            SortOption.NAME_DESC -> filtered.sortByDescending { it.name }
+            SortOption.COMPETENCE_ASC -> filtered.sortedBy { it.competencePercentage }
+            SortOption.COMPETENCE_DESC -> filtered.sortedByDescending { it.competencePercentage }
+            SortOption.NAME_ASC -> filtered.sortedBy { it.name }
+            SortOption.NAME_DESC -> filtered.sortedByDescending { it.name }
         }
     }
 }

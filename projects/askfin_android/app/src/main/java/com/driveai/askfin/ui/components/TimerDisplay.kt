@@ -1,4 +1,16 @@
 package com.driveai.askfin.ui.components
+import androidx.compose.runtime.Composable
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Text
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.Role
 
 @Composable
 private fun TimerDisplay(timeRemaining: Int) {
@@ -13,6 +25,10 @@ private fun TimerDisplay(timeRemaining: Int) {
         else -> MaterialTheme.colorScheme.primary
     }
 
+    val criticalDesc = "Critical: $minutes minutes $seconds seconds remaining"
+    val warningDesc = "Warning: $minutes minutes $seconds seconds remaining"
+    val remainingDesc = "$minutes minutes $seconds seconds remaining"
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = timerColor.copy(alpha = 0.1f)
@@ -21,9 +37,9 @@ private fun TimerDisplay(timeRemaining: Int) {
             .padding(8.dp)
             .semantics {
                 contentDescription = when {
-                    isCritical -> stringResource(R.string.timer_critical, minutes, seconds)
-                    isWarning -> stringResource(R.string.timer_warning, minutes, seconds)
-                    else -> stringResource(R.string.timer_remaining, minutes, seconds)
+                    isCritical -> criticalDesc
+                    isWarning -> warningDesc
+                    else -> remainingDesc
                 }
             }
     ) {
@@ -34,7 +50,7 @@ private fun TimerDisplay(timeRemaining: Int) {
             modifier = Modifier
                 .padding(horizontal = 12.dp, vertical = 8.dp)
                 .semantics { 
-                    role = Role.ProgressIndicator
+                    role = Role.Image
                 },
             fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
         )

@@ -17,19 +17,19 @@ data class MilestoneEntity(
 )
 
 fun MilestoneEntity.toDomain(): Milestone = Milestone(
-    id = id,
-    threshold = threshold,
-    title = title,
-    icon = icon,
-    unlockedAt = unlockedAt,
-    isUnlocked = isUnlocked
+    id = this.id,
+    threshold = this.threshold,
+    title = this.title,
+    icon = this.icon,
+    unlockedAt = this.unlockedAt,
+    isUnlocked = this.isUnlocked
 )
 
 fun Milestone.toEntity(): MilestoneEntity = MilestoneEntity(
-    id = id,
-    threshold = threshold,
-    title = title,
-    icon = icon,
-    unlockedAt = unlockedAt,
-    isUnlocked = isUnlocked
+    id = this.id,
+    threshold = this.threshold,
+    title = this.title,
+    icon = this.icon,
+    unlockedAt = this.unlockedAt,
+    isUnlocked = this.isUnlocked
 )

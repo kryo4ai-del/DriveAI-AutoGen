@@ -1,4 +1,26 @@
 package com.driveai.askfin.ui.viewmodels
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.SavedStateHandle
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+
+interface ExamRepository {
+    suspend fun getExamById(id: String): Any
+}
+
+interface TimerUseCase
+
+sealed class ExamState {
+    object Loading : ExamState()
+    data class Error(val message: String) : ExamState()
+}
 
 @HiltViewModel
 class ExamViewModel @Inject constructor(
@@ -30,7 +52,7 @@ class ExamViewModel @Inject constructor(
             try {
                 val exam = examRepository.getExamById(id)
                 // ...
-            } catch (e: Exception) { ... }
+            } catch (e: Exception) { }
         }
     }
 

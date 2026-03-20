@@ -1,8 +1,20 @@
 package com.driveai.askfin.data.models
 
-import com.driveai.skillmap.data.local.SkillMapDao
-import com.driveai.skillmap.data.models.SkillUiModel
+import com.driveai.askfin.data.local.SkillMapDao
 import javax.inject.Inject
+
+interface SkillMapRepository {
+    suspend fun getSkills(): List<SkillUiModel>
+    suspend fun updateSkill(skillId: String, newLevel: Float)
+}
+
+data class SkillUiModel(
+    val id: String,
+    val name: String,
+    val category: String,
+    val currentLevel: Float,
+    val targetLevel: Float
+)
 
 class SkillMapRepositoryImpl @Inject constructor(
     private val skillMapDao: SkillMapDao
@@ -21,6 +33,6 @@ class SkillMapRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateSkill(skillId: String, newLevel: Float) {
-        skillMapDao.updateSkillLevel(skillId, newLevel, System.currentTimeMillis())
+        skillMapDao.updateSkillLevel(skillId, newLevel, java.lang.System.currentTimeMillis())
     }
 }

@@ -1,4 +1,23 @@
 package com.driveai.askfin.ui.components
+import androidx.compose.runtime.Composable
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.material3.Card
+import androidx.compose.ui.Modifier
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Text
+import android.view.HapticFeedbackConstants
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.ui.draw.scale
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.animation.core.keyframes
+import androidx.compose.runtime.getValue
+
+interface HapticFeedback
 
 @Composable
 private fun CountdownTimer(

@@ -2,12 +2,24 @@
 
 package com.driveai.askfin.domain
 
-import com.driveai.askfin.data.models.SkillMapData
-import com.driveai.askfin.data.models.ExamResult
 import javax.inject.Inject
 import javax.inject.Singleton
 import java.util.concurrent.TimeUnit
-import kotlin.math.minOf
+import kotlin.math.min
+
+data class SkillMapData(
+    val skills: List<SkillData>
+)
+
+data class SkillData(
+    val masteryLevel: Int,
+    val practiceHistory: List<Long>
+)
+
+data class ExamResult(
+    val completedAt: Long,
+    val scorePercentage: Int
+)
 
 /**
  * Calculates overall readiness score (0-100) based on:
@@ -94,7 +106,7 @@ class ReadinessCalculationService @Inject constructor() {
             .toSet()
             .size
 
-        return minOf((uniquePracticeDays * 100) / 14, 100)
+        return min((uniquePracticeDays * 100) / 14, 100)
     }
 
     /**

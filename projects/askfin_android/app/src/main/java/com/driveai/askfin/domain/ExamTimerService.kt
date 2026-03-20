@@ -1,4 +1,8 @@
 package com.driveai.askfin.domain
+import javax.inject.Singleton
+import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 
 @Singleton
 class ExamTimerService @Inject constructor(

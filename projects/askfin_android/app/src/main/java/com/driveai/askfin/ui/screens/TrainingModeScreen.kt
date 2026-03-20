@@ -1,4 +1,145 @@
 package com.driveai.askfin.ui.screens
+import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material3.Button
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.Alignment
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Card
+import androidx.compose.foundation.layout.wrapContentHeight
+
+// Placeholder data classes and sealed classes
+
+data class Answer(
+    val id: String,
+    val text: String,
+    val isCorrect: Boolean,
+)
+
+data class Question(
+    val id: String,
+    val text: String,
+    val answers: List<Answer>,
+)
+
+sealed class TrainingModeUiState {
+    object Loading : TrainingModeUiState()
+    data class Ready(
+        val questions: List<Question>,
+        val currentIndex: Int,
+        val progress: Float,
+    ) : TrainingModeUiState()
+    data class Error(val message: String) : TrainingModeUiState()
+    data class Complete(val score: Int, val totalQuestions: Int) : TrainingModeUiState()
+}
+
+class TrainingModeViewModel : ViewModel() {
+    val uiState: StateFlow<TrainingModeUiState> = MutableStateFlow(TrainingModeUiState.Loading)
+    val selectedAnswerId: StateFlow<String?> = MutableStateFlow(null)
+    val isAnswerRevealed: StateFlow<Boolean> = MutableStateFlow(false)
+
+    fun selectAnswer(answerId: String) {}
+    fun revealAnswer() {}
+    fun nextQuestion() {}
+    fun retry() {}
+}
+
+@Composable
+fun LoadingIndicator() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun TrainingModeProgressBar(
+    currentQuestion: Int,
+    totalQuestions: Int,
+    progress: Float,
+) {
+    Column {
+        Text("Question $currentQuestion of $totalQuestions")
+        LinearProgressIndicator(
+            progress = progress,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Composable
+fun QuestionCard(
+    question: Question,
+    isSelected: Boolean,
+    isAnswerRevealed: Boolean,
+    onAnswerSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Card(modifier = modifier.wrapContentHeight()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(question.text)
+            question.answers.forEach { answer ->
+                Button(onClick = { onAnswerSelect(answer.id) }) {
+                    Text(answer.text)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorState(
+    message: String,
+    onRetry: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(message)
+        Button(onClick = onRetry) {
+            Text("Retry")
+        }
+    }
+}
+
+@Composable
+fun CompletionState(
+    score: Int,
+    totalQuestions: Int,
+    onRetry: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text("Score: $score / $totalQuestions")
+        Button(onClick = onRetry) {
+            Text("Retry")
+        }
+    }
+}
 
 // trainingmode/TrainingModeScreen.kt
 

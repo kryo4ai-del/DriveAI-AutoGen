@@ -1,5 +1,70 @@
 package com.driveai.askfin.domain
 
+import javax.inject.Singleton
+import javax.inject.Inject
+import javax.inject.Named
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import java.time.Instant
+
+// Placeholder types
+interface QuestionRepository
+
+data class ExamResult(
+    val sessionId: String,
+    val scorePercentage: Float,
+    val categoryBreakdown: List<CategoryBreakdown>
+)
+
+data class CategoryBreakdown(
+    val category: String,
+    val percentage: Float,
+    val correctAnswers: Int,
+    val totalQuestions: Int
+)
+
+enum class Severity {
+    CRITICAL, HIGH, MEDIUM
+}
+
+data class WeakCategory(
+    val categoryName: String,
+    val scorePercentage: Float,
+    val correctAnswers: Int,
+    val totalQuestions: Int,
+    val severity: Severity
+)
+
+data class StrongCategory(
+    val categoryName: String,
+    val scorePercentage: Float,
+    val correctAnswers: Int,
+    val totalQuestions: Int
+)
+
+data class GapAnalysis(
+    val examSessionId: String,
+    val overallScore: Float,
+    val weakCategories: List<WeakCategory>,
+    val strongCategories: List<StrongCategory>,
+    val recommendations: List<Recommendation>,
+    val estimatedStudyHours: Float,
+    val analyzedAt: Instant
+)
+
+enum class Priority {
+    URGENT, HIGH, MEDIUM
+}
+
+data class Recommendation(
+    val categoryName: String,
+    val priority: Priority,
+    val action: String,
+    val estimatedHours: Float,
+    val topic: String
+)
+
 @Singleton
 class GapAnalysisService @Inject constructor(
     private val questionRepository: QuestionRepository,

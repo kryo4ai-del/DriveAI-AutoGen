@@ -1,4 +1,35 @@
 package com.driveai.askfin.ui.viewmodels
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+
+// Placeholder data classes
+data class TrainingAnswer(val id: String, val isCorrect: Boolean)
+data class TrainingQuestion(val answers: List<TrainingAnswer>)
+
+// Placeholder use case
+class GetTrainingQuestionsUseCase @Inject constructor() {
+    suspend operator fun invoke(): List<TrainingQuestion> = emptyList()
+}
+
+// Sealed class for UI state
+sealed class TrainingModeUiState {
+    object Loading : TrainingModeUiState()
+    data class Error(val message: String, val throwable: Throwable? = null) : TrainingModeUiState()
+    data class Ready(
+        val questions: List<TrainingQuestion>,
+        val currentIndex: Int,
+        val progress: Float,
+        val selectedAnswerId: String? = null,
+        val isAnswerRevealed: Boolean = false,
+    ) : TrainingModeUiState()
+    data class Complete(val score: Int, val totalQuestions: Int) : TrainingModeUiState()
+}
 
 // TrainingModeViewModel.kt - ENHANCED
 

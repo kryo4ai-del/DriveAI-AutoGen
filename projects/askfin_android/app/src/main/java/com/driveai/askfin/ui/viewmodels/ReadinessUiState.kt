@@ -7,9 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.driveai.askfin.data.models.ReadinessScore
 import com.driveai.askfin.data.models.Milestone
-import com.driveai.askfin.data.models.ScoreTrend
-import com.driveai.askfin.domain.repository.ReadinessRepository
-import com.driveai.askfin.domain.service.TrainingSessionService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +18,23 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+// ============================================================================
+// PLACEHOLDER TYPES
+// ============================================================================
+
+data class ScoreTrend(val direction: String = "", val delta: Float = 0f)
+
+interface ReadinessRepository {
+    suspend fun getReadinessScore(): ReadinessScore
+    suspend fun getMilestones(): List<Milestone>
+    suspend fun getScoreTrend(): ScoreTrend
+}
+
+interface TrainingSessionService {
+    val sessionCompletedEvents: Flow<Unit>
+    val examCompletedEvents: Flow<Unit>
+}
 
 // ============================================================================
 // UI STATE
@@ -47,6 +61,8 @@ sealed class ReadinessUiState {
 // ============================================================================
 
 @HiltViewModel
+class ReadinessViewModel @Inject constructor(
+    private val readinessRepository: ReadinessRepository,
     private val trainingSessionService: TrainingSessionService
 ) : ViewModel() {
 

@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.driveai.askfin.data.models.ExamResult
 import com.driveai.askfin.data.models.CategoryBreakdown
-import com.driveai.askfin.domain.repository.ExamRepository
-import com.driveai.askfin.domain.usecase.GapAnalysisUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +12,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+// Placeholder for ExamRepository
+interface ExamRepository {
+    suspend fun getExamResult(examId: String): ExamResult
+    suspend fun getCategoryBreakdown(examId: String): List<CategoryBreakdown>
+    suspend fun createTrainingSession(examId: String, focusCategory: String): String
+    suspend fun resetExam(examId: String): String
+}
+
+// Placeholder for GapAnalysisUseCase
+class GapAnalysisUseCase @Inject constructor() {
+    suspend fun analyzeWeaknesses(result: ExamResult, categoryBreakdowns: List<CategoryBreakdown>): List<String> {
+        return emptyList()
+    }
+}
 
 /**
  * Manages exam result display, category breakdown, weakness analysis.

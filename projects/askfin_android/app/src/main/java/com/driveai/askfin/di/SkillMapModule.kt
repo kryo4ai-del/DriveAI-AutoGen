@@ -1,18 +1,26 @@
 package com.driveai.askfin.di
 
 import android.content.Context
+import androidx.room.Database
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import com.driveai.skillmap.data.local.SkillMapDatabase
-import com.driveai.skillmap.data.local.SkillMapDao
-import com.driveai.skillmap.data.repository.SkillMapRepository
-import com.driveai.skillmap.data.repository.SkillMapRepositoryImpl
-import com.driveai.skillmap.domain.GetSkillsUseCase
+import com.driveai.askfin.data.local.SkillMapDao
+import com.driveai.askfin.data.repository.SkillMapRepository
+import com.driveai.askfin.domain.GetSkillsUseCase
 import javax.inject.Singleton
+
+// Placeholder for SkillMapDatabase
+abstract class SkillMapDatabase : RoomDatabase() {
+    abstract fun skillMapDao(): SkillMapDao
+}
+
+// Placeholder for SkillMapRepositoryImpl
+class SkillMapRepositoryImpl(private val dao: SkillMapDao) : SkillMapRepository
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -12,6 +12,7 @@ import subprocess
 from pathlib import Path
 
 from factory.assembly.handoff_protocol import ProductionHandoff
+from factory.assembly.repair.repair_coordinator import RepairCoordinator
 from factory.assembly.lines.base_line import (
     BaseAssemblyLine, CompileResult, FixAction,
 )
@@ -92,7 +93,7 @@ class WebAssemblyLine(BaseAssemblyLine):
                 "paths": {"@/*": ["./src/*"]}
             },
             "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-            "exclude": ["node_modules"]
+            "exclude": ["node_modules", "quarantine", "Models", "Views", "types", "components", "services", "hooks"]
         }
         (self.project_dir / "tsconfig.json").write_text(
             json.dumps(tsconfig, indent=2), encoding="utf-8"
@@ -173,6 +174,9 @@ class WebAssemblyLine(BaseAssemblyLine):
 
         for rel_path in self.handoff.file_manifest:
             if not rel_path.endswith((".ts", ".tsx")):
+                continue
+            # Skip declaration files and node_modules
+            if rel_path.endswith(".d.ts") or "node_modules" in rel_path:
                 continue
             src = self.project_dir / rel_path
             if not src.is_file():
@@ -368,10 +372,9 @@ class WebAssemblyLine(BaseAssemblyLine):
         return {"created": created, "status": "ok"}
 
     def compile(self) -> CompileResult:
-        """Attempt npm install + tsc --noEmit + next build."""
-        # Check if npm is available
+        """Attempt npm install + tsc with RepairEngine auto-fix cycle."""
         try:
-            subprocess.run(["npm", "--version"], capture_output=True, timeout=10)
+            subprocess.run("npm --version", capture_output=True, timeout=10, shell=True)
         except (FileNotFoundError, subprocess.TimeoutExpired):
             cmd = f"cd {self.project_dir} && npm install && npx tsc --noEmit"
             return CompileResult(
@@ -384,16 +387,16 @@ class WebAssemblyLine(BaseAssemblyLine):
         print("  [Web] Running npm install...")
         try:
             install = subprocess.run(
-                ["npm", "install"],
+                "npm install",
                 cwd=str(self.project_dir),
                 capture_output=True, text=True, timeout=120,
+                shell=True,
             )
             if install.returncode != 0:
                 return CompileResult(
                     success=False,
                     errors=[f"npm install failed: {install.stderr[:500]}"],
-                    error_count=1,
-                    command="npm install",
+                    error_count=1, command="npm install",
                 )
         except subprocess.TimeoutExpired:
             return CompileResult(success=False, errors=["npm install timed out"], error_count=1)
@@ -402,21 +405,35 @@ class WebAssemblyLine(BaseAssemblyLine):
         print("  [Web] Running tsc --noEmit...")
         try:
             tsc = subprocess.run(
-                ["npx", "tsc", "--noEmit"],
+                "npx tsc --noEmit",
                 cwd=str(self.project_dir),
                 capture_output=True, text=True, timeout=120,
+                shell=True,
             )
-            out = tsc.stdout + tsc.stderr
-            errs = [l.strip() for l in out.splitlines() if ": error " in l]
-            warns = [l.strip() for l in out.splitlines() if ": warning " in l]
-            return CompileResult(
-                success=tsc.returncode == 0,
-                errors=errs, warnings=warns,
-                error_count=len(errs), warning_count=len(warns),
-                command="npx tsc --noEmit",
-            )
+            tsc_output = tsc.stdout + tsc.stderr
         except subprocess.TimeoutExpired:
             return CompileResult(success=False, errors=["tsc timed out"], error_count=1)
+
+        if tsc.returncode == 0:
+            return CompileResult(success=True, errors=[], error_count=0, command="npx tsc --noEmit")
+
+        # Errors found — run RepairEngine
+        print("  [Web] Errors found, starting RepairEngine...")
+        coordinator = RepairCoordinator(
+            str(self.project_dir), "typescript",
+            enable_llm=getattr(self, "_enable_llm", True),
+            max_llm_files=getattr(self, "_max_llm_files", 20),
+        )
+        repair_report = coordinator.full_repair(tsc_output)
+
+        print(repair_report.summary())
+
+        return CompileResult(
+            success=repair_report.status == "clean",
+            errors=[f"Remaining: {repair_report.final_errors} errors"],
+            error_count=repair_report.final_errors,
+            command="npx tsc --noEmit + RepairEngine",
+        )
 
     def diagnose_errors(self, compile_result: CompileResult) -> list[FixAction]:
         fixes = []
@@ -450,14 +467,15 @@ class WebAssemblyLine(BaseAssemblyLine):
 
     def run_tests(self) -> dict:
         try:
-            subprocess.run(["npm", "--version"], capture_output=True, timeout=10)
+            subprocess.run("npm --version", capture_output=True, timeout=10, shell=True)
         except (FileNotFoundError, subprocess.TimeoutExpired):
             return {"status": "skipped", "reason": "npm not available"}
         try:
             result = subprocess.run(
-                ["npm", "test", "--", "--passWithNoTests"],
+                "npm test -- --passWithNoTests",
                 cwd=str(self.project_dir),
                 capture_output=True, text=True, timeout=120,
+                shell=True,
             )
             return {"status": "passed" if result.returncode == 0 else "failed"}
         except subprocess.TimeoutExpired:

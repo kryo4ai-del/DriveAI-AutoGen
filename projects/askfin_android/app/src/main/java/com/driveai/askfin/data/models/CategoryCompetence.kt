@@ -1,4 +1,5 @@
 package com.driveai.askfin.data.models
+import java.time.LocalDateTime
 
 /**
  * Represents competence metrics for a single question category.

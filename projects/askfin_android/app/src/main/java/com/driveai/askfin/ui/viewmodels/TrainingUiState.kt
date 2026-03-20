@@ -2,18 +2,54 @@ package com.driveai.askfin.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.driveai.askfin.domain.models.Question
-import com.driveai.askfin.domain.models.TrainingSession
-import com.driveai.askfin.domain.models.Answer
-import com.driveai.askfin.domain.models.SessionState
-import com.driveai.askfin.domain.services.ITrainingSessionService
-import com.driveai.askfin.domain.services.IQuestionService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+data class Question(
+    val id: String = "",
+    val text: String = "",
+    val options: List<String> = emptyList(),
+    val correctAnswerIndex: Int = 0,
+    val explanation: String = ""
+)
+
+data class TrainingSession(
+    val id: String = ""
+)
+
+data class Answer(
+    val questionId: String = "",
+    val selectedOptionIndex: Int = 0,
+    val answerText: String = "",
+    val isCorrect: Boolean = false,
+    val timeSpentMs: Long = 0L
+)
+
+enum class SessionState {
+    NOT_STARTED,
+    IN_PROGRESS,
+    PAUSED,
+    COMPLETED,
+    ABANDONED
+}
+
+interface ITrainingSessionService {
+    suspend fun createSession(categoryId: String, questionCount: Int): TrainingSession
+    suspend fun recordAnswer(sessionId: String, answer: Answer)
+    suspend fun completeSession(sessionId: String)
+    suspend fun recordSkip(sessionId: String, questionId: String)
+    suspend fun pauseSession(sessionId: String)
+    suspend fun resumeSession(sessionId: String)
+    suspend fun abandonSession(sessionId: String)
+}
+
+interface IQuestionService {
+    suspend fun getQuestionsByCategory(categoryId: String, difficulty: String?, limit: Int): List<Question>
+}
 
 data class TrainingUiState(
     val isLoading: Boolean = false,
@@ -40,6 +76,8 @@ data class TrainingUiState(
  * - Persist session data via service layer
  */
 @HiltViewModel
+class TrainingViewModel @Inject constructor(
+    private val trainingSessionService: ITrainingSessionService,
     private val questionService: IQuestionService
 ) : ViewModel() {
 

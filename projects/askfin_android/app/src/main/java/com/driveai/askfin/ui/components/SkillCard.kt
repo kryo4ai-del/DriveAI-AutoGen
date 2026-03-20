@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.driveai.skillmap.data.models.SkillUiModel
+import com.driveai.askfin.data.models.SkillUiModel
 
 @Composable
 fun SkillCard(

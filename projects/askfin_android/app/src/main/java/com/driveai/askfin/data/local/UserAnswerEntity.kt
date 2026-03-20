@@ -1,4 +1,7 @@
 package com.driveai.askfin.data.local
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.time.Instant
 
 // No TTL, no auto-deletion, no anonymization logic
 @Entity(tableName = "user_answers")

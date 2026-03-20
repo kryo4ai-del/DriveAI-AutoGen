@@ -14,33 +14,33 @@ interface QuestionRepository {
     
     suspend fun getQuestionsByCategory(
         category: QuestionCategory,
-        pagination: Pagination = Pagination.default()
+        pagination: Pagination = Pagination(page = 0, pageSize = 20)
     ): Result<List<Question>>
     
     suspend fun getQuestionsByDifficulty(
         difficulty: Difficulty,
-        pagination: Pagination = Pagination.default()
+        pagination: Pagination = Pagination(page = 0, pageSize = 20)
     ): Result<List<Question>>
     
     suspend fun getQuestionsByTrainingMode(
         mode: TrainingMode,
-        pagination: Pagination = Pagination.default()
+        pagination: Pagination = Pagination(page = 0, pageSize = 20)
     ): Result<List<Question>>
     
     suspend fun getFilteredQuestions(
         categories: Set<QuestionCategory>? = null,
         difficulties: Set<Difficulty>? = null,
         modes: Set<TrainingMode>? = null,
-        pagination: Pagination = Pagination.default()
+        pagination: Pagination = Pagination(page = 0, pageSize = 20)
     ): Result<List<Question>>
     
     suspend fun getAllQuestions(
-        pagination: Pagination = Pagination.default()
+        pagination: Pagination = Pagination(page = 0, pageSize = 20)
     ): Result<List<Question>>
     
     fun getQuestionsByCategoryFlow(
         category: QuestionCategory,
-        pagination: Pagination = Pagination.default()
+        pagination: Pagination = Pagination(page = 0, pageSize = 20)
     ): Flow<Result<List<Question>>>
     
     suspend fun refreshQuestions(): Result<Unit>

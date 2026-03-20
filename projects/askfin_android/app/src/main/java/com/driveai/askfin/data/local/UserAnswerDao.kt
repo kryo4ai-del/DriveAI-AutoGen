@@ -1,4 +1,7 @@
 package com.driveai.askfin.data.local
+import androidx.room.Dao
+import androidx.room.Query
+import java.time.Instant
 
 @Dao
    interface UserAnswerDao {

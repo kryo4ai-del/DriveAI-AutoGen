@@ -1,4 +1,6 @@
 package com.driveai.askfin.domain
+import javax.inject.Singleton
+import javax.inject.Inject
 
 @Singleton
 class ExamService @Inject constructor(

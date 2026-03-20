@@ -1,8 +1,5 @@
 package com.driveai.askfin.data.models
 
-import com.driveai.askfin.data.models.ExamSession
-import com.driveai.askfin.data.models.ExamResult
-import com.driveai.askfin.data.models.Question
 import com.driveai.askfin.data.repository.QuestionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +11,7 @@ import javax.inject.Singleton
 
 data class ExamSessionState(
     val sessionId: String = UUID.randomUUID().toString(),
-    val questions: List<Question> = emptyList(),
+    val questions: List<QuestionData> = emptyList(),
     val currentQuestionIndex: Int = 0,
     val answers: Map<String, String?> = emptyMap(), // questionId -> selectedAnswer (null = unanswered)
     val startTime: Instant = Instant.now(),
@@ -26,6 +23,8 @@ enum class ExamStatus {
     INITIALIZED, IN_PROGRESS, PAUSED, SUBMITTED, COMPLETED
 }
 
+data class CategoryScoreData(
+    val category: String,
     val correctAnswers: Int,
     val totalQuestions: Int,
     val unansweredCount: Int = 0
@@ -42,6 +41,34 @@ enum class ExamStatus {
         } else 0f
 }
 
+data class QuestionData(
+    val id: String = "",
+    val category: String = "",
+    val correctAnswer: String = ""
+)
+
+data class ExamResultData(
+    val sessionId: String = "",
+    val totalQuestions: Int = 0,
+    val correctAnswers: Int = 0,
+    val scorePercentage: Float = 0f,
+    val categoryBreakdown: List<CategoryScoreData> = emptyList(),
+    val timeSpentSeconds: Long = 0L,
+    val completedAt: Instant = Instant.now(),
+    val unansweredCount: Int = 0
+)
+
+data class Result<T>(
+    val data: T? = null,
+    val exception: Throwable? = null
+) {
+    val isSuccess: Boolean get() = exception == null
+}
+
+enum class QuestionCategory {
+    GENERAL
+}
+
 /**
  * Manages exam lifecycle: initialization, question navigation, answer tracking, and submission.
  * 
@@ -52,6 +79,8 @@ enum class ExamStatus {
  * - Integrate with ExamTimerService for time tracking
  */
 @Singleton
+class ExamSessionManager @Inject constructor(
+    private val questionRepository: QuestionRepository
 ) {
     private val _examState = MutableStateFlow(ExamSessionState())
     val examState: StateFlow<ExamSessionState> = _examState.asStateFlow()
@@ -61,22 +90,22 @@ enum class ExamStatus {
      * 
      * @throws IllegalArgumentException if no categories exist or insufficient questions
      */
-    suspend fun initializeExam(): Result<Unit> = runCatching {
+    suspend fun initializeExam(): Result<Unit> = try {
         val allCategories = questionRepository.getAllCategories()
         require(allCategories.isNotEmpty()) { "No exam categories available" }
 
         val questionsPerCategory = 30 / allCategories.size
         val remainder = 30 % allCategories.size
-        val selectedQuestions = mutableListOf<Question>()
+        val selectedQuestions = mutableListOf<QuestionData>()
 
-        allCategories.forEachIndexed { index, category ->
+        allCategories.forEachIndexed { index: Int, category: QuestionCategory ->
             val count = questionsPerCategory + if (index < remainder) 1 else 0
             val categoryQuestions = questionRepository.getQuestionsByCategory(
-                categoryId = category.id,
+                category = category,
                 limit = count
             )
             require(categoryQuestions.isNotEmpty()) {
-                "Category '${category.name}' (${category.id}) has no questions"
+                "Category '${category}' has no questions"
             }
             selectedQuestions.addAll(categoryQuestions.shuffled())
         }
@@ -90,30 +119,39 @@ enum class ExamStatus {
             status = ExamStatus.IN_PROGRESS,
             startTime = Instant.now()
         )
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
      * Navigate to the next question if available.
      */
-    fun nextQuestion(): Result<Unit> = runCatching {
+    fun nextQuestion(): Result<Unit> = try {
         val currentState = _examState.value
         if (currentState.currentQuestionIndex < currentState.questions.size - 1) {
             _examState.value = currentState.copy(
                 currentQuestionIndex = currentState.currentQuestionIndex + 1
             )
         }
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
      * Navigate to the previous question if available.
      */
-    fun previousQuestion(): Result<Unit> = runCatching {
+    fun previousQuestion(): Result<Unit> = try {
         val currentState = _examState.value
         if (currentState.currentQuestionIndex > 0) {
             _examState.value = currentState.copy(
                 currentQuestionIndex = currentState.currentQuestionIndex - 1
             )
         }
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
@@ -121,48 +159,68 @@ enum class ExamStatus {
      * 
      * @throws IllegalArgumentException if index is out of bounds
      */
-    fun jumpToQuestion(index: Int): Result<Unit> = runCatching {
+    fun jumpToQuestion(index: Int): Result<Unit> = try {
         val currentState = _examState.value
         require(index in currentState.questions.indices) {
             "Invalid question index: $index (total: ${currentState.questions.size})"
         }
         _examState.value = currentState.copy(currentQuestionIndex = index)
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
      * Record an answer for a specific question.
      */
-    fun selectAnswer(questionId: String, selectedAnswer: String?): Result<Unit> = runCatching {
+    fun selectAnswer(questionId: String, selectedAnswer: String?): Result<Unit> = try {
         val currentState = _examState.value
         _examState.value = currentState.copy(
             answers = currentState.answers.toMutableMap().apply {
                 put(questionId, selectedAnswer)
             }
         )
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
      * Clear the answer for a specific question (mark as unanswered).
      */
-    fun clearAnswer(questionId: String): Result<Unit> = runCatching {
-        selectAnswer(questionId, null)
+    fun clearAnswer(questionId: String): Result<Unit> = try {
+        val currentState = _examState.value
+        _examState.value = currentState.copy(
+            answers = currentState.answers.toMutableMap().apply {
+                put(questionId, null)
+            }
+        )
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
      * Pause the exam without losing state.
      */
-    fun pauseExam(): Result<Unit> = runCatching {
+    fun pauseExam(): Result<Unit> = try {
         _examState.value = _examState.value.copy(status = ExamStatus.PAUSED)
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
      * Resume the exam from paused state.
      */
-    fun resumeExam(): Result<Unit> = runCatching {
+    fun resumeExam(): Result<Unit> = try {
         require(_examState.value.status == ExamStatus.PAUSED) {
             "Cannot resume exam in status: ${_examState.value.status}"
         }
         _examState.value = _examState.value.copy(status = ExamStatus.IN_PROGRESS)
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**
@@ -172,7 +230,7 @@ enum class ExamStatus {
      * @return ExamResult with scores and category breakdown
      * @throws IllegalStateException if exam not in progress or paused
      */
-    fun submitExam(): Result<ExamResult> = runCatching {
+    fun submitExam(): Result<ExamResultData> = try {
         val currentState = _examState.value
         require(currentState.status == ExamStatus.IN_PROGRESS || currentState.status == ExamStatus.PAUSED) {
             "Cannot submit exam in status: ${currentState.status}"
@@ -181,7 +239,7 @@ enum class ExamStatus {
         val endTime = Instant.now()
         val totalTimeSeconds = endTime.epochSecond - currentState.startTime.epochSecond
 
-        val categoryScores = mutableMapOf<String, CategoryScore>()
+        val categoryScores = mutableMapOf<String, CategoryScoreData>()
         var totalCorrect = 0
         var totalUnanswered = 0
 
@@ -193,7 +251,7 @@ enum class ExamStatus {
             if (isCorrect) totalCorrect++
             if (isUnanswered) totalUnanswered++
 
-            categoryScores.putIfAbsent(question.category, CategoryScore(question.category, 0, 0))
+            categoryScores.putIfAbsent(question.category, CategoryScoreData(question.category, 0, 0))
             val categoryScore = categoryScores[question.category]!!
 
             categoryScores[question.category] = categoryScore.copy(
@@ -205,7 +263,7 @@ enum class ExamStatus {
 
         val scorePercentage = (totalCorrect.toFloat() / currentState.questions.size) * 100f
 
-        val examResult = ExamResult(
+        val examResult = ExamResultData(
             sessionId = currentState.sessionId,
             totalQuestions = currentState.questions.size,
             correctAnswers = totalCorrect,
@@ -218,10 +276,12 @@ enum class ExamStatus {
 
         _examState.value = currentState.copy(status = ExamStatus.COMPLETED)
 
-        examResult
+        Result(examResult)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
-    fun getCurrentQuestion(): Question? {
+    fun getCurrentQuestion(): QuestionData? {
         val currentState = _examState.value
         return currentState.questions.getOrNull(currentState.currentQuestionIndex)
     }
@@ -232,8 +292,11 @@ enum class ExamStatus {
     fun getAnswers(): Map<String, String?> =
         _examState.value.answers.toMap()
 
-    fun resetExam(): Result<Unit> = runCatching {
+    fun resetExam(): Result<Unit> = try {
         _examState.value = ExamSessionState()
+        Result(Unit)
+    } catch (e: Throwable) {
+        Result(exception = e)
     }
 
     /**

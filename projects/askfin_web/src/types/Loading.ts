@@ -1,0 +1,11 @@
+// Loading.ts
+// Auto-generated stub — type was referenced but never declared.
+// Referenced in:
+//   - components/GeneratedHelpers.tsx
+//   - components/TrainingScreen.tsx
+//
+// TODO: Replace this stub with a full implementation.
+
+export interface Loading {
+  id?: string;
+}

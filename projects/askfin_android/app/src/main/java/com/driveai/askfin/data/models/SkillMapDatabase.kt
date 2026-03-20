@@ -2,7 +2,7 @@ package com.driveai.askfin.data.models
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.driveai.skillmap.data.models.SkillEntity
+import com.driveai.askfin.data.models.SkillEntity
 
 @Database(
     entities = [SkillEntity::class],

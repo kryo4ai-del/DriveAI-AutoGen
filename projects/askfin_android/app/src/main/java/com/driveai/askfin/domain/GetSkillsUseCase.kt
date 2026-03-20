@@ -1,4 +1,7 @@
 package com.driveai.askfin.domain
+import dagger.Provides
+import javax.inject.Singleton
+import javax.inject.Inject
 
 @Provides
 @Singleton

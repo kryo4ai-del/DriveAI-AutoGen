@@ -1,5 +1,6 @@
 // File: com.driveai.askfin/data/models/validators/ValidationRules.kt
 package com.driveai.askfin.data.models
+import java.time.Instant
 
 object ValidationRules {
     const val MIN_ANSWER_COUNT = 1

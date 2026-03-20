@@ -1,32 +1,49 @@
 package com.driveai.askfin.ui.navigation
 
-✓ Sealed class for exam routes:
-  sealed class ExamRoute {
-      object Start : ExamRoute()
-      object Question : ExamRoute()
-      object Result : ExamRoute()
-  }
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 
-✓ NavHost setup:
-  NavHost(navController, startDestination = ExamRoute.Start) {
-      composable<ExamRoute.Start> { 
-          ExamStartScreen(onStartExam = { 
-              navController.navigate(ExamRoute.Question) 
-          })
-      }
-      composable<ExamRoute.Question> { 
-          ExamQuestionScreen(onExamComplete = { 
-              navController.navigate(ExamRoute.Result) 
-          })
-      }
-      composable<ExamRoute.Result> { 
-          ExamResultScreen(onContinue = { 
-              navController.popBackStack() 
-          })
-      }
-  }
+sealed class ExamRoute {
+    object Start : ExamRoute()
+    object Question : ExamRoute()
+    object Result : ExamRoute()
+}
 
-✓ Back button handling:
-  - Start screen: back exits app
-  - Question screen: back not allowed (exit button only)
-  - Result screen: back resets exam
+@Composable
+fun ExamNavHost(navController: NavHostController) {
+    NavHost(navController, startDestination = ExamRoute.Start::class.simpleName ?: "Start") {
+        composable("Start") {
+            ExamStartScreen(onStartExam = {
+                navController.navigate("Question")
+            })
+        }
+        composable("Question") {
+            ExamQuestionScreen(onExamComplete = {
+                navController.navigate("Result")
+            })
+        }
+        composable("Result") {
+            ExamResultScreen(onContinue = {
+                navController.popBackStack()
+            })
+        }
+    }
+}
+
+@Composable
+fun ExamStartScreen(onStartExam: () -> Unit) {
+    // Start screen: back exits app
+}
+
+@Composable
+fun ExamQuestionScreen(onExamComplete: () -> Unit) {
+    // Question screen: back not allowed (exit button only)
+}
+
+@Composable
+fun ExamResultScreen(onContinue: () -> Unit) {
+    // Result screen: back resets exam
+}

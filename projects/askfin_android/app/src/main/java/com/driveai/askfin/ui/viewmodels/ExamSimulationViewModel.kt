@@ -1,4 +1,13 @@
 package com.driveai.askfin.ui.viewmodels
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 // com.driveai.askfin.ui.viewmodels.ExamSimulationViewModel.kt
 @HiltViewModel

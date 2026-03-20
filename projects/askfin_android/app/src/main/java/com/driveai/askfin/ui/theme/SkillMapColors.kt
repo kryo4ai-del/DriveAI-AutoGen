@@ -1,7 +1,7 @@
 package com.driveai.askfin.ui.theme
 
 import androidx.compose.ui.graphics.Color
-import com.driveai.skillmap.data.models.CompetenceLevel
+import com.driveai.askfin.data.models.CompetenceLevel
 
 object SkillMapColors {
     fun getCompetenceColor(level: CompetenceLevel): Color = when (level) {

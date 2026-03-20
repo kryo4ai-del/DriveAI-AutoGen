@@ -1,8 +1,14 @@
 // domain/TrendCalculator.kt (optional: service layer)
 package com.driveai.askfin.data.models
 
-import com.driveai.askfin.data.models.ReadinessTrend
-import com.driveai.askfin.data.models.ReadinessScoreHistoryEntity
+enum class ReadinessTrend {
+    IMPROVING, DECLINING, STABLE
+}
+
+data class ReadinessScoreHistoryEntity(
+    val score: Float,
+    val timestamp: Long
+)
 
 /**
  * Calculates trend from historical score samples.

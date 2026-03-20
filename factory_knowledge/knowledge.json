@@ -686,6 +686,54 @@
       "created": "2026-03-18",
       "last_validated": "2026-03-18",
       "validation_count": 1
+    },
+    {
+      "id": "FK-023",
+      "type": "error_pattern",
+      "content": "GeneratedHelpers files are junk containers across all languages (Swift, Kotlin, TypeScript). The CodeExtractor creates them as fallback when it cannot determine a proper filename. They should be auto-quarantined in the Assembly phase.",
+      "source": "step_26_web_build",
+      "confidence": "validated",
+      "product_type": "all",
+      "project": null,
+      "platform": null,
+      "language": null,
+      "applicable_to": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "tags": [
+        "generated_helpers",
+        "quarantine",
+        "extractor",
+        "assembly"
+      ],
+      "created": "2026-03-20",
+      "last_validated": "2026-03-20",
+      "validation_count": 3
+    },
+    {
+      "id": "FK-024",
+      "type": "technical_pattern",
+      "content": "RepairEngine reduces TypeScript errors in 3 waves: (1) MissingImportFixer for cross-file refs (25%), (2) TypeAnnotationFixer for implicit-any + MissingTypeFixer for stubs (50%), (3) ModulePathFixer for @/ aliases. All three waves together fix 96% of typical Haiku-generated TypeScript errors (99 -> 4).",
+      "source": "step_28_29_repair_engine",
+      "confidence": "validated",
+      "product_type": "web_app",
+      "project": "askfin_web",
+      "platform": "web",
+      "language": "typescript",
+      "applicable_to": [
+        "web"
+      ],
+      "tags": [
+        "repair_engine",
+        "typescript",
+        "tsc",
+        "auto_fix"
+      ],
+      "created": "2026-03-20",
+      "last_validated": "2026-03-20",
+      "validation_count": 2
     }
   ]
 }

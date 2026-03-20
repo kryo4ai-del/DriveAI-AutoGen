@@ -1,3 +1,5 @@
+import { Question } from '../src/types/Question';
+import { TrainingSession } from '../src/types/TrainingSession';
 export function createSession(
   sessionId: string,
   questions: Question[]

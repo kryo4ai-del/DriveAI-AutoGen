@@ -1,11 +1,15 @@
 package com.driveai.askfin.data.models
 
 import com.driveai.askfin.data.local.ReadinessDao
-import com.driveai.askfin.data.models.MilestoneEntity
-import com.driveai.askfin.data.models.ReadinessScore
-import com.driveai.askfin.data.models.toDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+
+interface ReadinessRepository {
+    suspend fun getReadinessScore(): ReadinessScore
+    fun observeReadinessScore(): Flow<ReadinessScore>
+    suspend fun updateScore(newScore: Int): Result<ReadinessScore>
+    suspend fun unlockMilestone(milestoneId: String): Result<Unit>
+}
 
 class ReadinessRepositoryImpl(
     private val readinessDao: ReadinessDao
@@ -38,17 +42,17 @@ class ReadinessRepositoryImpl(
     override suspend fun updateScore(newScore: Int): Result<ReadinessScore> {
         return try {
             // Validate and persist
-            val updated = ReadinessScore(currentScore = newScore)
-            Result.success(updated)
+            val updated = ReadinessScore(currentScore = newScore, milestones = listOf())
+            Result.success<ReadinessScore>(updated)
         } catch (e: Exception) {
-            Result.failure(ReadinessException("Failed to update score", e))
+            Result.failure<ReadinessScore>(ReadinessException("Failed to update score", e))
         }
     }
 
     override suspend fun unlockMilestone(milestoneId: String): Result<Unit> {
         return try {
             val milestone = readinessDao.getMilestoneById(milestoneId)
-                ?: return Result.failure(
+                ?: return Result.failure<Unit>(
                     ReadinessException("Milestone not found: $milestoneId")
                 )
 
@@ -57,12 +61,29 @@ class ReadinessRepositoryImpl(
                 unlockedAt = System.currentTimeMillis()
             )
             readinessDao.insertMilestone(updated)
-            Result.success(Unit)
+            Result.success<Unit>(Unit)
         } catch (e: Exception) {
-            Result.failure(ReadinessException("Failed to unlock milestone", e))
+            Result.failure<Unit>(ReadinessException("Failed to unlock milestone", e))
         }
     }
 }
 
 class ReadinessException(message: String, cause: Throwable? = null) :
     Exception(message, cause)
+
+data class ReadinessScore(
+    val currentScore: Int,
+    val milestones: List<Any>
+)
+
+data class MilestoneEntity(
+    val id: String,
+    val isUnlocked: Boolean = false,
+    val unlockedAt: Long = 0
+) {
+    fun copy(isUnlocked: Boolean = this.isUnlocked, unlockedAt: Long = this.unlockedAt): MilestoneEntity {
+        return MilestoneEntity(id = this.id, isUnlocked = isUnlocked, unlockedAt = unlockedAt)
+    }
+}
+
+fun MilestoneEntity.toDomain(): Any = this

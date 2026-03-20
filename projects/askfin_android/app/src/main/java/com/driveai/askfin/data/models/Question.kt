@@ -1,4 +1,5 @@
 package com.driveai.askfin.data.models
+import java.time.Instant
 
 data class Question(
        val id: String,

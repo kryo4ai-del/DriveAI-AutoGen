@@ -244,6 +244,47 @@ class StaleArtifactGuard:
 
         return self.report
 
+
+    def auto_quarantine_junk_files(self) -> int:
+        """Auto-quarantine known junk file patterns across all languages.
+
+        Patterns:
+        - GeneratedHelpers.* (Swift/Kotlin/TypeScript fallback container)
+        - GeneratedComponent_*.tsx (TypeScript unnamed component fallback)
+        - GeneratedKotlin_*.kt (Kotlin unnamed fallback)
+
+        Returns number of files quarantined.
+        """
+        _JUNK_PATTERNS = [
+            "GeneratedHelpers.*",
+            "GeneratedComponent_*.*",
+            "GeneratedKotlin_*.*",
+        ]
+
+        import fnmatch
+        quarantined = 0
+        self.quarantine_dir.mkdir(parents=True, exist_ok=True)
+
+        for ext in (".swift", ".kt", ".ts", ".tsx"):
+            for source_file in self.project_dir.rglob(f"*{ext}"):
+                # Skip quarantine, generated_code, node_modules
+                rel = str(source_file.relative_to(self.project_dir))
+                if any(skip in rel for skip in ("quarantine", "generated_code", "node_modules", ".git")):
+                    continue
+
+                for pattern in _JUNK_PATTERNS:
+                    if fnmatch.fnmatch(source_file.name, pattern):
+                        dest = self.quarantine_dir / f"{source_file.parent.name}_{source_file.name}"
+                        if not dest.exists():
+                            shutil.move(str(source_file), str(dest))
+                            quarantined += 1
+                            print(f"  [StaleGuard] Auto-quarantine: {rel}")
+                        break
+
+        if quarantined:
+            print(f"  [StaleGuard] Auto-quarantined {quarantined} junk file(s)")
+        return quarantined
+
     def _is_protected(self, rel_path: str) -> bool:
         """Check if a file is in a protected path that should never be quarantined."""
         protected_prefixes = (
