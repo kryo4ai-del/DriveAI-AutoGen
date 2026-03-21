@@ -84,6 +84,18 @@ def _parse_args() -> dict:
         "no_ops_layer": False,
         "project": None,
         "hybrid_pipeline": True,
+        "brain_benchmark": False,
+        "brain_benchmark_agent": None,
+        "brain_chain": None,
+        "brain_optimize": False,
+        "brain_stats": False,
+        "brain_health": False,
+        "brain_models": False,
+        "brain_models_provider": None,
+        "brain_models_tier": None,
+        "brain_costs": False,
+        "brain_costs_last": 10,
+        "brain_summary": False,
         "legacy_pipeline": False,
         "orchestrate": None,
         "orchestrate_dry": None,
@@ -220,6 +232,42 @@ def _parse_args() -> dict:
         elif args[i] == "--no-ops-layer":
             result["no_ops_layer"] = True
             i += 1
+        elif args[i] == "--brain-benchmark":
+            result["brain_benchmark"] = True
+            i += 1
+        elif args[i] == "--brain-chain" and i + 1 < len(args):
+            result["brain_chain"] = args[i + 1]
+            i += 2
+        elif args[i] == "--brain-optimize":
+            result["brain_optimize"] = True
+            i += 1
+        elif args[i] == "--brain-health":
+            result["brain_health"] = True
+            i += 1
+        elif args[i] == "--brain-models":
+            result["brain_models"] = True
+            i += 1
+        elif args[i] == "--brain-costs":
+            result["brain_costs"] = True
+            i += 1
+        elif args[i] == "--brain-summary":
+            result["brain_summary"] = True
+            i += 1
+        elif args[i] == "--provider" and i + 1 < len(args):
+            result["brain_models_provider"] = args[i + 1]
+            i += 2
+        elif args[i] == "--tier" and i + 1 < len(args):
+            result["brain_models_tier"] = args[i + 1]
+            i += 2
+        elif args[i] == "--last" and i + 1 < len(args):
+            result["brain_costs_last"] = int(args[i + 1])
+            i += 2
+        elif args[i] == "--brain-stats":
+            result["brain_stats"] = True
+            i += 1
+        elif args[i] == "--agent" and i + 1 < len(args):
+            result["brain_benchmark_agent"] = args[i + 1]
+            i += 2
         elif args[i] == "--hybrid-pipeline":
             result["hybrid_pipeline"] = True
             i += 1
@@ -916,6 +964,126 @@ async def main():
                 print(f"Failed    : {failed_count}  (use --failed-summary to review, --retry-all-failed to retry)")
             print(f"Remaining : {len(task_queue.queue['pending'])} task(s) still in queue")
             print("=" * 60)
+        return
+
+
+    # ── TheBrain commands ─────────────────────────────────────────────
+
+    if a.get("brain_health"):
+        from factory.brain.model_provider.price_monitor import PriceMonitor
+        monitor = PriceMonitor()
+        report = monitor.check_all_providers()
+        print(report.format_console())
+        return
+
+    if a.get("brain_models"):
+        from factory.brain.model_provider import get_registry
+        reg = get_registry()
+        provider_filter = a.get("brain_models_provider")
+        tier_filter = a.get("brain_models_tier")
+        models = reg._models
+        if provider_filter:
+            models = [m for m in models if m.provider == provider_filter]
+        if tier_filter:
+            models = [m for m in models if m.tier_equivalent == tier_filter]
+        print(f"\n{'Provider':<12} {'Model':<28} {'Tier':<6} {'In $/1k':>9} {'Out $/1k':>10} {'Max Out':>8} {'Status':<8}")
+        print("-" * 85)
+        for m in sorted(models, key=lambda x: x.price_per_1k_output):
+            print(f"{m.provider:<12} {m.model_id:<28} {m.tier_equivalent:<6} "
+                  f"${m.price_per_1k_input:<8.4f} ${m.price_per_1k_output:<9.4f} "
+                  f"{m.max_output_tokens:>7} {m.status:<8}")
+        print(f"\nTotal: {len(models)} models")
+        return
+
+    if a.get("brain_costs"):
+        from factory.brain.model_provider.chain_tracker import ChainTracker
+        tracker = ChainTracker()
+        project = a.get("project") or "askfin_android"
+        last_n = a.get("brain_costs_last", 10)
+        runs = tracker.get_runs(project, limit=last_n)
+        if not runs:
+            print(f"No runs recorded for {project}")
+        else:
+            print(f"\nLast {len(runs)} runs for {project}:")
+            print(f"{'Run ID':<20} {'Profile':<10} {'Cost':>10} {'Errors':>8} {'Status':<10}")
+            print("-" * 60)
+            for r in runs:
+                print(f"{r.get('run_id','?')[:18]:<20} {r.get('profile','?'):<10} "
+                      f"${r.get('total_cost',0):>9.4f} {r.get('final_errors',0):>7} "
+                      f"{r.get('outcome','?'):<10}")
+            costs = [r.get('total_cost', 0) for r in runs]
+            print(f"\nAvg cost: ${sum(costs)/len(costs):.4f}  Total: ${sum(costs):.4f}")
+        return
+
+    if a.get("brain_summary"):
+        from factory.brain.model_provider import get_registry
+        from factory.brain.model_provider.chain_optimizer import ChainProfile
+        reg = get_registry()
+        stats = reg.stats
+        chains = []
+        for line in ["android", "ios", "web"]:
+            for profile in ["dev", "standard"]:
+                cp = ChainProfile.load_for(line, profile)
+                if cp:
+                    chains.append(f"{line}/{profile} (${cp.expected_cost:.3f})")
+        print(f"TheBrain: {stats['total_models']} models, {len(stats['available_providers'])} providers")
+        print(f"Available: {', '.join(stats['available_providers'])}")
+        print(f"Chains: {', '.join(chains) if chains else 'none'}")
+        return
+
+    if a.get("brain_benchmark"):
+        from factory.brain.model_provider.benchmark_runner import BenchmarkRunner
+        runner = BenchmarkRunner(a.get("project", ""))
+        agent = a.get("brain_benchmark_agent")
+        line = a.get("project", "android")
+        if agent:
+            pass_map = {"bug_hunter": "bug_review", "creative_director": "creative_review",
+                        "ux_psychology": "ux_psychology", "refactor_agent": "refactor",
+                        "test_generator": "test_generation"}
+            pass_name = pass_map.get(agent, "bug_review")
+            print(f"\nBenchmarking {agent} ({pass_name})...")
+            report = runner.benchmark_agent(agent, pass_name)
+            print()
+            print(report.summary())
+        else:
+            for agent, pass_name in [("bug_hunter", "bug_review"), ("creative_director", "creative_review"),
+                                      ("refactor_agent", "refactor"), ("test_generator", "test_generation")]:
+                print(f"\nBenchmarking {agent} ({pass_name})...")
+                report = runner.benchmark_agent(agent, pass_name)
+                print()
+                print(report.summary())
+        return
+
+    if a.get("brain_chain"):
+        from factory.brain.model_provider.chain_optimizer import ChainProfile
+        line = a["brain_chain"]
+        profile = a.get("profile") or "dev"
+        cp = ChainProfile.load_for(line, profile)
+        if cp:
+            print(cp.summary())
+        else:
+            print(f"No chain profile for {line}/{profile}. Run --brain-optimize first.")
+        return
+
+    if a.get("brain_optimize"):
+        from factory.brain.model_provider.chain_optimizer import ChainOptimizer
+        line = a.get("project") or "android"
+        profile = a.get("profile") or "dev"
+        print(f"\nOptimizing chain for {line} ({profile})...")
+        optimizer = ChainOptimizer()
+        cp = optimizer.optimize(line, profile)
+        print()
+        print(cp.summary())
+        return
+
+    if a.get("brain_stats"):
+        from factory.brain.model_provider import get_registry
+        from factory.brain.model_provider.chain_tracker import ChainTracker
+        reg = get_registry()
+        tracker = ChainTracker()
+        print("\n=== TheBrain Stats ===")
+        print(f"Models: {reg.stats}")
+        print(f"Available: {reg.get_available_providers()}")
         return
 
     # ── Single run ───────────────────────────────────────────────────

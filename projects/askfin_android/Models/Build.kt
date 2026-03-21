@@ -1,0 +1,11 @@
+// Build.kt
+// Auto-generated stub — type was referenced but never declared.
+// Referenced in:
+//   - Models/HapticFeedback.kt
+//   - app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt
+//
+// TODO: Replace this stub with a full implementation.
+
+package com.driveai.stub
+
+data class Build(val id: String = "")

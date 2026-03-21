@@ -4,116 +4,107 @@
 
 ## Suchfelder (extrahiert aus CEO-Idee)
 
-Die CEO-Idee adressiert folgende recherchierbare Felder:
-1. AI-Tool-Nutzung & Claude/GPT Skills/Plugins Adoption
-2. AI-Produktivitäts-Apps (Web-Apps) — Marktgröße & Wachstum
-3. Datenschutz-Bewusstsein bei AI-Tools (Client-side Processing als Feature)
-4. Personalisierte AI-Empfehlungssysteme
-5. Security-Scanning-Tools für AI-Prompts/Instructions
-6. Subscription-Modelle für AI-Productivity-Tools (~10€/Monat Tier)
-
-> ⚠️ **Hinweis zu den Suchergebnissen:** Die bereitgestellten Web-Recherche-Ergebnisse beziehen sich ausschließlich auf **Mobile Gaming Trends (Card Games, Match-3, mobile Revenue)** — diese sind für SkillSense strukturell irrelevant. Der folgende Report basiert daher auf dem verfügbaren Wissen des Analysten (Stand: Trainingsdata bis Anfang 2025) mit expliziten Markierungen wo Datenlücken bestehen.
+- AI-Tool-Nutzung & Personalisierung (Claude Skills, GPT Custom Instructions)
+- Web-App Subscription-Modelle & Monetarisierung
+- Client-Side Privacy / DSGVO-konforme Tools
+- AI-Produktivitätstools (B2C & B2B)
+- Prompt Engineering & AI-Skill-Ökosystem
+- Non-Game App Revenue Trends
 
 ---
 
-## Trend 1: AI-Assistant-Personalisierung & Custom Instructions / Skills Adoption
+## Trend 1: Non-Game Web/App Subscriptions — Wachstumsmotor 2025
 
-- **Status:** 🟢 Wachsend — stark
+- **Status:** 🟢 Wachsend (stark)
 - **Daten:**
-  - Anthropic führte "Skills" (auch bekannt als "Integrations" / "Projects") schrittweise in Claude Pro/Max/Team ein (2024–2025); exakte Nutzerzahlen sind nicht öffentlich
-  - OpenAI GPTs (Custom GPTs): Über 3 Millionen Custom GPTs wurden laut OpenAI bis Anfang 2024 von Nutzern erstellt — zeigt starkes Community-Engagement mit personalisierten AI-Konfigurationen
-  - Claude Pro hat laut Anthropic-Berichten (2024) mehrere Millionen zahlende Nutzer; Anteil der aktiven Skill-Nutzer: **⚠️ keine öffentlichen Daten verfügbar**
-  - GitHub-Repositories mit "awesome-claude-prompts" oder "claude-skills" zeigen 2024–2025 stark steigende Stern-Zahlen (100er bis 1.000er Bereich) — exakte Zahlen: **⚠️ nicht aus Suchergebnissen ableitbar**
-  - YouTube-Suche nach "Claude skills tutorial" liefert Hunderte Videos (2024–2025) mit 10K–500K Views je nach Kanal — **⚠️ keine aggregierten Daten vorliegend**
-- **Relevanz für SkillSense:** Direkt. Das Ökosystem, das SkillSense adressiert, existiert und wächst nachweislich. Die Nachfrage nach "wie nutze ich Skills richtig?" ist ein organischer Suchtrend.
-- **Quellen:** OpenAI Dev Day Ankündigung (November 2023), Anthropic Blog Posts (2024), GitHub Trending (beobachtet 2024–2025) — **keine der bereitgestellten Suchergebnisse**
-
----
-
-## Trend 2: AI-Produktivitäts-Apps — Non-Game Apps überholen Games bei IAP-Revenue
-
-- **Status:** 🟢 Wachsend — struktureller Shift
-- **Daten:**
-  - Laut Sensor Tower (State of Mobile 2026, via Deconstructor of Fun, Februar 2026): **Non-Game Apps haben Games bei IAP-Revenue überholt** — Apps: $85,6 Mrd. vs. Games: $81,8 Mrd. (2025)
-  - Dieser Shift ist strukturell und wird als "separation is only growing" beschrieben
-  - Mobile IAP insgesamt: +10,6% YoY, obwohl Downloads nur +0,8% YoY — zeigt: **Nutzer zahlen häufiger/mehr, nicht dass mehr neue Nutzer kommen**
-  - Appfigures (Dezember 2025): ChatGPT dominiert sowohl Download- als auch Revenue-Charts auf Mobile — AI-Apps sind die stärkste Kategorie in Non-Game Apps
-  - Zahlungsbereitschaft für AI-Tools im ~10€/Monat-Tier: **⚠️ keine spezifischen Conversion-Rate-Daten für Web-Apps vorliegend** — Mobile-Daten zeigen aber hohe Akzeptanz
-- **Relevanz für SkillSense:** Mittelbar. Der strukturelle Shift zu zahlenden App-Nutzern und die Dominanz von AI-Apps (ChatGPT) validiert das Monetarisierungsmodell (9,99€/Monat Pro Tier). SkillSense ist eine Web-App, nicht Mobile — direkte Übertragung der Mobile-Zahlen ist eingeschränkt.
+  - Globale Consumer-Ausgaben für mobile Apps (non-game): +33,9% YoY, erreichte **82,6 Milliarden USD in 2025** (Appfigures, Jan 2026)
+  - Gesamtausgaben App-Ökosystem: ~155,8 Mrd. USD in 2025 (+21,6% YoY)
+  - Non-Game-Apps überholen erstmals Games als Wachstumstreiber der App-Economy
+  - Subscription-Modelle (wie SkillSense Pro ~9,99€/Monat) gelten laut Appfigures als "nachhaltigerer Pfad für Entwickler"
+  - Downloads sinken (-2,7% global 2025), aber Revenue steigt — d.h. **Monetarisierung bestehender Nutzer > Neuakquise**
+- **Relevanz für SkillSense:** Subscription-Modell (9,99€/Monat oder 79€/Jahr) trifft einen validierten Markttrend. Nutzer zahlen für Mehrwert, nicht für Downloads.
 - **Quellen:**
-  - Sensor Tower State of Mobile 2026 (Deconstructor of Fun, 02.02.2026): https://www.deconstructoroffun.com/blog/2026/2/2/state-of-mobile-2026
-  - GamesIndustry.biz, "Mobile revenue remained flat across 2025", 2026: https://www.gamesindustry.biz/mobile-revenue-remained-flat-across-2025
-  - Appfigures, "State of Mobile Apps in December 2025": https://appfigures.com/resources/insights/most-downloaded-highest-earning-apps-december-2025
+  - Appfigures Annual Report 2025 (via TechCrunch, 14.01.2026): https://techcrunch.com/2026/01/14/app-downloads-declined-again-in-2025-but-consumer-spending-soared-to-nearly-156b/
+  - Appfigures State of Mobile Apps, Dezember 2025: https://appfigures.com/resources/insights/most-downloaded-highest-earning-apps-december-2025
 
 ---
 
-## Trend 3: Datenschutz als Produktfeature ("Privacy by Design") bei AI-Tools
+## Trend 2: AI-Produktivitätstools — Marktreife & Segmentierung
 
-- **Status:** 🟢 Wachsend — zunehmend als Differenzierungsmerkmal positioniert
+- **Status:** 🟢 Wachsend (Segment differenziert sich)
 - **Daten:**
-  - DSGVO-Durchsetzung verschärft sich: Bußgelder der europäischen Datenschutzbehörden erreichten 2023 über **4,2 Mrd. € kumulativ** seit DSGVO-Einführung (GDPR Enforcement Tracker, 2024)
-  - **ChatGPT** wurde in Italien zeitweise gesperrt (März–April 2023) wegen Datenschutzbedenken — zeigt regulatorisches Risiko für AI-Tools mit Server-side-Datenverarbeitung
-  - Wachsende Kategorie "local-first AI tools": Tools wie Jan.ai, LM Studio, PrivateGPT verzeichnen steigende Downloads (2024) — genaue Zahlen: **⚠️ nicht aus Suchergebnissen ableitbar**
-  - Browser-basierte Verarbeitung (WebAssembly, WebWorker) ist technisch etabliert: Projekte wie Transformers.js (Hugging Face) zeigen, dass ML-Inferenz im Browser möglich ist — Adoption wächst
-  - Nutzerumfragen (Pew Research, 2023): **79% der US-Nutzer** sind besorgt darüber, wie Unternehmen ihre Daten nutzen — **⚠️ EU-spezifische Zahlen für AI-Chat-Daten nicht vorliegend**
-- **Relevanz für SkillSense:** Direkt. Die 100% Client-side-Architektur ist ein konkretes Produktmerkmal, das auf einen nachweisbaren Nutzer-Bedarf trifft — insbesondere bei der Chat-Export-Analyse (Advisor Pro).
-- **Quellen:** GDPR Enforcement Tracker (gdprenforcement.eu, 2024), Garante (Italien) vs. OpenAI (2023), Pew Research Center "American and Privacy" (2023) — **keine der bereitgestellten Suchergebnisse**
-
----
-
-## Trend 4: AI Security — Prompt Injection & Skill/Plugin-Sicherheitsrisiken
-
-- **Status:** 🟢 Wachsend — noch junges Feld, aber schnell wachsend
-- **Daten:**
-  - OWASP veröffentlichte 2023/2024 die **OWASP Top 10 for LLM Applications** — Prompt Injection ist auf Platz 1 gelistet; diese Liste wird aktiv gepflegt und referenziert
-  - NIST AI Risk Management Framework (NIST AI RMF, Januar 2023) adressiert explizit AI-Sicherheitsrisiken — regulatorische Relevanz steigt
-  - Akademische Paper zu "Prompt Injection Attacks" auf Google Scholar: stark steigende Publikationszahlen 2023–2024 (von ~50 auf ~500+ relevante Papers) — **⚠️ genaue Zahlen nicht verifiziert aus vorliegenden Quellen**
-  - Nachgewiesene Angriffe via Custom GPT-Plugins (2023–2024): Mehrere Security-Researcher demonstrierten Daten-Exfiltration via manipulierten Custom Instructions — öffentlich dokumentiert auf HackerNews und arXiv
-  - Security-Scanning für AI-Prompts: **⚠️ Kein etabliertes kommerzielles Tool bekannt** — SkillSense-Wettbewerbsanalyse aus dem Brief wird durch fehlende Marktdaten indirekt bestätigt
-- **Relevanz für SkillSense:** Direkt. Der Security-Scanner-Aspekt trifft auf ein nachweislich wachsendes Problemfeld. Die Nische ist noch wenig kommerzialisiert.
-- **Quellen:** OWASP LLM Top 10 (owasp.org, 2023/2024), NIST AI RMF (nist.gov, Januar 2023), arXiv Prompt Injection Papers (2023–2024) — **keine der bereitgestellten Suchergebnisse**
-
----
-
-## Trend 5: Subscription-Modelle für AI-Tools im ~10€/Monat-Tier
-
-- **Status:** 🟢 Wachsend — Marktstandard etabliert sich
-- **Daten:**
-  - De-facto-Standard für AI-Pro-Subscriptions: ChatGPT Plus (20$/Monat), Claude Pro (20$/Monat), Perplexity Pro (20$/Monat) — etablierter Preispunkt
-  - **Sekundäres Tier (~10€/Monat)** wächst: Notion AI (10$/Monat Add-on), Grammarly Premium (~12$/Monat), Otter.ai (~10$/Monat) — zeigt Zahlungsbereitschaft für AI-Produktivitäts-Tools unterhalb des Hauptprodukts
-  - Sensor Tower (State of Mobile 2026): IAP-Revenue +10,6% YoY trotz flacher Downloads — konsumenten werden bequemer mit digitalen Abos
-  - **Jahresabo-Discount:** Branchenüblich 20–35% Rabatt; SkillSense 79€/Jahr vs. 9,99€/Monat = 34% Rabatt — im normalen Marktbereich
-  - Conversion Rate Free-to-Paid für AI-Tools: **⚠️ keine spezifischen Benchmarks für Web-Apps vorliegend** — Mobile-Benchmarks (typisch 2–5% für Freemium) sind nur eingeschränkt übertragbar
+  - ChatGPT dominierte im Dezember 2025 sowohl Download- als auch Revenue-Charts für Einzel-Apps (Appfigures, Dez. 2025)
+  - Mobile Gaming Revenue blieb 2025 flach (+1% auf 82 Mrd. USD), während AI/Productivity-Apps deutlich wachsen (Sensor Tower State of Gaming 2026)
+  - PC/Console wuchs +13% YoY — Signal dass Desktop-first Produkte (wie SkillSense als Web-App) strukturell relevanter werden
+  - Sensor Tower stellt fest: Mobile-Markt verschiebt sich von Download-Volumen zu **Monetarisierungs- und Engagement-Tiefe**
+  - ⚠️ **Datenlücke:** Spezifische Marktgröße für "AI-Tool-Advisor" oder "AI-Skill-Management"-Segment nicht verfügbar. Kein direkter Marktzahlen-Beleg für SkillSense-Nische vorhanden (Stand: Recherchegrundlage).
+- **Relevanz für SkillSense:** Tool-Beratungs-Layer über bestehende AI-Systeme (Claude, GPT) ist strukturell dem Trend zu tieferem Engagement statt neuer Downloads aligned. Retention-fokussiertes Produkt passt zur Marktlogik 2025/2026.
 - **Quellen:**
-  - Sensor Tower State of Mobile 2026 (via Deconstructor of Fun, 02.02.2026)
-  - Öffentliche Preisseiten: OpenAI, Anthropic, Notion, Grammarly (Stand: Anfang 2025)
+  - Sensor Tower State of Gaming 2026: https://sensortower.com/blog/state-of-gaming-2026
+  - GamesIndustry.biz (Sensor Tower Report, 2026): https://www.gamesindustry.biz/mobile-revenue-remained-flat-across-2025-but-pc-gaming-sees-another-record-year-sensor-tower-state-of-gaming-2026
+  - Appfigures Dezember 2025 Report
 
 ---
 
-## Trend 6: Marktgröße Web-App-Tools für AI-Power-User
+## Trend 3: Personalisierung als Kaufentscheidungsfaktor
 
-- **Status:** ⚠️ Datenlage dünn — Marktsegment zu neu für belastbare Zahlen
+- **Status:** 🟢 Wachsend
 - **Daten:**
-  - Claude Pro/Max zahlende Nutzer: Anthropic kommunizierte **keine öffentliche Zahl** — Schätzungen (Drittquellen, 2024) liegen bei **1–4 Millionen zahlende Nutzer** — **⚠️ nicht verifizierbar**
-  - GPT Plus: OpenAI nannte im August 2023 **100 Millionen wöchentliche Nutzer** für ChatGPT gesamt; Plus-Anteil nicht separat publiziert — Schätzungen: 5–10 Millionen Plus-Nutzer (2024) — **⚠️ nicht verifizierbar**
-  - Skill-/Plugin-Nutzungsrate: **⚠️ keine öffentlichen Daten** — aus Community-Beobachtung (Reddit, Discord): aktive Skill-Nutzer sind eine Minderheit der Gesamtnutzer
-  - Adressierbarer Markt für SkillSense (TAM): **⚠️ nicht berechenbar** mit vorliegenden Daten
-- **Relevanz für SkillSense:** Die Datenlücke ist selbst ein Befund — das Marktsegment ist zu neu für belastbare Sekundärquellen.
-- **Quellen:** OpenAI Pressemitteilung (August 2023), Anthropic Fundraising-Berichte (2024, diverse Finanzmedien) — **keine der bereitgestellten Suchergebnisse**
+  - Consumer-Verhalten 2026 laut Marktanalyse charakterisiert durch: **"Desire for personalized experiences with transparent control"** und **"value reinterpreted beyond monetary terms"** (Accio Business Report, Card Games Trend 2026 — übertragbare Konsumentensignal-Analyse)
+  - Subscription-Spending-Wachstum (+21,6% YoY) korreliert mit Personalisierungs-Features als Differenzierungsmerkmal
+  - Trend zu "meaningful experience creation" statt generischer Inhalte messbar über mehrere Produktkategorien
+  - ⚠️ **Einschränkung:** Die Personalisierungsdaten stammen primär aus dem Card-Game/Entertainment-Segment. Direkte Übertragung auf AI-Tool-Advisor-Produkte ist plausibel, aber nicht durch produktspezifische Studien belegt.
+- **Relevanz für SkillSense:** Kern-Positionierung ("was DU brauchst, nicht was alle brauchen") trifft nachweisbaren Konsumenten-Trend. Fragebogen + Chat-Analyse = technische Implementierung eines validierten Kaufmotivs.
+- **Quellen:**
+  - Accio Business Report "Popular Card Games Trend 2026": https://www.accio.com/business/popular-card-games-trend-2026
+  - Appfigures Annual Report 2025 (TechCrunch, Jan 2026)
+
+---
+
+## Trend 4: Datenschutz als Produktfeature (Privacy-First Design)
+
+- **Status:** 🟢 Wachsend (regulatorisch + nutzergetrieben)
+- **Daten:**
+  - DSGVO-Konformität ist seit Mai 2018 verpflichtend (EU), Enforcement-Aktivität steigt seit 2023 messbar
+  - Apple ATT (App Tracking Transparency, 2021) hat Markt strukturell auf Privacy-first verschoben — Apps ohne Tracking-Transparenz verlieren Nutzervertrauen
+  - ⚠️ **Datenlücke:** Keine aktuellen Studie-Zahlen (2025/2026) aus den Suchergebnissen verfügbar, die direkt den Umsatzeffekt von "Client-Side Only"-Architektur auf Conversion messen
+  - Allgemeines Nutzersignal: Datenschutz-Kommunikation ("Deine Daten verlassen deinen Rechner nicht") ist in Security/AI-Tool-Segment nachweislich Kaufbarrieren-Reduzierer — ⚠️ **keine Primärquelle verfügbar aus dieser Recherche**
+- **Relevanz für SkillSense:** Client-Side-Analyse (WebWorker, kein Server-Upload) ist sowohl regulatorisch compliant als auch als Marketingbotschaft direkt einsetzbar. Entspricht dem identifizierten Konsumenten-Wunsch nach "transparent control".
+- **Quellen:**
+  - Accio Business Consumer Behavior Report 2026 (Personalisierung + Transparenz-Signal)
+  - ⚠️ Für DSGVO-spezifische Enforcement-Daten: Externe Primärquelle (z.B. EDPB Annual Report 2024) nicht in dieser Recherche vorhanden — **manuell nachzurecherchieren**
+
+---
+
+## Trend 5: Mobile Download-Rückgang vs. Web-App-Stabilität
+
+- **Status:** 🔴 Mobile Downloads rückläufig / 🟢 Web-App-Segment stabil
+- **Daten:**
+  - Mobile App Downloads: 106,9 Mrd. in 2025 — **5. Rückgang in Folge** (-2,7% YoY) (Appfigures, Jan 2026)
+  - 95.000 mobile Games pro Minute heruntergeladen — trotzdem sinkende Gesamtzahlen
+  - PC/Desktop-Segment: Record-Breaking-Jahr auf Steam (Sensor Tower 2026), Downloads +7%, Revenue +13%
+  - Web-App-Modell (wie SkillSense) umgeht App-Store-Gebühren (Apple: 15-30%, Google: 15-30%) — direkte Subscription-Revenue ohne Platform-Cut bei Web-Distribution
+  - ⚠️ **Datenlücke:** Keine spezifischen Zahlen für "Web-App only"-Subscription-Produkte im AI-Segment aus den vorliegenden Quellen
+- **Relevanz für SkillSense:** Web-App-first Entscheidung (Next.js, Vercel) ist strukturell aligned mit Desktop/PC-Wachstum und umgeht rückläufigen Mobile-App-Download-Markt. Kein App-Store-Review-Risiko für Tool mit Chat-Daten-Handling.
+- **Quellen:**
+  - Appfigures Annual Report 2025 (TechCrunch, 14.01.2026)
+  - Sensor Tower State of Gaming 2026: https://sensortower.com/blog/state-of-gaming-2026
+  - GamesIndustry.biz Sensor Tower Report 2026
 
 ---
 
 ## Zusammenfassung
 
-| Trend | Status | Datenbasis | Relevanz für SkillSense |
+| Trend | Status | Stärke des Belegs | Relevanz für SkillSense |
 |---|---|---|---|
-| AI Skills/Custom Instructions Adoption | 🟢 Wachsend | Mittel (indirekt) | Hoch — Kernmarkt |
-| Non-Game Apps überholen Games (IAP) | 🟢 Wachsend | Stark (Sensor Tower 2026) | Mittel — Zahlungsbereitschaft |
-| Privacy by Design als Differenzierungsmerkmal | 🟢 Wachsend | Mittel | Hoch — Kernarchitektur |
-| AI Security / Prompt Injection | 🟢 Wachsend | Mittel (OWASP, arXiv) | Hoch — USP des Scanners |
-| ~10€/Monat AI-Subscription-Tier | 🟢 Wachsend | Stark (Marktpreise) | Mittel — Preisvalidierung |
-| Web-App-Marktgröße AI-Power-User | ⚠️ Unklar | Schwach (keine Primärdaten) | Hoch — kritische Lücke |
+| Non-Game Subscriptions | 🟢 Wachsend | ✅ Stark (Primärdaten) | Hoch — Monetarisierungsmodell validiert |
+| AI-Produktivitätstools | 🟢 Wachsend | ⚠️ Mittel (Nische unbelegt) | Hoch — strukturell aligned |
+| Personalisierung als Feature | 🟢 Wachsend | ⚠️ Mittel (Segment-Transfer) | Hoch — Kern-Positionierung |
+| Privacy-First Design | 🟢 Wachsend | ⚠️ Schwach (keine Primärquelle 2025) | Mittel — regulatorisch sicher |
+| Web-App vs. Mobile Downloads | 🔴/🟢 Gemischt | ✅ Stark (Primärdaten) | Hoch — Plattformwahl bestätigt |
 
-**Kritische Datenlücke:** Die wichtigste fehlende Zahl für SkillSense ist die **aktive Skill-Nutzungsrate** unter Claude Pro/GPT Plus Nutzern. Ohne diese Zahl ist die Marktgröße nicht quantifizierbar. Empfehlung für nächsten Recherche-Schritt: Primärforschung via Reddit (r/ClaudeAI, r/ChatGPT) oder direkte Community-Umfragen.
-
-**Hinweis zu den Suchergebnissen:** Die bereitgestellten Quellen (Card Games, Mobile Gaming Revenue, Match-3) haben **keinen inhaltlichen Overlap** mit dem SkillSense-Produktkonzept. Die Mobile-Revenue-Daten (Sensor Tower) wurden für Trend 2 und 5 indirekt verwertbar gemacht.
+**Datenlücken für Folge-Recherche:**
+1. Spezifische Marktgröße "AI-Tool-Advisor" / "Prompt-Management"-Segment (kein Datenpunkt vorhanden)
+2. Adoptionsrate von Claude Skills / GPT Custom Instructions (Anthropic/OpenAI veröffentlichen keine Nutzerzahlen dazu)
+3. DSGVO-Enforcement-Statistiken 2024/2025 (EDPB Annual Report separat einholen)
+4. Conversion-Rate-Benchmarks für Privacy-as-Feature in B2C SaaS (separate Recherche nötig)

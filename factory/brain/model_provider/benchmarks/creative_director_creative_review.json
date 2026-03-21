@@ -1,0 +1,115 @@
+{
+  "agent_name": "creative_director",
+  "pass_name": "creative_review",
+  "timestamp": "2026-03-21T11:09:32.583191",
+  "results": [
+    {
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "input_tokens": 62,
+      "output_tokens": 783,
+      "cost_usd": 0.00014466,
+      "latency_ms": 6029,
+      "quality_score": 0.9,
+      "output_length": 3415,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "input_tokens": 55,
+      "output_tokens": 155,
+      "cost_usd": 0.00010125,
+      "latency_ms": 2746,
+      "quality_score": 0.5,
+      "output_length": 932,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "gemini-2.5-flash",
+      "provider": "google",
+      "input_tokens": 48,
+      "output_tokens": 1020,
+      "cost_usd": 0.0025644,
+      "latency_ms": 5372,
+      "quality_score": 0.5,
+      "output_length": 197,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "provider": "anthropic",
+      "input_tokens": 56,
+      "output_tokens": 438,
+      "cost_usd": 0.002246,
+      "latency_ms": 5986,
+      "quality_score": 0.9,
+      "output_length": 1705,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "o3-mini",
+      "provider": "openai",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "quality_score": 0.0,
+      "output_length": 0,
+      "truncated": false,
+      "error": "litellm.UnsupportedParamsError: O-series models don't support temperature=0.0. Only temperature=1 is supported. To drop unsupported openai params from the call, set `litellm.drop_params = True`"
+    },
+    {
+      "model": "gpt-4o",
+      "provider": "openai",
+      "input_tokens": 55,
+      "output_tokens": 119,
+      "cost_usd": 0.0013275000000000001,
+      "latency_ms": 2338,
+      "quality_score": 0.5,
+      "output_length": 712,
+      "truncated": false,
+      "error": null
+    }
+  ],
+  "best_value": {
+    "model": "mistral-small-latest",
+    "provider": "mistral",
+    "input_tokens": 62,
+    "output_tokens": 783,
+    "cost_usd": 0.00014466,
+    "latency_ms": 6029,
+    "quality_score": 0.9,
+    "output_length": 3415,
+    "truncated": false,
+    "error": null
+  },
+  "best_quality": {
+    "model": "mistral-small-latest",
+    "provider": "mistral",
+    "input_tokens": 62,
+    "output_tokens": 783,
+    "cost_usd": 0.00014466,
+    "latency_ms": 6029,
+    "quality_score": 0.9,
+    "output_length": 3415,
+    "truncated": false,
+    "error": null
+  },
+  "cheapest": {
+    "model": "gpt-4o-mini",
+    "provider": "openai",
+    "input_tokens": 55,
+    "output_tokens": 155,
+    "cost_usd": 0.00010125,
+    "latency_ms": 2746,
+    "quality_score": 0.5,
+    "output_length": 932,
+    "truncated": false,
+    "error": null
+  }
+}

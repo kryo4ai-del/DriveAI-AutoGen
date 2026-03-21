@@ -1,0 +1,47 @@
+{
+  "line": "askfin_android",
+  "profile": "dev",
+  "chain": {
+    "swift_developer": {
+      "model": "claude-haiku-4-5",
+      "provider": "anthropic",
+      "reason": "Tier default (no benchmark)",
+      "expected_cost": 0.01
+    },
+    "bug_hunter": {
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "Best value (q=0.90, v=4934)",
+      "expected_cost": 0.0001824
+    },
+    "creative_director": {
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "Best value (q=0.90, v=6221)",
+      "expected_cost": 0.00014466
+    },
+    "ux_psychology": {
+      "model": "claude-haiku-4-5",
+      "provider": "anthropic",
+      "reason": "Tier default (no benchmark)",
+      "expected_cost": 0.01
+    },
+    "refactor_agent": {
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "Best value (q=1.00, v=17361)",
+      "expected_cost": 5.76e-05
+    },
+    "test_generator": {
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "Best value (q=0.90, v=13146)",
+      "expected_cost": 6.846e-05
+    }
+  },
+  "expected_cost": 0.02045312,
+  "target_errors": 0,
+  "data_points": 0,
+  "confidence": "high",
+  "last_optimized": "2026-03-21T11:10:21.942744"
+}

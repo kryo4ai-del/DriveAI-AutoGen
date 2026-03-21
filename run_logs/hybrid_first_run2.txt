@@ -1,0 +1,1532 @@
+Project         : askfin_android (explicit (--project flag))
+Project config  : AskFin Android v1.0.0 [development]
+Project lines   : ios (disabled), android (active), web (disabled), backend (disabled)
+Project config  : AskFin Android v1.0.0
+Active lines    : android
+Extraction      : kotlin
+Factory Brain   : 25 entries (2 failure_case, 5 ux_insight, 2 motivational_mechanic, 6 technical_pattern, 1 success_pattern, 9 error_pattern)
+Platform roles  : android (agents receive platform-specific instructions)
+============================================================
+DriveAI AutoGen — Multi-Agent Conversation
+============================================================
+TheBrain        : active (9 models, anthropic, openai, google, mistral providers)
+Project context : loaded
+Memory          : entries loaded
+Profile         : dev
+Env profile     : dev
+Model           : mistral/mistral-small-latest
+Run mode        : standard
+Approval mode   : auto
+Active agents   : driveai_lead, product_strategist, roadmap_agent, ios_architect, swift_developer, reviewer, bug_hunter, refactor_agent, test_generator, content_script_agent, change_watch_agent, accessibility_agent, opportunity_agent, legal_risk_agent, project_bootstrap_agent, autonomous_project_orchestrator, creative_director, ux_psychology
+Disabled agents : android_architect, kotlin_developer, web_architect, webapp_developer
+Project         : askfin_android
+Task            : Generate a Kotlin data class TrainingConfig with: sessionDuration (Int, default 300), questionsPerSession (Int, default 10), adaptiveMode (Boolean, default true), difficultyLevel (DifficultyLevel enum with EASY/MEDIUM/HARD). Package: com.driveai.askfin.data.models.
+============================================================
+
+Code extraction : kotlin (via KotlinCodeExtractor)
+Inline type dedup: 4 file(s) cleaned
+Kotlin files extracted:
+  - 8 Views
+  - 4 ViewModels
+  - 23 Models
+  - 1 Helpers
+
+Xcode integration completed
+Files integrated:
+  - ConfigEvent.kt
+  - ConfigUpdateResult.kt
+  - SessionExpectation.kt
+  - TrainingConfigDao.kt
+  - TrainingConfigDto.kt
+  - TrainingConfigEvent.kt
+  - TrainingRepositoryImpl.kt
+  - TrainingSessionRecommendation.kt
+  - UserPracticeHabit.kt
+  - OnboardingStep.kt
+  - TrainingConfigEvent.kt
+  - TrainingSessionFlowViewModel.kt
+  - AccessibleSlider.kt
+  - AccessibleTextField.kt
+  - DifficultyLevelSelector.kt
+Skipped (15 already in project):
+  - DifficultyLevel.kt (exists: app\src\main\java\com\driveai\askfin\data\models\DifficultyLevel.kt)
+  - DifficultyLevelConverter.kt (exists: Models\DifficultyLevelConverter.kt)
+  - GeneratedHelpers.kt (exists: app\src\test\java\com\driveai\askfin\data\models\GeneratedHelpers.kt)
+  - ScoringCalculator.kt (exists: Models\ScoringCalculator.kt)
+  - SessionEntity.kt (exists: Models\SessionEntity.kt)
+  - TestModel.kt (exists: Models\TestModel.kt)
+  - TrainingConfig.kt (exists: Models\TrainingConfig.kt)
+  - TrainingConfigEntity.kt (exists: Models\TrainingConfigEntity.kt)
+  - TrainingConfigTest.kt (exists: Models\TrainingConfigTest.kt)
+  - TrainingMode.kt (exists: app\src\main\java\com\driveai\askfin\data\models\TrainingMode.kt)
+  - ScoringService.kt (exists: Services\ScoringService.kt)
+  - TestUiState.kt (exists: ViewModels\TestUiState.kt)
+  - TrainingViewModel.kt (exists: app\src\main\java\com\driveai\askfin\ui\viewmodels\TrainingViewModel.kt)
+  - DifficultyLevelDropdown.kt (exists: Views\DifficultyLevelDropdown.kt)
+  - TrainingConfigScreen.kt (exists: Views\TrainingConfigScreen.kt)
+  Implementation summary: 9788 chars for review context
+
+--- Bug Hunter pass ---
+  Factory knowledge: 752 chars injected
+  Model: mistral-small-latest (mistral)
+  Tokens: 8924 in + 1379 out, cost: $0.000784
+  Review digest: 600 chars captured
+
+--- Creative Director pass (advisory) ---
+  Prior review context: 646 chars injected
+  Factory knowledge: 1010 chars injected
+  Model: mistral-small-latest (mistral)
+  Tokens: 9934 in + 505 out, cost: $0.000687
+  Review digest: 600 chars captured
+  CD rating candidates (1):
+    [creative_director] msg #0: conditional_pass ←
+  Selected: conditional_pass from creative_director
+  Reason: last creative_director rating (msg #0, 1 CD rating(s) found, 1 total candidate(s))
+  [CD GATE] Conditional pass — from creative_director, continuing.
+
+--- UX Psychology pass (advisory) ---
+  Prior review context: 1279 chars injected
+  Model: mistral-small-latest (mistral)
+  Tokens: 9800 in + 715 out, cost: $0.000717
+  Review digest: 600 chars captured
+
+--- Refactor pass ---
+  Prior review context: 1906 chars injected
+  Factory knowledge: 896 chars injected
+  Model: mistral-small-latest (mistral)
+  Tokens: 9652 in + 2718 out, cost: $0.001068
+  Review digest: 600 chars captured
+
+--- Test generation pass ---
+
+[1;31mGive Feedback / Get Help: https://github.com/BerriAI/litellm/issues/new[0m
+LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
+
+
+[1;31mProvider List: https://docs.litellm.ai/docs/providers[0m
+
+  Model: claude-haiku-4-5 (anthropic, fallback)
+  Tokens: 10969 in + 4096 out, cost: $0.025159
+
+Knowledge proposals: 1 candidates → C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory_knowledge\proposals\proposal_20260321_104053.json
+
+============================================================
+Conversation complete.
+Messages exchanged : 10 (impl) + 1 (bugs) + 1 (creative) + 1 (ux_psych) + 1 (refactor) + 1 (tests)
+Run mode           : standard
+Approval mode      : auto
+Stop reason        : Maximum number of messages 10 reached, current message count: 10
+Memory updates:
+  decisions          : +5
+  architecture notes : +8
+  implementation notes: +12
+  review notes       : +12
+Kotlin files saved  : 36 new, 0 unchanged
+Xcode integration  : 15 copied, 1 unchanged
+Memory saved to    : memory/memory_store.json
+Log saved to       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\logs\driveai_run_20260321_104053.txt
+Delivery package   : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260321_104053
+Sprint report      : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260321_104053\sprint_report.md
+Run manifest       : C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\delivery\exports\run_20260321_104053\run_manifest.json
+============================================================
+
+Git auto commit:
+  - changes staged
+  - commit created
+  [git] WARNING: push failed: remote: error: Trace: 7e4041e1b6754b9a3326657a51a1b1d9f62c1779d2e958ac49306f3385f14c53        
+remote: error: See https://gh.io/lfs for more information.        
+remote: error: File projects/askfin_web/node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node is 129.46 MB; this exceeds GitHub's file size limit of 100.00 MB        
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.        
+To https://github.com/kryo4ai-del/DriveAI-AutoGen.git
+ ! [remote rejected]   main -> main (pre-receive hook declined)
+error: failed to push some refs to 'https://github.com/kryo4ai-del/DriveAI-AutoGen.git'
+  - push skipped (see warning above)
+
+============================================================
+  Operations Layer (kotlin)
+============================================================
+
+[OpsLayer] Pass 1: Output Integrator
+
+[OutputIntegrator] Starting integration for project: askfin_android
+[OutputIntegrator] Output directory: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android\generated
+  [generated_code] 0 files
+[OutputIntegrator] Collected 0 artifacts
+[OutputIntegrator] No artifacts found. Nothing to integrate.
+
+==================================================
+  Output Integrator Summary
+==================================================
+  Artifacts collected:   0
+  Artifacts normalized:  0
+  Artifacts written:     0
+  Truncated detected:    0
+  Skipped (duplicates):  0
+==================================================
+
+
+[OpsLayer] Pass 1: Completion Verifier
+
+[CompletionVerifier] Verifying project: askfin_android
+[CompletionVerifier] Generated dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android\generated
+[CompletionVerifier] Specs dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android\specs
+[CompletionVerifier] No spec files found
+[CompletionVerifier] No specs found -- using project-evidence mode
+[CompletionVerifier] Project Kotlin files: 463
+[CompletionVerifier] Generated artifacts: 0
+[CompletionVerifier] Compile hygiene blocking: 0
+
+=======================================================
+  Completion Verifier Summary
+=======================================================
+  Project:           askfin_android
+  Spec source:       project-evidence
+  Health status:     MOSTLY_COMPLETE
+  Completeness:      95%
+-------------------------------------------------------
+  Expected files:    463
+  Actual files:      0
+  Complete files:    463
+  Incomplete files:  0
+  Missing files:     0
+=======================================================
+
+[CompletionVerifier] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\completion\askfin_android_completion.json
+
+[OpsLayer] Compile Hygiene Validator
+
+[CompileHygiene] Validating project: askfin_android
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+[CompileHygiene] Kotlin files found: 425
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_android
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+  Files scanned:  425
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   139
+    Blocking:     136
+    Warnings:     3
+
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:9
+          Duplicate class 'Answer' defined in 2 files (top-level) (+6 nested, ignored)
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:16
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt:11
+          Duplicate class 'AnswerTest' defined in 2 files (top-level)
+          also in: Models/AnswerTest.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/AppDatabase.kt:18
+          Duplicate class 'AppDatabase' defined in 2 files (top-level)
+          also in: Models/AppDatabase.kt:18
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/AskFinApplication.kt:7
+          Duplicate class 'AskFinApplication' defined in 2 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/data/models/AskFinApplication.kt:7
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CategoryCompetence.kt:10
+          Duplicate class 'CategoryCompetence' defined in 2 files (top-level)
+          also in: Models/CategoryCompetence.kt:7
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CategoryResult.kt:7
+          Duplicate class 'CategoryResult' defined in 2 files (top-level)
+          also in: Models/CategoryResult.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CategoryScore.kt:4
+          Duplicate class 'CategoryScore' defined in 2 files (top-level)
+          also in: Models/CategoryScore.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CompetenceCalculator.kt:21
+          Duplicate class 'CompetenceCalculator' defined in 2 files (top-level)
+          also in: Models/CompetenceCalculator.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CompetenceLevel.kt:8
+          Duplicate class 'CompetenceLevel' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/CompetenceLevel.kt:6
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt:13
+          Duplicate class 'CompetenceLevelTest' defined in 2 files (top-level)
+          also in: Models/CompetenceLevelTest.kt:13
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CompetenceCalculator.kt:13
+          Duplicate class 'ConfidenceIntervalCalculator' defined in 2 files (top-level)
+          also in: Models/ConfidenceIntervalCalculator.kt:10
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ConfidenceIntervalCalculatorTest.kt:10
+          Duplicate class 'ConfidenceIntervalCalculatorTest' defined in 2 files (top-level)
+          also in: Models/ConfidenceIntervalCalculatorTest.kt:10
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt:17
+          Duplicate class 'DateTimeConverter' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/DateTimeConverter.kt:17
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/DifficultyTest.kt:9
+          Duplicate class 'DifficultyTest' defined in 2 files (top-level)
+          also in: Models/DifficultyTest.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:17
+          Duplicate interface 'ExamRepository' defined in 3 files (top-level) (+1 nested, ignored)
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt:17
+          also in: Models/ExamRepository.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/ExamResult.kt:8
+          Duplicate class 'ExamResult' defined in 3 files (top-level) (+2 nested, ignored)
+          also in: app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:11
+          also in: Models/ExamResult.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt:35
+          Duplicate class 'ExamResultState' defined in 2 files (top-level)
+          also in: ViewModels/ExamResultState.kt:22
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt:50
+          Duplicate class 'ExamResultViewModel' defined in 2 files (top-level)
+          also in: ViewModels/ExamResultState.kt:37
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/ExamService.kt:6
+          Duplicate class 'ExamService' defined in 2 files (top-level)
+          also in: Services/ExamService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:10
+          Duplicate class 'ExamSession' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/ExamSession.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamSimulationViewModel.kt:14
+          Duplicate class 'ExamSimulationViewModel' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: ViewModels/ExamSimulationViewModel.kt:3
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt:26
+          Duplicate class 'ExamSimulationViewModelTest' defined in 2 files (top-level)
+          also in: Models/ExamSimulationViewModelTest.kt:26
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/ExamStateTransitions.kt:4
+          Duplicate object 'ExamStateTransitions' defined in 2 files (top-level)
+          also in: Models/ExamStateTransitions.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/ExamTimerService.kt:8
+          Duplicate class 'ExamTimerService' defined in 2 files (top-level)
+          also in: Services/ExamTimerService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamViewModel.kt:26
+          Duplicate class 'ExamViewModel' defined in 2 files (top-level)
+          also in: ViewModels/ExamViewModel.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapViewModel.kt:19
+          Duplicate class 'FilterOption' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: Models/FilterOption.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/GapAnalysisService.kt:69
+          Duplicate class 'GapAnalysisService' defined in 2 files (top-level)
+          also in: Services/GapAnalysisService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/GetSkillsUseCase.kt:13
+          Duplicate class 'GetSkillsUseCase' defined in 2 files (top-level)
+          also in: Models/GetSkillsUseCase.kt:8
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt:14
+          Duplicate class 'HapticFeedback' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/HapticFeedback.kt:14
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/HapticModule.kt:15
+          Duplicate object 'HapticModule' defined in 2 files (top-level)
+          also in: Models/HapticModule.kt:14
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt:15
+          Duplicate class 'MainActivity' defined in 2 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/MainActivity.kt:15
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/MilestoneEntity.kt:8
+          Duplicate class 'MilestoneEntity' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/MilestoneEntity.kt:8
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/MilestoneUiModel.kt:8
+          Duplicate class 'MilestoneUiModel' defined in 2 files (top-level)
+          also in: Models/MilestoneUiModel.kt:8
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:8
+          Duplicate class 'Question' defined in 3 files (top-level) (+7 nested, ignored)
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:15
+          also in: Models/Question.kt:1
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt:10
+          Duplicate class 'QuestionCategoryTest' defined in 2 files (top-level)
+          also in: Models/QuestionCategoryTest.kt:10
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/QuestionListUiState.kt:7
+          Duplicate class 'QuestionListUiState' defined in 2 files (top-level)
+          also in: Models/QuestionListUiState.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/ReadinessCalculationService.kt:32
+          Duplicate class 'ReadinessCalculationService' defined in 2 files (top-level)
+          also in: Services/ReadinessCalculationService.kt:20
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/ReadinessDao.kt:11
+          Duplicate interface 'ReadinessDao' defined in 2 files (top-level)
+          also in: Models/ReadinessDao.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ReadinessRepository.kt:15
+          Duplicate interface 'ReadinessRepository' defined in 2 files (top-level) (+3 nested, ignored)
+          also in: Models/ReadinessRepository.kt:15
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/ReadinessScoreHistoryEntity.kt:13
+          Duplicate class 'ReadinessScoreHistoryEntity' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/ReadinessScoreHistoryEntity.kt:13
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/ReadinessScoreSnapshot.kt:12
+          Duplicate class 'ReadinessScoreSnapshot' defined in 2 files (top-level)
+          also in: Models/ReadinessScoreSnapshot.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessScoreViewModel.kt:7
+          Duplicate class 'ReadinessScoreViewModel' defined in 2 files (top-level)
+          also in: ViewModels/ReadinessScoreViewModel.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessUiState.kt:64
+          Duplicate class 'ReadinessViewModel' defined in 3 files (top-level) (+1 nested, ignored)
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessViewModel.kt:20
+          also in: ViewModels/ReadinessViewModel.kt:2
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelInitTest.kt:22
+          Duplicate class 'ReadinessViewModelInitTest' defined in 2 files (top-level)
+          also in: Models/ReadinessViewModelInitTest.kt:22
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelRefreshTest.kt:4
+          Duplicate class 'ReadinessViewModelRefreshTest' defined in 2 files (top-level)
+          also in: Models/ReadinessViewModelRefreshTest.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/RecencyWeightCalculator.kt:8
+          Duplicate class 'RecencyWeightCalculator' defined in 2 files (top-level)
+          also in: Models/RecencyWeightCalculator.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/RepositoryModule.kt:14
+          Duplicate object 'RepositoryModule' defined in 2 files (top-level)
+          also in: Models/RepositoryModule.kt:14
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/SkillMapDao.kt:10
+          Duplicate interface 'SkillMapDao' defined in 2 files (top-level)
+          also in: Models/SkillMapDao.kt:10
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/SkillMapData.kt:7
+          Duplicate class 'SkillMapData' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/SkillMapData.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/SkillMapDatabase.kt:12
+          Duplicate class 'SkillMapDatabase' defined in 3 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt:18
+          also in: Models/SkillMapDatabase.kt:12
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt:27
+          Duplicate object 'SkillMapModule' defined in 2 files (top-level)
+          also in: Models/SkillMapModule.kt:19
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/SkillMapRepositoryModule.kt:9
+          Duplicate class 'SkillMapRepositoryModule' defined in 2 files (top-level)
+          also in: Models/SkillMapRepositoryModule.kt:3
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/SkillMapResult.kt:11
+          Duplicate class 'SkillMapResult' defined in 2 files (top-level)
+          also in: Models/SkillMapResult.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/SkillMapService.kt:6
+          Duplicate class 'SkillMapService' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Services/SkillMapService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/screens/SkillMapScreen.kt:26
+          Duplicate class 'SkillMapViewModel' defined in 4 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapUiState.kt:61
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapViewModel.kt:37
+          also in: ViewModels/SkillMapViewModel.kt:2
+  [BLOCK] FK-012  Models/TrainingConfigEvent.kt:2
+          Duplicate class 'TrainingConfigEvent' defined in 2 files (top-level)
+          also in: ViewModels/TrainingConfigEvent.kt:17
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt:11
+          Duplicate class 'TrainingModeTest' defined in 2 files (top-level)
+          also in: Models/TrainingModeTest.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingModeViewModel.kt:37
+          Duplicate class 'TrainingModeViewModel' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: ViewModels/TrainingModeViewModel.kt:4
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/TrainingSessionService.kt:13
+          Duplicate interface 'TrainingSessionService' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: Services/TrainingSessionService.kt:13
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingUiState.kt:79
+          Duplicate class 'TrainingViewModel' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: ViewModels/TrainingViewModel.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/TrendCalculator.kt:17
+          Duplicate object 'TrendCalculator' defined in 2 files (top-level)
+          also in: Models/TrendCalculator.kt:11
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:22
+          Duplicate class 'UserAnswer' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: Models/UserAnswer.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/UserAnswerEntity.kt:8
+          Duplicate class 'UserAnswerEntity' defined in 3 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/data/models/DriveAiDatabase.kt:24
+          also in: Models/UserAnswerEntity.kt:3
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/UserPerformanceStats.kt:14
+          Duplicate class 'UserPerformanceStats' defined in 3 files (top-level)
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:21
+          also in: Models/UserPerformanceStats.kt:14
+  [BLOCK] FK-014  Models/ExamSimulationViewModelTest.kt
+          Type 'AfterEach' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt
+  [BLOCK] FK-014  Models/QuestionCategoryTest.kt
+          Type 'AllCategoriesDefined' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt
+  [BLOCK] FK-014  Models/AnimationSpecs.kt
+          Type 'AnimationSpec' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/AnimationSpecs.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'Answers' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/MainActivity.kt
+          Type 'AskFinNavHost' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/MainActivity.kt
+          Type 'AskFinTheme' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'Blank' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/HapticFeedback.kt
+          Type 'Build' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt
+  [BLOCK] FK-014  Models/QuestionCategoryTest.kt
+          Type 'Categories' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt
+  [BLOCK] FK-014  Models/QuestionCategoryTest.kt
+          Type 'CategoryFiltering' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt
+  [BLOCK] FK-014  Models/AnswerButton.kt
+          Type 'Check' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt
+  [BLOCK] FK-014  Views/MilestoneRow.kt
+          Type 'CheckCircle' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/MilestoneRow.kt
+  [BLOCK] FK-014  Models/AnswerButton.kt
+          Type 'Close' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt
+  [BLOCK] FK-014  Models/ReadinessScoreHistoryEntity.kt
+          Type 'ColumnInfo' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/local/ReadinessScoreHistoryEntity.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/MainActivity.kt
+          Type 'ComponentActivity' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt
+  [BLOCK] FK-014  Models/HapticFeedback.kt
+          Type 'ContextCompat' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'Copied' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'Copy' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'Create' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/CompetenceLevelTest.kt
+          Type 'CsvSource' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/ui/components/AskFinTheme.kt
+          Type 'DarkColorScheme' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/theme/AskFinTheme.kt
+  [BLOCK] FK-014  Models/CompetenceLevelTest.kt
+          Type 'DeterminismTests' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt
+  [BLOCK] FK-014  ViewModels/OnboardingStep.kt
+          Type 'DiagnosticService' referenced in 2 files but never declared in project
+          also in: ViewModels/TrainingSessionFlowViewModel.kt
+  [BLOCK] FK-014  Models/DifficultyTest.kt
+          Type 'Difficulties' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/DifficultyTest.kt
+  [BLOCK] FK-014  Views/ShimmerLoader.kt
+          Type 'EaseInOutCubic' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/ShimmerLoader.kt
+  [BLOCK] FK-014  Views/SkillMapHeader.kt
+          Type 'Ellipsis' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/SkillMapHeader.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'Empty' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/TrainingModeTest.kt
+          Type 'EnumConversion' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt
+  [BLOCK] FK-014  Models/CompetenceLevelTest.kt
+          Type 'EnumPropertiesTests' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt
+  [BLOCK] FK-014  Models/TrainingModeTest.kt
+          Type 'EnumValues' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'EqualityAndCopying' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Views/ReadinessErrorContent.kt
+          Type 'ErrorOutline' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/ReadinessErrorContent.kt
+  [BLOCK] FK-014  Models/ExamQuestionScreenTest.kt
+          Type 'ExamQuestionScreen' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ExamQuestionScreenTest.kt
+  [BLOCK] FK-014  Models/ExamSimulationViewModelTest.kt
+          Type 'ExperimentalCoroutinesApi' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt
+  [BLOCK] FK-014  Models/CompetenceLevelTest.kt
+          Type 'FromScoreBoundaryTests' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt
+  [BLOCK] FK-014  Views/CompetenceBar.kt
+          Type 'Gray' referenced in 3 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt
+          also in: app/src/main/java/com/driveai/askfin/ui/components/CompetenceBar.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/di/HapticModule.kt
+          Type 'HapticFeedbackConstants' referenced in 3 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/CountdownTimer.kt
+          also in: app/src/main/java/com/driveai/askfin/ui/screens/ExamSimulationScreen.kt
+  [BLOCK] FK-014  Models/ReadinessUiState.kt
+          Type 'IOException' referenced in 3 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/ReadinessUiState.kt
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt
+  [BLOCK] FK-014  Models/ExamSimulationViewModelTest.kt
+          Type 'InstantTaskExecutorRule' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'InvalidInputs' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/ExamSimulationViewModelTest.kt
+          Type 'JvmField' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt
+  [BLOCK] FK-014  Models/GeneratedHelpers.kt
+          Type 'JvmInline' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/ui/components/FeedbackPanel.kt
+          Type 'LaunchedEffect' referenced in 5 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/TrendArrow.kt
+          also in: app/src/main/java/com/driveai/askfin/ui/screens/ExamQuestionScreen.kt
+          also in: app/src/main/java/com/driveai/askfin/ui/screens/ReadinessScreen.kt
+          also in: app/src/main/java/com/driveai/askfin/ui/screens/TrainingScreen.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/ui/components/AskFinTheme.kt
+          Type 'LightColorScheme' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/theme/AskFinTheme.kt
+  [BLOCK] FK-014  Views/CompetenceBar.kt
+          Type 'LocalAccessibilityManager' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/CompetenceBar.kt
+  [BLOCK] FK-014  Views/CompetenceBar.kt
+          Type 'LocalContentColor' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/CompetenceBar.kt
+  [BLOCK] FK-014  Views/MilestoneRow.kt
+          Type 'Lock' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/MilestoneRow.kt
+  [BLOCK] FK-014  Views/MotivationalMessage.kt
+          Type 'Medium' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/MotivationalMessage.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'Multiple' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/ReadinessViewModelInitTest.kt
+          Type 'MutableSharedFlow' referenced in 3 files but never declared in project
+          also in: ViewModels/TrainingConfigEvent.kt
+          also in: app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelInitTest.kt
+  [BLOCK] FK-014  Models/AnswerButton.kt
+          Type 'Normal' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt
+  [BLOCK] FK-014  Views/EmptySkillState.kt
+          Type 'Outlined' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/EmptySkillState.kt
+  [BLOCK] FK-014  Models/CompetenceLevelTest.kt
+          Type 'ParameterizedTest' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt
+  [BLOCK] FK-014  Models/LoadingScreen.kt
+          Type 'Polite' referenced in 3 files but never declared in project
+          also in: Views/AccessibleSlider.kt
+          also in: app/src/main/java/com/driveai/askfin/ui/screens/LoadingScreen.kt
+  [BLOCK] FK-014  Models/DateTimeConverter.kt
+          Type 'ProvidedTypeConverter' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt
+  [BLOCK] FK-014  Models/ConfidenceIntervalCalculatorTest.kt
+          Type 'Random' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ConfidenceIntervalCalculatorTest.kt
+  [BLOCK] FK-014  Views/SkillMapHeader.kt
+          Type 'Refresh' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/SkillMapHeader.kt
+  [BLOCK] FK-014  Views/ShimmerLoader.kt
+          Type 'RepeatMode' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/ShimmerLoader.kt
+  [BLOCK] FK-014  Views/ShimmerLoader.kt
+          Type 'Reverse' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/ShimmerLoader.kt
+  [BLOCK] FK-014  Models/SkillMapModule.kt
+          Type 'Room' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt
+  [BLOCK] FK-014  Models/ExamSimulationViewModelTest.kt
+          Type 'StandardTestDispatcher' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt
+  [BLOCK] FK-014  Views/ExamProgressBar.kt
+          Type 'Transparent' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/ExamProgressBar.kt
+  [BLOCK] FK-014  Views/TrendBadge.kt
+          Type 'TrendingDown' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/TrendBadge.kt
+  [BLOCK] FK-014  Views/TrendBadge.kt
+          Type 'TrendingFlat' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/TrendBadge.kt
+  [BLOCK] FK-014  Views/TrendBadge.kt
+          Type 'TrendingUp' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/ui/components/TrendBadge.kt
+  [BLOCK] FK-014  Models/AnswerTest.kt
+          Type 'ValidAnswers' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+  [BLOCK] FK-014  Models/CompetenceLevelTest.kt
+          Type 'ValueSource' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt
+  [BLOCK] FK-014  Models/HapticFeedback.kt
+          Type 'VibrationEffect' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt
+  [BLOCK] FK-014  Models/HapticFeedback.kt
+          Type 'Vibrator' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt
+  [BLOCK] FK-014  Models/HapticFeedback.kt
+          Type 'VibratorManager' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt
+  [BLOCK] FK-014  Models/LocalDateTimeConverters.kt
+          Type 'ZoneId' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/LocalDateTimeConverters.kt
+  [BLOCK] FK-014  Models/DateTimeConverter.kt
+          Type 'ZoneOffset' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Answer.kt
+          Generic type name 'Answer' has high collision risk. Consider prefixing with feature/domain name.
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Category.kt
+          Generic type name 'Category' has high collision risk. Consider prefixing with feature/domain name.
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Question.kt
+          Generic type name 'Question' has high collision risk. Consider prefixing with feature/domain name.
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_android_compile_hygiene.json
+
+[OpsLayer] Type Stub Generator — 72 FK-014 blocker(s)
+[StubGen] Processing 72 FK-014 finding(s)...
+  [STUB] AfterEach (struct) -> Models\AfterEach.kt
+  [STUB] AllCategoriesDefined (struct) -> Models\AllCategoriesDefined.kt
+  [STUB] AnimationSpec (struct) -> Models\AnimationSpec.kt
+  [STUB] Answers (struct) -> Models\Answers.kt
+  [STUB] Blank (struct) -> Models\Blank.kt
+  [STUB] Build (struct) -> Models\Build.kt
+  [STUB] Categories (struct) -> Models\Categories.kt
+  [STUB] CategoryFiltering (struct) -> Models\CategoryFiltering.kt
+  [STUB] Check (struct) -> Models\Check.kt
+  [STUB] CheckCircle (struct) -> Models\CheckCircle.kt
+  [STUB] Close (struct) -> Models\Close.kt
+  [STUB] ColumnInfo (struct) -> Models\ColumnInfo.kt
+  [STUB] ComponentActivity (struct) -> Models\ComponentActivity.kt
+  [STUB] ContextCompat (struct) -> Models\ContextCompat.kt
+  [STUB] Copied (struct) -> Models\Copied.kt
+  [STUB] Copy (struct) -> Models\Copy.kt
+  [STUB] Create (struct) -> Models\Create.kt
+  [STUB] CsvSource (struct) -> Models\CsvSource.kt
+  [STUB] DarkColorScheme (struct) -> Models\DarkColorScheme.kt
+  [STUB] DeterminismTests (struct) -> Models\DeterminismTests.kt
+  [STUB] DiagnosticService (class) -> Services\DiagnosticService.kt
+  [STUB] Difficulties (struct) -> Models\Difficulties.kt
+  [STUB] EaseInOutCubic (struct) -> Models\EaseInOutCubic.kt
+  [STUB] Ellipsis (struct) -> Models\Ellipsis.kt
+  [STUB] Empty (struct) -> Models\Empty.kt
+  [STUB] EnumConversion (struct) -> Models\EnumConversion.kt
+  [STUB] EnumPropertiesTests (struct) -> Models\EnumPropertiesTests.kt
+  [STUB] EnumValues (struct) -> Models\EnumValues.kt
+  [STUB] EqualityAndCopying (struct) -> Models\EqualityAndCopying.kt
+  [STUB] ErrorOutline (struct) -> Models\ErrorOutline.kt
+  [STUB] ExperimentalCoroutinesApi (struct) -> Models\ExperimentalCoroutinesApi.kt
+  [STUB] FromScoreBoundaryTests (struct) -> Models\FromScoreBoundaryTests.kt
+  [STUB] Gray (struct) -> Models\Gray.kt
+  [STUB] HapticFeedbackConstants (struct) -> Models\HapticFeedbackConstants.kt
+  [STUB] IOException (struct) -> Models\IOException.kt
+  [STUB] InstantTaskExecutorRule (struct) -> Models\InstantTaskExecutorRule.kt
+  [STUB] InvalidInputs (struct) -> Models\InvalidInputs.kt
+  [STUB] JvmField (struct) -> Models\JvmField.kt
+  [STUB] JvmInline (struct) -> Models\JvmInline.kt
+  [STUB] LaunchedEffect (struct) -> Models\LaunchedEffect.kt
+  [STUB] LightColorScheme (struct) -> Models\LightColorScheme.kt
+  [STUB] LocalAccessibilityManager (class) -> Services\LocalAccessibilityManager.kt
+  [STUB] LocalContentColor (struct) -> Models\LocalContentColor.kt
+  [STUB] Lock (struct) -> Models\Lock.kt
+  [STUB] Medium (struct) -> Models\Medium.kt
+  [STUB] Multiple (struct) -> Models\Multiple.kt
+  [STUB] MutableSharedFlow (struct) -> Models\MutableSharedFlow.kt
+  [STUB] Normal (struct) -> Models\Normal.kt
+  [STUB] Outlined (struct) -> Models\Outlined.kt
+  [STUB] ParameterizedTest (struct) -> Models\ParameterizedTest.kt
+  [STUB] Polite (struct) -> Models\Polite.kt
+  [STUB] ProvidedTypeConverter (struct) -> Models\ProvidedTypeConverter.kt
+  [STUB] Random (struct) -> Models\Random.kt
+  [STUB] Refresh (struct) -> Models\Refresh.kt
+  [STUB] RepeatMode (enum) -> Models\RepeatMode.kt
+  [STUB] Reverse (struct) -> Models\Reverse.kt
+  [STUB] Room (struct) -> Models\Room.kt
+  [STUB] StandardTestDispatcher (struct) -> Models\StandardTestDispatcher.kt
+  [STUB] Transparent (struct) -> Models\Transparent.kt
+  [STUB] TrendingDown (struct) -> Models\TrendingDown.kt
+  [STUB] TrendingFlat (struct) -> Models\TrendingFlat.kt
+  [STUB] TrendingUp (struct) -> Models\TrendingUp.kt
+  [STUB] ValidAnswers (struct) -> Models\ValidAnswers.kt
+  [STUB] ValueSource (struct) -> Models\ValueSource.kt
+  [STUB] VibrationEffect (struct) -> Models\VibrationEffect.kt
+  [STUB] Vibrator (struct) -> Models\Vibrator.kt
+  [STUB] VibratorManager (class) -> Services\VibratorManager.kt
+  [STUB] ZoneId (struct) -> Models\ZoneId.kt
+  [STUB] ZoneOffset (struct) -> Models\ZoneOffset.kt
+
+[StubGen] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\stubs\askfin_android_stubs.json
+
+============================================================
+  Type Stub Generator (FK-014)
+============================================================
+  Project:          askfin_android
+  FK-014 findings:  72
+  Stubs created:    69
+  Stubs skipped:    3
+
+  [CREATED] AfterEach (struct) -> Models\AfterEach.kt
+  [CREATED] AllCategoriesDefined (struct) -> Models\AllCategoriesDefined.kt
+  [CREATED] AnimationSpec (struct) -> Models\AnimationSpec.kt
+  [CREATED] Answers (struct) -> Models\Answers.kt
+  [CREATED] Blank (struct) -> Models\Blank.kt
+  [CREATED] Build (struct) -> Models\Build.kt
+  [CREATED] Categories (struct) -> Models\Categories.kt
+  [CREATED] CategoryFiltering (struct) -> Models\CategoryFiltering.kt
+  [CREATED] Check (struct) -> Models\Check.kt
+  [CREATED] CheckCircle (struct) -> Models\CheckCircle.kt
+  [CREATED] Close (struct) -> Models\Close.kt
+  [CREATED] ColumnInfo (struct) -> Models\ColumnInfo.kt
+  [CREATED] ComponentActivity (struct) -> Models\ComponentActivity.kt
+  [CREATED] ContextCompat (struct) -> Models\ContextCompat.kt
+  [CREATED] Copied (struct) -> Models\Copied.kt
+  [CREATED] Copy (struct) -> Models\Copy.kt
+  [CREATED] Create (struct) -> Models\Create.kt
+  [CREATED] CsvSource (struct) -> Models\CsvSource.kt
+  [CREATED] DarkColorScheme (struct) -> Models\DarkColorScheme.kt
+  [CREATED] DeterminismTests (struct) -> Models\DeterminismTests.kt
+  [CREATED] DiagnosticService (class) -> Services\DiagnosticService.kt
+  [CREATED] Difficulties (struct) -> Models\Difficulties.kt
+  [CREATED] EaseInOutCubic (struct) -> Models\EaseInOutCubic.kt
+  [CREATED] Ellipsis (struct) -> Models\Ellipsis.kt
+  [CREATED] Empty (struct) -> Models\Empty.kt
+  [CREATED] EnumConversion (struct) -> Models\EnumConversion.kt
+  [CREATED] EnumPropertiesTests (struct) -> Models\EnumPropertiesTests.kt
+  [CREATED] EnumValues (struct) -> Models\EnumValues.kt
+  [CREATED] EqualityAndCopying (struct) -> Models\EqualityAndCopying.kt
+  [CREATED] ErrorOutline (struct) -> Models\ErrorOutline.kt
+  [CREATED] ExperimentalCoroutinesApi (struct) -> Models\ExperimentalCoroutinesApi.kt
+  [CREATED] FromScoreBoundaryTests (struct) -> Models\FromScoreBoundaryTests.kt
+  [CREATED] Gray (struct) -> Models\Gray.kt
+  [CREATED] HapticFeedbackConstants (struct) -> Models\HapticFeedbackConstants.kt
+  [CREATED] IOException (struct) -> Models\IOException.kt
+  [CREATED] InstantTaskExecutorRule (struct) -> Models\InstantTaskExecutorRule.kt
+  [CREATED] InvalidInputs (struct) -> Models\InvalidInputs.kt
+  [CREATED] JvmField (struct) -> Models\JvmField.kt
+  [CREATED] JvmInline (struct) -> Models\JvmInline.kt
+  [CREATED] LaunchedEffect (struct) -> Models\LaunchedEffect.kt
+  [CREATED] LightColorScheme (struct) -> Models\LightColorScheme.kt
+  [CREATED] LocalAccessibilityManager (class) -> Services\LocalAccessibilityManager.kt
+  [CREATED] LocalContentColor (struct) -> Models\LocalContentColor.kt
+  [CREATED] Lock (struct) -> Models\Lock.kt
+  [CREATED] Medium (struct) -> Models\Medium.kt
+  [CREATED] Multiple (struct) -> Models\Multiple.kt
+  [CREATED] MutableSharedFlow (struct) -> Models\MutableSharedFlow.kt
+  [CREATED] Normal (struct) -> Models\Normal.kt
+  [CREATED] Outlined (struct) -> Models\Outlined.kt
+  [CREATED] ParameterizedTest (struct) -> Models\ParameterizedTest.kt
+  [CREATED] Polite (struct) -> Models\Polite.kt
+  [CREATED] ProvidedTypeConverter (struct) -> Models\ProvidedTypeConverter.kt
+  [CREATED] Random (struct) -> Models\Random.kt
+  [CREATED] Refresh (struct) -> Models\Refresh.kt
+  [CREATED] RepeatMode (enum) -> Models\RepeatMode.kt
+  [CREATED] Reverse (struct) -> Models\Reverse.kt
+  [CREATED] Room (struct) -> Models\Room.kt
+  [CREATED] StandardTestDispatcher (struct) -> Models\StandardTestDispatcher.kt
+  [CREATED] Transparent (struct) -> Models\Transparent.kt
+  [CREATED] TrendingDown (struct) -> Models\TrendingDown.kt
+  [CREATED] TrendingFlat (struct) -> Models\TrendingFlat.kt
+  [CREATED] TrendingUp (struct) -> Models\TrendingUp.kt
+  [CREATED] ValidAnswers (struct) -> Models\ValidAnswers.kt
+  [CREATED] ValueSource (struct) -> Models\ValueSource.kt
+  [CREATED] VibrationEffect (struct) -> Models\VibrationEffect.kt
+  [CREATED] Vibrator (struct) -> Models\Vibrator.kt
+  [CREATED] VibratorManager (class) -> Services\VibratorManager.kt
+  [CREATED] ZoneId (struct) -> Models\ZoneId.kt
+  [CREATED] ZoneOffset (struct) -> Models\ZoneOffset.kt
+
+  [SKIPPED] AskFinNavHost: file already exists: app\src\main\java\com\driveai\askfin\ui\components\AskFinNavHost.kt
+  [SKIPPED] AskFinTheme: file already exists: app\src\main\java\com\driveai\askfin\ui\components\AskFinTheme.kt
+  [SKIPPED] ExamQuestionScreen: file already exists: quarantine\ExamQuestionScreen.kt
+============================================================
+
+[OpsLayer] Re-running Compile Hygiene after stub generation...
+
+[CompileHygiene] Validating project: askfin_android
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+[CompileHygiene] Kotlin files found: 494
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_android
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+  Files scanned:  494
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   70
+    Blocking:     67
+    Warnings:     3
+
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:9
+          Duplicate class 'Answer' defined in 2 files (top-level) (+6 nested, ignored)
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:16
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt:11
+          Duplicate class 'AnswerTest' defined in 2 files (top-level)
+          also in: Models/AnswerTest.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/AppDatabase.kt:18
+          Duplicate class 'AppDatabase' defined in 2 files (top-level)
+          also in: Models/AppDatabase.kt:18
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/AskFinApplication.kt:7
+          Duplicate class 'AskFinApplication' defined in 2 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/data/models/AskFinApplication.kt:7
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CategoryCompetence.kt:10
+          Duplicate class 'CategoryCompetence' defined in 2 files (top-level)
+          also in: Models/CategoryCompetence.kt:7
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CategoryResult.kt:7
+          Duplicate class 'CategoryResult' defined in 2 files (top-level)
+          also in: Models/CategoryResult.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CategoryScore.kt:4
+          Duplicate class 'CategoryScore' defined in 2 files (top-level)
+          also in: Models/CategoryScore.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CompetenceCalculator.kt:21
+          Duplicate class 'CompetenceCalculator' defined in 2 files (top-level)
+          also in: Models/CompetenceCalculator.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CompetenceLevel.kt:8
+          Duplicate class 'CompetenceLevel' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/CompetenceLevel.kt:6
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt:13
+          Duplicate class 'CompetenceLevelTest' defined in 2 files (top-level)
+          also in: Models/CompetenceLevelTest.kt:13
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/CompetenceCalculator.kt:13
+          Duplicate class 'ConfidenceIntervalCalculator' defined in 2 files (top-level)
+          also in: Models/ConfidenceIntervalCalculator.kt:10
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ConfidenceIntervalCalculatorTest.kt:10
+          Duplicate class 'ConfidenceIntervalCalculatorTest' defined in 2 files (top-level)
+          also in: Models/ConfidenceIntervalCalculatorTest.kt:10
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt:17
+          Duplicate class 'DateTimeConverter' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/DateTimeConverter.kt:17
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/DifficultyTest.kt:9
+          Duplicate class 'DifficultyTest' defined in 2 files (top-level)
+          also in: Models/DifficultyTest.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:17
+          Duplicate interface 'ExamRepository' defined in 3 files (top-level) (+1 nested, ignored)
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt:17
+          also in: Models/ExamRepository.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/ExamResult.kt:8
+          Duplicate class 'ExamResult' defined in 3 files (top-level) (+2 nested, ignored)
+          also in: app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:11
+          also in: Models/ExamResult.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt:35
+          Duplicate class 'ExamResultState' defined in 2 files (top-level)
+          also in: ViewModels/ExamResultState.kt:22
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt:50
+          Duplicate class 'ExamResultViewModel' defined in 2 files (top-level)
+          also in: ViewModels/ExamResultState.kt:37
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/ExamService.kt:6
+          Duplicate class 'ExamService' defined in 2 files (top-level)
+          also in: Services/ExamService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:10
+          Duplicate class 'ExamSession' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/ExamSession.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamSimulationViewModel.kt:14
+          Duplicate class 'ExamSimulationViewModel' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: ViewModels/ExamSimulationViewModel.kt:3
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt:26
+          Duplicate class 'ExamSimulationViewModelTest' defined in 2 files (top-level)
+          also in: Models/ExamSimulationViewModelTest.kt:26
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/ExamStateTransitions.kt:4
+          Duplicate object 'ExamStateTransitions' defined in 2 files (top-level)
+          also in: Models/ExamStateTransitions.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/ExamTimerService.kt:8
+          Duplicate class 'ExamTimerService' defined in 2 files (top-level)
+          also in: Services/ExamTimerService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamViewModel.kt:26
+          Duplicate class 'ExamViewModel' defined in 2 files (top-level)
+          also in: ViewModels/ExamViewModel.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapViewModel.kt:19
+          Duplicate class 'FilterOption' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: Models/FilterOption.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/GapAnalysisService.kt:69
+          Duplicate class 'GapAnalysisService' defined in 2 files (top-level)
+          also in: Services/GapAnalysisService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/GetSkillsUseCase.kt:13
+          Duplicate class 'GetSkillsUseCase' defined in 2 files (top-level)
+          also in: Models/GetSkillsUseCase.kt:8
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt:14
+          Duplicate class 'HapticFeedback' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/HapticFeedback.kt:14
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/HapticModule.kt:15
+          Duplicate object 'HapticModule' defined in 2 files (top-level)
+          also in: Models/HapticModule.kt:14
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt:15
+          Duplicate class 'MainActivity' defined in 2 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/MainActivity.kt:15
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/MilestoneEntity.kt:8
+          Duplicate class 'MilestoneEntity' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/MilestoneEntity.kt:8
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/MilestoneUiModel.kt:8
+          Duplicate class 'MilestoneUiModel' defined in 2 files (top-level)
+          also in: Models/MilestoneUiModel.kt:8
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt:8
+          Duplicate class 'Question' defined in 3 files (top-level) (+7 nested, ignored)
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:15
+          also in: Models/Question.kt:1
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt:10
+          Duplicate class 'QuestionCategoryTest' defined in 2 files (top-level)
+          also in: Models/QuestionCategoryTest.kt:10
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/QuestionListUiState.kt:7
+          Duplicate class 'QuestionListUiState' defined in 2 files (top-level)
+          also in: Models/QuestionListUiState.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/ReadinessCalculationService.kt:32
+          Duplicate class 'ReadinessCalculationService' defined in 2 files (top-level)
+          also in: Services/ReadinessCalculationService.kt:20
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/ReadinessDao.kt:11
+          Duplicate interface 'ReadinessDao' defined in 2 files (top-level)
+          also in: Models/ReadinessDao.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/repository/ReadinessRepository.kt:15
+          Duplicate interface 'ReadinessRepository' defined in 2 files (top-level) (+3 nested, ignored)
+          also in: Models/ReadinessRepository.kt:15
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/ReadinessScoreHistoryEntity.kt:13
+          Duplicate class 'ReadinessScoreHistoryEntity' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/ReadinessScoreHistoryEntity.kt:13
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/ReadinessScoreSnapshot.kt:12
+          Duplicate class 'ReadinessScoreSnapshot' defined in 2 files (top-level)
+          also in: Models/ReadinessScoreSnapshot.kt:9
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessScoreViewModel.kt:7
+          Duplicate class 'ReadinessScoreViewModel' defined in 2 files (top-level)
+          also in: ViewModels/ReadinessScoreViewModel.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessUiState.kt:64
+          Duplicate class 'ReadinessViewModel' defined in 3 files (top-level) (+1 nested, ignored)
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessViewModel.kt:20
+          also in: ViewModels/ReadinessViewModel.kt:2
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelInitTest.kt:22
+          Duplicate class 'ReadinessViewModelInitTest' defined in 2 files (top-level)
+          also in: Models/ReadinessViewModelInitTest.kt:22
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelRefreshTest.kt:4
+          Duplicate class 'ReadinessViewModelRefreshTest' defined in 2 files (top-level)
+          also in: Models/ReadinessViewModelRefreshTest.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/RecencyWeightCalculator.kt:8
+          Duplicate class 'RecencyWeightCalculator' defined in 2 files (top-level)
+          also in: Models/RecencyWeightCalculator.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/RepositoryModule.kt:14
+          Duplicate object 'RepositoryModule' defined in 2 files (top-level)
+          also in: Models/RepositoryModule.kt:14
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/SkillMapDao.kt:10
+          Duplicate interface 'SkillMapDao' defined in 2 files (top-level)
+          also in: Models/SkillMapDao.kt:10
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/SkillMapData.kt:7
+          Duplicate class 'SkillMapData' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Models/SkillMapData.kt:5
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/SkillMapDatabase.kt:12
+          Duplicate class 'SkillMapDatabase' defined in 3 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt:18
+          also in: Models/SkillMapDatabase.kt:12
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt:27
+          Duplicate object 'SkillMapModule' defined in 2 files (top-level)
+          also in: Models/SkillMapModule.kt:19
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/di/SkillMapRepositoryModule.kt:9
+          Duplicate class 'SkillMapRepositoryModule' defined in 2 files (top-level)
+          also in: Models/SkillMapRepositoryModule.kt:3
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/SkillMapResult.kt:11
+          Duplicate class 'SkillMapResult' defined in 2 files (top-level)
+          also in: Models/SkillMapResult.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/SkillMapService.kt:6
+          Duplicate class 'SkillMapService' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: Services/SkillMapService.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/screens/SkillMapScreen.kt:26
+          Duplicate class 'SkillMapViewModel' defined in 4 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapUiState.kt:61
+          also in: app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapViewModel.kt:37
+          also in: ViewModels/SkillMapViewModel.kt:2
+  [BLOCK] FK-012  Models/TrainingConfigEvent.kt:2
+          Duplicate class 'TrainingConfigEvent' defined in 2 files (top-level)
+          also in: ViewModels/TrainingConfigEvent.kt:17
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt:11
+          Duplicate class 'TrainingModeTest' defined in 2 files (top-level)
+          also in: Models/TrainingModeTest.kt:11
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingModeViewModel.kt:37
+          Duplicate class 'TrainingModeViewModel' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: ViewModels/TrainingModeViewModel.kt:4
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/domain/TrainingSessionService.kt:13
+          Duplicate interface 'TrainingSessionService' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: Services/TrainingSessionService.kt:13
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingUiState.kt:79
+          Duplicate class 'TrainingViewModel' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: ViewModels/TrainingViewModel.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/TrendCalculator.kt:17
+          Duplicate object 'TrendCalculator' defined in 2 files (top-level)
+          also in: Models/TrendCalculator.kt:11
+  [BLOCK] FK-012  app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:22
+          Duplicate class 'UserAnswer' defined in 2 files (top-level) (+2 nested, ignored)
+          also in: Models/UserAnswer.kt:1
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/local/UserAnswerEntity.kt:8
+          Duplicate class 'UserAnswerEntity' defined in 3 files (top-level)
+          also in: app/src/main/java/com/driveai/askfin/data/models/DriveAiDatabase.kt:24
+          also in: Models/UserAnswerEntity.kt:3
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/UserPerformanceStats.kt:14
+          Duplicate class 'UserPerformanceStats' defined in 3 files (top-level)
+          also in: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt:21
+          also in: Models/UserPerformanceStats.kt:14
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/MainActivity.kt
+          Type 'AskFinNavHost' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt
+  [BLOCK] FK-014  app/src/main/java/com/driveai/askfin/MainActivity.kt
+          Type 'AskFinTheme' referenced in 2 files but never declared in project
+          also in: app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt
+  [BLOCK] FK-014  Models/ExamQuestionScreenTest.kt
+          Type 'ExamQuestionScreen' referenced in 2 files but never declared in project
+          also in: app/src/test/java/com/driveai/askfin/data/models/ExamQuestionScreenTest.kt
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Answer.kt
+          Generic type name 'Answer' has high collision risk. Consider prefixing with feature/domain name.
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Category.kt
+          Generic type name 'Category' has high collision risk. Consider prefixing with feature/domain name.
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Question.kt
+          Generic type name 'Question' has high collision risk. Consider prefixing with feature/domain name.
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_android_compile_hygiene.json
+
+[OpsLayer] Property Shape Repairer — no FK-013 blockers, skipping.
+
+[OpsLayer] Stale Artifact Guard — 67 blocking issue(s) remain
+[StaleGuard] Checking 67 blocking file(s) for stale artifacts...
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt -> quarantine/20260321_104451_ExamRepository.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt -> quarantine/20260321_104451_AnswerTest.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/AppDatabase.kt -> quarantine/20260321_104451_AppDatabase.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/AskFinApplication.kt -> quarantine/20260321_104451_AskFinApplication.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/CategoryCompetence.kt -> quarantine/20260321_104451_CategoryCompetence.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/CategoryResult.kt -> quarantine/20260321_104451_CategoryResult.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/CategoryScore.kt -> quarantine/20260321_104451_CategoryScore.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/CompetenceCalculator.kt -> quarantine/20260321_104452_CompetenceCalculator.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/CompetenceLevel.kt -> quarantine/20260321_104452_CompetenceLevel.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt -> quarantine/20260321_104452_CompetenceLevelTest.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/ConfidenceIntervalCalculatorTest.kt -> quarantine/20260321_104452_ConfidenceIntervalCalculatorTest.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt -> quarantine/20260321_104452_DateTimeConverter.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/DifficultyTest.kt -> quarantine/20260321_104452_DifficultyTest.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/ExamResult.kt -> quarantine/20260321_104452_ExamResult.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt -> quarantine/20260321_104452_ExamResultState.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/domain/ExamService.kt -> quarantine/20260321_104452_ExamService.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamSimulationViewModel.kt -> quarantine/20260321_104452_ExamSimulationViewModel.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt -> quarantine/20260321_104452_ExamSimulationViewModelTest.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/ExamStateTransitions.kt -> quarantine/20260321_104452_ExamStateTransitions.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/domain/ExamTimerService.kt -> quarantine/20260321_104452_ExamTimerService.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamViewModel.kt -> quarantine/20260321_104452_ExamViewModel.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapViewModel.kt -> quarantine/20260321_104452_SkillMapViewModel.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/domain/GapAnalysisService.kt -> quarantine/20260321_104452_GapAnalysisService.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/domain/GetSkillsUseCase.kt -> quarantine/20260321_104452_GetSkillsUseCase.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt -> quarantine/20260321_104452_HapticFeedback.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/di/HapticModule.kt -> quarantine/20260321_104452_HapticModule.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt -> quarantine/20260321_104452_MainActivity.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/local/MilestoneEntity.kt -> quarantine/20260321_104452_MilestoneEntity.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/MilestoneUiModel.kt -> quarantine/20260321_104453_MilestoneUiModel.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt -> quarantine/20260321_104453_QuestionCategoryTest.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/QuestionListUiState.kt -> quarantine/20260321_104453_QuestionListUiState.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/domain/ReadinessCalculationService.kt -> quarantine/20260321_104453_ReadinessCalculationService.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/local/ReadinessDao.kt -> quarantine/20260321_104453_ReadinessDao.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/repository/ReadinessRepository.kt -> quarantine/20260321_104453_ReadinessRepository.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/local/ReadinessScoreHistoryEntity.kt -> quarantine/20260321_104453_ReadinessScoreHistoryEntity.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/ReadinessScoreSnapshot.kt -> quarantine/20260321_104453_ReadinessScoreSnapshot.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessScoreViewModel.kt -> quarantine/20260321_104453_ReadinessScoreViewModel.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessUiState.kt -> quarantine/20260321_104453_ReadinessUiState.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelInitTest.kt -> quarantine/20260321_104453_ReadinessViewModelInitTest.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelRefreshTest.kt -> quarantine/20260321_104453_ReadinessViewModelRefreshTest.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/RecencyWeightCalculator.kt -> quarantine/20260321_104453_RecencyWeightCalculator.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/di/RepositoryModule.kt -> quarantine/20260321_104453_RepositoryModule.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/local/SkillMapDao.kt -> quarantine/20260321_104453_SkillMapDao.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/SkillMapData.kt -> quarantine/20260321_104453_SkillMapData.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/SkillMapDatabase.kt -> quarantine/20260321_104453_SkillMapDatabase.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt -> quarantine/20260321_104453_SkillMapModule.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/di/SkillMapRepositoryModule.kt -> quarantine/20260321_104453_SkillMapRepositoryModule.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/SkillMapResult.kt -> quarantine/20260321_104453_SkillMapResult.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/domain/SkillMapService.kt -> quarantine/20260321_104453_SkillMapService.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/screens/SkillMapScreen.kt -> quarantine/20260321_104454_SkillMapScreen.kt
+  [QUARANTINE] Models/TrainingConfigEvent.kt -> quarantine/20260321_104454_TrainingConfigEvent.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt -> quarantine/20260321_104454_TrainingModeTest.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingModeViewModel.kt -> quarantine/20260321_104454_TrainingModeViewModel.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/domain/TrainingSessionService.kt -> quarantine/20260321_104454_TrainingSessionService.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingUiState.kt -> quarantine/20260321_104454_TrainingUiState.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/TrendCalculator.kt -> quarantine/20260321_104454_TrendCalculator.kt
+  [QUARANTINE] app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt -> quarantine/20260321_104454_GeneratedHelpers.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/local/UserAnswerEntity.kt -> quarantine/20260321_104454_UserAnswerEntity.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/data/models/UserPerformanceStats.kt -> quarantine/20260321_104454_UserPerformanceStats.kt
+  [QUARANTINE] app/src/main/java/com/driveai/askfin/MainActivity.kt -> quarantine/20260321_104454_MainActivity.kt
+  [QUARANTINE] Models/ExamQuestionScreenTest.kt -> quarantine/20260321_104454_ExamQuestionScreenTest.kt
+
+[StaleGuard] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\lifecycle\askfin_android_lifecycle.json
+
+============================================================
+  Stale Artifact Guard
+============================================================
+  Project:              askfin_android
+  Blocking files:       67
+  AI-generated:         61
+  Quarantined:          61
+  Kept (not stale):     6
+
+  [QUARANTINED] ExamRepository.kt
+                from: app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt
+                  to: quarantine\20260321_104451_ExamRepository.kt
+                issue: Duplicate class 'Answer' defined in 2 files (top-level) (+6 nested, ignored)
+                provenance: a54bd769 (2026-03-19)
+  [QUARANTINED] AnswerTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt
+                  to: quarantine\20260321_104451_AnswerTest.kt
+                issue: Duplicate class 'AnswerTest' defined in 2 files (top-level)
+                provenance: 591676e7 (2026-03-19)
+  [QUARANTINED] AppDatabase.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/AppDatabase.kt
+                  to: quarantine\20260321_104451_AppDatabase.kt
+                issue: Duplicate class 'AppDatabase' defined in 2 files (top-level)
+                provenance: 410607a6 (2026-03-19)
+  [QUARANTINED] AskFinApplication.kt
+                from: app/src/main/java/com/driveai/askfin/AskFinApplication.kt
+                  to: quarantine\20260321_104451_AskFinApplication.kt
+                issue: Duplicate class 'AskFinApplication' defined in 2 files (top-level)
+                provenance: 868a191f (2026-03-20)
+  [QUARANTINED] CategoryCompetence.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/CategoryCompetence.kt
+                  to: quarantine\20260321_104451_CategoryCompetence.kt
+                issue: Duplicate class 'CategoryCompetence' defined in 2 files (top-level)
+                provenance: f034cfde (2026-03-19)
+  [QUARANTINED] CategoryResult.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/CategoryResult.kt
+                  to: quarantine\20260321_104451_CategoryResult.kt
+                issue: Duplicate class 'CategoryResult' defined in 2 files (top-level)
+                provenance: a54bd769 (2026-03-19)
+  [QUARANTINED] CategoryScore.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/CategoryScore.kt
+                  to: quarantine\20260321_104451_CategoryScore.kt
+                issue: Duplicate class 'CategoryScore' defined in 2 files (top-level)
+                provenance: a54bd769 (2026-03-19)
+  [QUARANTINED] CompetenceCalculator.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/CompetenceCalculator.kt
+                  to: quarantine\20260321_104452_CompetenceCalculator.kt
+                issue: Duplicate class 'CompetenceCalculator' defined in 2 files (top-level)
+                provenance: 542323bb (2026-03-19)
+  [QUARANTINED] CompetenceLevel.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/CompetenceLevel.kt
+                  to: quarantine\20260321_104452_CompetenceLevel.kt
+                issue: Duplicate class 'CompetenceLevel' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: f034cfde (2026-03-19)
+  [QUARANTINED] CompetenceLevelTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt
+                  to: quarantine\20260321_104452_CompetenceLevelTest.kt
+                issue: Duplicate class 'CompetenceLevelTest' defined in 2 files (top-level)
+                provenance: f034cfde (2026-03-19)
+  [QUARANTINED] ConfidenceIntervalCalculatorTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/ConfidenceIntervalCalculatorTest.kt
+                  to: quarantine\20260321_104452_ConfidenceIntervalCalculatorTest.kt
+                issue: Duplicate class 'ConfidenceIntervalCalculatorTest' defined in 2 files (top-level)
+                provenance: 542323bb (2026-03-19)
+  [QUARANTINED] DateTimeConverter.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt
+                  to: quarantine\20260321_104452_DateTimeConverter.kt
+                issue: Duplicate class 'DateTimeConverter' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: f034cfde (2026-03-19)
+  [QUARANTINED] DifficultyTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/DifficultyTest.kt
+                  to: quarantine\20260321_104452_DifficultyTest.kt
+                issue: Duplicate class 'DifficultyTest' defined in 2 files (top-level)
+                provenance: 591676e7 (2026-03-19)
+  [QUARANTINED] ExamResult.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/ExamResult.kt
+                  to: quarantine\20260321_104452_ExamResult.kt
+                issue: Duplicate class 'ExamResult' defined in 3 files (top-level) (+2 nested, ignored)
+                provenance: a54bd769 (2026-03-19)
+  [QUARANTINED] ExamResultState.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt
+                  to: quarantine\20260321_104452_ExamResultState.kt
+                issue: Duplicate class 'ExamResultState' defined in 2 files (top-level)
+                provenance: 5500734a (2026-03-19)
+  [QUARANTINED] ExamService.kt
+                from: app/src/main/java/com/driveai/askfin/domain/ExamService.kt
+                  to: quarantine\20260321_104452_ExamService.kt
+                issue: Duplicate class 'ExamService' defined in 2 files (top-level)
+                provenance: 90f8c4ce (2026-03-19)
+  [QUARANTINED] ExamSimulationViewModel.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamSimulationViewModel.kt
+                  to: quarantine\20260321_104452_ExamSimulationViewModel.kt
+                issue: Duplicate class 'ExamSimulationViewModel' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: db748278 (2026-03-19)
+  [QUARANTINED] ExamSimulationViewModelTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt
+                  to: quarantine\20260321_104452_ExamSimulationViewModelTest.kt
+                issue: Duplicate class 'ExamSimulationViewModelTest' defined in 2 files (top-level)
+                provenance: db748278 (2026-03-19)
+  [QUARANTINED] ExamStateTransitions.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/ExamStateTransitions.kt
+                  to: quarantine\20260321_104452_ExamStateTransitions.kt
+                issue: Duplicate object 'ExamStateTransitions' defined in 2 files (top-level)
+                provenance: a54bd769 (2026-03-19)
+  [QUARANTINED] ExamTimerService.kt
+                from: app/src/main/java/com/driveai/askfin/domain/ExamTimerService.kt
+                  to: quarantine\20260321_104452_ExamTimerService.kt
+                issue: Duplicate class 'ExamTimerService' defined in 2 files (top-level)
+                provenance: 90f8c4ce (2026-03-19)
+  [QUARANTINED] ExamViewModel.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamViewModel.kt
+                  to: quarantine\20260321_104452_ExamViewModel.kt
+                issue: Duplicate class 'ExamViewModel' defined in 2 files (top-level)
+                provenance: 5500734a (2026-03-19)
+  [QUARANTINED] SkillMapViewModel.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapViewModel.kt
+                  to: quarantine\20260321_104452_SkillMapViewModel.kt
+                issue: Duplicate class 'FilterOption' defined in 2 files (top-level) (+2 nested, ignored)
+                provenance: a5888e69 (2026-03-19)
+  [QUARANTINED] GapAnalysisService.kt
+                from: app/src/main/java/com/driveai/askfin/domain/GapAnalysisService.kt
+                  to: quarantine\20260321_104452_GapAnalysisService.kt
+                issue: Duplicate class 'GapAnalysisService' defined in 2 files (top-level)
+                provenance: 90f8c4ce (2026-03-19)
+  [QUARANTINED] GetSkillsUseCase.kt
+                from: app/src/main/java/com/driveai/askfin/domain/GetSkillsUseCase.kt
+                  to: quarantine\20260321_104452_GetSkillsUseCase.kt
+                issue: Duplicate class 'GetSkillsUseCase' defined in 2 files (top-level)
+                provenance: 65885098 (2026-03-19)
+  [QUARANTINED] HapticFeedback.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt
+                  to: quarantine\20260321_104452_HapticFeedback.kt
+                issue: Duplicate class 'HapticFeedback' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: 15ecbaf3 (2026-03-19)
+  [QUARANTINED] HapticModule.kt
+                from: app/src/main/java/com/driveai/askfin/di/HapticModule.kt
+                  to: quarantine\20260321_104452_HapticModule.kt
+                issue: Duplicate object 'HapticModule' defined in 2 files (top-level)
+                provenance: 15ecbaf3 (2026-03-19)
+  [QUARANTINED] MainActivity.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt
+                  to: quarantine\20260321_104452_MainActivity.kt
+                issue: Duplicate class 'MainActivity' defined in 2 files (top-level)
+                provenance: 868a191f (2026-03-20)
+  [QUARANTINED] MilestoneEntity.kt
+                from: app/src/main/java/com/driveai/askfin/data/local/MilestoneEntity.kt
+                  to: quarantine\20260321_104452_MilestoneEntity.kt
+                issue: Duplicate class 'MilestoneEntity' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: b1316cb1 (2026-03-19)
+  [QUARANTINED] MilestoneUiModel.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/MilestoneUiModel.kt
+                  to: quarantine\20260321_104453_MilestoneUiModel.kt
+                issue: Duplicate class 'MilestoneUiModel' defined in 2 files (top-level)
+                provenance: 2394377e (2026-03-19)
+  [QUARANTINED] QuestionCategoryTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt
+                  to: quarantine\20260321_104453_QuestionCategoryTest.kt
+                issue: Duplicate class 'QuestionCategoryTest' defined in 2 files (top-level)
+                provenance: 591676e7 (2026-03-19)
+  [QUARANTINED] QuestionListUiState.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/QuestionListUiState.kt
+                  to: quarantine\20260321_104453_QuestionListUiState.kt
+                issue: Duplicate class 'QuestionListUiState' defined in 2 files (top-level)
+                provenance: a7ca5450 (2026-03-19)
+  [QUARANTINED] ReadinessCalculationService.kt
+                from: app/src/main/java/com/driveai/askfin/domain/ReadinessCalculationService.kt
+                  to: quarantine\20260321_104453_ReadinessCalculationService.kt
+                issue: Duplicate class 'ReadinessCalculationService' defined in 2 files (top-level)
+                provenance: 6290bb6d (2026-03-19)
+  [QUARANTINED] ReadinessDao.kt
+                from: app/src/main/java/com/driveai/askfin/data/local/ReadinessDao.kt
+                  to: quarantine\20260321_104453_ReadinessDao.kt
+                issue: Duplicate interface 'ReadinessDao' defined in 2 files (top-level)
+                provenance: b1316cb1 (2026-03-19)
+  [QUARANTINED] ReadinessRepository.kt
+                from: app/src/main/java/com/driveai/askfin/data/repository/ReadinessRepository.kt
+                  to: quarantine\20260321_104453_ReadinessRepository.kt
+                issue: Duplicate interface 'ReadinessRepository' defined in 2 files (top-level) (+3 nested, ignored)
+                provenance: 410607a6 (2026-03-19)
+  [QUARANTINED] ReadinessScoreHistoryEntity.kt
+                from: app/src/main/java/com/driveai/askfin/data/local/ReadinessScoreHistoryEntity.kt
+                  to: quarantine\20260321_104453_ReadinessScoreHistoryEntity.kt
+                issue: Duplicate class 'ReadinessScoreHistoryEntity' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: 410607a6 (2026-03-19)
+  [QUARANTINED] ReadinessScoreSnapshot.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/ReadinessScoreSnapshot.kt
+                  to: quarantine\20260321_104453_ReadinessScoreSnapshot.kt
+                issue: Duplicate class 'ReadinessScoreSnapshot' defined in 2 files (top-level)
+                provenance: 410607a6 (2026-03-19)
+  [QUARANTINED] ReadinessScoreViewModel.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessScoreViewModel.kt
+                  to: quarantine\20260321_104453_ReadinessScoreViewModel.kt
+                issue: Duplicate class 'ReadinessScoreViewModel' defined in 2 files (top-level)
+                provenance: b1316cb1 (2026-03-19)
+  [QUARANTINED] ReadinessUiState.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessUiState.kt
+                  to: quarantine\20260321_104453_ReadinessUiState.kt
+                issue: Duplicate class 'ReadinessViewModel' defined in 3 files (top-level) (+1 nested, ignored)
+                provenance: dc414079 (2026-03-19)
+  [QUARANTINED] ReadinessViewModelInitTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelInitTest.kt
+                  to: quarantine\20260321_104453_ReadinessViewModelInitTest.kt
+                issue: Duplicate class 'ReadinessViewModelInitTest' defined in 2 files (top-level)
+                provenance: dc414079 (2026-03-19)
+  [QUARANTINED] ReadinessViewModelRefreshTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelRefreshTest.kt
+                  to: quarantine\20260321_104453_ReadinessViewModelRefreshTest.kt
+                issue: Duplicate class 'ReadinessViewModelRefreshTest' defined in 2 files (top-level)
+                provenance: dc414079 (2026-03-19)
+  [QUARANTINED] RecencyWeightCalculator.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/RecencyWeightCalculator.kt
+                  to: quarantine\20260321_104453_RecencyWeightCalculator.kt
+                issue: Duplicate class 'RecencyWeightCalculator' defined in 2 files (top-level)
+                provenance: 542323bb (2026-03-19)
+  [QUARANTINED] RepositoryModule.kt
+                from: app/src/main/java/com/driveai/askfin/di/RepositoryModule.kt
+                  to: quarantine\20260321_104453_RepositoryModule.kt
+                issue: Duplicate object 'RepositoryModule' defined in 2 files (top-level)
+                provenance: b1316cb1 (2026-03-19)
+  [QUARANTINED] SkillMapDao.kt
+                from: app/src/main/java/com/driveai/askfin/data/local/SkillMapDao.kt
+                  to: quarantine\20260321_104453_SkillMapDao.kt
+                issue: Duplicate interface 'SkillMapDao' defined in 2 files (top-level)
+                provenance: 65885098 (2026-03-19)
+  [QUARANTINED] SkillMapData.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/SkillMapData.kt
+                  to: quarantine\20260321_104453_SkillMapData.kt
+                issue: Duplicate class 'SkillMapData' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: f034cfde (2026-03-19)
+  [QUARANTINED] SkillMapDatabase.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/SkillMapDatabase.kt
+                  to: quarantine\20260321_104453_SkillMapDatabase.kt
+                issue: Duplicate class 'SkillMapDatabase' defined in 3 files (top-level)
+                provenance: 65885098 (2026-03-19)
+  [QUARANTINED] SkillMapModule.kt
+                from: app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt
+                  to: quarantine\20260321_104453_SkillMapModule.kt
+                issue: Duplicate object 'SkillMapModule' defined in 2 files (top-level)
+                provenance: 65885098 (2026-03-19)
+  [QUARANTINED] SkillMapRepositoryModule.kt
+                from: app/src/main/java/com/driveai/askfin/di/SkillMapRepositoryModule.kt
+                  to: quarantine\20260321_104453_SkillMapRepositoryModule.kt
+                issue: Duplicate class 'SkillMapRepositoryModule' defined in 2 files (top-level)
+                provenance: 65885098 (2026-03-19)
+  [QUARANTINED] SkillMapResult.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/SkillMapResult.kt
+                  to: quarantine\20260321_104453_SkillMapResult.kt
+                issue: Duplicate class 'SkillMapResult' defined in 2 files (top-level)
+                provenance: f034cfde (2026-03-19)
+  [QUARANTINED] SkillMapService.kt
+                from: app/src/main/java/com/driveai/askfin/domain/SkillMapService.kt
+                  to: quarantine\20260321_104453_SkillMapService.kt
+                issue: Duplicate class 'SkillMapService' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: 542323bb (2026-03-19)
+  [QUARANTINED] SkillMapScreen.kt
+                from: app/src/main/java/com/driveai/askfin/ui/screens/SkillMapScreen.kt
+                  to: quarantine\20260321_104454_SkillMapScreen.kt
+                issue: Duplicate class 'SkillMapViewModel' defined in 4 files (top-level)
+                provenance: a5888e69 (2026-03-19)
+  [QUARANTINED] TrainingConfigEvent.kt
+                from: Models/TrainingConfigEvent.kt
+                  to: quarantine\20260321_104454_TrainingConfigEvent.kt
+                issue: Duplicate class 'TrainingConfigEvent' defined in 2 files (top-level)
+                provenance: ecbb770e (2026-03-21)
+  [QUARANTINED] TrainingModeTest.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt
+                  to: quarantine\20260321_104454_TrainingModeTest.kt
+                issue: Duplicate class 'TrainingModeTest' defined in 2 files (top-level)
+                provenance: 591676e7 (2026-03-19)
+  [QUARANTINED] TrainingModeViewModel.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingModeViewModel.kt
+                  to: quarantine\20260321_104454_TrainingModeViewModel.kt
+                issue: Duplicate class 'TrainingModeViewModel' defined in 2 files (top-level) (+1 nested, ignored)
+                provenance: 84fe4b89 (2026-03-19)
+  [QUARANTINED] TrainingSessionService.kt
+                from: app/src/main/java/com/driveai/askfin/domain/TrainingSessionService.kt
+                  to: quarantine\20260321_104454_TrainingSessionService.kt
+                issue: Duplicate interface 'TrainingSessionService' defined in 2 files (top-level) (+2 nested, ignored)
+                provenance: dc414079 (2026-03-19)
+  [QUARANTINED] TrainingUiState.kt
+                from: app/src/main/java/com/driveai/askfin/ui/viewmodels/TrainingUiState.kt
+                  to: quarantine\20260321_104454_TrainingUiState.kt
+                issue: Duplicate class 'TrainingViewModel' defined in 2 files (top-level) (+2 nested, ignored)
+                provenance: a7ca5450 (2026-03-19)
+  [QUARANTINED] TrendCalculator.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/TrendCalculator.kt
+                  to: quarantine\20260321_104454_TrendCalculator.kt
+                issue: Duplicate object 'TrendCalculator' defined in 2 files (top-level)
+                provenance: 410607a6 (2026-03-19)
+  [QUARANTINED] GeneratedHelpers.kt
+                from: app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt
+                  to: quarantine\20260321_104454_GeneratedHelpers.kt
+                issue: Duplicate class 'UserAnswer' defined in 2 files (top-level) (+2 nested, ignored)
+                provenance: 4c8e1a3b (2026-03-20)
+  [QUARANTINED] UserAnswerEntity.kt
+                from: app/src/main/java/com/driveai/askfin/data/local/UserAnswerEntity.kt
+                  to: quarantine\20260321_104454_UserAnswerEntity.kt
+                issue: Duplicate class 'UserAnswerEntity' defined in 3 files (top-level)
+                provenance: 591676e7 (2026-03-19)
+  [QUARANTINED] UserPerformanceStats.kt
+                from: app/src/main/java/com/driveai/askfin/data/models/UserPerformanceStats.kt
+                  to: quarantine\20260321_104454_UserPerformanceStats.kt
+                issue: Duplicate class 'UserPerformanceStats' defined in 3 files (top-level)
+                provenance: 591676e7 (2026-03-19)
+  [QUARANTINED] MainActivity.kt
+                from: app/src/main/java/com/driveai/askfin/MainActivity.kt
+                  to: quarantine\20260321_104454_MainActivity.kt
+                issue: Type 'AskFinNavHost' referenced in 2 files but never declared in project
+                provenance: 868a191f (2026-03-20)
+  [QUARANTINED] ExamQuestionScreenTest.kt
+                from: Models/ExamQuestionScreenTest.kt
+                  to: quarantine\20260321_104454_ExamQuestionScreenTest.kt
+                issue: Type 'ExamQuestionScreen' referenced in 2 files but never declared in project
+                provenance: db748278 (2026-03-19)
+
+  [KEPT] app/src/main/java/com/driveai/askfin/data/models/CompetenceCalculator.kt: file does not exist
+  [KEPT] app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt: file does not exist
+  [KEPT] app/src/main/java/com/driveai/askfin/ui/viewmodels/ExamResultState.kt: file does not exist
+  [KEPT] app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt: file does not exist
+  [KEPT] app/src/main/java/com/driveai/askfin/data/repository/ExamRepository.kt: file does not exist
+  [KEPT] app/src/main/java/com/driveai/askfin/MainActivity.kt: file does not exist
+============================================================
+
+[OpsLayer] Re-running Compile Hygiene after quarantine...
+
+[CompileHygiene] Validating project: askfin_android
+[CompileHygiene] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+[CompileHygiene] Kotlin files found: 433
+
+============================================================
+  Compile Hygiene Validator
+============================================================
+  Project:        askfin_android
+  Scan dir:       C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+  Files scanned:  433
+  Checks run:     FK-011, FK-012, FK-013, FK-014, FK-015, FK-017
+  Status:         BLOCKING
+------------------------------------------------------------
+  Issues found:   6
+    Blocking:     3
+    Warnings:     3
+
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessViewModel.kt:20
+          Duplicate class 'ReadinessViewModel' defined in 2 files (top-level) (+1 nested, ignored)
+          also in: ViewModels/ReadinessViewModel.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapUiState.kt:61
+          Duplicate class 'SkillMapViewModel' defined in 2 files (top-level)
+          also in: ViewModels/SkillMapViewModel.kt:2
+  [BLOCK] FK-012  app/src/main/java/com/driveai/askfin/data/models/DriveAiDatabase.kt:24
+          Duplicate class 'UserAnswerEntity' defined in 2 files (top-level)
+          also in: Models/UserAnswerEntity.kt:3
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Answer.kt
+          Generic type name 'Answer' has high collision risk. Consider prefixing with feature/domain name.
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Category.kt
+          Generic type name 'Category' has high collision risk. Consider prefixing with feature/domain name.
+  [WARN ] FK-017  app/src/main/java/com/driveai/askfin/data/models/Question.kt
+          Generic type name 'Question' has high collision risk. Consider prefixing with feature/domain name.
+============================================================
+
+[CompileHygiene] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\hygiene\askfin_android_compile_hygiene.json
+
+[OpsLayer] Swift Compile Check
+
+[SwiftCompile] Checking project: askfin_android
+[SwiftCompile] Scan dir: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+[SwiftCompile] Mode: parse
+[SwiftCompile] swiftc not found on PATH — skipping.
+
+============================================================
+  Swift Compile Check
+============================================================
+  Project:          askfin_android
+  Scan dir:         C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\projects\askfin_android
+  Mode:             skipped
+  Status:           SKIPPED
+  Skip reason:      swiftc not found on PATH
+------------------------------------------------------------
+  Files checked:    0
+  Files OK:         0
+  Files w/ errors:  0
+  Files w/ warnings:0
+  Total errors:     0
+  Total warnings:   0
+============================================================
+
+[SwiftCompile] Report written to: C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\reports\compile\askfin_android_swift_compile.json
+
+[OpsLayer] Health: MOSTLY_COMPLETE -- no recovery needed.
+
+============================================================
+  Operations Layer Summary
+============================================================
+  Project:            askfin_android
+  Initial status:     MOSTLY_COMPLETE
+  Recovery attempts:  0
+  Recovery outcome:   none
+  Final status:       MOSTLY_COMPLETE
+  Compile hygiene:    BLOCKING
+  FK-014 stubs:       69 created
+  Stale quarantined:  61 file(s)
+  Swift compile:      SKIPPED
+============================================================
+
+
+=======================================================
+  Run Memory Summary
+=======================================================
+  Project:           askfin_android
+  Runs recorded:     25
+  Latest status:     MOSTLY_COMPLETE
+  Latest complete:   95%
+
+  Recovery runs:      7 of 25 runs
+=======================================================
+
+[KnowledgeWriteback] Starting writeback cycle...
+[KnowledgeWriteback] No proposals ready for promotion.
+[KnowledgeWriteback] No new run patterns detected.
+[KnowledgeWriteback] Writeback cycle complete.

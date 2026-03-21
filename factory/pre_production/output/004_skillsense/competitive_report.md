@@ -1,241 +1,222 @@
 # Competitive-Report: SkillSense
 
-> **Scope-Hinweis:** Die Web-Recherche-Ergebnisse beziehen sich auf Card Games / Mobile Games — vollständig irrelevant für SkillSense. Dieser Report basiert daher auf strukturiertem Marktwissen über den AI-Tools- und Productivity-SaaS-Markt. Alle Einschätzungen sind entsprechend markiert.
+## Vorbemerkung zur Datenlage
+
+Die Web-Recherche-Ergebnisse beziehen sich auf **Card Games / Mobile Games** und sind für SkillSense **vollständig irrelevant**. SkillSense ist eine B2C/B2B Web-App im Bereich "AI-Skill-Analyse & Personalisierung" — kein Mobile Game. Die nachfolgende Analyse basiert daher auf **Marktkenntnis + strukturierter Recherche-Logik**, alle Einschätzungen sind entsprechend markiert.
 
 ---
 
 ## Wettbewerber-Kategorie(n)
 
-SkillSense operiert in einem **noch nicht definierten Nischenmarkt** — es gibt keine direkte Kategorie "AI Skill Management Tools". Die relevanten Wettbewerbs-Kategorien sind:
-
-- **Kategorie A:** AI Productivity Tools / Prompt Management
-- **Kategorie B:** Kuratierte AI-Ressourcen-Plattformen (Listen, Repositories)
-- **Kategorie C:** AI Security & Audit Tools
-- **Kategorie D:** Onboarding/Advisor Tools für AI-Nutzer
+| Kategorie | Beschreibung | Relevanz für SkillSense |
+|---|---|---|
+| **Direkte Konkurrenz** | Tools die AI-Skills/Prompts analysieren oder empfehlen | 🔴 Keine bekannt |
+| **Indirekte Konkurrenz Tier 1** | Prompt-Bibliotheken & Kuratierungsplattformen | 🟡 Mittel |
+| **Indirekte Konkurrenz Tier 2** | YouTube/TikTok Content zu AI-Skills | 🟡 Mittel |
+| **Indirekte Konkurrenz Tier 3** | Prompt-Optimierungs-Tools | 🟢 Niedrig |
+| **Plattform-Eigenentwicklung** | Anthropic / OpenAI native Features | 🔴 Hoch (strategisches Risiko) |
 
 ---
 
-## Wettbewerber-Übersicht
+## Wettbewerber-Übersicht (Tabelle)
 
-| App / Plattform | Publisher | Downloads / Nutzer | Rating | Monetarisierung | Kernmechanik |
+| App / Plattform | Publisher | Nutzer / Reichweite | Rating | Monetarisierung | Kernmechanik |
 |---|---|---|---|---|---|
-| **FlowGPT** | FlowGPT Inc. | ~2M+ registered (Schätzung) | ⭐ 3.8/5 (Schätzung) | Freemium / Credits | Prompt-Marktplatz, Community-Rankings |
-| **PromptBase** | PromptBase Ltd. | ~500K+ (Schätzung) | ⭐ 3.5/5 (Schätzung) | Marktplatz-Provision (20%) | Kauf/Verkauf von Prompts |
-| **Awesome-Claude-Skills (GitHub)** | Community / diverse | nicht verfügbar | ⭐ kein Rating | Kostenlos / Open Source | Kuratierte Listen, README-Format |
-| **Anthropic Docs / Skill Gallery** | Anthropic | nicht verfügbar | N/A | Kostenlos (Ecosystem-Bindung) | Offizielle Beispiel-Skills, Dokumentation |
-| **YouTube "Top 10 Skills" Content** | Diverse Creator | >10M Views/Monat geschätzt | N/A | AdSense / Affiliate | Video-Listen, nicht personalisiert |
-| **GPT Store (OpenAI)** | OpenAI | >3M GPTs (Schätzung Stand 2024) | variabel | Freemium (OpenAI Plus) | GPT-Verzeichnis, Suche, Ratings |
-| **Prompthero** | Prompthero | ~1M+ (Schätzung) | ⭐ 3.7/5 (Schätzung) | Freemium | Prompt-Suche, Community |
-
-> ⚠️ **Daten-Qualität:** Alle Nutzerzahlen sind **Schätzungen** basierend auf öffentlich bekannten Signalen (Alexa-Rank, App-Store-Daten, GitHub Stars). Keine verlässlichen Revenue-Zahlen verfügbar.
+| **PromptBase** | PromptBase Ltd. | ~Schätzung: 500k+ registrierte User [Schätzung] | 3.8/5 ⭐ [Schätzung] | Marketplace-Commission (20%) | Kauf/Verkauf fertiger Prompts |
+| **FlowGPT** | FlowGPT Inc. | ~Schätzung: 1M+ MAU [Schätzung] | nicht verfügbar | Freemium + Credits | Community-Prompt-Sharing |
+| **Awesome-Claude / GitHub-Listen** | Community (Open Source) | Stars: 2k–15k je Repo [Schätzung] | N/A | Kostenlos | Kuratierte Link-Listen |
+| **YouTube-Creator (AI-Tips)** | Diverse Creator | Einzelne Videos: 50k–2M Views [Schätzung] | N/A | AdSense + Affiliate | "Top X Skills"-Listicles |
+| **Anthropic Skills-Dokumentation** | Anthropic | Alle Claude-Nutzer (~10M+) [Schätzung] | N/A | Kostenlos (Lead zu Claude Pro) | Offizielle Skill-Docs |
+| **GPT Store (OpenAI)** | OpenAI | ~3M GPTs erstellt [Schätzung, OpenAI-Angabe 2024] | variabel | Revenue Share (angekündigt, limitiert) | Custom GPT Discovery & Distribution |
+| **SnackPrompt** | SnackPrompt | nicht verfügbar | nicht verfügbar | Freemium | Prompt-Entdeckung + Voting |
+| **Claude System Prompt Analyzer (einzelne OSS-Tools)** | GitHub-Indie-Devs | nicht verfügbar | N/A | Kostenlos | Einzelne Sicherheitschecks |
 
 ---
 
 ## Detailanalyse pro Wettbewerber
 
----
+### 1. PromptBase
 
-### 1. FlowGPT
+**Beschreibung:** Marktplatz für den Kauf und Verkauf von Prompts für GPT, Claude, Midjourney etc.
 
-**Positionierung:** Prompt-Marktplatz mit Community-Features; Nutzer teilen und bewerten Prompts/Personas.
+**Stärken:**
+- Etablierte Marke im Prompt-Ökosystem
+- Breite Plattform-Abdeckung (nicht nur Claude)
+- Monetarisierung für Creator funktioniert
 
-**Stärken**
-- Große Community, viele Inhalte
-- Kategorisierung nach Use-Case
-- Social Layer (Likes, Kommentare, Follower)
-- Bekannte Marke im Prompt-Engineering-Umfeld
+**Schwächen:**
+- Fokus auf **Verkauf**, nicht auf **Analyse** oder **Personalisierung**
+- Qualitätskontrolle minimal — Käufer wissen nicht ob ein Prompt zu ihrem Use-Case passt
+- Kein Konzept von "Skills" im Claude-Sinne (Prompts ≠ strukturierte SKILL.md-Dateien)
+- Keine Sicherheitsanalyse
 
-**Schwächen**
-- Qualitätskontrolle praktisch nicht vorhanden — jeder kann alles hochladen
-- Keine Personalisierung: Was für User A gut ist, wird auch User B empfohlen
-- Kein Sicherheits-Scan für hochgeladene Prompts
-- Fokus auf GPT/ChatGPT, Claude-Skills schlecht abgedeckt
-- Überwältigende Menge an Inhalten ohne sinnvolle Filterung
+**Nutzer-Beschwerden [Schätzung aus typischen Marktplatz-Mustern]:**
+- "Habe einen Prompt gekauft der bei mir gar nicht funktioniert"
+- "Keine Möglichkeit zu wissen ob der Prompt zu meinem Setup passt"
+- Qualitätsschwankungen groß
 
-**Nutzer-Beschwerden (Schätzung, basierend auf bekanntem Community-Feedback)**
-- *"Es gibt zu viele schlechte Prompts die hoch geratet sind weil sie viral gingen, nicht weil sie gut sind"*
-- *"Ich finde nie was ich wirklich brauche"*
-- *"Keine Ahnung ob das sicher ist was ich da kopiere"*
-
-**Relevanz für SkillSense:** Mittel — FlowGPT adressiert "was gibt es" nicht "was brauchst du"
+**Relevanz für SkillSense:** Niedrig — anderes Produkt, aber zeigt dass Nutzer bereit sind für Prompt/Skill-Qualität zu zahlen ✅
 
 ---
 
-### 2. PromptBase
+### 2. FlowGPT
 
-**Positionierung:** Premium-Marktplatz, Prompts werden verkauft. Qualitätsanspruch höher als FlowGPT.
+**Beschreibung:** Community-Plattform für das Teilen und Entdecken von Prompts und Custom GPTs.
 
-**Stärken**
-- Bezahlmodell impliziert Qualitätssignal (Anbieter haben Eigeninteresse)
-- Klare Kategorien
-- Einfache UX
+**Stärken:**
+- Große Community, Social Features (Likes, Comments, Remixes)
+- Breite Kategorisierung nach Use Cases
+- Niedrige Einstiegshürde
 
-**Schwächen**
-- Kommerzielle Motivation ≠ Qualität oder Passgenauigkeit für den Käufer
-- Null Personalisierung — Browsing wie in einem Shop
-- Claude Skills nicht als eigene Kategorie
-- Kein Sicherheits-Check
-- Kein "brauchst du das überhaupt?"-Signal
+**Schwächen:**
+- Vollständig crowd-kuratiert → Qualität unkontrolliert
+- **Kein Personalisierungs-Layer** — User sehen was popular ist, nicht was zu ihnen passt
+- Keine Sicherheitsanalyse der Prompts
+- Kein Claude-spezifisches Skill-Format-Verständnis
+- Spam und Duplikate sind bekanntes Problem
 
-**Nutzer-Beschwerden (Schätzung)**
-- *"Habe 5€ für einen Prompt bezahlt der nicht besser ist als was ich selbst schreibe"*
-- *"Zu wenig Claude-spezifisches Material"*
+**Nutzer-Beschwerden [Schätzung]:**
+- Überwältigende Menge ohne sinnvolle Filterung
+- Qualität sehr unterschiedlich
+- Keine Möglichkeit zu prüfen ob ein Prompt sicher ist
 
-**Relevanz für SkillSense:** Niedrig-Mittel — anderes Geschäftsmodell, kein direkter Konkurrent
-
----
-
-### 3. Awesome-Claude-Skills (GitHub & ähnliche Listen)
-
-**Positionierung:** Community-kuratierte Listen im "awesome-X" Format auf GitHub.
-
-**Stärken**
-- Kostenlos und offen
-- Von echten Nutzern zusammengestellt
-- Versionskontrolle / Nachvollziehbarkeit
-- Technisch versierte Nutzer fühlen sich wohl
-
-**Schwächen**
-- Statisch — kein Update-Mechanismus, keine Qualitätsprüfung
-- Keinerlei Personalisierung
-- Für nicht-technische Nutzer komplett unzugänglich
-- Kein Sicherheits-Check
-- Keine Überlappungs-Prüfung
-- Format-Inkonsistenz zwischen verlinkten Skills
-
-**Relevanz für SkillSense:** **Hoch** — das ist der Status Quo den SkillSense ersetzt
+**Relevanz für SkillSense:** Mittel — zeigt den Bedarf nach Kuration und Personalisierung deutlich
 
 ---
 
-### 4. Anthropic Docs / Offizielle Skill Gallery
+### 3. GitHub Awesome-Listen (z.B. awesome-claude-prompts)
 
-**Positionierung:** Offizielle Dokumentation und Beispiel-Skills von Anthropic selbst.
+**Beschreibung:** Community-kuratierte Listen von empfohlenen Prompts/Skills auf GitHub.
 
-**Stärken**
-- Höchste Glaubwürdigkeit
-- Format-Standard definierend
-- Kostenlos, immer aktuell
+**Stärken:**
+- Kostenlos, transparent, open source
+- Von echten Nutzern getestet (meistens)
+- Versionskontrolle durch Git
 
-**Schwächen**
-- Nur eine Handvoll Beispiel-Skills (Stand: bekannte Limitation)
-- Keine Personalisierung
-- Kein Sicherheits-Check für Community-Skills
-- Kein "was brauchst du" — nur "was gibt es offiziell"
-- Primär für Entwickler geschrieben, nicht für End-User
+**Schwächen:**
+- **Statisch und nicht personalisiert** — gleiche Liste für alle
+- Kein Sicherheits-Check der gelisteten Skills
+- Kein Format-Standard, keine Qualitätsbewertung
+- Wartung hängt von einzelnen Maintainern ab
+- Technische Hürde für nicht-technische Nutzer
 
-**Risiko für SkillSense:** **Mittel-Hoch** — Anthropic könnte eine native Skill-Analyse-Funktion einbauen. Zeitfenster ist offen, aber nicht dauerhaft.
+**Nutzer-Beschwerden [Schätzung]:**
+- "Ich weiß nicht welche davon ich wirklich brauche"
+- Viele veraltete Einträge
+- Keine Erklärung warum ein Skill empfohlen wird
+
+**Relevanz für SkillSense:** Hoch — das ist genau der Status Quo den SkillSense ersetzt
 
 ---
 
-### 5. YouTube / TikTok Content Creator
+### 4. YouTube/TikTok AI-Content Creator
 
-**Positionierung:** Informeller Kanal, "Top X Skills"-Videos, Clickbait-Format.
+**Beschreibung:** Influencer und Creator die "Top X Claude Skills"-Videos produzieren.
 
-**Stärken**
-- Riesige Reichweite
-- Niedrige Hürde (kein Tool nötig)
-- Unterhaltsam, oft gut produziert
+**Stärken:**
+- Massiver Reach (Millionen Views)
+- Niedrige Nutzungshürde — Video ansehen reicht
+- Emotional engaging (zeigt Results)
 
-**Schwächen**
-- Null Personalisierung — eine Liste für alle
-- Monetarisierungsanreize erzeugen Bias (Affiliate-Links)
-- Kein Update wenn Skills veralten oder Risiken bekannt werden
-- Kein Sicherheits-Check, keine Qualitätsprüfung
-- "Mach jetzt diesen Skill" ohne zu prüfen ob der Nutzer ihn wirklich braucht
-- Kein "DELETE diese Skills" — nur "INSTALLIERE diese Skills"
+**Schwächen:**
+- **Incentiv-Problem:** Creator optimieren für Views, nicht für Nutzermehrwert
+- **Nicht personalisiert:** Eine Empfehlung für alle
+- Kein Update-Mechanismus wenn Skills veralten
+- Keine Sicherheitsanalyse
+- Kein Check ob Skills sich widersprechen
+- Verleitet Nutzer dazu Skills zu installieren die sie nie nutzen
 
-**Relevanz für SkillSense:** **Hoch** — das ist der Haupt-Schmerzpunkt den SkillSense löst
+**Nutzer-Beschwerden [Schätzung aus allgemeinem Social-Media-Muster]:**
+- "Hab alle installierten Skills aus Videos — merke keinen Unterschied"
+- "Weiß nicht mehr welcher Skill was macht"
+- "Viele Videos zeigen den gleichen Kram"
+
+**Relevanz für SkillSense:** Sehr hoch — **das ist der primäre Gegner** in der Nutzermindset-Frage
+
+---
+
+### 5. Anthropic Native (Claude Settings / Offizielle Docs)
+
+**Beschreibung:** Anthropic's eigene Skill-Dokumentation und möglicherweise zukünftige native Tools.
+
+**Stärken:**
+- Höchstes Vertrauen bei Nutzern
+- Direkte Plattform-Integration möglich
+- Kein Onboarding-Aufwand
+
+**Schwächen (aktuell):**
+- **Keine Analyse-Funktion** für bestehende Skills
+- **Keine Personalisierung** basierend auf Nutzungsverhalten
+- **Keine Sicherheits-Prüfung** von Community-Skills
+- Docs sind technisch und nicht nutzerzentriert
+- Kein Cross-Skill-Conflict-Check
+
+**Strategisches Risiko für SkillSense:**
+> 🔴 **Hoch.** Wenn Anthropic eine "Skill Health"-Funktion in Claude Pro integriert, wird SkillSense als eigenständiges Tool stark unter Druck kommen. **Mitigation:** Plattform-Agnostizität (Claude + GPT) und tiefere Analyse als ein nativer Basic-Check.
 
 ---
 
 ### 6. GPT Store (OpenAI)
 
-**Positionierung:** Offizieller GPT-Marktplatz von OpenAI für Custom GPTs.
+**Beschreibung:** OpenAIs Marktplatz für Custom GPTs.
 
-**Stärken**
-- Direkt in die Plattform integriert
-- Millionen GPTs verfügbar
-- Ratings & Nutzerzahlen sichtbar
+**Stärken:**
+- Integriert in ChatGPT — kein zusätzliches Tool nötig
+- Ratings und Usage-Metriken sichtbar
+- Breite Nutzer-Basis
 
-**Schwächen**
-- Qualitätsproblem massiv — Millionen GPTs, davon 90%+ nicht gepflegt
-- Kein Sicherheits-Audit
-- Keine Skill-Gap-Analyse ("brauchst du das?")
-- Nur für OpenAI-Ecosystem, nicht für Claude
-- Discovery-Problem: Findet man was man braucht?
+**Schwächen:**
+- Kein Personalisierungs-Layer ("was passt zu MIR?")
+- Kein Security-Scanning der Custom GPTs
+- Kein Überlappungs-Check über installierte GPTs
+- Discovery durch Popularität, nicht durch persönlichen Fit
 
-**Relevanz für SkillSense:** Mittel — Zielgruppe überschneidet sich bei GPT-Nutzern (Sekundärzielgruppe)
+**Relevanz für SkillSense:** Mittel — zeigt den Marktbedarf, aber kein direkter Konkurrent für die Analyse-Funktion
 
 ---
 
-## Feature-Vergleich
+## Feature-Vergleich (Tabelle)
 
-| Feature | SkillSense | FlowGPT | PromptBase | GitHub-Listen | Anthropic Docs | YouTube |
-|---|---|---|---|---|---|---|
-| **Personalisierte Empfehlung** | ✅ Kern-Feature | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Sicherheits-Scan** | ✅ 42 Pattern-Checks | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Qualitäts-Score** | ✅ | ❌ | 🟡 Implizit (Preis) | ❌ | ❌ | ❌ |
-| **Überlappungs-Check** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Chat-Analyse (Nutzungsmuster)** | ✅ Pro | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Geführter Fragebogen** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **DSGVO / Client-side** | ✅ by Design | ❌ | ❌ | ✅ (Open) | ✅ | N/A |
-| **Kuratierte Datenbank** | ✅ geprüft | 🟡 Community | 🟡 Pay-to-list | 🟡 Community | ✅ (klein) | ❌ |
-| **"Skills löschen" Empfehlung** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Claude-Skills Support** | ✅ Primär | ❌ | 🟡 Marginal | 🟡 Wächst | ✅ Offiziell | 🟡 Vereinzelt |
-| **Kostenlos nutzbar (Core)** | ✅ Free Tier | ✅ | ❌ | ✅ | ✅ | ✅ |
-| **Enterprise / Team** | ✅ Phase 3 | ❌ | ❌ | ❌ | 🟡 Indirect | ❌ |
+| Feature | **SkillSense** | PromptBase | FlowGPT | GitHub-Listen | YouTube | Anthropic Docs | GPT Store |
+|---|---|---|---|---|---|---|---|
+| **Personalisierte Empfehlung** | ✅ Kern-Feature | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Sicherheits-Scan** | ✅ 42 Checks | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Überlappungs-Erkennung** | ✅ Jaccard-Algo | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Qualitäts-Score** | ✅ 0-100 | ❌ | 🟡 Votes | ❌ | ❌ | ❌ | 🟡 Stars |
+| **Chat-Analyse (eigene Daten)** | ✅ Pro Feature | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **100% Client-Side** | ✅ | ❌ | ❌ | ✅ | N/A | N/A | ❌ |
+| **DSGVO by Design** | ✅ | 🟡 | 🟡 | ✅ | ❌ | 🟡 | 🟡 |
+| **Claude-spezifisch** | ✅ (+ GPT) | 🟡 | 🟡 | 🟡 | 🟡 | ✅ | ❌ |
+| **Kein Account nötig** | ✅ (Free) | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
+| **Kuratierte Datenbank** | ✅ geprüft | 🟡 ungeprüft | 🟡 Community | 🟡 Community | ❌ | ❌ | 🟡 Community |
+| **Skill-Generierung** | ✅ Pro | ❌ | ❌ | ❌ | ❌ | ❌ | 🟡 manuell |
+| **Kostenlos nutzbar** | ✅ (Tier) | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **B2B/Team-Features** | ✅ geplant | ❌ | ❌ | ❌ | ❌ | 🟡 | ❌ |
+
+**Legende:** ✅ Vorhanden | 🟡 Teilweise/Eingeschränkt | ❌ Nicht vorhanden
 
 ---
 
 ## Gap-Analyse: Was fehlt im Markt
 
-### Gap 1 — Personalisierte Skill-Diagnose
-**Status: Vollständig unbesetzt**
-Kein einziger Marktbegleiter fragt: *"Wofür nutzt du AI eigentlich?"* Alle verteilen generische Listen. Das ist der fundamentale Marktfehler den SkillSense adressiert.
+### 🔴 Kritische Gaps (SkillSense adressiert diese direkt)
 
-### Gap 2 — Sicherheits-Audit für Skills
-**Status: Vollständig unbesetzt**
-Prompt Injection, versteckte URLs, Scope Escalation — niemand prüft das für End-User. Es gibt akademische Papers und Security-Research, aber kein Consumer-Tool. Das ist ein echter Schmerz der mit Sicherheitsbewusstsein wächst.
+**Gap 1: Personalisierung**
+> Kein einziges Tool fragt "was nutzt du?" bevor es empfiehlt. Der Markt funktioniert nach Popularität, nicht nach individuellem Fit. Eine YouTube-Empfehlung gilt für einen Coding-Profi genauso wie für einen Blogger — das ist strukturell falsch.
 
-### Gap 3 — "Delete This"-Empfehlung
-**Status: Vollständig unbesetzt**
-Alle Tools sagen "installiere mehr". SkillSense ist das erste Tool das sagt "lösch das und warum". Das ist kontraintuitiv im Markt — und genau deshalb differenzierend.
+**Gap 2: Sicherheits-Analyse**
+> Prompt Injection, versteckte URLs, Scope Escalation in Skills — **niemand prüft das systematisch**. Mit wachsendem Skill-Ökosystem wird dies zum echten Sicherheitsproblem. SkillSense ist hier First-Mover.
 
-### Gap 4 — Nutzungsbasierte Analyse (Chat-Export)
-**Status: Vollständig unbesetzt**
-Niemand analysiert das eigene Nutzungsverhalten um Skill-Empfehlungen zu generieren. Das ist ein "Aha-Moment"-Feature mit hohem viralen Potential.
+**Gap 3: Überlappungs- und Konflikt-Erkennung**
+> Wenn ein Nutzer 15 Skills hat, prüft niemand ob sich diese widersprechen oder gegenseitig neutralisieren. Das ist ein blinder Fleck im gesamten Markt.
 
-### Gap 5 — Cross-Plattform (Claude + GPT)
-**Status: Sehr schwach besetzt**
-Die meisten Tools sind entweder ChatGPT-zentriert oder Claude-zentriert. Ein Tool das beide Ökosysteme bewertet ist noch nicht vorhanden.
+**Gap 4: Datenbasierte Analyse des eigenen Verhaltens**
+> Niemand nutzt die eigene Chat-Historie als Signal für Empfehlungen. Das ist konzeptuell der stärkste Differentiator von SkillSense — "zeig mir was ich wirklich tue, nicht was ich denke dass ich tue."
 
-### Gap 6 — Overlapping-Detection
-**Status: Vollständig unbesetzt**
-Kein Tool sagt einem Nutzer: *"Skill A und Skill B machen 80% das Gleiche, du brauchst nur einen"*. Das ist ein praktischer Schmerzpunkt der mit wachsender Skill-Anzahl skaliert.
+**Gap 5: Qualitäts-Standard für Skills**
+> Es gibt kein standardisiertes Format, keine Qualitätsbewertung, keinen "SkillForge-Siegel"-Äquivalent. Der Markt ist formatlos.
 
----
+### 🟡 Sekundäre Gaps
 
-## Sättigungseinschätzung
-
-```
-Sättigungsgrad der direkten Nische: 🟢 SEHR NIEDRIG (1-2/10)
-
-Begründung:
-- Kein direkter Konkurrent identifiziert
-- Markt existiert noch nicht als eigenständige Kategorie
-- First-Mover-Vorteil real und zeitkritisch
-- Einziger Druck kommt von Anthropic selbst (Plattform-Risiko)
-```
-
-**Sättigungseinschätzung nach Kategorie:**
-
-| Kategorie | Sättigung | Trend |
-|---|---|---|
-| Prompt-Marktplätze | 🟡 Mittel | → Stagnierend |
-| Kuratierte Listen (GitHub) | 🟡 Mittel | ↑ Wächst |
-| AI Security Audit (Consumer) | 🟢 Sehr niedrig | ↑ Wächst stark |
-| Personalisierter Skill-Advisor | 🟢 Leer | ↑↑ Kein Wettbewerb |
-| Nutzungsanalyse / Chat-Audit | 🟢 Leer | ↑↑ Kein Wettbewerb |
-
-**Zeitfenster-Einschätzung:**
-Der Markt für Claude Skills ist
+**Gap 6: Datenschutz-bewusstes Tool**
+> Alle bestehenden Plattformen sind serverbasiert. Ein 100% client-

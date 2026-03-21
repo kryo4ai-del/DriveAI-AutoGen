@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-03-21T11:42:18.219672",
+  "total_changes": 0,
+  "action_items": [],
+  "providers": [
+    {
+      "provider": "anthropic",
+      "status": "healthy",
+      "api_reachable": true,
+      "latency_ms": 607,
+      "models_in_api": 3,
+      "models_in_registry": 3,
+      "error": ""
+    },
+    {
+      "provider": "openai",
+      "status": "healthy",
+      "api_reachable": true,
+      "latency_ms": 738,
+      "models_in_api": 123,
+      "models_in_registry": 3,
+      "error": ""
+    },
+    {
+      "provider": "google",
+      "status": "healthy",
+      "api_reachable": true,
+      "latency_ms": 94,
+      "models_in_api": 7,
+      "models_in_registry": 2,
+      "error": ""
+    },
+    {
+      "provider": "mistral",
+      "status": "healthy",
+      "api_reachable": true,
+      "latency_ms": 139,
+      "models_in_api": 62,
+      "models_in_registry": 1,
+      "error": ""
+    }
+  ]
+}

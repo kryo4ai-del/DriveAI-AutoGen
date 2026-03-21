@@ -2,6 +2,7 @@
 from .model_registry import ModelRegistry, ModelInfo
 from .provider_router import ProviderRouter, ProviderResponse
 from .auto_splitter import AutoSplitter, SplitStrategy
+from .chain_optimizer import ChainOptimizer, ChainProfile
 
 _registry = None
 _router = None
@@ -35,6 +36,25 @@ def get_model(
     Phase C: Will use autonomous optimization.
     """
     registry = get_registry()
+
+    # Phase B: Check Chain Optimizer profile first
+    try:
+        cp = ChainProfile.load_for(line, profile)
+        if cp and agent_name in cp.chain:
+            ac = cp.chain[agent_name]
+            mi = registry.get_model(ac["model"])
+            return {
+                "model": ac["model"],
+                "provider": ac["provider"],
+                "litellm_model_name": mi.litellm_model_name if mi else f"{ac['provider']}/{ac['model']}",
+                "fallback_model": None,
+                "fallback_provider": None,
+                "source": f"chain_optimizer ({cp.confidence})",
+                "split_strategy": {"should_split": False, "call_count": 1,
+                                   "alternative_model": None, "reason": "chain profile"},
+            }
+    except Exception:
+        pass  # No chain profile — fall through to tier-based
 
     tier_map = {"dev": "low", "fast": "low", "standard": "mid", "premium": "high"}
     tier = tier_map.get(profile, "mid")

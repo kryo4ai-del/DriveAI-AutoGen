@@ -1,28 +1,21 @@
 # Risk-Assessment-Report: SkillSense
 
-**Erstellt:** Juni 2025
-**Bewertet durch:** Risk-Assessment-Specialist, DriveAI Swarm Factory
-**Basis:** Concept Brief SkillSense + Legal-Research-Report SkillSense
-**Disclaimer:** KI-basierte Ersteinschätzung — ersetzt keine rechtsverbindliche Beratung.
-
 ---
 
 ## Risiko-Übersicht (Ampel-Tabelle)
 
 | Rechtsfeld | Risiko | Geschätzte Kosten | Zeitaufwand |
 |---|---|---|---|
-| 1. Monetarisierung & Glücksspielrecht | 🟢 Kein Risiko | — | — |
-| 2. App Store Richtlinien | 🟢 Kein Risiko (MVP) | — | — |
-| 3. AI-Content — Urheberrecht (Skill-DB) | 🟡 Mittleres Risiko | 800–1.500 € einmalig | 2–3 Wochen |
-| 4a. DSGVO — Standard-Features | 🟡 Mittleres Risiko | 2.000–4.000 € einmalig | 3–4 Wochen |
-| 4b. DSGVO — Chat-Export-Feature | 🔴 Hohes Risiko | 3.500–7.000 € einmalig | 4–6 Wochen |
-| 4c. Drittlandtransfer (US-Anbieter) | 🟡 Mittleres Risiko | 500–1.000 € einmalig | 1–2 Wochen |
-| 5. Jugendschutz | 🟢 Kein Risiko | — | — |
-| 6. Social Features | 🟢 Nicht relevant | — | — |
-| 7. Markenrecht — Namenskonflikt | 🟡 Mittleres Risiko | 1.500–3.000 € einmalig | 2–4 Wochen |
-| 8. Patente | 🟡 Latentes Risiko | 2.000–4.000 € einmalig | 3–4 Wochen |
-| 9. Plattform-AGB (Anthropic / OpenAI) | 🔴 Hohes Risiko | 0–500 € (Monitoring) | Laufend |
-| 10. Vertragsrecht / SaaS-Abo-Recht EU | 🟡 Mittleres Risiko | 1.000–2.000 € einmalig | 2–3 Wochen |
+| 1. Monetarisierung & Glücksspielrecht | 🟢 | — | — |
+| 2. App Store Richtlinien | 🟢 | — | — |
+| 3. AI-generierter Content — Urheberrecht | 🟡 | 1.500–3.500 € einmalig | 2–3 Wochen |
+| 4. Datenschutz (DSGVO / COPPA) | 🔴 | 4.000–9.000 € einmalig + 800–1.500 €/Jahr | 4–6 Wochen |
+| 5. Jugendschutz (USK / PEGI) | ⚪ | — | — |
+| 6. Social Features | ⚪ | — | — |
+| 7. Markenrecht — Namenskonflikt | 🟡 | 1.200–2.500 € einmalig | 1–2 Wochen |
+| 8. Patente | 🟡 | 800–1.500 € einmalig | 1–2 Wochen |
+| 9. AGB / Nutzungsbedingungen Dritter (Anthropic ToS) | 🟡 | 500–1.000 € einmalig | 1 Woche |
+| 10. Haftung / Disclaimer | 🟡 | 800–1.500 € einmalig | 1 Woche |
 
 ---
 
@@ -30,108 +23,133 @@
 
 ### 1. Monetarisierung & Glücksspielrecht
 
-- **Risiko:** 🟢 Kein Risiko
-- **Begründung:** SkillSense enthält keinerlei Zufallsmechanismen, Loot Boxes oder Wett-Elemente. Das Credits-Modell für LLM-Calls ist ein deterministisches Verbrauchsmodell — rechtlich identisch mit API-Kontingenten bei AWS oder Stripe. Der laufende EU Digital Fairness Act betrifft ausschließlich gamifizierte Zufallsmechaniken. Null Berührungspunkte mit dem Produkt.
-- **Geschätzte Kosten:** —
-- **Zeitaufwand:** —
+- **Risiko:** 🟢
+- **Begründung:** Reines SaaS-Subscription-Modell ohne Zufallsmechanik, Lootboxen oder virtuellen Gegenwert. GlüStV 2021 (DE), GSpG (AT) und BGS (CH) greifen strukturell nicht. Kein EU-Land hat bisher Subscription-SaaS unter Glücksspielrecht gefasst. Das Modell ist regulatorisch unbedenklich — auch in den Jurisdiktionen die bei Lootboxen besonders aktiv waren (BE, NL).
+- **Geschätzte Kosten:** Keine.
+- **Einschränkung:** Falls in späteren Phasen randomisierte Skill-Bundles als Feature eingeführt werden sollten, wäre eine Neubewertung zwingend. Das ist im aktuellen Konzept nicht vorgesehen.
 
 ---
 
 ### 2. App Store Richtlinien
 
-- **Risiko:** 🟢 Kein Risiko (MVP-Phase)
-- **Begründung:** SkillSense ist eine Web-App, die über den Browser zugänglich ist. Apple- und Google-Provisionen (15–30%) sowie die zugehörigen IAP-Richtlinien greifen ausschließlich bei nativen iOS/Android-Apps. Stripe-Zahlungen direkt via Web sind ohne Provision und ohne Compliance-Aufwand gegenüber App Stores durchführbar. Strategischer Vorteil gegenüber App-nativen Wettbewerbern.
-- **Geschätzte Kosten:** —
-- **Zeitaufwand:** —
-- **Hinweis für Phase 2/3:** Falls eine native Begleit-App entwickelt wird, ändert sich die Bewertung auf 🟡 (IAP-Pflicht, Apple DMA-Entitlement für DACH prüfen). Dieser Schritt sollte erst dann separat bewertet werden.
+- **Risiko:** 🟢
+- **Begründung:** Die Web-App-Entscheidung ist aus App-Store-Perspektive die richtige Wahl. Kein Apple Review-Prozess, keine 15–30 % StoreKit-Pflicht, kein Risiko eines Ablehnungs-Zyklus wegen Chat-Daten-Verarbeitung. Für die aktuelle Roadmap (MVP bis Phase 2) ist dieses Risiko nicht aktiviert.
+- **Geschätzte Kosten:** Keine für Web-App.
+- **Latentes Risiko:** Sobald eine native iOS-App in Betracht gezogen wird (Phase 3+), ändert sich die Bewertung auf 🟡. Apple Guideline 5.1 (Privacy) würde eine vollständige Privacy-Nutrition-Label-Überprüfung erfordern. Empfehlung: Diese Entscheidung bewusst auf Phase 3 verschieben und dann neu bewerten.
 
 ---
 
-### 3. AI-Content — Urheberrecht (Skill-Datenbank)
+### 3. AI-generierter Content — Urheberrecht
 
-- **Risiko:** 🟡 Mittleres Risiko
-- **Begründung:** Zwei Bereiche sind zu trennen. Erstens: KI-generierte Skill-Outputs via Claude API sind nach aktuellem EU- und US-Recht nicht urheberrechtlich schutzfähig — das ist für das Produkt unproblematisch, da SkillSense keine Exklusivität auf Outputs beansprucht. Zweitens und kritischer: Die kuratierte Skill-Datenbank kann menschlich geschaffene Drittanbieter-Skills enthalten, die urheberrechtlich geschützt sind. GitHub Awesome-Listen laufen unter MIT- oder CC-Lizenzen, die nicht automatisch kommerzielle Aggregation erlauben. Ohne saubere Lizenzierungslösung besteht das Risiko von Unterlassungsansprüchen einzelner Skill-Autoren — kein existenzielles Risiko, aber operativ störend und reputationsschädigend.
-- **Geschätzte Kosten:** 800–1.500 € einmalig (Anwalt für Lizenz-Template und ToS-Klausel für Community-Einreichungen; DACH-Markt, Fachanwalt IT-Recht, Stundenrate 200–350 €)
-- **Zeitaufwand:** 2–3 Wochen
-- **Maßnahmen:**
-  - ToS für Skill-Einreichungen ab Tag 1 mit expliziter Lizenzierungsklausel (Einräumung nicht-exklusiver Nutzungsrechte an SkillSense)
-  - Herkunft aller Drittanbieter-Skills in der MVP-DB dokumentieren und Lizenz prüfen
-  - Creative-Commons-Attribution-Pflichten einhalten, wo zutreffend
-  - KI-generierte Skills im Frontend als solche kennzeichnen (Art. 50 EU AI Act — Transparenzpflicht)
+- **Risiko:** 🟡
+- **Begründung:** Kein akutes Blockier-Risiko, aber zwei strukturelle Schwachstellen. Erstens: Die kuratierte Skill-Datenbank enthält Skills aus Drittquellen (GitHub, Reddit, Community). Ohne klare Lizenzstrategie ist wörtliche Übernahme in DE rechtlich grenzwertig — der Schöpfungshöhe-Nachweis für kurze Prompt-Texte ist niedrig, aber nicht null. Zweitens: KI-generierte Skill-Vorschläge (Pro-Tier) müssen nach EU AI Act Art. 50 ab August 2025 als KI-generiert gekennzeichnet werden. Das ist kein Hindernis, aber ein Implementierungs-Pflichtpunkt der ohne UI-Anpassung eine Compliance-Lücke erzeugt.
+- **Geschätzte Kosten:**
+  - Anwaltskosten für Lizenzstrategie Skill-Datenbank: **1.000–2.000 €** (einmalig, IT-Rechtsanwalt DACH-Markt)
+  - UI-Implementierung KI-Kennzeichnung: **500–1.500 €** (Entwicklungsaufwand)
+  - **Gesamt: 1.500–3.500 € einmalig**
+- **Alternative:** Skill-Datenbank von Anfang an ausschließlich mit CC-lizenzierten oder selbst erstellten Skills befüllen. Aufwand: höher initial, eliminiert das Lizenzrisiko vollständig. Empfehlung für MVP: Kombination — selbst erstellter Kern-Datensatz (30–50 Skills), Drittquellen erst nach Lizenzklärung integrieren.
 
 ---
 
-### 4a. DSGVO — Standard-Features (Scanner, Fragebogen, Pro-Account)
+### 4. Datenschutz (DSGVO / COPPA)
 
-- **Risiko:** 🟡 Mittleres Risiko
-- **Begründung:** Die Client-side-Architektur für Scanner und Fragebogen ist DSGVO-strukturell vorbildlich — keine Personaldaten verlassen den Browser, keine Server-Verarbeitung, kein Consent-Problem für den Analyse-Kern. Das reduziert das DSGVO-Risiko erheblich gegenüber einem Server-side-Ansatz. Das verbleibende Risiko entsteht durch den Pro-Account: E-Mail, Zahlungsdaten via Stripe, Auth-Provider — das ist Standard-SaaS, aber erfordert saubere Umsetzung. Plausible Analytics ist cookielos und DSGVO-freundlich, was den Cookie-Consent-Aufwand minimiert. Das Hauptrisiko bei 🟡 ist nicht die Architektur, sondern die **Umsetzungsqualität der Pflichtdokumente** (Datenschutzerklärung, AVV, Betroffenenrechte). Fehlende oder mangelhafte Dokumente sind in DACH die häufigste Ursache für Abmahnungen durch Mitbewerber (Abmahnwelle §13 TMG / DSGVO ist real und aktiv).
-- **Geschätzte Kosten:** 2.000–4.000 € einmalig (Anwalt für Datenschutzerklärung, AGB, AVV-Muster mit Stripe/Vercel/Anthropic/Clerk; DACH-Fachanwalt Datenschutzrecht, 6–12 Stunden)
-- **Zeitaufwand:** 3–4 Wochen
-- **Maßnahmen:**
-  - Datenschutzerklärung gemäß Art. 13/14 DSGVO ab Tag 1 — kein Launch ohne dieses Dokument
-  - AVV mit allen US-Drittanbietern (Stripe, Vercel, Anthropic API, Auth-Provider) abschließen — diese bieten standardisierte AVV an, müssen aber aktiv unterzeichnet werden
-  - Betroffenenrechte (Auskunft, Löschung, Berichtigung) technisch im Pro-Account implementieren
-  - Impressumspflicht gemäß §5 TMG (Deutschland) — Pflicht auch für Web-Apps
+- **Risiko:** 🔴
+- **Begründung:** Dies ist das einzige echte Blockier-Risiko im Portfolio. Das Problem ist nicht das Produkt-Konzept — das ist datenschutzfreundlich. Das Problem ist die **Lücke zwischen dem Marketing-Versprechen ("100% Client-Side / DSGVO by Design") und den tatsächlichen Datenflüssen im System.** Vier konkrete Risikopunkte:
 
----
+  **Risikopunkt 1 — Irreführendes Datenschutz-Versprechen:**
+  Client-Side gilt nur für die Chat-Analyse. Vercel (Hosting), Clerk (Auth), Stripe (Payments) und potenziell Anthropic (Server-Side-API-Calls für Skill-Generierung) verarbeiten alle personenbezogene Daten. Wenn die Landing Page "100% Client-Side" verspricht ohne diese Differenzierung, ist das nach Art. 5 DSGVO (Transparenzprinzip) irreführend. Im DACH-Markt, bei einer tech-affinen Zielgruppe die DSGVO kennt, kann das zu Reputationsschäden führen die schneller eskalieren als ein Bußgeld.
 
-### 4b. DSGVO — Chat-Export-Feature (Pro)
+  **Risikopunkt 2 — Drittland-Transfer USA:**
+  Alle vier Infrastruktur-Dienste (Vercel, Clerk, Stripe, Anthropic) sind US-amerikanisch. Seit dem Schrems-II-Urteil (2020) und dem EU-US Data Privacy Framework (2023) ist der Transfer zwar wieder rechtlich möglich — aber nur unter Bedingungen. Für Vercel und Stripe sind EU-Regionen verfügbar und sollten genutzt werden. Für Clerk und Anthropic (Server-Side-API) sind Standardvertragsklauseln (SCCs) nach Art. 46 DSGVO notwendig. Ohne diese sind die Transfers formell rechtswidrig.
 
-- **Risiko:** 🔴 Hohes Risiko
-- **Begründung:** Dies ist das datenschutzrechtlich kritischste Feature des gesamten Produkts. Chat-Historien enthalten mit hoher Wahrscheinlichkeit personenbezogene Daten des Nutzers **und** Dritter (Kunden, Kollegen, Gesprächspartner) — darunter potenziell besondere Kategorien nach Art. 9 DSGVO (Gesundheit, politische Meinung, etc.). Auch bei 100% client-seitiger Verarbeitung bestehen konkrete Risiken: technische Leaks über LocalStorage-Persistenz, Service Worker, Browser-Extensions, oder unbeabsichtigte Übertragung über Analytics-Snippets. Die DSGVO verlangt bei systematischer Analyse personenbezogener Inhalte (selbst lokal) eine **Datenschutz-Folgenabschätzung (DPIA, Art. 35 DSGVO)**. Fehlt diese, drohen bei einer Datenschutzbehörden-Prüfung Bußgelder bis 10 Mio. € oder 2% des weltweiten Jahresumsatzes (das niedrigere Maximum). Für ein Startup ist nicht das Bußgeld das primäre Risiko — es ist der **Reputationsschaden**, wenn ein Tool, das mit Datenschutz wirbt, in eine DSGVO-Beschwerde gerät. Das wäre in DACH viral — in die falsche Richtung.
-- **Geschätzte Kosten:** 3.500–7.000 € einmalig (DPIA durch Datenschutzjurist oder zertifizierten Datenschutzbeauftragten: 10–20 Stunden à 250–350 €; technisches Security-Audit der Client-side-Implementierung: 5–10 Stunden Entwicklerzeit + optional externer Pentest 1.500–2.500 €)
-- **Zeitaufwand:** 4–6 Wochen
-- **Alternative (Risikoreduktion):**
-  - **Option A — Feature-Delay:** Chat-Export-Feature aus dem MVP herausnehmen. Launch mit Scanner + Fragebogen. Chat-Export erst nach DPIA und technischem Audit in Phase 2 einführen. Kostet 0 zusätzliche Compliance-Euro zum Launch, gibt Zeit für saubere Implementierung. **Empfohlene Option.**
-  - **Option B — Feature-Einschränkung:** Chat-Export auf rein lokale Verarbeitung beschränken UND explizite Nutzer-Einwilligung mit Klartext-Hinweis vor Upload einholen ("Diese Datei verlässt deinen Browser nicht. Trotzdem: Lade keine fremden Personendaten hoch."). DPIA dennoch erforderlich, aber Risikoprofil sinkt.
-  - **Option C — Feature-Entfernung:** Chat-Export dauerhaft streichen. Verliert das stärkste Pro-Differenzierungsfeature, eliminiert aber das höchste Risiko vollständig.
+  **Risikopunkt 3 — Fehlende Auftragsverarbeitungsverträge (AVV):**
+  Art. 28 DSGVO verlangt mit allen Dienstleistern die personenbezogene Daten im Auftrag verarbeiten einen AVV. Vercel, Clerk, Stripe bieten Standard-DPAs an — diese müssen abgeschlossen und dokumentiert werden. Anthropic hat eine DPA veröffentlicht (Stand 2025), die für kommerzielle API-Nutzung abgeschlossen werden muss. Ohne abgeschlossene AVVs ist SkillSense bei einer Datenschutzprüfung formal nicht compliant — unabhängig davon wie datenschutzfreundlich das Produkt tatsächlich ist.
 
----
+  **Risikopunkt 4 — COPPA (USA):**
+  Da der primäre Markt DACH ist und die Zielgruppe 20–50 Jahre alt ist, ist COPPA (Children's Online Privacy Protection Act, USA) derzeit nicht aktiviert. Sobald SkillSense englischsprachigen US-Traffic anzieht, muss eine Altersabfrage oder ein klarer Disclaimer implementiert werden. Kein Blockier-Risiko für das MVP, aber ein Pflichtpunkt für den US-Rollout.
 
-### 4c. Drittlandtransfer (US-Anbieter)
+- **Geschätzte Kosten:**
+  - Anwaltliche DSGVO-Beratung + Datenschutzerklärung + AVV-Prüfung: **2.500–4.500 €** (IT-Rechtsanwalt DACH, einmalig)
+  - Technische Implementierung: Cookie-Banner, Consent-Management, Account-Deletion-Flow: **1.500–3.000 €** (Entwicklungsaufwand)
+  - Laufende DSGVO-Compliance-Überprüfung (einmal jährlich): **800–1.500 €/Jahr**
+  - **Einmalig gesamt: 4.000–7.500 €**
+  - **Laufend: 800–1.500 €/Jahr**
 
-- **Risiko:** 🟡 Mittleres Risiko
-- **Begründung:** Stripe, Vercel, Anthropic API und Auth-Provider (Clerk) sind US-amerikanische Anbieter. Nach Schrems II sind Drittlandtransfers ohne geeignete Garantien unzulässig. Das EU-U.S. Data Privacy Framework (DPF, in Kraft Juli 2023) bietet aktuell die rechtliche Grundlage — **aber das DPF ist politisch fragil.** Ein Schrems-III-Szenario (gerichtliche Kassation des DPF durch den EuGH) ist nicht unwahrscheinlich angesichts der aktuellen geopolitischen Spannungen zwischen EU und USA (2025). Alle genannten Anbieter sind DPF-zertifiziert und bieten EU-Standardvertragsklauseln (SCCs) an — das ist die Mindestabsicherung. Das Risiko ist nicht akut, aber latent und muss monitort werden.
-- **Geschätzte Kosten:** 500–1.000 € einmalig (Anwalt prüft AVV und SCC-Abschlüsse mit allen Drittanbietern; 2–3 Stunden)
-- **Zeitaufwand:** 1–2 Wochen
-- **Maßnahmen:**
-  - DPF-Zertifizierungsstatus aller Anbieter bei Launch verifizieren (dataprivacyframework.gov)
-  - SCCs als zusätzliche Absicherung in AVV aufnehmen, wo Anbieter diese anbieten
-  - Monitoring-Routine etablieren: Bei DPF-Kassation sofortiger Handlungsbedarf (Alternativanbieter evaluieren oder EU-Hosting prüfen — Vercel hat EU-Region, Supabase EU-Hosting, Stripe hat EU-Entitäten)
+- **Alternative bei unlösbarem Drittland-Problem:**
+  Infrastruktur auf EU-only Anbieter umstellen. Konkret: Vercel EU-Region (bereits verfügbar), Lemon Squeezy statt Stripe (EU-Händler of Record, nimmt Stripe-Komplexität ab), Supabase EU-Region statt Clerk, Open-Source-Auth-Alternative (NextAuth.js) die keine eigenen Server nutzt. Das erhöht den Implementierungsaufwand um ca. 2–3 Wochen, eliminiert aber das Drittland-Risiko strukturell.
+
+  > **Empfehlung:** Nicht auf EU-only-Stack umstellen — das ist Overkill. Stattdessen: Vercel EU-Region aktivieren, alle verfügbaren DPAs abschließen, SCCs für Anthropic und Clerk dokumentieren, und das Marketing-Versprechen präzisieren: "Deine Chats verlassen nie deinen Browser" statt "100% Client-Side". Das ist akkurater, genauso überzeugend, und rechtlich sauber.
 
 ---
 
-### 5. Jugendschutz
+### 5. Jugendschutz (USK / PEGI)
 
-- **Risiko:** 🟢 Kein Risiko
-- **Begründung:** SkillSense richtet sich an erwachsene Wissensarbeiter (Kern: 28–38 Jahre). Das Produkt enthält keine Inhalte, die USK/PEGI-relevant wären, und keinen User-Generated-Content in Echtzeit. Altersverifikation ist nicht erforderlich. Der Fragebogen enthält keine alterssensitiven Fragen. Einzige Empfehlung: In den ToS eine Mindestaltersangabe (16 Jahre, entspricht DSGVO-Einwilligungsfähigkeit in Deutschland) aufnehmen — das ist eine Standardklausel ohne operativen Aufwand.
-- **Geschätzte Kosten:** — (im Rahmen der ohnehin zu erstellenden ToS abgedeckt)
+- **Risiko:** ⚪
+- **Begründung:** Nicht relevant. Zielgruppe 20–50, kein spielerisches Element, keine gewaltdarstellenden oder sexuellen Inhalte, keine Social-Community-Funktion. USK und PEGI greifen nicht.
 
 ---
 
 ### 6. Social Features
 
-- **Risiko:** 🟢 Nicht relevant
-- **Begründung:** SkillSense hat zum Launch keine Social Features, kein Forum, keinen Chat zwischen Nutzern, kein User-Profile-System mit öffentlicher Sichtbarkeit. Damit entfallen Auflagen aus NetzDG (Deutschland), DSA (EU Digital Services Act — für Plattformen mit UGC), und verwandten Regularien. Falls in Phase 2/3 Community-Features eingeführt werden (z.B. Skill-Bewertungen, Community-Einreichungen), ist eine separate DSA-Compliance-Prüfung erforderlich.
+- **Risiko:** ⚪
+- **Begründung:** Keine Community-Features im MVP oder in den geplanten Phasen. Nicht relevant.
 
 ---
 
 ### 7. Markenrecht — Namenskonflikt
 
-- **Risiko:** 🟡 Mittleres Risiko
-- **Begründung:** Der Name "SkillSense" ist generisch genug, um auf den ersten Blick unauffällig zu wirken. Genau das ist das Problem: Generische beschreibende Markennamen sind schwerer zu schützen und schwieriger einzutragen — gleichzeitig könnten ähnliche Namen im DACH- oder EU-Raum bereits eingetragen sein, ohne dass eine schnelle Google-Suche das aufdeckt. Eine professionelle Markenrecherche im EUIPO-Register (EU-Marke) und DPMA-Register (Deutschland) ist vor Launch obligatorisch. Zusätzlich ist "SkillSense" als Domain und Social-Media-Handle zu prüfen — Domaininhaber können Unterlassungsansprüche geltend machen, wenn eine Verwechslungsgefahr besteht. Ohne Markenanmeldung kann SkillSense seinen Namen nicht aktiv schützen, falls ein Konkurrent ihn später anmeldet.
+- **Risiko:** 🟡
+- **Begründung:** Der Name "SkillSense" ist konzeptuell naheliegend und damit kollisionsgefährdet. Eine schnelle EUIPO-Recherche (EU-Markenamt) zeigt ob der Begriff bereits als Wortmarke in den Klassen 42 (Software-as-a-Service, IT-Dienstleistungen) oder 35 (Unternehmensberatung, Analyse) eingetragen ist. Im DACH-Markt gilt zusätzlich das DPMA (DE), ÖPA (AT) und IGE (CH). Internationale Markeninhaber die "SkillSense" oder ähnliche Begriffe halten könnten Abmahnung oder Unterlassungsklage einleiten — selbst wenn die Marke in einem anderen Land eingetragen ist, kann Verwechslungsgefahr geltend gemacht werden. Das Risiko ist nicht akut, aber die Konsequenz bei einem Treffer (Rebranding nach Launch) wäre erheblich teurer als eine Vorab-Recherche.
 - **Geschätzte Kosten:**
-  - Markenrecherche EUIPO + DPMA: 500–1.000 € (Anwalt, 2–3 Stunden) oder selbst über euipo.europa.eu (kostenlos, aber ohne juristische Absicherung)
-  - Markenanmeldung EU (EUIPO): 850 € Amtsgebühr für 1 Klasse + ca. 500–1.000 € Anwaltskosten = **1.350–1.850 € einmalig**
-  - Gesamt: **1.500–3.000 € einmalig** (Recherche + Anmeldung kombiniert)
-- **Zeitaufwand:** 2–4 Wochen (Recherche 1 Woche, Anmeldung ist dann ein laufender Prozess — Eintragung dauert 5–7 Monate, Schutz beginnt ab Anmeldetag)
-- **Alternative (falls Namenskonflikt besteht):**
-  - Namensanpassung vor Launch ist die kostengünstigste Option. Ein Rebranding nach Launch (mit aufgebautem Traffic, Nutzerbase, Backlinks) kostet ein Vielfaches.
-  - Empfehlung: Markenrecherche in Woche 1 durchführen — vor jeglicher öffentlichen Kommunikation des Namens.
+  - Markenrecherche durch Anwalt (EUIPO + DPMA): **800–1.500 €** (einmalig)
+  - Eigene EU-Markenanmeldung (Klassen 35 + 42): **1.500–2.500 €** (Anwaltsgebühren + EUIPO-Amtsgebühren, einmalig)
+  - **Gesamt einmalig: 2.300–4.000 €** (Recherche + Anmeldung kombiniert)
+  - Nur Recherche ohne Anmeldung: **800–1.500 €**
+- **Alternative bei Namenskonflikt:** Rebranding vor Launch ist deutlich günstiger als nach Launch. Empfehlung: Markenrecherche als Woche-1-Aufgabe vor jeder weiteren Investition in Branding, Domain, oder Marketing-Materialien. Falls Konflikt gefunden wird: Namensvarianten wie "SkillSense AI", "SkillSense.io" prüfen oder konzeptionell alternatives Naming entwickeln.
 
 ---
 
 ### 8. Patente
 
-- **Risiko:** 🟡 Latentes Risiko
-- **Begründung:** Im Bereich KI-Analyse-Tools und personalisierter Empfehlungssysteme existieren zahlreiche Softwarepatente, primär aus dem US-Raum. In der EU sind Softwarepatente grundsätzlich nicht patentierbar (Art. 52 EPÜ) — jedoch können technisch formulierte Patente ("als technische Erfindung verkleidet") auch in Europa Schutz genießen. Das konkrete Risiko für SkillSense: Ein US-amerikanisches Unternehmen mit Patent auf "personalisierte KI-Tool-Empfehlung basierend auf Nutzungsanalyse" könnte theoretisch Ansprüche geltend machen, sobald SkillSense in den US-Markt expandiert. Für den **DACH-Launch ist das Risiko gering** — für Phase 2/3 mit US-Expansion steigt es. Zusätzlich: Die eigene Analyse-Engine (Client-side Security Scanner, Qualitätsbew
+- **Risiko:** 🟡
+- **Begründung:** Zwei technische Kernfeatures verdienen eine Patent-Freiraumrecherche:
+
+  **Jaccard-basierte Overlap-Detection für Prompt/Skill-Texte:** Der Jaccard-Algorithmus selbst ist seit Jahrzehnten public domain. Die Anwendung auf AI-Skills/Prompts als Überlappungs-Detektor ist konzeptuell neu — aber die Wahrscheinlichkeit einer spezifischen Patentierung genau dieser Anwendung ist niedrig. Das Risiko ist nicht null, weil im NLP/AI-Bereich große Akteure (Google, Microsoft, IBM) breite Anwendungspatente halten.
+
+  **Security-Pattern-Matching für Prompt Injection:** Pattern-basierte Sicherheitsanalyse von Prompts ist ein aktives Forschungsfeld. Anthropic, OpenAI und Sicherheitsunternehmen wie Lakera haben in diesem Bereich Entwicklungen getätigt. Eine Patentrecherche sollte prüfen ob die spezifische 42-Pattern-Implementierung in bekannte Patentansprüche fällt.
+
+  Der praktische Schutz für SkillSense als kleines Startup bei einer potenziellen Patentverletzung ist begrenzt — Patentstreitigkeiten mit großen Akteuren sind prohibitiv teuer. Das reale Risiko ist weniger "Klage" als "Cease-and-Desist die das Feature killt".
+
+- **Geschätzte Kosten:**
+  - Patent-Freiraumrecherche durch Patentanwalt (beide Features): **800–1.500 €** (einmalig, DACH-Markt)
+  - Bei positivem Befund: Feature-Anpassung (technischer Aufwand, nicht juristisch quantifizierbar)
+  - **Gesamt Recherche: 800–1.500 € einmalig**
+- **Alternative:** Keine vollständige Patent-Clearance durchführen (kostet Zeit und Geld), aber Workaround-Architektur vorbereiten: Features so implementieren dass die Kernfunktion auch mit alternativen Algorithmen erbracht werden kann. Das ist ein pragmatischer Startup-Ansatz für ein Produkt das noch nicht marktvalidiert ist.
+
+---
+
+### 9. AGB / Nutzungsbedingungen Dritter (Anthropic ToS)
+
+- **Risiko:** 🟡
+- **Begründung:** SkillSense nutzt die Anthropic API für den Pro-Tier-Feature (Skill-Generierung via Claude). Anthropic ToS (Stand 2025, usage_policies.pdf) enthält drei Punkte die für SkillSense direkt relevant sind:
+
+  **Punkt 1 — Kommerzielle Nutzung:** Anthropic erlaubt die kommerzielle Nutzung der API für Drittanbieter-Produkte. SkillSense-Nutzung ist grundsätzlich ToS-konform, sofern die API-Calls nicht für "harmful use cases" genutzt werden. Skill-Analyse und Skill-Generierung fallen nicht darunter.
+
+  **Punkt 2 — Output-Ownership:** Laut Anthropic ToS gehen generierte Outputs an den API-Aufrufer (SkillSense bzw. End-User). Das bestätigt den Befund aus Abschnitt 3 (Urheberrecht).
+
+  **Punkt 3 — Nutzungslimits und Kostenrisiko:** Die Claude-API ist pay-per-token. Bei unerwartetem Traffic-Anstieg (viraler Launch-Effekt) können API-Kosten exponentiell skalieren. Ohne Spending-Caps und Rate-Limiting auf SkillSense-Seite entsteht ein wirtschaftliches Risiko das zwar kein Rechtsrisiko ist, aber operativ kritisch werden kann.
+
+  Zusätzlich: Anthropic ToS verlangt bei kommerzieller Nutzung für Produkte mit mehr als 60 API-Anfragen pro Minute eine Enterprise-Vereinbarung. Für das MVP ist das kein Thema, aber bei erfolgreichem Scale ein Compliance-Pflichtpunkt.
+
+- **Geschätzte Kosten:**
+  - Anwaltliche ToS-Prüfung (Anthropic + Stripe + Clerk + Vercel): **500–1.000 €** (einmalig, kann gebündelt mit DSGVO-Beratung aus Abschnitt 4 werden)
+  - Rate-Limiting-Implementierung: Entwicklungsaufwand, kein direkter Rechtskosten-Block
+  - **Gesamt: 500–1.000 € einmalig**
+- **Alternative:** ToS-Änderungsrisiko ist real — Anthropic könnte die Nutzungsbedingungen anpassen. Empfehlung: Anthropic-API-Abhängigkeit als **Single-Point-of-Failure** in der Architektur markieren und Abstraktionsschicht einbauen die theoretisch auch OpenAI oder Mistral API nutzen könnte. Das ist keine Compliance-Maßnahme, aber eine strategische Resilienz-Maßnahme.
+
+---
+
+### 10. Haftung / Disclaimer
+
+- **Risiko:** 🟡
+- **Begründung:** SkillSense gibt Sicherheitsempfehlungen ("Dieser Skill ist ein Risiko") und löst damit potenziell Nutzeraktionen aus — Skill-Löschung, Skill-Austausch, Entscheidungen über das AI-Setup. Wenn eine Empfehlung falsch ist (False Positive: harmloser Skill als

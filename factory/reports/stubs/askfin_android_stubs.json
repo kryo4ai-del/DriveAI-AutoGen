@@ -1,46 +1,652 @@
 {
   "project": "askfin_android",
-  "timestamp": "2026-03-19 19:23:47",
-  "fk014_count": 4,
-  "stubs_created": 4,
-  "stubs_skipped": 0,
+  "timestamp": "2026-03-21 10:44:51",
+  "fk014_count": 72,
+  "stubs_created": 69,
+  "stubs_skipped": 3,
   "actions": [
     {
-      "type_name": "EaseInOutQuad",
+      "type_name": "AfterEach",
       "kind": "struct",
-      "file_path": "Models\\EaseInOutQuad.kt",
+      "file_path": "Models\\AfterEach.kt",
+      "ref_files": [
+        "Models/ExamSimulationViewModelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt"
+      ]
+    },
+    {
+      "type_name": "AllCategoriesDefined",
+      "kind": "struct",
+      "file_path": "Models\\AllCategoriesDefined.kt",
+      "ref_files": [
+        "Models/QuestionCategoryTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt"
+      ]
+    },
+    {
+      "type_name": "AnimationSpec",
+      "kind": "struct",
+      "file_path": "Models\\AnimationSpec.kt",
       "ref_files": [
         "Models/AnimationSpecs.kt",
-        "Views/TrendArrow.kt"
+        "app/src/main/java/com/driveai/askfin/data/models/AnimationSpecs.kt"
       ]
     },
     {
-      "type_name": "Insert",
+      "type_name": "Answers",
       "kind": "struct",
-      "file_path": "Models\\Insert.kt",
+      "file_path": "Models\\Answers.kt",
       "ref_files": [
-        "Models/ReadinessDao.kt",
-        "Models/SkillMapDao.kt"
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
       ]
     },
     {
-      "type_name": "OnConflictStrategy",
+      "type_name": "Blank",
       "kind": "struct",
-      "file_path": "Models\\OnConflictStrategy.kt",
+      "file_path": "Models\\Blank.kt",
       "ref_files": [
-        "Models/ReadinessDao.kt",
-        "Models/SkillMapDao.kt"
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
       ]
     },
     {
-      "type_name": "Query",
+      "type_name": "Build",
       "kind": "struct",
-      "file_path": "Models\\Query.kt",
+      "file_path": "Models\\Build.kt",
       "ref_files": [
-        "Models/ReadinessDao.kt",
-        "Models/SkillMapDao.kt"
+        "Models/HapticFeedback.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt"
+      ]
+    },
+    {
+      "type_name": "Categories",
+      "kind": "struct",
+      "file_path": "Models\\Categories.kt",
+      "ref_files": [
+        "Models/QuestionCategoryTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt"
+      ]
+    },
+    {
+      "type_name": "CategoryFiltering",
+      "kind": "struct",
+      "file_path": "Models\\CategoryFiltering.kt",
+      "ref_files": [
+        "Models/QuestionCategoryTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/QuestionCategoryTest.kt"
+      ]
+    },
+    {
+      "type_name": "Check",
+      "kind": "struct",
+      "file_path": "Models\\Check.kt",
+      "ref_files": [
+        "Models/AnswerButton.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt"
+      ]
+    },
+    {
+      "type_name": "CheckCircle",
+      "kind": "struct",
+      "file_path": "Models\\CheckCircle.kt",
+      "ref_files": [
+        "Views/MilestoneRow.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/MilestoneRow.kt"
+      ]
+    },
+    {
+      "type_name": "Close",
+      "kind": "struct",
+      "file_path": "Models\\Close.kt",
+      "ref_files": [
+        "Models/AnswerButton.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt"
+      ]
+    },
+    {
+      "type_name": "ColumnInfo",
+      "kind": "struct",
+      "file_path": "Models\\ColumnInfo.kt",
+      "ref_files": [
+        "Models/ReadinessScoreHistoryEntity.kt",
+        "app/src/main/java/com/driveai/askfin/data/local/ReadinessScoreHistoryEntity.kt"
+      ]
+    },
+    {
+      "type_name": "ComponentActivity",
+      "kind": "struct",
+      "file_path": "Models\\ComponentActivity.kt",
+      "ref_files": [
+        "app/src/main/java/com/driveai/askfin/MainActivity.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/MainActivity.kt"
+      ]
+    },
+    {
+      "type_name": "ContextCompat",
+      "kind": "struct",
+      "file_path": "Models\\ContextCompat.kt",
+      "ref_files": [
+        "Models/HapticFeedback.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt"
+      ]
+    },
+    {
+      "type_name": "Copied",
+      "kind": "struct",
+      "file_path": "Models\\Copied.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "Copy",
+      "kind": "struct",
+      "file_path": "Models\\Copy.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "Create",
+      "kind": "struct",
+      "file_path": "Models\\Create.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "CsvSource",
+      "kind": "struct",
+      "file_path": "Models\\CsvSource.kt",
+      "ref_files": [
+        "Models/CompetenceLevelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt"
+      ]
+    },
+    {
+      "type_name": "DarkColorScheme",
+      "kind": "struct",
+      "file_path": "Models\\DarkColorScheme.kt",
+      "ref_files": [
+        "app/src/main/java/com/driveai/askfin/ui/components/AskFinTheme.kt",
+        "app/src/main/java/com/driveai/askfin/ui/theme/AskFinTheme.kt"
+      ]
+    },
+    {
+      "type_name": "DeterminismTests",
+      "kind": "struct",
+      "file_path": "Models\\DeterminismTests.kt",
+      "ref_files": [
+        "Models/CompetenceLevelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt"
+      ]
+    },
+    {
+      "type_name": "DiagnosticService",
+      "kind": "class",
+      "file_path": "Services\\DiagnosticService.kt",
+      "ref_files": [
+        "ViewModels/OnboardingStep.kt",
+        "ViewModels/TrainingSessionFlowViewModel.kt"
+      ]
+    },
+    {
+      "type_name": "Difficulties",
+      "kind": "struct",
+      "file_path": "Models\\Difficulties.kt",
+      "ref_files": [
+        "Models/DifficultyTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/DifficultyTest.kt"
+      ]
+    },
+    {
+      "type_name": "EaseInOutCubic",
+      "kind": "struct",
+      "file_path": "Models\\EaseInOutCubic.kt",
+      "ref_files": [
+        "Views/ShimmerLoader.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/ShimmerLoader.kt"
+      ]
+    },
+    {
+      "type_name": "Ellipsis",
+      "kind": "struct",
+      "file_path": "Models\\Ellipsis.kt",
+      "ref_files": [
+        "Views/SkillMapHeader.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/SkillMapHeader.kt"
+      ]
+    },
+    {
+      "type_name": "Empty",
+      "kind": "struct",
+      "file_path": "Models\\Empty.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "EnumConversion",
+      "kind": "struct",
+      "file_path": "Models\\EnumConversion.kt",
+      "ref_files": [
+        "Models/TrainingModeTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt"
+      ]
+    },
+    {
+      "type_name": "EnumPropertiesTests",
+      "kind": "struct",
+      "file_path": "Models\\EnumPropertiesTests.kt",
+      "ref_files": [
+        "Models/CompetenceLevelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt"
+      ]
+    },
+    {
+      "type_name": "EnumValues",
+      "kind": "struct",
+      "file_path": "Models\\EnumValues.kt",
+      "ref_files": [
+        "Models/TrainingModeTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/TrainingModeTest.kt"
+      ]
+    },
+    {
+      "type_name": "EqualityAndCopying",
+      "kind": "struct",
+      "file_path": "Models\\EqualityAndCopying.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "ErrorOutline",
+      "kind": "struct",
+      "file_path": "Models\\ErrorOutline.kt",
+      "ref_files": [
+        "Views/ReadinessErrorContent.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/ReadinessErrorContent.kt"
+      ]
+    },
+    {
+      "type_name": "ExperimentalCoroutinesApi",
+      "kind": "struct",
+      "file_path": "Models\\ExperimentalCoroutinesApi.kt",
+      "ref_files": [
+        "Models/ExamSimulationViewModelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt"
+      ]
+    },
+    {
+      "type_name": "FromScoreBoundaryTests",
+      "kind": "struct",
+      "file_path": "Models\\FromScoreBoundaryTests.kt",
+      "ref_files": [
+        "Models/CompetenceLevelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt"
+      ]
+    },
+    {
+      "type_name": "Gray",
+      "kind": "struct",
+      "file_path": "Models\\Gray.kt",
+      "ref_files": [
+        "Views/CompetenceBar.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/CompetenceBar.kt"
+      ]
+    },
+    {
+      "type_name": "HapticFeedbackConstants",
+      "kind": "struct",
+      "file_path": "Models\\HapticFeedbackConstants.kt",
+      "ref_files": [
+        "app/src/main/java/com/driveai/askfin/di/HapticModule.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/CountdownTimer.kt",
+        "app/src/main/java/com/driveai/askfin/ui/screens/ExamSimulationScreen.kt"
+      ]
+    },
+    {
+      "type_name": "IOException",
+      "kind": "struct",
+      "file_path": "Models\\IOException.kt",
+      "ref_files": [
+        "Models/ReadinessUiState.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/ReadinessUiState.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt"
+      ]
+    },
+    {
+      "type_name": "InstantTaskExecutorRule",
+      "kind": "struct",
+      "file_path": "Models\\InstantTaskExecutorRule.kt",
+      "ref_files": [
+        "Models/ExamSimulationViewModelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt"
+      ]
+    },
+    {
+      "type_name": "InvalidInputs",
+      "kind": "struct",
+      "file_path": "Models\\InvalidInputs.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "JvmField",
+      "kind": "struct",
+      "file_path": "Models\\JvmField.kt",
+      "ref_files": [
+        "Models/ExamSimulationViewModelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt"
+      ]
+    },
+    {
+      "type_name": "JvmInline",
+      "kind": "struct",
+      "file_path": "Models\\JvmInline.kt",
+      "ref_files": [
+        "Models/GeneratedHelpers.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/GeneratedHelpers.kt"
+      ]
+    },
+    {
+      "type_name": "LaunchedEffect",
+      "kind": "struct",
+      "file_path": "Models\\LaunchedEffect.kt",
+      "ref_files": [
+        "app/src/main/java/com/driveai/askfin/ui/components/FeedbackPanel.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/TrendArrow.kt",
+        "app/src/main/java/com/driveai/askfin/ui/screens/ExamQuestionScreen.kt",
+        "app/src/main/java/com/driveai/askfin/ui/screens/ReadinessScreen.kt",
+        "app/src/main/java/com/driveai/askfin/ui/screens/TrainingScreen.kt"
+      ]
+    },
+    {
+      "type_name": "LightColorScheme",
+      "kind": "struct",
+      "file_path": "Models\\LightColorScheme.kt",
+      "ref_files": [
+        "app/src/main/java/com/driveai/askfin/ui/components/AskFinTheme.kt",
+        "app/src/main/java/com/driveai/askfin/ui/theme/AskFinTheme.kt"
+      ]
+    },
+    {
+      "type_name": "LocalAccessibilityManager",
+      "kind": "class",
+      "file_path": "Services\\LocalAccessibilityManager.kt",
+      "ref_files": [
+        "Views/CompetenceBar.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/CompetenceBar.kt"
+      ]
+    },
+    {
+      "type_name": "LocalContentColor",
+      "kind": "struct",
+      "file_path": "Models\\LocalContentColor.kt",
+      "ref_files": [
+        "Views/CompetenceBar.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/CompetenceBar.kt"
+      ]
+    },
+    {
+      "type_name": "Lock",
+      "kind": "struct",
+      "file_path": "Models\\Lock.kt",
+      "ref_files": [
+        "Views/MilestoneRow.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/MilestoneRow.kt"
+      ]
+    },
+    {
+      "type_name": "Medium",
+      "kind": "struct",
+      "file_path": "Models\\Medium.kt",
+      "ref_files": [
+        "Views/MotivationalMessage.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/MotivationalMessage.kt"
+      ]
+    },
+    {
+      "type_name": "Multiple",
+      "kind": "struct",
+      "file_path": "Models\\Multiple.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "MutableSharedFlow",
+      "kind": "struct",
+      "file_path": "Models\\MutableSharedFlow.kt",
+      "ref_files": [
+        "Models/ReadinessViewModelInitTest.kt",
+        "ViewModels/TrainingConfigEvent.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/ReadinessViewModelInitTest.kt"
+      ]
+    },
+    {
+      "type_name": "Normal",
+      "kind": "struct",
+      "file_path": "Models\\Normal.kt",
+      "ref_files": [
+        "Models/AnswerButton.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/AnswerButton.kt"
+      ]
+    },
+    {
+      "type_name": "Outlined",
+      "kind": "struct",
+      "file_path": "Models\\Outlined.kt",
+      "ref_files": [
+        "Views/EmptySkillState.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/EmptySkillState.kt"
+      ]
+    },
+    {
+      "type_name": "ParameterizedTest",
+      "kind": "struct",
+      "file_path": "Models\\ParameterizedTest.kt",
+      "ref_files": [
+        "Models/CompetenceLevelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt"
+      ]
+    },
+    {
+      "type_name": "Polite",
+      "kind": "struct",
+      "file_path": "Models\\Polite.kt",
+      "ref_files": [
+        "Models/LoadingScreen.kt",
+        "Views/AccessibleSlider.kt",
+        "app/src/main/java/com/driveai/askfin/ui/screens/LoadingScreen.kt"
+      ]
+    },
+    {
+      "type_name": "ProvidedTypeConverter",
+      "kind": "struct",
+      "file_path": "Models\\ProvidedTypeConverter.kt",
+      "ref_files": [
+        "Models/DateTimeConverter.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt"
+      ]
+    },
+    {
+      "type_name": "Random",
+      "kind": "struct",
+      "file_path": "Models\\Random.kt",
+      "ref_files": [
+        "Models/ConfidenceIntervalCalculatorTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/ConfidenceIntervalCalculatorTest.kt"
+      ]
+    },
+    {
+      "type_name": "Refresh",
+      "kind": "struct",
+      "file_path": "Models\\Refresh.kt",
+      "ref_files": [
+        "Views/SkillMapHeader.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/SkillMapHeader.kt"
+      ]
+    },
+    {
+      "type_name": "RepeatMode",
+      "kind": "enum",
+      "file_path": "Models\\RepeatMode.kt",
+      "ref_files": [
+        "Views/ShimmerLoader.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/ShimmerLoader.kt"
+      ]
+    },
+    {
+      "type_name": "Reverse",
+      "kind": "struct",
+      "file_path": "Models\\Reverse.kt",
+      "ref_files": [
+        "Views/ShimmerLoader.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/ShimmerLoader.kt"
+      ]
+    },
+    {
+      "type_name": "Room",
+      "kind": "struct",
+      "file_path": "Models\\Room.kt",
+      "ref_files": [
+        "Models/SkillMapModule.kt",
+        "app/src/main/java/com/driveai/askfin/di/SkillMapModule.kt"
+      ]
+    },
+    {
+      "type_name": "StandardTestDispatcher",
+      "kind": "struct",
+      "file_path": "Models\\StandardTestDispatcher.kt",
+      "ref_files": [
+        "Models/ExamSimulationViewModelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/ExamSimulationViewModelTest.kt"
+      ]
+    },
+    {
+      "type_name": "Transparent",
+      "kind": "struct",
+      "file_path": "Models\\Transparent.kt",
+      "ref_files": [
+        "Views/ExamProgressBar.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/ExamProgressBar.kt"
+      ]
+    },
+    {
+      "type_name": "TrendingDown",
+      "kind": "struct",
+      "file_path": "Models\\TrendingDown.kt",
+      "ref_files": [
+        "Views/TrendBadge.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/TrendBadge.kt"
+      ]
+    },
+    {
+      "type_name": "TrendingFlat",
+      "kind": "struct",
+      "file_path": "Models\\TrendingFlat.kt",
+      "ref_files": [
+        "Views/TrendBadge.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/TrendBadge.kt"
+      ]
+    },
+    {
+      "type_name": "TrendingUp",
+      "kind": "struct",
+      "file_path": "Models\\TrendingUp.kt",
+      "ref_files": [
+        "Views/TrendBadge.kt",
+        "app/src/main/java/com/driveai/askfin/ui/components/TrendBadge.kt"
+      ]
+    },
+    {
+      "type_name": "ValidAnswers",
+      "kind": "struct",
+      "file_path": "Models\\ValidAnswers.kt",
+      "ref_files": [
+        "Models/AnswerTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/AnswerTest.kt"
+      ]
+    },
+    {
+      "type_name": "ValueSource",
+      "kind": "struct",
+      "file_path": "Models\\ValueSource.kt",
+      "ref_files": [
+        "Models/CompetenceLevelTest.kt",
+        "app/src/test/java/com/driveai/askfin/data/models/CompetenceLevelTest.kt"
+      ]
+    },
+    {
+      "type_name": "VibrationEffect",
+      "kind": "struct",
+      "file_path": "Models\\VibrationEffect.kt",
+      "ref_files": [
+        "Models/HapticFeedback.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt"
+      ]
+    },
+    {
+      "type_name": "Vibrator",
+      "kind": "struct",
+      "file_path": "Models\\Vibrator.kt",
+      "ref_files": [
+        "Models/HapticFeedback.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt"
+      ]
+    },
+    {
+      "type_name": "VibratorManager",
+      "kind": "class",
+      "file_path": "Services\\VibratorManager.kt",
+      "ref_files": [
+        "Models/HapticFeedback.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/HapticFeedback.kt"
+      ]
+    },
+    {
+      "type_name": "ZoneId",
+      "kind": "struct",
+      "file_path": "Models\\ZoneId.kt",
+      "ref_files": [
+        "Models/LocalDateTimeConverters.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/LocalDateTimeConverters.kt"
+      ]
+    },
+    {
+      "type_name": "ZoneOffset",
+      "kind": "struct",
+      "file_path": "Models\\ZoneOffset.kt",
+      "ref_files": [
+        "Models/DateTimeConverter.kt",
+        "app/src/main/java/com/driveai/askfin/data/models/DateTimeConverter.kt"
       ]
     }
   ],
-  "skipped": []
+  "skipped": [
+    {
+      "type_name": "AskFinNavHost",
+      "reason": "file already exists: app\\src\\main\\java\\com\\driveai\\askfin\\ui\\components\\AskFinNavHost.kt"
+    },
+    {
+      "type_name": "AskFinTheme",
+      "reason": "file already exists: app\\src\\main\\java\\com\\driveai\\askfin\\ui\\components\\AskFinTheme.kt"
+    },
+    {
+      "type_name": "ExamQuestionScreen",
+      "reason": "file already exists: quarantine\\ExamQuestionScreen.kt"
+    }
+  ]
 }

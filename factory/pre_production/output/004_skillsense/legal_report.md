@@ -1,188 +1,236 @@
 # Legal-Research-Report: SkillSense
 
 **Erstellt:** Juni 2025
-**Konzept-Version:** Concept Brief SkillSense (inkl. Abweichungen vom CEO-Brief)
-**Scope:** Web-App (Desktop-first), DACH-Primärmarkt, Freemium + Pro-Abo, Client-side-Analyse-Architektur
-**Disclaimer:** KI-basierte Ersteinschätzung — keine rechtsverbindliche Beratung.
+**Konzept-Version:** Concept Brief SkillSense (Web-App, DACH-First)
+**Risiko-Legende:** 🟢 Gering · 🟡 Mittel · 🔴 Hoch · ⚪ Nicht relevant
 
 ---
 
 ## Identifizierte Rechtsfelder
 
-| # | Rechtsfeld | Relevanz-Score | Priorität |
+| # | Rechtsfeld | Risiko | Begründung |
 |---|---|---|---|
-| 1 | Monetarisierung & Glücksspielrecht | 🟢 Niedrig | Low |
-| 2 | App Store Richtlinien | 🟢 Niedrig–Mittel | Low (Web-App) |
-| 3 | AI-generierter Content — Urheberrecht | 🟡 Mittel | Medium |
-| 4 | Datenschutz (DSGVO / COPPA) | 🟡–🔴 Mittel–Hoch | **High** |
-| 5 | Jugendschutz (USK / PEGI) | 🟢 Niedrig | Low |
-| 6 | Social Features — Auflagen | 🟢 Nicht relevant | — |
-| 7 | Markenrecht — Namenskonflikt | 🟡 Mittel | Medium |
-| 8 | Patente | 🟡 Mittel (latent) | Medium |
-| 9 | Plattform-AGB (Anthropic / OpenAI) | 🔴 **Hoch** | **Critical** |
-| 10 | Vertragsrecht / SaaS-Abo-Recht (EU) | 🟡 Mittel | Medium |
+| 1 | Monetarisierung & Glücksspielrecht | 🟢 | Subscription-Modell, keine Lootboxen, kein Zufallselement |
+| 2 | App Store Richtlinien | 🟢 | Web-App-First, kein App-Store-Zwang; bedingt relevant |
+| 3 | AI-generierter Content — Urheberrecht | 🟡 | Claude-API für Skill-Generierung (Pro-Tier) — Eigentumsfrage offen |
+| 4 | Datenschutz (DSGVO / COPPA) | 🟡🔴 | Chat-Export-Upload, Client-Side-Versprechen muss technisch/rechtlich wasserdicht sein |
+| 5 | Jugendschutz (USK / PEGI) | ⚪ | Zielgruppe 20–50, kein spielerisches Element, keine Altersfreigabe erforderlich |
+| 6 | Social Features | ⚪ | Keine Community-Features im MVP oder geplanten Phasen |
+| 7 | Markenrecht — Namenskonflikt | 🟡 | "SkillSense" — Vorrecherche notwendig, Konflikte möglich |
+| 8 | Patente | 🟡 | Jaccard-basierte Overlap-Detection + Security-Pattern-Matching — Freihalteraum prüfen |
+| 9 | AGB / Nutzungsbedingungen Dritter | 🟡 | Anthropic ToS, Claude-API-Nutzung für kommerzielle Skill-Analyse |
+| 10 | Haftung / Disclaimer | 🟡 | Sicherheitsempfehlungen als Produktfeature erzeugen Haftungsrisiko |
 
-> **Hinweis zu Rechtsfeld 9:** Dieses Feld war nicht im vorgegebenen Report-Template enthalten, ist aber für SkillSense das **strukturell kritischste Rechtsrisiko** — es wird daher als eigenständiger Abschnitt ergänzt. Begründung: Die gesamte Produktlogik (Scanner, Empfehlungen, Skill-DB) operiert auf Inhalten und Formaten, die durch Drittanbieter-AGB (Anthropic, OpenAI) reguliert werden.
+> **Hinweis zur Struktur:** Felder 9 und 10 wurden gegenüber dem Standard-Template ergänzt, da sie für dieses spezifische Konzept materiell relevant sind und im Template nicht vorgesehen waren.
 
 ---
 
-## 1. Monetarisierung & Glücksspielrecht
+## 1. Monetarisierung & Glücksspielrecht 🟢
 
 ### Aktuelle Gesetzeslage
 
-Glücksspielrecht reguliert Mechanismen, bei denen (a) ein Einsatz erbracht wird, (b) ein zufällig bestimmtes Ergebnis entsteht und (c) ein Gewinn erzielt werden kann. Die EU-Mitgliedsstaaten regulieren Glücksspiel auf nationaler Ebene; es gibt keine harmonisierte EU-Glücksspielrichtlinie (Stand 2025).
+Glücksspielrechtliche Regulierung (EU-Richtlinien, nationale Glücksspielgesetze DE/AT/CH, US State Laws) greift bei Produkten mit **Zufallsmechanik und Geldwert** — insbesondere Lootboxen, Gacha-Systeme und Pay-to-Win-Elemente. SkillSense hat keines dieser Elemente.
 
-Im Kontext von Mobile/Web-Apps ist die zentrale Debatte **Loot Boxes**: Der EU-Digitalausschuss hat im Oktober 2025 Maßnahmen empfohlen, die glücksspielähnliche Mechanismen (Loot Boxes) in Spielen, die für Minderjährige zugänglich sind, verbieten würden (Europäisches Parlament, Oktober 2025). Der vorgeschlagene **Digital Fairness Act (DFA)** zielt auf Microtransactions und manipulative Game-Design-Elemente ab (The Armored Patrol, Oktober 2025). ⚠️ *DFA ist zum Berichtszeitpunkt noch im Gesetzgebungsverfahren — finale Verabschiedung ausstehend.*
+Das Monetarisierungsmodell ist ein klassisches **SaaS-Subscription-Modell:**
+
+```
+Free Tier     → Funktionslimitierung (3 Scans, 1 Security Check)
+Pro Tier      → 9,99 €/Monat oder 79 €/Jahr
+Enterprise    → Jahresvertrag, individuell
+```
+
+Alle Leistungen sind deterministisch und transaktionsbasiert. Es gibt keine Zufallskomponente, keinen virtuellen Gegenwert mit Umtauschwert, keine In-App-Währung.
 
 ### Länderspezifisch
 
-| Jurisdiktion | Status Loot Boxes / Zufallsmechanik | Relevanz für SkillSense |
+| Jurisdiction | Bewertung | Anmerkung |
 |---|---|---|
-| **Deutschland** | Kein generelles Verbot; KJM prüft Einzelfälle unter JuSchG | Nicht anwendbar |
-| **Belgien** | Loot Boxes seit 2018 als Glücksspiel eingestuft (Gaming Commission) | Nicht anwendbar |
-| **Niederlande** | Kfw-Entscheidung 2019; teilweise Regulierung | Nicht anwendbar |
-| **EU gesamt** | DFA in Vorbereitung (2025); EP-Empfehlungen Oktober 2025 | Nicht anwendbar |
-| **USA** | Bundesebene: kein Loot-Box-Verbot; einzelne Bundesstaaten diskutieren Gesetze | Nicht anwendbar |
-| **China** | Offenlegungspflicht für Drop-Rates seit 2017 | Nicht anwendbar |
+| **Deutschland** | ✅ Unbedenklich | GlüStV 2021 betrifft Online-Glücksspiele — nicht anwendbar |
+| **Österreich** | ✅ Unbedenklich | GSpG greift nicht bei Subscription-SaaS |
+| **Schweiz** | ✅ Unbedenklich | BGS gilt nur für Geldspiele mit Gewinnchance |
+| **EU gesamt** | ✅ Unbedenklich | Kein EU-weites Glücksspielrecht; nationale Gesetze greifen nicht |
+| **USA** | ✅ Unbedenklich | Kein State Law greift bei Subscription ohne Zufallsmechanik |
+| **China** | ⚪ Nicht relevant | DACH-First — China nicht im Scope des MVP |
 
 ### Relevanz für dieses Konzept
 
-🟢 **Nicht relevant.**
-
-SkillSense enthält **keinerlei Zufallsmechanismen, Loot Boxes, Wett- oder Glücksspiel-Elemente.** Das Monetarisierungsmodell basiert ausschließlich auf:
-- Freemium-Zugang (Funktionsumfang-Limitierung)
-- Abo-Modell (Pro/Enterprise)
-- Optionalem Credits-System für LLM-Calls (deterministisches Verbrauchsmodell)
-
-Credits für Skill-Generierungen sind **kein Glücksspiel**, da kein Zufallselement und kein variables Ergebnis entsteht. Vergleichbar mit API-Call-Kontingenten bei AWS oder Stripe — rechtlich unproblematisch.
+**Minimal.** Das Modell ist regulatorisch sauber. Einziger theoretischer Edge Case: Falls SkillSense in einer späteren Phase **kuratierte Skill-Pakete als zufällig zusammengestellte "Bundles"** anbieten würde — dann wäre eine Neubewertung notwendig. Im aktuellen Konzept ist das nicht vorgesehen.
 
 ### Quellen
-- Europäisches Parlament, Pressemitteilung "New EU measures needed to make online services safer for minors", Oktober 2025
-- The Armored Patrol, "WG Loot Box System Could Soon Be Illegal in the EU", Oktober 2025
-- siege.gg, "Several EU Countries Have Introduced Stricter Regulations on Loot Boxes in Games in 2025", 2025
-- Belgian Gaming Commission, Loot Box Ruling, 2018 (Referenz)
+- Glücksspielstaatsvertrag 2021 (GlüStV 2021), Deutschland
+- Österreichisches Glücksspielgesetz (GSpG), BGBl. Nr. 620/1989 idgF
+- Belgische Gaming Commission: Stellungnahme zu Lootboxen (2018, weiterhin referenziert 2024)
+- Netherlands Kansspelautoriteit: Lootbox-Guidance (2024 Update)
 
 ---
 
-## 2. App Store Richtlinien
+## 2. App Store Richtlinien 🟢 (bedingt relevant)
 
-### Vorbemerkung: Plattform-Klassifikation
+### Vorbemerkung zur Plattformwahl
 
-SkillSense ist konzeptionell als **Web-App (Desktop-first)** geplant, gehostet auf Vercel, vertrieben über direkten Browser-Zugang. Es ist **keine native iOS/Android-App**. Damit entfällt der obligatorische App Store Review-Prozess für den MVP.
+Das Concept Brief trifft explizit die strategische Entscheidung **gegen eine native App** und **für eine Web-App (Next.js/Vercel)**. Das ist aus rechtlicher Sicht die risikoärmere Wahl — insbesondere für ein Tool das Chat-Daten verarbeitet. Die App-Store-Richtlinien sind damit für das MVP **nicht direkt anwendbar**, aber aus zwei Gründen trotzdem relevant:
+
+1. **Zukünftige Mobile App** (Phase 3+ denkbar)
+2. **Progressive Web App (PWA)** — falls SkillSense als PWA auf Mobile installierbar wird, gelten Apple-Regeln teilweise indirekt
 
 ### Apple App Store
 
-**Nicht obligatorisch relevant für MVP.** Falls eine native iOS-Begleit-App entwickelt wird:
+**Relevante Richtlinien (Stand: App Store Review Guidelines 2025):**
 
-- **In-App Purchase (IAP) Pflicht:** Apple verlangt für digitale Güter und Abonnements, die innerhalb einer iOS-App konsumiert werden, die Nutzung von Apple IAP (Guideline 3.1.1). Das bedeutet: 15–30% Apple-Provision auf alle Abo-Einnahmen via iOS-App.
-- **Reader-App-Ausnahme:** Web-basierte Services, die primär Inhalte konsumieren (kein In-App-Kauf), können als "Reader App" qualifizieren und externe Zahlungslinks anbieten — allerdings mit strengen Einschränkungen (Apple App Review Guidelines, Sektion 3.1.3a).
-- **AI-Content:** Keine spezifische Guideline gegen KI-generierte Skill-Empfehlungen; jedoch müssen Apps, die nutzergenerierte oder AI-generierte Inhalte anzeigen, Moderations-Mechanismen vorhalten (Guideline 1.2).
-- **2025-Update:** Durch das EU Digital Markets Act Enforcement hat Apple in der EU alternative Payment-Links erlaubt (externe Web-Zahlungen via "Entitlement") — für DACH-Markt potenziell relevant, falls iOS-App gebaut wird.
+| Regel | Inhalt | Relevanz für SkillSense |
+|---|---|---|
+| **Guideline 3.1.1** | In-App Purchases für digitale Inhalte müssen über StoreKit laufen | Bei nativer iOS-App: Subscription muss über Apple IAP — 15–30% Gebühr | 
+| **Guideline 5.1.1** | Privacy — Datenerhebung muss deklariert werden | Chat-Export-Verarbeitung wäre im App Store Privacy Label zu deklarieren |
+| **Guideline 4.2** | Minimum Functionality | Reines "Web-Wrapper"-App-Konzept würde abgelehnt |
+| **Guideline 2.5.13** | Apps dürfen keine versteckten Funktionen haben | Security-Scanner muss vollständig in App-Beschreibung kommuniziert werden |
+
+**Kritischer Punkt für hypothetische iOS-App:**
+Ein Tool das **Chat-Exporte von Claude analysiert** würde im App Store Review mit hoher Wahrscheinlichkeit unter **Guideline 5.1** geprüft werden — auch wenn die Verarbeitung client-side erfolgt. Apple verlangt im Privacy Nutrition Label die Deklaration ob "User Content" (Chat-Daten gelten als User Content) verarbeitet wird. Client-Side-Processing reduziert das Risiko, eliminiert es aber nicht vollständig aus Apple-Perspektive.
+
+> ⚠️ **Strategische Bestätigung der Web-App-Entscheidung:** Die App-Store-15–30%-Gebühr auf 9,99 €/Monat wäre bei 1.000 Pro-Nutzern ein monatlicher Verlust von 1.500–3.000 € gegenüber direktem Web-Billing via Stripe. Die Web-App-Entscheidung ist ökonomisch und rechtlich korrekt.
 
 ### Google Play Store
 
-**Nicht obligatorisch relevant für MVP.** Falls eine native Android-App entwickelt wird:
+**Relevante Richtlinien (Stand: Google Play Policy Center 2025):**
 
-- Ähnliche Billing-Policy wie Apple: Google Play Billing für digitale Güter verpflichtend.
-- Google hat 2024/2025 "User Choice Billing" in bestimmten Märkten ausgerollt — erlaubt alternative Payment-Optionen mit reduzierter Provision (~15% statt 30%).
-- AI-generierte Inhalte: Play Store Policy verlangt Transparenz über AI-generierten Content; keine grundsätzliche Sperrung.
+| Regel | Inhalt | Relevanz |
+|---|---|---|
+| **Sensitive Data Policy** | Apps die "sensitive personal information" verarbeiten brauchen prominente Disclosure | Chat-Exporte könnten als sensitiv eingestuft werden |
+| **Subscription Policy** | Klare Kommunikation von Laufzeit, Preisen, Kündigung | Standard-Anforderungen — erfüllbar |
+| **AI-generated Content Policy** (neu 2024) | AI-generierte Inhalte müssen als solche markiert werden | Relevant für Skill-Generierung via Claude (Pro-Tier) |
 
-### Relevanz für dieses Konzept
+### Relevanz für aktuelles Konzept
 
-🟢 **Aktuell gering — strategisch zu beobachten.**
-
-Als Web-App unterliegt SkillSense **nicht** den App Store Guidelines. Stripe-Zahlungen direkt via Web sind ohne Provision möglich. **Empfehlung:** iOS/Android-App als optionalen Phase-2/Phase-3-Schritt behandeln und erst dann die IAP-Compliance-Anforderungen prüfen. Die Web-App-Strategie ist aus Monetarisierungssicht deutlich günstiger (keine 15–30% Provision).
+**Gering bis mittel.** Web-App-First ist die richtige Entscheidung. Für eine hypothetische spätere Mobile-App: Frühzeitig Rechtsberatung zur App-Store-Compliance bei Chat-Daten-Verarbeitung einholen.
 
 ### Quellen
-- Apple App Store Review Guidelines (developer.apple.com/app-store/review/guidelines/, abgerufen 2025)
-- LinkedIn/Sonu Dhankhar, "App Store Policy Updates 2025: Impact on Monetization", 2025
-- EU Digital Markets Act, Enforcement gegen Apple (Europäische Kommission, 2024)
+- Apple App Store Review Guidelines (developer.apple.com, abgerufen 2025)
+- Google Play Developer Policy Center (play.google.com/about/developer-content-policy, 2025)
+- twinr.dev: "iOS In-App Purchase Compliance: Full Guide For 2025"
 
 ---
 
-## 3. AI-generierter Content — Urheberrecht
+## 3. AI-generierter Content — Urheberrecht 🟡
 
 ### Aktuelle Rechtslage
 
-**USA:**
-Das U.S. Copyright Office hat in seinem zweiteiligen Report (Teil 2 veröffentlicht 29. Januar 2025) klargestellt: **AI-generierte Werke sind nicht urheberrechtlich schutzfähig**, wenn kein ausreichender menschlicher kreativer Beitrag nachweisbar ist. Auch wenn ein Mensch den Prompt schreibt, begründet das allein keinen Copyright-Schutz am Output (U.S. Copyright Office, Januar 2025; Michael Best & Friedrich LLP, 2025).
+Die urheberrechtliche Bewertung von KI-generiertem Content ist 2025 in einer **aktiven Entwicklungsphase**:
 
-**EU (inkl. DACH):**
-Das EU-Urheberrecht (InfoSoc-Richtlinie 2001/29/EG) setzt ebenfalls menschliche Schöpfung voraus. AI-generierte Outputs ohne substanzielle menschliche Formgebung sind in der EU nicht schutzfähig. Der EU AI Act (in Kraft getreten 2024, schrittweise Anwendung) enthält Transparenzpflichten für AI-generierte Inhalte (Art. 50 AI Act): **Kennzeichnungspflicht für AI-generierte Texte** in bestimmten Kontexten.
+**USA (U.S. Copyright Office):**
+- Part 2 des AI-Copyright-Reports (veröffentlicht 29. Januar 2025): KI-generierte Outputs sind **grundsätzlich nicht urheberrechtlich schutzfähig** ohne nachweisbare menschliche kreative Kontrolle
+- Praktische Konsequenz: Skill-Texte die Claude via API generiert sind urheberrechtlich **nicht durch SkillSense schützbar** — aber auch nicht durch Dritte
+- Ausnahme: Wenn ein menschlicher Autor den Output signifikant bearbeitet und gestaltet, kann dieser Anteil schützbar sein
 
-**Offene Frage Training Data:**
-Wenn SkillSense Anthropic API (Claude) für Skill-Generierung nutzt, verwendet Anthropic sein trainiertes Modell. Die Trainingsdaten-Urheberrechtsfrage (Klagen gegen OpenAI, Anthropic, etc.) ist **rechtlich noch nicht abschließend geklärt** (Reuters, März 2026 — Verweis auf fortlaufende Gerichtsverfahren). ⚠️ *Das Risiko liegt bei Anthropic, nicht bei SkillSense als API-Nutzer — solange SkillSense keine eigenen Trainingsdaten erhebt.*
+**EU / Deutschland:**
+- EU AI Act (in Kraft seit August 2024, Anwendung gestaffelt bis 2027): Keine explizite Urheberrechtsregel für Outputs, aber **Transparenzpflicht** für KI-generierte Inhalte (Art. 50 EU AI Act)
+- Deutsches UrhG §2: Erfordert "persönliche geistige Schöpfung" — AI-Output ohne menschliche Kreativleistung nicht schutzfähig
+- BGH-Rechtsprechung zu KI-Werken: Noch keine höchstrichterliche Entscheidung für generative AI (Stand Mitte 2025)
 
-### Kommerzielle Nutzung
+**Reuters/Skadden-Analyse (März/Mai 2025):**
+> "Fair use arguments may be weaker where AI outputs directly compete with copyrighted content in active licensing markets."
+> "Making commercial use of vast troves of copyrighted works to produce expressive content" — Risiko für Training-Daten-Fragen
 
-Kritische Punkte für SkillSense:
+### Kommerzielle Nutzung — konkret für SkillSense
 
-1. **Skill-Generierungen (Pro-Feature):** Claude generiert SKILL.md-Inhalte auf Nutzeranfrage. Diese Outputs sind nach aktuellem Recht **nicht urheberrechtlich von Anthropic oder SkillSense schutzfähig** — sie gehören faktisch niemandem (bzw. dem Nutzer, wenn menschlicher Beitrag substanziell). Für das Produkt ist das **unproblematisch**: SkillSense lizenziert keine Outputs, sondern stellt sie dem Nutzer zur Verfügung.
+Zwei relevante Szenarien:
 
-2. **Kuratierte Skill-Datenbank:** Wenn SkillSense Community-Skills kuratiert und in die Datenbank aufnimmt, können diese Skills **urheberrechtlich von den ursprünglichen Autoren geschützt sein** (sofern sie menschlich geschaffen wurden und die Schöpfungshöhe erreichen). Handlungsbedarf:
-   - Klare **Lizenzierung einfordern** (z.B. Creative Commons oder eigene Lizenz) beim Einreichen von Community-Skills.
-   - **Keine Skills ohne Einwilligung** in die kuratierte DB aufnehmen.
-   - Bestehende GitHub Awesome-Listen-Skills: Lizenz der jeweiligen Repos prüfen (meist MIT oder CC) — nicht automatisch kompatibel mit kommerzieller Nutzung in einer kuratierten DB.
+**Szenario A: Claude generiert Skill-Texte (Pro-Tier-Feature)**
 
-3. **Security Scanner Analyse:** Das Scannen von SKILL.md-Dateien zur Qualitätsbewertung ist **keine urheberrechtlich relevante Nutzung** (vergleichbar mit Search Engine Indexing / Fair Use / Text-und-Data-Mining-Ausnahme Art. 4 DSM-Richtlinie in der EU).
+```
+Problem:    Wem gehören die generierten Skill-Texte?
+Antwort:    Laut Anthropic ToS (Stand 2025): Output gehört dem Nutzer der
+            die API aufruft — also SkillSense bzw. dem End-User
+Risiko:     Gering, aber Anthropic ToS muss aktiv geprüft werden
+            (siehe Abschnitt 9 — Drittanbieter-ToS)
+```
+
+**Szenario B: SkillSense kuratiert externe Skills (Datenbank)**
+
+```
+Problem:    Skills aus GitHub, Reddit, Community-Quellen könnten
+            urheberrechtlich geschützt sein
+Antwort:    Kurze Prompt-Texte sind grenzwertig schutzfähig
+            (kein ausreichender Schöpfungshöhe-Nachweis in DE)
+Risiko:     Mittel — bei wörtlicher Übernahme von Skills ohne
+            Lizenz und ohne Quellenangabe
+Empfehlung: Klare Lizenzregeln für Skill-Datenbank definieren
+            (CC-Lizenz oder explizite Einwilligung der Urheber)
+```
+
+**Szenario C: Nutzer uploaded eigene Skill-Dateien**
+
+```
+Problem:    SkillSense analysiert Inhalte die dem Nutzer gehören
+Antwort:    Reine Analyse ohne Speicherung = kein Urheberrechts-Problem
+            Client-Side-Verarbeitung minimiert Risiko zusätzlich
+Risiko:     Gering
+```
+
+### Kennzeichnungspflicht (EU AI Act Art. 50)
+
+Für **KI-generierte Skill-Vorschläge im Pro-Tier** gilt ab Anwendbarkeit des EU AI Act (GPAI-Regeln ab August 2025): Diese Inhalte sollten als KI-generiert **erkennbar gemacht werden**. Konkret: Ein Label "Von Claude generiert" oder ähnliches reicht — das ist kein Hindernis, sollte aber von Anfang an im UI berücksichtigt werden.
 
 ### Relevanz für dieses Konzept
 
-🟡 **Mittel — primär relevant für kuratierte Skill-DB und Community-Inhalte.**
-
-Der AI-Output-Teil ist weniger problematisch als die **Herkunft der Drittanbieter-Skills** in der kuratierten Datenbank. **Empfehlung:** Terms of Service für Skill-Einreichungen von Tag 1 mit expliziter Lizenzierung ausstatten. Für die Anthropic-API-Nutzung die Anthropic Usage Policy prüfen (siehe Abschnitt 9).
+**Mittel.** Kein akutes Blockier-Risiko, aber zwei Hausaufgaben:
+1. Lizenzstrategie für kuratierte Skill-Datenbank definieren
+2. KI-Kennzeichnung für generierte Skills im UI einbauen
 
 ### Quellen
-- U.S. Copyright Office, "Copyright and Artificial Intelligence — Part 2", 29. Januar 2025 (copyright.gov/ai)
-- Michael Best & Friedrich LLP, "AI + Copyright: What Every Business Needs to Know in 2025", 2025
-- Reuters, "Copyright Law in 2025: Courts begin to draw lines around AI training", 16. März 2026
-- EU AI Act (Verordnung 2024/1689), Art. 50 — Transparenzpflichten
-- EU DSM-Richtlinie 2019/790, Art. 4 — Text-und-Data-Mining
+- U.S. Copyright Office: AI Report Part 2 (29. Januar 2025), copyright.gov/ai
+- Skadden: "Copyright Office Weighs In on AI Training and Fair Use" (Mai 2025)
+- Reuters Legal: "Copyright Law in 2025" (März 2026 — *Hinweis: Datum aus Recherche-Ergebnis, möglicherweise Vorausblick*)
+- EU AI Act, Art. 50 (Amtsblatt EU, August 2024)
+- Deutsches UrhG §2 Abs. 2
 
 ---
 
-## 4. Datenschutz (DSGVO / COPPA)
+## 4. Datenschutz (DSGVO / COPPA) 🟡🔴
 
-### DSGVO-Anforderungen
+> ⚠️ **Dieses Kapitel hat das höchste Risikopotenzial für SkillSense.** Das "100% Client-Side"-Versprechen ist das zentrale Datenschutz-Argument des Produkts — und gleichzeitig die Stelle die rechtlich und technisch am sorgfältigsten ausgearbeitet werden muss.
 
-Dies ist das **rechtlich kritischste Feld** für SkillSense — gleichzeitig auch das Feld, in dem das Produkt durch seine Client-side-Architektur strukturell am stärksten positioniert ist.
+### DSGVO-Anforderungen (EU/DACH)
 
-#### 4.1 Verarbeitungssituation je Feature
+**Anwendbarkeit:** DSGVO gilt vollumfänglich — SkillSense richtet sich an EU-Nutzer (DACH-First), verarbeitet personenbezogene Daten (Chat-Exporte können personenbezogene Informationen enthalten).
 
-| Feature | Datenverarbeitung | DSGVO-Relevanz |
-|---|---|---|
-| **Skill-Scanner (Client-side)** | Keine Übertragung an Server; Datei bleibt im Browser | 🟢 Minimal — kein Personenbezug übertragen |
-| **Fragebogen (Client-side)** | Antworten lokal verarbeitet; kein Server-Upload | 🟢 Minimal — sofern kein Account |
-| **Chat-Export-Analyse (Client-side)** | ⚠️ Kritisch: Chat-Historien enthalten höchstwahrscheinlich personenbezogene Daten des Nutzers UND Dritter | 🔴 Hoch |
-| **Pro-Account (Stripe + Auth)** | E-Mail, Zahlungsdaten, Account-Daten → Server-seitig | 🟡 Standard-DSGVO-Pflichten |
-| **Analytics (Plausible)** | Aggregiert, cookielos, IP-anonymisiert | 🟢 Datenschutzfreundlich |
-| **LLM-API-Call (Anthropic)** | Prompt-Daten werden an Anthropic übertragen | 🟡 Auftragsverarbeitung prüfen |
+#### 4.1 Das "Client-Side"-Versprechen — rechtliche Implikationen
 
-#### 4.2 Chat-Export-Analyse — Hochrisiko-Bereich
+Das Concept Brief positioniert "100% Client-Side / DSGVO by Design" als USP. Das ist konzeptuell korrekt, aber **rechtlich differenziert zu betrachten:**
 
-Das Pro-Feature "Chat-Export-Upload → Browser-Analyse" ist das **datenschutzrechtlich sensibelste Feature.** Chat-Historien können enthalten:
-- Namen, Adressen, Gesundheitsdaten, Finanzdaten (Art. 9/10 DSGVO — besondere Kategorien)
-- Daten **Dritter** (z.B. Gesprächspartner, Kunden, Kollegen des Nutzers)
+```
+Was Client-Side bedeutet:
+✅ Chat-Export wird im Browser des Nutzers verarbeitet
+✅ Keine Übertragung der Rohdaten an SkillSense-Server
+✅ Kein Zugriff von SkillSense auf den Inhalt der Chats
 
-Auch wenn die Analyse client-seitig erfolgt und keine Daten den Server erreichen, muss SkillSense:
-- **Transparent kommunizieren**, was mit der Datei passiert (Datenschutzhinweis vor Upload, nicht in AGB versteckt)
-- **Technisch sicherstellen**, dass keine Leaks via Service Worker, LocalStorage-Persistenz oder Analytics-Snippets entstehen
-- **Keine Chat-Inhalte** für Training oder DB-Anreicherung verwenden (auch nicht anonymisiert ohne explizite Einwilligung)
+Was Client-Side NICHT automatisch bedeutet:
+⚠️ Telemetrie, Analytics, Error-Logging können trotzdem
+   personenbezogene Daten erfassen (IP-Adressen, Session-IDs)
+⚠️ Vercel (Hosting) sieht Request-Metadaten
+⚠️ Clerk (Auth) verarbeitet E-Mail + Identitätsdaten
+⚠️ Stripe verarbeitet Zahlungsdaten
+```
 
-> ⚠️ **Empfehlung:** Vor dem Pro-Launch ein **DSGVO-konformes Data Flow Audit** durch einen Datenschutzjuristen oder zertifizierten DSBA durchführen lassen. Client-side ist kein Freifahrtschein — es muss technisch wasserdicht sein.
+**DSGVO-Fazit zum Client-Side-Versprechen:** Es ist technisch korrekt für den **Kern-Use-Case** (Chat-Analyse), aber **nicht für alle Datenflüsse im System.** Die Datenschutzerklärung muss diese Differenzierung klar kommunizieren — andernfalls ist das Marketing-Versprechen irreführend im Sinne von Art. 5 DSGVO (Transparenzprinzip).
 
-#### 4.3 Pflichtanforderungen (Überblick)
+#### 4.2 Pflichtanforderungen nach DSGVO
 
-| Anforderung | Basis | Status-Einschätzung für SkillSense |
-|---|---|---|
-| **Datenschutzerklärung** | Art. 13/14 DSGVO | Pflicht ab Tag 1, auch ohne Account |
-| **Einwilligung für Cookies/Tracking** | Art. 6 DSGVO + ePrivacy | Plausible Analytics ist cookielos → vereinfacht |
-| **Auftragsverarbeitungsvertrag (AVV)** | Art. 28 DSGVO | Mit Stripe, Anthropic (API), Vercel, Auth-Provider zwingend |
-| **Recht auf Auskunft/Löschung** | Art. 15–17 DSGVO | Muss in Pro-Account implementiert sein |
-| **Datenminimierung** | Art. 5 Abs. 1c DSGVO | Client-side-Architektur ist strukturell konform |
-| **Verzeichnis von Verarbeitungstätigkeiten** | Art. 30 DSGVO | Ab >250 Mitarbeitern oder Risikoverarbeitung — bei Chat-Export-Feature: prüfen |
-| **DPIA (Datenschutz-Folgenabschätzung)** | Art. 35 DSGVO | **Wahrscheinlich erforderlich** bei Chat-Export-Feature (systematische Analyse personenbezogener Inhalte) |
+| Anforderung | Artikel | Umsetzung für SkillSense | Status |
+|---|---|---|---|
+| **Datenschutzerklärung** | Art. 13/14 | Vollständige Datenschutzerklärung für alle Datenflüsse (Vercel, Clerk, Stripe, Analytics) | ❌ Noch nicht erwähnt |
+| **Rechtsgrundlage** | Art. 6 | Vertragserfüllung (6(1)(b)) für Pro-Tier; berechtigtes Interesse oder Einwilligung für Analytics | ❌ Zu definieren |
+| **Einwilligung** | Art. 7 | Cookie-Banner falls Analytics-Cookies; bei Client-Side-Analyse keine Einwilligung nötig für die Analyse selbst | 🟡 Teilweise relevant |
+| **Betroffenenrechte** | Art. 15–22 | Auskunft, Löschung, Portabilität — muss implementierbar sein (Clerk-Account-Deletion) | ❌ Zu planen |
+| **Auftragsverarbeitung** | Art. 28 | AVV mit Vercel, Clerk, Stripe, Anthropic (wenn API-Calls Server-Side) | ❌ Kritisch |
+| **Datenschutz by Design** | Art. 25 | Client-Side-Ansatz ist starkes Argument hier — muss technisch dokumentiert sein | 🟢 Konzept gut |
+| **Drittland-Transfer** | Art. 44ff | Vercel (US), Clerk (US), Stripe (US), Anthropic (US) — alle US-basiert | 🟡 SCCs nötig |
 
-#### 4.4 Drittlandtransfer
+#### 4.3 Drittland-Transfer (USA) — kritischer Punkt
 
-Vercel, Stripe, Anthropic und Clerk sind US-amerikanische Anbieter. Datentransfer in die USA ist nach Schrems II (EuGH 2020) ohne geeignete Garantien unzulässig. Aktuell gilt das **EU-U.S. Data Privacy Framework (DPF)** (in Kraft seit Juli 2023) als
+Alle im Tech-Stack genannten Dienste sind US-amerikanisch:
+
+```
+Vercel     → US-Hosting (Europäische Regionen verfügbar — nutzen!)
+Clerk      → US-basiert (prüfen ob EU-Region verfügbar)
+Stripe     → US-Headquarter (EU-Datenverarbeitung möglich)
+Anthropic  → US-basiert (API-Calls — sind das Server-Side-Calls

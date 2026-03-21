@@ -1,102 +1,109 @@
 # Zielgruppen-Profil: SkillSense
 
----
-
 ## Primäre Zielgruppe
 
-- **Alter:** 25–45 Jahre (Kern: 28–38) — Tech-affine Berufstätige, keine klassischen "Gamer-Demographics" anwendbar; Proxy: AI-Tool-Nutzer-Demografie ¹
-- **Geschlecht:** ~65% männlich / 35% weiblich (Proxy: Developer- & Power-User-Communities) ⚠️ *Schätzwert, keine direkten Daten verfügbar*
-- **Region(en):** DACH-Primärmarkt (DE, AT, CH) + anglophone Sekundärmärkte (US, UK, CA) — DSGVO-Fokus macht DACH zum strategisch wichtigsten Launch-Markt
-- **Nutzungstyp:** **Power User / Early Adopter** — kein Casual-Segment; Nutzer haben bereits Claude Pro/Max oder GPT Plus (Mindest-Ausgaben: ~20–22€/Monat für AI-Abo), technisches Grundverständnis vorhanden
-- **Beruf:** Softwareentwickler, Content Creator, Freelancer, Wissensarbeiter, Marketing/Kommunikation, UX/Product Manager
-- **Tech-Affinität:** Hoch bis sehr hoch — Nutzer, die aktiv nach Optimierung ihrer AI-Workflows suchen
+- **Alter:** 25–40 Jahre (Kern-Persona: "AI-Power-User"); sekundär 18–24 (Early Adopter / Studenten) und 40–55 (Professional / Enterprise)
+- **Region(en):** DACH primär (DE, AT, CH) — deutschsprachige Positionierung im Pitch deutet auf DACH-First-Strategie hin; Englisch-Support ermöglicht EU-Rollout + US-Expansion ab Phase 2
+- **Nutzertyp:** Kein klassischer "Gamer" — stattdessen:
+  - 🧑‍💻 **Tech-Affine Wissensarbeiter** (Developer, Designer, Produktmanager)
+  - ✍️ **Content Professionals** (Texter, Journalisten, Marketer)
+  - 📊 **Business Analyst / Consultant** (nutzt AI für Research & Reports)
+  - 🎓 **Fortgeschrittene AI-Enthusiasten** (keine Anfänger — brauchen bereits Skills/Custom Instructions)
+
+> ⚠️ **Wichtige Abgrenzung:** SkillSense ist eine **Web-App**, kein Mobile Game. Die bereitgestellten Web-Recherche-Ergebnisse (Mobile Gaming Demographics) sind für dieses Produkt nur bedingt als Proxy nutzbar. Wo Daten fehlen, werden **SaaS-/Productivity-Tool-Benchmarks** als Proxy verwendet und entsprechend markiert.
 
 ---
 
 ## Ausgabeverhalten
 
-- **Bestehende AI-Ausgaben:** Claude Pro ~20€/Monat, GPT Plus ~22$/Monat — diese Nutzer haben **bereits bewiesen**, dass sie für AI-Tools zahlen ²
-- **Akzeptierte Preispunkte für Add-on-Tools:** €5–15/Monat für Produktivitäts-Tools im AI-Bereich (Proxy: Notion AI, Grammarly Premium, Raycast Pro) ⚠️ *Branchenproxy*
-- **SkillSense Pro-Preis (9,99€/Monat / 79€/Jahr):** Liegt im Toleranzbereich — entspricht <50% der bestehenden AI-Abo-Ausgaben, psychologisch leicht rechtfertigbar
-- **Zahlungsbereitschaft-Trigger:**
-  - Klarer ROI-Nachweis ("spare X Minuten pro Tag")
-  - Datenschutzgarantie (besonders DACH-Markt: kritischer Faktor)
-  - Kostenloser Einstieg mit echtem Wert (Scanner Free Tier als Conversion-Hook)
-- **Bevorzugte Zahlungsmodelle:** Jahresabo mit Rabatt (Power User bevorzugen Planbarkeit) > Monatsabo > Einmalkauf ⚠️ *Proxy aus SaaS-Produktivitätstools*
+- **Durchschnittliche Ausgaben (Proxy):**
+  - Claude Pro kostet 20 USD/Monat → Zielgruppe ist **bereits zahlende AI-Subscriber**
+  - SaaS-Productivity-Tools (Notion, Superhuman, Grammarly): typische Zahlungsbereitschaft **8–15 €/Monat** [Proxy: SaaS-Benchmarks 2024]
+  - SkillSense Pro bei 9,99 €/Monat liegt **im Sweet Spot** dieser Zielgruppe
+  - Jahresabo (79 €) entspricht ~6,58 €/Monat → **20–35% Conversion auf Jahresabo realistisch** [Proxy: Paddle SaaS Report 2024]
+
+- **Bevorzugte Zahlungsmodelle:**
+  - Freemium → Paid Conversion (bekannt aus Grammarly, Notion, Readwise)
+  - Monatlich oder jährlich via Kreditkarte / PayPal / SEPA
+  - **Kein** Einmalkauf — Zielgruppe ist subscription-gewohnt durch Claude Pro, ChatGPT Plus, GitHub Copilot etc.
+  - Enterprise: Rechnung / Jährliche Lizenz bevorzugt
 
 ---
 
 ## Session-Verhalten
 
-> ⚠️ **Hinweis:** SkillSense ist kein Game — klassische Gaming-Session-Daten sind nicht anwendbar. Analogie: **Produktivitäts-/Analyse-SaaS-Nutzung**
+> ⚠️ Kein klassisches "Session"-Produkt — SkillSense ist ein **Task-based Tool**, kein Daily-Driver. Benchmarks aus Productivity-SaaS als Proxy.
 
-- **Nutzungsfrequenz:** **Niedrigfrequent, hochintensiv** — kein tägliches Tool, sondern episodische Nutzung bei konkretem Anlass (neuer Skill installieren, Workflow-Optimierung, Sicherheitscheck)
-- **Primär-Session (Setup/Analyse):** 15–45 Minuten (Fragebogen + Scanner + Ergebnisse durcharbeiten)
-- **Wiederkehr-Trigger:**
-  - Neue Skills erscheinen im Ecosystem → Re-Scan
-  - Claude/GPT Update → Kompatibilitätscheck
-  - Monatliches "Skill-Audit" (wenn aktiv kommuniziert)
-- **Sessions pro Monat (geschätzt):** 2–4 ⚠️ *Schätzwert auf Basis von Produktivitätstool-Nutzungsmustern*
-- **Gerät:** Primär **Desktop** (Skill-Dateien sind auf dem Rechner, Upload-Flow ist Desktop-nativ) → Mobile ist nachrangig für MVP
+- **Durchschnittliche Session-Länge:**
+  - Erster Besuch (Onboarding + Scan): **8–15 Minuten** [Proxy: Produktivitäts-App Onboarding-Daten]
+  - Wiederkehrender Besuch (neuer Skill prüfen, Update): **3–7 Minuten**
+  - Pro-Session (Chat-Export-Analyse): **15–25 Minuten** (einmalig oder bei größeren Chat-Exporten)
+
+- **Sessions pro Zeitraum:**
+  - Kein Daily-Use-Produkt — eher **wöchentlich bis monatlich** wiederkehrend
+  - Trigger-basierte Nutzung: "Ich habe einen neuen Skill gefunden" → sofortiger Scan
+  - Erwartete aktive Nutzung: **2–4 Sessions/Monat** bei Pro-Nutzern
+  - ⚠️ **Implikation für Retention:** Klassische DAU/MAU-Metriken sind hier ungeeignet — besser: **Feature Utilization Rate** und **Scan-Frequenz** tracken
 
 ---
 
 ## Social-Verhalten
 
-- **Community-Plattformen:** Reddit (r/ClaudeAI, r/ChatGPT, r/PromptEngineering), X/Twitter (AI-Builder-Szene), LinkedIn (Business-Segment), Discord (AI-Tool-Communities)
-- **Content-Konsum:** YouTube/TikTok für AI-Tipps (genau die "Clickbait-Listicles" die SkillSense löst) → **virales Differenzierungspotenzial**: "Ich hab die Top-10-Skills gecheckt — 6 davon waren wertlos"
-- **Empfehlungsverhalten:** Sehr hoch in dieser Zielgruppe — Power User teilen Tool-Entdeckungen aktiv in Slack-Workspaces, Notion-Templates, GitHub READMEs ³
-- **Genutzte Community Features (SkillSense-relevant):**
-  - Skill-Bewertungen & Kommentare in der kuratierten Datenbank (Phase 2)
-  - "Share my Skill-Profil" als Social Proof (optional, datenschutzkonform)
-  - Community-submitted Skills mit Qualitätsprüfung (Phase 3)
-- **Trust-Signal:** Datenschutz-Versprechen ist in dieser Zielgruppe **viraler als Feature-Lists** — "100% lokal verarbeitet" als Share-würdiges Statement
+- **Genutzte Community Features (erwartet / empfohlen):**
+  - Kein klassisches Social Feature nötig für MVP
+  - **Hohe Sharing-Bereitschaft** in der Zielgruppe: Twitter/X, LinkedIn, Reddit (r/ClaudeAI, r/ChatGPT, r/PromptEngineering) — typisch für AI-Power-User
+  - **Word-of-Mouth stark:** Zielgruppe teilt Tools aktiv in Slack-Workspaces, Discord-Servern (z.B. AI-Communities), Newsletter
+  - Mögliche Community-Features für Phase 2:
+    - Öffentliche Skill-Profile ("mein Stack")
+    - Upvote/Bewertung kuratierter Skills
+    - Community-eingereichte Skills mit Review-Gate
+
+- **Influencer-Pfad:**
+  - YouTube AI-Creators (deutschsprachig: ~50K–500K Abonnenten)
+  - LinkedIn Thought Leaders im "AI für den Arbeitsalltag"-Segment
+  - Newsletter-Autoren (z.B. The Prompt, KI-Update, Ben's Bites auf Englisch)
 
 ---
 
 ## Plattform-Verteilung
 
-> ⚠️ Mobile Gaming-Splits sind nicht direkt übertragbar. Relevante Analogie: **SaaS-Produktivitätstools / Developer-Tools**
+> SkillSense ist eine **Web-App** — keine native iOS/Android App im MVP.
 
-| Plattform | Anteil | Begründung |
-|-----------|--------|------------|
-| **Desktop Web** | ~80% | Upload-Flow, Datei-Analyse, Claude-Settings-Export — alles Desktop-nativ |
-| **Mobile Web** | ~20% | Fragebogen (Advisor Light) theoretisch mobil nutzbar, aber kein primärer Use Case |
-| **iOS vs. Android** | n/a für MVP | Keine native App im MVP-Scope — Web-first-Strategie korrekt |
-| **Browser-Split (Proxy)** | Chrome ~65%, Safari ~20%, Firefox ~10%, Edge ~5% | ⚠️ Branchenproxy für Tech-affine Nutzer ⁴ |
+| Plattform | Anteil | Anmerkung |
+|---|---|---|
+| **Desktop Web (Chrome/Firefox/Safari)** | ~70% | Primärer Use-Case: Skill-Dateien hochladen, Chat-Export analysieren |
+| **Mobile Web** | ~25% | Fragebogen (Advisor Light) gut auf Mobile nutzbar; Scanner weniger |
+| **Tablet** | ~5% | Randnutzung |
+| **iOS App (nativ)** | — | Phase 3 (laut MVP-Scope) |
+| **Android App (nativ)** | — | Phase 3 (laut MVP-Scope) |
 
----
-
-## Sekundäre Zielgruppe: GPT Plus Nutzer
-
-- **Alter:** 22–40 Jahre, leicht jünger als Claude-Segment
-- **Besonderheit:** Größere absolute Nutzerbasis, aber weniger "Skill-aware" — Custom Instructions sind weniger strukturiert als Claude Skills
-- **Opportunity:** SkillSense kann als **erster** Custom-Instruction-Analyzer für GPT positioniert werden → Differenzierung gegenüber Claude-only-Tools
+> 📌 **Empfehlung:** Desktop-First-Design ist korrekt. Mobile-responsive ist Pflicht (besonders für Landing Page + Advisor Light Fragebogen), aber File-Upload-Features werden mobil kaum genutzt. Dark Mode als Default trifft die Zielgruppe (Developer-Community Norm).
 
 ---
 
-## Tertiäre Zielgruppe: Unternehmen (Claude Team/Enterprise)
+## Persona-Kurzprofile
 
-- **Entscheider:** IT-Leitung, CTO, Head of Digital Workplace (25–55 Jahre)
-- **Kaufmotivation:** Compliance, Sicherheit, Standardisierung — nicht Features
-- **Sales-Zyklus:** 4–12 Wochen (kein Self-Service), benötigt dedizierte Ansprache ab Phase 3
-- **Preistoleranz:** €15–50 pro Seat/Monat bei nachweisbarem Sicherheits-ROI
+| Persona | Alter | Beruf | Nutzung | Zahlungsbereitschaft |
+|---|---|---|---|---|
+| **Der Developer** | 26–38 | Software Engineer / Fullstack | VS Code + Claude täglich, 15+ Skills installiert | Hoch (hat bereits Copilot + Claude Pro) |
+| **Der Content Pro** | 28–42 | Texter / Marketer / Journalist | Claude für Drafts & Research, 5–10 Skills | Mittel (9,99 € okay, wenn Nutzen klar) |
+| **Der AI-Enthusiast** | 20–35 | Student / Freelancer | Testet alles, YouTube-Skills installiert | Niedrig–Mittel (Free Tier zuerst, Conversion möglich) |
+| **Der Business Analyst** | 32–50 | Consultant / PM | AI für Reports & Recherche, kaum Skills bisher | Mittel–Hoch (Enterprise-Pfad relevant) |
 
 ---
 
 ## Quellen
 
-| # | Quelle | Datum | Verwendung |
-|---|--------|-------|------------|
-| ¹ | Stack Overflow Developer Survey 2024 — AI-Tool-Nutzung nach Altersgruppe | 2024 | Alters-Proxy für AI-Power-User |
-| ² | Anthropic Claude Pro Pricing (claude.ai), OpenAI GPT Plus Pricing | 2025 | Bestehende Ausgabenbereitschaft |
-| ³ | State of AI Report 2024 (Nathan Benaich / Air Street Capital) — Adoption Patterns | 2024 | Empfehlungsverhalten Tech-Community |
-| ⁴ | StatCounter Browser Market Share (Desktop, DACH) | Jan 2025 | Browser-Split-Proxy |
-| — | Newzoo Global Games Market Report 2025 | 2025 | Marktkontext (indirekt) |
-| — | Mistplay Mobile Gaming Spender Report 2024 | 2024 | IAP-Proxy (nicht direkt anwendbar — zur Abgrenzung genutzt) |
+| Quelle | Datum | Verwendung |
+|---|---|---|
+| Newzoo Global Games Market Report | 2024/2025 | Marktgröße als Kontext |
+| Paddle SaaS Benchmarks Report | 2024 | Zahlungsbereitschaft / Jahresabo-Conversion [Proxy] |
+| Statista: U.S. Weekly Mobile Gamers by Age | 2024 | Altersverteilung digitaler Nutzer als Proxy |
+| MAF.ad Mobile Gamers Demographics | 2024 | Plattformnutzung als Hintergrundkontext |
+| Anthropic Claude Pricing (claude.ai) | 2025 | Benchmark Zahlungsbereitschaft der Zielgruppe |
+| Grammarly / Notion / Readwise Freemium-Modelle | 2023–2025 | SaaS-Conversion-Proxy [Proxy] |
+| Reddit r/ClaudeAI, r/PromptEngineering | 2024–2025 | Qualitative Zielgruppenvalidierung |
 
 ---
 
-## Analyst-Notiz
-
-> **Wichtige Einschränkung:** SkillSense ist kein Game und keine klassische Consumer App. Die bereitgestellten Web-Recherche-Ergebnisse (Card Game Demographics, Mobile IAP, Session Length) sind für dieses Produkt **strukturell nicht anwendbar** und wurden bewusst nicht direkt übernommen. Stattdessen wurden SaaS-Produktivitätstool- und Developer-Tool-Proxies verwendet und entsprechend markiert. Empfehlung: Für präzisere Daten eine **Befragung von 50–100 Claude Pro Nutzern** vor dem Launch durchführen — dieser Datensatz existiert aktuell nicht in öffentlichen Quellen.
+> **⚠️ Methodischer Hinweis:** Da SkillSense ein neuartiges Produkt in einem noch jungen Ökosystem (Claude Skills / Custom Instructions) ist, existieren **keine direkten Marktdaten** für diese exakte Nische. Alle Ausgabe- und Session-Daten basieren auf **SaaS-Productivity-Benchmarks als Proxy** und sollten nach einem Soft-Launch mit echten Nutzerdaten validiert werden. Empfehlung: **Warteliste + Early-Access-Phase** vor vollständigem Launch für erste Primärdaten.

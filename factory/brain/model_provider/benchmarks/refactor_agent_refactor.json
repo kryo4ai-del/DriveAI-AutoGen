@@ -1,0 +1,115 @@
+{
+  "agent_name": "refactor_agent",
+  "pass_name": "refactor",
+  "timestamp": "2026-03-21T11:09:48.459506",
+  "results": [
+    {
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "input_tokens": 72,
+      "output_tokens": 296,
+      "cost_usd": 5.76e-05,
+      "latency_ms": 1934,
+      "quality_score": 1.0,
+      "output_length": 1286,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "input_tokens": 62,
+      "output_tokens": 188,
+      "cost_usd": 0.00012209999999999999,
+      "latency_ms": 2739,
+      "quality_score": 1.0,
+      "output_length": 900,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "gemini-2.5-flash",
+      "provider": "google",
+      "input_tokens": 54,
+      "output_tokens": 1020,
+      "cost_usd": 0.0025662000000000003,
+      "latency_ms": 5407,
+      "quality_score": 0.7000000000000001,
+      "output_length": 177,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "provider": "anthropic",
+      "input_tokens": 64,
+      "output_tokens": 344,
+      "cost_usd": 0.0017840000000000002,
+      "latency_ms": 3263,
+      "quality_score": 1.0,
+      "output_length": 1050,
+      "truncated": false,
+      "error": null
+    },
+    {
+      "model": "o3-mini",
+      "provider": "openai",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "quality_score": 0.0,
+      "output_length": 0,
+      "truncated": false,
+      "error": "litellm.UnsupportedParamsError: O-series models don't support temperature=0.0. Only temperature=1 is supported. To drop unsupported openai params from the call, set `litellm.drop_params = True`"
+    },
+    {
+      "model": "gpt-4o",
+      "provider": "openai",
+      "input_tokens": 62,
+      "output_tokens": 231,
+      "cost_usd": 0.002465,
+      "latency_ms": 2524,
+      "quality_score": 1.0,
+      "output_length": 1103,
+      "truncated": false,
+      "error": null
+    }
+  ],
+  "best_value": {
+    "model": "mistral-small-latest",
+    "provider": "mistral",
+    "input_tokens": 72,
+    "output_tokens": 296,
+    "cost_usd": 5.76e-05,
+    "latency_ms": 1934,
+    "quality_score": 1.0,
+    "output_length": 1286,
+    "truncated": false,
+    "error": null
+  },
+  "best_quality": {
+    "model": "mistral-small-latest",
+    "provider": "mistral",
+    "input_tokens": 72,
+    "output_tokens": 296,
+    "cost_usd": 5.76e-05,
+    "latency_ms": 1934,
+    "quality_score": 1.0,
+    "output_length": 1286,
+    "truncated": false,
+    "error": null
+  },
+  "cheapest": {
+    "model": "mistral-small-latest",
+    "provider": "mistral",
+    "input_tokens": 72,
+    "output_tokens": 296,
+    "cost_usd": 5.76e-05,
+    "latency_ms": 1934,
+    "quality_score": 1.0,
+    "output_length": 1286,
+    "truncated": false,
+    "error": null
+  }
+}
