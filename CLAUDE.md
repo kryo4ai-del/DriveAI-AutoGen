@@ -53,8 +53,14 @@ DriveAI-AutoGen/
 │   │   ├── pipeline.py              ← Phase 2 Pipeline Runner
 │   │   ├── input_loader.py          ← Laedt Phase 1 Output als Input
 │   │   └── config.py                ← Agent-Model-Mapping
+│   ├── mvp_scope/                   ← Swarm Factory Kapitel 4: MVP & Feature Scope
+│   │   ├── agents/                  ← 3 Agents (Feature-Extraction, Priorisierung, Screen-Architect)
+│   │   ├── output/                  ← Kapitel 4 Reports pro Run
+│   │   ├── pipeline.py              ← Kapitel 4 Pipeline Runner
+│   │   ├── input_loader.py          ← Laedt Phase 1 + Kapitel 3 Output
+│   │   └── config.py                ← Agent-Mapping + Budget + KPI-Targets
 │   └── document_secretary/          ← Agent 13: PDF-Dokument-Generator
-│       ├── templates/               ← 6 Templates (CEO P1/P2, Marketing, Investor, Tech, Legal)
+│       ├── templates/               ← 9 Templates (CEO P1/P2, Marketing, Investor, Tech, Legal, Features, MVP, Screens)
 │       ├── pdf_builder.py           ← HTML/CSS → PDF via Playwright
 │       ├── email_service.py         ← SMTP E-Mail-Versand
 │       ├── secretary.py             ← Orchestrator + CLI
@@ -140,7 +146,7 @@ Output Integrator → Completion Verifier → Compile Hygiene Validator
 - **5 Dedup-Layers**: CodeExtractor → ProjectIntegrator → OutputIntegrator Filename → OutputIntegrator Type → CompileHygiene
 
 ## Factory Knowledge System
-- **18 Eintraege** (FK-001 bis FK-018)
+- **22 Eintraege** (FK-001 bis FK-022)
 - FK-001 bis FK-010: Product/UX Knowledge (Premium Strategy, Psychology)
 - FK-011 bis FK-017: Error Patterns (aus Xcode Build Failures)
 - FK-018: Auto-promoted Proposal (File Duplication, 6 Beobachtungen)
@@ -200,32 +206,54 @@ DeveloperReports/
 
 **Regel**: Vor dem Erstellen prüfen welche Nummer als nächstes dran ist. Reports sind dauerhaft und dienen als Projekthistorie. Code-Agent-Reports → `CodeAgent/`, Master-Lead-Steps → `Steps-MasterLead/`.
 
-## Swarm Factory (Pre-Production + Market Strategy)
+## Swarm Factory (Autonome Produkt-Pipeline)
 
 ### Phase 1: Pre-Production Pipeline (12 Steps — KOMPLETT)
 ```
 CEO-Idee → Memory-Briefing → [Trend+Competitor+Audience parallel] → Concept Brief → Legal → Risk → CEO-Gate → Memory
 ```
 - 7 Agents (6x Sonnet, 1x Haiku), Web-Recherche via SerpAPI + Caching
-- EchoMatch E2E Run #003: alle 6 Reports generiert, CEO-Gate: **GO**
-- Output: `factory/pre_production/output/003_echomatch/`
+- Runs: EchoMatch #003 (**GO**), SkillSense #004 (Gate pending)
+- Output: `factory/pre_production/output/{NNN}_{slug}/`
 
-### Phase 2: Market Strategy Pipeline (7 Steps — KOMPLETT)
+### Kapitel 3: Market Strategy Pipeline (7 Steps — KOMPLETT)
 ```
 Phase-1-Input → [Platform+Monetization] → [Marketing+Release] → Cost Calculation
 ```
 - 5 Agents (alle Sonnet), Wave-basierte Ausfuehrung
-- EchoMatch E2E Run #001: alle 5 Reports generiert
-- Output: `factory/market_strategy/output/001_echomatch/`
+- Run: EchoMatch #001 (5 Reports)
+- Output: `factory/market_strategy/output/{NNN}_{slug}/`
+
+### Kapitel 4: MVP & Feature Scope (7 Steps — KOMPLETT)
+```
+Alle 11 Reports → Feature-Extraction (72 Features) → Priorisierung (Phase A/B/Backlog) → Screen-Architektur (22 Screens, 7 Flows)
+```
+- 3 Agents (alle Sonnet), sequentiell, kein Web-Research
+- Budget-Constraints: Phase A €252.500, Phase B €230.000
+- KPI-Targets: D1≥40%, D7≥20%, D30≥10%, Session 6-10min
+- Flow-Retry-Logik fuer robuste User-Flow-Generierung
+- Run: EchoMatch #001 (Feature-Liste + Priorisierung + Screen-Architektur)
+- Output: `factory/mvp_scope/output/{NNN}_{slug}/`
 
 ### Document Secretary (Agent 13 — KOMPLETT)
-- 6 PDF-Typen: CEO Briefing P1/P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary
+- 9 PDF-Typen: CEO Briefing P1/P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary, Feature-Liste, MVP Scope, Screen-Architektur
 - HTML/CSS → PDF via Playwright (Chromium)
-- CLI: `python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ...`
+- CLI: `python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ... --k4-dir ...`
 - E-Mail-Versand via SMTP (.env Config)
+- 10 PDFs generiert fuer EchoMatch (Stand 2026-03-21)
+
+### Ideas Pipeline
+- `ideas/` Ordner fuer CEO-Ideen als .md Dateien
+- SkillSense.md vorhanden (Phase 1 durchgelaufen, Gate pending)
+- `--idea-file ideas/SkillSense.md` fuer Pipeline-Input
 
 ## Erledigtes
-- [2026-03-20] Swarm Factory Phase 1 + Phase 2 + Document Secretary komplett implementiert und getestet
+- [2026-03-21] Kapitel 4 (MVP & Feature Scope) komplett: 3 Agents, EchoMatch E2E Run, 3 neue PDF-Templates
+- [2026-03-21] Document Secretary: 9 PDF-Typen (3 neue: Feature-Liste, MVP Scope, Screen-Architektur)
+- [2026-03-21] Screen-Architektur PDF Fix: Markdown-Fallback-Rendering bei JSON-Parse-Fehler
+- [2026-03-21] Feature-Priorisierung: Haertere Phase-A/B-Trennung (MINIMUM statt alles-ins-Budget)
+- [2026-03-21] SkillSense: Phase 1 Pre-Production Run #004 komplett (Gate pending)
+- [2026-03-20] Swarm Factory Phase 1 + Phase 2 (Kapitel 3) + Document Secretary komplett implementiert und getestet
 - [2026-03-15] Property Shape Repairer: FK-013 Struct-Property-Reparatur (0-Property-Structs)
 - [2026-03-15] OutputIntegrator Semantic Dedup: Type-Level Dedup + Markdown Sanitization
 - [2026-03-15] Compile Hygiene Truthfulness: Column-aware FK-012, Memberwise-Init FK-013

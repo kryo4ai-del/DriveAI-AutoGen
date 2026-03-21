@@ -83,6 +83,8 @@ def _parse_args() -> dict:
         "no_cd_gate": False,
         "no_ops_layer": False,
         "project": None,
+        "hybrid_pipeline": True,
+        "legacy_pipeline": False,
         "orchestrate": None,
         "orchestrate_dry": None,
         "orchestrate_layered": None,
@@ -217,6 +219,13 @@ def _parse_args() -> dict:
             i += 1
         elif args[i] == "--no-ops-layer":
             result["no_ops_layer"] = True
+            i += 1
+        elif args[i] == "--hybrid-pipeline":
+            result["hybrid_pipeline"] = True
+            i += 1
+        elif args[i] == "--legacy-pipeline":
+            result["hybrid_pipeline"] = False
+            result["legacy_pipeline"] = True
             i += 1
         elif args[i] == "--project" and i + 1 < len(args):
             result["project"] = args[i + 1]
@@ -797,6 +806,7 @@ async def main():
                     session_preset=session_preset_name,
                     workflow_recipe=workflow_recipe_name,
                     no_cd_gate=a["no_cd_gate"],
+            hybrid_pipeline=a.get("hybrid_pipeline", True),
                     project_name=a.get("project"),
                 )
                 pack_results.append(task_result)
@@ -872,6 +882,7 @@ async def main():
                     session_preset=session_preset_name,
                     workflow_recipe=workflow_recipe_name,
                     no_cd_gate=a["no_cd_gate"],
+            hybrid_pipeline=a.get("hybrid_pipeline", True),
                     project_name=a.get("project"),
                 )
                 task_queue.complete_task(next_task)
@@ -958,6 +969,7 @@ async def main():
             session_preset=session_preset_name,
             workflow_recipe=workflow_recipe_name,
             no_cd_gate=a["no_cd_gate"],
+            hybrid_pipeline=a.get("hybrid_pipeline", True),
             project_name=a.get("project"),
         )
         if queue_run and cli_task:

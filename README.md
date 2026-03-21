@@ -48,8 +48,9 @@ DriveAI-AutoGen/
 │   ├── operations/            # Compile hygiene, type stubs, shape repair, sanitizer
 │   ├── status/                # Factory status dashboard
 │   ├── pre_production/        # Swarm Factory Phase 1: Pre-Production Pipeline (7 Agents)
-│   ├── market_strategy/       # Swarm Factory Phase 2: Market Strategy Pipeline (5 Agents)
-│   ├── document_secretary/    # Agent 13: Professional PDF Generator (6 Types)
+│   ├── market_strategy/       # Swarm Factory Kapitel 3: Market Strategy Pipeline (5 Agents)
+│   ├── mvp_scope/             # Swarm Factory Kapitel 4: MVP & Feature Scope (3 Agents)
+│   ├── document_secretary/    # Agent 13: Professional PDF Generator (9 Types)
 │   └── promotion_advisor.py   # Run promotion policy
 ├── code_generation/
 │   ├── extractors/            # Platform extractors (Swift, Kotlin, TypeScript, Python)
@@ -157,31 +158,44 @@ Fully autonomous pipeline from raw idea to investor-grade documents.
 CEO Idea → Memory → [Trend + Competitor + Audience] → Concept Brief → Legal → Risk → CEO Gate
 ```
 
-### Phase 2: Market Strategy (5 Agents)
+### Kapitel 3: Market Strategy (5 Agents)
 ```
 Phase 1 Output → [Platform + Monetization] → [Marketing + Release] → Cost Calculation
 ```
 
+### Kapitel 4: MVP & Feature Scope (3 Agents)
+```
+All 11 Reports → Feature Extraction (72 Features) → Prioritization (Phase A/B/Backlog) → Screen Architecture (22 Screens, 7 Flows)
+```
+
 ### Document Secretary (Agent 13)
-Generates 6 professional PDF document types:
+Generates 9 professional PDF document types:
 - CEO Briefing Phase 1 & 2
 - Marketing Konzept (agency-grade)
 - Investor Summary
 - Technical Brief
 - Legal & Compliance Summary
+- Feature List (with tech-stack check)
+- MVP Scope (Phase A/B split + budget validation)
+- Screen Architecture (screens, flows, edge cases)
 
 ```bash
-# Run full pipeline
+# Run full pipeline (Phase 1 → CEO Gate → Kapitel 3 → Kapitel 4 → PDFs)
 python -m factory.pre_production.pipeline --idea "Your app idea" --title "AppName"
 python -m factory.pre_production.ceo_gate --run-dir factory/pre_production/output/001_appname --decision GO
 python -m factory.market_strategy.pipeline --run-dir factory/pre_production/output/001_appname
-python -m factory.document_secretary.secretary --type all --p1-dir factory/pre_production/output/001_appname --p2-dir factory/market_strategy/output/001_appname
+python -m factory.mvp_scope.pipeline --p1-dir factory/pre_production/output/001_appname --p2-dir factory/market_strategy/output/001_appname
+python -m factory.document_secretary.secretary --type all --p1-dir factory/pre_production/output/001_appname --p2-dir factory/market_strategy/output/001_appname --k4-dir factory/mvp_scope/output/001_appname
+
+# Or use --idea-file for ideas from disk
+python -m factory.pre_production.pipeline --idea-file ideas/SkillSense.md --title "SkillSense"
 ```
 
-### First Product: EchoMatch
-- Phase 1 Run #003: 6 reports, CEO Gate: **GO**
-- Phase 2 Run #001: 5 reports
-- 6 professional PDFs generated (CEO, Investor, Marketing, Tech, Legal)
+### Products in Pipeline
+| Product | Phase 1 | CEO Gate | Kapitel 3 | Kapitel 4 | PDFs |
+|---|---|---|---|---|---|
+| EchoMatch | Run #003 ✅ | **GO** ✅ | Run #001 ✅ | Run #001 ✅ | 10 PDFs ✅ |
+| SkillSense | Run #004 ✅ | Pending | — | — | — |
 
 ## 5-Stage Validation Strategy
 

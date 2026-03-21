@@ -13,7 +13,6 @@ let questionsDatabase: Question[] = [];
 // app/training/layout.tsx (Server Component)
 import { initializeQuestions } from '@/services/questionService';
 import questionsData from '@/data/questions.json';
-import { Question } from '../types/Question';
 
 export default function TrainingLayout({ children }: { children: React.ReactNode }) {
   initializeQuestions(questionsData);

@@ -14,34 +14,32 @@ HTML/CSS Design -> PDF via Playwright (Chromium).
 | Investor Summary | `investor` | Investment Pitch fuer potenzielle Investoren | Phase 1 + 2 |
 | Tech Brief | `tech-brief` | Technische Architektur fuer Entwicklungsteam | Phase 1 + 2 |
 | Legal Summary | `legal` | Compliance-Zusammenfassung fuer Rechtsberatung | Phase 1 + 2 |
-| Alle | `all` | Generiert alle 6 Dokumente auf einmal | Phase 1 + 2 |
+| Feature-Liste | `features` | Alle Features mit Tech-Stack-Check | Kapitel 4 |
+| MVP Scope | `mvp-scope` | Phase A/B Priorisierung + Budget | Kapitel 4 |
+| Screen-Architektur | `screens` | Screens, Flows, Edge Cases | Kapitel 4 |
+| Alle | `all` | Generiert alle 9 Dokumente auf einmal | Phase 1 + 2 + K4 |
 
 ## Usage
 
 ```bash
-# CEO Briefing Phase 1
+# Phase 1 + 2 Dokumente
 python -m factory.document_secretary.secretary --type ceo-p1 --run-dir factory/pre_production/output/003_echomatch
-
-# CEO Briefing Phase 2
 python -m factory.document_secretary.secretary --type ceo-p2 --run-dir factory/market_strategy/output/001_echomatch
-
-# Marketing Konzept
-python -m factory.document_secretary.secretary --type marketing --p1-dir factory/pre_production/output/003_echomatch --p2-dir factory/market_strategy/output/001_echomatch
-
-# Investor Summary
+python -m factory.document_secretary.secretary --type marketing --p1-dir ... --p2-dir ...
 python -m factory.document_secretary.secretary --type investor --p1-dir ... --p2-dir ...
-
-# Tech Brief
 python -m factory.document_secretary.secretary --type tech-brief --p1-dir ... --p2-dir ...
-
-# Legal Summary
 python -m factory.document_secretary.secretary --type legal --p1-dir ... --p2-dir ...
 
-# ALLE 6 Dokumente
-python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ...
+# Kapitel 4 Dokumente
+python -m factory.document_secretary.secretary --type features --k4-dir factory/mvp_scope/output/001_echomatch
+python -m factory.document_secretary.secretary --type mvp-scope --k4-dir factory/mvp_scope/output/001_echomatch
+python -m factory.document_secretary.secretary --type screens --k4-dir factory/mvp_scope/output/001_echomatch
+
+# ALLE 9 Dokumente
+python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ... --k4-dir ...
 
 # Mit E-Mail-Versand
-python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ... --send-email
+python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ... --k4-dir ... --send-email
 ```
 
 ## Output

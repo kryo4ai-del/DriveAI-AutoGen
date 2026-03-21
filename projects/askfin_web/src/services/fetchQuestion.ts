@@ -1,5 +1,3 @@
-import { Question } from '../types/Question';
-import { assertValidQuestion } from '../../Models/assertValidQuestion';
 export async function fetchQuestion(id: string): Promise<Question> {
      const res = await fetch(`/api/questions/${id}`);
      const data = await res.json();

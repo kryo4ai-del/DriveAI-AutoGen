@@ -1,7 +1,6 @@
 'use client';
 
 import { Answer } from '@/types/question';
-import { Answer } from '../types/Answer';
 
 interface AnswerButtonProps {
   answer: Answer;

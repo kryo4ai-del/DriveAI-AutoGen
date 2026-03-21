@@ -1,0 +1,1 @@
+export type ExamQuestionPreview = Omit<ExamQuestion, "explanation">;

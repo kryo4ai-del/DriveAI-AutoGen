@@ -5,7 +5,7 @@ import os
 import logging
 from autogen_agentchat.teams import SelectorGroupChat
 from autogen_agentchat.conditions import MaxMessageTermination
-from autogen_ext.models.anthropic import AnthropicChatCompletionClient
+from config.llm_config import create_model_client
 from agents.lead_agent import create_lead_agent
 from agents.product_strategist import create_product_strategist_agent
 from agents.roadmap_agent import create_roadmap_agent
@@ -240,14 +240,7 @@ class TaskManager:
         return task
 
     def create_team(self) -> SelectorGroupChat:
-        from config.llm_config import get_llm_config
-        llm_config = get_llm_config()
-        cfg = llm_config["config_list"][0]
-
-        selector_client = AnthropicChatCompletionClient(
-            model=cfg["model"],
-            api_key=cfg["api_key"],
-        )
+        selector_client = create_model_client(agent_name="selector")
 
         termination = MaxMessageTermination(max_messages=10)
 

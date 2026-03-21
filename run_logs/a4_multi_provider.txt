@@ -1,0 +1,54 @@
+Project         : askfin_android (explicit (--project flag))
+Project config  : AskFin Android v1.0.0 [development]
+Project lines   : ios (disabled), android (active), web (disabled), backend (disabled)
+Project config  : AskFin Android v1.0.0
+Active lines    : android
+Extraction      : kotlin
+Factory Brain   : 25 entries (2 failure_case, 5 ux_insight, 2 motivational_mechanic, 6 technical_pattern, 1 success_pattern, 9 error_pattern)
+Traceback (most recent call last):
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\main.py", line 1011, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\main.py", line 942, in main
+    pipeline_result = await _run_pipeline(
+                      ^^^^^^^^^^^^^^^^^^^^
+    ...<19 lines>...
+    )
+    ^
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\pipeline\pipeline_runner.py", line 194, in run_pipeline
+    manager = TaskManager(enabled_agents=enabled_set, platform=_platform, project_name=project_name)
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\tasks\task_manager.py", line 78, in __init__
+    self.lead_agent = create_lead_agent()
+                      ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\agents\lead_agent.py", line 24, in create_lead_agent
+    return LeadAgent().agent
+           ~~~~~~~~~^^
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\agents\lead_agent.py", line 13, in __init__
+    model_client = create_model_client()
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\config\llm_config.py", line 167, in create_model_client
+    return OpenAIChatCompletionClient(model=cfg["model"], api_key=cfg["api_key"])
+  File "C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages\autogen_ext\models\openai\_openai_client.py", line 1487, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        client=client,
+        ^^^^^^^^^^^^^^
+    ...<4 lines>...
+        include_name_in_message=include_name_in_message,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages\autogen_ext\models\openai\_openai_client.py", line 448, in __init__
+    self._model_info = _model_info.get_info(create_args["model"])
+                       ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages\autogen_ext\models\openai\_model_info.py", line 521, in get_info
+    raise ValueError("model_info is required when model name is not a valid OpenAI model")
+ValueError: model_info is required when model name is not a valid OpenAI model

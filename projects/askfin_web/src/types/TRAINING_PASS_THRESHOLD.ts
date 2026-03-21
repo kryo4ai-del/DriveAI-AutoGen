@@ -1,3 +1,0 @@
-export const TRAINING_PASS_THRESHOLD = 70;
-export const MAX_WEAKNESS_AREAS_DISPLAY = 3;
-export const PROGRESS_UPDATE_DELAY_MS = 500;

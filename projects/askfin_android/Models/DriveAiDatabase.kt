@@ -1,12 +1,9 @@
 @Database(
-    entities = [
-        UserAnswerEntity::class,
-        SkillMapSnapshotEntity::class  // New entity
-    ],
+    entities = [SessionEntity::class],
     version = 1,
     exportSchema = true
 )
-@TypeConverters(DateTimeConverter::class)
-abstract class DriveAiDatabase : RoomDatabase() {
-    // ...
+@TypeConverters(DifficultyLevelConverter::class)
+abstract class DriveAIDatabase : RoomDatabase() {
+    abstract fun sessionDao(): SessionDao
 }

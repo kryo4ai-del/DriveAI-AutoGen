@@ -121,7 +121,21 @@ PRIORISIERUNGS-REGELN:
 6. Social-Features: Basis (Freundesliste, einfache Challenges) Phase A, erweitert (Teams) Phase B
 7. complexity_weeks: Realistische Schaetzung fuer 2-3 Entwickler
 8. depends_on: Feature-IDs die vorher fertig sein muessen
-9. JEDES Feature muss in genau einer Phase landen — nichts weglassen"""
+9. JEDES Feature muss in genau einer Phase landen — nichts weglassen
+
+KRITISCHE ZUSATZREGELN FUER PHASE-A/B-TRENNUNG:
+- Phase A ist das MINIMUM das den Soft-Launch ermoeglicht — NICHT alles was ins Budget passt
+- "Passt ins Budget" ist KEIN Grund ein Feature in Phase A zu packen
+- Frage dich bei JEDEM Feature: "Scheitert der Soft Launch OHNE dieses Feature?" Wenn nein → Phase B oder Backlog
+- Konkrete Phase-B Kandidaten (sofern nicht KPI-kritisch):
+  * Kooperative Team-Events / Gilden-System → Phase B (Social-Basis reicht fuer Soft Launch)
+  * Live-Ops-System / saisonale Events → Phase B (erst nach Retention-Validierung)
+  * Erweitertes Analytics (Amplitude) → Phase B (Firebase reicht fuer Soft Launch)
+  * Live Activities / Dynamic Island → Phase B (Nice-to-have, nicht KPI-relevant)
+  * Erweiterter Battle-Pass mit saisonaler Rotation → Phase B (Basis-Pass reicht)
+- Phase A sollte idealerweise 25-35 Features haben, nicht 45+
+- Phase B sollte 10-15 Features haben die den Global Launch differenzieren
+- Budget-Spielraum in Phase A ist GUT — er ist Puffer fuer Unvorhergesehenes, nicht zum Vollstopfen"""
 
     response = client.messages.create(
         model=model, max_tokens=16000,

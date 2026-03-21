@@ -35,3 +35,8 @@
 ## Kosten
 - [> ⚠️ Das monatliche UA-Budget post-Launch ist die größte variable Kostenposition und der stärkste Hebel auf den Break-Even. Die Reports empfehlen explizit, das Budget an validierte LTV-Daten aus dem Soft-Launch zu koppeln — nicht pauschal zu skalieren.]: Quelle: Phase 2, echomatch
 (Phase 2 Learnings)
+
+
+## Features & Screens
+- [Phase A: 45 Features von 67 gesamt]: Quelle: Kapitel 4, echomatch
+(Kapitel 4 Learnings)

@@ -781,20 +781,41 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - Pfad: `factory/market_strategy/`
 
 ### 2026-03-20 — Document Secretary (Agent 13)
-- **6 PDF-Dokument-Typen implementiert**
+- **9 PDF-Dokument-Typen implementiert** (6 initial + 3 fuer Kapitel 4)
 - v1: python-docx (.docx) → v2: HTML/CSS → PDF via Playwright (Chromium)
 - Weasyprint fehlte GTK/Pango auf Windows → Playwright als Renderer
-- Templates: CEO Briefing P1, CEO Briefing P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary
+- Templates: CEO Briefing P1, CEO Briefing P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary, Feature-Liste, MVP Scope, Screen-Architektur
 - Jedes Template: 1 Claude Sonnet Call → JSON → PdfBuilder → PDF
-- JSON-Repair-Fallback bei Truncation (max_tokens 6000-16000 je nach Komplexitaet)
-- CLI: `python -m factory.document_secretary.secretary --type <type> --p1-dir ... --p2-dir ...`
-- `--type all` generiert alle 6 Dokumente auf einmal
+- JSON-Repair-Fallback bei Truncation + Markdown-Fallback-Rendering (Screen-Architektur)
+- CLI: `python -m factory.document_secretary.secretary --type <type> --p1-dir ... --p2-dir ... --k4-dir ...`
+- `--type all` generiert alle 9 Dokumente auf einmal
 - E-Mail-Versand via SMTP (.env BRIEFING_SMTP_* Variablen)
-- **EchoMatch PDFs**: CEO P1 (87KB), CEO P2 (67KB), Marketing (101KB), Investor (129KB), Tech (38KB), Legal (38KB)
+- **EchoMatch PDFs (10 Stueck)**: CEO P1 (87KB), CEO P2 (67KB), Marketing (101KB), Investor (129KB), Tech (38KB), Legal (38KB), Features (85KB), MVP Scope (65KB), Screen-Arch (79KB)
 - Pfad: `factory/document_secretary/`
 - Dependencies: `python-docx` (v1 backup), `playwright` + Chromium, `beautifulsoup4`, `anthropic`
 
-## Aktueller Stand (2026-03-20)
+### 2026-03-21 — Kapitel 4: MVP & Feature Scope (7 Steps)
+- **Komplett implementiert und E2E getestet**
+- 7 Steps: Scaffold + Config + Input-Loader → Feature-Extraction → Feature-Priorisierung → Screen-Architect → Pipeline-Runner → Document Secretary PDFs → E2E-Test
+- 3 Agents: Feature-Extraction (Sonnet, 2 Calls: Core + Supporting), Feature-Priorisierung (Sonnet, 2 Calls: Priorisierung + Budget-Check), Screen-Architect (Sonnet, 2 Calls: Screens + Flows)
+- Input-Loader: Laedt alle 11 Reports aus Phase 1 (6) + Kapitel 3 (5)
+- Budget-Constraints: Phase A €252.500 (Soft-Launch), Phase B €230.000 (Full Production)
+- KPI-Targets: D1≥40%, D7≥20%, D30≥10%, eCPM≥$10, Rating≥4.2, KI-Latenz <2s
+- Flow-Retry-Logik: Wenn User Flows fehlen → Markdown-basierter Retry (vermeidet JSON-Parse-Fehler)
+- **EchoMatch E2E Run #001**: 72 Features extrahiert, Phase A/B Priorisierung, 22 Screens + 7 Flows
+- Pfad: `factory/mvp_scope/`
+
+### 2026-03-21 — SkillSense Phase 1 Run
+- ideas/SkillSense.md als Ideen-Input (aus skillforge-pro verschoben)
+- Phase 1 Run #004: Alle 6 Agents erfolgreich, 16 SerpAPI Credits
+- CEO-Gate noch NICHT ausgefuehrt (pending)
+- Output: `factory/pre_production/output/004_skillsense/`
+
+### 2026-03-21 — Fixes
+- **Screen-Architektur PDF**: Markdown-Fallback-Rendering wenn JSON-Extraction fehlschlaegt (war leer)
+- **Feature-Priorisierung Prompt**: Haertere Phase-A/B-Trennung — "MINIMUM fuer Soft Launch, nicht alles was ins Budget passt"
+
+## Aktueller Stand (2026-03-21)
 
 ### Factory Core
 | Komponente | Status |
@@ -809,17 +830,20 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 | Run Promotion | Policy + Advisor |
 | Factory Status | CEO Dashboard |
 
-### Swarm Factory (NEU — Pre-Production + Market Strategy)
+### Swarm Factory (Autonome Produkt-Pipeline — 16 Agents)
 | Komponente | Status |
 |---|---|
 | Phase 1: Pre-Production Pipeline | KOMPLETT (12 Steps, 7 Agents, E2E getestet) |
-| Phase 2: Market Strategy Pipeline | KOMPLETT (7 Steps, 5 Agents, E2E getestet) |
-| Document Secretary (Agent 13) | KOMPLETT (6 PDF-Typen, HTML→PDF via Playwright) |
+| Kapitel 3: Market Strategy Pipeline | KOMPLETT (7 Steps, 5 Agents, E2E getestet) |
+| Kapitel 4: MVP & Feature Scope | KOMPLETT (7 Steps, 3 Agents, E2E getestet) |
+| Document Secretary (Agent 13) | KOMPLETT (9 PDF-Typen, HTML→PDF via Playwright) |
 | Web-Research-Tool | SerpAPI + Cache + URL-Fetch |
 | Memory-Agent | Learnings + Run-Logs (persistent) |
 | CEO-Gate | Interaktiv + Programmatisch |
-| Input-Loader | Phase 1 → Phase 2 Verbindung |
-| EchoMatch Runs | Phase 1 #003 (GO), Phase 2 #001 |
+| Input-Loader (Phase 1→K3→K4) | Kettenverbindung aller Abteilungen |
+| Ideas Pipeline | ideas/ Ordner fuer CEO-Ideen als .md |
+| EchoMatch | Phase 1 #003 (GO) → K3 #001 → K4 #001 → 10 PDFs |
+| SkillSense | Phase 1 #004 (Gate pending) |
 
 ### Projekte
 | Projekt | Platform | Files | Status |
@@ -827,7 +851,8 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 | AskFin Premium (iOS) | Swift/SwiftUI | 234 | App Store Prep (fehlt Icon + Dev Account) |
 | AskFin Android | Kotlin/Compose | 204 | 4 Features generiert (Domain schwach bei Haiku) |
 | AskFin Web | TypeScript/React | 0 | Spec ready, Build pending |
-| EchoMatch (Swarm Factory) | Unity (geplant) | — | Phase 1+2 abgeschlossen, 11 Reports + 6 PDFs |
+| EchoMatch (Swarm Factory) | Unity (geplant) | — | Phase 1+K3+K4 abgeschlossen, 18 Reports + 10 PDFs |
+| SkillSense (Swarm Factory) | — | — | Phase 1 Run #004 komplett, CEO-Gate pending |
 
 ### Validierungsstrategie (5 Stufen)
 | Stufe | Beschreibung | Status |

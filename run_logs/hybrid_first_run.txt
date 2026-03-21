@@ -1,0 +1,77 @@
+Project         : askfin_android (explicit (--project flag))
+Project config  : AskFin Android v1.0.0 [development]
+Project lines   : ios (disabled), android (active), web (disabled), backend (disabled)
+Project config  : AskFin Android v1.0.0
+Active lines    : android
+Extraction      : kotlin
+Factory Brain   : 25 entries (2 failure_case, 5 ux_insight, 2 motivational_mechanic, 6 technical_pattern, 1 success_pattern, 9 error_pattern)
+Platform roles  : android (agents receive platform-specific instructions)
+============================================================
+DriveAI AutoGen — Multi-Agent Conversation
+============================================================
+TheBrain        : active (9 models, anthropic, openai, google, mistral providers)
+Project context : loaded
+Memory          : entries loaded
+Profile         : dev
+Env profile     : dev
+Model           : mistral/mistral-small-latest
+Run mode        : standard
+Approval mode   : auto
+Active agents   : driveai_lead, product_strategist, roadmap_agent, ios_architect, swift_developer, reviewer, bug_hunter, refactor_agent, test_generator, content_script_agent, change_watch_agent, accessibility_agent, opportunity_agent, legal_risk_agent, project_bootstrap_agent, autonomous_project_orchestrator, creative_director, ux_psychology
+Disabled agents : android_architect, kotlin_developer, web_architect, webapp_developer
+Project         : askfin_android
+Task            : Generate a Kotlin data class TrainingConfig with: sessionDuration (Int, default 300), questionsPerSession (Int, default 10), adaptiveMode (Boolean, default true), difficultyLevel (DifficultyLevel enum with EASY/MEDIUM/HARD). Package: com.driveai.askfin.data.models.
+============================================================
+
+Code extraction : kotlin (via KotlinCodeExtractor)
+Inline type dedup: 3 file(s) cleaned
+Kotlin files extracted:
+  - 2 Views
+  - 1 Services
+  - 15 Models
+  - 1 Helpers
+
+Xcode integration completed
+Files integrated:
+  - DifficultyLevelConverter.kt
+  - DriveAIDatabase.kt
+  - ScoringCalculator.kt
+  - SessionEntity.kt
+  - TrainingConfig.kt
+  - TrainingConfigEntity.kt
+  - TrainingConfigTest.kt
+  - ScoringService.kt
+  - DifficultyLevelDropdown.kt
+  - TrainingConfigScreen.kt
+Skipped (4 already in project):
+  - DifficultyLevel.kt (exists: app\src\main\java\com\driveai\askfin\data\models\DifficultyLevel.kt)
+  - GeneratedHelpers.kt (exists: app\src\test\java\com\driveai\askfin\data\models\GeneratedHelpers.kt)
+  - TestModel.kt (exists: Models\TestModel.kt)
+  - TestUiState.kt (exists: ViewModels\TestUiState.kt)
+  Implementation summary: 4506 chars for review context
+
+--- Bug Hunter pass ---
+  Factory knowledge: 752 chars injected
+Traceback (most recent call last):
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\main.py", line 1023, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\main.py", line 953, in main
+    pipeline_result = await _run_pipeline(
+                      ^^^^^^^^^^^^^^^^^^^^
+    ...<20 lines>...
+    )
+    ^
+  File "C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\factory\pipeline\pipeline_runner.py", line 392, in run_pipeline
+    platform=_platform, profile=profile or "dev", line=_line_name, logger=logger)
+                                                       ^^^^^^^^^^
+NameError: name '_line_name' is not defined

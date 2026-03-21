@@ -18,6 +18,7 @@ from tasks.fix_executor import FixExecutor
 from delivery.run_manifest import RunManifest
 from analytics.analytics_tracker import AnalyticsTracker
 from workflows.phase_gate_manager import PhaseGateManager
+from factory.pipeline.review_pass import run_review_pass, get_code_context, ReviewResult
 from factory_knowledge.knowledge_reader import get_cd_knowledge_block, get_knowledge_block, extract_cd_rating, extract_cd_rating_detailed
 from factory_knowledge.proposal_generator import generate_proposals, save_proposals
 
@@ -154,6 +155,7 @@ async def run_pipeline(
     workflow_recipe: str | None = None,
     no_cd_gate: bool = False,
     project_name: str | None = None,
+    hybrid_pipeline: bool = True,
 ) -> dict:
     """Execute the full agent pipeline for a single task. Returns a result dict."""
     # ── Load project config ──────────────────────────────────────────
@@ -207,6 +209,15 @@ async def run_pipeline(
     print("=" * 60)
     print(header)
     print("=" * 60)
+    try:
+        from config.llm_config import get_brain_info
+        _bi = get_brain_info()
+        if _bi["status"] == "active":
+            print(f"TheBrain        : active ({_bi['total_models']} models, {', '.join(_bi['available_providers'])} providers)")
+        else:
+            print(f"TheBrain        : {_bi['status']}")
+    except Exception:
+        pass
     print(f"Project context : {'loaded' if context_loaded else 'NOT FOUND — using fallback'}")
     print(f"Memory          : {'entries loaded' if memory_has_entries else 'empty (first run)'}")
     if workflow_recipe:
@@ -329,6 +340,14 @@ async def run_pipeline(
     gate_mgr = PhaseGateManager()
     skipped_phases: list[str] = []
     review_digests: dict[str, str] = {}  # accumulated review findings across passes
+
+    # ── Hybrid Pipeline Mode ──────────────────────────────────────
+    # In hybrid mode, review passes use single API calls via ProviderRouter
+    # instead of SelectorGroupChat. 10-50x cheaper, same quality.
+    _code_ctx = get_code_context(result.messages) if hybrid_pipeline else ""
+    _impl_msgs = result.messages  # save for fix pass
+
+
     gate_ctx = {
         "implementation_messages": len(result.messages),
         "bug_review_messages": 0,
@@ -364,7 +383,18 @@ async def run_pipeline(
             if _bug_knowledge:
                 bug_review_task = f"{_bug_knowledge}\n\n{bug_review_task}"
                 print(f"  Factory knowledge: {len(_bug_knowledge)} chars injected")
-            bug_result = await _run_with_retry(team, task=bug_review_task)
+            if hybrid_pipeline:
+                bug_review_result_rr = await run_review_pass(
+                    agent_name="bug_hunter", pass_name="bug_review",
+                    task_prompt=bug_review_task, code_context=_code_ctx,
+                    impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
+                    knowledge_block=_bug_knowledge if _bug_knowledge else "",
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                class _FakeResult:
+                    messages = bug_review_result_rr.messages
+                bug_result = _FakeResult()
+            else:
+                bug_result = await _run_with_retry(team, task=bug_review_task)
             bug_result_msgs = list(bug_result.messages)
             gate_ctx["bug_review_messages"] = len(bug_result_msgs)
             await _log_pass(logger, "Bug Hunter Pass", bug_result_msgs)
@@ -405,7 +435,18 @@ async def run_pipeline(
             if _cd_knowledge:
                 cd_review_task = f"{_cd_knowledge}\n\n{cd_review_task}"
                 print(f"  Factory knowledge: {len(_cd_knowledge)} chars injected")
-            cd_result = await _run_with_retry(team, task=cd_review_task)
+            if hybrid_pipeline:
+                cd_review_result_rr = await run_review_pass(
+                    agent_name="creative_director", pass_name="creative_review",
+                    task_prompt=cd_review_task, code_context=_code_ctx,
+                    impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
+                    knowledge_block=_cd_knowledge if _cd_knowledge else "",
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                class _FakeResult2:
+                    messages = cd_review_result_rr.messages
+                cd_result = _FakeResult2()
+            else:
+                cd_result = await _run_with_retry(team, task=cd_review_task)
             cd_result_msgs = list(cd_result.messages)
             await _log_pass(logger, "Creative Director Pass", cd_result_msgs)
             _cd_digest = _extract_review_digest(cd_result_msgs, "creative_review")
@@ -488,7 +529,17 @@ async def run_pipeline(
             if _prior_ctx:
                 ux_review_task = f"{_prior_ctx}\n\n{ux_review_task}"
                 print(f"  Prior review context: {len(_prior_ctx)} chars injected")
-            ux_result = await _run_with_retry(team, task=ux_review_task)
+            if hybrid_pipeline:
+                ux_review_result_rr = await run_review_pass(
+                    agent_name="ux_psychology", pass_name="ux_psychology",
+                    task_prompt=ux_review_task, code_context=_code_ctx,
+                    impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                class _FakeResult3:
+                    messages = ux_review_result_rr.messages
+                ux_result = _FakeResult3()
+            else:
+                ux_result = await _run_with_retry(team, task=ux_review_task)
             ux_result_msgs = list(ux_result.messages)
             await _log_pass(logger, "UX Psychology Pass", ux_result_msgs)
             _ux_digest = _extract_review_digest(ux_result_msgs, "ux_psychology")
@@ -528,7 +579,17 @@ async def run_pipeline(
             if _refactor_knowledge:
                 refactor_task = f"{_refactor_knowledge}\n\n{refactor_task}"
                 print(f"  Factory knowledge: {len(_refactor_knowledge)} chars injected")
-            refactor_result = await _run_with_retry(team, task=refactor_task)
+            if hybrid_pipeline:
+                refactor_result_rr = await run_review_pass(
+                    agent_name="refactor_agent", pass_name="refactor",
+                    task_prompt=refactor_task, code_context=_code_ctx,
+                    impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                class _FakeResult4:
+                    messages = refactor_result_rr.messages
+                refactor_result = _FakeResult4()
+            else:
+                refactor_result = await _run_with_retry(team, task=refactor_task)
             refactor_result_msgs = list(refactor_result.messages)
             gate_ctx["refactor_messages"] = len(refactor_result_msgs)
             await _log_pass(logger, "Refactor Pass", refactor_result_msgs)
@@ -555,7 +616,17 @@ async def run_pipeline(
             )
             if impl_summary:
                 test_task = f"{impl_summary}\n\n{test_task}"
-            test_result = await _run_with_retry(team, task=test_task)
+            if hybrid_pipeline:
+                test_result_rr = await run_review_pass(
+                    agent_name="test_generator", pass_name="test_generation",
+                    task_prompt=test_task, code_context=_code_ctx,
+                    impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                class _FakeResult5:
+                    messages = test_result_rr.messages
+                test_result = _FakeResult5()
+            else:
+                test_result = await _run_with_retry(team, task=test_task)
             test_result_msgs = list(test_result.messages)
             gate_ctx["test_generation_messages"] = len(test_result_msgs)
             await _log_pass(logger, "Test Generation Pass", test_result_msgs)
@@ -582,7 +653,17 @@ async def run_pipeline(
                 impl_summary=impl_summary,
                 knowledge_block=_fix_knowledge,
             )
-            fix_result = await _run_with_retry(team, task=fix_task)
+            if hybrid_pipeline:
+                fix_result_rr = await run_review_pass(
+                    agent_name="swift_developer", pass_name="fix_execution",
+                    task_prompt=fix_task, code_context=_code_ctx,
+                    impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                class _FakeResult6:
+                    messages = fix_result_rr.messages
+                fix_result = _FakeResult6()
+            else:
+                fix_result = await _run_with_retry(team, task=fix_task)
             fix_result_msgs = list(fix_result.messages)
             await _log_pass(logger, "Fix Execution Pass", fix_result_msgs)
 

@@ -1,6 +1,7 @@
 # llm_config.py
 # LLM configuration for AutoGen agents.
-# Provider: Anthropic (Claude) + Ollama (local).
+# TheBrain Integration: Routes to optimal model/provider via Model Registry.
+# Fallback: Anthropic-only if TheBrain unavailable.
 
 import json
 import os
@@ -19,9 +20,19 @@ _FALLBACK_PROFILE = {
     "provider": "anthropic",
 }
 
+# TheBrain state
+_brain_available = False
+_brain_selection = None
+
+try:
+    from factory.brain.model_provider import get_model as _brain_get_model
+    from factory.brain.model_provider import get_registry as _brain_get_registry
+    _brain_available = True
+except ImportError:
+    _brain_available = False
+
 
 def load_llm_profiles() -> dict:
-    """Load llm_profiles.json. Returns empty dict on failure."""
     try:
         with open(_PROFILES_PATH, encoding="utf-8") as f:
             return json.load(f)
@@ -30,11 +41,6 @@ def load_llm_profiles() -> dict:
 
 
 def set_active_profile(name: str) -> None:
-    """
-    Set the active LLM environment profile globally.
-    Falls back to 'dev' if the name is not found in llm_profiles.json.
-    Must be called before any agent or team is created.
-    """
     global _active_profile
     profiles = load_llm_profiles()
     _active_profile = name if name in profiles else _DEFAULT_PROFILE
@@ -44,73 +50,144 @@ def get_active_profile_name() -> str:
     return _active_profile
 
 
-def get_llm_config(profile_override: str = "") -> dict:
+# ── API Key lookup ──────────────────────────────────────────────
+_PROVIDER_KEY_MAP = {
+    "anthropic": "ANTHROPIC_API_KEY",
+    "openai": "OPENAI_API_KEY",
+    "google": "GEMINI_API_KEY",
+    "mistral": "MISTRAL_API_KEY",
+}
+
+
+def _get_api_key(provider: str) -> str:
+    env_key = _PROVIDER_KEY_MAP.get(provider, "ANTHROPIC_API_KEY")
+    key = os.getenv(env_key, "")
+    if not key:
+        raise ValueError(f"API key not set for provider '{provider}'. Set {env_key} in .env")
+    return key
+
+
+# ── TheBrain-aware config ──────────────────────────────────────
+def get_llm_config(profile_override: str = "", agent_name: str = "",
+                   task_type: str = "", line: str = "") -> dict:
+    """Return AutoGen-compatible LLM config.
+
+    With TheBrain: selects optimal model/provider from registry.
+    Without TheBrain: uses Anthropic-only profiles (legacy).
     """
-    Return an AutoGen-compatible LLM config dict.
-    Uses profile_override if given, else the active profile.
-    Raises ValueError if the required API key env var is not set.
-    """
-    profiles = load_llm_profiles()
+    global _brain_selection
+
     profile_name = profile_override or _active_profile
-    profile = profiles.get(profile_name) or _FALLBACK_PROFILE
+
+    if _brain_available:
+        try:
+            selection = _brain_get_model(
+                agent_name=agent_name,
+                task_type=task_type,
+                profile=profile_name,
+                line=line,
+            )
+            _brain_selection = selection
+            provider = selection["provider"]
+            api_key = _get_api_key(provider)
+
+            config_entry = {
+                "model": selection["litellm_model_name"] if provider != "anthropic" else selection["model"],
+                "api_key": api_key,
+            }
+            if provider == "anthropic":
+                config_entry["api_type"] = "anthropic"
+
+            return {
+                "config_list": [config_entry],
+                "temperature": 0.2,
+                "_brain_selection": selection,
+            }
+        except Exception as e:
+            print(f"[WARNING] TheBrain model selection failed ({e}), falling back to legacy")
+
+    # Legacy fallback
+    return _legacy_get_llm_config(profile_name)
+
+
+def _legacy_get_llm_config(profile_name: str = "") -> dict:
+    """Original Anthropic-only config."""
+    profiles = load_llm_profiles()
+    pname = profile_name or _active_profile
+    profile = profiles.get(pname) or _FALLBACK_PROFILE
 
     api_key_env = profile.get("api_key_env", "ANTHROPIC_API_KEY")
     api_key = os.getenv(api_key_env)
     if not api_key:
-        raise ValueError(
-            f"API key not set. Environment variable '{api_key_env}' is missing. "
-            "Add your Anthropic API key to .env: ANTHROPIC_API_KEY=sk-ant-..."
-        )
+        raise ValueError(f"API key '{api_key_env}' not set.")
 
-    provider = profile.get("provider", "anthropic")
-    model = profile.get("model", _FALLBACK_PROFILE["model"])
-
-    config_entry = {
-        "model": model,
-        "api_key": api_key,
-    }
-
-    # Anthropic models need base_url for AutoGen compatibility
-    if provider == "anthropic":
+    config_entry = {"model": profile.get("model", "claude-haiku-4-5"), "api_key": api_key}
+    if profile.get("provider", "anthropic") == "anthropic":
         config_entry["api_type"] = "anthropic"
 
     return {
         "config_list": [config_entry],
-        "temperature": profile.get("temperature", _FALLBACK_PROFILE["temperature"]),
+        "temperature": profile.get("temperature", 0.2),
     }
 
 
 def get_llm_config_for_model(model: str) -> dict:
-    """
-    Return an AutoGen-compatible LLM config for a specific model name.
-    Detects provider from model name prefix.
-    """
+    """Config for a specific model name."""
     if model.startswith("ollama/"):
-        # Local models don't need API keys
-        return {
-            "config_list": [{"model": model}],
-            "temperature": 0.2,
-        }
+        return {"config_list": [{"model": model}], "temperature": 0.2}
 
-    # All cloud models use Anthropic
-    api_key_env = "ANTHROPIC_API_KEY"
-    provider = "anthropic"
-
-    api_key = os.getenv(api_key_env)
+    api_key = os.getenv("ANTHROPIC_API_KEY", "")
     if not api_key:
-        raise ValueError(
-            f"API key not set for model '{model}'. "
-            f"Set environment variable '{api_key_env}'."
-        )
+        raise ValueError(f"API key not set for model '{model}'.")
 
-    config_entry = {
-        "model": model,
-        "api_key": api_key,
-    }
-    if provider == "anthropic":
-        config_entry["api_type"] = "anthropic"
+    config_entry = {"model": model, "api_key": api_key, "api_type": "anthropic"}
+    return {"config_list": [config_entry], "temperature": 0.2}
 
-    return {
-        "config_list": [config_entry],
-        "temperature": 0.2,
+
+# ── Central model client factory ──────────────────────────────
+def create_model_client(agent_name: str = "", task_type: str = "",
+                        profile: str = "", line: str = ""):
+    """Create AutoGen ChatCompletionClient.
+
+    For pipeline agents: always uses Anthropic client (AutoGen-compatible).
+    TheBrain selects the Anthropic model tier (Haiku/Sonnet/Opus).
+    Multi-provider (OpenAI/Google/Mistral) is used for Assembly/Repair via ProviderRouter.
+    """
+    from autogen_ext.models.anthropic import AnthropicChatCompletionClient
+    import os
+
+    # TheBrain selects tier, map back to Anthropic model
+    profile_name = profile or _active_profile
+    tier_to_anthropic = {
+        "dev": "claude-haiku-4-5",
+        "fast": "claude-haiku-4-5",
+        "standard": "claude-sonnet-4-6",
+        "premium": "claude-opus-4-6",
     }
+    profiles = load_llm_profiles()
+    p = profiles.get(profile_name, {})
+    model = p.get("model", tier_to_anthropic.get(profile_name, "claude-haiku-4-5"))
+    api_key = os.getenv("ANTHROPIC_API_KEY", "")
+
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY not set")
+
+    return AnthropicChatCompletionClient(model=model, api_key=api_key)
+
+
+def get_brain_info() -> dict:
+    """Return TheBrain status for console logging."""
+    if not _brain_available:
+        return {"status": "unavailable", "reason": "import failed"}
+    try:
+        reg = _brain_get_registry()
+        stats = reg.stats
+        return {
+            "status": "active",
+            "total_models": stats["total_models"],
+            "available_providers": stats["available_providers"],
+            "available_models": stats["available_models"],
+            "last_selection": _brain_selection,
+        }
+    except Exception as e:
+        return {"status": "error", "reason": str(e)}
