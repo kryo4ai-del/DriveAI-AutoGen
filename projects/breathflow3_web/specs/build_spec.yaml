@@ -1,0 +1,36 @@
+project: "BreathFlow3 Web"
+description: "Minimalistische Atem-Uebungs-App — TypeScript/React/Next.js"
+build_mode: layered
+target_lines:
+  - web
+
+features:
+  - name: "ExerciseSelection"
+    type: feature
+    priority: 1
+    description: "Home page with 3 exercise cards (4-7-8, Box Breathing, Calm). React components with Tailwind CSS grid, 'use client', framer-motion hover effects."
+    depends_on: []
+
+  - name: "BreathingAnimation"
+    type: feature
+    priority: 1
+    description: "Animated SVG circle using framer-motion. Expand on inhale, contract on exhale. setInterval timer for phases. CSS transitions for smooth breathing."
+    depends_on: ["ExerciseSelection"]
+
+  - name: "SessionComplete"
+    type: screen
+    priority: 2
+    description: "Session complete page: duration, exercise type, encouragement. Save to localStorage."
+    depends_on: ["BreathingAnimation"]
+
+  - name: "WeeklyStats"
+    type: screen
+    priority: 2
+    description: "Weekly stats dashboard. Bar chart with Tailwind + CSS. Minutes per day, total, streak. Data from localStorage."
+    depends_on: ["SessionComplete"]
+
+  - name: "Settings"
+    type: screen
+    priority: 3
+    description: "Settings page: sound toggle, haptic toggle, dark/light theme. localStorage preferences. 'use client'."
+    depends_on: []

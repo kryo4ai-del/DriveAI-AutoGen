@@ -1,0 +1,55 @@
+{
+  "project": "breathflow3",
+  "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\breathflow3",
+  "files_scanned": 64,
+  "checks_run": [
+    "FK-011",
+    "FK-012",
+    "FK-013",
+    "FK-014",
+    "FK-015",
+    "FK-017"
+  ],
+  "status": "WARNINGS",
+  "issues_found": 4,
+  "blocking": 0,
+  "warnings": 4,
+  "issues": [
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ExerciseRow.swift",
+      "message": "Call to ExerciseRow() uses labels ['correctAnswers', 'id', 'questionCount', 'readiness', 'title', 'topic'] — no known init matches (16% match)",
+      "line": 54,
+      "matched_text": "ExerciseRow(",
+      "type_name": "ExerciseRow"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ExerciseRow.swift",
+      "message": "Call to ExerciseRow() uses labels ['correctAnswers', 'id', 'questionCount', 'readiness', 'title', 'topic'] — no known init matches (16% match)",
+      "line": 60,
+      "matched_text": "ExerciseRow(",
+      "type_name": "ExerciseRow"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ReadinessCard.swift",
+      "message": "Call to ReadinessCard() uses labels ['correctAnswers', 'state', 'totalQuestions', 'viewModel'] — no known init matches (25% match)",
+      "line": 45,
+      "matched_text": "ReadinessCard(",
+      "type_name": "ReadinessCard"
+    },
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/ReadinessCard.swift",
+      "message": "Call to ReadinessCard() uses labels ['correctAnswers', 'state', 'totalQuestions', 'viewModel'] — no known init matches (25% match)",
+      "line": 49,
+      "matched_text": "ReadinessCard(",
+      "type_name": "ReadinessCard"
+    }
+  ]
+}

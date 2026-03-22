@@ -159,6 +159,7 @@ class PipelineDispatcher:
             elif act == "run_market_strategy":
                 try:
                     from factory.market_strategy.pipeline import run_pipeline as run_ms
+                    print(f"  Input: {product.pre_production_dir}")
                     result = run_ms(product.pre_production_dir)
                     if result and result.get("output_dir"):
                         product.market_strategy_dir = result["output_dir"]
@@ -184,6 +185,7 @@ class PipelineDispatcher:
             elif act == "generate_cd_roadbook":
                 try:
                     from factory.roadbook_assembly.pipeline import run_pipeline as run_rb
+                    print(f"  Input: {product.pre_production_dir}")
                     result = run_rb(product.pre_production_dir)
                     if result and result.get("cd_roadbook_path"):
                         product.cd_roadbook_path = result["cd_roadbook_path"]
@@ -194,17 +196,37 @@ class PipelineDispatcher:
                     return True
 
             elif act == "start_production":
-                # Use orchestrator
+                # Auto-create project if needed
+                slug = product.title.lower().replace(" ", "").replace("-", "")
+                proj_dir = os.path.join("projects", slug)
+                if not os.path.exists(os.path.join(proj_dir, "project.yaml")):
+                    from factory.dispatcher.project_creator import ProjectCreator
+                    proj_dir = ProjectCreator().create_from_pipeline_output(
+                        product, product.pre_production_dir, product.mvp_scope_dir)
+                    product.project_dir = proj_dir
+                    self._save_queue()
+                # Use orchestrator — create plan AND execute first feature
                 from factory.orchestrator.orchestrator import FactoryOrchestrator
-                slug = product.title.lower().replace(" ", "_")
                 orch = FactoryOrchestrator(slug)
                 plan = orch.create_layered_build_plan()
-                if plan and plan.steps:
-                    product.project_dir = f"projects/{slug}"
-                    self._save_queue()
-                    print(f"  Production plan: {len(plan.steps)} steps")
-                    return True
-                return False
+                if not plan or not plan.steps:
+                    print(f"  No build steps for {slug}")
+                    return False
+
+                # Limit to first feature only (cost control)
+                first_feature = plan.steps[0].name.split(" — ")[0] if " — " in plan.steps[0].name else plan.steps[0].name
+                original_count = len(plan.steps)
+                plan.steps = [s for s in plan.steps if first_feature in s.name]
+                print(f"  Build plan: {len(plan.steps)} steps (first feature of {original_count} total)")
+
+                product.project_dir = f"projects/{slug}"
+                self._save_queue()
+
+                # Execute (real pipeline calls, not dry-run)
+                report = orch.execute_plan(plan, dry_run=False, profile="dev", approval="auto")
+                completed = sum(1 for s in plan.steps if s.status == "completed")
+                print(f"  Production: {completed}/{len(plan.steps)} steps completed")
+                return completed > 0
 
             elif act == "start_assembly":
                 slug = product.title.lower().replace(" ", "_")

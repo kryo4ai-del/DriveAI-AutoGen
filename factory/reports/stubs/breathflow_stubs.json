@@ -1,0 +1,177 @@
+{
+  "project": "breathflow",
+  "timestamp": "2026-03-22 01:58:00",
+  "fk014_count": 17,
+  "stubs_created": 17,
+  "stubs_skipped": 0,
+  "actions": [
+    {
+      "type_name": "BreathFlow",
+      "kind": "struct",
+      "file_path": "Models\\BreathFlow.swift",
+      "ref_files": [
+        "Models/BreathingViewModelTests.swift",
+        "Models/SessionRecordTests.swift",
+        "Models/StatsServiceTests.swift"
+      ]
+    },
+    {
+      "type_name": "Calendar",
+      "kind": "struct",
+      "file_path": "Models\\Calendar.swift",
+      "ref_files": [
+        "Models/GeneratedHelpers.swift",
+        "Models/StatsServiceTests.swift",
+        "Services/StatsService.swift"
+      ]
+    },
+    {
+      "type_name": "CaseIterable",
+      "kind": "struct",
+      "file_path": "Models\\CaseIterable.swift",
+      "ref_files": [
+        "Models/BreathPhase.swift",
+        "Models/BreathingTechnique.swift"
+      ]
+    },
+    {
+      "type_name": "Codable",
+      "kind": "struct",
+      "file_path": "Models\\Codable.swift",
+      "ref_files": [
+        "Models/BreathPhase.swift",
+        "Models/BreathingTechnique.swift",
+        "Models/SessionRecord.swift"
+      ]
+    },
+    {
+      "type_name": "Color",
+      "kind": "struct",
+      "file_path": "Models\\Color.swift",
+      "ref_files": [
+        "Models/GeneratedHelpers.swift",
+        "Models/TechniqueCard.swift",
+        "Views/BreathingView.swift"
+      ]
+    },
+    {
+      "type_name": "Foundation",
+      "kind": "struct",
+      "file_path": "Models\\Foundation.swift",
+      "ref_files": [
+        "Models/BreathPhase.swift",
+        "Models/BreathingTechnique.swift",
+        "Models/SessionRecord.swift",
+        "Services/StatsService.swift"
+      ]
+    },
+    {
+      "type_name": "HStack",
+      "kind": "struct",
+      "file_path": "Models\\HStack.swift",
+      "ref_files": [
+        "Models/TechniqueCard.swift",
+        "Views/BreathingView.swift"
+      ]
+    },
+    {
+      "type_name": "MainActor",
+      "kind": "struct",
+      "file_path": "Models\\MainActor.swift",
+      "ref_files": [
+        "Models/StatsServiceTests.swift",
+        "Services/StatsService.swift",
+        "ViewModels/BreathingViewModel.swift"
+      ]
+    },
+    {
+      "type_name": "Observable",
+      "kind": "struct",
+      "file_path": "Models\\Observable.swift",
+      "ref_files": [
+        "Services/StatsService.swift",
+        "ViewModels/BreathingViewModel.swift"
+      ]
+    },
+    {
+      "type_name": "Sendable",
+      "kind": "struct",
+      "file_path": "Models\\Sendable.swift",
+      "ref_files": [
+        "Models/BreathPhase.swift",
+        "Models/BreathingTechnique.swift",
+        "Models/SessionRecord.swift",
+        "Services/StatsService.swift",
+        "ViewModels/BreathingViewModel.swift"
+      ]
+    },
+    {
+      "type_name": "State",
+      "kind": "enum",
+      "file_path": "Models\\State.swift",
+      "ref_files": [
+        "Views/BreathingView.swift",
+        "Views/ExerciseSelectionView.swift"
+      ]
+    },
+    {
+      "type_name": "TimeZone",
+      "kind": "struct",
+      "file_path": "Models\\TimeZone.swift",
+      "ref_files": [
+        "Models/GeneratedHelpers.swift",
+        "Models/StatsServiceTests.swift",
+        "Services/StatsService.swift"
+      ]
+    },
+    {
+      "type_name": "Timer",
+      "kind": "struct",
+      "file_path": "Models\\Timer.swift",
+      "ref_files": [
+        "Models/GeneratedHelpers.swift",
+        "ViewModels/BreathingViewModel.swift"
+      ]
+    },
+    {
+      "type_name": "UserDefaults",
+      "kind": "struct",
+      "file_path": "Models\\UserDefaults.swift",
+      "ref_files": [
+        "Models/GeneratedHelpers.swift",
+        "Models/StatsServiceTests.swift",
+        "Services/StatsService.swift"
+      ]
+    },
+    {
+      "type_name": "XCTest",
+      "kind": "struct",
+      "file_path": "Models\\XCTest.swift",
+      "ref_files": [
+        "Models/BreathingViewModelTests.swift",
+        "Models/SessionRecordTests.swift",
+        "Models/StatsServiceTests.swift"
+      ]
+    },
+    {
+      "type_name": "XCTestCase",
+      "kind": "struct",
+      "file_path": "Models\\XCTestCase.swift",
+      "ref_files": [
+        "Models/BreathingViewModelTests.swift",
+        "Models/SessionRecordTests.swift",
+        "Models/StatsServiceTests.swift"
+      ]
+    },
+    {
+      "type_name": "ZStack",
+      "kind": "struct",
+      "file_path": "Models\\ZStack.swift",
+      "ref_files": [
+        "Models/GeneratedHelpers.swift",
+        "Views/BreathingView.swift"
+      ]
+    }
+  ],
+  "skipped": []
+}

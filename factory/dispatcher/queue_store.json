@@ -5,21 +5,28 @@
       "title": "BrainPuzzle",
       "idea": "Brain training puzzle app",
       "ambition": "realistic",
-      "phase": "idea_submitted",
+      "phase": "pre_production_complete",
       "priority": 5,
       "platforms": [
         "ios",
         "android",
         "web"
       ],
-      "pre_production_dir": "",
+      "pre_production_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\pre_production\\output\\005_brainpuzzle",
       "market_strategy_dir": "",
       "mvp_scope_dir": "",
       "cd_roadbook_path": "",
       "project_dir": "",
       "created_at": "2026-03-22T01:27:16.430646",
-      "updated_at": "2026-03-22T01:27:16.430666",
-      "phase_history": [],
+      "updated_at": "2026-03-22T07:07:58.403593",
+      "phase_history": [
+        {
+          "from": "idea_submitted",
+          "to": "pre_production_complete",
+          "timestamp": "2026-03-22T07:07:58.403598",
+          "notes": ""
+        }
+      ],
       "ceo_decision": "",
       "ceo_notes": "",
       "production_files": 0,
@@ -88,7 +95,193 @@
       "production_files": 0,
       "compile_errors": 0,
       "store_readiness": 0.0
+    },
+    {
+      "id": "003_breathflow2",
+      "title": "BreathFlow2",
+      "idea": "Eine minimalistische Atem-Uebungs-App. Der Nutzer waehlt eine Uebung (4-7-8 Technik, Box Breathing, oder Einfaches Beruhigen), sieht eine animierte Kreis-Animation die sich mit dem Atem ausdehnt und zusammenzieht, und bekommt einen Timer. Nach der Uebung sieht er wie viele Minuten er diese Woche schon geuebt hat. Alles offline, kein Account, kein Backend.",
+      "ambition": "realistic",
+      "phase": "failed",
+      "priority": 5,
+      "platforms": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "pre_production_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\pre_production\\output\\005_breathflow2",
+      "market_strategy_dir": "",
+      "mvp_scope_dir": "",
+      "cd_roadbook_path": "",
+      "project_dir": "projects/breathflow2",
+      "created_at": "2026-03-22T06:44:58.392636",
+      "updated_at": "2026-03-22T07:09:01.056032",
+      "phase_history": [
+        {
+          "from": "idea_submitted",
+          "to": "pre_production_complete",
+          "timestamp": "2026-03-22T06:54:14.545395",
+          "notes": ""
+        },
+        {
+          "from": "pre_production_complete",
+          "to": "ceo_go",
+          "timestamp": "2026-03-22T06:54:14.545927",
+          "notes": "Auto-approved (--auto-ceo-go)"
+        },
+        {
+          "from": "ceo_go",
+          "to": "market_strategy_complete",
+          "timestamp": "2026-03-22T06:54:14.555682",
+          "notes": ""
+        },
+        {
+          "from": "market_strategy_complete",
+          "to": "mvp_scope_complete",
+          "timestamp": "2026-03-22T06:54:14.563524",
+          "notes": ""
+        },
+        {
+          "from": "mvp_scope_complete",
+          "to": "cd_roadbook_complete",
+          "timestamp": "2026-03-22T06:57:09.352878",
+          "notes": ""
+        },
+        {
+          "from": "cd_roadbook_complete",
+          "to": "failed",
+          "timestamp": "2026-03-22T06:57:09.364957",
+          "notes": "Action 'start_production' failed"
+        },
+        {
+          "from": "failed",
+          "to": "cd_roadbook_complete",
+          "timestamp": "2026-03-22T06:59:07.655414",
+          "notes": ""
+        },
+        {
+          "from": "cd_roadbook_complete",
+          "to": "production_complete",
+          "timestamp": "2026-03-22T07:08:24.808327",
+          "notes": ""
+        },
+        {
+          "from": "production_complete",
+          "to": "failed",
+          "timestamp": "2026-03-22T07:08:24.824176",
+          "notes": "Action 'start_assembly' failed"
+        },
+        {
+          "from": "failed",
+          "to": "production_complete",
+          "timestamp": "2026-03-22T07:08:58.030348",
+          "notes": ""
+        },
+        {
+          "from": "production_complete",
+          "to": "failed",
+          "timestamp": "2026-03-22T07:09:01.056036",
+          "notes": "Action 'start_assembly' failed"
+        }
+      ],
+      "ceo_decision": "",
+      "ceo_notes": "",
+      "production_files": 0,
+      "compile_errors": 0,
+      "store_readiness": 0.0
+    },
+    {
+      "id": "004_breathflow3",
+      "title": "BreathFlow3",
+      "idea": "Eine minimalistische Atem-Uebungs-App. Der Nutzer waehlt eine Uebung (4-7-8 Technik, Box Breathing, oder Einfaches Beruhigen), sieht eine animierte Kreis-Animation die sich mit dem Atem ausdehnt und zusammenzieht, und bekommt einen Timer. Nach der Uebung sieht er wie viele Minuten er diese Woche schon geuebt hat. Alles offline, kein Account, kein Backend.",
+      "ambition": "realistic",
+      "phase": "failed",
+      "priority": 5,
+      "platforms": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "pre_production_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\pre_production\\output\\005_breathflow3",
+      "market_strategy_dir": "",
+      "mvp_scope_dir": "",
+      "cd_roadbook_path": "",
+      "project_dir": "projects/breathflow3",
+      "created_at": "2026-03-22T07:40:12.150348",
+      "updated_at": "2026-03-22T08:21:02.588158",
+      "phase_history": [
+        {
+          "from": "idea_submitted",
+          "to": "pre_production_complete",
+          "timestamp": "2026-03-22T07:48:20.334377",
+          "notes": ""
+        },
+        {
+          "from": "pre_production_complete",
+          "to": "ceo_go",
+          "timestamp": "2026-03-22T07:48:20.334894",
+          "notes": "Auto-approved (--auto-ceo-go)"
+        },
+        {
+          "from": "ceo_go",
+          "to": "market_strategy_complete",
+          "timestamp": "2026-03-22T07:48:20.343482",
+          "notes": ""
+        },
+        {
+          "from": "market_strategy_complete",
+          "to": "mvp_scope_complete",
+          "timestamp": "2026-03-22T07:48:20.349726",
+          "notes": ""
+        },
+        {
+          "from": "mvp_scope_complete",
+          "to": "cd_roadbook_complete",
+          "timestamp": "2026-03-22T07:51:49.940448",
+          "notes": ""
+        },
+        {
+          "from": "cd_roadbook_complete",
+          "to": "failed",
+          "timestamp": "2026-03-22T07:51:50.000463",
+          "notes": "Action 'start_production' failed"
+        },
+        {
+          "from": "failed",
+          "to": "cd_roadbook_complete",
+          "timestamp": "2026-03-22T07:57:18.185631",
+          "notes": ""
+        },
+        {
+          "from": "cd_roadbook_complete",
+          "to": "failed",
+          "timestamp": "2026-03-22T07:57:21.099685",
+          "notes": "Action 'start_production' failed"
+        },
+        {
+          "from": "failed",
+          "to": "cd_roadbook_complete",
+          "timestamp": "2026-03-22T07:57:56.300840",
+          "notes": ""
+        },
+        {
+          "from": "cd_roadbook_complete",
+          "to": "production_complete",
+          "timestamp": "2026-03-22T08:21:02.536800",
+          "notes": ""
+        },
+        {
+          "from": "production_complete",
+          "to": "failed",
+          "timestamp": "2026-03-22T08:21:02.588166",
+          "notes": "Action 'start_assembly' failed"
+        }
+      ],
+      "ceo_decision": "",
+      "ceo_notes": "",
+      "production_files": 0,
+      "compile_errors": 0,
+      "store_readiness": 0.0
     }
   ],
-  "updated": "2026-03-22T01:50:49.538424"
+  "updated": "2026-03-22T08:21:02.588291"
 }

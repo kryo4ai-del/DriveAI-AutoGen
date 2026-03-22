@@ -5,6 +5,7 @@ from factory.assembly.lines.base_line import BaseAssemblyLine, AssemblyReport
 from factory.assembly.lines.android_line import AndroidAssemblyLine
 from factory.assembly.lines.ios_line import iOSAssemblyLine
 from factory.assembly.lines.web_line import WebAssemblyLine
+from factory.assembly.lines.unity_line import UnityAssemblyLine
 
 
 class AssemblyManager:

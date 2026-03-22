@@ -3,6 +3,11 @@
 
 import os
 import asyncio
+try:
+    import nest_asyncio
+    nest_asyncio.apply()
+except ImportError:
+    pass
 from factory.pipeline.pipeline_runner import run_pipeline, run_operations_layer
 import sys
 from datetime import datetime
@@ -160,8 +165,7 @@ class FactoryOrchestrator:
                 try:
                     from tasks.task_manager import setup_logger
                     _logger, _log_path = setup_logger(f"orchestrator_{step.id}")
-                    loop = asyncio.new_event_loop()
-                    pipeline_result = loop.run_until_complete(run_pipeline(
+                    pipeline_result = asyncio.run(run_pipeline(
                         user_task=step.task_prompt if hasattr(step, 'task_prompt') and step.task_prompt else f"Build {step.name} for {step.line}",
                         task_source=f"orchestrator ({step.id})",
                         run_mode="full",
@@ -175,9 +179,25 @@ class FactoryOrchestrator:
                         template_name_value=step.template_name,
                         project_name=self.project_name,
                     ))
-                    loop.close()
+                    # asyncio.run handles cleanup
                     step.status = "completed"
                     step.result = pipeline_result
+
+                    # Integrate generated files into project
+                    try:
+                        from code_generation.project_integrator import ProjectIntegrator
+                        _proj_path = os.path.join('projects', self.project_name)
+                        _ext_map = {'swift': ['.swift'], 'kotlin': ['.kt'], 'typescript': ['.ts', '.tsx'], 'csharp': ['.cs']}
+                        _lang = step.language if hasattr(step, 'language') else 'swift'
+                        _exts = _ext_map.get(_lang, ['.swift'])
+                        _integrator = ProjectIntegrator(_proj_path, file_extensions=_exts)
+                        _int_result = _integrator.integrate_generated_code(approval='auto')
+                        _copied = _int_result.get('files_copied', 0)
+                        if _copied:
+                            print(f"    Integrated: {_copied} files into {_proj_path}")
+                    except Exception as _ie:
+                        print(f"    Integration: skipped ({_ie})")
+
                     print(f"    Status  : COMPLETED")
                     report.step_results.append({
                         "step_id": step.id,

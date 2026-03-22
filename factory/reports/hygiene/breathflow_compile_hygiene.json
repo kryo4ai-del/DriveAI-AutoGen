@@ -1,0 +1,28 @@
+{
+  "project": "breathflow",
+  "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\breathflow",
+  "files_scanned": 29,
+  "checks_run": [
+    "FK-011",
+    "FK-012",
+    "FK-013",
+    "FK-014",
+    "FK-015",
+    "FK-017"
+  ],
+  "status": "WARNINGS",
+  "issues_found": 1,
+  "blocking": 0,
+  "warnings": 1,
+  "issues": [
+    {
+      "pattern_id": "FK-013",
+      "severity": "warning",
+      "file": "Models/GeneratedHelpers.swift",
+      "message": "Call to SessionRecord() uses labels ['date', 'day', 'from', 'hour', 'minute', 'month', 'year'] — no known init matches (14% match)",
+      "line": 328,
+      "matched_text": "let record1 = SessionRecord(",
+      "type_name": "SessionRecord"
+    }
+  ]
+}
