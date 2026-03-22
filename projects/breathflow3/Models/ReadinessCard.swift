@@ -1,7 +1,30 @@
+// Models/ReadinessCard.swift
+import SwiftUI
+
+struct ReadinessCardViewModel {
+    let state: ReadinessState
+    let motivationalMessage: String
+    let progressPercentage: Double
+
+    static func build(state: ReadinessState, correctAnswers: Int, totalQuestions: Int) -> ReadinessCardViewModel {
+        let progress = totalQuestions > 0 ? Double(correctAnswers) / Double(totalQuestions) : 0
+        let message: String
+        switch state {
+        case .topicsMastered:
+            message = "Great job! You've mastered this topic."
+        case .stillShaky:
+            message = "Keep practicing to improve your confidence."
+        case .notStarted:
+            message = "Start practicing to track your progress."
+        }
+        return ReadinessCardViewModel(state: state, motivationalMessage: message, progressPercentage: progress)
+    }
+}
+
 struct ReadinessCard: View {
     let viewModel: ReadinessCardViewModel
     let isCompact: Bool
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top, spacing: 12) {
@@ -9,26 +32,25 @@ struct ReadinessCard: View {
                     .fill(viewModel.state.accentColor)
                     .frame(width: 12, height: 12)
                     .accessibilityHidden(true)
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(viewModel.state.displayText)
                         .font(.headline)
                         .lineLimit(2)
                         .minimumScaleFactor(0.9)
                         .accessibilityLabel(viewModel.state.accessibilityLabel)
-                    
+
                     if !viewModel.motivationalMessage.isEmpty {
                         Text(viewModel.motivationalMessage)
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .lineLimit(3)
                             .minimumScaleFactor(0.85)
-                            .accessibilityAddTraits(.summaryElement)
                     }
                 }
                 Spacer()
             }
-            
+
             if !isCompact {
                 ProgressView(value: viewModel.progressPercentage)
                     .tint(viewModel.state.accentColor)

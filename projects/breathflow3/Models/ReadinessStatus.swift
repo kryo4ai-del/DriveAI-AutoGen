@@ -1,11 +1,11 @@
-// MARK: - Domain/Models.swift
-import Foundation
+// Models/ReadinessStatus.swift
+import SwiftUI
 
-enum ReadinessStatus: String, CaseIterable, Codable {
+enum ReadinessStatus: String, CaseIterable, Codable, Sendable {
     case stillShaky = "still_shaky"
     case buildingConfidence = "building_confidence"
     case testReady = "test_ready"
-    
+
     var displayText: String {
         switch self {
         case .stillShaky: return "Still Shaky"
@@ -13,7 +13,7 @@ enum ReadinessStatus: String, CaseIterable, Codable {
         case .testReady: return "Test Ready"
         }
     }
-    
+
     var accessibilityHint: String {
         switch self {
         case .stillShaky:
@@ -24,7 +24,7 @@ enum ReadinessStatus: String, CaseIterable, Codable {
             return "Green indicator. You're ready to take the test"
         }
     }
-    
+
     var color: Color {
         switch self {
         case .stillShaky: return Color(red: 0.95, green: 0.3, blue: 0.3)
@@ -32,7 +32,7 @@ enum ReadinessStatus: String, CaseIterable, Codable {
         case .testReady: return Color(red: 0.3, green: 0.85, blue: 0.3)
         }
     }
-    
+
     var sortPriority: Int {
         switch self {
         case .testReady: return 3
@@ -55,15 +55,4 @@ enum ExerciseFilter: String, CaseIterable {
     case testReady = "Test Ready"
     case inProgress = "In Progress"
     case notStarted = "Not Started"
-    
-    var predicate: (Exercise) -> Bool {
-        switch self {
-        case .all: return { _ in true }
-        case .testReady: return { $0.readiness == .testReady }
-        case .inProgress: return { $0.readiness == .buildingConfidence }
-        case .notStarted: return { $0.readiness == .stillShaky }
-        }
-    }
 }
-
-// MARK: - Repository Error Types

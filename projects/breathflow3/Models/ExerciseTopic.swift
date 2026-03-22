@@ -1,4 +1,6 @@
-struct ExerciseTopic: Identifiable, Equatable {  // ✅ Auto-synthesized
+import Foundation
+
+struct ExerciseTopic: Identifiable, Equatable {
     let id: String
     let title: String
     let questionCount: Int

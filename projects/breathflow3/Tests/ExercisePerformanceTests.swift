@@ -1,6 +1,6 @@
 // Tests/Domain/Models/ExercisePerformanceTests.swift
 import XCTest
-@testable import DriveAI
+@testable import BreathFlow3
 
 final class ExercisePerformanceTests: XCTestCase {
     

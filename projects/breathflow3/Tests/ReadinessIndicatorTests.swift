@@ -1,6 +1,6 @@
 // Tests/Domain/Models/ReadinessIndicatorTests.swift
 import XCTest
-@testable import DriveAI
+@testable import BreathFlow3
 
 final class ReadinessIndicatorTests: XCTestCase {
     

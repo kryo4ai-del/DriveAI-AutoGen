@@ -1,36 +1,58 @@
-@MainActor  // ← BUG #3 FIX: Was missing, caused thread-safety issues
-protocol ExerciseRepository: Sendable {
-    
-    /// Fetch all exercises, optionally filtered by category
-    /// - Parameter category: Optional filter; nil returns all categories
-    /// - Returns: Array of Exercise sorted by difficulty
-    /// - Throws: .networkFailure, .cachingFailure, .decodingFailure
-    func fetchExercises(category: ExerciseCategory?) async throws -> [Exercise]
-    
-    /// Fetch single exercise by ID
-    /// - Parameter id: Exercise UUID
-    /// - Returns: Exercise matching ID
-    /// - Throws: .exerciseNotFound(id), .networkFailure, .decodingFailure
-    func fetchExercise(id: UUID) async throws -> Exercise
-    
-    /// Fetch performance data for specific exercise
-    /// - Parameter exerciseId: Exercise UUID
-    /// - Returns: ExercisePerformance or nil if not started
-    /// - Throws: .performanceDataMissing, .decodingFailure
-    func fetchPerformance(exerciseId: UUID) async throws -> ExercisePerformance?
-    
-    /// Fetch all performance records
-    /// - Returns: Array of all ExercisePerformance records
-    /// - Throws: .networkFailure, .decodingFailure
-    func fetchAllPerformance() async throws -> [ExercisePerformance]
-    
-    /// Save or update performance record
-    /// - Parameter performance: Valid ExercisePerformance (validated by model)
-    /// - Throws: .cachingFailure, .concurrencyError
-    func savePerformance(_ performance: ExercisePerformance) async throws
-    
-    /// Delete performance record
-    /// - Parameter exerciseId: Exercise UUID to delete
-    /// - Throws: .cachingFailure
-    func deletePerformance(exerciseId: UUID) async throws
+// Models/ExerciseRepository.swift
+import Foundation
+
+actor ExerciseRepository: ExerciseRepositoryProtocol {
+    private var cachedExercises: [Exercise]?
+    private var loadTask: Task<[Exercise], Error>?
+
+    nonisolated private func loadJSON() throws -> Data {
+        guard let url = Bundle.main.url(forResource: "ExerciseData", withExtension: "json") else {
+            throw AppError.notFound
+        }
+        return try Data(contentsOf: url)
+    }
+
+    func loadExercises() async throws -> [Exercise] {
+        // Return cached if available
+        if let cached = cachedExercises {
+            return cached
+        }
+
+        // Prevent concurrent loads - reuse in-flight task
+        if let task = loadTask {
+            return try await task.value
+        }
+
+        let task = Task {
+            try await performLoad()
+        }
+
+        self.loadTask = task
+        let result = try await task.value
+        self.loadTask = nil
+        return result
+    }
+
+    private func performLoad() async throws -> [Exercise] {
+        let data = try loadJSON()
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        let exercises = try decoder.decode([Exercise].self, from: data)
+        self.cachedExercises = exercises
+        return exercises
+    }
+
+    func getExercise(by id: UUID) async throws -> Exercise {
+        let exercises = try await loadExercises()
+        guard let exercise = exercises.first(where: { $0.id == id }) else {
+            throw AppError.notFound
+        }
+        return exercise
+    }
+
+    func getExercises(by category: ExerciseCategory) async throws -> [Exercise] {
+        let exercises = try await loadExercises()
+        return exercises.filter { $0.category == category }
+    }
 }

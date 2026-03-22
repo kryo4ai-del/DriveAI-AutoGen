@@ -1,3 +1,4 @@
+// Models/FetchExercisesUseCase.swift
 import Foundation
 
 @MainActor
@@ -9,6 +10,6 @@ final class FetchExercisesUseCase {
     }
 
     func execute() async throws -> [Exercise] {
-        return try await repository.fetchAll()
+        return try await repository.loadExercises()
     }
 }

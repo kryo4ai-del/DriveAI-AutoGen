@@ -1,3 +1,5 @@
+import Foundation
+
 struct ReadinessIndicator: Sendable, Equatable {
     enum Status: Sendable, Equatable {
         case notStarted    // No completions

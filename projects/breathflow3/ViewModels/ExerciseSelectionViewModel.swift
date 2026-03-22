@@ -1,5 +1,5 @@
 // ViewModels/ExerciseSelectionViewModel.swift
-import Foundation
+import SwiftUI
 
 @MainActor
 class ExerciseSelectionViewModel: ObservableObject {
@@ -9,68 +9,73 @@ class ExerciseSelectionViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var error: AppError?
     @Published var selectedCategory: ExerciseCategory?
-    
-    private let repository: ExerciseRepository
-    private let statsService: SessionHistoryService
+    @Published var state = ExerciseSelectionState()
+
+    private let useCase: ExerciseSelectionUseCaseProtocol?
+    private let repository: ExerciseRepositoryProtocol?
     private var loadTask: Task<Void, Never>?
-    
-    init(
-        repository: ExerciseRepository = ExerciseRepository(),
-        statsService: SessionHistoryService
-    ) {
-        self.repository = repository
-        self.statsService = statsService
+
+    init(useCase: ExerciseSelectionUseCaseProtocol) {
+        self.useCase = useCase
+        self.repository = nil
     }
-    
+
+    init(repository: ExerciseRepositoryProtocol) {
+        self.repository = repository
+        self.useCase = nil
+    }
+
     deinit {
         loadTask?.cancel()
     }
-    
-    func loadExercises() async {
-        // Cancel previous load
+
+    func loadExercises() {
         loadTask?.cancel()
-        
+
         isLoading = true
-        defer { isLoading = false }
-        
+        state.isLoading = true
+
         loadTask = Task {
+            defer {
+                isLoading = false
+                state.isLoading = false
+            }
+
             do {
-                let loaded = try await repository.loadExercises()
+                let loaded: [Exercise]
+                if let useCase = useCase {
+                    loaded = try await useCase.fetchExercises()
+                } else if let repository = repository {
+                    loaded = try await repository.loadExercises()
+                } else {
+                    loaded = []
+                }
                 self.exercises = loaded
+                self.state.exercises = loaded
                 self.error = nil
-                
-                // Load stats concurrently for all exercises
-                await loadAllStats(for: loaded)
+                self.state.error = nil
             } catch {
                 self.error = error as? AppError ?? .unknown("\(error)")
                 self.exercises = []
+                self.state.exercises = []
             }
         }
-        
-        await loadTask?.value
     }
-    
+
     func filterByCategory(_ category: ExerciseCategory?) {
         selectedCategory = category
     }
-    
+
     func selectExercise(_ exercise: Exercise) {
         selectedExercise = exercise
+        state.selectedExercise = exercise
     }
-    
+
     func clearError() {
         error = nil
+        state.error = nil
     }
-    
-    // MARK: - Private
-    
-    private func loadAllStats(for exercises: [Exercise]) async {
-        let stats = await statsService.getStatsForMultiple(
-            exerciseIds: exercises.map { $0.id }
-        )
-        self.exerciseStats = stats
-    }
-    
+
     var filteredExercises: [Exercise] {
         guard let category = selectedCategory else {
             return exercises

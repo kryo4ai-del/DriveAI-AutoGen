@@ -1,3 +1,5 @@
+import SwiftUI
+
 struct ExerciseRow: View {
     let topic: ExerciseTopic
     let isPriority: Bool

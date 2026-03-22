@@ -1,7 +1,8 @@
-struct ExerciseSelectionUIState: Equatable {  // ✅ Declared
+// Models/ExerciseSelectionUIState.swift
+import Foundation
+
+struct ExerciseSelectionUIState: Equatable {
     var readyTopics: [ExerciseTopic] = []
     var shakeyTopics: [ExerciseTopic] = []
     var notStartedTopics: [ExerciseTopic] = []
-    // ❌ But ExerciseTopic.Equatable is manual; 
-    // If property changes, SwiftUI won't diff correctly
 }

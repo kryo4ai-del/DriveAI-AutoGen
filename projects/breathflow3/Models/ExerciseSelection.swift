@@ -1,3 +1,5 @@
+import Foundation
+
 struct ExerciseSelection: Sendable, Equatable {
     let exercise: Exercise
     let performance: ExercisePerformance?

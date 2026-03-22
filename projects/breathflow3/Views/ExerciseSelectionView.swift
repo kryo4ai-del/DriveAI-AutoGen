@@ -1,18 +1,21 @@
+// Views/ExerciseSelectionView.swift
+import SwiftUI
+
 @MainActor
 struct ExerciseSelectionView: View {
     @StateObject private var viewModel: ExerciseSelectionViewModel
-    
+
     init(useCase: ExerciseSelectionUseCaseProtocol) {
         _viewModel = StateObject(wrappedValue: ExerciseSelectionViewModel(useCase: useCase))
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
-                if viewModel.state.isLoading {
+                if viewModel.isLoading {
                     ProgressView("Loading exercises...")
                         .accessibilityLabel("Loading exercises")
-                } else if let error = viewModel.state.error {
+                } else if let error = viewModel.error {
                     VStack(spacing: 16) {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .font(.system(size: 48))
@@ -30,11 +33,10 @@ struct ExerciseSelectionView: View {
                     ScrollView {
                         LazyVStack(spacing: 12) {
                             ForEach(viewModel.filteredExercises) { exercise in
-                                NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
-                                    ExerciseCardView(exercise: exercise, onSelect: {
+                                ExerciseCardView(exercise: exercise)
+                                    .onTapGesture {
                                         viewModel.selectExercise(exercise)
-                                    })
-                                }
+                                    }
                             }
                         }
                         .padding(16)

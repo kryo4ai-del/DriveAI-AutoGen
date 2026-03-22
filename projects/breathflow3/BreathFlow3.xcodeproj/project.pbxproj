@@ -13,6 +13,7 @@
 		1F7194A46D6022B62A668912 /* ExerciseSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDC4AF49D07671160D416B0 /* ExerciseSelectionViewModel.swift */; };
 		268EA98680E3C5C54C89C6F1 /* ExercisePerformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D941AD25E4913B9FF9D01D /* ExercisePerformance.swift */; };
 		337335D3269AB57AF74A5194 /* ReadinessIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A411038659D353C45F153700 /* ReadinessIndicatorView.swift */; };
+		3B81338192909500D07252E6 /* BreathFlow3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE0E555296AD5D33A29E0E /* BreathFlow3App.swift */; };
 		3C892C9C855268D75764820E /* MetadataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442324F9EC8AF8EC3B0AC2A6 /* MetadataItem.swift */; };
 		4CA03A790AA53DE1F5D6B97E /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C542D332F9CC2BAB6BB4116 /* AppDependencies.swift */; };
 		4E887BAF0FB1F2FB3B576384 /* ExerciseDifficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F1F9E5BE7837614A608118 /* ExerciseDifficulty.swift */; };
@@ -70,6 +71,7 @@
 		7E674C068E8321B6CF4E85A2 /* ReadinessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessState.swift; sourceTree = "<group>"; };
 		7E7B915D2E4D6FFE18776C13 /* FetchExercisesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchExercisesUseCase.swift; sourceTree = "<group>"; };
 		81F1F9E5BE7837614A608118 /* ExerciseDifficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDifficulty.swift; sourceTree = "<group>"; };
+		87EE0E555296AD5D33A29E0E /* BreathFlow3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathFlow3App.swift; sourceTree = "<group>"; };
 		8E0C07DD7BE614B9FBC5B93E /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		91C1AF1DFEBADA58168BF5C5 /* ExerciseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRow.swift; sourceTree = "<group>"; };
 		969E531FDE5E68A67CDF0C48 /* ExerciseCategory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExerciseCategory+Extension.swift"; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 		1F2275C6C84E17339AA4C127 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				87EE0E555296AD5D33A29E0E /* BreathFlow3App.swift */,
 				71451D7F960D8B5D25A57D1F /* ErrorStateView.swift */,
 				4E24030FD4D863D843F4F0E0 /* ErrorView.swift */,
 				418C0C189B227BC27F5B6A7F /* ExerciseCardView.swift */,
@@ -235,6 +238,7 @@
 			files = (
 				4CA03A790AA53DE1F5D6B97E /* AppDependencies.swift in Sources */,
 				DD1C000C7016AD5AB9973DFF /* AppError.swift in Sources */,
+				3B81338192909500D07252E6 /* BreathFlow3App.swift in Sources */,
 				75C6E7162E1DCF5AE1E73A79 /* CalculateReadinessUseCase.swift in Sources */,
 				A10D84536FAD3FA4D5E46EA8 /* DifficultyBadge.swift in Sources */,
 				9E4290C876CCD39C4D7F7DB0 /* ErrorStateView.swift in Sources */,
