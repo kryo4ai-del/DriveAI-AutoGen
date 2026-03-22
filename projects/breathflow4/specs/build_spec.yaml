@@ -1,0 +1,37 @@
+project: "BreathFlow4"
+description: "Eine minimalistische Atem-Uebungs-App. Der Nutzer waehlt eine Uebung (4-7-8 Technik, Box Breathing, oder Einfaches Beruhigen), sieht eine animierte Kreis-Animation die sich mit dem Atem ausdehnt und z"
+build_mode: layered
+target_lines:
+  - ios
+
+features:
+
+  - name: "ExerciseSelection"
+    type: feature
+    priority: 1
+    description: "Main screen with exercise cards (4-7-8, Box Breathing, Calm)"
+    depends_on: []
+
+  - name: "BreathingAnimation"
+    type: feature
+    priority: 1
+    description: "Animated circle expanding/contracting with breath rhythm, timer"
+    depends_on: ["ExerciseSelection"]
+
+  - name: "SessionComplete"
+    type: screen
+    priority: 2
+    description: "Session completion with duration and encouragement"
+    depends_on: ["BreathingAnimation"]
+
+  - name: "WeeklyStats"
+    type: screen
+    priority: 2
+    description: "Weekly practice stats showing minutes per day"
+    depends_on: ["SessionComplete"]
+
+  - name: "Settings"
+    type: screen
+    priority: 3
+    description: "App settings: sound, haptic feedback, theme"
+    depends_on: ["WeeklyStats"]
