@@ -25,7 +25,70 @@
       "production_files": 0,
       "compile_errors": 0,
       "store_readiness": 0.0
+    },
+    {
+      "id": "002_breathflow",
+      "title": "BreathFlow",
+      "idea": "Eine minimalistische Atem-Uebungs-App. Der Nutzer waehlt eine Uebung (4-7-8 Technik, Box Breathing, oder Einfaches Beruhigen), sieht eine animierte Kreis-Animation die sich mit dem Atem ausdehnt und zusammenzieht, und bekommt einen Timer. Nach der Uebung sieht er wie viele Minuten er diese Woche schon geuebt hat. Alles offline, kein Account, kein Backend.",
+      "ambition": "realistic",
+      "phase": "failed",
+      "priority": 5,
+      "platforms": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "pre_production_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\pre_production\\output\\005_breathflow",
+      "market_strategy_dir": "",
+      "mvp_scope_dir": "",
+      "cd_roadbook_path": "",
+      "project_dir": "",
+      "created_at": "2026-03-22T01:38:23.192944",
+      "updated_at": "2026-03-22T01:50:49.538314",
+      "phase_history": [
+        {
+          "from": "idea_submitted",
+          "to": "pre_production_complete",
+          "timestamp": "2026-03-22T01:47:47.752447",
+          "notes": ""
+        },
+        {
+          "from": "pre_production_complete",
+          "to": "ceo_go",
+          "timestamp": "2026-03-22T01:47:47.753166",
+          "notes": "Auto-approved (--auto-ceo-go)"
+        },
+        {
+          "from": "ceo_go",
+          "to": "market_strategy_complete",
+          "timestamp": "2026-03-22T01:47:47.765081",
+          "notes": ""
+        },
+        {
+          "from": "market_strategy_complete",
+          "to": "mvp_scope_complete",
+          "timestamp": "2026-03-22T01:47:47.773853",
+          "notes": ""
+        },
+        {
+          "from": "mvp_scope_complete",
+          "to": "cd_roadbook_complete",
+          "timestamp": "2026-03-22T01:50:49.522632",
+          "notes": ""
+        },
+        {
+          "from": "cd_roadbook_complete",
+          "to": "failed",
+          "timestamp": "2026-03-22T01:50:49.538318",
+          "notes": "Action 'start_production' failed"
+        }
+      ],
+      "ceo_decision": "",
+      "ceo_notes": "",
+      "production_files": 0,
+      "compile_errors": 0,
+      "store_readiness": 0.0
     }
   ],
-  "updated": "2026-03-22T01:27:16.430845"
+  "updated": "2026-03-22T01:50:49.538424"
 }

@@ -1,0 +1,30 @@
+project: "BreathFlow"
+description: "Minimalist breathing exercise app"
+build_mode: layered
+target_lines:
+  - ios
+
+features:
+  - name: "BreathingExercise"
+    type: feature
+    priority: 1
+    description: "Core breathing exercise with animated circle, 3 techniques (4-7-8, Box Breathing, Calm), timer countdown, haptic cues"
+    depends_on: []
+
+  - name: "ExerciseSelection"
+    type: screen
+    priority: 1
+    description: "Home screen with 3 exercise cards showing technique name, duration, and brief description"
+    depends_on: []
+
+  - name: "WeeklyProgress"
+    type: feature
+    priority: 2
+    description: "Track total minutes practiced this week, daily streak, sessions completed. Persisted with UserDefaults"
+    depends_on: ["BreathingExercise"]
+
+  - name: "SessionComplete"
+    type: screen
+    priority: 2
+    description: "Post-exercise summary showing session duration, total weekly minutes, motivational message"
+    depends_on: ["BreathingExercise", "WeeklyProgress"]

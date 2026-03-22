@@ -56,5 +56,6 @@
 
 
 ## Roadbook Assembly
+- [CEO Roadbook: ~20 Seiten, CD Roadbook: ~81 Seiten, Pipeline komplett]: Quelle: Kapitel 6, breathflow
 - [CEO Roadbook: ~16 Seiten, CD Roadbook: ~90 Seiten, Pipeline komplett]: Quelle: Kapitel 6, echomatch
 (Kapitel 6 Learnings)
