@@ -5,6 +5,7 @@ import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
+import sys
 
 REPO_PATH = Path(__file__).resolve().parent.parent
 COMMANDS_DIR = REPO_PATH / "_commands"
@@ -94,16 +95,56 @@ def _build_ios(project: str, params: dict) -> dict:
     errors = [l for l in result.stdout.split("\n") if ": error:" in l]
     warnings = [l for l in result.stdout.split("\n") if ": warning:" in l]
 
-    return {
-        "status": "success" if result.returncode == 0 else "failed",
-        "result": {
-            "build_succeeded": result.returncode == 0,
-            "errors": len(errors),
-            "warnings": len(warnings),
-            "error_details": errors[:20],
-            "build_time_seconds": round(elapsed),
+    if result.returncode == 0:
+        return {
+            "status": "success",
+            "result": {
+                "build_succeeded": True,
+                "errors": 0,
+                "warnings": len(warnings),
+                "build_time_seconds": round(elapsed),
+            }
         }
-    }
+
+    # Build failed — try RepairEngine
+    print(f"  Build failed with {len(errors)} errors. Starting RepairEngine...")
+    try:
+        # Add repo root to path for factory imports
+        repo_root = str(REPO_PATH)
+        if repo_root not in sys.path:
+            sys.path.insert(0, repo_root)
+
+        from mac_agent.repair.swift_repair_engine import SwiftRepairEngine
+        engine = SwiftRepairEngine(str(project_dir), max_iterations=5)
+        repair_result = engine.repair_and_build(scheme, simulator)
+
+        return {
+            "status": "success" if repair_result.success else "failed",
+            "result": {
+                "build_succeeded": repair_result.success,
+                "errors": repair_result.final_errors,
+                "initial_errors": repair_result.initial_errors,
+                "repair_iterations": repair_result.iterations,
+                "repair_cost": repair_result.cost,
+                "warnings": len(warnings),
+                "build_time_seconds": round(elapsed),
+                "repair_history": repair_result.history,
+                "error_details": errors[:20] if not repair_result.success else [],
+            }
+        }
+    except Exception as e:
+        print(f"  RepairEngine error: {e}")
+        return {
+            "status": "failed",
+            "result": {
+                "build_succeeded": False,
+                "errors": len(errors),
+                "warnings": len(warnings),
+                "error_details": errors[:20],
+                "build_time_seconds": round(elapsed),
+                "repair_error": str(e),
+            }
+        }
 
 
 def _run_tests(project: str, params: dict) -> dict:
