@@ -1,0 +1,31 @@
+project: "BreathFlow5"
+description: "Eine minimalistische Atem-Uebungs-App. Der Nutzer waehlt eine Uebung (4-7-8 Technik, Box Breathing, oder Einfaches Beruhigen), sieht eine animierte Kreis-Animation die sich mit dem Atem ausdehnt und z"
+build_mode: layered
+target_lines:
+  - ios
+
+features:
+
+  - name: "SofortzugangZurKernaktion"
+    type: feature
+    priority: 1
+    description: "Sofort-Zugang zur Kernaktion:** Technikauswahl als erster Screen, ohne Onboarding-Gate — direktes Gegenprogramm zu den dokumentierten Hauptbeschwerden gegen Calm und Breathwrk."
+    depends_on: []
+
+  - name: "AndroidparitätOakNächster"
+    type: feature
+    priority: 1
+    description: "Android-Parität:** Oak (nächster Vergleichspunkt) ist iOS-only. Ein modernes minimalistisches Produkt auf Android ist strukturell unterversorgt. (Competitive Report, Gap #5)"
+    depends_on: ["SofortzugangZurKernaktion"]
+
+  - name: "KostenlosAlleDrei"
+    type: feature
+    priority: 1
+    description: "Kostenlos:** Alle drei Techniken vollständig nutzbar, Kreis-Animation, Timer, Wochen-Tracking"
+    depends_on: ["AndroidparitätOakNächster"]
+
+  - name: "AnimationenKreisvisualisierung"
+    type: feature
+    priority: 1
+    description: "Animationen (Kreis-Visualisierung) sind mit Flutter nativ hochwertig umsetzbar ohne externe Libraries."
+    depends_on: ["KostenlosAlleDrei"]
