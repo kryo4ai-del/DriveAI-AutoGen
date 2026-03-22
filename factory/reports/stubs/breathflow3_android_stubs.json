@@ -1,0 +1,28 @@
+{
+  "project": "breathflow3_android",
+  "timestamp": "2026-03-22 09:07:14",
+  "fk014_count": 2,
+  "stubs_created": 2,
+  "stubs_skipped": 0,
+  "actions": [
+    {
+      "type_name": "Blue",
+      "kind": "struct",
+      "file_path": "Models\\Blue.kt",
+      "ref_files": [
+        "Models/GeneratedHelpers.kt",
+        "Views/BreathingScreen.kt"
+      ]
+    },
+    {
+      "type_name": "DataStore",
+      "kind": "class",
+      "file_path": "Services\\DataStore.kt",
+      "ref_files": [
+        "Models/GeneratedHelpers.kt",
+        "Services/StatsService.kt"
+      ]
+    }
+  ],
+  "skipped": []
+}
