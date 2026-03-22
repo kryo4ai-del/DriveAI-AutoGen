@@ -5,14 +5,49 @@ Input: Concept Brief + Legal-Report.
 Output: Risk-Assessment-Report (Markdown).
 """
 
-import anthropic
 from dotenv import load_dotenv
-
-from factory.pre_production.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "RiskAssessment"
+
+
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
 
 
 def _extract_app_name(concept_brief: str) -> str:
@@ -89,10 +124,4 @@ REGELN:
 - Klare Empfehlung am Ende — der CEO will eine Meinung, nicht nur Daten"""
 
     print(f"[{AGENT_NAME}] Analyzing risks and generating assessment...")
-    client = anthropic.Anthropic()
-    response = client.messages.create(
-        model=AGENT_MODEL_MAP["risk_assessment"],
-        max_tokens=5000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=5000, agent_name=AGENT_NAME, profile="standard")

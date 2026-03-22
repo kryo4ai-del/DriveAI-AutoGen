@@ -959,6 +959,29 @@ def run_operations_layer(
     report = verifier.verify()
 
     # --- Compile Hygiene Check (FK-011, FK-012, FK-015) ---
+    # -- Import Hygiene --
+    print("[OpsLayer] Import Hygiene")
+    try:
+        from factory.operations.import_hygiene import ImportHygiene
+        _ih = ImportHygiene(project_name=project_name)
+        _ih_result = _ih.fix()
+        _ih_fixed = _ih_result.get("fixed", 0) if isinstance(_ih_result, dict) else 0
+        if _ih_fixed:
+            print(f"  Import Hygiene: {_ih_fixed} files fixed")
+        else:
+            print("  Import Hygiene: all imports OK")
+    except Exception as _ihe:
+        print(f"  Import Hygiene: skipped ({_ihe})")
+
+    # -- Pseudocode Sanitizer --
+    try:
+        from factory.operations.toplevel_sanitizer import fix_pseudocode
+        _ps_fixed = fix_pseudocode(os.path.join("projects", project_name), language=language)
+        if _ps_fixed:
+            print(f"  Pseudocode Sanitizer: {_ps_fixed} files fixed")
+    except Exception as _pse:
+        print(f"  Pseudocode Sanitizer: skipped ({_pse})")
+
     print("\n[OpsLayer] Compile Hygiene Validator")
     hygiene = CompileHygieneValidator(project_name=project_name, language=language)
     hygiene_report = hygiene.validate()

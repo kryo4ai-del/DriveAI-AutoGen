@@ -5,16 +5,52 @@ Input: CEO idea + learnings briefing.
 Output: Audience Profile (Markdown).
 """
 
-import anthropic
 from dotenv import load_dotenv
 
 from factory.pre_production.agents._keywords import extract_keywords
-from factory.pre_production.config import AGENT_MODEL_MAP
 from factory.pre_production.tools.web_research import search_and_fetch
 
 load_dotenv()
 
 AGENT_NAME = "AudienceAnalyst"
+
+
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
 
 
 def _build_queries(kw: dict) -> list[str]:
@@ -84,14 +120,8 @@ REGELN:
 - Wenn exakte Daten fehlen: Branchendurchschnitte als Proxy verwenden und klar markieren
 - Quellen mit Datum angeben"""
 
-    print(f"[{AGENT_NAME}] Generating report via Claude...")
-    client = anthropic.Anthropic()
-    response = client.messages.create(
-        model=AGENT_MODEL_MAP["audience_analyst"],
-        max_tokens=4000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    print(f"[{AGENT_NAME}] Generating report...")
+    return _call_llm(prompt, max_tokens=4000, agent_name=AGENT_NAME, profile="standard")
 
 
 def _compile_context(all_results: list[dict]) -> str:

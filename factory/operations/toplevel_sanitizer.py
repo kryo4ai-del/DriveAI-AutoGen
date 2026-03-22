@@ -348,3 +348,35 @@ class TopLevelSanitizer:
                 self.report.files_clean += 1
 
         return self.report
+
+
+def fix_pseudocode(project_dir: str, language: str = "swift") -> int:
+    """Replace ... and pass with compilable placeholders."""
+    from pathlib import Path
+    ext_map = {"swift": ".swift", "kotlin": ".kt", "typescript": ".ts"}
+    ext = ext_map.get(language, ".swift")
+    fatal_map = {"swift": 'fatalError("Not implemented")', "kotlin": 'TODO("Not implemented")',
+                 "typescript": "throw new Error('Not implemented');"}
+    fatal = fatal_map.get(language, "// not implemented")
+    fixed = 0
+    for f in Path(project_dir).rglob(f"*{ext}"):
+        if "quarantine" in str(f) or "node_modules" in str(f): continue
+        try:
+            content = f.read_text(encoding="utf-8")
+            original = content
+            lines = []
+            for line in content.split("\n"):
+                s = line.strip()
+                indent = line[:len(line) - len(line.lstrip())]
+                if s == "...":
+                    lines.append(f"{indent}{fatal}")
+                elif s == "pass" and language != "python":
+                    lines.append(f"{indent}// no-op")
+                else:
+                    lines.append(line)
+            content = "\n".join(lines)
+            if content != original:
+                f.write_text(content, encoding="utf-8")
+                fixed += 1
+        except Exception: pass
+    return fixed

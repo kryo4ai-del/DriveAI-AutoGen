@@ -903,6 +903,15 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - `factory/visual_audit/`: UI/UX Audit Pipeline
 - `factory/roadbook_assembly/`: Roadbook-Generierung
 
+### 2026-03-22 — TheBrain Migration: Remaining Agent Files
+- 8 Agent-Dateien von hardcoded `anthropic.Anthropic()` auf `_call_llm()` mit TheBrain `get_model()`/`get_router()` + Anthropic Fallback migriert
+- Betrifft: trend_breaker.py, emotion_architect.py, vision_compiler.py, asset_discovery.py, asset_strategy.py, visual_consistency.py, review_assistant.py, screen_architect.py (Call 2)
+- `import anthropic` und `from factory.*.config import AGENT_MODEL_MAP` als Top-Level entfernt
+- Alle `client = anthropic.Anthropic()` + `client.messages.create()` durch `_call_llm()` ersetzt
+- Profile: visual_consistency.py = "dev" (large output), alle anderen = "standard"
+- 11 pre_production + market_strategy + mvp_scope Agents waren bereits migriert (hatten schon _call_llm)
+- Kapitel 6 (ceo_roadbook.py, cd_roadbook.py) nicht angefasst — nutzen bereits TheBrain direkt
+
 ## Aktueller Stand (2026-03-22)
 
 ### Factory Capabilities
@@ -955,6 +964,7 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - [x] Stateful Recovery: RecoveryState, Fingerprinting, Repeated Failure Detection, MAX_RECOVERY_ATTEMPTS enforced
 - [x] Step 5: Knowledge Writeback Loop (Proposal Auto-Promotion + Run Pattern Extraction)
 - [x] Role-Based Knowledge Injection: Bug Hunter, Refactor, Fix Executor empfangen jetzt Factory Knowledge
+- [x] TheBrain Migration: 8 Agent-Dateien von hardcoded anthropic.Anthropic() auf _call_llm() mit TheBrain get_model()/get_router() + Anthropic Fallback migriert
 - [ ] AskFin Premium: Training Mode Spec → Factory Run
 - [ ] AskFin Premium: Skill Map Spec → Factory Run
 

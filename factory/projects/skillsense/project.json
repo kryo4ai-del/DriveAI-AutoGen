@@ -1,0 +1,78 @@
+{
+  "project_id": "skillsense",
+  "title": "Skillsense",
+  "project_type": "production",
+  "archived": false,
+  "created": "2026-03-22",
+  "updated": "2026-03-22",
+  "status": "features_complete",
+  "current_phase": "Pre-Production: Kapitel 4 fertig",
+  "runs": {
+    "pre_production": [
+      "004"
+    ],
+    "active_run": "004"
+  },
+  "gates": {
+    "ceo_gate": {
+      "status": "KILL",
+      "date": "2026-03-22",
+      "notes": null
+    },
+    "visual_review": {
+      "status": "pending",
+      "date": null,
+      "notes": null
+    }
+  },
+  "chapters": {
+    "phase1": {
+      "status": "complete",
+      "run_number": "004",
+      "output_dir": "factory\\pre_production\\output\\004_skillsense",
+      "date": "2026-03-22"
+    },
+    "kapitel3": {
+      "status": "complete",
+      "run_number": "002",
+      "output_dir": "factory\\market_strategy\\output\\002_skillsense",
+      "date": "2026-03-22"
+    },
+    "kapitel4": {
+      "status": "complete",
+      "run_number": "002",
+      "output_dir": "factory\\mvp_scope\\output\\002_skillsense",
+      "date": "2026-03-22"
+    },
+    "kapitel45": {
+      "status": "not_started"
+    },
+    "kapitel5": {
+      "status": "not_started"
+    },
+    "kapitel6": {
+      "status": "not_started"
+    }
+  },
+  "production": {
+    "ios": {
+      "status": "not_started"
+    },
+    "android": {
+      "status": "not_started"
+    },
+    "web": {
+      "status": "not_started"
+    },
+    "assembly": {
+      "status": "not_started"
+    }
+  },
+  "documents": {},
+  "costs": {
+    "serpapi_credits_total": 0,
+    "llm_cost_usd_total": 0.0,
+    "pdf_generation_calls": 0
+  },
+  "key_metrics": {}
+}

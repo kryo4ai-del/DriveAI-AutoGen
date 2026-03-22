@@ -1,0 +1,66 @@
+{
+  "project": "breathflow5",
+  "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\breathflow5",
+  "files_scanned": 40,
+  "checks_run": [
+    "FK-011",
+    "FK-012",
+    "FK-013",
+    "FK-014",
+    "FK-015",
+    "FK-017"
+  ],
+  "status": "BLOCKING",
+  "issues_found": 4,
+  "blocking": 4,
+  "warnings": 0,
+  "issues": [
+    {
+      "pattern_id": "FK-012",
+      "severity": "blocking",
+      "file": "Models/DependencyContainer.swift",
+      "message": "Duplicate class 'DependencyContainer' defined in 2 files (top-level)",
+      "line": 1,
+      "type_name": "DependencyContainer",
+      "other_files": [
+        "Views/HomeView.swift:3"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/DependencyContainer.swift",
+      "message": "Type 'ObservableObject' referenced in 5 files but never declared in project",
+      "type_name": "ObservableObject",
+      "other_files": [
+        "Models/DriveAIProject.swift",
+        "Models/QuickAccessButton.swift",
+        "ViewModels/QuickAccessViewModel.swift",
+        "ViewModels/QuizViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/DriveAIProject.swift",
+      "message": "Type 'Published' referenced in 4 files but never declared in project",
+      "type_name": "Published",
+      "other_files": [
+        "Models/QuickAccessButton.swift",
+        "ViewModels/QuickAccessViewModel.swift",
+        "ViewModels/QuizViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/QuickAccessButton.swift",
+      "message": "Type 'StateObject' referenced in 3 files but never declared in project",
+      "type_name": "StateObject",
+      "other_files": [
+        "Views/HomeView.swift",
+        "Views/QuestionView.swift"
+      ]
+    }
+  ]
+}

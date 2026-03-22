@@ -1,0 +1,43 @@
+const express = require('express');
+const cors = require('cors');
+const config = require('./config');
+const projectsApi = require('./api/projects');
+const gatesApi = require('./api/gates');
+const documentsApi = require('./api/documents');
+const healthApi = require('./api/factory-health');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/projects', projectsApi);
+app.use('/api/gates', gatesApi);
+app.use('/api/documents', documentsApi);
+app.use('/api/health', healthApi);
+
+const agentsApi = require('./api/agents');
+app.use('/api/agents', agentsApi);
+
+const historyApi = require('./api/history');
+const showcaseApi = require('./api/showcase');
+app.use('/api/history', historyApi);
+app.use('/api/showcase', showcaseApi);
+
+app.get('/api/health-check', (req, res) => {
+  res.json({
+    status: 'ok',
+    factoryBase: config.FACTORY_BASE,
+    projectsDir: config.PATHS.projects,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.listen(config.PORT, () => {
+  console.log(`
+══════════════════════════════════════════════════════════════
+  DriveAI CEO Cockpit Dashboard
+  Running on http://localhost:${config.PORT}
+  Factory Base: ${config.FACTORY_BASE}
+══════════════════════════════════════════════════════════════
+  `);
+});

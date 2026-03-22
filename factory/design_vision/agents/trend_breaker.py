@@ -3,10 +3,8 @@
 Role: Researches genre visual standards and identifies innovative deviations.
 """
 
-import anthropic
 from dotenv import load_dotenv
 
-from factory.design_vision.config import AGENT_MODEL_MAP
 from factory.pre_production.tools.web_research import search_and_fetch
 
 load_dotenv()
@@ -14,11 +12,46 @@ load_dotenv()
 AGENT_NAME = "TrendBreaker"
 
 
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+
 def run(all_reports: dict) -> str:
     """Analyze genre standards and identify innovative differentiations."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["trend_breaker"]
-
     competitive = all_reports.get("competitive_report", "")
     screen_arch = all_reports.get("screen_architecture", "")
     audience = all_reports.get("audience_profile", "")
@@ -31,12 +64,12 @@ def run(all_reports: dict) -> str:
 
     # Call 1: Genre Standard + Innovative References
     print(f"[{AGENT_NAME}] Analyzing genre standard + innovative references (Call 1/2)...")
-    part1 = _analyze_standard(client, model, competitive, screen_arch, audience, concept, search_results)
+    part1 = _analyze_standard(competitive, screen_arch, audience, concept, search_results)
     print(f"[{AGENT_NAME}] -> {len(part1)} chars")
 
     # Call 2: Differentiations + Anti-Standard Rules
     print(f"[{AGENT_NAME}] Defining differentiations + anti-standard rules (Call 2/2)...")
-    part2 = _define_rules(client, model, part1, screen_arch, platform)
+    part2 = _define_rules(part1, screen_arch, platform)
     print(f"[{AGENT_NAME}] -> {len(part2)} chars")
 
     title = all_reports.get("idea_title", "App")
@@ -64,7 +97,7 @@ def _research_designs() -> str:
     return "\n".join(parts)
 
 
-def _analyze_standard(client, model, competitive, screen_arch, audience, concept, search_results) -> str:
+def _analyze_standard(competitive, screen_arch, audience, concept, search_results) -> str:
     prompt = f"""Du bist ein Design-Stratege der sich auf visuelle Differenzierung spezialisiert hat.
 
 Deine Aufgabe: Identifiziere was der STANDARD ist in der Nische dieses Produkts — und dann finde was ANDERS ist. Die Factory darf KEINE durchschnittliche App produzieren.
@@ -118,14 +151,10 @@ REGELN:
 - Konkret bleiben: nicht "innovatives Design" sondern "3D-Parallax-Scroll bei der Level-Auswahl statt flachem Grid"
 """
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")
 
 
-def _define_rules(client, model, standard_analysis, screen_arch, platform) -> str:
+def _define_rules(standard_analysis, screen_arch, platform) -> str:
     prompt = f"""Du bist ein Design-Stratege. Basierend auf der Genre-Standard-Analyse und den innovativen Referenzen, definiere jetzt die konkreten Differenzierungen und Verbote.
 
 ## Genre-Standard-Analyse (vorher erstellt)
@@ -178,8 +207,4 @@ REGELN:
 - Innovation muss zur Zielgruppe passen, nicht nur cool sein
 """
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")

@@ -4,37 +4,69 @@ Role: Compiles everything into a binding Design-Vision-Document for the
 production pipeline.
 """
 
-import anthropic
 from dotenv import load_dotenv
-
-from factory.design_vision.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "VisionCompiler"
 
 
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+
 def run(all_reports: dict, trend_breaker_report: str, emotion_architect_report: str) -> str:
     """Compile binding Design-Vision-Document from 17a + 17b outputs."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["vision_compiler"]
-
     platform = all_reports.get("platform_strategy", "")
 
     # Call 1: Binding Rules + Design-Briefing
     print(f"[{AGENT_NAME}] Compiling Teil 1: Verbindliche Vorgaben (Call 1/2)...")
-    part1 = _compile_binding(client, model, trend_breaker_report, emotion_architect_report, platform)
+    part1 = _compile_binding(trend_breaker_report, emotion_architect_report, platform)
     print(f"[{AGENT_NAME}] -> {len(part1)} chars")
 
     # Call 2: Recommendations + Checkliste + K5 Anschluss
     print(f"[{AGENT_NAME}] Compiling Teil 2: Empfehlungen + Checkliste (Call 2/2)...")
-    part2 = _compile_recommendations(client, model, emotion_architect_report, part1)
+    part2 = _compile_recommendations(emotion_architect_report, part1)
     print(f"[{AGENT_NAME}] -> {len(part2)} chars")
 
     return part1 + "\n\n---\n\n" + part2
 
 
-def _compile_binding(client, model, tb_report, ea_report, platform) -> str:
+def _compile_binding(tb_report, ea_report, platform) -> str:
     prompt = f"""Du bist der Design-Vision-Compiler der DriveAI Swarm Factory. Fasse die Ergebnisse des Trend-Breakers und des Emotion-Architects in ein VERBINDLICHES Design-Dokument zusammen.
 
 Dieses Dokument wird in JEDER nachfolgenden Pipeline-Phase als Referenz genutzt. Was hier steht, ist Gesetz fuer die Produktionslinie.
@@ -107,14 +139,10 @@ REGELN:
 - Anti-Standard-Regeln duerfen NIEMALS umgangen werden
 - Bei Tech-Konflikten: beste UMSETZBARE Alternative waehlen"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")
 
 
-def _compile_recommendations(client, model, ea_report, part1) -> str:
+def _compile_recommendations(ea_report, part1) -> str:
     prompt = f"""Du bist der Design-Vision-Compiler. Erstelle Teil 2: Empfehlungen, Micro-Interactions, und die Abnahme-Checkliste.
 
 ## Emotion-Architect Report (Micro-Interactions + UX-Innovationen)
@@ -182,8 +210,4 @@ REGELN:
 - Kapitel-5-Anschluss KONKRET — nicht "beruecksichtigen" sondern "diese Farben, diese Fonts"
 - Empfehlungen nach Prioritaet sortiert — bei Zeitdruck nur "Hoch"-Items"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")

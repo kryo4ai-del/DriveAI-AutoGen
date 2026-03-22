@@ -6,22 +6,55 @@ constraints, and repo paths for each asset.
 
 import json
 
-import anthropic
 from dotenv import load_dotenv
 
 from factory.pre_production.tools.web_research import search_and_fetch
-from factory.visual_audit.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "AssetStrategy"
 
 
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+
 def run(all_reports: dict, asset_discovery: str) -> str:
     """Define sourcing strategy, costs, style guide, and repo paths for all assets."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["asset_strategy"]
-
     platform_strategy = all_reports.get("platform_strategy", "")
     cost_calculation = all_reports.get("cost_calculation", "")
     feature_prio = all_reports.get("feature_prioritization", "")
@@ -32,18 +65,18 @@ def run(all_reports: dict, asset_discovery: str) -> str:
 
     # Call 1: Style Guide (small JSON — no sourcing here)
     print(f"[{AGENT_NAME}] Building Style Guide (Call 1/3)...")
-    style_guide = _build_style_guide(client, model, asset_discovery, platform_strategy, cost_calculation, search_results)
+    style_guide = _build_style_guide(asset_discovery, platform_strategy, cost_calculation, search_results)
     print(f"[{AGENT_NAME}] -> Style Guide: {len(style_guide)} keys")
 
     # Call 2: Sourcing as Markdown (avoids JSON truncation for 100 assets)
     print(f"[{AGENT_NAME}] Building Sourcing Strategy (Call 2/3)...")
-    sourcing_md = _build_sourcing_md(client, model, asset_discovery, search_results)
+    sourcing_md = _build_sourcing_md(asset_discovery, search_results)
     print(f"[{AGENT_NAME}] -> Sourcing: {len(sourcing_md)} chars")
 
     # Call 3: Format Requirements + Budget Check + Handover
     print(f"[{AGENT_NAME}] Format Requirements + Budget Check (Call 3/3)...")
     formats_and_budget = _formats_and_budget(
-        client, model, platform_strategy, cost_calculation, sourcing_md[:4000]
+        platform_strategy, cost_calculation, sourcing_md[:4000]
     )
     print(f"[{AGENT_NAME}] -> Budget: {formats_and_budget.get('budget_total_eur', '?')} EUR, Status: {formats_and_budget.get('budget_status', '?')}")
 
@@ -72,7 +105,7 @@ def _research_costs() -> str:
     return "\n".join(parts)
 
 
-def _build_style_guide(client, model, asset_discovery, platform_strategy, cost_calc, search_results) -> dict:
+def _build_style_guide(asset_discovery, platform_strategy, cost_calc, search_results) -> dict:
     """Call 1: Style Guide only (small JSON)."""
     prompt = f"""Du bist ein Art Director fuer App-Entwicklung.
 
@@ -114,14 +147,11 @@ REGELN:
 - Fonts: Nur frei verfuegbare oder lizenzierbare Fonts (Google Fonts, Apple System, etc.)
 - Illustration-Stil passend zur App-Kategorie und Zielgruppe"""
 
-    response = client.messages.create(
-        model=model, max_tokens=4000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_json(response.content[0].text)
+    raw = _call_llm(prompt, max_tokens=4000, agent_name=AGENT_NAME, profile="standard")
+    return _parse_json(raw)
 
 
-def _build_sourcing_md(client, model, asset_discovery, search_results) -> str:
+def _build_sourcing_md(asset_discovery, search_results) -> str:
     """Call 2: Sourcing as Markdown table (avoids JSON truncation for 100 assets)."""
     prompt = f"""Du bist ein Asset-Stratege fuer App-Entwicklung.
 
@@ -154,14 +184,10 @@ REGELN:
 - Launch-kritisch vs. Nice-to-have angeben
 - repo_path: z.B. assets/sprites/, assets/icons/, assets/branding/"""
 
-    response = client.messages.create(
-        model=model, max_tokens=16000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=16000, agent_name=AGENT_NAME, profile="standard")
 
 
-def _formats_and_budget(client, model, platform_strategy, cost_calc, sourcing_summary) -> dict:
+def _formats_and_budget(platform_strategy, cost_calc, sourcing_summary) -> dict:
     prompt = f"""Du bist ein Technical Art Director.
 
 Definiere technische Format-Anforderungen, Budget-Zusammenfassung und Uebergabe-Protokoll.
@@ -204,11 +230,8 @@ REGELN:
 - Budget gegen verfuegbares Budget pruefen
 - Uebergabe-Protokoll: Ordnerstruktur, Naming, Checkliste"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_json(response.content[0].text)
+    raw = _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")
+    return _parse_json(raw)
 
 
 def _parse_json(raw: str) -> dict:

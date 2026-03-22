@@ -5,36 +5,68 @@ identifies KI-development-warnings, scans for placeholders, checks dark mode
 and accessibility.
 """
 
-import anthropic
 from dotenv import load_dotenv
-
-from factory.visual_audit.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "VisualConsistency"
 
 
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+
 def run(all_reports: dict, asset_discovery: str, asset_strategy: str) -> str:
     """Simulate user walkthroughs and check visual consistency."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["visual_consistency"]
-
     screen_arch = all_reports.get("screen_architecture", "")
 
     # Call 1: Flows 1-4 + KI-Warnungen
     print(f"[{AGENT_NAME}] Simulating Flows 1-4 + KI-Warnungen (Call 1/3)...")
-    part1 = _check_flows_1_4(client, model, screen_arch, asset_discovery)
+    part1 = _check_flows_1_4(screen_arch, asset_discovery)
     _log_counts(part1, "Flows 1-4")
 
     # Call 2: Flows 5-7 + Platzhalter-Scan
     print(f"[{AGENT_NAME}] Simulating Flows 5-7 + Platzhalter-Scan (Call 2/3)...")
-    part2 = _check_flows_5_7(client, model, screen_arch, asset_discovery)
+    part2 = _check_flows_5_7(screen_arch, asset_discovery)
     _log_counts(part2, "Flows 5-7")
 
     # Call 3: Dark Mode + Accessibility + Konsistenz
     print(f"[{AGENT_NAME}] Dark Mode + Accessibility + Konsistenz (Call 3/3)...")
-    part3 = _check_dark_a11y(client, model, screen_arch, asset_discovery, asset_strategy)
+    part3 = _check_dark_a11y(screen_arch, asset_discovery, asset_strategy)
     _log_counts(part3, "Dark/A11Y")
 
     title = all_reports.get("idea_title", "App")
@@ -49,7 +81,7 @@ def _log_counts(text: str, label: str):
     print(f"[{AGENT_NAME}] -> {label}: {red} \U0001f534, {yellow} \U0001f7e1, {green} \U0001f7e2, {warn} \u26a0\ufe0f")
 
 
-def _check_flows_1_4(client, model, screen_arch, asset_discovery) -> str:
+def _check_flows_1_4(screen_arch, asset_discovery) -> str:
     prompt = f"""Du bist ein UX-Tester der eine App AUS NUTZERSICHT durchgeht. Du simulierst den ersten App-Start eines echten Nutzers und pruefst bei JEDEM Screen: Sieht der Nutzer was er erwartet, oder fehlt etwas Visuelles?
 
 Dein Spezialauftrag: Den "Fahrschul-App-Fehler" verhindern — Stellen finden wo die Entwicklungs-KI Text generieren wird wo der Nutzer ein Bild erwartet.
@@ -105,14 +137,10 @@ REGELN:
 - \u26a0\ufe0f KI-Warnung: Entwicklungs-KI wird WAHRSCHEINLICH das Falsche tun
 - Jede KI-Warnung MUSS eine KONKRETE Anweisung haben"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="dev")
 
 
-def _check_flows_5_7(client, model, screen_arch, asset_discovery) -> str:
+def _check_flows_5_7(screen_arch, asset_discovery) -> str:
     prompt = f"""Du bist ein UX-Tester. Fortsetzung der Visual-Consistency-Pruefung.
 
 ## Screen-Architektur
@@ -160,14 +188,10 @@ Platzhalter-Typen:
 
 REGEL: Jeder Platzhalter ist automatisch \U0001f534 — Platzhalter in Production sind IMMER ein Blocker."""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="dev")
 
 
-def _check_dark_a11y(client, model, screen_arch, asset_discovery, asset_strategy) -> str:
+def _check_dark_a11y(screen_arch, asset_discovery, asset_strategy) -> str:
     prompt = f"""Du bist ein Accessibility-Experte und Visual-Consistency-Pruefer.
 
 ## Asset-Strategie (Stil-Guide mit Farben)
@@ -223,11 +247,7 @@ REGELN:
 - VoiceOver: Jedes interaktive Element braucht ein Label
 - Reduced Motion: Jede Animation braucht statischen Fallback"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="dev")
 
 
 def _merge_report(title: str, part1: str, part2: str, part3: str) -> str:

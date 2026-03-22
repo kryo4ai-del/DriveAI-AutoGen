@@ -1,0 +1,19 @@
+{
+  "name": "driveai-dashboard",
+  "version": "0.1.0",
+  "description": "DriveAI Swarm Factory — CEO Cockpit Dashboard",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "cd client && npm start",
+    "install-all": "npm install && cd client && npm install",
+    "build": "cd client && npm run build"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "concurrently": "^8.0.0",
+    "dotenv": "^16.0.0",
+    "chokidar": "^3.5.0"
+  }
+}

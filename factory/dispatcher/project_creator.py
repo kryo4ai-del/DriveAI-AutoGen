@@ -111,6 +111,25 @@ class ProjectCreator:
             prev_name = name
         (project_dir / "specs" / "build_spec.yaml").write_text("\n".join(spec_lines), encoding="utf-8")
 
+
+        # iOS App Entry Point
+        if primary == 'ios':
+            app_name = product.title.replace(' ', '')
+            views_dir = project_dir / 'Views'
+            views_dir.mkdir(parents=True, exist_ok=True)
+            app_swift = views_dir / (app_name + 'App.swift')
+            if not app_swift.exists():
+                parts = ['import SwiftUI', '', '@main',
+                         'struct ' + app_name + 'App: App {',
+                         '    var body: some Scene {',
+                         '        WindowGroup {',
+                         '            ContentView()',
+                         '        }',
+                         '    }',
+                         '}']
+                app_swift.write_text(chr(10).join(parts), encoding='utf-8')
+                print(f'    @main entry point: {app_name}App.swift')
+
         # README
         (project_dir / "README.md").write_text(
             f"# {product.title}\n\n{product.idea}\n\nBuilt by DriveAI Swarm Factory.\n",

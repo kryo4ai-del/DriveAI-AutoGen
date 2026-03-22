@@ -8,27 +8,59 @@ Output: Screen architecture document.
 
 import json
 
-import anthropic
 from dotenv import load_dotenv
-
-from factory.mvp_scope.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "ScreenArchitect"
 
 
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+
 def run(feature_prioritization: str, all_reports: dict) -> str:
     """Create complete screen architecture with flows and edge cases."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["screen_architect"]
-
     concept_brief = all_reports.get("concept_brief", "")[:5000]
     marketing = all_reports.get("marketing_strategy", "")[:3000]
 
     # Call 1: Screens + Navigation + Hierarchy
     print(f"[{AGENT_NAME}] Building screen architecture (Call 1/2)...")
-    arch = _build_screens(client, model, feature_prioritization, concept_brief, marketing)
+    arch = _build_screens(feature_prioritization, concept_brief, marketing)
     screens = arch.get("screens", [])
     phase_b_screens = arch.get("phase_b_screens", [])
     hierarchy = arch.get("hierarchy", {})
@@ -37,7 +69,7 @@ def run(feature_prioritization: str, all_reports: dict) -> str:
     # Call 2: User Flows + Edge Cases + Tap-Count
     screens_json = json.dumps(arch, ensure_ascii=False, indent=1)[:8000]
     print(f"[{AGENT_NAME}] Building user flows + edge cases (Call 2/2)...")
-    flows_data = _build_flows(client, model, screens_json, concept_brief)
+    flows_data = _build_flows(screens_json, concept_brief)
     flows = flows_data.get("flows", [])
     edge_cases = flows_data.get("edge_cases", [])
     tap_summary = flows_data.get("tap_count_summary", [])
@@ -47,7 +79,7 @@ def run(feature_prioritization: str, all_reports: dict) -> str:
     return _format_markdown(title, screens, hierarchy, phase_b_screens, flows, edge_cases, tap_summary)
 
 
-def _build_screens(client, model: str, features: str, concept: str, marketing: str) -> dict:
+def _build_screens(features: str, concept: str, marketing: str) -> dict:
     """Call 1: Define screens, hierarchy, navigation."""
     prompt = f"""Du bist ein UX-Architekt fuer Mobile Apps und Games.
 
@@ -103,14 +135,11 @@ REGELN:
 - Phase-B Screens separat markieren mit Platzhalter-Hinweis
 - Erwarte 15-25 Screens fuer Phase A"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_json(response.content[0].text, {"screens": [], "hierarchy": {}, "phase_b_screens": []})
+    raw = _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")
+    return _parse_json(raw, {"screens": [], "hierarchy": {}, "phase_b_screens": []})
 
 
-def _build_flows(client, model: str, screens_json: str, concept: str) -> dict:
+def _build_flows(screens_json: str, concept: str) -> dict:
     """Call 2: User flows, edge cases, tap-count."""
     prompt = f"""Du bist ein UX-Architekt fuer Mobile Apps und Games.
 
@@ -161,11 +190,8 @@ EDGE CASES: Mindestens 7 Situationen (Offline, KI-Fehler, Kauf-Fehler, COPPA, Pu
 
 TAP-COUNT: Ziel max 3 Taps bis Core Loop / Kauf. Jeder Flow mit taps und target."""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_json(response.content[0].text, {"flows": [], "edge_cases": [], "tap_count_summary": []})
+    raw = _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")
+    return _parse_json(raw, {"flows": [], "edge_cases": [], "tap_count_summary": []})
 
 
 def _parse_json(raw: str, fallback: dict) -> dict:

@@ -4,15 +4,50 @@ Role: Interactive agent triggered by human reviewer feedback. Categorizes feedba
 suggests changes, and provides updated report entries.
 """
 
-import anthropic
 from dotenv import load_dotenv
 from pathlib import Path
-
-from factory.visual_audit.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "ReviewAssistant"
+
+
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
 
 
 def process_feedback(feedback: str, asset_discovery: str, asset_strategy: str,
@@ -29,9 +64,6 @@ def process_feedback(feedback: str, asset_discovery: str, asset_strategy: str,
         Markdown string with categorized feedback, changes, and updated entries
     """
     print(f"[{AGENT_NAME}] Processing feedback...")
-
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["review_assistant"]
 
     prompt = f"""Du bist der Review-Assistant der DriveAI Visual Audit Pipeline.
 
@@ -84,12 +116,7 @@ Analysiere das Feedback und antworte in Markdown:
 - Betroffene Reports: ...
 - Status: Feedback verarbeitet"""
 
-    response = client.messages.create(
-        model=model, max_tokens=4000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-
-    result = response.content[0].text
+    result = _call_llm(prompt, max_tokens=4000, agent_name=AGENT_NAME, profile="standard")
     print(f"[{AGENT_NAME}] Feedback verarbeitet ({len(result)} Zeichen)")
     return result
 

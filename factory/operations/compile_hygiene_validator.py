@@ -1090,6 +1090,45 @@ def classify_status(issues: list[HygieneIssue]) -> HygieneStatus:
 # Main validator
 # ---------------------------------------------------------------------------
 
+
+
+def _check_fk026_enum_syntax(
+    swift_files: dict[str, tuple[Path, str]],
+    language: str = "swift",
+) -> list[HygieneIssue]:
+    """FK-026: Enum with raw type AND associated values = invalid Swift."""
+    if language != "swift":
+        return []
+    issues: list[HygieneIssue] = []
+    enum_raw_re = re.compile(r"enum\s+(\w+)\s*:\s*(String|Int|Double|Float)\s*\{")
+    case_assoc_re = re.compile(r"case\s+\w+\s*\(")
+    for rel_path, (_, content) in swift_files.items():
+        lines = content.split("\n")
+        in_raw_enum = False
+        enum_name = ""
+        depth = 0
+        for i, line in enumerate(lines):
+            s = line.strip()
+            m = enum_raw_re.search(s)
+            if m:
+                in_raw_enum = True
+                enum_name = m.group(1)
+                depth = 1
+            if in_raw_enum:
+                depth += s.count("{") - s.count("}")
+                if case_assoc_re.search(s):
+                    issues.append(HygieneIssue(
+                        pattern_id="FK-026",
+                        severity=IssueSeverity.BLOCKING,
+                        file=rel_path,
+                        line=i + 1,
+                        message=f"Enum '{enum_name}' has raw type but uses associated values (illegal Swift)",
+                        type_name=enum_name,
+                    ))
+                if depth <= 0:
+                    in_raw_enum = False
+    return issues
+
 class CompileHygieneValidator:
     """Post-generation validator for Swift compile hygiene.
 
@@ -1156,6 +1195,7 @@ class CompileHygieneValidator:
         # Step 4: Run cross-file checks
         self.report.issues.extend(_check_fk012(type_registry))
         self.report.issues.extend(_check_fk013(swift_files, type_registry))
+        self.report.issues.extend(_check_fk026_enum_syntax(swift_files, language=self._language))
         self.report.issues.extend(_check_fk014(swift_files, type_registry, language=self._language))
         self.report.issues.extend(_check_fk017(type_registry))
 
@@ -1233,7 +1273,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Factory Compile Hygiene Validator — checks FK-011, FK-012, FK-013, FK-014, FK-015, FK-017"
+        description="Factory Compile Hygiene Validator — checks FK-011, FK-012, FK-013, FK-014, FK-015, FK-017, FK-026"
     )
     parser.add_argument(
         "--project", default="askfin_v1-1",

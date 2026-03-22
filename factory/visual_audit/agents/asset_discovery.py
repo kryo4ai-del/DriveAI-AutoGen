@@ -7,21 +7,53 @@ launch-criticality.
 
 import json
 
-import anthropic
 from dotenv import load_dotenv
-
-from factory.visual_audit.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "AssetDiscovery"
 
 
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+
 def run(all_reports: dict) -> str:
     """Discover all visual assets needed across all screens."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["asset_discovery"]
-
     screen_arch = all_reports.get("screen_architecture", "")
     feature_list = all_reports.get("feature_list", "")
     concept_brief = all_reports.get("concept_brief", "")
@@ -31,13 +63,13 @@ def run(all_reports: dict) -> str:
 
     # Call 1: Core Visual Assets
     print(f"[{AGENT_NAME}] Analyzing Core Visual Assets (Call 1/2)...")
-    core_assets = _discover_core(client, model, screen_arch, feature_list, concept_brief)
+    core_assets = _discover_core(screen_arch, feature_list, concept_brief)
     print(f"[{AGENT_NAME}] -> {len(core_assets)} assets identified")
 
     # Call 2: Supporting Assets
     next_id = len(core_assets) + 1
     print(f"[{AGENT_NAME}] Analyzing Supporting Assets (Call 2/2)...")
-    support_assets = _discover_supporting(client, model, screen_arch, monetization, marketing, legal, next_id)
+    support_assets = _discover_supporting(screen_arch, monetization, marketing, legal, next_id)
     print(f"[{AGENT_NAME}] -> {len(support_assets)} assets identified")
 
     # Merge
@@ -49,7 +81,7 @@ def run(all_reports: dict) -> str:
     return _format_markdown(title, all_assets)
 
 
-def _discover_core(client, model, screen_arch, feature_list, concept_brief) -> list:
+def _discover_core(screen_arch, feature_list, concept_brief) -> list:
     prompt = f"""Du bist ein Visual-Asset-Spezialist fuer App- und Game-Entwicklung. Deine Aufgabe ist KRITISCH: Jedes visuelle Element das du uebersiehst wird von der Entwicklungs-KI als Text oder Platzhalter generiert — das zerstoert das Nutzererlebnis.
 
 Gehe JEDEN Screen der Screen-Architektur einzeln durch und identifiziere JEDES Element das ein echtes visuelles Asset braucht.
@@ -97,16 +129,12 @@ REGELN:
   * Story-Szenen -> brauchen Illustrationen, NICHT beschreibenden Text
 - Erwarte 40-60 Assets"""
 
-    response = client.messages.create(
-        model=model, max_tokens=16000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    raw = response.content[0].text
+    raw = _call_llm(prompt, max_tokens=16000, agent_name=AGENT_NAME, profile="standard")
     data = _parse_json(raw)
     return data.get("assets", [])
 
 
-def _discover_supporting(client, model, screen_arch, monetization, marketing, legal, next_id) -> list:
+def _discover_supporting(screen_arch, monetization, marketing, legal, next_id) -> list:
     prompt = f"""Du bist ein Visual-Asset-Spezialist. Fortsetzung der Asset-Discovery. IDs starten bei A{next_id:03d}.
 
 Identifiziere alle visuellen Assets fuer Social-Features, Monetarisierung, Marketing und Legal-UI.
@@ -151,11 +179,7 @@ REGELN:
 - Consent-Screen muss professionell aussehen, nicht wie System-Dialog
 - Erwarte 20-40 Assets"""
 
-    response = client.messages.create(
-        model=model, max_tokens=16000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    raw = response.content[0].text
+    raw = _call_llm(prompt, max_tokens=16000, agent_name=AGENT_NAME, profile="standard")
     data = _parse_json(raw)
     return data.get("assets", [])
 

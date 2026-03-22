@@ -4,10 +4,8 @@ Role: Defines emotional experience per app area, interaction concepts,
 micro-interactions and wow-moments.
 """
 
-import anthropic
 from dotenv import load_dotenv
 
-from factory.design_vision.config import AGENT_MODEL_MAP
 from factory.pre_production.tools.web_research import search_and_fetch
 
 load_dotenv()
@@ -15,11 +13,46 @@ load_dotenv()
 AGENT_NAME = "EmotionArchitect"
 
 
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+
 def run(all_reports: dict, trend_breaker_report: str) -> str:
     """Define emotional experience, interactions, and wow-moments."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["emotion_architect"]
-
     screen_arch = all_reports.get("screen_architecture", "")
     audience = all_reports.get("audience_profile", "")
     concept = all_reports.get("concept_brief", "")
@@ -30,12 +63,12 @@ def run(all_reports: dict, trend_breaker_report: str) -> str:
 
     # Call 1: Emotion Map + Interaction Concepts per Screen
     print(f"[{AGENT_NAME}] Building Emotion Map + Interaction Concepts (Call 1/2)...")
-    part1 = _emotion_map(client, model, trend_breaker_report, screen_arch, audience, concept, search_results)
+    part1 = _emotion_map(trend_breaker_report, screen_arch, audience, concept, search_results)
     print(f"[{AGENT_NAME}] -> {len(part1)} chars")
 
     # Call 2: Micro-Interactions + Wow-Momente
     print(f"[{AGENT_NAME}] Defining Micro-Interactions + Wow-Momente (Call 2/2)...")
-    part2 = _micro_and_wow(client, model, part1, trend_breaker_report)
+    part2 = _micro_and_wow(part1, trend_breaker_report)
     print(f"[{AGENT_NAME}] -> {len(part2)} chars")
 
     title = all_reports.get("idea_title", "App")
@@ -62,7 +95,7 @@ def _research_ux() -> str:
     return "\n".join(parts)
 
 
-def _emotion_map(client, model, tb_report, screen_arch, audience, concept, search_results) -> str:
+def _emotion_map(tb_report, screen_arch, audience, concept, search_results) -> str:
     prompt = f"""Du bist ein UX-Emotion-Architect. Du designst nicht wie eine App AUSSIEHT, sondern wie sie sich ANFUEHLT.
 
 ## Design-Differenzierungs-Report (Agent 17a)
@@ -125,14 +158,10 @@ REGELN:
 - ALLE Sinne: Sehen, Hoeren, Fuehlen (Haptics)
 - Casual-Spieler wollen fluessig und befriedigend, nicht komplex"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")
 
 
-def _micro_and_wow(client, model, emotion_map, tb_report) -> str:
+def _micro_and_wow(emotion_map, tb_report) -> str:
     prompt = f"""Du bist ein UX-Emotion-Architect. Definiere jetzt die Micro-Interactions und WOW-Momente.
 
 ## Emotion-Map und Interaktions-Konzepte
@@ -192,8 +221,4 @@ REGELN:
 - Alles muss zur Zielgruppe passen: smooth und satisfying, nicht overwhelming
 - Aufwand-Einschaetzung pro Micro-Interaction"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    return _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="standard")

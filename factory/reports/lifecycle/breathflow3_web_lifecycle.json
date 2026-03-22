@@ -1,0 +1,40 @@
+{
+  "project": "breathflow3_web",
+  "timestamp": "2026-03-22 09:12:19",
+  "blocking_files_checked": 3,
+  "ai_generated_found": 2,
+  "quarantined": 2,
+  "kept": 1,
+  "actions": [
+    {
+      "filename": "BreathingCircle.tsx",
+      "original_path": "components/BreathingCircle.tsx",
+      "quarantine_path": "quarantine\\20260322_091219_BreathingCircle.tsx",
+      "blocking_issue": "AI contamination: AI review label",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "1869922d",
+        "commit_message": "AI run: Generate the core ExerciseSelection feature for a breathing exercise Nex",
+        "author_date": "2026-03-22 09:12:17 +0100"
+      }
+    },
+    {
+      "filename": "GeneratedHelpers.tsx",
+      "original_path": "components/GeneratedHelpers.tsx",
+      "quarantine_path": "quarantine\\20260322_091219_GeneratedHelpers.tsx",
+      "blocking_issue": "Duplicate const 'cycleDuration' defined in 2 files (top-level) (+5 nested, ignored)",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "1869922d",
+        "commit_message": "AI run: Generate the core ExerciseSelection feature for a breathing exercise Nex",
+        "author_date": "2026-03-22 09:12:17 +0100"
+      }
+    }
+  ],
+  "kept_reasons": [
+    {
+      "filename": "components/GeneratedHelpers.tsx",
+      "reason": "file does not exist"
+    }
+  ]
+}

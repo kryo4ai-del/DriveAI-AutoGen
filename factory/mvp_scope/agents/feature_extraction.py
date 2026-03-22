@@ -8,14 +8,49 @@ Output: Complete feature list with IDs, descriptions, sources, tech-check.
 import json
 import re
 
-import anthropic
 from dotenv import load_dotenv
-
-from factory.mvp_scope.config import AGENT_MODEL_MAP
 
 load_dotenv()
 
 AGENT_NAME = "FeatureExtraction"
+
+
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
 
 CORE_CATEGORIES = [
     "Core Gameplay",
@@ -37,18 +72,15 @@ ALL_CATEGORIES = CORE_CATEGORIES + SUPPORTING_CATEGORIES
 
 def run(all_reports: dict) -> str:
     """Extract all features from all reports and check tech-stack compatibility."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["feature_extraction"]
-
     # Call 1: Core features
     print(f"[{AGENT_NAME}] Extracting Core features (Call 1/2)...")
-    core_features = _extract_core(client, model, all_reports)
+    core_features = _extract_core(all_reports)
     print(f"[{AGENT_NAME}] -> {len(core_features)} features extracted")
 
     # Call 2: Supporting features
     next_id = len(core_features) + 1
     print(f"[{AGENT_NAME}] Extracting Supporting features (Call 2/2)...")
-    support_features = _extract_supporting(client, model, all_reports, next_id)
+    support_features = _extract_supporting(all_reports, next_id)
     print(f"[{AGENT_NAME}] -> {len(support_features)} features extracted")
 
     # Merge
@@ -65,7 +97,7 @@ def run(all_reports: dict) -> str:
     return _format_markdown(all_features, all_reports.get("idea_title", "App"))
 
 
-def _extract_core(client, model: str, reports: dict) -> list[dict]:
+def _extract_core(reports: dict) -> list[dict]:
     """Extract core features from concept, platform, monetization, release reports."""
     prompt = f"""Du bist ein Feature-Extraction-Spezialist fuer Mobile App Entwicklung.
 
@@ -115,14 +147,11 @@ REGELN:
 - Beschreibung: 1-2 Saetze, konkret
 - Erwarte 25-40 Features aus diesen Reports"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_features(response.content[0].text)
+    raw = _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="dev")
+    return _parse_features(raw)
 
 
-def _extract_supporting(client, model: str, reports: dict, next_id: int) -> list[dict]:
+def _extract_supporting(reports: dict, next_id: int) -> list[dict]:
     """Extract supporting features from legal, risk, marketing, audience reports."""
     prompt = f"""Du bist ein Feature-Extraction-Spezialist fuer Mobile App Entwicklung.
 
@@ -168,11 +197,8 @@ REGELN:
 - tech_compatible: true/false basierend auf Unity + Firebase + Cloud Run Stack
 - Erwarte 15-25 Features aus diesen Reports"""
 
-    response = client.messages.create(
-        model=model, max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_features(response.content[0].text)
+    raw = _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="dev")
+    return _parse_features(raw)
 
 
 def _parse_features(raw: str) -> list[dict]:

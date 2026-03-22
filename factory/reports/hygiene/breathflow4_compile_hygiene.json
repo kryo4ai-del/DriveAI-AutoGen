@@ -1,0 +1,105 @@
+{
+  "project": "breathflow4",
+  "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\breathflow4",
+  "files_scanned": 35,
+  "checks_run": [
+    "FK-011",
+    "FK-012",
+    "FK-013",
+    "FK-014",
+    "FK-015",
+    "FK-017"
+  ],
+  "status": "BLOCKING",
+  "issues_found": 8,
+  "blocking": 8,
+  "warnings": 0,
+  "issues": [
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/SeededRandomNumberGenerator.swift",
+      "message": "Type 'Combine' referenced in 4 files but never declared in project",
+      "type_name": "Combine",
+      "other_files": [
+        "Models/UserSession.swift",
+        "ViewModels/ExerciseSelectionViewModel.swift",
+        "ViewModels/QuizSelectionViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/GeneratedHelpers.swift",
+      "message": "Type 'DEBUG' referenced in 2 files but never declared in project",
+      "type_name": "DEBUG",
+      "other_files": [
+        "Services/AnalyticsService.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Views/ExerciseDetailView.swift",
+      "message": "Type 'NavigationStack' referenced in 2 files but never declared in project",
+      "type_name": "NavigationStack",
+      "other_files": [
+        "Views/ExerciseSelectionView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/UserSession.swift",
+      "message": "Type 'ObservableObject' referenced in 4 files but never declared in project",
+      "type_name": "ObservableObject",
+      "other_files": [
+        "Services/QuizDataService.swift",
+        "ViewModels/ExerciseSelectionViewModel.swift",
+        "ViewModels/QuizSelectionViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/UserSession.swift",
+      "message": "Type 'Published' referenced in 4 files but never declared in project",
+      "type_name": "Published",
+      "other_files": [
+        "Services/QuizDataService.swift",
+        "ViewModels/ExerciseSelectionViewModel.swift",
+        "ViewModels/QuizSelectionViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Views/ExerciseDetailView.swift",
+      "message": "Type 'ScrollView' referenced in 2 files but never declared in project",
+      "type_name": "ScrollView",
+      "other_files": [
+        "Views/ExerciseSelectionView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/DefaultExerciseDataProvider.swift",
+      "message": "Type 'Self' referenced in 2 files but never declared in project",
+      "type_name": "Self",
+      "other_files": [
+        "Services/QuizDataService.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/GeneratedHelpers.swift",
+      "message": "Type 'ViewBuilder' referenced in 2 files but never declared in project",
+      "type_name": "ViewBuilder",
+      "other_files": [
+        "Views/ExerciseSelectionView.swift"
+      ]
+    }
+  ]
+}

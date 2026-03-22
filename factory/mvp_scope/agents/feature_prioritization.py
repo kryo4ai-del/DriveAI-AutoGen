@@ -8,25 +8,59 @@ Output: Prioritized feature map.
 
 import json
 
-import anthropic
 from dotenv import load_dotenv
 
-from factory.mvp_scope.config import AGENT_MODEL_MAP, PHASE_A_BUDGET, PHASE_B_BUDGET, KPI_TARGETS
+from factory.mvp_scope.config import PHASE_A_BUDGET, PHASE_B_BUDGET, KPI_TARGETS
 
 load_dotenv()
 
 AGENT_NAME = "FeaturePrioritization"
+
+
+def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name: str = "unknown", profile: str = "standard") -> str:
+    """Call LLM via TheBrain with Anthropic fallback."""
+    try:
+        from factory.brain.model_provider import get_model, get_router
+        selection = get_model(profile=profile, expected_output_tokens=max_tokens)
+        router = get_router()
+
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+
+        response = router.call(
+            model_id=selection["model"],
+            provider=selection["provider"],
+            messages=messages,
+            max_tokens=max_tokens,
+        )
+
+        if response.error:
+            raise RuntimeError(response.error)
+
+        cost_str = f", Cost: ${response.cost_usd:.4f}" if response.cost_usd else ""
+        print(f"[{agent_name}] {selection['model']} ({selection['provider']}){cost_str}")
+        return response.content
+
+    except Exception as e:
+        print(f"[{agent_name}] TheBrain failed ({e}), falling back to Anthropic Sonnet")
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
 COST_PER_WEEK = 4000  # EUR
 
 
 def run(feature_list: str, all_reports: dict) -> str:
     """Prioritize features into Phase A, Phase B, and Backlog."""
-    client = anthropic.Anthropic()
-    model = AGENT_MODEL_MAP["feature_prioritization"]
-
     # Call 1: Prioritize
     print(f"[{AGENT_NAME}] Prioritizing features into Phase A/B/Backlog (Call 1/2)...")
-    phases = _prioritize(client, model, feature_list, all_reports)
+    phases = _prioritize(feature_list, all_reports)
     phase_a = phases.get("phase_a", [])
     phase_b = phases.get("phase_b", [])
     backlog = phases.get("backlog", [])
@@ -34,7 +68,7 @@ def run(feature_list: str, all_reports: dict) -> str:
 
     # Call 2: Budget check + dependency graph
     print(f"[{AGENT_NAME}] Budget check + dependency graph (Call 2/2)...")
-    budget_data = _budget_check(client, model, phase_a, phase_b)
+    budget_data = _budget_check(phase_a, phase_b)
 
     pa_budget = budget_data.get("phase_a_budget", {})
     pb_budget = budget_data.get("phase_b_budget", {})
@@ -53,7 +87,7 @@ def run(feature_list: str, all_reports: dict) -> str:
     return _format_markdown(title, phase_a, phase_b, backlog, budget_data)
 
 
-def _prioritize(client, model: str, feature_list: str, reports: dict) -> dict:
+def _prioritize(feature_list: str, reports: dict) -> dict:
     """Call 1: Assign features to phases."""
     kpi_text = "\n".join(f"- {k}: {v}" for k, v in KPI_TARGETS.items())
 
@@ -137,14 +171,11 @@ KRITISCHE ZUSATZREGELN FUER PHASE-A/B-TRENNUNG:
 - Phase B sollte 10-15 Features haben die den Global Launch differenzieren
 - Budget-Spielraum in Phase A ist GUT — er ist Puffer fuer Unvorhergesehenes, nicht zum Vollstopfen"""
 
-    response = client.messages.create(
-        model=model, max_tokens=16000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_json(response.content[0].text, {"phase_a": [], "phase_b": [], "backlog": []})
+    raw = _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="dev")
+    return _parse_json(raw, {"phase_a": [], "phase_b": [], "backlog": []})
 
 
-def _budget_check(client, model: str, phase_a: list, phase_b: list) -> dict:
+def _budget_check(phase_a: list, phase_b: list) -> dict:
     """Call 2: Budget validation + dependency graph."""
     pa_json = json.dumps(phase_a, ensure_ascii=False, indent=1)[:5000]
     pb_json = json.dumps(phase_b, ensure_ascii=False, indent=1)[:3000]
@@ -206,11 +237,8 @@ Antworte NUR in JSON (kein Markdown, keine Backticks):
   ]
 }}"""
 
-    response = client.messages.create(
-        model=model, max_tokens=6000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return _parse_json(response.content[0].text, {
+    raw = _call_llm(prompt, max_tokens=8000, agent_name=AGENT_NAME, profile="dev")
+    return _parse_json(raw, {
         "phase_a_budget": {"total_weeks": 0, "total_cost": 0, "status": "unbekannt"},
         "phase_b_budget": {"total_weeks": 0, "total_cost": 0, "status": "unbekannt"},
         "cuts_if_needed": [], "critical_path": {}, "parallel_groups": [],

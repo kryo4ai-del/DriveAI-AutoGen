@@ -1,0 +1,87 @@
+{
+  "project_id": "echomatch",
+  "title": "Echomatch",
+  "project_type": "production",
+  "archived": false,
+  "created": "2026-03-22",
+  "updated": "2026-03-22",
+  "status": "preproduction_done",
+  "current_phase": "Pre-Production abgeschlossen — bereit fuer Production",
+  "runs": {
+    "pre_production": [
+      "003"
+    ],
+    "active_run": "003"
+  },
+  "gates": {
+    "ceo_gate": {
+      "status": "KILL",
+      "date": "2026-03-22",
+      "notes": null
+    },
+    "visual_review": {
+      "status": "pending",
+      "date": null,
+      "notes": null
+    }
+  },
+  "chapters": {
+    "phase1": {
+      "status": "complete",
+      "run_number": "003",
+      "output_dir": "factory\\pre_production\\output\\003_echomatch",
+      "date": "2026-03-22"
+    },
+    "kapitel3": {
+      "status": "complete",
+      "run_number": "001",
+      "output_dir": "factory\\market_strategy\\output\\001_echomatch",
+      "date": "2026-03-22"
+    },
+    "kapitel4": {
+      "status": "complete",
+      "run_number": "001",
+      "output_dir": "factory\\mvp_scope\\output\\001_echomatch",
+      "date": "2026-03-22"
+    },
+    "kapitel45": {
+      "status": "complete",
+      "run_number": "001",
+      "output_dir": "factory\\design_vision\\output\\001_echomatch",
+      "date": "2026-03-22"
+    },
+    "kapitel5": {
+      "status": "complete",
+      "run_number": "001",
+      "output_dir": "factory\\visual_audit\\output\\001_echomatch",
+      "date": "2026-03-22"
+    },
+    "kapitel6": {
+      "status": "complete",
+      "run_number": "001",
+      "output_dir": "factory\\roadbook_assembly\\output\\001_echomatch",
+      "date": "2026-03-22"
+    }
+  },
+  "production": {
+    "ios": {
+      "status": "not_started"
+    },
+    "android": {
+      "status": "not_started"
+    },
+    "web": {
+      "status": "not_started"
+    },
+    "assembly": {
+      "status": "not_started"
+    }
+  },
+  "documents": {},
+  "costs": {
+    "serpapi_credits_total": 0,
+    "llm_cost_usd_total": 0.0,
+    "pdf_generation_calls": 0
+  },
+  "key_metrics": {}
+}
