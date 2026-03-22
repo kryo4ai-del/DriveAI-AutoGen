@@ -1,0 +1,448 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01D1C4D8BFEAC2BD09B48971 /* ExerciseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6235DEDDA1D93CA59DF6E1DF /* ExerciseError.swift */; };
+		060A0B878FE00CAE8C95EDED /* QuizProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F727952E07ABC9DAD5417DF /* QuizProgressTests.swift */; };
+		0675AE538B98D43B63B35375 /* SeededRandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E91BB63939D11651327A07C /* SeededRandomNumberGenerator.swift */; };
+		154C9C2168F3733F34F6FD94 /* QuizTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06086661A4949CC25D8FC0C4 /* QuizTests.swift */; };
+		1B2D0F5FEB783A8B51EEAABC /* QuizAttempt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE92EC9A0D58E21BC7FEABC /* QuizAttempt.swift */; };
+		22577518C0AC114E556074F0 /* BreathFlow4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9C0C0BACECF205C3C01A35 /* BreathFlow4.swift */; };
+		25CFFFB37551D0E899527612 /* BreathFlow4App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141D345801737A2555B0C8D5 /* BreathFlow4App.swift */; };
+		2EF31F835ED04640D6E47521 /* QuizSelectionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB86B73A9C04D18E5E83117 /* QuizSelectionError.swift */; };
+		3C3A85D2B4A6D3E8568CBDAE /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C0C8C657E7C650B4B08DB8 /* PersistenceService.swift */; };
+		3DCD54DCAD8C020889CC169F /* ExerciseDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E2945303B63D26601EA201 /* ExerciseDataProvider.swift */; };
+		4515734342C46B4C4AD5094A /* ExerciseFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5B0EC998EA73AAD0681F14 /* ExerciseFilterBar.swift */; };
+		45CD78DB64342CBF8F11F1F5 /* ExerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA151AC11821A910E4E00EFC /* ExerciseDetailView.swift */; };
+		482B804DD1EE9D1267415112 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A965EC9B232CDCCDD046CC7 /* UserSession.swift */; };
+		65AD8DE230C6AB99689B13D2 /* ExerciseSelectionViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF850B5B736CF5A81AE1683A /* ExerciseSelectionViewModelTests.swift */; };
+		72E98172861EDA82AD13FBDA /* ExerciseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9571FFD250E7195A6EFA268F /* ExerciseCardView.swift */; };
+		79F9188E0D89B2DB5756212E /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB19D4A437D4CA0ED8422DF /* AnalyticsService.swift */; };
+		7BA474615336EE5A8DF436B1 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883A2B648CF8D2773367689 /* FilterSection.swift */; };
+		7CB9959565ACD2E271003EA6 /* DriveAIDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBFFA3B4831CA1197CB81A4 /* DriveAIDomain.swift */; };
+		7CD9EFD9AEFEA1E882E54EBF /* ExerciseCategory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BEF19BAA253E517E8A7D02 /* ExerciseCategory+Extension.swift */; };
+		7E1461107EF210B02867B0DB /* BreathingExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27D2ECF83FFAC311DB66DAD /* BreathingExercise.swift */; };
+		83E08EAF498F0AAF678171C7 /* QuizSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E73539AC513344E2528E68A /* QuizSelectionViewModel.swift */; };
+		8E71EB55C4DB6130834C0991 /* EmotionalOutcomeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A53FB9A2A844E4C47E71D3 /* EmotionalOutcomeLabel.swift */; };
+		9D2F2005FD7B231534B4F619 /* GeneratedHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8087A90240FDA3A6C35F0143 /* GeneratedHelpers.swift */; };
+		A8DCFC886F108E29C2F669AF /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8CA51B595CAB191B7184FB /* Question.swift */; };
+		A977DA81A0210E078B986E48 /* QuestionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D07649B74D8414E39A085D /* QuestionTests.swift */; };
+		AA8BBEA3F4AF383A573E0926 /* QuizDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83832CA951F67CA083D37780 /* QuizDataService.swift */; };
+		AAA2DEDF9CB2D1BCDEF48EE1 /* ExerciseSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3D81A2D8AB9BEF31935597 /* ExerciseSelectionView.swift */; };
+		B35B04F55FFF028E4719890B /* BreathPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1631CBDF09FF973134E59243 /* BreathPatternTests.swift */; };
+		B36573387C73C03B27E1CAB7 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE08E274AB603A29CA7ABCBF /* FilterButton.swift */; };
+		C5CB5B4A20389431098C0499 /* BreathPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B86677573CBA146FCD499C /* BreathPattern.swift */; };
+		C67BB17FDF64BA00EDC448B0 /* LicenseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ED4333498C17FBE1DD09C7 /* LicenseType.swift */; };
+		D4BA10D612E3C6770B2B9AD0 /* ExerciseSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EF85A9488994B08507E866 /* ExerciseSelectionViewModel.swift */; };
+		E97DFDAC37775EECEF6F4A4C /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2EFE1E532EBBCD3ABF738 /* Quiz.swift */; };
+		EE97302498A925F7C5A66637 /* DefaultExerciseDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7C8FA015671B989606DA35 /* DefaultExerciseDataProvider.swift */; };
+		F4F13F028662212DCA28C781 /* EmotionalOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651640F7F70DA2C33A56E50E /* EmotionalOutcome.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		06086661A4949CC25D8FC0C4 /* QuizTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizTests.swift; sourceTree = "<group>"; };
+		141D345801737A2555B0C8D5 /* BreathFlow4App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathFlow4App.swift; sourceTree = "<group>"; };
+		14E2945303B63D26601EA201 /* ExerciseDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataProvider.swift; sourceTree = "<group>"; };
+		1631CBDF09FF973134E59243 /* BreathPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPatternTests.swift; sourceTree = "<group>"; };
+		1A965EC9B232CDCCDD046CC7 /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
+		1E73539AC513344E2528E68A /* QuizSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSelectionViewModel.swift; sourceTree = "<group>"; };
+		2D9C0C0BACECF205C3C01A35 /* BreathFlow4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathFlow4.swift; sourceTree = "<group>"; };
+		2DB19D4A437D4CA0ED8422DF /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		2E91BB63939D11651327A07C /* SeededRandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeededRandomNumberGenerator.swift; sourceTree = "<group>"; };
+		2EA2EFE1E532EBBCD3ABF738 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		2F8CA51B595CAB191B7184FB /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		55B86677573CBA146FCD499C /* BreathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPattern.swift; sourceTree = "<group>"; };
+		5CE92EC9A0D58E21BC7FEABC /* QuizAttempt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizAttempt.swift; sourceTree = "<group>"; };
+		5DA7521BD7891D50A138CC2E /* BreathFlow4.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BreathFlow4.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6235DEDDA1D93CA59DF6E1DF /* ExerciseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseError.swift; sourceTree = "<group>"; };
+		651640F7F70DA2C33A56E50E /* EmotionalOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionalOutcome.swift; sourceTree = "<group>"; };
+		71D07649B74D8414E39A085D /* QuestionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTests.swift; sourceTree = "<group>"; };
+		8087A90240FDA3A6C35F0143 /* GeneratedHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedHelpers.swift; sourceTree = "<group>"; };
+		80A53FB9A2A844E4C47E71D3 /* EmotionalOutcomeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionalOutcomeLabel.swift; sourceTree = "<group>"; };
+		83832CA951F67CA083D37780 /* QuizDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDataService.swift; sourceTree = "<group>"; };
+		83BEF19BAA253E517E8A7D02 /* ExerciseCategory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExerciseCategory+Extension.swift"; sourceTree = "<group>"; };
+		9571FFD250E7195A6EFA268F /* ExerciseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardView.swift; sourceTree = "<group>"; };
+		9E3D81A2D8AB9BEF31935597 /* ExerciseSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSelectionView.swift; sourceTree = "<group>"; };
+		9F727952E07ABC9DAD5417DF /* QuizProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizProgressTests.swift; sourceTree = "<group>"; };
+		AA151AC11821A910E4E00EFC /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
+		B27D2ECF83FFAC311DB66DAD /* BreathingExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathingExercise.swift; sourceTree = "<group>"; };
+		B883A2B648CF8D2773367689 /* FilterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSection.swift; sourceTree = "<group>"; };
+		BB5B0EC998EA73AAD0681F14 /* ExerciseFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterBar.swift; sourceTree = "<group>"; };
+		CB7C8FA015671B989606DA35 /* DefaultExerciseDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExerciseDataProvider.swift; sourceTree = "<group>"; };
+		CBB86B73A9C04D18E5E83117 /* QuizSelectionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSelectionError.swift; sourceTree = "<group>"; };
+		CF850B5B736CF5A81AE1683A /* ExerciseSelectionViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSelectionViewModelTests.swift; sourceTree = "<group>"; };
+		D7ED4333498C17FBE1DD09C7 /* LicenseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseType.swift; sourceTree = "<group>"; };
+		DBBFFA3B4831CA1197CB81A4 /* DriveAIDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveAIDomain.swift; sourceTree = "<group>"; };
+		E9C0C8C657E7C650B4B08DB8 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		EE08E274AB603A29CA7ABCBF /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
+		F9EF85A9488994B08507E866 /* ExerciseSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSelectionViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		475EC4703582E462559C4BDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5DA7521BD7891D50A138CC2E /* BreathFlow4.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5CF4AB2A70A1A4EB4F08BD36 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2DB19D4A437D4CA0ED8422DF /* AnalyticsService.swift */,
+				E9C0C8C657E7C650B4B08DB8 /* PersistenceService.swift */,
+				83832CA951F67CA083D37780 /* QuizDataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		61AD7B6D6E292E0FE5DB55C0 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F9EF85A9488994B08507E866 /* ExerciseSelectionViewModel.swift */,
+				1E73539AC513344E2528E68A /* QuizSelectionViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		696B941655DE52C7CDA3B249 = {
+			isa = PBXGroup;
+			children = (
+				97E98854C66626210F110535 /* Models */,
+				5CF4AB2A70A1A4EB4F08BD36 /* Services */,
+				61AD7B6D6E292E0FE5DB55C0 /* ViewModels */,
+				805A55AAD002DF8B914900F7 /* Views */,
+				475EC4703582E462559C4BDE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		805A55AAD002DF8B914900F7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				141D345801737A2555B0C8D5 /* BreathFlow4App.swift */,
+				9571FFD250E7195A6EFA268F /* ExerciseCardView.swift */,
+				AA151AC11821A910E4E00EFC /* ExerciseDetailView.swift */,
+				9E3D81A2D8AB9BEF31935597 /* ExerciseSelectionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		97E98854C66626210F110535 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2D9C0C0BACECF205C3C01A35 /* BreathFlow4.swift */,
+				B27D2ECF83FFAC311DB66DAD /* BreathingExercise.swift */,
+				55B86677573CBA146FCD499C /* BreathPattern.swift */,
+				1631CBDF09FF973134E59243 /* BreathPatternTests.swift */,
+				CB7C8FA015671B989606DA35 /* DefaultExerciseDataProvider.swift */,
+				DBBFFA3B4831CA1197CB81A4 /* DriveAIDomain.swift */,
+				651640F7F70DA2C33A56E50E /* EmotionalOutcome.swift */,
+				80A53FB9A2A844E4C47E71D3 /* EmotionalOutcomeLabel.swift */,
+				83BEF19BAA253E517E8A7D02 /* ExerciseCategory+Extension.swift */,
+				14E2945303B63D26601EA201 /* ExerciseDataProvider.swift */,
+				6235DEDDA1D93CA59DF6E1DF /* ExerciseError.swift */,
+				BB5B0EC998EA73AAD0681F14 /* ExerciseFilterBar.swift */,
+				CF850B5B736CF5A81AE1683A /* ExerciseSelectionViewModelTests.swift */,
+				EE08E274AB603A29CA7ABCBF /* FilterButton.swift */,
+				B883A2B648CF8D2773367689 /* FilterSection.swift */,
+				8087A90240FDA3A6C35F0143 /* GeneratedHelpers.swift */,
+				D7ED4333498C17FBE1DD09C7 /* LicenseType.swift */,
+				2F8CA51B595CAB191B7184FB /* Question.swift */,
+				71D07649B74D8414E39A085D /* QuestionTests.swift */,
+				2EA2EFE1E532EBBCD3ABF738 /* Quiz.swift */,
+				5CE92EC9A0D58E21BC7FEABC /* QuizAttempt.swift */,
+				9F727952E07ABC9DAD5417DF /* QuizProgressTests.swift */,
+				CBB86B73A9C04D18E5E83117 /* QuizSelectionError.swift */,
+				06086661A4949CC25D8FC0C4 /* QuizTests.swift */,
+				2E91BB63939D11651327A07C /* SeededRandomNumberGenerator.swift */,
+				1A965EC9B232CDCCDD046CC7 /* UserSession.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7C731F3A80116EA4E32A209A /* BreathFlow4 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0E4A10F63D0086002E03EDD /* Build configuration list for PBXNativeTarget "BreathFlow4" */;
+			buildPhases = (
+				28A393F158655EF74E7407C2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BreathFlow4;
+			packageProductDependencies = (
+			);
+			productName = BreathFlow4;
+			productReference = 5DA7521BD7891D50A138CC2E /* BreathFlow4.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7019AF9806C2ED23D5B0AB94 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 0487A4A10F0853C2DD1D466D /* Build configuration list for PBXProject "BreathFlow4" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 696B941655DE52C7CDA3B249;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 475EC4703582E462559C4BDE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7C731F3A80116EA4E32A209A /* BreathFlow4 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		28A393F158655EF74E7407C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79F9188E0D89B2DB5756212E /* AnalyticsService.swift in Sources */,
+				22577518C0AC114E556074F0 /* BreathFlow4.swift in Sources */,
+				25CFFFB37551D0E899527612 /* BreathFlow4App.swift in Sources */,
+				C5CB5B4A20389431098C0499 /* BreathPattern.swift in Sources */,
+				B35B04F55FFF028E4719890B /* BreathPatternTests.swift in Sources */,
+				7E1461107EF210B02867B0DB /* BreathingExercise.swift in Sources */,
+				EE97302498A925F7C5A66637 /* DefaultExerciseDataProvider.swift in Sources */,
+				7CB9959565ACD2E271003EA6 /* DriveAIDomain.swift in Sources */,
+				F4F13F028662212DCA28C781 /* EmotionalOutcome.swift in Sources */,
+				8E71EB55C4DB6130834C0991 /* EmotionalOutcomeLabel.swift in Sources */,
+				72E98172861EDA82AD13FBDA /* ExerciseCardView.swift in Sources */,
+				7CD9EFD9AEFEA1E882E54EBF /* ExerciseCategory+Extension.swift in Sources */,
+				3DCD54DCAD8C020889CC169F /* ExerciseDataProvider.swift in Sources */,
+				45CD78DB64342CBF8F11F1F5 /* ExerciseDetailView.swift in Sources */,
+				01D1C4D8BFEAC2BD09B48971 /* ExerciseError.swift in Sources */,
+				4515734342C46B4C4AD5094A /* ExerciseFilterBar.swift in Sources */,
+				AAA2DEDF9CB2D1BCDEF48EE1 /* ExerciseSelectionView.swift in Sources */,
+				D4BA10D612E3C6770B2B9AD0 /* ExerciseSelectionViewModel.swift in Sources */,
+				65AD8DE230C6AB99689B13D2 /* ExerciseSelectionViewModelTests.swift in Sources */,
+				B36573387C73C03B27E1CAB7 /* FilterButton.swift in Sources */,
+				7BA474615336EE5A8DF436B1 /* FilterSection.swift in Sources */,
+				9D2F2005FD7B231534B4F619 /* GeneratedHelpers.swift in Sources */,
+				C67BB17FDF64BA00EDC448B0 /* LicenseType.swift in Sources */,
+				3C3A85D2B4A6D3E8568CBDAE /* PersistenceService.swift in Sources */,
+				A8DCFC886F108E29C2F669AF /* Question.swift in Sources */,
+				A977DA81A0210E078B986E48 /* QuestionTests.swift in Sources */,
+				E97DFDAC37775EECEF6F4A4C /* Quiz.swift in Sources */,
+				1B2D0F5FEB783A8B51EEAABC /* QuizAttempt.swift in Sources */,
+				AA8BBEA3F4AF383A573E0926 /* QuizDataService.swift in Sources */,
+				060A0B878FE00CAE8C95EDED /* QuizProgressTests.swift in Sources */,
+				2EF31F835ED04640D6E47521 /* QuizSelectionError.swift in Sources */,
+				83E08EAF498F0AAF678171C7 /* QuizSelectionViewModel.swift in Sources */,
+				154C9C2168F3733F34F6FD94 /* QuizTests.swift in Sources */,
+				0675AE538B98D43B63B35375 /* SeededRandomNumberGenerator.swift in Sources */,
+				482B804DD1EE9D1267415112 /* UserSession.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		051DE41ED3522FE0F1DB1731 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.driveai.breathflow4.BreathFlow4;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9320419C9A2CC9FE78C6E998 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		E1421BD1B66F99C68F11C355 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FD187049CED53B9844E53208 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.driveai.breathflow4.BreathFlow4;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0487A4A10F0853C2DD1D466D /* Build configuration list for PBXProject "BreathFlow4" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1421BD1B66F99C68F11C355 /* Debug */,
+				9320419C9A2CC9FE78C6E998 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D0E4A10F63D0086002E03EDD /* Build configuration list for PBXNativeTarget "BreathFlow4" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				051DE41ED3522FE0F1DB1731 /* Debug */,
+				FD187049CED53B9844E53208 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7019AF9806C2ED23D5B0AB94 /* Project object */;
+}
