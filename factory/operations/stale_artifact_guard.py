@@ -281,9 +281,73 @@ class StaleArtifactGuard:
                             print(f"  [StaleGuard] Auto-quarantine: {rel}")
                         break
 
+        # Content-based junk detection
+        for ext in (".swift", ".kt", ".ts", ".tsx"):
+            for source_file in self.project_dir.rglob(f"*{ext}"):
+                rel = str(source_file.relative_to(self.project_dir))
+                if any(skip in rel for skip in ("quarantine", "generated_code", "node_modules", ".git", "Tests")):
+                    continue
+                if self._is_protected(rel):
+                    continue
+
+                try:
+                    content = source_file.read_text(encoding="utf-8", errors="ignore")
+                except Exception:
+                    continue
+
+                reason = self._detect_content_junk(content, source_file.name)
+                if reason:
+                    dest = self.quarantine_dir / f"{source_file.parent.name}_{source_file.name}"
+                    if not dest.exists():
+                        shutil.move(str(source_file), str(dest))
+                        quarantined += 1
+                        print(f"  [StaleGuard] Content-quarantine: {rel} ({reason})")
+
         if quarantined:
             print(f"  [StaleGuard] Auto-quarantined {quarantined} junk file(s)")
         return quarantined
+
+    def _detect_content_junk(self, content: str, filename: str) -> str:
+        """Detect junk files by content analysis. Returns reason string or empty."""
+        lines = content.strip().splitlines()
+        if not lines:
+            return "empty file"
+
+        # Pattern 1: Broken operator syntax (Kotlin in Swift)
+        if filename.endswith(".swift") and "operator fun" in content:
+            return "Kotlin operator syntax in Swift file"
+
+        # Pattern 2: Top-level expressions in Swift (code outside any type)
+        if filename.endswith(".swift"):
+            brace_depth = 0
+            has_type = False
+            for line in lines:
+                s = line.strip()
+                if not s or s.startswith("//") or s.startswith("import ") or s.startswith("#"):
+                    continue
+                if any(s.startswith(kw) for kw in ("class ", "struct ", "enum ", "extension ", "protocol ", "@main", "public class ", "public struct ", "final class ", "open class ")):
+                    has_type = True
+                brace_depth += s.count("{") - s.count("}")
+                if brace_depth < 0:
+                    return "unbalanced braces — code fragment"
+            # Check: file has NO type definition at all (loose code)
+            if not has_type and len(lines) > 5:
+                # Check if it is just loose expressions
+                non_decl = 0
+                for line in lines:
+                    s = line.strip()
+                    if not s or s.startswith("//") or s.startswith("import ") or s.startswith("#") or s.startswith("@"):
+                        continue
+                    if not any(s.startswith(kw) for kw in ("class ", "struct ", "enum ", "extension ", "protocol ", "func ", "var ", "let ", "typealias ", "public ", "private ", "internal ", "open ", "final ")):
+                        non_decl += 1
+                if non_decl > 3:
+                    return "top-level expressions without type definition"
+
+        # Pattern 3: Pseudocode placeholders (... as method body)
+        if '{ ... }' in content or content.count(' ... ') > 2:
+            return "pseudocode placeholders (... instead of real code)"
+
+        return ""
 
     def _is_protected(self, rel_path: str) -> bool:
         """Check if a file is in a protected path that should never be quarantined."""

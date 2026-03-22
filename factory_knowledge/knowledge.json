@@ -767,6 +767,29 @@
           "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory_knowledge\\proposals\\proposal_20260320_161115.json"
         ]
       }
+    },
+    {
+      "id": "FK-027",
+      "type": "technical_pattern",
+      "content": "3 recurring junk patterns in generated Swift: (1) GeneratedHelpers — always junk, auto-quarantine by name. (2) Files with { ... } pseudocode placeholders — quarantine. (3) Files with unbalanced braces or top-level expressions — code fragments, quarantine. These caused 31 of 31 remaining Xcode errors in BreathFlow4.",
+      "source": "breathflow4_build",
+      "confidence": "validated",
+      "platform": "ios",
+      "language": "swift",
+      "applicable_to": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "tags": [
+        "quarantine",
+        "junk_detection",
+        "xcode_build",
+        "pseudocode"
+      ],
+      "created": "2026-03-22",
+      "last_validated": "2026-03-22",
+      "validation_count": 1
     }
   ]
 }
