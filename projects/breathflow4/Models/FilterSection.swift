@@ -1,5 +1,7 @@
-// ❌ PROBLEMATIC
-struct FilterSection {
-    // No accessibility labels
-    // Emoji-based selection not accessible to VoiceOver
+import Foundation
+
+struct FilterSection: Identifiable {
+    let id = UUID()
+    let title: String
+    let accessibilityLabel: String
 }

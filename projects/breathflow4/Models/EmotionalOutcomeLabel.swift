@@ -1,7 +1,8 @@
 import SwiftUI
 struct EmotionalOutcomeLabel: View {
     let outcomes: [EmotionalOutcome]
-    
+    private let maxDisplay = 3
+
     var body: some View {
         HStack(spacing: 6) {
             ForEach(outcomes.prefix(maxDisplay)) { outcome in

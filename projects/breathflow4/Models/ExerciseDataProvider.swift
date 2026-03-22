@@ -6,9 +6,6 @@ protocol ExerciseDataProvider: Sendable {
     func fetchExercises() async throws -> [BreathingExercise]
 }
 
-// MARK: - Default Implementation
-@MainActor
-
 // MARK: - Sample Exercises
 extension BreathingExercise {
     static let boxBreathing = BreathingExercise(
@@ -24,9 +21,9 @@ extension BreathingExercise {
         ],
         microcopy: "For immediate calm",
         difficulty: .beginner,
-        breathPattern: BreathPattern(inhale: 4, hold: 4, exhale: 4)
+        breathPattern: try! BreathPattern(inhale: 4, hold: 4, exhale: 4)
     )
-    
+
     static let fourSevenEight = BreathingExercise(
         id: UUID(uuidString: "550e8400-e29b-41d4-a716-446655440002")!,
         name: "4-7-8 Breathing",
@@ -40,7 +37,7 @@ extension BreathingExercise {
         ],
         microcopy: "For deep sleep",
         difficulty: .intermediate,
-        breathPattern: BreathPattern(inhale: 4, hold: 7, exhale: 8)
+        breathPattern: try! BreathPattern(inhale: 4, hold: 7, exhale: 8)
     )
     
     // Add 3+ more...
