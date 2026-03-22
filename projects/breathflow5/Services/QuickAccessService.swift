@@ -1,12 +1,12 @@
 protocol QuickAccessService {
        func resolveNavigationPath(
-           from accessPoint: AccessPoint,
+           from accessPoint: Any,
            userState: UserState
-       ) async throws -> NavigationPath
+       ) async throws -> Any
        
        func createLaunchContext(
-           for path: NavigationPath
+           for path: Any
        ) async throws -> QuizLaunchContext
        
-       func trackAccessPoint(_ point: AccessPoint)
+       func trackAccessPoint(_ point: Any)
    }

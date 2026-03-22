@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0DD871880ABCFFF3260E84A0 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BDB83C6DCCDC1EEE3852FD /* Question.swift */; };
-		1322BFE6673A50350F2D7290 /* AccessPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AEA74AE8D3A5F8A05D51C2 /* AccessPoint.swift */; };
 		165F1EE14C63779CBEE08FE7 /* QuestionRepositoryLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8C97AAA1F81516CFA734EF /* QuestionRepositoryLive.swift */; };
 		1F075148099F9518F9235985 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5DCBFA03720892261D1F93 /* QuizView.swift */; };
 		2258E9F374B957F2F820DCE4 /* ExerciseSelectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EFCB1C8CCB5BF3E5F4384B5 /* ExerciseSelectionService.swift */; };
@@ -37,7 +36,6 @@
 		D2D3909F6827A49D27A24C03 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE9DDC30364C4C628B3D83 /* HomeView.swift */; };
 		D863D70489FF40F70B47DE2B /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC96E6D89E81A86C434AC2B /* DecodingError.swift */; };
 		DF359637F1115DF78D7E410E /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962324A386806F18CA8FAC89 /* APIClient.swift */; };
-		F68756DB06DBFD440751AF83 /* QuestionRepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DD129B086459DC73BEFD14 /* QuestionRepositoryError.swift */; };
 		FE8A6003109C3E55541D10C1 /* DriveAIProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F5756FE7CE0F1CD844B1E /* DriveAIProject.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,8 +69,6 @@
 		B13CF0D77F31237E492EA96B /* ReadinessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessLevel.swift; sourceTree = "<group>"; };
 		C09E28DFF16210B186818FCF /* QuickAccessModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessModuleFactory.swift; sourceTree = "<group>"; };
 		E1AC1D3DD8D99327531B6EE0 /* QuickAccessMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessMenu.swift; sourceTree = "<group>"; };
-		E6AEA74AE8D3A5F8A05D51C2 /* AccessPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessPoint.swift; sourceTree = "<group>"; };
-		E6DD129B086459DC73BEFD14 /* QuestionRepositoryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionRepositoryError.swift; sourceTree = "<group>"; };
 		E96766FECABDE2F92A9CA894 /* BreathFlow5.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BreathFlow5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA35E6409FBA2FAD42B901E6 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,14 +97,12 @@
 		9CABD9BA19C7AD19E5021C5C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E6AEA74AE8D3A5F8A05D51C2 /* AccessPoint.swift */,
 				8CC96E6D89E81A86C434AC2B /* DecodingError.swift */,
 				FA35E6409FBA2FAD42B901E6 /* DependencyContainer.swift */,
 				490F5756FE7CE0F1CD844B1E /* DriveAIProject.swift */,
 				19D98EA842557AC12419B039 /* NavigationPath.swift */,
 				9DF761712476E46723ECAD42 /* PersistenceManager.swift */,
 				47BDB83C6DCCDC1EEE3852FD /* Question.swift */,
-				E6DD129B086459DC73BEFD14 /* QuestionRepositoryError.swift */,
 				5D8C97AAA1F81516CFA734EF /* QuestionRepositoryLive.swift */,
 				9702D679D9C876BFE39A31FA /* QuickAccessError.swift */,
 				E1AC1D3DD8D99327531B6EE0 /* QuickAccessMenu.swift */,
@@ -213,7 +207,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF359637F1115DF78D7E410E /* APIClient.swift in Sources */,
-				1322BFE6673A50350F2D7290 /* AccessPoint.swift in Sources */,
 				4583C3D70501E5071C3A63C2 /* AnalyticsService.swift in Sources */,
 				31CC601E8A7F8B2CF46E5039 /* AuthService.swift in Sources */,
 				C1FDD6C821E47C5F2E4CC5FB /* BreathFlow5App.swift in Sources */,
@@ -227,7 +220,6 @@
 				6CDFAADC280EE23907B48F41 /* NavigationPath.swift in Sources */,
 				ADA542133B069A1D1E5A4999 /* PersistenceManager.swift in Sources */,
 				0DD871880ABCFFF3260E84A0 /* Question.swift in Sources */,
-				F68756DB06DBFD440751AF83 /* QuestionRepositoryError.swift in Sources */,
 				165F1EE14C63779CBEE08FE7 /* QuestionRepositoryLive.swift in Sources */,
 				85BF1F419D86B23489E26303 /* QuestionView.swift in Sources */,
 				996E580F8550005DA6908700 /* QuickAccessError.swift in Sources */,

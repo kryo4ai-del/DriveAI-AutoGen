@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum ReadinessLevel: Comparable {
+enum ExamReadinessLevel: Comparable {
     case needsWork      // 0-59%
     case closeToReady   // 60-79%
     case ready          // 80%+
@@ -23,7 +23,7 @@ enum ReadinessLevel: Comparable {
 }
 
 final class ReadinessCalculator {
-    func calculateReadiness(score: Int) -> ReadinessLevel {
+    func calculateReadiness(score: Int) -> ExamReadinessLevel {
         switch score {
         case 0..<60: return .needsWork
         case 60..<80: return .closeToReady
@@ -33,7 +33,7 @@ final class ReadinessCalculator {
     
     func identifyWeakTopics(
         answers: [Int?],
-        questions: [Question]
+        questions: [ExamQuestion]
     ) -> [String] {
         var topicScores: [String: (correct: Int, total: Int)] = [:]
         
@@ -54,4 +54,9 @@ final class ReadinessCalculator {
             scores.total > 0 && Double(scores.correct) / Double(scores.total) < 0.7
         }.keys.sorted()
     }
+}
+
+struct ExamQuestion {
+    let category: String
+    let correctAnswerIndex: Int
 }

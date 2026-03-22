@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents a navigation destination from quick access
-enum NavigationPath: Equatable, Hashable {
+enum QuickAccessNavigationPath: Equatable, Hashable {
     case resumeLastQuiz
     case quickReviewWeakAreas
     case practiceTodaysChallenge

@@ -6,12 +6,12 @@ struct QuizState: Equatable, Sendable {
     var currentIndex: Int = 0
     var selectedAnswerIndex: Int?
     var userAnswers: [Int?] = []
-    var questions: [Question] = []
+    var questions: [QuizQuestion] = []
     var isLoading: Bool = false
-    var error: QuestionRepositoryError?
+    var error: QuizRepositoryError?
     var isComplete: Bool = false
     
-    var currentQuestion: Question? {
+    var currentQuestion: QuizQuestion? {
         guard currentIndex < questions.count else { return nil }
         return questions[currentIndex]
     }
@@ -39,5 +39,15 @@ struct QuizState: Equatable, Sendable {
     
     mutating func reset() {
         self = QuizState()
+    }
+    
+    static func == (lhs: QuizState, rhs: QuizState) -> Bool {
+        lhs.currentIndex == rhs.currentIndex &&
+        lhs.selectedAnswerIndex == rhs.selectedAnswerIndex &&
+        lhs.userAnswers.map({ $0 }) == rhs.userAnswers.map({ $0 }) &&
+        lhs.questions == rhs.questions &&
+        lhs.isLoading == rhs.isLoading &&
+        lhs.error == rhs.error &&
+        lhs.isComplete == rhs.isComplete
     }
 }

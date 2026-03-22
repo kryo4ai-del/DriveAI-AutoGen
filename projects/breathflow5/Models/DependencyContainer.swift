@@ -1,5 +1,6 @@
 import SwiftUI
 
+// MARK: - DependencyContainer (unique declaration)
 final class DependencyContainer: ObservableObject {
     let persistenceManager: PersistenceManager
     let apiClient: APIClient

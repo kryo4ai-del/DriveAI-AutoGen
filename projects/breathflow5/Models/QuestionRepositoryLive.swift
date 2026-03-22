@@ -1,10 +1,33 @@
 import Foundation
 
+protocol QuestionRepository {
+    func getQuestions(category: String) async throws -> [TriviaQuestion]
+}
+
+struct TriviaQuestion: Codable {
+    let id: String
+    let text: String
+    let category: String
+}
+
+enum QuestionRepositoryError: Error {
+    case invalidResponse(statusCode: Int)
+    case notFound
+    case serverError(statusCode: Int)
+    case networkConnectionLost
+    case decodingFailure(DecodingError)
+    case unknown(Error)
+}
+
 final class QuestionRepositoryLive: QuestionRepository {
     private let urlSession: URLSession
     private let timeout: TimeInterval = 30
-    
-    func getQuestions(category: String) async throws -> [Question] {
+
+    init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
+    }
+
+    func getQuestions(category: String) async throws -> [TriviaQuestion] {
         let urlString = "https://api.example.com/questions?category=\(category)"
         guard let url = URL(string: urlString) else {
             throw QuestionRepositoryError.invalidResponse(statusCode: 0)
@@ -23,7 +46,7 @@ final class QuestionRepositoryLive: QuestionRepository {
             switch httpResponse.statusCode {
             case 200..<300:
                 let decoder = JSONDecoder()
-                return try decoder.decode([Question].self, from: data)
+                return try decoder.decode([TriviaQuestion].self, from: data)
             case 404:
                 throw QuestionRepositoryError.notFound
             case 500..<600:
