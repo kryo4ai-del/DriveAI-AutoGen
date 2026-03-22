@@ -210,14 +210,37 @@ def _generate_typescript_stub(type_name: str, kind: str, ref_files: list[str]) -
     return header + f"export interface {type_name} {{\n  id?: string;\n}}\n"
 
 
+
+def _generate_csharp_stub(type_name: str, kind: str, ref_files: list[str]) -> str:
+    """Generate a minimal C# stub for a missing type."""
+    refs = "\n".join(f"//   - {f}" for f in ref_files[:5])
+    header = (
+        f"// {type_name}.cs\n"
+        f"// Auto-generated stub.\n"
+        f"// Referenced in:\n"
+        f"{refs}\n"
+        f"// TODO: Replace with real implementation.\n\n"
+        f"using UnityEngine;\n\n"
+    )
+    if kind == "protocol":
+        return header + f"public interface {type_name}\n{{\n    // Add members\n}}\n"
+    if kind == "enum":
+        return header + f"public enum {type_name}\n{{\n    Unknown\n}}\n"
+    if kind == "view":
+        return header + f"public class {type_name} : MonoBehaviour\n{{\n}}\n"
+    if kind == "class":
+        return header + f"public class {type_name}\n{{\n}}\n"
+    return header + f"public class {type_name}\n{{\n}}\n"
+
 # File extension per language
-_LANG_EXTENSION = {"swift": ".swift", "kotlin": ".kt", "typescript": ".ts", "python": ".py"}
+_LANG_EXTENSION = {"swift": ".swift", "kotlin": ".kt", "typescript": ".ts", "python": ".py", "csharp": ".cs"}
 
 # Stub generator per language
 _STUB_GENERATORS = {
     "swift": _generate_stub,
     "kotlin": _generate_kotlin_stub,
     "typescript": _generate_typescript_stub,
+    "csharp": _generate_csharp_stub,
 }
 
 

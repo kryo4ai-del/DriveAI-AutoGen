@@ -249,11 +249,21 @@ _TYPESCRIPT_TYPE_DECL_RE = re.compile(
     re.MULTILINE,
 )
 
+# C# type declarations
+_CSHARP_TYPE_DECL_RE = re.compile(
+    r'^\s*(?:public\s+|private\s+|protected\s+|internal\s+)?'
+    r'(?:abstract\s+|sealed\s+|static\s+|partial\s+)*'
+    r'(class|struct|interface|enum)\s+'
+    r'([A-Z][A-Za-z0-9_]+)',
+    re.MULTILINE,
+)
+
 # Per-language type declaration regex
 _LANG_TYPE_DECL_RE = {
     "swift": _TYPE_DECL_RE,
     "kotlin": _KOTLIN_TYPE_DECL_RE,
     "typescript": _TYPESCRIPT_TYPE_DECL_RE,
+    "csharp": _CSHARP_TYPE_DECL_RE,
 }
 
 # Types from Apple frameworks or Swift patterns that can appear in multiple files legitimately
@@ -327,11 +337,37 @@ _KNOWN_TYPESCRIPT_TYPES = frozenset({
     "Buffer", "Stream", "EventEmitter", "Process",
 })
 
+
+# C# / Unity built-in types
+_KNOWN_CSHARP_TYPES = frozenset({
+    "MonoBehaviour", "ScriptableObject", "Component", "GameObject", "Transform",
+    "Vector2", "Vector3", "Vector4", "Quaternion", "Color", "Rect",
+    "Rigidbody", "Rigidbody2D", "Collider", "Collider2D", "BoxCollider", "SphereCollider",
+    "AudioSource", "AudioClip", "AudioMixer", "Camera", "Light", "Canvas",
+    "RectTransform", "Image", "Text", "Button", "Animator", "Animation",
+    "Sprite", "SpriteRenderer", "Material", "Shader", "Texture2D",
+    "ParticleSystem", "TrailRenderer", "LineRenderer",
+    "NavMeshAgent", "NavMesh", "Input", "KeyCode", "Touch",
+    "Coroutine", "WaitForSeconds", "WaitForEndOfFrame", "WaitUntil",
+    "Debug", "Mathf", "Random", "Time", "Application", "Screen", "PlayerPrefs",
+    "Resources", "SceneManager", "Scene",
+    "TextMeshPro", "TextMeshProUGUI", "DOTween", "Sequence", "Tween",
+    "List", "Dictionary", "HashSet", "Queue", "Stack", "Array",
+    "Task", "Action", "Func", "EventHandler", "IEnumerator", "IEnumerable",
+    "Exception", "ArgumentException", "NullReferenceException",
+    "Serializable", "SerializeField", "Header", "Tooltip", "Range",
+    "RequireComponent", "CreateAssetMenu", "MenuItem",
+    "JsonUtility", "StringBuilder", "Regex", "Math", "DateTime", "TimeSpan", "Guid",
+    "Test", "TestFixture", "SetUp", "TearDown", "Assert", "UnityTest",
+    "String", "Int32", "Single", "Double", "Boolean",
+})
+
 # Per-language framework types
 _LANG_FRAMEWORK_TYPES = {
     "swift": _FRAMEWORK_TYPES,
     "kotlin": _KNOWN_KOTLIN_TYPES,
     "typescript": _KNOWN_TYPESCRIPT_TYPES,
+    "csharp": _KNOWN_CSHARP_TYPES,
 }
 
 

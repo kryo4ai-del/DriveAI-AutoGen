@@ -70,14 +70,16 @@ DriveAI-AutoGen/
 
 | Component | Technology |
 |---|---|
-| LLM | Anthropic Claude (Sonnet 4.6 + Haiku 4.5 + Opus 4.6) |
-| Framework | Python + AutoGen AgentChat v0.7.5 |
+| LLM | 4 Providers: Anthropic, OpenAI, Google, Mistral (9 models) |
+| Framework | Python + AutoGen AgentChat v0.7.5 + LiteLLM |
 | iOS Line | Swift + SwiftUI + MVVM |
 | Android Line | Kotlin + Jetpack Compose + Hilt |
 | Web Line | TypeScript + React + Next.js |
-| Build (iOS) | xcodegen → Xcode 26.3 |
-| Testing | XCUITest Golden Gates (15 gates, 0 failures) |
-| Knowledge | Factory Brain (22 entries, cross-project) |
+| Unity Line | C# + Unity Engine + URP |
+| Build | xcodegen (iOS), Gradle (Android), npm (Web), Unity CLI (Unity) |
+| Testing | XCUITest Golden Gates (15 gates), Jest, JUnit |
+| TheBrain | Model selection, chain optimizer, auto-splitter, price monitor |
+| Knowledge | Factory Brain (25 entries, cross-project, cross-platform) |
 
 ## 3-Tier Model System
 
@@ -90,20 +92,26 @@ DriveAI-AutoGen/
 ## Quick Start
 
 ```bash
-# iOS run (auto-infers project from projects/)
-python main.py --template feature --name <Name> --profile standard --approval auto
-
-# Android run
-python main.py --project askfin_android --template feature --name <Name> --profile dev --approval auto
+# Hybrid pipeline run (788x cheaper than legacy)
+python main.py --project askfin_android --profile dev --approval auto --hybrid-pipeline "Generate feature X"
 
 # Factory status dashboard
 python main.py --factory-status
 
-# Orchestrator dry-run (layered build plan)
+# TheBrain model overview
+python main.py --brain-models
+
+# Store readiness check
+python main.py --store-readiness askfin_v1-1
+
+# Mac build (if Mac agent running)
+python main.py --mac-build askfin_v1-1
+
+# Orchestrator layered build
 python main.py --orchestrate-layered-dry askfin_android
 
-# Golden Gates (Mac only)
-cd projects/askfin_v1-1 && bash scripts/run_golden_gates.sh
+# Assembly + repair
+python main.py --assemble askfin_android
 ```
 
 ## Two-Agent System
@@ -122,7 +130,10 @@ cd projects/askfin_v1-1 && bash scripts/run_golden_gates.sh
 | Feature Expansion | 85-112 | Quarantine cleanup, insight-to-action loop |
 | Adaptive Learning | 113-122 | Real questions, confidence, learning signals |
 | App Store Prep | 123-131 | Metadata, privacy, screenshots, launch strategy |
-| **Multi-Platform Factory** | **Steps 1-23** | **Pipeline extraction, 3 extractors, orchestrator, brain, Android build (204 .kt files)** |
+| Multi-Platform Factory | Steps 1-23 | Pipeline extraction, 4 extractors, orchestrator, brain |
+| Assembly + Repair | Steps 24-37 | Android 537 .kt, Web 197 .ts, RepairEngine (90% auto-fix) |
+| **TheBrain + Hybrid** | **Steps A1-C1, B0** | **4 providers, 9 models, $63→$0.08/run (788x cheaper)** |
+| **Store + Mac Bridge** | **Latest** | **Store pipeline, Mac Build Agent, Unity line, 7 departments** |
 
 ## Multi-Platform Architecture (Phase 2)
 
@@ -201,7 +212,7 @@ python -m factory.pre_production.pipeline --idea-file ideas/SkillSense.md --titl
 
 | Stage | Description | Status |
 |---|---|---|
-| 1 | AskFin on ALL platforms autonomously | iOS ✅ Android partial, Web pending |
+| 1 | AskFin on ALL platforms autonomously | iOS ✅ Android 537 files, Web 197 files |
 | 2 | AskFin v2 (improved by Brain learnings) | Not started |
 | 3 | New app (Gaming) without intervention | Not started |
 | 4 | Intelligence + Validation layers | Not started |

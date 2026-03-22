@@ -20,6 +20,9 @@ def get_extractor(language: str) -> BaseCodeExtractor:
     elif language == "python":
         from code_generation.extractors.python_extractor import PythonCodeExtractor
         return PythonCodeExtractor()
+    elif language in ("csharp", "cs", "unity"):
+        from .csharp_extractor import CSharpCodeExtractor
+        return CSharpCodeExtractor()
     else:
         # Fallback to Swift for backward compatibility
         from code_generation.extractors.swift_extractor import SwiftCodeExtractor

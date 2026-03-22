@@ -815,53 +815,126 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **Screen-Architektur PDF**: Markdown-Fallback-Rendering wenn JSON-Extraction fehlschlaegt (war leer)
 - **Feature-Priorisierung Prompt**: Haertere Phase-A/B-Trennung — "MINIMUM fuer Soft Launch, nicht alles was ins Budget passt"
 
-## Aktueller Stand (2026-03-21)
 
-### Factory Core
+### 2026-03-19/20 — Phase 2b: Assembly + Repair (Steps 24-37)
+
+#### Assembly Department (Steps 24-25)
+- `factory/assembly/`: Handoff Protocol, Assembly Manager, BaseAssemblyLine
+- **AndroidAssemblyLine**: Content-aware organize (207 .kt files → Android packages), Gradle build, wiring (Application, MainActivity, NavHost, Theme, Hilt AppModule)
+- **WebAssemblyLine**: npm/Next.js build system, organize into App Router structure, wiring (layout, pages, globals.css)
+- Package-Declarations auto-fix bei organize
+
+#### RepairEngine (Steps 28-29)
+- `factory/assembly/repair/`: Central Cross-Platform Auto-Fix Engine
+- **ErrorParser**: tsc, kotlinc, swiftc Output → strukturierte CompilerErrors
+- **5 Fix-Strategies**: MissingImport, MissingType, TypeAnnotation, DuplicateType, ModulePath
+- **Language Profiles**: TypeScript (TS2304, TS7006, etc.), Kotlin (Unresolved reference, etc.)
+- Web: 228 → 4 Errors (98% Reduktion)
+
+#### LLM Repair Agent (Steps 33-36)
+- `factory/assembly/repair/llm_repair_agent.py`: Direkte API-Calls für strukturelle Code-Fixes
+- `factory/assembly/repair/repair_coordinator.py`: 3-Tier Repair (Deterministic → LLM → CEO Escalation)
+- Sonnet Repair: 19/20 Files gefixt, $0.03 pro Batch
+- **Android: 2525 → 246 Errors (90% Reduktion, $0.24 total)**
+
+### 2026-03-20/21 — Phase 3: TheBrain + Multi-Provider (Steps A1-C1)
+
+#### TheBrain Model Provider (Step A1)
+- `factory/brain/model_provider/`: Zentrales Model-Intelligence-System
+- **ModelRegistry**: 9 Modelle, 4 Provider (Anthropic, OpenAI, Google, Mistral)
+- **ProviderRouter**: LiteLLM-basiert, unified API für alle Provider
+- **AutoSplitter**: Token-Limit-Management, Auto-Model-Switch
+- Alle 4 API Keys konfiguriert in .env
+
+#### Integration Bridge (Step A2)
+- **ChainTracker**: Per-Run Cost-Tracking (Agent × Model × Tokens × Cost)
+- `config/llm_config.py`: TheBrain-Routing mit Anthropic-Fallback
+- Pipeline-Agents: Anthropic (AutoGen-kompatibel)
+- Assembly/Repair: Alle 4 Provider via ProviderRouter
+
+#### Hybrid Pipeline (Step B0) — GAME CHANGER
+- `factory/pipeline/review_pass.py`: Single-Call Review Passes via ProviderRouter
+- Pass 1 (Implementation): SelectorGroupChat (bleibt)
+- Pass 2-7 (Reviews): **Direkte Single-Calls** statt Multi-Agent-Chat
+- **Kosten: $63 → $0.08 pro Run (788x günstiger)**
+- Review-Tokens: ~10k statt ~80-150k pro Pass
+- 4 Mistral-Passes: $0.003 total
+
+#### Benchmark + Chain Optimizer (Step B1)
+- **BenchmarkRunner**: Kontrollierte Experimente pro Agent über alle Modelle
+- **ChainOptimizer**: Findet günstigste Model-Kombination für 0 Errors
+- **ChainProfile**: Optimierte Model-Zuweisung pro Agent
+
+#### Price Monitor (Step C1)
+- **PriceMonitor**: Provider Health Checks, neue Modelle erkennen
+- Volle CLI: `--brain-models`, `--brain-chain`, `--brain-health`, `--brain-costs`
+
+### 2026-03-21 — Phase 3b: Unity + Store + Mac Bridge
+
+#### Unity Line (C# Extractor)
+- `code_generation/extractors/csharp_extractor.py`: 20/20 Tests
+- `config/platform_roles/unity.json`: MonoBehaviour, ScriptableObject, Unity Lifecycle
+- `factory/assembly/lines/unity_line.py`: Unity-Projektstruktur, GameManager, AudioManager, ServiceLocator
+- 102 C# Built-in Types in CompileHygiene
+- **Factory hat jetzt 5 Production Lines**: iOS, Android, Web, Unity, (Python Backend skeleton)
+
+#### Store Submission Pipeline
+- `factory/store/`: Komplett neues Department
+- **MetadataGenerator**: App Name, Description, Keywords, Privacy Policy (Code-Analyse)
+- **ComplianceChecker**: iOS/Android/Web Guideline-Checks (deterministisch)
+- **BuildPackager**: .ipa/.aab/npm build (SKIP wenn Tools fehlen)
+- **SubmissionPreparer**: Submission-Ordner mit CHECKLIST.md
+- **ReadinessReport**: CEO-Readiness in % mit Tabelle
+- AskFin iOS: 75% ready, AskFin Android: 55% ready
+
+#### Mac Bridge
+- `mac_agent/mac_build_agent.py`: Daemon auf Mac (git pull → execute → git push, 30s Poll)
+- `factory/mac_bridge/mac_bridge.py`: Factory-seitige Steuerung
+- Commands: health_check, build_ios, run_tests, screenshots, archive
+- CLI: `--mac-status`, `--mac-build`, `--mac-test`, `--mac-archive`
+- BuildPackager nutzt Mac Bridge automatisch wenn verfügbar
+
+#### Weitere Departments (von anderen Agents erstellt)
+- `factory/pre_production/`: 7 Agents, CEO Gate, Pipeline
+- `factory/market_strategy/`: 5 Agents, Monetization/Distribution
+- `factory/mvp_scope/`: 3 Agents, Feature-Priorisierung
+- `factory/document_secretary/`: PDF/Report Generation, CEO Briefing Templates
+- `factory/design_vision/`: Design-System Generierung
+- `factory/visual_audit/`: UI/UX Audit Pipeline
+- `factory/roadbook_assembly/`: Roadbook-Generierung
+
+## Aktueller Stand (2026-03-22)
+
+### Factory Capabilities
 | Komponente | Status |
 |---|---|
-| Pipeline Runner | Extrahiert, platform-aware |
-| Code Extractors | Swift + Kotlin + TypeScript implementiert |
-| Project Config | YAML-basiert, 3 Projekte |
-| Factory Brain | 22 Entries, cross-project query |
-| Orchestrator | Flat + Layered + Quality Gates |
-| Operations Layer | Kotlin-aware (Integrator, Hygiene, StubGen, Repairer) |
-| Agent Platform Roles | iOS/Android/Web Templates |
-| Run Promotion | Policy + Advisor |
-| Factory Status | CEO Dashboard |
-
-### Swarm Factory (Autonome Produkt-Pipeline — 16 Agents)
-| Komponente | Status |
-|---|---|
-| Phase 1: Pre-Production Pipeline | KOMPLETT (12 Steps, 7 Agents, E2E getestet) |
-| Kapitel 3: Market Strategy Pipeline | KOMPLETT (7 Steps, 5 Agents, E2E getestet) |
-| Kapitel 4: MVP & Feature Scope | KOMPLETT (7 Steps, 3 Agents, E2E getestet) |
-| Document Secretary (Agent 13) | KOMPLETT (9 PDF-Typen, HTML→PDF via Playwright) |
-| Web-Research-Tool | SerpAPI + Cache + URL-Fetch |
-| Memory-Agent | Learnings + Run-Logs (persistent) |
-| CEO-Gate | Interaktiv + Programmatisch |
-| Input-Loader (Phase 1→K3→K4) | Kettenverbindung aller Abteilungen |
-| Ideas Pipeline | ideas/ Ordner fuer CEO-Ideen als .md |
-| EchoMatch | Phase 1 #003 (GO) → K3 #001 → K4 #001 → 10 PDFs |
-| SkillSense | Phase 1 #004 (Gate pending) |
+| Pipeline Runner | Hybrid (SelectorGroupChat + Single-Calls) |
+| Code Extractors | Swift + Kotlin + TypeScript + C# + Python(skeleton) |
+| Project Config | YAML-basiert, 3+ Projekte |
+| Factory Brain | 25 Entries, 4 Provider, 9 Modelle |
+| TheBrain | Model Selection, AutoSplit, Chain Optimizer, Price Monitor |
+| Orchestrator | Flat + Layered (5 Layers) + Quality Gates |
+| Assembly | Android + Web + Unity + iOS(Mac Bridge) |
+| RepairEngine | Deterministic + LLM (3-Tier Coordinator) |
+| Operations Layer | Kotlin/TS/C#-aware (Hygiene, Stubs, Repair, Guard) |
+| Store Pipeline | Metadata, Compliance, Packaging, Readiness Report |
+| Mac Bridge | Autonomous iOS builds via Git-Queue |
+| Pre-Production | 7 Agents, CEO Gate |
+| Market Strategy | 5 Agents, Monetization |
 
 ### Projekte
 | Projekt | Platform | Files | Status |
 |---|---|---|---|
-| AskFin Premium (iOS) | Swift/SwiftUI | 234 | App Store Prep (fehlt Icon + Dev Account) |
-| AskFin Android | Kotlin/Compose | 204 | 4 Features generiert (Domain schwach bei Haiku) |
-| AskFin Web | TypeScript/React | 0 | Spec ready, Build pending |
-| EchoMatch (Swarm Factory) | Unity (geplant) | — | Phase 1+K3+K4 abgeschlossen, 18 Reports + 10 PDFs |
-| SkillSense (Swarm Factory) | — | — | Phase 1 Run #004 komplett, CEO-Gate pending |
+| AskFin Premium (iOS) | Swift/SwiftUI | 234 | App Store Prep (75% ready) |
+| AskFin Android | Kotlin/Compose | 537 | 4 Features, 246 compile errors |
+| AskFin Web | TypeScript/React | 197 | 4 Features, 4 compile errors |
 
-### Validierungsstrategie (5 Stufen)
-| Stufe | Beschreibung | Status |
-|---|---|---|
-| 1 | AskFin Multi-Platform autonom bauen | iOS ✅ Android teilweise, Web pending |
-| 2 | AskFin v2 (verbessert durch Brain) | Nicht gestartet |
-| 3 | Neue App (Gaming) ohne Eingriff | Nicht gestartet |
-| 4 | Intelligence + Validation Layer | Nicht gestartet |
-| 5 | Deployment + Operations | Nicht gestartet |
+### Kosten-Optimierung
+| Pipeline-Modus | Kosten/Run |
+|---|---|
+| Legacy (SelectorGroupChat alle Passes) | ~$63 |
+| Hybrid + Mistral Small | **$0.08** |
+| Faktor | **788x günstiger** |
 
 ## Geplant
 - [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)

@@ -1,7 +1,7 @@
 # DriveAI-AutoGen - Projektkontext
 
 ## Projektübersicht
-- **Name**: DriveAI-AutoGen (Multi-Platform AI App Factory)
+- **Name**: DriveAI-AutoGen (Multi-Platform AI App Factory + TheBrain)
 - **Typ**: Multi-Agent AI System (Python) + iOS/Android/Web App Generation
 - **Repo**: GitHub `kryo4ai-del/DriveAI-AutoGen`
 - **Lokal Windows**: `C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\`

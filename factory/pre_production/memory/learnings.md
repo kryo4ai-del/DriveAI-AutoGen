@@ -44,3 +44,17 @@
 - [Phase A: 30 Features von 65 gesamt]: Quelle: Kapitel 4, skillsense
 - [Phase A: 45 Features von 67 gesamt]: Quelle: Kapitel 4, echomatch
 (Kapitel 4 Learnings)
+
+## Visual Audit
+- [107 Assets, 90 launch-kritisch, 66 Blocker, 66 KI-Warnungen]: Quelle: Kapitel 5, echomatch
+(Kapitel 5 Learnings)
+
+
+## Design Vision
+- [EchoMatch ist ein Match-3-Puzzle-Spiel das sich visuell und emotional vollständig vom Candy-Crush-In]: Quelle: Kapitel 4.5, echomatch
+(Kapitel 4.5 Learnings)
+
+
+## Roadbook Assembly
+- [CEO Roadbook: ~16 Seiten, CD Roadbook: ~90 Seiten, Pipeline komplett]: Quelle: Kapitel 6, echomatch
+(Kapitel 6 Learnings)

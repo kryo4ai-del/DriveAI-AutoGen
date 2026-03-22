@@ -1,7 +1,7 @@
 {
   "project": "askfin_android",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_android",
-  "files_scanned": 433,
+  "files_scanned": 435,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,44 +10,11 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "BLOCKING",
-  "issues_found": 6,
-  "blocking": 3,
+  "status": "WARNINGS",
+  "issues_found": 3,
+  "blocking": 0,
   "warnings": 3,
   "issues": [
-    {
-      "pattern_id": "FK-012",
-      "severity": "blocking",
-      "file": "app/src/main/java/com/driveai/askfin/ui/viewmodels/ReadinessViewModel.kt",
-      "message": "Duplicate class 'ReadinessViewModel' defined in 2 files (top-level) (+1 nested, ignored)",
-      "line": 20,
-      "type_name": "ReadinessViewModel",
-      "other_files": [
-        "ViewModels/ReadinessViewModel.kt:2"
-      ]
-    },
-    {
-      "pattern_id": "FK-012",
-      "severity": "blocking",
-      "file": "app/src/main/java/com/driveai/askfin/ui/viewmodels/SkillMapUiState.kt",
-      "message": "Duplicate class 'SkillMapViewModel' defined in 2 files (top-level)",
-      "line": 61,
-      "type_name": "SkillMapViewModel",
-      "other_files": [
-        "ViewModels/SkillMapViewModel.kt:2"
-      ]
-    },
-    {
-      "pattern_id": "FK-012",
-      "severity": "blocking",
-      "file": "app/src/main/java/com/driveai/askfin/data/models/DriveAiDatabase.kt",
-      "message": "Duplicate class 'UserAnswerEntity' defined in 2 files (top-level)",
-      "line": 24,
-      "type_name": "UserAnswerEntity",
-      "other_files": [
-        "Models/UserAnswerEntity.kt:3"
-      ]
-    },
     {
       "pattern_id": "FK-017",
       "severity": "warning",

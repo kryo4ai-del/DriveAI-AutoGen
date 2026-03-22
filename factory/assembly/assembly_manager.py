@@ -16,6 +16,7 @@ class AssemblyManager:
         self.register_line("android", AndroidAssemblyLine())
         self.register_line("ios", iOSAssemblyLine())
         self.register_line("web", WebAssemblyLine())
+        self.register_line("unity", UnityAssemblyLine())
 
     def register_line(self, platform: str, line: BaseAssemblyLine):
         self.lines[platform] = line

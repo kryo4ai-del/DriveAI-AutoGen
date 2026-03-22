@@ -22,6 +22,9 @@ from factory.document_secretary.templates import (
     ceo_briefing_p1, ceo_briefing_p2, marketing_konzept,
     investor_summary, tech_brief, legal_summary,
     feature_list, mvp_scope, screen_architecture,
+    asset_discovery_pdf, asset_strategy_pdf, visual_audit_pdf,
+    design_vision_pdf,
+    ceo_roadbook_pdf, cd_roadbook_pdf,
 )
 
 OUTPUT_DIR = Path(__file__).resolve().parent / "output"
@@ -47,6 +50,23 @@ K4_FILES = {
     "feature_list": "feature_list.md",
     "feature_prioritization": "feature_prioritization.md",
     "screen_architecture": "screen_architecture.md",
+}
+
+K5_FILES = {
+    "asset_discovery": "asset_discovery.md",
+    "asset_strategy": "asset_strategy.md",
+    "visual_consistency": "visual_consistency.md",
+}
+
+K45_FILES = {
+    "trend_breaker_report": "trend_breaker_report.md",
+    "emotion_architect_report": "emotion_architect_report.md",
+    "design_vision_document": "design_vision_document.md",
+}
+
+K6_FILES = {
+    "ceo_strategic_roadbook": "ceo_strategic_roadbook.md",
+    "cd_technical_roadbook": "cd_technical_roadbook.md",
 }
 
 
@@ -187,9 +207,84 @@ def generate_screen_architecture(k4_run_dir: str, send_email: bool = False) -> s
                      send_email, f"Screen-Architektur: {title}", f"Screen-Architektur fuer {title}.")
 
 
+# --- Kapitel 5 generators ---
+
+def generate_asset_discovery(k5_run_dir: str, send_email: bool = False) -> str:
+    """Generate Asset Discovery PDF from Kapitel 5 output."""
+    print("[DocumentSecretary] Generating Asset Discovery PDF...")
+    title = _extract_title(k5_run_dir)
+    data = _load_reports(k5_run_dir, K5_FILES)
+    builder = PdfBuilder(title=f"Asset-Discovery: {title}",
+                         subtitle="Vollstaendige visuelle Asset-Liste")
+    asset_discovery_pdf.generate(data, builder)
+    return _save_pdf(builder, f"Asset_Discovery_{title.replace(' ', '_')}_{date.today().isoformat()}.pdf",
+                     send_email, f"Asset-Discovery: {title}", f"Asset-Discovery fuer {title}.")
+
+
+def generate_asset_strategy(k5_run_dir: str, send_email: bool = False) -> str:
+    """Generate Asset Strategy PDF from Kapitel 5 output."""
+    print("[DocumentSecretary] Generating Asset Strategy PDF...")
+    title = _extract_title(k5_run_dir)
+    data = _load_reports(k5_run_dir, K5_FILES)
+    builder = PdfBuilder(title=f"Asset-Strategie: {title}",
+                         subtitle="Stil-Guide, Beschaffung & Uebergabe-Protokoll")
+    asset_strategy_pdf.generate(data, builder)
+    return _save_pdf(builder, f"Asset_Strategy_{title.replace(' ', '_')}_{date.today().isoformat()}.pdf",
+                     send_email, f"Asset-Strategie: {title}", f"Asset-Strategie fuer {title}.")
+
+
+def generate_visual_audit(k5_run_dir: str, send_email: bool = False) -> str:
+    """Generate Visual Audit Report PDF from Kapitel 5 output."""
+    print("[DocumentSecretary] Generating Visual Audit PDF...")
+    title = _extract_title(k5_run_dir)
+    data = _load_reports(k5_run_dir, K5_FILES)
+    builder = PdfBuilder(title=f"Visual Audit Report: {title}",
+                         subtitle="Ampel-Bewertung, KI-Warnungen & Handlungsanweisungen")
+    visual_audit_pdf.generate(data, builder)
+    return _save_pdf(builder, f"Visual_Audit_{title.replace(' ', '_')}_{date.today().isoformat()}.pdf",
+                     send_email, f"Visual Audit: {title}", f"Visual Audit Report fuer {title}.")
+
+
+# --- Kapitel 4.5 generator ---
+
+def generate_design_vision(k45_run_dir: str, send_email: bool = False) -> str:
+    """Generate Design Vision PDF from Kapitel 4.5 output."""
+    print("[DocumentSecretary] Generating Design Vision PDF...")
+    title = _extract_title(k45_run_dir)
+    data = _load_reports(k45_run_dir, K45_FILES)
+    builder = PdfBuilder(title=f"Design Vision: {title}",
+                         subtitle="Verbindliches Design-Dokument fuer die Produktionslinie")
+    design_vision_pdf.generate(data, builder)
+    return _save_pdf(builder, f"Design_Vision_{title.replace(' ', '_')}_{date.today().isoformat()}.pdf",
+                     send_email, f"Design Vision: {title}", f"Design Vision fuer {title}.")
+
+
+# --- Kapitel 6 generators ---
+
+def generate_ceo_roadbook(k6_run_dir: str, send_email: bool = False) -> str:
+    print("[DocumentSecretary] Generating CEO Roadbook PDF...")
+    title = _extract_title(k6_run_dir)
+    data = _load_reports(k6_run_dir, K6_FILES)
+    builder = PdfBuilder(title=f"CEO Strategic Roadbook: {title}", subtitle="Strategisches Gesamtdokument")
+    ceo_roadbook_pdf.generate(data, builder)
+    return _save_pdf(builder, f"CEO_Roadbook_{title.replace(' ', '_')}_{date.today().isoformat()}.pdf",
+                     send_email, f"CEO Strategic Roadbook: {title}", f"CEO Roadbook fuer {title}.")
+
+
+def generate_cd_roadbook(k6_run_dir: str, send_email: bool = False) -> str:
+    print("[DocumentSecretary] Generating CD Roadbook PDF...")
+    title = _extract_title(k6_run_dir)
+    data = _load_reports(k6_run_dir, K6_FILES)
+    builder = PdfBuilder(title=f"CD Technical Roadbook: {title}",
+                         subtitle="VERBINDLICH fuer alle Produktionslinien")
+    cd_roadbook_pdf.generate(data, builder)
+    return _save_pdf(builder, f"CD_Roadbook_{title.replace(' ', '_')}_{date.today().isoformat()}.pdf",
+                     send_email, f"CD Technical Roadbook: {title}", f"CD Roadbook fuer {title}.")
+
+
 # --- Generate ALL ---
 
-def generate_all(phase1_run_dir: str, phase2_run_dir: str, k4_run_dir: str = None, send_email: bool = False) -> list[str]:
+def generate_all(phase1_run_dir: str, phase2_run_dir: str, k4_run_dir: str = None, k45_run_dir: str = None, k5_run_dir: str = None, k6_run_dir: str = None, send_email: bool = False) -> list[str]:
     """Generate ALL document types."""
     print("[DocumentSecretary] Generating ALL documents...\n")
     files = []
@@ -203,6 +298,15 @@ def generate_all(phase1_run_dir: str, phase2_run_dir: str, k4_run_dir: str = Non
         files.append(generate_feature_list(k4_run_dir, send_email=send_email))
         files.append(generate_mvp_scope(k4_run_dir, send_email=send_email))
         files.append(generate_screen_architecture(k4_run_dir, send_email=send_email))
+    if k45_run_dir:
+        files.append(generate_design_vision(k45_run_dir, send_email=send_email))
+    if k5_run_dir:
+        files.append(generate_asset_discovery(k5_run_dir, send_email=send_email))
+        files.append(generate_asset_strategy(k5_run_dir, send_email=send_email))
+        files.append(generate_visual_audit(k5_run_dir, send_email=send_email))
+    if k6_run_dir:
+        files.append(generate_ceo_roadbook(k6_run_dir, send_email=send_email))
+        files.append(generate_cd_roadbook(k6_run_dir, send_email=send_email))
     return files
 
 
@@ -212,12 +316,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="DriveAI Document Secretary — Professional PDF Generator")
     parser.add_argument("--type", type=str, required=True,
                         choices=["ceo-p1", "ceo-p2", "marketing", "investor", "tech-brief", "legal",
-                                 "features", "mvp-scope", "screens", "all"],
+                                 "features", "mvp-scope", "screens", "design-vision",
+                                 "asset-discovery", "asset-strategy", "visual-audit",
+                                 "ceo-roadbook", "cd-roadbook", "all"],
                         help="Document type to generate")
     parser.add_argument("--run-dir", type=str, help="Run directory (for ceo-p1 or ceo-p2)")
     parser.add_argument("--p1-dir", type=str, help="Phase 1 run directory")
     parser.add_argument("--p2-dir", type=str, help="Phase 2 run directory")
     parser.add_argument("--k4-dir", type=str, help="Kapitel 4 run directory")
+    parser.add_argument("--k45-dir", type=str, help="Kapitel 4.5 run directory")
+    parser.add_argument("--k5-dir", type=str, help="Kapitel 5 run directory")
+    parser.add_argument("--k6-dir", type=str, help="Kapitel 6 run directory")
     parser.add_argument("--send-email", action="store_true", help="Send document via email")
     args = parser.parse_args()
 
@@ -259,13 +368,43 @@ if __name__ == "__main__":
         filepath = funcs[args.type](k4, send_email=args.send_email)
         print(f"\nDokument erstellt: {filepath}")
 
+    elif args.type == "design-vision":
+        k45 = args.k45_dir
+        if not k45:
+            parser.error("--k45-dir required for design-vision")
+        filepath = generate_design_vision(k45, send_email=args.send_email)
+        print(f"\nDokument erstellt: {filepath}")
+
+    elif args.type in ("ceo-roadbook", "cd-roadbook"):
+        k6 = args.k6_dir
+        if not k6:
+            parser.error("--k6-dir required for ceo-roadbook/cd-roadbook")
+        funcs = {"ceo-roadbook": generate_ceo_roadbook, "cd-roadbook": generate_cd_roadbook}
+        filepath = funcs[args.type](k6, send_email=args.send_email)
+        print(f"\nDokument erstellt: {filepath}")
+
+    elif args.type in ("asset-discovery", "asset-strategy", "visual-audit"):
+        k5 = args.k5_dir
+        if not k5:
+            parser.error("--k5-dir required for asset-discovery/asset-strategy/visual-audit")
+        funcs = {
+            "asset-discovery": generate_asset_discovery,
+            "asset-strategy": generate_asset_strategy,
+            "visual-audit": generate_visual_audit,
+        }
+        filepath = funcs[args.type](k5, send_email=args.send_email)
+        print(f"\nDokument erstellt: {filepath}")
+
     elif args.type == "all":
         p1 = args.p1_dir
         p2 = args.p2_dir
         k4 = args.k4_dir
+        k45 = args.k45_dir
+        k5 = args.k5_dir
+        k6 = args.k6_dir
         if not p1 or not p2:
             parser.error("--p1-dir and --p2-dir required for --type all")
-        files = generate_all(p1, p2, k4_run_dir=k4, send_email=args.send_email)
+        files = generate_all(p1, p2, k4_run_dir=k4, k45_run_dir=k45, k5_run_dir=k5, k6_run_dir=k6, send_email=args.send_email)
         print(f"\n{len(files)} Dokumente erstellt:")
         for f in files:
             print(f"  {f}")
