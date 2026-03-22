@@ -316,6 +316,30 @@ def _parse_args() -> dict:
             result["create_handoff"] = args[i + 1]
             i += 2
             i += 1
+        elif args[i] == "--factory-submit":
+            result["factory_submit"] = True
+            i += 1
+        elif args[i] == "--factory-queue":
+            result["factory_queue"] = True
+            i += 1
+        elif args[i] == "--factory-next":
+            result["factory_next"] = True
+            i += 1
+        elif args[i] == "--factory-execute":
+            result["factory_execute"] = True
+            i += 1
+        elif args[i] == "--factory-run" and i + 1 < len(args):
+            result["factory_run"] = args[i + 1]
+            i += 2
+        elif args[i] == "--factory-advance" and i + 1 < len(args):
+            result["factory_advance"] = args[i + 1]
+            i += 2
+        elif args[i] == "--auto-ceo-go":
+            result["auto_ceo_go"] = True
+            i += 1
+        elif args[i] == "--phase" and i + 1 < len(args):
+            result["factory_advance_phase"] = args[i + 1]
+            i += 2
         elif not args[i].startswith("--"):
             result["task"] = args[i]
             i += 1
@@ -562,6 +586,44 @@ async def main():
             print(json.dumps(status_data, indent=2, default=str))
         else:
             print(fs.format_summary(status_data))
+        return
+
+    # ── Dispatcher commands ──────────────────────────────────────
+    if a.get("factory_queue"):
+        from factory.dispatcher import PipelineDispatcher
+        print(PipelineDispatcher().get_queue_status())
+        return
+    if a.get("factory_next"):
+        from factory.dispatcher import PipelineDispatcher
+        action = PipelineDispatcher().get_next_action()
+        if action:
+            print(f"Next: {action['description']}")
+            print(f"  Auto-executable: {action['auto']}")
+        else:
+            print("No pending actions.")
+        return
+    if a.get("factory_execute"):
+        from factory.dispatcher import PipelineDispatcher
+        PipelineDispatcher().execute_next(auto_ceo_go=a.get("auto_ceo_go", False))
+        return
+    if a.get("factory_run"):
+        from factory.dispatcher import PipelineDispatcher
+        PipelineDispatcher().run_full_pipeline(a["factory_run"], auto_ceo_go=a.get("auto_ceo_go", False))
+        return
+    if a.get("factory_submit") and a.get("task"):
+        from factory.dispatcher import PipelineDispatcher
+        title = a.get("name", "Untitled")
+        PipelineDispatcher().submit_idea(a["task"], title)
+        return
+    if a.get("factory_advance") and a.get("factory_advance_phase"):
+        from factory.dispatcher import PipelineDispatcher
+        from factory.dispatcher.product_state import ProductPhase
+        d = PipelineDispatcher()
+        p = d._get_by_title(a["factory_advance"])
+        if p:
+            d.advance_phase(p.id, ProductPhase(a["factory_advance_phase"]))
+        else:
+            print(f"Product not found: {a['factory_advance']}")
         return
 
     # ── Orchestrator commands (no direct pipeline run) ──────────────

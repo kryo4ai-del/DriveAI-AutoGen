@@ -173,6 +173,16 @@ class FactoryStatus:
         except Exception:
             return None
 
+    def _get_capability_summary(self) -> str:
+        try:
+            from factory.capability_registry import CapabilityRegistry
+            reg = CapabilityRegistry()
+            avail = sum(1 for c in reg.capabilities if c.available)
+            total = len(reg.capabilities)
+            return f"Capabilities  : {avail}/{total} available"
+        except Exception:
+            return "Capabilities  : unknown"
+
     def format_console(self, status: dict) -> str:
         """Format status for console output."""
         lines = []

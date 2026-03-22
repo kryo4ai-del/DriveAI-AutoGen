@@ -74,7 +74,7 @@ def _banner(title: str, run_number: int) -> str:
     )
 
 
-def run_pipeline(ceo_idea: str, idea_title: str = None) -> dict:
+def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realistic") -> dict:
     """Run the complete Phase 1 pipeline.
 
     Args:
@@ -92,6 +92,12 @@ def run_pipeline(ceo_idea: str, idea_title: str = None) -> dict:
     slug = _make_slug(idea_title)
     output_dir = OUTPUT_BASE / f"{run_number:03d}_{slug}"
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Ambition controller
+    from factory.pre_production.ambition_controller import AmbitionController
+    _ambition = AmbitionController(ambition)
+    _ambition_modifier = _ambition.get_system_prompt_modifier()
+    print(f"  Ambition mode: {ambition}")
 
     result = {
         "idea_title": idea_title,
@@ -294,6 +300,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="DriveAI Pre-Production Pipeline — Phase 1"
     )
+    parser.add_argument("--ambition", default="realistic", choices=["realistic", "visionary"],
+                        help="Ambition level: realistic (constrained) or visionary (full)")
     parser.add_argument("--idea", type=str, help="CEO idea text (in quotes)")
     parser.add_argument("--idea-file", type=str, help="Path to text file with CEO idea")
     parser.add_argument("--title", type=str, help="Short title for the idea (optional)")
