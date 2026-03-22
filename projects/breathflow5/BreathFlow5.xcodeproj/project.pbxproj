@@ -16,6 +16,7 @@
 		31CC601E8A7F8B2CF46E5039 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3EF6AD0432F0EE34ECF2D5 /* AuthService.swift */; };
 		3851FB5EBAB8CA14474862FF /* QuickAccessMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC1D3DD8D99327531B6EE0 /* QuickAccessMenu.swift */; };
 		415EE57A456F19D2F58103EC /* QuickAccessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0912711105A98BC819C75A8F /* QuickAccessViewModel.swift */; };
+		44047DFDFD6E4A8196C2F5B4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2C0C339173EA2176C0B7D /* ContentView.swift */; };
 		4583C3D70501E5071C3A63C2 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A64266F4755E3B84C1CFF4 /* AnalyticsService.swift */; };
 		478FD1BA6FBFA4FF32EF7C9B /* QuizProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97380BB89AB79A773E8A84FF /* QuizProgressService.swift */; };
 		5771FED339D91B434CA40291 /* QuickAccessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD183926017B038770C06C6F /* QuickAccessService.swift */; };
@@ -70,6 +71,7 @@
 		C09E28DFF16210B186818FCF /* QuickAccessModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessModuleFactory.swift; sourceTree = "<group>"; };
 		E1AC1D3DD8D99327531B6EE0 /* QuickAccessMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessMenu.swift; sourceTree = "<group>"; };
 		E96766FECABDE2F92A9CA894 /* BreathFlow5.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BreathFlow5.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3A2C0C339173EA2176C0B7D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FA35E6409FBA2FAD42B901E6 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				12046B85F20ADA8648A1EDB8 /* BreathFlow5App.swift */,
+				F3A2C0C339173EA2176C0B7D /* ContentView.swift */,
 				4EEE9DDC30364C4C628B3D83 /* HomeView.swift */,
 				0F522C6ACB96778CAAA46C20 /* QuestionView.swift */,
 				30749B9A14410788D0DFE815 /* QuizResultsView.swift */,
@@ -210,6 +213,7 @@
 				4583C3D70501E5071C3A63C2 /* AnalyticsService.swift in Sources */,
 				31CC601E8A7F8B2CF46E5039 /* AuthService.swift in Sources */,
 				C1FDD6C821E47C5F2E4CC5FB /* BreathFlow5App.swift in Sources */,
+				44047DFDFD6E4A8196C2F5B4 /* ContentView.swift in Sources */,
 				D863D70489FF40F70B47DE2B /* DecodingError.swift in Sources */,
 				2C2D6507A2F7C88766C37358 /* DefaultQuickAccessService.swift in Sources */,
 				5C0BD77333A07453CF8BA307 /* DependencyContainer.swift in Sources */,

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct QuizQuestion: Identifiable {
+struct QuizQuestionItem: Identifiable {
     let id = UUID()
     var text: String
     var answer: String
@@ -8,7 +8,7 @@ struct QuizQuestion: Identifiable {
 
 // DON'T do this
 struct QuizView: View {
-    @State var currentQuestion: QuizQuestion = QuizQuestion(text: "Sample?", answer: "Yes")
+    @State var currentQuestion: QuizQuestionItem = QuizQuestionItem(text: "Sample?", answer: "Yes")
     @State var score: Int = 0
 
     var body: some View {

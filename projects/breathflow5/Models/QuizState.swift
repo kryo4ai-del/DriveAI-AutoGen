@@ -6,12 +6,12 @@ struct QuizState: Equatable, Sendable {
     var currentIndex: Int = 0
     var selectedAnswerIndex: Int?
     var userAnswers: [Int?] = []
-    var questions: [QuizQuestion] = []
+    var questions: [TriviaQuestion] = []
     var isLoading: Bool = false
-    var error: QuizRepositoryError?
+    var error: QuizError?
     var isComplete: Bool = false
     
-    var currentQuestion: QuizQuestion? {
+    var currentQuestion: TriviaQuestion? {
         guard currentIndex < questions.count else { return nil }
         return questions[currentIndex]
     }
@@ -50,4 +50,10 @@ struct QuizState: Equatable, Sendable {
         lhs.error == rhs.error &&
         lhs.isComplete == rhs.isComplete
     }
+}
+
+enum QuizError: Error, Equatable, Sendable {
+    case networkError(String)
+    case decodingError(String)
+    case unknown
 }

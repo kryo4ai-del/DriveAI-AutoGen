@@ -2,19 +2,19 @@ import SwiftUI
 
 // ✅ CORRECT: Domain state in ViewModel
 
-struct QuizQuestion {
+struct QuizQuestionModelMain {
     let text: String
-    let options: [QuizOption]
+    let options: [QuizOptionMain]
 }
 
-struct QuizOption: Identifiable {
+struct QuizOptionMain: Identifiable {
     let id: UUID
     let text: String
 }
 
 @MainActor
 class QuizViewModelMain: ObservableObject {
-    @Published var currentQuestion: QuizQuestion = QuizQuestion(text: "", options: [])
+    @Published var currentQuestion: QuizQuestionModelMain = QuizQuestionModelMain(text: "", options: [])
     @Published var selectedAnswer: UUID? = nil
 
     func submitAnswer() async {

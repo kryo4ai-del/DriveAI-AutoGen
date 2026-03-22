@@ -1,8 +1,16 @@
+import Foundation
+
 // ✅ CORRECT: Protocol-driven
 protocol PersistenceManager {
     func save<T: Codable>(_ model: T, for key: String) throws
     func load<T: Codable>(for key: String) throws -> T
     func delete(for key: String) throws
+}
+
+enum PersistenceError: Error {
+    case notFound
+    case decodingFailed
+    case encodingFailed
 }
 
 class UserDefaultsPersistence: PersistenceManager {

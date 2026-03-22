@@ -23,13 +23,13 @@ private enum ReadinessLevel {
     }
 }
 
-private struct QuizQuestion {
+private struct LocalQuizQuestion {
     let text: String
     let topic: String
 }
 
-private struct QuizState {
-    var questions: [QuizQuestion] = []
+private struct LocalQuizState {
+    var questions: [LocalQuizQuestion] = []
     var currentIndex: Int = 0
     var answers: [Bool] = []
 }
@@ -37,7 +37,7 @@ private struct QuizState {
 // MARK: - ViewModel
 
 private class QuizViewModel: ObservableObject {
-    @Published var state: QuizState = QuizState()
+    @Published var state: LocalQuizState = LocalQuizState()
     @Published var score: Int = 0
 
     var scorePercentage: Int {
@@ -69,7 +69,7 @@ private class QuizViewModel: ObservableObject {
 
     func resetQuiz() {
         score = 0
-        state = QuizState(questions: state.questions, currentIndex: 0, answers: [])
+        state = LocalQuizState(questions: state.questions, currentIndex: 0, answers: [])
     }
 }
 
