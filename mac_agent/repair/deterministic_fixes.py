@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 FOUNDATION_TYPES = {"Data","URL","UUID","Date","Calendar","Timer","UserDefaults","TimeInterval","TimeZone","Locale","JSONEncoder","JSONDecoder","FileManager","Bundle","NotificationCenter","DispatchQueue","DateFormatter","LocalizedError"}
 SWIFTUI_TYPES = {"View","State","Binding","Color","Text","Button","HStack","VStack","ZStack","NavigationStack","List","ForEach","ScrollView","Image","Label","Spacer","Divider","Font","Toggle","Picker","Slider","ProgressView","Sheet","Alert","NavigationLink","StateObject","ObservedObject","EnvironmentObject","Published","ObservableObject","Observable","GeometryReader","Canvas","AppStorage","Scene","WindowGroup","TabView","Section","Form","Circle","Rectangle","RoundedRectangle","Animation"}
 JUNK_NAMES = {"GeneratedHelpers","GeneratedCode","Helpers"}
+FRAMEWORK_STUBS = {"Hashable","Equatable","Codable","Identifiable","Comparable","Sendable","Task","MainActor","HStack","VStack","ZStack","Color","Preview","TimeInterval","LocalizedError","NSPersistentContainer","XCTest","XCTestCase","DriveAI","DriveAIDomain"}
 
 @dataclass
 class FixReport:
@@ -20,6 +21,13 @@ class DeterministicFixes:
     def fix_all(self, errors, project_dir):
         from mac_agent.repair.xcode_error_parser import XcodeErrorParser
         report = FixReport()
+
+        # Pre-pass: move test files out of app target
+        self._move_tests(project_dir, report)
+
+        # Pre-pass: ensure @main entry point exists
+        self._ensure_main_entry(project_dir, errors, report)
+
         grouped = XcodeErrorParser().group_by_file(errors)
         for fp, ferrs in grouped.items():
             if not os.path.isfile(fp): continue
@@ -36,9 +44,54 @@ class DeterministicFixes:
                 open(fp,"w",encoding="utf-8").write(content); report.fixed_files.append(fp)
         return report
 
+    def _move_tests(self, project_dir, report):
+        """Move *Tests.swift from Models/ to Tests/ (they can't be in the app target)."""
+        for subdir in ["Models", "Views", "ViewModels", "Services"]:
+            src = os.path.join(project_dir, subdir)
+            if not os.path.isdir(src): continue
+            for f in os.listdir(src):
+                if f.endswith("Tests.swift"):
+                    tests_dir = os.path.join(project_dir, "Tests")
+                    os.makedirs(tests_dir, exist_ok=True)
+                    dest = os.path.join(tests_dir, f)
+                    if not os.path.exists(dest):
+                        shutil.move(os.path.join(src, f), dest)
+                        report.fixed_files.append(dest)
+
+    def _ensure_main_entry(self, project_dir, errors, report):
+        """If linker reports missing _main, create a @main App entry point."""
+        has_main_error = any("_main" in e.message or "Undefined symbols" in e.message
+                           for e in errors if e.severity == "error")
+        if not has_main_error: return
+
+        # Check if @main already exists
+        for root, dirs, files in os.walk(project_dir):
+            if "quarantine" in root or "Tests" in root: continue
+            for f in files:
+                if f.endswith(".swift"):
+                    try:
+                        c = open(os.path.join(root, f), encoding="utf-8").read()
+                        if "@main" in c: return
+                    except: pass
+
+        # Infer app name from project.yml or directory name
+        app_name = os.path.basename(project_dir)
+        views_dir = os.path.join(project_dir, "Views")
+        os.makedirs(views_dir, exist_ok=True)
+        entry = os.path.join(views_dir, f"{app_name}App.swift")
+        if not os.path.exists(entry):
+            content = f"import SwiftUI\n\n@main\nstruct {app_name}App: App {{\n    var body: some Scene {{\n        WindowGroup {{\n            ContentView()\n        }}\n    }}\n}}\n"
+            open(entry, "w", encoding="utf-8").write(content)
+            # Also create ContentView if missing
+            cv = os.path.join(views_dir, "ContentView.swift")
+            if not os.path.exists(cv):
+                open(cv, "w", encoding="utf-8").write('import SwiftUI\n\nstruct ContentView: View {\n    var body: some View {\n        Text("Hello, World!")\n    }\n}\n')
+            report.fixed_files.append(entry)
+
     def _should_quarantine(self, fp, errors):
         name = os.path.splitext(os.path.basename(fp))[0]
         if name in JUNK_NAMES: return True
+        if name in FRAMEWORK_STUBS: return True
         ec = sum(1 for e in errors if e.severity=="error")
         if ec > 10: return True
         if all(e.error_code=="top_level_code" for e in errors if e.severity=="error") and ec>0: return True

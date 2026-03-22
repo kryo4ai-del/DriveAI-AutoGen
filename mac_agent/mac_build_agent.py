@@ -62,22 +62,108 @@ def _check_xcode() -> str:
         return "not found"
 
 
+def _xcodegen(project_dir: Path, timeout: int = 45) -> bool:
+    """Regenerate xcodeproj from project.yml. Returns True on success."""
+    yml = project_dir / "project.yml"
+    if not yml.exists():
+        return False
+    # Remove old xcodeproj to force clean generation
+    for old in project_dir.glob("*.xcodeproj"):
+        import shutil
+        shutil.rmtree(str(old), ignore_errors=True)
+    try:
+        r = subprocess.run(
+            ["xcodegen", "generate", "--spec", str(yml)],
+            cwd=str(project_dir), capture_output=True, text=True, timeout=timeout
+        )
+        if r.returncode == 0:
+            print(f"  xcodegen: OK")
+            return True
+        print(f"  xcodegen: FAILED — {r.stderr[:200]}")
+        return False
+    except subprocess.TimeoutExpired:
+        print(f"  xcodegen: TIMEOUT ({timeout}s) — likely stub files causing hang")
+        # Kill any lingering xcodegen processes
+        subprocess.run(["pkill", "-f", "xcodegen"], capture_output=True)
+        return False
+
+
+def _pre_build_cleanup(project_dir: Path):
+    """Move test files out of app target and remove known junk before xcodegen."""
+    import shutil
+    models_dir = project_dir / "Models"
+    tests_dir = project_dir / "Tests"
+
+    if not models_dir.exists():
+        return
+
+    # Move *Tests.swift out of Models/ into Tests/
+    test_files = list(models_dir.glob("*Tests.swift"))
+    if test_files:
+        tests_dir.mkdir(exist_ok=True)
+        for tf in test_files:
+            dest = tests_dir / tf.name
+            if not dest.exists():
+                shutil.move(str(tf), str(dest))
+                print(f"  pre-clean: moved {tf.name} -> Tests/")
+
+    # Remove known junk files
+    junk_names = {"GeneratedHelpers.swift", "GeneratedCode.swift", "Helpers.swift"}
+    for jf in junk_names:
+        junk = models_dir / jf
+        if junk.exists():
+            qdir = project_dir / "quarantine"
+            qdir.mkdir(exist_ok=True)
+            dest = qdir / jf
+            if not dest.exists():
+                shutil.move(str(junk), str(dest))
+            else:
+                junk.unlink()
+            print(f"  pre-clean: quarantined {jf}")
+
+    # Remove framework-type stub files (Hashable.swift, Task.swift, etc.)
+    FRAMEWORK_STUBS = {
+        "Hashable", "Equatable", "Codable", "Identifiable", "Comparable", "Sendable",
+        "Task", "MainActor", "HStack", "VStack", "ZStack", "Color", "Preview",
+        "TimeInterval", "LocalizedError", "NSPersistentContainer", "XCTest",
+        "XCTestCase", "DriveAI", "DriveAIDomain",
+    }
+    for stub_name in FRAMEWORK_STUBS:
+        stub = models_dir / f"{stub_name}.swift"
+        if stub.exists():
+            qdir = project_dir / "quarantine"
+            qdir.mkdir(exist_ok=True)
+            dest = qdir / stub.name
+            if not dest.exists():
+                shutil.move(str(stub), str(dest))
+            else:
+                stub.unlink()
+            print(f"  pre-clean: quarantined stub {stub.name}")
+
+
 def _build_ios(project: str, params: dict) -> dict:
     project_dir = REPO_PATH / "projects" / project
-    scheme = params.get("scheme", "AskFinPremium")
+    scheme = params.get("scheme", project.capitalize() if project else "App")
     config = params.get("configuration", "Debug")
     simulator = params.get("simulator", "iPhone 17 Pro")
 
-    # Generate xcodeproj if project.yml exists
-    yml = project_dir / "project.yml"
-    if yml.exists():
-        subprocess.run(["xcodegen", "generate", "--spec", str(yml)],
-                       cwd=str(project_dir), capture_output=True, timeout=60)
+    if not project_dir.exists():
+        return {"status": "error", "result": {"error": f"Project dir not found: {project}"}}
+
+    # Step 1: Pre-build cleanup (test files, stubs, junk)
+    _pre_build_cleanup(project_dir)
+
+    # Step 2: Regenerate xcodeproj
+    if not _xcodegen(project_dir):
+        # Try again after cleanup might have removed problematic stubs
+        if not _xcodegen(project_dir, timeout=90):
+            return {"status": "error", "result": {"error": "xcodegen failed or timed out"}}
 
     xcodeproj = list(project_dir.glob("*.xcodeproj"))
     if not xcodeproj:
-        return {"status": "error", "result": {"error": "No .xcodeproj found"}}
+        return {"status": "error", "result": {"error": "No .xcodeproj found after xcodegen"}}
 
+    # Step 3: Initial build
     cmd = [
         "xcodebuild",
         "-project", str(xcodeproj[0]),
@@ -103,13 +189,13 @@ def _build_ios(project: str, params: dict) -> dict:
                 "errors": 0,
                 "warnings": len(warnings),
                 "build_time_seconds": round(elapsed),
+                "repair_iterations": 0,
             }
         }
 
-    # Build failed — try RepairEngine
+    # Step 4: Build failed — RepairEngine loop
     print(f"  Build failed with {len(errors)} errors. Starting RepairEngine...")
     try:
-        # Add repo root to path for factory imports
         repo_root = str(REPO_PATH)
         if repo_root not in sys.path:
             sys.path.insert(0, repo_root)
@@ -118,6 +204,7 @@ def _build_ios(project: str, params: dict) -> dict:
         engine = SwiftRepairEngine(str(project_dir), max_iterations=5)
         repair_result = engine.repair_and_build(scheme, simulator)
 
+        total_elapsed = time.time() - start
         return {
             "status": "success" if repair_result.success else "failed",
             "result": {
@@ -127,7 +214,7 @@ def _build_ios(project: str, params: dict) -> dict:
                 "repair_iterations": repair_result.iterations,
                 "repair_cost": repair_result.cost,
                 "warnings": len(warnings),
-                "build_time_seconds": round(elapsed),
+                "build_time_seconds": round(total_elapsed),
                 "repair_history": repair_result.history,
                 "error_details": errors[:20] if not repair_result.success else [],
             }
@@ -141,7 +228,7 @@ def _build_ios(project: str, params: dict) -> dict:
                 "errors": len(errors),
                 "warnings": len(warnings),
                 "error_details": errors[:20],
-                "build_time_seconds": round(elapsed),
+                "build_time_seconds": round(time.time() - start),
                 "repair_error": str(e),
             }
         }
