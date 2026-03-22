@@ -1,5 +1,14 @@
+import Foundation
+
 @MainActor
-final class FetchExercisesUseCase {  // ← NO Sendable
+final class FetchExercisesUseCase {
     private let repository: ExerciseRepository
-    func execute(...) async throws -> [Exercise]
+
+    init(repository: ExerciseRepository) {
+        self.repository = repository
+    }
+
+    func execute() async throws -> [Exercise] {
+        return try await repository.fetchAll()
+    }
 }

@@ -9,6 +9,3 @@ extension ExerciseCategory {
         }
     }
 }
-
-// In view:
-Text(category.displayName)

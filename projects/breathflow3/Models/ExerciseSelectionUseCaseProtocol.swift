@@ -1,4 +1,3 @@
-// MARK: - Domain/ExerciseSelectionUseCase.swift
 import Foundation
 
 protocol ExerciseSelectionUseCaseProtocol {
@@ -6,5 +5,3 @@ protocol ExerciseSelectionUseCaseProtocol {
     func getRecommendedExercises(from exercises: [Exercise]) async -> [Exercise]
     func selectExercise(_ exercise: Exercise) async throws
 }
-
-@MainActor
