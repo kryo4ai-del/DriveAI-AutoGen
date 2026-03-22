@@ -1,3 +1,5 @@
+import Foundation
+
 enum QuickAccessError: LocalizedError {
     case userNotAuthenticated
     case noExercisesAvailable

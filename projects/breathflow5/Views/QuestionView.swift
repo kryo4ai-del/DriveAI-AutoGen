@@ -1,3 +1,5 @@
+import SwiftUI
+
 // ✅ CORRECT: Domain state in ViewModel
 
 // View uses ViewModel

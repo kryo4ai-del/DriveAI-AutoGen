@@ -1,3 +1,5 @@
+import Foundation
+
 enum QuestionRepositoryError: LocalizedError {
     case networkConnectionLost
     case timeout

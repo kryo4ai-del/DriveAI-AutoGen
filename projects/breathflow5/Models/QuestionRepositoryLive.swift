@@ -1,3 +1,5 @@
+import Foundation
+
 final class QuestionRepositoryLive: QuestionRepository {
     private let urlSession: URLSession
     private let timeout: TimeInterval = 30

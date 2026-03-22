@@ -1,3 +1,5 @@
+import SwiftUI
+
 enum ReadinessLevel: Comparable {
     case needsWork      // 0-59%
     case closeToReady   // 60-79%

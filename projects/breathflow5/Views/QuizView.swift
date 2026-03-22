@@ -1,3 +1,5 @@
+import SwiftUI
+
 // DON'T do this
 struct QuizView: View {
     @State var currentQuestion: Question  // ← Local only, lost on view rebuild

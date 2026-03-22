@@ -1,3 +1,5 @@
+import Foundation
+
 enum AccessPoint {
     case homeScreenButton
     case notificationTap(notificationID: String)

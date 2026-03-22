@@ -1,3 +1,5 @@
+import SwiftUI
+
 // DependencyContainer.swift
 @MainActor
 class DependencyContainer {

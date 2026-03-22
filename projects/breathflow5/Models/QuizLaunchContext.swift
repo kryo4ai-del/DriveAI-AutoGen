@@ -1,3 +1,5 @@
+import Foundation
+
 // QuizLaunchContext.swift
    /// Represents the state needed to launch a quiz
    struct QuizLaunchContext {

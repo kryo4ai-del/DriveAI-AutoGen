@@ -1,3 +1,5 @@
+import SwiftUI
+
 final class DependencyContainer: ObservableObject {
     let persistenceManager: PersistenceManager
     let apiClient: APIClient

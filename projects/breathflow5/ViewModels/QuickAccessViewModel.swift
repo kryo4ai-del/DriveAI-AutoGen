@@ -1,3 +1,5 @@
+import SwiftUI
+
 class QuickAccessViewModel: ObservableObject {
        @Published var navigationPath: NavigationPath?
        @Published var isLoading = false
