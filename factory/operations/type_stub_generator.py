@@ -279,6 +279,16 @@ class TypeStubGenerator:
             type_name = issue.type_name
             ref_files = [issue.file] + (issue.other_files or [])
 
+            # Skip framework/stdlib types that should never be stubbed
+            from factory.operations.compile_hygiene_validator import _KNOWN_FRAMEWORK_TYPES
+            if type_name in _KNOWN_FRAMEWORK_TYPES:
+                self.report.skipped.append({
+                    "type_name": type_name,
+                    "reason": "framework/stdlib type — should not be stubbed",
+                })
+                self.report.stubs_skipped += 1
+                continue
+
             # Skip if a file with this name already exists in the project
             existing = list(self.project_dir.rglob(f"{type_name}{self._extension}"))
             if existing:

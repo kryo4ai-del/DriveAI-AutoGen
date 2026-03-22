@@ -18,6 +18,7 @@ class ProductPhase(Enum):
     CD_ROADBOOK_PENDING = "cd_roadbook_pending"
     CD_ROADBOOK_RUNNING = "cd_roadbook_running"
     CD_ROADBOOK_COMPLETE = "cd_roadbook_complete"
+    PRODUCTION_REVIEW_PENDING = "production_review_pending"
     PRODUCTION_PENDING = "production_pending"
     PRODUCTION_RUNNING = "production_running"
     PRODUCTION_COMPLETE = "production_complete"

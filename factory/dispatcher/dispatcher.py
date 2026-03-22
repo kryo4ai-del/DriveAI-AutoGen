@@ -13,6 +13,7 @@ QUEUE_PATH = _ROOT / "factory" / "dispatcher" / "queue_store.json"
 # Phase → next phase after successful action
 _PHASE_TRANSITIONS = {
     "run_pre_production": ProductPhase.PRE_PRODUCTION_COMPLETE,
+    "production_review": ProductPhase.PRODUCTION_REVIEW_PENDING,
     "ceo_gate": None,  # depends on decision
     "run_market_strategy": ProductPhase.MARKET_STRATEGY_COMPLETE,
     "run_mvp_scope": ProductPhase.MVP_SCOPE_COMPLETE,
@@ -94,6 +95,11 @@ class PipelineDispatcher:
                     "auto": True}
 
         if phase == ProductPhase.CD_ROADBOOK_COMPLETE:
+            return {**base, "action": "production_review",
+                    "description": f"CEO Review: Roadbook ready for {p.title}. Approve production start?",
+                    "auto": False}
+
+        if phase == ProductPhase.PRODUCTION_REVIEW_PENDING:
             return {**base, "action": "start_production",
                     "description": f"Start Production for {p.title}",
                     "auto": True}
@@ -116,6 +122,16 @@ class PipelineDispatcher:
         if not action:
             print("[Dispatcher] No pending actions.")
             return None
+
+        if not action["auto"] and action["action"] == "production_review":
+            if auto_ceo_go:
+                self.advance_phase(action["product_id"], ProductPhase.PRODUCTION_REVIEW_PENDING,
+                                   "Production auto-approved (--auto-ceo-go)")
+                return {**action, "success": True, "note": "auto production GO"}
+            print(f"[Dispatcher] Production Review needed for {action['product_title']}")
+            print(f"  Check roadbooks in the pre-production output directory.")
+            print(f"  Then run: python main.py --factory-advance {action['product_title']} --phase production_review_pending")
+            return action
 
         if not action["auto"] and action["action"] == "ceo_gate":
             if auto_ceo_go:
