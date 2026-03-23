@@ -13,6 +13,12 @@ _PLATFORM_SPECIFIC_AGENTS = frozenset({
     "web_architect", "web_developer", "webapp_developer",
 })
 
+# Agents that receive the compile_contract (code-generating agents)
+_CODE_GENERATING_AGENTS = frozenset({
+    "swift_developer", "ios_architect", "refactor_agent",
+    "bug_hunter", "test_generator",
+})
+
 # Agents that get a context prefix but keep their core role
 _PLATFORM_AGNOSTIC_AGENTS = frozenset({
     "driveai_lead", "reviewer", "bug_hunter", "refactor_agent",
@@ -70,6 +76,7 @@ class PlatformRoleResolver:
         For platform-agnostic agents: prepend a context line.
         """
         overrides = self._config.get("role_overrides", {})
+        result = base_system_message
 
         # Check if this agent has a specific override
         if agent_name in overrides:
@@ -77,18 +84,22 @@ class PlatformRoleResolver:
 
             # Full replacement
             if "system_message_replace" in override:
-                return override["system_message_replace"]
-
+                result = override["system_message_replace"]
             # Append to existing
-            if "system_message_append" in override:
-                return base_system_message + override["system_message_append"]
+            elif "system_message_append" in override:
+                result = base_system_message + override["system_message_append"]
+        else:
+            # Platform-agnostic agents get a context prefix
+            ctx = self.context_line
+            if ctx and agent_name not in _PLATFORM_SPECIFIC_AGENTS:
+                result = f"{ctx}\n\n{base_system_message}"
 
-        # Platform-agnostic agents get a context prefix
-        ctx = self.context_line
-        if ctx and agent_name not in _PLATFORM_SPECIFIC_AGENTS:
-            return f"{ctx}\n\n{base_system_message}"
+        # Append compile_contract for code-generating agents
+        compile_contract = self._config.get("compile_contract")
+        if compile_contract and agent_name in _CODE_GENERATING_AGENTS:
+            result = result + "\n\n" + compile_contract
 
-        return base_system_message
+        return result
 
     def get_agent_name_for_platform(self, base_agent_name: str) -> str:
         """Map base agent name to platform-specific name if override exists."""

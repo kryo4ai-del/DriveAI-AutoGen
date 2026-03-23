@@ -1,4 +1,5 @@
 const SECTION_TITLES = {
+  start: 'Neues Projekt starten',
   pipeline: 'Projekt-Pipeline',
   gates: 'CEO Gates',
   documents: 'Dokumente',

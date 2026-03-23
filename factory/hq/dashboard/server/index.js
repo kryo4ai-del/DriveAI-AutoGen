@@ -23,6 +23,9 @@ const showcaseApi = require('./api/showcase');
 app.use('/api/history', historyApi);
 app.use('/api/showcase', showcaseApi);
 
+const startApi = require('./api/start');
+app.use('/api/start', startApi);
+
 app.get('/api/health-check', (req, res) => {
   res.json({
     status: 'ok',

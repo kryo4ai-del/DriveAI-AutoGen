@@ -9,8 +9,10 @@ import HealthOverview from './components/FactoryStatus/HealthOverview';
 import AgentMonitor from './components/AgentMonitor/AgentMonitor';
 import ProjectHistory from './components/History/ProjectHistory';
 import ShowcaseView from './components/Showcase/ShowcaseView';
+import StartView from './components/Start/StartView';
 
 const BASE_SECTIONS = [
+  { id: 'start', label: 'Start', icon: 'Rocket' },
   { id: 'pipeline', label: 'Pipeline', icon: 'GitBranch' },
   { id: 'gates', label: 'Gates', icon: 'ShieldCheck', badge: 0 },
   { id: 'documents', label: 'Dokumente', icon: 'FileText' },
@@ -21,7 +23,7 @@ const BASE_SECTIONS = [
 ];
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState('pipeline');
+  const [activeSection, setActiveSection] = useState('start');
   const [selectedProject, setSelectedProject] = useState(null);
   const [gateCount, setGateCount] = useState(0);
 
@@ -57,6 +59,7 @@ export default function App() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header activeSection={activeSection} />
         <main className="flex-1 overflow-y-auto p-6">
+          {activeSection === 'start' && <StartView />}
           {activeSection === 'pipeline' && !selectedProject && (
             <ProjectGrid onSelectProject={setSelectedProject} />
           )}
@@ -69,7 +72,7 @@ export default function App() {
           {activeSection === 'agents' && <AgentMonitor />}
           {activeSection === 'history' && <ProjectHistory />}
           {activeSection === 'showcase' && <ShowcaseView />}
-          {!['pipeline', 'gates', 'documents', 'factory', 'agents', 'history', 'showcase'].includes(activeSection) && (
+          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'agents', 'history', 'showcase'].includes(activeSection) && (
             <PlaceholderView
               title={sections.find(s => s.id === activeSection)?.label || ''}
               description="Wird in einem zukuenftigen Step implementiert"
