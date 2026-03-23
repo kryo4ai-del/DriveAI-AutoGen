@@ -1,0 +1,35 @@
+{
+  "id": "cmd_20260323_015000",
+  "type": "build_ios",
+  "completed_at": "2026-03-23T01:56:41.687165",
+  "status": "failed",
+  "result": {
+    "build_succeeded": false,
+    "iterations": 5,
+    "initial_errors": 4,
+    "final_errors": 3,
+    "repair_cost": 0.101245,
+    "history": [
+      {
+        "iteration": 1,
+        "errors": 4
+      },
+      {
+        "iteration": 2,
+        "errors": 46
+      },
+      {
+        "iteration": 3,
+        "errors": 3
+      },
+      {
+        "iteration": 4,
+        "errors": 4
+      },
+      {
+        "iteration": 5,
+        "errors": 6
+      }
+    ]
+  }
+}

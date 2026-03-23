@@ -20,7 +20,6 @@
 		4583C3D70501E5071C3A63C2 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A64266F4755E3B84C1CFF4 /* AnalyticsService.swift */; };
 		478FD1BA6FBFA4FF32EF7C9B /* QuizProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97380BB89AB79A773E8A84FF /* QuizProgressService.swift */; };
 		5771FED339D91B434CA40291 /* QuickAccessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD183926017B038770C06C6F /* QuickAccessService.swift */; };
-		5C0BD77333A07453CF8BA307 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA35E6409FBA2FAD42B901E6 /* DependencyContainer.swift */; };
 		6CDFAADC280EE23907B48F41 /* NavigationPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D98EA842557AC12419B039 /* NavigationPath.swift */; };
 		7002F21C434D71CDC81DB7EE /* QuizService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FCAF18CDD4259B9879AFC1 /* QuizService.swift */; };
 		79611D79F5EE46F46ADD7A20 /* QuizState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF995983F75EFA9BFE6D2 /* QuizState.swift */; };
@@ -72,7 +71,6 @@
 		E1AC1D3DD8D99327531B6EE0 /* QuickAccessMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessMenu.swift; sourceTree = "<group>"; };
 		E96766FECABDE2F92A9CA894 /* BreathFlow5.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BreathFlow5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A2C0C339173EA2176C0B7D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		FA35E6409FBA2FAD42B901E6 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -101,7 +99,6 @@
 			isa = PBXGroup;
 			children = (
 				8CC96E6D89E81A86C434AC2B /* DecodingError.swift */,
-				FA35E6409FBA2FAD42B901E6 /* DependencyContainer.swift */,
 				490F5756FE7CE0F1CD844B1E /* DriveAIProject.swift */,
 				19D98EA842557AC12419B039 /* NavigationPath.swift */,
 				9DF761712476E46723ECAD42 /* PersistenceManager.swift */,
@@ -216,7 +213,6 @@
 				44047DFDFD6E4A8196C2F5B4 /* ContentView.swift in Sources */,
 				D863D70489FF40F70B47DE2B /* DecodingError.swift in Sources */,
 				2C2D6507A2F7C88766C37358 /* DefaultQuickAccessService.swift in Sources */,
-				5C0BD77333A07453CF8BA307 /* DependencyContainer.swift in Sources */,
 				FE8A6003109C3E55541D10C1 /* DriveAIProject.swift in Sources */,
 				2258E9F374B957F2F820DCE4 /* ExerciseSelectionService.swift in Sources */,
 				D2D3909F6827A49D27A24C03 /* HomeView.swift in Sources */,

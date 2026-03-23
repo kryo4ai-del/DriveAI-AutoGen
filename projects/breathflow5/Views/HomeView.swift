@@ -74,13 +74,3 @@ struct DriveAIApp: App {
         }
     }
 }
-
-class HomeViewModel: ObservableObject {
-    let quizService: QuizService
-    let readinessCalculator: ReadinessCalculator
-    
-    init(quizService: QuizService, readinessCalculator: ReadinessCalculator) {
-        self.quizService = quizService
-        self.readinessCalculator = readinessCalculator
-    }
-}

@@ -40,16 +40,12 @@ struct QuizState: Equatable, Sendable {
     mutating func reset() {
         self = QuizState()
     }
-    
-    static func == (lhs: QuizState, rhs: QuizState) -> Bool {
-        lhs.currentIndex == rhs.currentIndex &&
-        lhs.selectedAnswerIndex == rhs.selectedAnswerIndex &&
-        lhs.userAnswers.map({ $0 }) == rhs.userAnswers.map({ $0 }) &&
-        lhs.questions == rhs.questions &&
-        lhs.isLoading == rhs.isLoading &&
-        lhs.error == rhs.error &&
-        lhs.isComplete == rhs.isComplete
-    }
+}
+
+struct TriviaQuestion: Equatable, Sendable {
+    let question: String
+    let correctAnswer: String
+    let incorrectAnswers: [String]
 }
 
 enum QuizError: Error, Equatable, Sendable {
