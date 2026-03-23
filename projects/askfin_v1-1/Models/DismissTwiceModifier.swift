@@ -1,3 +1,4 @@
+import SwiftUI
 // This requires the NavigationStack path to be accessible.
 // Interim fix for MVP — pop twice using a helper:
 struct DismissTwiceModifier: ViewModifier {

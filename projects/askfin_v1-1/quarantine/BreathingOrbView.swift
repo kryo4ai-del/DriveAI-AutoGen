@@ -1,3 +1,4 @@
+import SwiftUI
 struct BreathingOrbView: View {
     let breathState: BreathState
 

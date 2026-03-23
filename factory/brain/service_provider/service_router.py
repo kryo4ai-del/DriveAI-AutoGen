@@ -67,6 +67,24 @@ class ServiceRouter:
         except ImportError:
             logger.warning("ElevenLabsSfxAdapter not available")
 
+        try:
+            from factory.brain.service_provider.adapters.image.recraft_adapter import RecraftAdapter
+            self._adapter_map["recraft_v3"] = RecraftAdapter
+        except ImportError:
+            logger.warning("RecraftAdapter not available")
+
+        try:
+            from factory.brain.service_provider.adapters.sound.suno_adapter import SunoAdapter
+            self._adapter_map["suno_ai"] = SunoAdapter
+        except ImportError:
+            logger.warning("SunoAdapter not available")
+
+        try:
+            from factory.brain.service_provider.adapters.video.runway_adapter import RunwayAdapter
+            self._adapter_map["runway_ml"] = RunwayAdapter
+        except ImportError:
+            logger.warning("RunwayAdapter not available")
+
         logger.info("ServiceRouter registered %d adapters: %s", len(self._adapter_map), list(self._adapter_map.keys()))
 
     def _create_adapter(self, service_id: str) -> Optional[BaseServiceAdapter]:

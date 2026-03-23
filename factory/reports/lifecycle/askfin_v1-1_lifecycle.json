@@ -1,19 +1,23 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-23 13:16:30",
-  "blocking_files_checked": 2,
-  "ai_generated_found": 0,
-  "quarantined": 0,
-  "kept": 2,
-  "actions": [],
-  "kept_reasons": [
+  "timestamp": "2026-03-23 13:53:36",
+  "blocking_files_checked": 1,
+  "ai_generated_found": 1,
+  "quarantined": 1,
+  "kept": 0,
+  "actions": [
     {
-      "filename": "App/StubServices.swift",
-      "reason": "protected path"
-    },
-    {
-      "filename": "App/PremiumRootView.swift",
-      "reason": "protected path"
+      "filename": "MeditationSessionService.swift",
+      "original_path": "Services/MeditationSessionService.swift",
+      "quarantine_path": "quarantine\\20260323_135336_MeditationSessionService.swift",
+      "blocking_issue": "Type 'DEBUG' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "cddc2868",
+        "commit_message": "AI run: Design and implement the DriveAI feature: MeditationTimer. Include archi",
+        "author_date": "2026-03-23 13:53:34 +0100"
+      }
     }
-  ]
+  ],
+  "kept_reasons": []
 }

@@ -292,7 +292,8 @@ _FRAMEWORK_TYPES = frozenset({
     "RunLoop",
     "URLSession",
     "TimeZone",
-    "Self", "ObservableObject", "Published", "ObservedObject", "StateObject",
+    "Self", "DEBUG", "RELEASE", "SWIFT_PACKAGE", "TARGET_OS_SIMULATOR",
+    "ObservableObject", "Published", "ObservedObject", "StateObject",
     "EnvironmentObject", "Binding", "Environment", "ViewBuilder", "ViewModifier",
     "NavigationStack", "NavigationView", "NavigationLink", "TabView", "ScrollView",
     "List", "ForEach", "Section", "Form", "Button", "Text", "Image",
@@ -890,7 +891,7 @@ _KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
     "UIAccessibility", "UIScreen", "UIDevice", "UIWindow",
     "UIViewController", "UINavigationController", "UITabBarController",
     # Compiler directives and debug
-    "DEBUG", "RELEASE", "SWIFT_PACKAGE",
+    "DEBUG", "RELEASE", "SWIFT_PACKAGE", "TARGET_OS_SIMULATOR",
     # Common patterns that aren't user types
     "TODO", "FIXME", "MARK", "NOTE",
     "TypeValue", "TypeName", "ClassName",
