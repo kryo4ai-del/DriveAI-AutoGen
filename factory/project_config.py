@@ -23,6 +23,25 @@ class LineConfig:
     architecture: str = ""
     build_tool: str = ""
     min_target: str = ""
+    quality_priority: dict = field(default_factory=dict)
+
+    def get_quality_score(self) -> float:
+        """Compute 0.0-1.0 quality priority score from attributes.
+        high=3, medium=2, low=1. runtime_tolerance is inverted (low=3).
+        Returns average normalized to 0.0-1.0 range."""
+        if not self.quality_priority:
+            return 0.5  # neutral default — no bias
+        value_map = {'high': 3, 'medium': 2, 'low': 1}
+        invert = {'runtime_tolerance'}  # low tolerance = HIGH priority
+        scores = []
+        for key, val in self.quality_priority.items():
+            numeric = value_map.get(val, 2)
+            if key in invert:
+                numeric = 4 - numeric  # low(1) becomes 3, high(3) becomes 1
+            scores.append(numeric)
+        if not scores:
+            return 0.5
+        return round((sum(scores) / len(scores) - 1) / 2, 2)  # normalize 1-3 to 0.0-1.0
 
 
 @dataclass
@@ -72,6 +91,7 @@ def _parse_line(data: dict) -> LineConfig:
         architecture=data.get("architecture", ""),
         build_tool=data.get("build_tool", ""),
         min_target=data.get("min_target", ""),
+        quality_priority=data.get("quality_priority", {}),
     )
 
 

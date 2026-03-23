@@ -1,4 +1,5 @@
 import XCTest
+import Foundation
 
 final class ScreenshotTests: XCTestCase {
     let app = XCUIApplication()

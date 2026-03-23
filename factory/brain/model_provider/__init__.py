@@ -22,20 +22,49 @@ def get_router() -> ProviderRouter:
     return _router
 
 
+def _get_quality_score(line: str, project_name: str) -> float:
+    """Load quality priority score for a line from project config.
+    Returns 0.5 (neutral) if unavailable — fail-open."""
+    if not line or not project_name:
+        return 0.5
+    try:
+        from factory.project_config import load_project_config
+        pc = load_project_config(project_name)
+        if line in pc.lines:
+            return pc.lines[line].get_quality_score()
+    except Exception:
+        pass
+    return 0.5
+
+
+# Task types where quality priority applies (code-generating tasks)
+_QUALITY_SENSITIVE_TASKS = frozenset({
+    "code_generation", "architecture", "refactoring",
+    "bug_hunting", "test_generation",
+})
+
+
 def get_model(
     agent_name: str = "",
     task_type: str = "code_generation",
     profile: str = "dev",
     expected_output_tokens: int = 4096,
     line: str = "",
+    project_name: str = "",
 ) -> dict:
     """Central model selection — TheBrain decides.
 
     Phase A: Simple tier-based selection from registry.
     Phase B: Will use Chain Optimizer benchmarks.
     Phase C: Will use autonomous optimization.
+    Quality Priority: Higher-quality models for high-priority lines.
     """
     registry = get_registry()
+
+    # Load quality score (only for code-generating tasks)
+    quality_score = 0.5
+    if task_type in _QUALITY_SENSITIVE_TASKS:
+        quality_score = _get_quality_score(line, project_name)
 
     # Phase B: Check Chain Optimizer profile first
     try:
@@ -43,6 +72,8 @@ def get_model(
         if cp and agent_name in cp.chain:
             ac = cp.chain[agent_name]
             mi = registry.get_model(ac["model"])
+            if quality_score != 0.5:
+                print(f"  [TheBrain] Line: {line}, Quality Score: {quality_score}, Selected: {ac['model']} (chain profile)")
             return {
                 "model": ac["model"],
                 "provider": ac["provider"],
@@ -50,6 +81,7 @@ def get_model(
                 "fallback_model": None,
                 "fallback_provider": None,
                 "source": f"chain_optimizer ({cp.confidence})",
+                "quality_score": quality_score,
                 "split_strategy": {"should_split": False, "call_count": 1,
                                    "alternative_model": None, "reason": "chain profile"},
             }
@@ -77,9 +109,13 @@ def get_model(
             "fallback_model": None,
             "fallback_provider": None,
             "source": "hardcoded_fallback",
+            "quality_score": quality_score,
         }
 
-    candidates.sort(key=lambda m: m.price_per_1k_output)
+    # Quality-weighted sort: multiply price by (1.0 - quality_score)
+    # High quality_score → cheap models appear more expensive → better model selected
+    # Neutral (0.5) → factor is 0.5 for all → same relative order as pure cost sort
+    candidates.sort(key=lambda m: m.price_per_1k_output * (1.0 - quality_score))
     selected = candidates[0]
 
     fallback = None
@@ -92,6 +128,10 @@ def get_model(
     splitter = AutoSplitter(registry)
     strategy = splitter.analyze(selected.model_id, selected.provider, expected_output_tokens)
 
+    if quality_score != 0.5:
+        final_model = strategy.alternative_model or selected.model_id
+        print(f"  [TheBrain] Line: {line}, Quality Score: {quality_score}, Selected: {final_model}")
+
     result = {
         "model": strategy.alternative_model or selected.model_id,
         "provider": strategy.alternative_provider or selected.provider,
@@ -99,6 +139,7 @@ def get_model(
         "fallback_model": fallback.model_id if fallback else None,
         "fallback_provider": fallback.provider if fallback else None,
         "source": f"registry_tier_{tier}",
+        "quality_score": quality_score,
         "split_strategy": {
             "should_split": strategy.should_split,
             "call_count": strategy.call_count,

@@ -16,6 +16,14 @@ lines:
     architecture: app_router
     build_tool: npm
     min_target: "Next.js 14+, React 18+"
+    quality_priority:
+      compiler_strictness: low
+      platform_review: low
+      type_safety: medium
+      runtime_tolerance: medium
+      testability: medium
+      user_impact: high
+      change_risk: low
   backend:
     status: disabled
 

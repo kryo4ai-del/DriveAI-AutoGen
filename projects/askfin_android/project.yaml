@@ -14,6 +14,14 @@ lines:
     architecture: mvvm
     build_tool: gradle
     min_target: "Android API 26 (8.0)"
+    quality_priority:
+      compiler_strictness: medium
+      platform_review: medium
+      type_safety: high
+      runtime_tolerance: medium
+      testability: medium
+      user_impact: high
+      change_risk: medium
   web:
     status: disabled
   backend:

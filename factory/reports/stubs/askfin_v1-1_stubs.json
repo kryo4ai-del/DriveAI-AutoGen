@@ -1,40 +1,113 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 19:04:25",
-  "fk014_count": 3,
-  "stubs_created": 3,
-  "stubs_skipped": 0,
+  "timestamp": "2026-03-23 08:53:08",
+  "fk014_count": 23,
+  "stubs_created": 1,
+  "stubs_skipped": 22,
   "actions": [
     {
-      "type_name": "ClosedRange",
-      "kind": "struct",
-      "file_path": "Models\\ClosedRange.swift",
+      "type_name": "XCUIScreen",
+      "kind": "view",
+      "file_path": "Views\\XCUIScreen.swift",
       "ref_files": [
-        "Models/ReadinessMilestone.swift",
-        "Services/ReadinessService.swift"
-      ]
-    },
-    {
-      "type_name": "ReadinessLabel",
-      "kind": "struct",
-      "file_path": "Models\\ReadinessLabel.swift",
-      "ref_files": [
-        "Models/ReadinessScore+Extension.swift",
-        "Models/ReadinessScoreGauge.swift",
-        "Models/ReadinessScoreTests.swift"
-      ]
-    },
-    {
-      "type_name": "Trend",
-      "kind": "struct",
-      "file_path": "Models\\Trend.swift",
-      "ref_files": [
-        "Models/ReadinessScoreTests.swift",
-        "Models/ReadinessScoringEngine.swift",
-        "Models/TrendBadge.swift",
-        "Services/ReadinessService.swift"
+        "UITests/GeneralprobeRuntimeTests.swift",
+        "UITests/InFlowSmokeTests.swift",
+        "UITests/MultiSessionTests.swift",
+        "UITests/PostSessionStateTests.swift",
+        "UITests/ScreenshotTests.swift",
+        "UITests/SkillMapRuntimeTests.swift",
+        "UITests/TrainingJourneyTests.swift"
       ]
     }
   ],
-  "skipped": []
+  "skipped": [
+    {
+      "type_name": "AnyCancellable",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Bundle",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Button",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "CGFloat",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Combine",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "DEBUG",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Decoder",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Encoder",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "FileManager",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "GeometryReader",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Hasher",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "NSObject",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "NavigationStack",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "ObservableObject",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "ObservedObject",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Published",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "ScrollView",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "Self",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "StateObject",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "UIAccessibility",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "UIColor",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    },
+    {
+      "type_name": "ViewBuilder",
+      "reason": "framework/stdlib type \u2014 should not be stubbed"
+    }
+  ]
 }

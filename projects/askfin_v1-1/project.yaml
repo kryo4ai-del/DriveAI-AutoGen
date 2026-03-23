@@ -12,6 +12,14 @@ lines:
     architecture: mvvm
     build_tool: xcodegen
     min_target: "iOS 17.0"
+    quality_priority:
+      compiler_strictness: high
+      platform_review: high
+      type_safety: high
+      runtime_tolerance: low
+      testability: high
+      user_impact: high
+      change_risk: high
   android:
     status: planned
     language: kotlin

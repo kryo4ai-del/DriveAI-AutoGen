@@ -69,7 +69,7 @@ def _get_api_key(provider: str) -> str:
 
 # ── TheBrain-aware config ──────────────────────────────────────
 def get_llm_config(profile_override: str = "", agent_name: str = "",
-                   task_type: str = "", line: str = "") -> dict:
+                   task_type: str = "", line: str = "", project_name: str = "") -> dict:
     """Return AutoGen-compatible LLM config.
 
     With TheBrain: selects optimal model/provider from registry.
@@ -86,6 +86,7 @@ def get_llm_config(profile_override: str = "", agent_name: str = "",
                 task_type=task_type,
                 profile=profile_name,
                 line=line,
+                project_name=project_name,
             )
             _brain_selection = selection
             provider = selection["provider"]

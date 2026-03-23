@@ -1,32 +1,204 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-15 17:12:56",
-  "blocking_files_checked": 3,
-  "ai_generated_found": 1,
-  "quarantined": 1,
-  "kept": 2,
+  "timestamp": "2026-03-23 08:53:09",
+  "blocking_files_checked": 22,
+  "ai_generated_found": 13,
+  "quarantined": 13,
+  "kept": 9,
   "actions": [
     {
-      "filename": "ReadinessCalculationServiceTests.swift",
-      "original_path": "Models/ReadinessCalculationServiceTests.swift",
-      "quarantine_path": "quarantine\\20260315_171256_ReadinessCalculationServiceTests.swift",
-      "blocking_issue": "Call to ReadinessScore() uses labels ['overall', 'timestamp'] \u2014 no known init matches (0% match)",
+      "filename": "ExamSessionViewModelTests.swift",
+      "original_path": "Models/ExamSessionViewModelTests.swift",
+      "quarantine_path": "quarantine\\20260323_085309_ExamSessionViewModelTests.swift",
+      "blocking_issue": "Type 'AnyCancellable' referenced in 6 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "cdba6680",
+        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
+        "author_date": "2026-03-15 11:49:40 +0100"
+      }
+    },
+    {
+      "filename": "PremiumLocalDataService.swift",
+      "original_path": "Services/PremiumLocalDataService.swift",
+      "quarantine_path": "quarantine\\20260323_085309_PremiumLocalDataService.swift",
+      "blocking_issue": "Type 'Bundle' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "6ad19998",
+        "commit_message": "AI run: Design and implement the Exam Simulation + Readiness Layer for AskFin Pr",
+        "author_date": "2026-03-13 16:15:22 +0100"
+      }
+    },
+    {
+      "filename": "ReadinessDesignTokens.swift",
+      "original_path": "Models/ReadinessDesignTokens.swift",
+      "quarantine_path": "quarantine\\20260323_085309_ReadinessDesignTokens.swift",
+      "blocking_issue": "Type 'CGFloat' referenced in 3 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "1cdf64bc",
+        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
+        "author_date": "2026-03-14 10:39:14 +0100"
+      }
+    },
+    {
+      "filename": "ReadinessScoreGauge.swift",
+      "original_path": "Models/ReadinessScoreGauge.swift",
+      "quarantine_path": "quarantine\\20260323_085309_ReadinessScoreGauge.swift",
+      "blocking_issue": "Type 'DEBUG' referenced in 4 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "b8a2adfc",
+        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
+        "author_date": "2026-03-15 19:04:23 +0100"
+      }
+    },
+    {
+      "filename": "AnswerStatus.swift",
+      "original_path": "Models/AnswerStatus.swift",
+      "quarantine_path": "quarantine\\20260323_085309_AnswerStatus.swift",
+      "blocking_issue": "Type 'Decoder' referenced in 3 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "122a0458",
+        "commit_message": "AI run: FOCUSED RECOVERY RUN \u00e2\u20ac\u201d askfin_premium ==================================",
+        "author_date": "2026-03-13 17:07:35 +0100"
+      }
+    },
+    {
+      "filename": "AssessmentPersistenceServiceProtocol.swift",
+      "original_path": "Models/AssessmentPersistenceServiceProtocol.swift",
+      "quarantine_path": "quarantine\\20260323_085309_AssessmentPersistenceServiceProtocol.swift",
+      "blocking_issue": "Type 'FileManager' referenced in 4 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "16537a9b",
+        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
+        "author_date": "2026-03-15 08:48:22 +0100"
+      }
+    },
+    {
+      "filename": "TopicDetailView.swift",
+      "original_path": "Views/Training/TopicDetailView.swift",
+      "quarantine_path": "quarantine\\20260323_085309_TopicDetailView.swift",
+      "blocking_issue": "Type 'GeometryReader' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "122a0458",
+        "commit_message": "AI run: FOCUSED RECOVERY RUN \u00e2\u20ac\u201d askfin_premium ==================================",
+        "author_date": "2026-03-13 17:07:35 +0100"
+      }
+    },
+    {
+      "filename": "ReadinessDestination.swift",
+      "original_path": "Models/ReadinessDestination.swift",
+      "quarantine_path": "quarantine\\20260323_085309_ReadinessDestination.swift",
+      "blocking_issue": "Type 'Hasher' referenced in 2 files but never declared in project",
       "provenance": {
         "is_ai_generated": true,
         "commit_hash": "d5dfdff9",
         "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
         "author_date": "2026-03-15 17:12:52 +0100"
       }
+    },
+    {
+      "filename": "TrainingSessionManager.swift",
+      "original_path": "Services/TrainingSessionManager.swift",
+      "quarantine_path": "quarantine\\20260323_085309_TrainingSessionManager.swift",
+      "blocking_issue": "Type 'NSObject' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "6ad19998",
+        "commit_message": "AI run: Design and implement the Exam Simulation + Readiness Layer for AskFin Pr",
+        "author_date": "2026-03-13 16:15:22 +0100"
+      }
+    },
+    {
+      "filename": "AppCoordinator.swift",
+      "original_path": "Models/AppCoordinator.swift",
+      "quarantine_path": "quarantine\\20260323_085309_AppCoordinator.swift",
+      "blocking_issue": "Type 'ObservableObject' referenced in 19 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "cdba6680",
+        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
+        "author_date": "2026-03-15 11:49:40 +0100"
+      }
+    },
+    {
+      "filename": "ExamSimulationError.swift",
+      "original_path": "Models/ExamSimulationError.swift",
+      "quarantine_path": "quarantine\\20260323_085309_ExamSimulationError.swift",
+      "blocking_issue": "Type 'Self' referenced in 5 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "122a0458",
+        "commit_message": "AI run: FOCUSED RECOVERY RUN \u00e2\u20ac\u201d askfin_premium ==================================",
+        "author_date": "2026-03-13 17:07:35 +0100"
+      }
+    },
+    {
+      "filename": "ExamSimulationViewModel.swift",
+      "original_path": "ViewModels/ExamSimulationViewModel.swift",
+      "quarantine_path": "quarantine\\20260323_085309_ExamSimulationViewModel.swift",
+      "blocking_issue": "Type 'UIAccessibility' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "122a0458",
+        "commit_message": "AI run: FOCUSED RECOVERY RUN \u00e2\u20ac\u201d askfin_premium ==================================",
+        "author_date": "2026-03-13 17:07:35 +0100"
+      }
+    },
+    {
+      "filename": "RecommendationCard.swift",
+      "original_path": "Models/RecommendationCard.swift",
+      "quarantine_path": "quarantine\\20260323_085309_RecommendationCard.swift",
+      "blocking_issue": "Type 'UIColor' referenced in 2 files but never declared in project",
+      "provenance": {
+        "is_ai_generated": true,
+        "commit_hash": "1ca11bf8",
+        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
+        "author_date": "2026-03-15 14:20:40 +0100"
+      }
     }
   ],
   "kept_reasons": [
     {
-      "filename": "Models/ReadinessCalculationServiceTests.swift",
+      "filename": "Views/Components/DashboardSubViews.swift",
+      "reason": "not AI-generated (commit: fix(askfin_premium): resolve all 10 code review bu)"
+    },
+    {
+      "filename": "App/StubServices.swift",
+      "reason": "protected path"
+    },
+    {
+      "filename": "Models/AnswerStatus.swift",
       "reason": "file does not exist"
     },
     {
-      "filename": "Models/ReadinessCalculationServiceTests.swift",
+      "filename": "App/PremiumHomeView.swift",
+      "reason": "protected path"
+    },
+    {
+      "filename": "App/PremiumHomeView.swift",
+      "reason": "protected path"
+    },
+    {
+      "filename": "Models/AppCoordinator.swift",
       "reason": "file does not exist"
+    },
+    {
+      "filename": "App/PremiumHomeView.swift",
+      "reason": "protected path"
+    },
+    {
+      "filename": "App/AskFinApp.swift",
+      "reason": "protected path"
+    },
+    {
+      "filename": "App/PremiumHomeView.swift",
+      "reason": "protected path"
     }
   ]
 }

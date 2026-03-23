@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 228,
+  "files_scanned": 217,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,34 +10,17 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "WARNINGS",
-  "issues_found": 22,
-  "blocking": 0,
-  "warnings": 22,
+  "status": "BLOCKING",
+  "issues_found": 31,
+  "blocking": 17,
+  "warnings": 14,
   "issues": [
-    {
-      "pattern_id": "FK-015",
-      "severity": "warning",
-      "file": "Models/ReadinessStrings.swift",
-      "message": "Bundle.module is only available in Swift Package targets, not regular Xcode apps",
-      "line": 26,
-      "matched_text": "bundle: .module"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "warning",
-      "file": "App/PremiumHomeView.swift",
-      "message": "Call to TopicPickerView() uses labels ['TODO', 'competenceService', 'onSelectTopic'] — no known init matches (33% match)",
-      "line": 35,
-      "matched_text": "TopicPickerView(",
-      "type_name": "TopicPickerView"
-    },
     {
       "pattern_id": "FK-013",
       "severity": "warning",
       "file": "Models/ExamReadinessViewModelTests.swift",
       "message": "Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)",
-      "line": 6,
+      "line": 7,
       "matched_text": "CategoryReadiness(id: \"1\", categoryName: \"Signs\", completionPercentage: 80, ...),",
       "type_name": "CategoryReadiness"
     },
@@ -46,36 +29,9 @@
       "severity": "warning",
       "file": "Models/ExamReadinessViewModelTests.swift",
       "message": "Call to CategoryReadiness() uses labels ['categoryName', 'completionPercentage', 'id'] — no known init matches (33% match)",
-      "line": 7,
+      "line": 8,
       "matched_text": "CategoryReadiness(id: \"2\", categoryName: \"Rules\", completionPercentage: 60, ...)",
       "type_name": "CategoryReadiness"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "warning",
-      "file": "Models/ExamSessionViewModelTests.swift",
-      "message": "Call to ExamSessionViewModel() uses labels ['examSessionService', 'persistenceService', 'questionRepository', 'session', 'timerService'] — no known init matches (20% match)",
-      "line": 33,
-      "matched_text": "sut = ExamSessionViewModel(",
-      "type_name": "ExamSessionViewModel"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "warning",
-      "file": "Models/ReadinessScoreTests.swift",
-      "message": "Call to ReadinessScore() uses labels ['computedAt', 'trend', 'value'] — no known init matches (33% match)",
-      "line": 19,
-      "matched_text": "let score = ReadinessScore(value: value, computedAt: .now, trend: .stable)",
-      "type_name": "ReadinessScore"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "warning",
-      "file": "Models/ReadinessScoreTests.swift",
-      "message": "Call to ReadinessScore() uses labels ['computedAt', 'trend', 'value'] — no known init matches (33% match)",
-      "line": 34,
-      "matched_text": "let score = ReadinessScore(value: 0.75, computedAt: .now, trend: trend)",
-      "type_name": "ReadinessScore"
     },
     {
       "pattern_id": "FK-013",
@@ -134,24 +90,6 @@
     {
       "pattern_id": "FK-013",
       "severity": "warning",
-      "file": "Services/MockReadinessCalculationService.swift",
-      "message": "Call to ExamReadinessSnapshot() uses labels ['categoryBreakdown', 'correctAnswers', 'id', 'name', 'overallReadinessPercentage', 'questionsAnswered', 'readinessPercentage'] — no known init matches (28% match)",
-      "line": 12,
-      "matched_text": "ExamReadinessSnapshot(",
-      "type_name": "ExamReadinessSnapshot"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "warning",
-      "file": "Services/ReadinessService.swift",
-      "message": "Call to ReadinessScore() uses labels ['computedAt', 'trend', 'value'] — no known init matches (33% match)",
-      "line": 45,
-      "matched_text": "let finalScore = ReadinessScore(",
-      "type_name": "ReadinessScore"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "warning",
       "file": "Views/Components/ExamCountdownCard.swift",
       "message": "Call to ExamCountdownCard() uses labels ['countdown', 'daysRemaining', 'examDate'] — no known init matches (33% match)",
       "line": 128,
@@ -188,15 +126,6 @@
     {
       "pattern_id": "FK-013",
       "severity": "warning",
-      "file": "Views/ExamReadinessView.swift",
-      "message": "Call to ExamReadinessView() uses labels ['getCategoryName', 'viewModel', 'where'] — no known init matches (33% match)",
-      "line": 14,
-      "matched_text": "ExamReadinessView(",
-      "type_name": "ExamReadinessView"
-    },
-    {
-      "pattern_id": "FK-013",
-      "severity": "warning",
       "file": "Views/PremiumDashboardView.swift",
       "message": "Call to ExamStartModal() uses labels ['duration', 'isPresented', 'onStartExam'] — no known init matches (33% match)",
       "line": 31,
@@ -208,9 +137,257 @@
       "severity": "warning",
       "file": "Views/Training/AnswerRevealView.swift",
       "message": "Call to DirectionalArrow() uses labels ['blue', 'color', 'direction', 'green', 'red'] — no known init matches (40% match)",
-      "line": 116,
+      "line": 117,
       "matched_text": "DirectionalArrow(",
       "type_name": "DirectionalArrow"
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/ExamSimulation.swift",
+      "message": "Type 'AnswerStatus' referenced in 2 files but never declared in project",
+      "type_name": "AnswerStatus",
+      "other_files": [
+        "Models/SimulationResult.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "ViewModels/BreathFlowViewModel.swift",
+      "message": "Type 'AnyCancellable' referenced in 4 files but never declared in project",
+      "type_name": "AnyCancellable",
+      "other_files": [
+        "ViewModels/PremiumDashboardViewModel.swift",
+        "ViewModels/SkillMapViewModel.swift",
+        "ViewModels/TrainingModeViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Views/Components/DashboardSubViews.swift",
+      "message": "Type 'Button' referenced in 3 files but never declared in project",
+      "type_name": "Button",
+      "other_files": [
+        "Views/Training/AnswerRevealView.swift",
+        "Views/Training/QuestionCardView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "App/StubServices.swift",
+      "message": "Type 'Combine' referenced in 20 files but never declared in project",
+      "type_name": "Combine",
+      "other_files": [
+        "Models/SimulationMode.swift",
+        "Models/TrendAnalyzer.swift",
+        "Services/ExamTimerService.swift",
+        "Services/NetworkMonitor.swift",
+        "Services/SessionHistoryStore.swift",
+        "Services/TopicCompetenceService.swift",
+        "ViewModels/BaseViewModel.swift",
+        "ViewModels/BreathFlowViewModel.swift",
+        "ViewModels/CategorySelectionViewModel.swift",
+        "ViewModels/ExamReadinessViewModel.swift",
+        "ViewModels/ExamSessionViewModel.swift",
+        "ViewModels/OfflineStatusViewModel.swift",
+        "ViewModels/PracticeModeViewModel.swift",
+        "ViewModels/PremiumDashboardViewModel.swift",
+        "ViewModels/RecommendationViewModel.swift",
+        "ViewModels/SimulationResultViewModel.swift",
+        "ViewModels/SkillMapViewModel.swift",
+        "ViewModels/TrainingModeViewModel.swift",
+        "ViewModels/TrainingSessionViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Services/PersistenceService.swift",
+      "message": "Type 'DEBUG' referenced in 3 files but never declared in project",
+      "type_name": "DEBUG",
+      "other_files": [
+        "ViewModels/TrainingModeViewModel.swift",
+        "Views/Training/TrainingSessionView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/ExamSimulation.swift",
+      "message": "Type 'Decoder' referenced in 2 files but never declared in project",
+      "type_name": "Decoder",
+      "other_files": [
+        "Models/SimulationResult.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/ExamSimulation.swift",
+      "message": "Type 'Encoder' referenced in 2 files but never declared in project",
+      "type_name": "Encoder",
+      "other_files": [
+        "Models/SimulationResult.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/ExamSimulation.swift",
+      "message": "Type 'ExamSimulationError' referenced in 2 files but never declared in project",
+      "type_name": "ExamSimulationError",
+      "other_files": [
+        "Services/ReadinessScoreService.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "App/PremiumHomeView.swift",
+      "message": "Type 'NavigationStack' referenced in 6 files but never declared in project",
+      "type_name": "NavigationStack",
+      "other_files": [
+        "App/PremiumRootView.swift",
+        "Views/PremiumDashboardView.swift",
+        "Views/Simulation/ExamSimulationView.swift",
+        "Views/Simulation/SimulationResultView.swift",
+        "Views/Training/TrainingSessionView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/TrendAnalyzer.swift",
+      "message": "Type 'ObservableObject' referenced in 17 files but never declared in project",
+      "type_name": "ObservableObject",
+      "other_files": [
+        "Services/ExamTimerService.swift",
+        "Services/NetworkMonitor.swift",
+        "Services/SessionHistoryStore.swift",
+        "Services/TopicCompetenceService.swift",
+        "ViewModels/BaseViewModel.swift",
+        "ViewModels/BreathFlowViewModel.swift",
+        "ViewModels/CategorySelectionViewModel.swift",
+        "ViewModels/ExamReadinessDashboardViewModel.swift",
+        "ViewModels/ExamReadinessViewModel.swift",
+        "ViewModels/OfflineStatusViewModel.swift",
+        "ViewModels/PracticeModeViewModel.swift",
+        "ViewModels/PremiumDashboardViewModel.swift",
+        "ViewModels/RecommendationViewModel.swift",
+        "ViewModels/SimulationResultViewModel.swift",
+        "ViewModels/SkillMapViewModel.swift",
+        "ViewModels/TrainingSessionViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "App/PremiumHomeView.swift",
+      "message": "Type 'ObservedObject' referenced in 5 files but never declared in project",
+      "type_name": "ObservedObject",
+      "other_files": [
+        "App/PremiumRootView.swift",
+        "Views/ExamTimerView.swift",
+        "Views/Training/SessionSummaryView.swift",
+        "Views/Training/TopicPickerView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "ViewModels/CategorySelectionViewModel.swift",
+      "message": "Type 'PremiumDefaultLocalDataService' referenced in 3 files but never declared in project",
+      "type_name": "PremiumDefaultLocalDataService",
+      "other_files": [
+        "ViewModels/PracticeModeViewModel.swift",
+        "ViewModels/TrainingModeViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Services/ExamTimerService.swift",
+      "message": "Type 'Published' referenced in 16 files but never declared in project",
+      "type_name": "Published",
+      "other_files": [
+        "Services/NetworkMonitor.swift",
+        "Services/SessionHistoryStore.swift",
+        "Services/TopicCompetenceService.swift",
+        "ViewModels/BaseViewModel.swift",
+        "ViewModels/BreathFlowViewModel.swift",
+        "ViewModels/CategorySelectionViewModel.swift",
+        "ViewModels/ExamReadinessDashboardViewModel.swift",
+        "ViewModels/ExamReadinessViewModel.swift",
+        "ViewModels/ExamSessionViewModel.swift",
+        "ViewModels/OfflineStatusViewModel.swift",
+        "ViewModels/PracticeModeViewModel.swift",
+        "ViewModels/PremiumDashboardViewModel.swift",
+        "ViewModels/RecommendationViewModel.swift",
+        "ViewModels/SkillMapViewModel.swift",
+        "ViewModels/TrainingSessionViewModel.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "App/PremiumHomeView.swift",
+      "message": "Type 'ScrollView' referenced in 8 files but never declared in project",
+      "type_name": "ScrollView",
+      "other_files": [
+        "Views/PremiumDashboardView.swift",
+        "Views/Simulation/ExamHistoryView.swift",
+        "Views/Simulation/SimulationResultView.swift",
+        "Views/SkillMap/SkillMapView.swift",
+        "Views/Training/AnswerRevealView.swift",
+        "Views/Training/SessionSummaryView.swift",
+        "Views/Training/TopicPickerView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "Models/ReadinessAssessment.swift",
+      "message": "Type 'Self' referenced in 4 files but never declared in project",
+      "type_name": "Self",
+      "other_files": [
+        "Models/SimulationResult.swift",
+        "Models/SpacingItem.swift",
+        "Models/TopicDomain.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "App/AskFinApp.swift",
+      "message": "Type 'StateObject' referenced in 7 files but never declared in project",
+      "type_name": "StateObject",
+      "other_files": [
+        "ViewModels/ExamSessionViewModel.swift",
+        "Views/PremiumDashboardView.swift",
+        "Views/Simulation/ExamSimulationView.swift",
+        "Views/Simulation/SimulationResultView.swift",
+        "Views/SkillMap/SkillMapView.swift",
+        "Views/Training/TrainingSessionView.swift"
+      ]
+    },
+    {
+      "pattern_id": "FK-014",
+      "severity": "blocking",
+      "file": "App/PremiumHomeView.swift",
+      "message": "Type 'ViewBuilder' referenced in 8 files but never declared in project",
+      "type_name": "ViewBuilder",
+      "other_files": [
+        "Models/CategoryBreakdownSection.swift",
+        "Models/ReadinessHeaderSection.swift",
+        "Views/Components/ExamCountdownCard.swift",
+        "Views/PremiumDashboardView.swift",
+        "Views/ReadinessScoreView.swift",
+        "Views/Simulation/SimulationResultView.swift",
+        "Views/Training/TrainingSessionView.swift"
+      ]
     }
   ]
 }

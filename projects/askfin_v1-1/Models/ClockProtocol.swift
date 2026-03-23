@@ -1,3 +1,4 @@
+import Foundation
 protocol ClockProtocol {
     var now: Date { get }
 }
