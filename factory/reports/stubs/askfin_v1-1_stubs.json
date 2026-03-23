@@ -1,32 +1,42 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-23 08:53:08",
-  "fk014_count": 23,
-  "stubs_created": 1,
-  "stubs_skipped": 22,
+  "timestamp": "2026-03-23 11:41:33",
+  "fk014_count": 18,
+  "stubs_created": 3,
+  "stubs_skipped": 15,
   "actions": [
     {
-      "type_name": "XCUIScreen",
-      "kind": "view",
-      "file_path": "Views\\XCUIScreen.swift",
+      "type_name": "AnswerStatus",
+      "kind": "enum",
+      "file_path": "Models\\AnswerStatus.swift",
       "ref_files": [
-        "UITests/GeneralprobeRuntimeTests.swift",
-        "UITests/InFlowSmokeTests.swift",
-        "UITests/MultiSessionTests.swift",
-        "UITests/PostSessionStateTests.swift",
-        "UITests/ScreenshotTests.swift",
-        "UITests/SkillMapRuntimeTests.swift",
-        "UITests/TrainingJourneyTests.swift"
+        "Models/ExamSimulation.swift",
+        "Models/SimulationResult.swift"
+      ]
+    },
+    {
+      "type_name": "ExamSimulationError",
+      "kind": "struct",
+      "file_path": "Models\\ExamSimulationError.swift",
+      "ref_files": [
+        "Models/ExamSimulation.swift",
+        "Services/ReadinessScoreService.swift"
+      ]
+    },
+    {
+      "type_name": "PremiumDefaultLocalDataService",
+      "kind": "class",
+      "file_path": "Services\\PremiumDefaultLocalDataService.swift",
+      "ref_files": [
+        "ViewModels/CategorySelectionViewModel.swift",
+        "ViewModels/PracticeModeViewModel.swift",
+        "ViewModels/TrainingModeViewModel.swift"
       ]
     }
   ],
   "skipped": [
     {
       "type_name": "AnyCancellable",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Bundle",
       "reason": "framework/stdlib type \u2014 should not be stubbed"
     },
     {
@@ -51,22 +61,6 @@
     },
     {
       "type_name": "Encoder",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "FileManager",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "GeometryReader",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Hasher",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "NSObject",
       "reason": "framework/stdlib type \u2014 should not be stubbed"
     },
     {
@@ -95,14 +89,6 @@
     },
     {
       "type_name": "StateObject",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "UIAccessibility",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "UIColor",
       "reason": "framework/stdlib type \u2014 should not be stubbed"
     },
     {

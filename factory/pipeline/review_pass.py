@@ -113,6 +113,7 @@ async def run_review_pass(
     profile: str = "dev",
     line: str = "",
     logger=None,
+    project_name: str = "",
 ) -> ReviewResult:
     """Execute a review pass as a single direct API call.
 
@@ -133,6 +134,7 @@ async def run_review_pass(
                 task_type=_PASS_TASK_TYPE.get(pass_name, "code_review"),
                 profile=profile,
                 line=line,
+                project_name=project_name,
             )
             router = get_router()
             response = router.call(

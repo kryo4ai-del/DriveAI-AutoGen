@@ -389,7 +389,7 @@ async def run_pipeline(
                     task_prompt=bug_review_task, code_context=_code_ctx,
                     impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
                     knowledge_block=_bug_knowledge if _bug_knowledge else "",
-                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger, project_name=project_name or "")
                 class _FakeResult:
                     messages = bug_review_result_rr.messages
                 bug_result = _FakeResult()
@@ -441,7 +441,7 @@ async def run_pipeline(
                     task_prompt=cd_review_task, code_context=_code_ctx,
                     impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
                     knowledge_block=_cd_knowledge if _cd_knowledge else "",
-                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger, project_name=project_name or "")
                 class _FakeResult2:
                     messages = cd_review_result_rr.messages
                 cd_result = _FakeResult2()
@@ -534,7 +534,7 @@ async def run_pipeline(
                     agent_name="ux_psychology", pass_name="ux_psychology",
                     task_prompt=ux_review_task, code_context=_code_ctx,
                     impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
-                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger, project_name=project_name or "")
                 class _FakeResult3:
                     messages = ux_review_result_rr.messages
                 ux_result = _FakeResult3()
@@ -584,7 +584,7 @@ async def run_pipeline(
                     agent_name="refactor_agent", pass_name="refactor",
                     task_prompt=refactor_task, code_context=_code_ctx,
                     impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
-                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger, project_name=project_name or "")
                 class _FakeResult4:
                     messages = refactor_result_rr.messages
                 refactor_result = _FakeResult4()
@@ -621,7 +621,7 @@ async def run_pipeline(
                     agent_name="test_generator", pass_name="test_generation",
                     task_prompt=test_task, code_context=_code_ctx,
                     impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
-                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger, project_name=project_name or "")
                 class _FakeResult5:
                     messages = test_result_rr.messages
                 test_result = _FakeResult5()
@@ -658,7 +658,7 @@ async def run_pipeline(
                     agent_name="swift_developer", pass_name="fix_execution",
                     task_prompt=fix_task, code_context=_code_ctx,
                     impl_summary=impl_summary, review_digests=_build_review_context(review_digests),
-                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger)
+                    platform=_platform, profile=profile or "dev", line=_platform, logger=logger, project_name=project_name or "")
                 class _FakeResult6:
                     messages = fix_result_rr.messages
                 fix_result = _FakeResult6()
