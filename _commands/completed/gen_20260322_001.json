@@ -1,0 +1,84 @@
+{
+  "id": "gen_20260322_001",
+  "type": "generate_and_build",
+  "completed_at": "2026-03-23T15:38:42.674404",
+  "status": "failed",
+  "result": {
+    "build_succeeded": false,
+    "iterations": 0,
+    "initial_errors": 8,
+    "final_errors": 8,
+    "repair_cost": 0.0,
+    "history": [],
+    "error_details": [
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationActiveView.swift",
+        "line": 3,
+        "column": 61,
+        "message": "Expected '}' in struct",
+        "type": "other"
+      },
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationCompletionView.swift",
+        "line": 10,
+        "column": 5,
+        "message": "Expected 'func' keyword in instance method declaration",
+        "type": "other"
+      },
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationCompletionView.swift",
+        "line": 10,
+        "column": 12,
+        "message": "Expected parameter name followed by ':'",
+        "type": "other"
+      },
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationCompletionView.swift",
+        "line": 16,
+        "column": 1,
+        "message": "Expressions are not allowed at the top level",
+        "type": "top_level_code"
+      },
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationActiveView.swift",
+        "line": 3,
+        "column": 61,
+        "message": "expected '}' in struct",
+        "type": "other"
+      },
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationCompletionView.swift",
+        "line": 10,
+        "column": 5,
+        "message": "expected 'func' keyword in instance method declaration",
+        "type": "other"
+      },
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationCompletionView.swift",
+        "line": 10,
+        "column": 12,
+        "message": "expected parameter name followed by ':'",
+        "type": "other"
+      },
+      {
+        "file": "/Users/andreasott/DriveAI-AutoGen/projects/askfin_v1-1/Views/MeditationCompletionView.swift",
+        "line": 16,
+        "column": 1,
+        "message": "expressions are not allowed at the top level",
+        "type": "top_level_code"
+      }
+    ],
+    "generated_files": [
+      "Models/FocusSession.swift",
+      "Services/FocusTimerServiceProtocol.swift",
+      "Services/FocusTimerService.swift",
+      "ViewModels/FocusTimerViewModel.swift",
+      "Views/FocusTimerView.swift"
+    ],
+    "generation_cost": 0.057624,
+    "generation_model": "claude-sonnet-4-6",
+    "feature_name": "FocusTimer",
+    "files_parsed": 5,
+    "files_requested": 5
+  }
+}

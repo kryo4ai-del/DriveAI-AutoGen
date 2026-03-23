@@ -91,11 +91,13 @@
 		445EE7B57041AC3BEB54B581 /* ReadinessServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6EF8F416A82890DEE1DF6 /* ReadinessServiceProtocol.swift */; };
 		456FB77F2DB9E2B5B71C1DC1 /* PracticeModeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9CE145E85DD9472858480C /* PracticeModeViewModel.swift */; };
 		46AE06D3E16646494BE08433 /* DataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087C5BE4C90B64AD71CBC92 /* DataServiceProtocol.swift */; };
+		46E7D2CFFC01EABE7511D750 /* FocusTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F48E9291AEEEAB05513C27 /* FocusTimerViewModel.swift */; };
 		488FEA21CE65EFE51E2D7C42 /* CategoryStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721DEF28A0E9A4C29DD08C47 /* CategoryStatus.swift */; };
 		49A6FB490E45663835B93751 /* MeditationActiveViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D938A5ECCC124E7C4F7A2E /* MeditationActiveViewModelProtocol.swift */; };
 		49B2AE79C141E6FD337448D0 /* ReadinessLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE612C69939E22D929051E /* ReadinessLabel.swift */; };
 		4A027A0BB35EC371E11A8A75 /* TopicArea+Exam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE2BA22CDDF431CAA0CF00 /* TopicArea+Exam.swift */; };
 		4A0A9FD35394731389CB966D /* ExamReadiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED191873B59F1FBB4823888 /* ExamReadiness.swift */; };
+		4BC38CD0275FB0A7F243E920 /* FocusTimerServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3673C574B5669432C5131B /* FocusTimerServiceProtocol.swift */; };
 		4DFE542E104294E54C3F8409 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9000E35D8BF3A36E0015F41 /* ResultsView.swift */; };
 		4EE1E1D1AD545631C8CBCACE /* AskFinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013BBB2D3021B587784AC2D /* AskFinApp.swift */; };
 		5239A5761911A8653F60C373 /* TrendPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45F15B0863121D2C569E6F8 /* TrendPersistenceServiceProtocol.swift */; };
@@ -114,6 +116,7 @@
 		5C2F354921C501AEC91BF56F /* ExamSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F8FF1898BE642F6611CC70 /* ExamSessionViewModel.swift */; };
 		5C9EDD1802629FDF91898F37 /* BreathFlowCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1AD2620928BB044E9750DA /* BreathFlowCoordinatorView.swift */; };
 		5EA87DBB00CF19956592E82C /* PostSessionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBFF837B2A856D9D30B8EC2 /* PostSessionStateTests.swift */; };
+		5EF53DAB0ABEA8A312B5C742 /* FocusSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD507E156FB86C4073F54553 /* FocusSession.swift */; };
 		5EF9814C494CD7B70D165DDC /* SessionPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437BB41913A5066BD42866BA /* SessionPhase.swift */; };
 		6298987E3B5ADBAE4711F0E7 /* InFlowSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E3CD910480235AE54C1531 /* InFlowSmokeTests.swift */; };
 		63094D73D3B3834921E5E769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FD2B485041C1FE3E05C37D8 /* Assets.xcassets */; };
@@ -190,6 +193,7 @@
 		C040E8A8515FB62944EE6B5D /* PriorityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E40300902ECC6312F4B3D6 /* PriorityLevel.swift */; };
 		C0607885235510E9CFFC7107 /* CachedReadinessMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E016C59FA184E16F550D571 /* CachedReadinessMetrics.swift */; };
 		C226B73401F0ADA96958BF1A /* ReadinessAssessmentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EAE745118942E055A48F4D /* ReadinessAssessmentServiceProtocol.swift */; };
+		C3FD9EE31B971031B0771E7A /* FocusTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDCBD0C9F022B6501FA9537 /* FocusTimerView.swift */; };
 		C46930D56DEFC30044F8C155 /* ExamReadinessError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D975D6D6591618C20D78B7A0 /* ExamReadinessError.swift */; };
 		C5E7E44196F6C01B91DC44F9 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361C8ED36E5A824F6AEDBAD9 /* BaseViewModel.swift */; };
 		C72EFA060A6C527303FD41BD /* BreathFlowNavigationDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D1487938B381B4EE57733 /* BreathFlowNavigationDestination.swift */; };
@@ -229,6 +233,7 @@
 		E9369504AA43D8F728C24B54 /* PatternCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B2894C6A7A31DCEE53A64C /* PatternCard.swift */; };
 		EA50C8FCC5BC979F4D0E9155 /* ExamQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41F72605ABDDA57B671E6AB /* ExamQuestion.swift */; };
 		EAE0764D342FD00920BE9B0E /* WeakCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E5F0956C30C3A7E2437DE /* WeakCategoryModel.swift */; };
+		EBDECB0AC855D9B04DE00211 /* FocusTimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547CFD7D8C72ECBA941F7FAC /* FocusTimerService.swift */; };
 		EBF9625E741CB243867B4A24 /* DomainSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167196C150458BA1B2D4A0DC /* DomainSection.swift */; };
 		ECE89BE942BCBCE8E753F0B7 /* TopicCompetenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE92ABF79EBD319247F02B /* TopicCompetenceService.swift */; };
 		EE4875E1A1AECEA0CFA605F6 /* ExamReadinessCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05161E39929FFF12048A00EC /* ExamReadinessCard.swift */; };
@@ -339,6 +344,7 @@
 		4EFAF9819715227FE6987449 /* LocalDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataService.swift; sourceTree = "<group>"; };
 		52C0D830A46FFF715B65AC17 /* BreathFlowSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathFlowSession.swift; sourceTree = "<group>"; };
 		543807DEC75AA43D55536E14 /* SimulationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationResult.swift; sourceTree = "<group>"; };
+		547CFD7D8C72ECBA941F7FAC /* FocusTimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusTimerService.swift; sourceTree = "<group>"; };
 		5595418BE3A76D319129B344 /* SimulationResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationResultViewModel.swift; sourceTree = "<group>"; };
 		56941F826A60265C03A68411 /* LearningStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStreak.swift; sourceTree = "<group>"; };
 		56D938A5ECCC124E7C4F7A2E /* MeditationActiveViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationActiveViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -384,10 +390,12 @@
 		80A41A4C5A1487FEB4A614E3 /* AnswerStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerStatus.swift; sourceTree = "<group>"; };
 		80DC6DDE8937A49670037A03 /* BreathFlowSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathFlowSessionView.swift; sourceTree = "<group>"; };
 		826197EC09D6F151B9C14379 /* ExamConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamConfig.swift; sourceTree = "<group>"; };
+		85F48E9291AEEEAB05513C27 /* FocusTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusTimerViewModel.swift; sourceTree = "<group>"; };
 		87763CAB68B6B89882B3674B /* CategoryScoreRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScoreRow.swift; sourceTree = "<group>"; };
 		8A309F475AA3E9C5C9FBA0E7 /* TopicArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicArea.swift; sourceTree = "<group>"; };
 		8AB2CC81C97CE5FD9AB309BC /* ReadinessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessLevel.swift; sourceTree = "<group>"; };
 		8D11AC3760A1FC06B9C0385D /* WeakArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArea.swift; sourceTree = "<group>"; };
+		8DDCBD0C9F022B6501FA9537 /* FocusTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusTimerView.swift; sourceTree = "<group>"; };
 		8E5F61A7D8BC4946419617AD /* ScoreWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreWeights.swift; sourceTree = "<group>"; };
 		8EAC59B2B95FBF562A06D944 /* LocalCategoryProgressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCategoryProgressService.swift; sourceTree = "<group>"; };
 		8ED727BE2E5B90B0C01413FB /* Threshold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Threshold.swift; sourceTree = "<group>"; };
@@ -424,6 +432,7 @@
 		AB361D64BD0C1BE6E6B19B50 /* RevealCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevealCopy.swift; sourceTree = "<group>"; };
 		ABD74D4399B05DA2E299D141 /* BreathPhase+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BreathPhase+Extension.swift"; sourceTree = "<group>"; };
 		AC0A2ABDA20E37F314B5838F /* CategoryBreakdownSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBreakdownSection.swift; sourceTree = "<group>"; };
+		AC3673C574B5669432C5131B /* FocusTimerServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusTimerServiceProtocol.swift; sourceTree = "<group>"; };
 		AC4900E7B1DB95982A45D4AA /* CategoryReadinessRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryReadinessRow.swift; sourceTree = "<group>"; };
 		AE681EDEE6DE8B49048B1EB0 /* FocusedStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedStudyView.swift; sourceTree = "<group>"; };
 		B0883EA355340127440BD76C /* ExamReadinessServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamReadinessServiceProtocol.swift; sourceTree = "<group>"; };
@@ -445,6 +454,7 @@
 		C90C8C184DD7570B3C5A7518 /* TrainingSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSessionView.swift; sourceTree = "<group>"; };
 		C9A46AB7D05CA6747B9962BA /* ExamReadinessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamReadinessModel.swift; sourceTree = "<group>"; };
 		CAB5D37D04F5771ADC977644 /* LearningStreak+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LearningStreak+Display.swift"; sourceTree = "<group>"; };
+		CD507E156FB86C4073F54553 /* FocusSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSession.swift; sourceTree = "<group>"; };
 		CE99DD65D4B3D2DEE163248E /* TrainingModeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingModeScreen.swift; sourceTree = "<group>"; };
 		D3B7F0754C258CADDAB5DDB2 /* ReadinessRecommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessRecommendation.swift; sourceTree = "<group>"; };
 		D45F15B0863121D2C569E6F8 /* TrendPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
@@ -523,6 +533,8 @@
 				067EBA914BCAEDE3C6D68DC6 /* ExamReadinessService.swift */,
 				E74B4BE44A11BEAFE9F6461C /* ExamSimulationService.swift */,
 				D4E0CE57C39851F3859C6C9E /* ExamTimerService.swift */,
+				547CFD7D8C72ECBA941F7FAC /* FocusTimerService.swift */,
+				AC3673C574B5669432C5131B /* FocusTimerServiceProtocol.swift */,
 				3F8B2C0FFE6B74C6355F83CE /* HapticFeedbackProtocol.swift */,
 				8EAC59B2B95FBF562A06D944 /* LocalCategoryProgressService.swift */,
 				4EFAF9819715227FE6987449 /* LocalDataService.swift */,
@@ -581,6 +593,7 @@
 				7D4490CE014F55ACD7EC8421 /* ExamReadinessDashboardViewModel.swift */,
 				98A8842FFF42F4F2625C0B5C /* ExamReadinessViewModel.swift */,
 				41F8FF1898BE642F6611CC70 /* ExamSessionViewModel.swift */,
+				85F48E9291AEEEAB05513C27 /* FocusTimerViewModel.swift */,
 				3087D375EBF45466E0663D3B /* MeditationActiveViewModel.swift */,
 				69098BB00CA4A3A6A9972829 /* MeditationCompletionViewModel.swift */,
 				B0EC595DF0AEE0642D5012B5 /* MeditationSetupViewModel.swift */,
@@ -661,6 +674,7 @@
 				610E1FA2DAEACB1ABCF410A1 /* ExamSimulation.swift */,
 				E78AA43CB054181F9E66BDC4 /* ExamSimulationError.swift */,
 				1EE8272ABBCA0F31146D548E /* FehlerpunkteCategory.swift */,
+				CD507E156FB86C4073F54553 /* FocusSession.swift */,
 				B1EBD9F95EF4917515CA7882 /* FormattableScore.swift */,
 				56941F826A60265C03A68411 /* LearningStreak.swift */,
 				CAB5D37D04F5771ADC977644 /* LearningStreak+Display.swift */,
@@ -797,6 +811,7 @@
 				1B22FAE51BB38B4E85CA33CD /* ExamCountdownView.swift */,
 				6F24CF08898C3FA842B48BEF /* ExamTimerView.swift */,
 				AE681EDEE6DE8B49048B1EB0 /* FocusedStudyView.swift */,
+				8DDCBD0C9F022B6501FA9537 /* FocusTimerView.swift */,
 				73571540C96E4D14C02D5A36 /* MeditationActiveView.swift */,
 				7DCFBAED5D24D12F9B8E1275 /* MeditationCompletionView.swift */,
 				B64BB447C92544BB9EC9A143 /* MeditationSetupView.swift */,
@@ -1032,6 +1047,11 @@
 				DBF53F560428DC5A3E6DFE42 /* ExamTimerService.swift in Sources */,
 				7A5E29FE9CE19ACE4029D370 /* ExamTimerView.swift in Sources */,
 				77845283D2061CBF7F8D6135 /* FehlerpunkteCategory.swift in Sources */,
+				5EF53DAB0ABEA8A312B5C742 /* FocusSession.swift in Sources */,
+				EBDECB0AC855D9B04DE00211 /* FocusTimerService.swift in Sources */,
+				4BC38CD0275FB0A7F243E920 /* FocusTimerServiceProtocol.swift in Sources */,
+				C3FD9EE31B971031B0771E7A /* FocusTimerView.swift in Sources */,
+				46E7D2CFFC01EABE7511D750 /* FocusTimerViewModel.swift in Sources */,
 				9530A1E60037A38F9AA3518C /* FocusedStudyView.swift in Sources */,
 				3857AAAA36FFD6E56B1F60D2 /* FormattableScore.swift in Sources */,
 				2A5AECB5DC20A61D44C5EFE7 /* HapticFeedbackProtocol.swift in Sources */,
