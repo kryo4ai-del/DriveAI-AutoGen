@@ -1,93 +1,57 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-23 11:41:34",
-  "blocking_files_checked": 15,
-  "ai_generated_found": 7,
-  "quarantined": 7,
+  "timestamp": "2026-03-23 12:03:21",
+  "blocking_files_checked": 12,
+  "ai_generated_found": 4,
+  "quarantined": 4,
   "kept": 8,
   "actions": [
     {
-      "filename": "BreathFlowViewModel.swift",
-      "original_path": "ViewModels/BreathFlowViewModel.swift",
-      "quarantine_path": "quarantine\\20260323_114134_BreathFlowViewModel.swift",
+      "filename": "BreathFlowSessionViewModel.swift",
+      "original_path": "ViewModels/BreathFlowSessionViewModel.swift",
+      "quarantine_path": "quarantine\\20260323_120321_BreathFlowSessionViewModel.swift",
       "blocking_issue": "Type 'AnyCancellable' referenced in 4 files but never declared in project",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "862edd58",
+        "commit_hash": "021a803e",
         "commit_message": "AI run: Design and implement the DriveAI feature: BreathFlow. Include architectu",
-        "author_date": "2026-03-23 08:53:05 +0100"
+        "author_date": "2026-03-23 12:03:19 +0100"
       }
     },
     {
-      "filename": "BreathFlowTheme.swift",
-      "original_path": "Models/BreathFlowTheme.swift",
-      "quarantine_path": "quarantine\\20260323_114134_BreathFlowTheme.swift",
-      "blocking_issue": "Type 'CGFloat' referenced in 2 files but never declared in project",
+      "filename": "TrainingModeViewModel.swift",
+      "original_path": "ViewModels/TrainingModeViewModel.swift",
+      "quarantine_path": "quarantine\\20260323_120321_TrainingModeViewModel.swift",
+      "blocking_issue": "Type 'DEBUG' referenced in 2 files but never declared in project",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "38144ebd",
-        "commit_message": "AI run: Design and implement the DriveAI feature: BreathFlow. Include architectu",
-        "author_date": "2026-03-23 11:41:32 +0100"
+        "commit_hash": "6ad19998",
+        "commit_message": "AI run: Design and implement the Exam Simulation + Readiness Layer for AskFin Pr",
+        "author_date": "2026-03-13 16:15:22 +0100"
       }
     },
     {
-      "filename": "PersistenceService.swift",
-      "original_path": "Services/PersistenceService.swift",
-      "quarantine_path": "quarantine\\20260323_114134_PersistenceService.swift",
-      "blocking_issue": "Type 'DEBUG' referenced in 3 files but never declared in project",
+      "filename": "BreathFlowService.swift",
+      "original_path": "Services/BreathFlowService.swift",
+      "quarantine_path": "quarantine\\20260323_120321_BreathFlowService.swift",
+      "blocking_issue": "Type 'ObservableObject' referenced in 19 files but never declared in project",
       "provenance": {
         "is_ai_generated": true,
-        "commit_hash": "cdba6680",
-        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
-        "author_date": "2026-03-15 11:49:40 +0100"
+        "commit_hash": "021a803e",
+        "commit_message": "AI run: Design and implement the DriveAI feature: BreathFlow. Include architectu",
+        "author_date": "2026-03-23 12:03:19 +0100"
       }
     },
     {
-      "filename": "ExamSimulation.swift",
-      "original_path": "Models/ExamSimulation.swift",
-      "quarantine_path": "quarantine\\20260323_114134_ExamSimulation.swift",
-      "blocking_issue": "Type 'Decoder' referenced in 2 files but never declared in project",
+      "filename": "SimulationResult.swift",
+      "original_path": "Models/SimulationResult.swift",
+      "quarantine_path": "quarantine\\20260323_120321_SimulationResult.swift",
+      "blocking_issue": "Type 'Self' referenced in 4 files but never declared in project",
       "provenance": {
         "is_ai_generated": true,
         "commit_hash": "122a0458",
         "commit_message": "AI run: FOCUSED RECOVERY RUN \u00e2\u20ac\u201d askfin_premium ==================================",
         "author_date": "2026-03-13 17:07:35 +0100"
-      }
-    },
-    {
-      "filename": "TrendAnalyzer.swift",
-      "original_path": "Models/TrendAnalyzer.swift",
-      "quarantine_path": "quarantine\\20260323_114134_TrendAnalyzer.swift",
-      "blocking_issue": "Type 'ObservableObject' referenced in 17 files but never declared in project",
-      "provenance": {
-        "is_ai_generated": true,
-        "commit_hash": "c56f55f9",
-        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
-        "author_date": "2026-03-15 16:33:52 +0100"
-      }
-    },
-    {
-      "filename": "ExamTimerService.swift",
-      "original_path": "Services/ExamTimerService.swift",
-      "quarantine_path": "quarantine\\20260323_114134_ExamTimerService.swift",
-      "blocking_issue": "Type 'Published' referenced in 16 files but never declared in project",
-      "provenance": {
-        "is_ai_generated": true,
-        "commit_hash": "cdba6680",
-        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
-        "author_date": "2026-03-15 11:49:40 +0100"
-      }
-    },
-    {
-      "filename": "ReadinessAssessment.swift",
-      "original_path": "Models/ReadinessAssessment.swift",
-      "quarantine_path": "quarantine\\20260323_114134_ReadinessAssessment.swift",
-      "blocking_issue": "Type 'Self' referenced in 4 files but never declared in project",
-      "provenance": {
-        "is_ai_generated": true,
-        "commit_hash": "16537a9b",
-        "commit_message": "AI run: Design and implement the DriveAI feature: ExamReadiness. Include archite",
-        "author_date": "2026-03-15 08:48:22 +0100"
       }
     }
   ],
@@ -101,16 +65,16 @@
       "reason": "protected path"
     },
     {
-      "filename": "Models/ExamSimulation.swift",
+      "filename": "App/PremiumHomeView.swift",
+      "reason": "protected path"
+    },
+    {
+      "filename": "App/PremiumHomeView.swift",
+      "reason": "protected path"
+    },
+    {
+      "filename": "Services/BreathFlowService.swift",
       "reason": "file does not exist"
-    },
-    {
-      "filename": "App/PremiumHomeView.swift",
-      "reason": "protected path"
-    },
-    {
-      "filename": "App/PremiumHomeView.swift",
-      "reason": "protected path"
     },
     {
       "filename": "App/PremiumHomeView.swift",

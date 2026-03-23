@@ -1,0 +1,23 @@
+{
+  "run_id": "20260323_130332",
+  "generated": "2026-03-23T13:16:28",
+  "proposal_count": 1,
+  "proposals": [
+    {
+      "title": "SwiftUI lifecycle pattern: @MainActor` Missing",
+      "type": "technical_pattern",
+      "lesson": "Generated SwiftUI code missing lifecycle management: @MainActor` Missing",
+      "evidence": "Bug Hunter finding in run 20260323_130332",
+      "source_run": "20260323_130332",
+      "source_project": "askfin",
+      "confidence": "hypothesis",
+      "tags": [
+        "swiftui",
+        "lifecycle",
+        "memory-management"
+      ],
+      "status": "pending_review",
+      "reason": "Technical patterns detected in reviews can be reused across projects."
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 216,
+  "files_scanned": 226,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -11,8 +11,8 @@
     "FK-017"
   ],
   "status": "BLOCKING",
-  "issues_found": 30,
-  "blocking": 16,
+  "issues_found": 16,
+  "blocking": 2,
   "warnings": 14,
   "issues": [
     {
@@ -144,231 +144,29 @@
     {
       "pattern_id": "FK-014",
       "severity": "blocking",
-      "file": "ViewModels/PremiumDashboardViewModel.swift",
-      "message": "Type 'AnyCancellable' referenced in 3 files but never declared in project",
-      "type_name": "AnyCancellable",
-      "other_files": [
-        "ViewModels/SkillMapViewModel.swift",
-        "ViewModels/TrainingModeViewModel.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Views/Components/DashboardSubViews.swift",
-      "message": "Type 'Button' referenced in 3 files but never declared in project",
-      "type_name": "Button",
-      "other_files": [
-        "Views/Training/AnswerRevealView.swift",
-        "Views/Training/QuestionCardView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
       "file": "App/StubServices.swift",
-      "message": "Type 'Combine' referenced in 17 files but never declared in project",
-      "type_name": "Combine",
+      "message": "Type 'QuestionResult' referenced in 3 files but never declared in project",
+      "type_name": "QuestionResult",
       "other_files": [
-        "Models/SimulationMode.swift",
-        "Services/NetworkMonitor.swift",
-        "Services/SessionHistoryStore.swift",
-        "Services/TopicCompetenceService.swift",
-        "ViewModels/BaseViewModel.swift",
-        "ViewModels/CategorySelectionViewModel.swift",
-        "ViewModels/ExamReadinessViewModel.swift",
-        "ViewModels/ExamSessionViewModel.swift",
-        "ViewModels/OfflineStatusViewModel.swift",
-        "ViewModels/PracticeModeViewModel.swift",
-        "ViewModels/PremiumDashboardViewModel.swift",
-        "ViewModels/RecommendationViewModel.swift",
         "ViewModels/SimulationResultViewModel.swift",
-        "ViewModels/SkillMapViewModel.swift",
-        "ViewModels/TrainingModeViewModel.swift",
-        "ViewModels/TrainingSessionViewModel.swift"
+        "Views/Simulation/SimulationResultView.swift"
       ]
     },
     {
       "pattern_id": "FK-014",
       "severity": "blocking",
-      "file": "ViewModels/TrainingModeViewModel.swift",
-      "message": "Type 'DEBUG' referenced in 2 files but never declared in project",
-      "type_name": "DEBUG",
+      "file": "App/PremiumRootView.swift",
+      "message": "Type 'SimulationResult' referenced in 9 files but never declared in project",
+      "type_name": "SimulationResult",
       "other_files": [
-        "Views/Training/TrainingSessionView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/CategoryResult.swift",
-      "message": "Type 'DifficultyBreakdown' referenced in 3 files but never declared in project",
-      "type_name": "DifficultyBreakdown",
-      "other_files": [
-        "Models/ReadinessAssessmentServiceProtocol.swift",
-        "Models/ReadinessAssessmentTests.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/StubServices.swift",
-      "message": "Type 'ExamSimulation' referenced in 2 files but never declared in project",
-      "type_name": "ExamSimulation",
-      "other_files": [
-        "Models/SimulationProtocols.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "ViewModels/ExamSessionViewModel.swift",
-      "message": "Type 'ExamTimerService' referenced in 2 files but never declared in project",
-      "type_name": "ExamTimerService",
-      "other_files": [
-        "Views/ExamTimerView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/PremiumHomeView.swift",
-      "message": "Type 'NavigationStack' referenced in 6 files but never declared in project",
-      "type_name": "NavigationStack",
-      "other_files": [
-        "App/PremiumRootView.swift",
-        "Views/PremiumDashboardView.swift",
-        "Views/Simulation/ExamSimulationView.swift",
-        "Views/Simulation/SimulationResultView.swift",
-        "Views/Training/TrainingSessionView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Services/NetworkMonitor.swift",
-      "message": "Type 'ObservableObject' referenced in 14 files but never declared in project",
-      "type_name": "ObservableObject",
-      "other_files": [
+        "App/StubServices.swift",
+        "Models/SimulationProtocols.swift",
+        "Services/ReadinessScoreService.swift",
         "Services/SessionHistoryStore.swift",
-        "Services/TopicCompetenceService.swift",
-        "ViewModels/BaseViewModel.swift",
-        "ViewModels/CategorySelectionViewModel.swift",
-        "ViewModels/ExamReadinessDashboardViewModel.swift",
-        "ViewModels/ExamReadinessViewModel.swift",
-        "ViewModels/OfflineStatusViewModel.swift",
-        "ViewModels/PracticeModeViewModel.swift",
-        "ViewModels/PremiumDashboardViewModel.swift",
-        "ViewModels/RecommendationViewModel.swift",
         "ViewModels/SimulationResultViewModel.swift",
-        "ViewModels/SkillMapViewModel.swift",
-        "ViewModels/TrainingSessionViewModel.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/PremiumHomeView.swift",
-      "message": "Type 'ObservedObject' referenced in 5 files but never declared in project",
-      "type_name": "ObservedObject",
-      "other_files": [
-        "App/PremiumRootView.swift",
-        "Views/ExamTimerView.swift",
-        "Views/Training/SessionSummaryView.swift",
-        "Views/Training/TopicPickerView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Services/NetworkMonitor.swift",
-      "message": "Type 'Published' referenced in 14 files but never declared in project",
-      "type_name": "Published",
-      "other_files": [
-        "Services/SessionHistoryStore.swift",
-        "Services/TopicCompetenceService.swift",
-        "ViewModels/BaseViewModel.swift",
-        "ViewModels/CategorySelectionViewModel.swift",
-        "ViewModels/ExamReadinessDashboardViewModel.swift",
-        "ViewModels/ExamReadinessViewModel.swift",
-        "ViewModels/ExamSessionViewModel.swift",
-        "ViewModels/OfflineStatusViewModel.swift",
-        "ViewModels/PracticeModeViewModel.swift",
-        "ViewModels/PremiumDashboardViewModel.swift",
-        "ViewModels/RecommendationViewModel.swift",
-        "ViewModels/SkillMapViewModel.swift",
-        "ViewModels/TrainingSessionViewModel.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/AssessmentResult.swift",
-      "message": "Type 'ReadinessAssessment' referenced in 5 files but never declared in project",
-      "type_name": "ReadinessAssessment",
-      "other_files": [
-        "Models/ReadinessAssessmentServiceProtocol.swift",
-        "Models/ReadinessAssessmentTests.swift",
-        "ViewModels/RecommendationViewModel.swift",
-        "Views/ResultsView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/PremiumHomeView.swift",
-      "message": "Type 'ScrollView' referenced in 8 files but never declared in project",
-      "type_name": "ScrollView",
-      "other_files": [
-        "Views/PremiumDashboardView.swift",
         "Views/Simulation/ExamHistoryView.swift",
-        "Views/Simulation/SimulationResultView.swift",
-        "Views/SkillMap/SkillMapView.swift",
-        "Views/Training/AnswerRevealView.swift",
-        "Views/Training/SessionSummaryView.swift",
-        "Views/Training/TopicPickerView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "Models/SimulationResult.swift",
-      "message": "Type 'Self' referenced in 3 files but never declared in project",
-      "type_name": "Self",
-      "other_files": [
-        "Models/SpacingItem.swift",
-        "Models/TopicDomain.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/AskFinApp.swift",
-      "message": "Type 'StateObject' referenced in 7 files but never declared in project",
-      "type_name": "StateObject",
-      "other_files": [
-        "ViewModels/ExamSessionViewModel.swift",
-        "Views/PremiumDashboardView.swift",
         "Views/Simulation/ExamSimulationView.swift",
-        "Views/Simulation/SimulationResultView.swift",
-        "Views/SkillMap/SkillMapView.swift",
-        "Views/Training/TrainingSessionView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/PremiumHomeView.swift",
-      "message": "Type 'ViewBuilder' referenced in 8 files but never declared in project",
-      "type_name": "ViewBuilder",
-      "other_files": [
-        "Models/CategoryBreakdownSection.swift",
-        "Models/ReadinessHeaderSection.swift",
-        "Views/Components/ExamCountdownCard.swift",
-        "Views/PremiumDashboardView.swift",
-        "Views/ReadinessScoreView.swift",
-        "Views/Simulation/SimulationResultView.swift",
-        "Views/Training/TrainingSessionView.swift"
+        "Views/Simulation/SimulationResultView.swift"
       ]
     }
   ]

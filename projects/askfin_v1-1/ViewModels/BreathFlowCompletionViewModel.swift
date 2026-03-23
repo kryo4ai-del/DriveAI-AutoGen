@@ -1,6 +1,7 @@
 // ViewModels/BreathFlow/BreathFlowCompletionViewModel.swift
 
 import Foundation
+import Combine
 
 /// Manages the post-session completion screen.
 /// Closes the anxiety feedback loop by capturing post-session state

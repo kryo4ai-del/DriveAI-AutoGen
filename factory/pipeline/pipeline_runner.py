@@ -987,7 +987,26 @@ def run_operations_layer(
     hygiene_report = hygiene.validate()
     hygiene_status = hygiene_report.status.value
 
-    # --- FK-014 Type Stub Generator ---
+    # --- Stale Artifact Guard (runs BEFORE StubGen to avoid stale-then-stub race) ---
+    stale_report = None
+    remaining_blocking = [i for i in hygiene_report.issues
+                          if i.severity.value == "blocking"]
+    if remaining_blocking:
+        print(f"\n[OpsLayer] Stale Artifact Guard — {len(remaining_blocking)} blocking issue(s) remain")
+        stale_guard = StaleArtifactGuard(project_name=project_name)
+        stale_report = stale_guard.check_and_quarantine(hygiene_report)
+        stale_report.print_summary()
+
+        # Re-run hygiene after quarantine to update status
+        if stale_report.quarantined > 0:
+            print("\n[OpsLayer] Re-running Compile Hygiene after quarantine...")
+            hygiene = CompileHygieneValidator(project_name=project_name, language=language)
+            hygiene_report = hygiene.validate()
+            hygiene_status = hygiene_report.status.value
+    else:
+        print("\n[OpsLayer] Stale Artifact Guard — no blocking issues, skipping.")
+
+    # --- FK-014 Type Stub Generator (runs AFTER quarantine so stubs fill real gaps) ---
     stub_report = None
     fk014_blocking = [i for i in hygiene_report.issues
                       if i.pattern_id == "FK-014" and i.severity.value == "blocking"]
@@ -1024,25 +1043,6 @@ def run_operations_layer(
             hygiene_status = hygiene_report.status.value
     else:
         print("\n[OpsLayer] Property Shape Repairer — no FK-013 blockers, skipping.")
-
-    # --- Stale Artifact Guard ---
-    stale_report = None
-    remaining_blocking = [i for i in hygiene_report.issues
-                          if i.severity.value == "blocking"]
-    if remaining_blocking:
-        print(f"\n[OpsLayer] Stale Artifact Guard — {len(remaining_blocking)} blocking issue(s) remain")
-        stale_guard = StaleArtifactGuard(project_name=project_name)
-        stale_report = stale_guard.check_and_quarantine(hygiene_report)
-        stale_report.print_summary()
-
-        # Re-run hygiene after quarantine to update status
-        if stale_report.quarantined > 0:
-            print("\n[OpsLayer] Re-running Compile Hygiene after quarantine...")
-            hygiene = CompileHygieneValidator(project_name=project_name, language=language)
-            hygiene_report = hygiene.validate()
-            hygiene_status = hygiene_report.status.value
-    else:
-        print("\n[OpsLayer] Stale Artifact Guard — no blocking issues, skipping.")
 
     # --- Swift Compile Check (swiftc -parse) ---
     print("\n[OpsLayer] Swift Compile Check")

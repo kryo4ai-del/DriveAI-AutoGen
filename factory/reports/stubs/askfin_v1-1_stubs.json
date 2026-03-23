@@ -1,36 +1,48 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-23 11:41:33",
-  "fk014_count": 18,
-  "stubs_created": 3,
-  "stubs_skipped": 15,
+  "timestamp": "2026-03-23 12:03:20",
+  "fk014_count": 16,
+  "stubs_created": 4,
+  "stubs_skipped": 12,
   "actions": [
     {
-      "type_name": "AnswerStatus",
-      "kind": "enum",
-      "file_path": "Models\\AnswerStatus.swift",
-      "ref_files": [
-        "Models/ExamSimulation.swift",
-        "Models/SimulationResult.swift"
-      ]
-    },
-    {
-      "type_name": "ExamSimulationError",
+      "type_name": "DifficultyBreakdown",
       "kind": "struct",
-      "file_path": "Models\\ExamSimulationError.swift",
+      "file_path": "Models\\DifficultyBreakdown.swift",
       "ref_files": [
-        "Models/ExamSimulation.swift",
-        "Services/ReadinessScoreService.swift"
+        "Models/CategoryResult.swift",
+        "Models/ReadinessAssessmentServiceProtocol.swift",
+        "Models/ReadinessAssessmentTests.swift"
       ]
     },
     {
-      "type_name": "PremiumDefaultLocalDataService",
-      "kind": "class",
-      "file_path": "Services\\PremiumDefaultLocalDataService.swift",
+      "type_name": "ExamSimulation",
+      "kind": "struct",
+      "file_path": "Models\\ExamSimulation.swift",
       "ref_files": [
-        "ViewModels/CategorySelectionViewModel.swift",
-        "ViewModels/PracticeModeViewModel.swift",
-        "ViewModels/TrainingModeViewModel.swift"
+        "App/StubServices.swift",
+        "Models/SimulationProtocols.swift"
+      ]
+    },
+    {
+      "type_name": "ExamTimerService",
+      "kind": "class",
+      "file_path": "Services\\ExamTimerService.swift",
+      "ref_files": [
+        "ViewModels/ExamSessionViewModel.swift",
+        "Views/ExamTimerView.swift"
+      ]
+    },
+    {
+      "type_name": "ReadinessAssessment",
+      "kind": "struct",
+      "file_path": "Models\\ReadinessAssessment.swift",
+      "ref_files": [
+        "Models/AssessmentResult.swift",
+        "Models/ReadinessAssessmentServiceProtocol.swift",
+        "Models/ReadinessAssessmentTests.swift",
+        "ViewModels/RecommendationViewModel.swift",
+        "Views/ResultsView.swift"
       ]
     }
   ],
@@ -44,23 +56,11 @@
       "reason": "framework/stdlib type \u2014 should not be stubbed"
     },
     {
-      "type_name": "CGFloat",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
       "type_name": "Combine",
       "reason": "framework/stdlib type \u2014 should not be stubbed"
     },
     {
       "type_name": "DEBUG",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Decoder",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Encoder",
       "reason": "framework/stdlib type \u2014 should not be stubbed"
     },
     {

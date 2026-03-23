@@ -292,6 +292,12 @@ _FRAMEWORK_TYPES = frozenset({
     "RunLoop",
     "URLSession",
     "TimeZone",
+    "Self", "ObservableObject", "Published", "ObservedObject", "StateObject",
+    "EnvironmentObject", "Binding", "Environment", "ViewBuilder", "ViewModifier",
+    "NavigationStack", "NavigationView", "NavigationLink", "TabView", "ScrollView",
+    "List", "ForEach", "Section", "Form", "Button", "Text", "Image",
+    "AnyCancellable", "Cancellable", "PassthroughSubject", "CurrentValueSubject",
+    "AnyPublisher", "Subscriber", "Combine", "GeometryReader", "Namespace",
 })
 
 # Kotlin built-in types
@@ -832,6 +838,9 @@ _KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
     "ViewModifier", "ViewBuilder", "PreviewProvider", "Previews",
     "Animation", "AnyTransition", "Shape", "Path", "Circle",
     "Rectangle", "RoundedRectangle", "Capsule", "Ellipse",
+    "TupleView", "GeometryProxy", "AsyncImage", "Canvas",
+    "Namespace", "EnvironmentKey", "PreferenceKey",
+    "DismissAction", "OpenURLAction", "FocusState", "ScenePhase",
     "LinearGradient", "RadialGradient", "AngularGradient",
     "CGFloat", "CGPoint", "CGSize", "CGRect",
     # Foundation
@@ -839,6 +848,7 @@ _KNOWN_FRAMEWORK_TYPES = _FRAMEWORK_TYPES | frozenset({
     "NotificationCenter", "DispatchQueue", "Task", "MainActor",
     "Cancellable", "AnyCancellable", "PassthroughSubject",
     "CurrentValueSubject", "Just", "AnyPublisher", "Timer",
+    "Subscriber", "Subscription",
     "Calendar", "DateFormatter", "NumberFormatter",
     "NSObject", "Bundle", "Locale", "TimeInterval", "IndexSet",
     # Combine

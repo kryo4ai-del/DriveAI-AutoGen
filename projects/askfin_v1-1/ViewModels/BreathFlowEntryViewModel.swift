@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 /// Manages the entry screen: anxiety capture and guided pattern recommendation.
 ///
