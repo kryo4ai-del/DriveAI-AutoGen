@@ -1,5 +1,16 @@
 import Foundation
 
+struct DifficultyLevel: Codable, Sendable {
+    let asked: Int
+    let correct: Int
+}
+
+struct DifficultyBreakdown: Codable, Sendable {
+    let easy: DifficultyLevel
+    let medium: DifficultyLevel
+    let hard: DifficultyLevel
+}
+
 struct CategoryResult: Identifiable, Codable, Sendable {
     let id: UUID
     let categoryId: String
@@ -24,9 +35,9 @@ struct CategoryResult: Identifiable, Codable, Sendable {
         questionsAsked: Int = 0,
         correctAnswers: Int = 0,
         difficulty: DifficultyBreakdown = DifficultyBreakdown(
-            easy: .init(asked: 0, correct: 0),
-            medium: .init(asked: 0, correct: 0),
-            hard: .init(asked: 0, correct: 0)
+            easy: DifficultyLevel(asked: 0, correct: 0),
+            medium: DifficultyLevel(asked: 0, correct: 0),
+            hard: DifficultyLevel(asked: 0, correct: 0)
         )
     ) {
         self.id = id

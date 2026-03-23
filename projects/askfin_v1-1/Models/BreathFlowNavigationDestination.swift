@@ -10,3 +10,5 @@ enum BreathFlowNavigationDestination: Hashable {
 // MARK: - ViewModel
 
 @MainActor
+class BreathFlowViewModel: ObservableObject {
+}

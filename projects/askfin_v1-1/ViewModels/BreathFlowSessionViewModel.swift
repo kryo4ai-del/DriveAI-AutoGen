@@ -17,12 +17,33 @@ final class BreathFlowSessionViewModel: ObservableObject {
     let pattern: BreathPattern
     let totalCycles: Int
 
+    // MARK: - Initializer
+    init(pattern: BreathPattern, totalCycles: Int) {
+        self.pattern = pattern
+        self.totalCycles = totalCycles
+    }
+
     // MARK: - Session Lifecycle
-    func startSession()
-    func pauseSession()
-    func resumeSession()
-    func skipToEnd()
-    func endEarly() -> BreathSession
+    func startSession() {
+        // TODO: implement
+    }
+
+    func pauseSession() {
+        // TODO: implement
+    }
+
+    func resumeSession() {
+        // TODO: implement
+    }
+
+    func skipToEnd() {
+        // TODO: implement
+    }
+
+    func endEarly() -> BreathSession {
+        // TODO: implement
+        fatalError("Not yet implemented")
+    }
 
     // MARK: - Internal
     // Timer using Swift Concurrency (Task + clock)

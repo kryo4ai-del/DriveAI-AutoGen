@@ -28,3 +28,6 @@ enum SessionState: Equatable {
 // MARK: - ViewModel
 
 @MainActor
+class SessionViewModel: ObservableObject {
+    @Published var state: SessionState = .idle
+}
