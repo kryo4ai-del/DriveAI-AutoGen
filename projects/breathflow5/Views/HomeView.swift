@@ -9,18 +9,11 @@ class DependencyContainer: ObservableObject {
     
     // Services
     lazy var quizService: QuizService = {
-        QuizService(
-            persistenceManager: self.persistenceManager,
-            apiClient: self.apiClient
-        )
-    }()
-    
-    lazy var scoringService: BasicScoringService = {
-        BasicScoringService(persistenceManager: self.persistenceManager)
+        QuizService()
     }()
     
     lazy var readinessCalculator: ReadinessCalculator = {
-        ReadinessCalculator(persistenceManager: self.persistenceManager)
+        ReadinessCalculator()
     }()
     
     // ViewModels
@@ -42,19 +35,16 @@ class DependencyContainer: ObservableObject {
     }
 }
 
-// Alias to avoid ambiguity
-typealias AppDependencyContainer = DependencyContainer
-
 // EnvironmentKey for DependencyContainer
 private struct ContainerKey: EnvironmentKey {
     @MainActor
-    static var defaultValue: AppDependencyContainer {
-        AppDependencyContainer()
+    static var defaultValue: DependencyContainer {
+        DependencyContainer()
     }
 }
 
 extension EnvironmentValues {
-    var container: AppDependencyContainer {
+    var container: DependencyContainer {
         get { self[ContainerKey.self] }
         set { self[ContainerKey.self] = newValue }
     }
@@ -65,7 +55,7 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
     
     @MainActor
-    init(container: AppDependencyContainer) {
+    init(container: DependencyContainer) {
         _viewModel = StateObject(wrappedValue: container.makeHomeViewModel())
     }
     
@@ -75,12 +65,22 @@ struct HomeView: View {
 // App entry
 @MainActor
 struct DriveAIApp: App {
-    let container = AppDependencyContainer()
+    let container = DependencyContainer()
     
     var body: some Scene {
         WindowGroup {
             HomeView(container: container)
                 .environment(\.container, container)
         }
+    }
+}
+
+class HomeViewModel: ObservableObject {
+    let quizService: QuizService
+    let readinessCalculator: ReadinessCalculator
+    
+    init(quizService: QuizService, readinessCalculator: ReadinessCalculator) {
+        self.quizService = quizService
+        self.readinessCalculator = readinessCalculator
     }
 }

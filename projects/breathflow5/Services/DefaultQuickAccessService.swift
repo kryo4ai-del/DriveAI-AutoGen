@@ -4,7 +4,12 @@ struct QuickAccessItem {
     let accessPoint: AccessPoint
 }
 
-class DefaultQuickAccessService: QuickAccessService {
+protocol QuickAccessServiceProtocol_Protocol {
+    func resolveNavigationPath(from accessPoint: AccessPoint, userState: UserState) async throws -> NavigationPath
+    func getQuickAccessItems(for userState: UserState) async throws -> [QuickAccessItem]
+}
+
+class DefaultQuickAccessService: QuickAccessServiceProtocol_Protocol {
     private let exerciseSelectionService: ExerciseSelectionService
     private let quizProgressService: QuizProgressService
     private let authService: AuthService

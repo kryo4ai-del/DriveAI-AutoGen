@@ -1,13 +1,17 @@
 import SwiftUI
 
+protocol QuickAccessServiceProtocol {
+    func fetchQuickAccess() async throws
+}
+
 class QuickAccessViewModel: ObservableObject {
        @Published var navigationPath: SwiftUI.NavigationPath?
        @Published var isLoading = false
        @Published var error: QuickAccessError?
        
-       private let service: QuickAccessService
+       private let service: any QuickAccessServiceProtocol
        
-       init(service: QuickAccessService) {
+       init(service: any QuickAccessServiceProtocol) {
            self.service = service
        }
        

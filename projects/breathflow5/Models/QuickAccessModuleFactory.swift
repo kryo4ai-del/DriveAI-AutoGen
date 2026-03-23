@@ -7,7 +7,7 @@ class QuickAccessModuleFactory {
         quizProgress: QuizProgressService,
         auth: AuthService,
         analytics: AnalyticsService
-    ) -> QuickAccessService {
+    ) -> AnyObject {
         DefaultQuickAccessService(
             exerciseSelectionService: exerciseSelection,
             quizProgressService: quizProgress,
@@ -17,7 +17,7 @@ class QuickAccessModuleFactory {
     }
     
     static func makeCoordinator(
-        service: QuickAccessService
+        service: AnyObject
     ) -> AnyObject {
         // QuickAccessCoordinator not found in scope
         // Return a placeholder until the type is defined
