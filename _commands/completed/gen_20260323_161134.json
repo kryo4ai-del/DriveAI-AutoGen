@@ -1,0 +1,31 @@
+{
+  "id": "gen_20260323_161134",
+  "type": "generate_and_build",
+  "completed_at": "2026-03-23T16:18:11.933882",
+  "status": "success",
+  "result": {
+    "build_succeeded": true,
+    "iterations": 1,
+    "initial_errors": 0,
+    "final_errors": 0,
+    "repair_cost": 0.0,
+    "history": [
+      {
+        "iteration": 1,
+        "errors": 0
+      }
+    ],
+    "generated_files": [
+      "Models/StreakRecord.swift",
+      "Services/StudyStreakServiceProtocol.swift",
+      "Services/StudyStreakService.swift",
+      "ViewModels/StudyStreakViewModel.swift",
+      "Views/StudyStreakView.swift"
+    ],
+    "generation_cost": 0.07838099999999999,
+    "generation_model": "claude-sonnet-4-6",
+    "feature_name": "StudyStreak",
+    "files_parsed": 5,
+    "files_requested": 5
+  }
+}
