@@ -1052,104 +1052,43 @@ def run_operations_layer(
 
     initial_health = report.health.value
     final_health = initial_health
-    recovery_attempts = 0
-    recovery_outcome = "none"
 
-    # --- Recovery loop (stateful, max MAX_RECOVERY_ATTEMPTS) ---
-    if initial_health in ("complete", "mostly_complete"):
-        print(f"\n[OpsLayer] Health: {initial_health.upper()} -- no recovery needed.")
+    # --- Step 10: Quality Gate Loop (replaces old Recovery Loop) ---
+    # Handles both completion recovery (health==incomplete) and compile hygiene repair.
+    from factory.operations.quality_gate_loop import run_quality_gate_loop
+
+    # Determine active line from project config
+    _line = language  # fallback
+    try:
+        from factory.project_config import load_project_config
+        _pc = load_project_config(project_name)
+        _active = _pc.get_active_lines()
+        if _active:
+            _line = _active[0]
+    except Exception:
+        pass
+
+    gate_result = run_quality_gate_loop(
+        project_name=project_name,
+        language=language,
+        line=_line,
+        run_id=run_id or "",
+        max_iterations=3,
+        hygiene_report=hygiene_report,
+        env_profile=env_profile,
+        initial_health=initial_health,
+        completion_report=report if initial_health == "incomplete" else None,
+    )
+
+    recovery_attempts = gate_result.iterations_used
+    recovery_outcome = gate_result.status
+    hygiene_status = "WARNINGS" if gate_result.final_blocking == 0 else "BLOCKING"
+
+    if gate_result.status == "escalation":
+        print(f"\n[OpsLayer] Quality Gate: ESCALATION — {gate_result.final_blocking} "
+              f"blocking after {gate_result.iterations_used} attempts")
+    elif initial_health in ("complete", "mostly_complete"):
         clear_recovery_state()
-    elif initial_health == "incomplete":
-        # Load any prior recovery state (from a previous ops-layer run)
-        prior_state = load_recovery_state(project_name)
-
-        for attempt in range(1, MAX_RECOVERY_ATTEMPTS + 1):
-            recovery_attempts = attempt
-            print(f"\n[OpsLayer] Health: INCOMPLETE -- recovery attempt {attempt}/{MAX_RECOVERY_ATTEMPTS}")
-
-            # Build failure context for this attempt
-            missing_list = report.to_dict().get("missing_files", [])
-            incomplete_list = report.to_dict().get("incomplete_files", [])
-            failure_summary = (
-                f"{len(missing_list)} missing, {len(incomplete_list)} incomplete "
-                f"(health: {initial_health})"
-            )
-            error_excerpt = ""
-            if missing_list:
-                error_excerpt = "Missing: " + ", ".join(missing_list[:10])
-            if incomplete_list:
-                excerpt_add = "Incomplete: " + ", ".join(incomplete_list[:5])
-                error_excerpt = f"{error_excerpt}; {excerpt_add}" if error_excerpt else excerpt_add
-
-            failure_ctx = RecoveryState(
-                project_name=project_name,
-                attempt_number=attempt,
-                failed_stage="completion_verifier",
-                failure_status=initial_health,
-                failure_summary=failure_summary,
-                error_excerpt=error_excerpt[:400],
-                failure_fingerprint=prior_state.failure_fingerprint if prior_state else "",
-                prior_fingerprints=prior_state.prior_fingerprints if prior_state else [],
-                timestamp=report.to_dict().get("timestamp", ""),
-            )
-
-            runner = RecoveryRunner(
-                project_name=project_name,
-                env_profile=env_profile,
-                dry_run=False,
-                failure_context=failure_ctx,
-            )
-            recovery_summary = runner.run()
-            recovery_outcome = recovery_summary.outcome
-
-            # If repeated failure or terminal stop, don't retry
-            if recovery_outcome in ("repeated_failure", "terminal_stop", "skipped"):
-                print(f"\n[OpsLayer] Recovery stopped: {recovery_outcome}")
-                break
-
-            # Re-integrate + re-verify after recovery
-            print(f"\n[OpsLayer] Pass {attempt + 1}: Re-integrating after recovery")
-            integrator_r = OutputIntegrator(
-                project_name=project_name,
-                log_filter=run_id,
-                clean_before_integrate=True,
-                file_extensions=_file_extensions,
-            )
-            integrator_r.run()
-
-            print(f"\n[OpsLayer] Pass {attempt + 1}: Re-verifying after recovery")
-            verifier_r = CompletionVerifier(project_name=project_name, language=language)
-            report = verifier_r.verify()
-            final_health = report.health.value
-
-            if final_health in ("complete", "mostly_complete"):
-                print(f"\n[OpsLayer] Recovery successful: {final_health.upper()}")
-                clear_recovery_state()
-                break
-
-            # Prepare prior_state for next iteration
-            prior_state = RecoveryState(
-                project_name=project_name,
-                attempt_number=attempt,
-                failed_stage="completion_verifier",
-                failure_status=final_health,
-                failure_summary=failure_summary,
-                failure_fingerprint=recovery_summary.failure_fingerprint,
-                prior_fingerprints=(
-                    failure_ctx.prior_fingerprints +
-                    ([failure_ctx.failure_fingerprint] if failure_ctx.failure_fingerprint else [])
-                ),
-            )
-        else:
-            # Exhausted all attempts
-            print(f"\n[OpsLayer] Recovery exhausted ({MAX_RECOVERY_ATTEMPTS} attempts). "
-                  f"Final health: {final_health.upper()}")
-    elif initial_health == "insufficient_evidence":
-        print(f"\n[OpsLayer] Health: INSUFFICIENT_EVIDENCE -- no specs available, "
-              f"project-evidence mode used. Recovery not triggered.")
-    else:
-        # FAILED
-        print(f"\n[OpsLayer] Health: FAILED -- too little output for recovery.")
 
     # --- Summary ---
     print()
@@ -1158,16 +1097,19 @@ def run_operations_layer(
     print("=" * 60)
     print(f"  Project:            {project_name}")
     print(f"  Initial status:     {initial_health.upper()}")
-    print(f"  Recovery attempts:  {recovery_attempts}")
-    print(f"  Recovery outcome:   {recovery_outcome}")
-    print(f"  Final status:       {final_health.upper()}")
+    print(f"  Quality Gate:       {gate_result.status.upper()} "
+          f"({gate_result.iterations_used} iteration(s))")
     print(f"  Compile hygiene:    {hygiene_status}")
+    if gate_result.tier1_fixes > 0:
+        print(f"  Tier 1 fixes:       {gate_result.tier1_fixes} (deterministic)")
+    if gate_result.tier2_fixes > 0:
+        print(f"  Tier 2 fixes:       {gate_result.tier2_fixes} (LLM)")
     if stub_report and stub_report.stubs_created > 0:
-        print(f"  FK-014 stubs:       {stub_report.stubs_created} created")
+        print(f"  FK-014 stubs:       {stub_report.stubs_created} created (Step 7)")
     if shape_report and shape_report.repairs_applied > 0:
-        print(f"  FK-013 repairs:     {shape_report.repairs_applied} applied")
+        print(f"  FK-013 repairs:     {shape_report.repairs_applied} applied (Step 8)")
     if stale_report and stale_report.quarantined > 0:
-        print(f"  Stale quarantined:  {stale_report.quarantined} file(s)")
+        print(f"  Stale quarantined:  {stale_report.quarantined} file(s) (Step 6)")
     print(f"  Swift compile:      {swift_compile_status}")
     print("=" * 60)
     print()

@@ -1,7 +1,7 @@
 {
   "project": "askfin_v1-1",
   "scan_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1",
-  "files_scanned": 226,
+  "files_scanned": 241,
   "checks_run": [
     "FK-011",
     "FK-012",
@@ -10,9 +10,9 @@
     "FK-015",
     "FK-017"
   ],
-  "status": "BLOCKING",
-  "issues_found": 16,
-  "blocking": 2,
+  "status": "WARNINGS",
+  "issues_found": 14,
+  "blocking": 0,
   "warnings": 14,
   "issues": [
     {
@@ -140,34 +140,6 @@
       "line": 117,
       "matched_text": "DirectionalArrow(",
       "type_name": "DirectionalArrow"
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/StubServices.swift",
-      "message": "Type 'QuestionResult' referenced in 3 files but never declared in project",
-      "type_name": "QuestionResult",
-      "other_files": [
-        "ViewModels/SimulationResultViewModel.swift",
-        "Views/Simulation/SimulationResultView.swift"
-      ]
-    },
-    {
-      "pattern_id": "FK-014",
-      "severity": "blocking",
-      "file": "App/PremiumRootView.swift",
-      "message": "Type 'SimulationResult' referenced in 9 files but never declared in project",
-      "type_name": "SimulationResult",
-      "other_files": [
-        "App/StubServices.swift",
-        "Models/SimulationProtocols.swift",
-        "Services/ReadinessScoreService.swift",
-        "Services/SessionHistoryStore.swift",
-        "ViewModels/SimulationResultViewModel.swift",
-        "Views/Simulation/ExamHistoryView.swift",
-        "Views/Simulation/ExamSimulationView.swift",
-        "Views/Simulation/SimulationResultView.swift"
-      ]
     }
   ]
 }

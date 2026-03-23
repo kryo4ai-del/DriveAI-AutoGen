@@ -1,99 +1,36 @@
 {
   "project": "askfin_v1-1",
-  "timestamp": "2026-03-23 12:03:20",
-  "fk014_count": 16,
-  "stubs_created": 4,
-  "stubs_skipped": 12,
+  "timestamp": "2026-03-23 13:16:30",
+  "fk014_count": 2,
+  "stubs_created": 2,
+  "stubs_skipped": 0,
   "actions": [
     {
-      "type_name": "DifficultyBreakdown",
+      "type_name": "QuestionResult",
       "kind": "struct",
-      "file_path": "Models\\DifficultyBreakdown.swift",
-      "ref_files": [
-        "Models/CategoryResult.swift",
-        "Models/ReadinessAssessmentServiceProtocol.swift",
-        "Models/ReadinessAssessmentTests.swift"
-      ]
-    },
-    {
-      "type_name": "ExamSimulation",
-      "kind": "struct",
-      "file_path": "Models\\ExamSimulation.swift",
+      "file_path": "Models\\QuestionResult.swift",
       "ref_files": [
         "App/StubServices.swift",
-        "Models/SimulationProtocols.swift"
+        "ViewModels/SimulationResultViewModel.swift",
+        "Views/Simulation/SimulationResultView.swift"
       ]
     },
     {
-      "type_name": "ExamTimerService",
-      "kind": "class",
-      "file_path": "Services\\ExamTimerService.swift",
-      "ref_files": [
-        "ViewModels/ExamSessionViewModel.swift",
-        "Views/ExamTimerView.swift"
-      ]
-    },
-    {
-      "type_name": "ReadinessAssessment",
+      "type_name": "SimulationResult",
       "kind": "struct",
-      "file_path": "Models\\ReadinessAssessment.swift",
+      "file_path": "Models\\SimulationResult.swift",
       "ref_files": [
-        "Models/AssessmentResult.swift",
-        "Models/ReadinessAssessmentServiceProtocol.swift",
-        "Models/ReadinessAssessmentTests.swift",
-        "ViewModels/RecommendationViewModel.swift",
-        "Views/ResultsView.swift"
+        "App/PremiumRootView.swift",
+        "App/StubServices.swift",
+        "Models/SimulationProtocols.swift",
+        "Services/ReadinessScoreService.swift",
+        "Services/SessionHistoryStore.swift",
+        "ViewModels/SimulationResultViewModel.swift",
+        "Views/Simulation/ExamHistoryView.swift",
+        "Views/Simulation/ExamSimulationView.swift",
+        "Views/Simulation/SimulationResultView.swift"
       ]
     }
   ],
-  "skipped": [
-    {
-      "type_name": "AnyCancellable",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Button",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Combine",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "DEBUG",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "NavigationStack",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "ObservableObject",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "ObservedObject",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Published",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "ScrollView",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "Self",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "StateObject",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    },
-    {
-      "type_name": "ViewBuilder",
-      "reason": "framework/stdlib type \u2014 should not be stubbed"
-    }
-  ]
+  "skipped": []
 }

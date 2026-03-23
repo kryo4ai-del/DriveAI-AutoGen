@@ -1,0 +1,266 @@
+{
+  "timestamp": "20260323_131629",
+  "project": "askfin_v1-1",
+  "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\projects\\askfin_v1-1\\generated",
+  "files_collected": 39,
+  "files_normalized": 2,
+  "files_written": 4,
+  "files_skipped": 35,
+  "truncated_detected": [
+    "BreathFlowNavigationDestination.swift (generated_code, 12 lines)",
+    "BreathFlowRoute.swift (generated_code, 8 lines)",
+    "SessionState.swift (generated_code, 30 lines)",
+    "BreathAnimationView.swift (log:driveai_run_20260323_130332.txt, 48 lines)"
+  ],
+  "normalized_paths": [
+    {
+      "from": "Models\\AnxietyLevel+Extension.swift",
+      "to": "Models/AnxietyLevel+Extension.swift"
+    },
+    {
+      "from": "Models\\AnxietyLevel.swift",
+      "to": "Models/AnxietyLevel.swift"
+    },
+    {
+      "from": "Models\\BreathFlowNavigationDestination.swift",
+      "to": "Models/BreathFlowNavigationDestination.swift"
+    },
+    {
+      "from": "Models\\BreathFlowRoute.swift",
+      "to": "Models/BreathFlowRoute.swift"
+    },
+    {
+      "from": "Models\\BreathFlowServiceProtocol.swift",
+      "to": "Services/BreathFlowServiceProtocol.swift"
+    },
+    {
+      "from": "Models\\BreathPattern+Extension.swift",
+      "to": "Models/BreathPattern+Extension.swift"
+    },
+    {
+      "from": "Models\\BreathPattern.swift",
+      "to": "Models/BreathPattern.swift"
+    },
+    {
+      "from": "Models\\BreathPhase+Extension.swift",
+      "to": "Models/BreathPhase+Extension.swift"
+    },
+    {
+      "from": "Models\\BreathPhase.swift",
+      "to": "Models/BreathPhase.swift"
+    },
+    {
+      "from": "Models\\BreathSession.swift",
+      "to": "Models/BreathSession.swift"
+    },
+    {
+      "from": "Models\\GeneratedHelpers.swift",
+      "to": "Models/GeneratedHelpers.swift"
+    },
+    {
+      "from": "Models\\SessionState.swift",
+      "to": "Models/SessionState.swift"
+    },
+    {
+      "from": "services\\BreathFlowService.swift",
+      "to": "Services/BreathFlowService.swift"
+    },
+    {
+      "from": "ViewModels\\BreathFlowCompletionViewModel.swift",
+      "to": "ViewModels/BreathFlowCompletionViewModel.swift"
+    },
+    {
+      "from": "ViewModels/BreathFlow/BreathFlowEntryViewModel.swift",
+      "to": "ViewModels/BreathFlowEntryViewModel.swift"
+    },
+    {
+      "from": "ViewModels/BreathFlow/BreathFlowSessionViewModel.swift",
+      "to": "ViewModels/BreathFlowSessionViewModel.swift"
+    },
+    {
+      "from": "Views\\AnxietyPicker.swift",
+      "to": "Models/AnxietyPicker.swift"
+    },
+    {
+      "from": "Views\\BreathFlowEntryView.swift",
+      "to": "Views/BreathFlowEntryView.swift"
+    },
+    {
+      "from": "Views\\BreathFlowSessionView.swift",
+      "to": "Views/BreathFlowSessionView.swift"
+    },
+    {
+      "from": "Views\\PatternCard.swift",
+      "to": "Models/PatternCard.swift"
+    },
+    {
+      "from": "Views\\PatternPickerSheet.swift",
+      "to": "Models/PatternPickerSheet.swift"
+    },
+    {
+      "from": "Views/BreathFlow/Extensions/BreathPhase+Presentation.swift",
+      "to": "Models/BreathPhase+Presentation.swift"
+    },
+    {
+      "from": "Views/BreathFlow/Extensions/AnxietyLevel+Presentation.swift",
+      "to": "Models/AnxietyLevel+Presentation.swift"
+    },
+    {
+      "from": "Views/BreathFlow/Extensions/BreathPattern+Presentation.swift",
+      "to": "Models/BreathPattern+Presentation.swift"
+    },
+    {
+      "from": "Views/BreathFlow/Components/BreathAnimationView.swift",
+      "to": "Views/BreathAnimationView.swift"
+    }
+  ],
+  "written_files": [
+    "Models\\BreathPhase+Presentation.swift",
+    "Models\\AnxietyLevel+Presentation.swift",
+    "Models\\BreathPattern+Presentation.swift",
+    "Views\\BreathAnimationView.swift"
+  ],
+  "skipped_files": [
+    {
+      "file": "AnxietyLevel.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (1384 chars vs 1384 chars)"
+    },
+    {
+      "file": "BreathFlowServiceProtocol.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (380 chars vs 380 chars)"
+    },
+    {
+      "file": "BreathPattern.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (4399 chars vs 4399 chars)"
+    },
+    {
+      "file": "BreathPhase.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (1374 chars vs 1374 chars)"
+    },
+    {
+      "file": "BreathSession.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (932 chars vs 932 chars)"
+    },
+    {
+      "file": "BreathFlowService.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (2344 chars vs 2344 chars)"
+    },
+    {
+      "file": "BreathFlowCompletionViewModel.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (3119 chars vs 3119 chars)"
+    },
+    {
+      "file": "BreathFlowEntryViewModel.swift (generated_code)",
+      "reason": "shorter version (712 chars vs 3031 chars)"
+    },
+    {
+      "file": "BreathFlowSessionViewModel.swift (generated_code)",
+      "reason": "shorter version (1058 chars vs 6835 chars)"
+    },
+    {
+      "file": "AnxietyPicker.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (1754 chars vs 1754 chars)"
+    },
+    {
+      "file": "BreathFlowEntryView.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (3321 chars vs 3321 chars)"
+    },
+    {
+      "file": "BreathFlowSessionView.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (3297 chars vs 3297 chars)"
+    },
+    {
+      "file": "PatternCard.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (1868 chars vs 1868 chars)"
+    },
+    {
+      "file": "PatternPickerSheet.swift (log:driveai_run_20260323_130332.txt)",
+      "reason": "shorter version (2163 chars vs 2163 chars)"
+    },
+    {
+      "file": "Models/AnxietyLevel+Extension.swift",
+      "reason": "already exists in project: Models\\AnxietyLevel+Extension.swift"
+    },
+    {
+      "file": "Models/AnxietyLevel.swift",
+      "reason": "already exists in project: Models\\AnxietyLevel.swift"
+    },
+    {
+      "file": "Models/BreathFlowNavigationDestination.swift",
+      "reason": "already exists in project: Models\\BreathFlowNavigationDestination.swift"
+    },
+    {
+      "file": "Models/BreathFlowRoute.swift",
+      "reason": "already exists in project: Models\\BreathFlowRoute.swift"
+    },
+    {
+      "file": "Services/BreathFlowServiceProtocol.swift",
+      "reason": "already exists in project: Models\\BreathFlowServiceProtocol.swift"
+    },
+    {
+      "file": "Models/BreathPattern+Extension.swift",
+      "reason": "already exists in project: Models\\BreathPattern+Extension.swift"
+    },
+    {
+      "file": "Models/BreathPattern.swift",
+      "reason": "already exists in project: Models\\BreathPattern.swift"
+    },
+    {
+      "file": "Models/BreathPhase+Extension.swift",
+      "reason": "already exists in project: Models\\BreathPhase+Extension.swift"
+    },
+    {
+      "file": "Models/BreathPhase.swift",
+      "reason": "already exists in project: Models\\BreathPhase.swift"
+    },
+    {
+      "file": "Models/BreathSession.swift",
+      "reason": "already exists in project: Models\\BreathSession.swift"
+    },
+    {
+      "file": "Models/GeneratedHelpers.swift",
+      "reason": "already exists in project: Models\\GeneratedHelpers.swift"
+    },
+    {
+      "file": "Models/SessionState.swift",
+      "reason": "already exists in project: Models\\SessionState.swift"
+    },
+    {
+      "file": "Services/BreathFlowService.swift",
+      "reason": "already exists in project: Services\\BreathFlowService.swift"
+    },
+    {
+      "file": "ViewModels/BreathFlowCompletionViewModel.swift",
+      "reason": "already exists in project: ViewModels\\BreathFlowCompletionViewModel.swift"
+    },
+    {
+      "file": "ViewModels/BreathFlowEntryViewModel.swift",
+      "reason": "already exists in project: ViewModels\\BreathFlowEntryViewModel.swift"
+    },
+    {
+      "file": "ViewModels/BreathFlowSessionViewModel.swift",
+      "reason": "already exists in project: ViewModels\\BreathFlowSessionViewModel.swift"
+    },
+    {
+      "file": "Models/AnxietyPicker.swift",
+      "reason": "already exists in project: Models\\AnxietyPicker.swift"
+    },
+    {
+      "file": "Views/BreathFlowEntryView.swift",
+      "reason": "already exists in project: Views\\BreathFlowEntryView.swift"
+    },
+    {
+      "file": "Views/BreathFlowSessionView.swift",
+      "reason": "already exists in project: Views\\BreathFlowSessionView.swift"
+    },
+    {
+      "file": "Models/PatternCard.swift",
+      "reason": "already exists in project: Models\\PatternCard.swift"
+    },
+    {
+      "file": "Models/PatternPickerSheet.swift",
+      "reason": "already exists in project: Models\\PatternPickerSheet.swift"
+    }
+  ],
+  "errors": []
+}

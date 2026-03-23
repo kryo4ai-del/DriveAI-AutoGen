@@ -1,0 +1,202 @@
+{
+  "services": {
+    "dalle3": {
+      "name": "DALL-E 3",
+      "category": "image",
+      "provider": "openai",
+      "api_base": "https://api.openai.com/v1/images/generations",
+      "api_key_env": "OPENAI_API_KEY",
+      "status": "active",
+      "capabilities": [
+        "text_to_image",
+        "png_output",
+        "transparent_bg",
+        "max_1024x1024",
+        "text_in_image"
+      ],
+      "cost_per_call": {
+        "1024x1024": 0.04,
+        "512x512": 0.02
+      },
+      "quality_score": 0.0,
+      "rate_limit": {
+        "requests_per_minute": 50,
+        "requests_per_day": 500
+      },
+      "added_date": "2026-03-23",
+      "last_health_check": null,
+      "notes": "Gute Prompt-Treue, kann Text in Bildern rendern"
+    },
+    "stability_sdxl": {
+      "name": "Stability AI SDXL",
+      "category": "image",
+      "provider": "stability",
+      "api_base": "https://api.stability.ai/v2beta/stable-image/generate",
+      "api_key_env": "STABILITY_API_KEY",
+      "status": "active",
+      "capabilities": [
+        "text_to_image",
+        "png_output",
+        "transparent_bg",
+        "max_2048x2048",
+        "style_control",
+        "negative_prompt"
+      ],
+      "cost_per_call": {
+        "1024x1024": 0.03,
+        "512x512": 0.016
+      },
+      "quality_score": 0.0,
+      "rate_limit": {
+        "requests_per_minute": 150,
+        "requests_per_day": 10000
+      },
+      "added_date": "2026-03-23",
+      "last_health_check": null,
+      "notes": "Günstig, gute Qualität, viele Stile via negative_prompt"
+    },
+    "recraft_v3": {
+      "name": "Recraft v3",
+      "category": "image",
+      "provider": "recraft",
+      "api_base": "https://external.api.recraft.ai/v1/images/generations",
+      "api_key_env": "RECRAFT_API_KEY",
+      "status": "inactive",
+      "capabilities": [
+        "text_to_image",
+        "svg_output",
+        "png_output",
+        "vector_icons",
+        "style_control"
+      ],
+      "cost_per_call": {
+        "1024x1024": 0.02,
+        "svg": 0.02
+      },
+      "quality_score": 0.0,
+      "rate_limit": {
+        "requests_per_minute": 20,
+        "requests_per_day": 1000
+      },
+      "added_date": "2026-03-23",
+      "last_health_check": null,
+      "notes": "SVG-Generierung, ideal für Icons und Vektor-Assets"
+    },
+    "elevenlabs_sfx": {
+      "name": "ElevenLabs Sound Effects",
+      "category": "sound",
+      "provider": "elevenlabs",
+      "api_base": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_key_env": "ELEVENLABS_API_KEY",
+      "status": "active",
+      "capabilities": [
+        "text_to_sfx",
+        "mp3_output",
+        "wav_output",
+        "max_22s"
+      ],
+      "cost_per_call": {
+        "per_generation": 0.01
+      },
+      "quality_score": 0.0,
+      "rate_limit": {
+        "requests_per_minute": 20,
+        "requests_per_day": 500
+      },
+      "added_date": "2026-03-23",
+      "last_health_check": null,
+      "notes": "Hohe SFX-Qualität, Text-Prompt zu Sound"
+    },
+    "suno_ai": {
+      "name": "Suno AI",
+      "category": "sound",
+      "provider": "suno",
+      "api_base": "https://studio-api.suno.ai/api/external/generate",
+      "api_key_env": "SUNO_API_KEY",
+      "status": "inactive",
+      "capabilities": [
+        "text_to_music",
+        "ambient_generation",
+        "mp3_output",
+        "max_240s",
+        "genre_control"
+      ],
+      "cost_per_call": {
+        "per_track": 0.05
+      },
+      "quality_score": 0.0,
+      "rate_limit": {
+        "requests_per_minute": 10,
+        "requests_per_day": 200
+      },
+      "added_date": "2026-03-23",
+      "last_health_check": null,
+      "notes": "Musik/Ambient-Generierung, weniger Kontrolle über Frequenzen"
+    },
+    "runway_ml": {
+      "name": "Runway ML Gen-3",
+      "category": "video",
+      "provider": "runway",
+      "api_base": "https://api.dev.runwayml.com/v1/image_to_video",
+      "api_key_env": "RUNWAY_API_KEY",
+      "status": "inactive",
+      "capabilities": [
+        "image_to_video",
+        "text_to_video",
+        "mp4_output",
+        "max_10s"
+      ],
+      "cost_per_call": {
+        "5s_video": 0.1,
+        "10s_video": 0.2
+      },
+      "quality_score": 0.0,
+      "rate_limit": {
+        "requests_per_minute": 5,
+        "requests_per_day": 100
+      },
+      "added_date": "2026-03-23",
+      "last_health_check": null,
+      "notes": "Video-Generierung, teuer aber hohe Qualität"
+    }
+  },
+  "categories": {
+    "image": {
+      "description": "Bild-Generierung (Sprites, Icons, Hintergründe, Illustrationen)",
+      "required_capabilities_minimum": [
+        "text_to_image",
+        "png_output"
+      ],
+      "preferred_fallback_order": [
+        "dalle3",
+        "stability_sdxl",
+        "recraft_v3"
+      ]
+    },
+    "sound": {
+      "description": "Audio-Generierung (SFX, Ambient, Musik, Voice)",
+      "required_capabilities_minimum": [
+        "text_to_sfx"
+      ],
+      "preferred_fallback_order": [
+        "elevenlabs_sfx",
+        "suno_ai"
+      ]
+    },
+    "animation": {
+      "description": "Animations-Generierung (Lottie, Rive, CSS)",
+      "required_capabilities_minimum": [],
+      "preferred_fallback_order": [],
+      "notes": "Primär intern via Claude (Lottie JSON), externe Dienste optional"
+    },
+    "video": {
+      "description": "Video/3D-Generierung (Texturen, Cutscenes, 3D-Modelle)",
+      "required_capabilities_minimum": [
+        "text_to_video"
+      ],
+      "preferred_fallback_order": [
+        "runway_ml"
+      ]
+    }
+  }
+}
