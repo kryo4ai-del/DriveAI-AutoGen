@@ -234,7 +234,6 @@
 		EE4875E1A1AECEA0CFA605F6 /* ExamReadinessCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05161E39929FFF12048A00EC /* ExamReadinessCard.swift */; };
 		EF6FBA7EAADE2433066AFF9D /* ScoringCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77D65315C1DF26AD86A5ED8 /* ScoringCalculator.swift */; };
 		F09009CC8BBB83D5E670A30F /* ExamConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826197EC09D6F151B9C14379 /* ExamConfig.swift */; };
-		F3350B8BCB2DE8F81E9A563E /* MeditationSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747ABAFEE51EDB19ED6B1B5 /* MeditationSessionService.swift */; };
 		F55F30D4EAF5C54BC2FB8A65 /* questions.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B5682486FB3845B99905974 /* questions.json */; };
 		F6AE318665ED848240556653 /* CategoryStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48958FD205FE109EC636086 /* CategoryStrength.swift */; };
 		F84936F428E94B5BE7BCC91B /* StreakIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE77361FC9D6F55D67A0CBE2 /* StreakIndicator.swift */; };
@@ -373,7 +372,6 @@
 		721DEF28A0E9A4C29DD08C47 /* CategoryStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStatus.swift; sourceTree = "<group>"; };
 		73571540C96E4D14C02D5A36 /* MeditationActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationActiveView.swift; sourceTree = "<group>"; };
 		77029E2007E7C1F0D07906A2 /* PremiumDefaultLocalDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumDefaultLocalDataService.swift; sourceTree = "<group>"; };
-		7747ABAFEE51EDB19ED6B1B5 /* MeditationSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationSessionService.swift; sourceTree = "<group>"; };
 		7AEA050EBF9B14D300DE8693 /* ExamReadinessSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamReadinessSnapshot.swift; sourceTree = "<group>"; };
 		7B49D369F7A3075F4844369A /* ClockProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockProtocol.swift; sourceTree = "<group>"; };
 		7CEAFC1BEBE7CED50D209C1E /* OfflineStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineStatusViewModel.swift; sourceTree = "<group>"; };
@@ -528,7 +526,6 @@
 				3F8B2C0FFE6B74C6355F83CE /* HapticFeedbackProtocol.swift */,
 				8EAC59B2B95FBF562A06D944 /* LocalCategoryProgressService.swift */,
 				4EFAF9819715227FE6987449 /* LocalDataService.swift */,
-				7747ABAFEE51EDB19ED6B1B5 /* MeditationSessionService.swift */,
 				2D655E3B9D198AE0F4C00A17 /* NetworkMonitor.swift */,
 				0230ACC5B1F3AE0CA09E65BA /* PersistenceStore.swift */,
 				77029E2007E7C1F0D07906A2 /* PremiumDefaultLocalDataService.swift */,
@@ -1052,7 +1049,6 @@
 				DDBBA5B997218893A8358CAF /* MeditationDuration.swift in Sources */,
 				05A34285B59FF4277BAC84B7 /* MeditationRoute.swift in Sources */,
 				42FB4C2724E127DF9752AC46 /* MeditationSession.swift in Sources */,
-				F3350B8BCB2DE8F81E9A563E /* MeditationSessionService.swift in Sources */,
 				365766297FC3F1FB068EFE3A /* MeditationSessionServiceProtocol.swift in Sources */,
 				FAC33A7716A4C6549732F27E /* MeditationSetupView.swift in Sources */,
 				66F77B0ABEB6908D99A9FB6F /* MeditationSetupViewModel.swift in Sources */,
