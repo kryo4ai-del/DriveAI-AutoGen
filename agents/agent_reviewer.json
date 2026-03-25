@@ -1,0 +1,15 @@
+{
+  "id": "CPL-04",
+  "name": "Code Reviewer",
+  "role": "Quality Reviewer",
+  "department": "Code-Pipeline",
+  "status": "active",
+  "task_type": "review",
+  "model_tier": "standard",
+  "default_model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Prueft generierten Code auf Qualitaet und Konsistenz",
+  "py_file": "reviewer.py"
+}

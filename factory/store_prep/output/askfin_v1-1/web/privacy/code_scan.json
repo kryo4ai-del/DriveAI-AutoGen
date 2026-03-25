@@ -1,0 +1,40 @@
+{
+  "networking": false,
+  "analytics": true,
+  "location": false,
+  "camera": false,
+  "microphone": false,
+  "photos": false,
+  "contacts": false,
+  "health": false,
+  "financial": false,
+  "advertising": false,
+  "push_notifications": false,
+  "biometrics": false,
+  "user_content": true,
+  "device_id": false,
+  "details": {
+    "analytics": [
+      "Models\\ReadinessConfig.swift",
+      "quarantine\\20260323_085309_AnswerStatus.swift",
+      "quarantine\\AnxietyPicker.swift",
+      "quarantine\\BreathFlowService.swift",
+      "quarantine\\MeditationActiveViewModel.swift",
+      "quarantine\\PredictionEngine.swift",
+      "quarantine\\ReadinessCalculator.swift",
+      "Tests\\CategoryReadinessStatusTests.swift"
+    ],
+    "user_content": [
+      "quarantine\\20260323_085309_AppCoordinator.swift",
+      "quarantine\\20260323_120321_BreathFlowService.swift",
+      "quarantine\\20260323_135336_MeditationSessionService.swift",
+      "quarantine\\SessionHistoryStore.swift",
+      "quarantine\\StubServices.swift",
+      "Services\\FocusTimerService.swift",
+      "Services\\PersistenceStore.swift",
+      "Services\\StudyStreakService.swift",
+      "Services\\TopicCompetenceService.swift",
+      "ViewModels\\OfflineStatusViewModel.swift"
+    ]
+  }
+}

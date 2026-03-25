@@ -1,0 +1,16 @@
+{
+  "id": "SWF-25",
+  "name": "Document Secretary",
+  "role": "PDF Generator",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Uebergreifend",
+  "task_type": "document_generation",
+  "model_tier": "mid",
+  "default_model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "routing": "hardcoded",
+  "uses_web": false,
+  "description": "15 PDF-Templates, HTML->PDF via Playwright",
+  "py_file": "secretary.py"
+}

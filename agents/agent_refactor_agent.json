@@ -1,0 +1,15 @@
+{
+  "id": "CPL-06",
+  "name": "Refactor Agent",
+  "role": "Code Refactoring",
+  "department": "Code-Pipeline",
+  "status": "active",
+  "task_type": "refactoring",
+  "model_tier": "standard",
+  "default_model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Verbessert Code-Struktur und reduziert technische Schulden",
+  "py_file": "refactor_agent.py"
+}

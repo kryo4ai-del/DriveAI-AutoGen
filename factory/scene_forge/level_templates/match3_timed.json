@@ -1,0 +1,28 @@
+{
+  "level_id": "TMPL-TIMED",
+  "grid": {
+    "width": 7,
+    "height": 9,
+    "cells": "all_normal"
+  },
+  "cell_types": {"0": "blocked", "1": "normal"},
+  "stone_pool": {
+    "types": ["red", "blue", "green", "yellow", "purple"],
+    "weights": [1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "initial_fill": "random_no_matches",
+  "objectives": {
+    "type": "score",
+    "value": 3000,
+    "time_limit": 60
+  },
+  "difficulty_score": 0.4,
+  "meta": {
+    "chapter": 2,
+    "position": 0,
+    "is_tutorial": false,
+    "tutorial_hints": [],
+    "template": "match3_timed",
+    "description": "7x9 grid, no obstacles, 60s time limit instead of move limit"
+  }
+}

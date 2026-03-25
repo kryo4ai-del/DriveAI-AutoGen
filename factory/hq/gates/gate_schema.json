@@ -1,0 +1,7 @@
+{
+  "$schema": "gate_v1",
+  "required_fields": ["gate_id", "project", "gate_type", "category", "title", "description", "severity", "created_at", "source_department", "source_agent", "options", "status"],
+  "severity_values": ["info", "warning", "blocking"],
+  "option_colors": ["green", "orange", "yellow", "red", "blue"],
+  "status_values": ["pending", "decided"]
+}

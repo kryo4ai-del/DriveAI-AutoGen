@@ -1,0 +1,41 @@
+{
+  "gate_id": "gate_20260324_104520_testprojekt_asset_selection",
+  "project": "testprojekt",
+  "platform": null,
+  "gate_type": "asset_selection",
+  "category": "store_prep",
+  "title": "App-Icon Auswahl",
+  "description": "3 Icon-Varianten wurden generiert. Bitte eine auswaehlen.",
+  "severity": "info",
+  "created_at": "2026-03-24T10:45:20.321377+00:00",
+  "source_department": "factory/store",
+  "source_agent": "asset_generator",
+  "context": {},
+  "options": [
+    {
+      "id": "variant_a",
+      "label": "Variante A — Minimalistisch",
+      "color": "blue"
+    },
+    {
+      "id": "variant_b",
+      "label": "Variante B — Bunt",
+      "color": "blue"
+    },
+    {
+      "id": "variant_c",
+      "label": "Variante C — Dunkel",
+      "color": "blue"
+    }
+  ],
+  "notes_field": true,
+  "notes_placeholder": "Anmerkungen oder Auflagen (optional)...",
+  "recommendation": {
+    "option_id": "variant_a",
+    "reasoning": "Minimalistisches Design performt 23% besser bei Casual Games."
+  },
+  "status": "pending",
+  "decided_at": null,
+  "decision": null,
+  "decision_notes": null
+}

@@ -1,0 +1,31 @@
+{
+  "scan_date": "2026-03-23",
+  "category_scanned": "animation",
+  "existing_services": [],
+  "findings": [
+    {
+      "name": "Rive (Runtime)",
+      "provider": "rive",
+      "category": "animation",
+      "api_url": "https://rive.app",
+      "api_docs_url": "https://help.rive.app/",
+      "capabilities": [
+        "interactive_animation",
+        "vector_animation",
+        "state_machine"
+      ],
+      "estimated_cost_per_call": 0.0,
+      "pros": [
+        "Neue Capabilities: interactive_animation, state_machine, vector_animation",
+        "Design tool, not API-based. Animations created in editor."
+      ],
+      "cons": [],
+      "comparison_to_existing": "new_capability",
+      "recommended_action": "add_to_registry"
+    }
+  ],
+  "summary": "1 neue Services gefunden fuer 'animation'. 1 empfohlen zum Hinzufuegen, 0 zum Beobachten. Bestehende Services: keine aktiven.",
+  "adapter_files_written": [
+    "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\brain\\service_provider\\adapters\\drafts\\rive_adapter.py"
+  ]
+}

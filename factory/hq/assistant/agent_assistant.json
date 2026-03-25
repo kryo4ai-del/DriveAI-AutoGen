@@ -1,0 +1,15 @@
+{
+  "id": "INF-01",
+  "name": "HQ Assistant",
+  "role": "CEO Personal Assistant",
+  "department": "Infrastruktur",
+  "status": "active",
+  "task_type": "assistant",
+  "model_tier": "premium",
+  "default_model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "routing": "hardcoded",
+  "uses_web": false,
+  "description": "Interaktiver CEO-Assistent mit 14 Tools, Voice, Auto-Briefing",
+  "py_file": "assistant.py"
+}

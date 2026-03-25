@@ -78,7 +78,7 @@ def _log_counts(text: str, label: str):
     yellow = text.count("\U0001f7e1")
     green = text.count("\U0001f7e2")
     warn = text.count("\u26a0\ufe0f")
-    print(f"[{AGENT_NAME}] -> {label}: {red} \U0001f534, {yellow} \U0001f7e1, {green} \U0001f7e2, {warn} \u26a0\ufe0f")
+    print(f"[{AGENT_NAME}] -> {label}: {red} RED, {yellow} YELLOW, {green} GREEN, {warn} WARN")
 
 
 def _check_flows_1_4(screen_arch, asset_discovery) -> str:

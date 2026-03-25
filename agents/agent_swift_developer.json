@@ -1,0 +1,15 @@
+{
+  "id": "CPL-03",
+  "name": "Swift Developer",
+  "role": "Swift Code Generator",
+  "department": "Code-Pipeline",
+  "status": "active",
+  "task_type": "code_generation",
+  "model_tier": "standard",
+  "default_model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Generiert Swift/SwiftUI Code aus Architektur-Specs",
+  "py_file": "swift_developer.py"
+}

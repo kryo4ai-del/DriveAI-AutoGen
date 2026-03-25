@@ -1,0 +1,16 @@
+{
+  "id": "SWF-19",
+  "name": "Asset-Discovery",
+  "role": "Visual Asset Identifier",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Kapitel 5",
+  "task_type": "extraction",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Identifiziert jedes visuelle Element pro Screen",
+  "py_file": "asset_discovery.py"
+}

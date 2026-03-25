@@ -1,0 +1,16 @@
+{
+  "id": "SWF-03",
+  "name": "Zielgruppen-Analyst",
+  "role": "Audience Researcher",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Phase 1",
+  "task_type": "research",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": true,
+  "description": "Datenbasierte Zielgruppen-Analyse",
+  "py_file": "audience_analyst.py"
+}

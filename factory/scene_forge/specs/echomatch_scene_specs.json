@@ -1,0 +1,478 @@
+{
+  "project_name": "EchoMatch",
+  "extraction_date": "2026-03-25T00:22:54.604186+00:00",
+  "levels": [
+    {
+      "spec_id": "LVL-001",
+      "name": "Tutorial Level",
+      "game_type": "match3",
+      "grid": {
+        "width": 7,
+        "height": 9,
+        "cell_size": 1.0
+      },
+      "stone_types": 4,
+      "obstacles": [],
+      "special_mechanics": [
+        "tutorial_overlay",
+        "finger_tap_hint"
+      ],
+      "difficulty": 0.1,
+      "move_limit": 15,
+      "target": {
+        "type": "score",
+        "value": 500
+      },
+      "context": "Onboarding tutorial, S003, first touch reactive gameplay",
+      "source_reference": "A009,A049,S003",
+      "priority": 1
+    },
+    {
+      "spec_id": "LVL-002",
+      "name": "Standard Match Level",
+      "game_type": "match3",
+      "grid": {
+        "width": 7,
+        "height": 9,
+        "cell_size": 1.0
+      },
+      "stone_types": 4,
+      "obstacles": [
+        "ice",
+        "stone",
+        "chain",
+        "fog"
+      ],
+      "special_mechanics": [
+        "bomb",
+        "lightning_stone",
+        "booster"
+      ],
+      "difficulty": 0.4,
+      "move_limit": 30,
+      "target": {
+        "type": "score",
+        "value": 1000
+      },
+      "context": "Core gameplay screen S006 with HUD and boosters",
+      "source_reference": "A009,A010,A011,A013,A066,S006",
+      "priority": 1
+    },
+    {
+      "spec_id": "LVL-003",
+      "name": "Obstacle Challenge Level",
+      "game_type": "match3",
+      "grid": {
+        "width": 7,
+        "height": 9,
+        "cell_size": 1.0
+      },
+      "stone_types": 4,
+      "obstacles": [
+        "ice",
+        "stone",
+        "chain",
+        "fog"
+      ],
+      "special_mechanics": [
+        "bomb",
+        "shuffle",
+        "extra_moves"
+      ],
+      "difficulty": 0.6,
+      "move_limit": 25,
+      "target": {
+        "type": "collect",
+        "value": 50
+      },
+      "context": "Collect stones goal type with heavy obstacles",
+      "source_reference": "A065,A066,S006,S008",
+      "priority": 2
+    },
+    {
+      "spec_id": "LVL-004",
+      "name": "AI Generated Level",
+      "game_type": "match3",
+      "grid": {
+        "width": 7,
+        "height": 9,
+        "cell_size": 1.0
+      },
+      "stone_types": 4,
+      "obstacles": [
+        "ice",
+        "chain"
+      ],
+      "special_mechanics": [
+        "ai_latency_placeholder",
+        "booster"
+      ],
+      "difficulty": 0.7,
+      "move_limit": 28,
+      "target": {
+        "type": "destroy",
+        "value": 30
+      },
+      "context": "KI-generated level with loading placeholder animation",
+      "source_reference": "A050,S006,S008",
+      "priority": 2
+    },
+    {
+      "spec_id": "LVL-005",
+      "name": "Hard Progression Level",
+      "game_type": "match3",
+      "grid": {
+        "width": 8,
+        "height": 9,
+        "cell_size": 1.0
+      },
+      "stone_types": 4,
+      "obstacles": [
+        "stone",
+        "fog",
+        "chain"
+      ],
+      "special_mechanics": [
+        "bomb",
+        "lightning_stone",
+        "shuffle",
+        "extra_moves"
+      ],
+      "difficulty": 0.85,
+      "move_limit": 20,
+      "target": {
+        "type": "score",
+        "value": 5000
+      },
+      "context": "Late-game high difficulty with all special stone types",
+      "source_reference": "A011,A013,A066,S006",
+      "priority": 3
+    }
+  ],
+  "scenes": [
+    {
+      "spec_id": "SCN-001",
+      "name": "SplashScreen",
+      "screen_type": "loading",
+      "required_elements": [
+        "EchoMatch_logo",
+        "wordmark",
+        "loading_bar"
+      ],
+      "background": "A003 fullscreen atmospheric dark midnight-blue artwork",
+      "animations_needed": [
+        "A004_loading_bar",
+        "A054_ab_test_loader"
+      ],
+      "sounds_needed": [
+        "ambient_intro"
+      ],
+      "source_reference": "A002,A003,A004,S001",
+      "priority": 1
+    },
+    {
+      "spec_id": "SCN-002",
+      "name": "GameplayField",
+      "screen_type": "game",
+      "required_elements": [
+        "match3_grid",
+        "stone_sprites",
+        "special_stones",
+        "move_counter",
+        "score_hud",
+        "booster_bar",
+        "goal_indicator",
+        "grid_frame"
+      ],
+      "background": "A010 dark thematic fullscreen game field background",
+      "animations_needed": [
+        "A012_match_effects",
+        "A014_move_counter",
+        "A015_score_popup",
+        "A016_booster_icons",
+        "A050_ai_loader"
+      ],
+      "sounds_needed": [
+        "match_sfx",
+        "booster_sfx",
+        "ambient_game"
+      ],
+      "source_reference": "A009,A010,A011,A013,A014,A015,A016,A065,A066,S006",
+      "priority": 1
+    },
+    {
+      "spec_id": "SCN-003",
+      "name": "LevelResultScreen",
+      "screen_type": "ui",
+      "required_elements": [
+        "star_rating",
+        "score_display",
+        "reward_icons",
+        "currency_icons",
+        "share_button"
+      ],
+      "background": "Dark overlay on gameplay background",
+      "animations_needed": [
+        "A017_win_animation",
+        "A019_star_animation",
+        "A060_reward_unlock",
+        "A018_lose_illustration"
+      ],
+      "sounds_needed": [
+        "win_fanfare",
+        "lose_sfx",
+        "star_ding"
+      ],
+      "source_reference": "A017,A018,A019,A020,A036,A040,S007",
+      "priority": 1
+    },
+    {
+      "spec_id": "SCN-004",
+      "name": "LevelMapScreen",
+      "screen_type": "ui",
+      "required_elements": [
+        "level_nodes",
+        "map_path",
+        "world_background",
+        "tab_bar"
+      ],
+      "background": "A023 thematic world illustration",
+      "animations_needed": [
+        "A022_node_states",
+        "A051_unlock_animation",
+        "A050_ai_loader"
+      ],
+      "sounds_needed": [
+        "map_ambient",
+        "unlock_sfx"
+      ],
+      "source_reference": "A021,A022,A023,A046,A065,S008",
+      "priority": 1
+    },
+    {
+      "spec_id": "SCN-005",
+      "name": "HomeHub",
+      "screen_type": "ui",
+      "required_elements": [
+        "hero_banner",
+        "daily_quest_card",
+        "tab_bar",
+        "quest_checkmark"
+      ],
+      "background": "A028 dynamic time-of-day hero banner artwork",
+      "animations_needed": [
+        "A029_quest_card",
+        "A061_quest_checkmark"
+      ],
+      "sounds_needed": [
+        "home_ambient"
+      ],
+      "source_reference": "A028,A029,A046,S005",
+      "priority": 1
+    },
+    {
+      "spec_id": "SCN-006",
+      "name": "ShopScreen",
+      "screen_type": "ui",
+      "required_elements": [
+        "offer_cards",
+        "currency_icons",
+        "foot_in_door_highlight",
+        "reward_icons"
+      ],
+      "background": "Dark themed shop background",
+      "animations_needed": [
+        "A035_iap_highlight",
+        "A064_iap_confirm"
+      ],
+      "sounds_needed": [
+        "purchase_sfx",
+        "coin_sfx"
+      ],
+      "source_reference": "A034,A035,A036,A020,S011",
+      "priority": 1
+    }
+  ],
+  "shaders": [
+    {
+      "spec_id": "SHD-001",
+      "name": "StoneBloomEmission",
+      "pipeline": "URP",
+      "effect_type": "bloom_emission",
+      "description": "Self-emissive stone shader with pulsing bloom; stones emit light, no reflection",
+      "parameters": {
+        "emission_intensity": 1.5,
+        "bloom_threshold": 0.8,
+        "pulse_speed": 1.2,
+        "base_color": "#0D0F1A",
+        "accent_colors": [
+          "amber",
+          "copper"
+        ]
+      },
+      "performance_budget": {
+        "max_overdraw": 2,
+        "target_fps": 60,
+        "mobile_tier": "mid"
+      },
+      "source_reference": "DesignVision_URP_Bloom,A009",
+      "priority": 1
+    },
+    {
+      "spec_id": "SHD-002",
+      "name": "GameFieldBackground",
+      "pipeline": "URP",
+      "effect_type": "custom",
+      "description": "Dark midnight-blue slate-green background with depth parallax and subtle ambient glow",
+      "parameters": {
+        "base_color_near": "#0D0F1A",
+        "base_color_far": "#1A1D2E",
+        "parallax_strength": 0.05,
+        "vignette_intensity": 0.4
+      },
+      "performance_budget": {
+        "max_overdraw": 1,
+        "target_fps": 60,
+        "mobile_tier": "low"
+      },
+      "source_reference": "DesignVision,A010,S006",
+      "priority": 1
+    },
+    {
+      "spec_id": "SHD-003",
+      "name": "UIGlassPanel",
+      "pipeline": "URP",
+      "effect_type": "custom",
+      "description": "Frosted glass dark UI panel with subtle rim light for cards and HUD elements",
+      "parameters": {
+        "opacity": 0.85,
+        "blur_radius": 4.0,
+        "rim_color": "copper",
+        "rim_intensity": 0.6
+      },
+      "performance_budget": {
+        "max_overdraw": 2,
+        "target_fps": 60,
+        "mobile_tier": "mid"
+      },
+      "source_reference": "DesignVision,A034,A029",
+      "priority": 2
+    },
+    {
+      "spec_id": "SHD-004",
+      "name": "ParticleMatchBurst",
+      "pipeline": "URP",
+      "effect_type": "bloom_emission",
+      "description": "Emissive particle burst shader for match-3 combo effects with color-per-stone-type",
+      "parameters": {
+        "emission_intensity": 2.0,
+        "lifetime": 0.6,
+        "color_mode": "per_stone_type",
+        "bloom_contribution": 1.0
+      },
+      "performance_budget": {
+        "max_overdraw": 3,
+        "target_fps": 60,
+        "mobile_tier": "mid"
+      },
+      "source_reference": "A012,S003,S006",
+      "priority": 1
+    }
+  ],
+  "prefabs": [
+    {
+      "spec_id": "PFB-001",
+      "name": "MatchStone",
+      "root_type": "GameObject",
+      "components": [
+        "SpriteRenderer",
+        "StoneBloomEmission_Material",
+        "Animator",
+        "Collider2D",
+        "StoneController"
+      ],
+      "children": [
+        "GlowCore",
+        "EmissionRing",
+        "ParticleBurst"
+      ],
+      "source_reference": "A009,A011,A012,SHD-001",
+      "priority": 1
+    },
+    {
+      "spec_id": "PFB-002",
+      "name": "GameGrid",
+      "root_type": "GameObject",
+      "components": [
+        "GridLayoutGroup",
+        "GridController",
+        "GridFrameRenderer"
+      ],
+      "children": [
+        "GridFrame",
+        "CellContainer",
+        "ObstacleLayer",
+        "HintOverlayLayer"
+      ],
+      "source_reference": "A013,A066,A049,S006",
+      "priority": 1
+    },
+    {
+      "spec_id": "PFB-003",
+      "name": "GameHUD",
+      "root_type": "GameObject",
+      "components": [
+        "Canvas",
+        "CanvasScaler",
+        "HUDController"
+      ],
+      "children": [
+        "MoveCounter",
+        "ScoreDisplay",
+        "BoosterBar",
+        "GoalIndicator",
+        "CurrencyDisplay"
+      ],
+      "source_reference": "A014,A015,A016,A036,A065,S006",
+      "priority": 1
+    },
+    {
+      "spec_id": "PFB-004",
+      "name": "LevelResultPanel",
+      "root_type": "GameObject",
+      "components": [
+        "Canvas",
+        "Animator",
+        "ResultController"
+      ],
+      "children": [
+        "StarRatingDisplay",
+        "ScoreLabel",
+        "RewardItemGrid",
+        "ShareButton",
+        "CurrencyReward"
+      ],
+      "source_reference": "A017,A018,A019,A020,A036,A060,S007",
+      "priority": 1
+    },
+    {
+      "spec_id": "PFB-005",
+      "name": "LevelMapNode",
+      "root_type": "GameObject",
+      "components": [
+        "SpriteRenderer",
+        "Animator",
+        "NodeController",
+        "Button"
+      ],
+      "children": [
+        "LockIcon",
+        "StarDisplay",
+        "UnlockEffect",
+        "GoalTypeIcon"
+      ],
+      "source_reference": "A022,A065,A051,S008",
+      "priority": 2
+    }
+  ]
+}

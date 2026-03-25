@@ -1,0 +1,1196 @@
+{
+  "project_name": "echomatch",
+  "generated_at": "2026-03-25T08:09:32.494801+00:00",
+  "total_features": 15,
+  "features": [
+    {
+      "feature_id": "F-001",
+      "feature_name": "App Branding & Store Presence",
+      "description": "App icon, splash screen, store graphics, notification icon",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — App-Branding (A001, A002, A062, A063)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 4,
+        "complexity": "low"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A001",
+              "type": "icon",
+              "description": "App icon, 18 variants, dark mode contrast-safe"
+            },
+            {
+              "ref": "A002",
+              "type": "logo",
+              "description": "Splash screen full logo with wordmark"
+            },
+            {
+              "ref": "A062",
+              "type": "illustration",
+              "description": "Google Play feature graphic 1024x500px plus screenshots"
+            },
+            {
+              "ref": "A063",
+              "type": "icon",
+              "description": "Monochrome notification icon for Android and iOS"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": false,
+          "items": []
+        },
+        "motion_forge": {
+          "needed": false,
+          "items": []
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-002",
+      "feature_name": "Splash Screen & App Loading",
+      "description": "Splash screen with logo, background art, loading indicator animation",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — App-Branding (A002), Illustrationen (A003), UI-Elemente (A004)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 3,
+        "complexity": "low"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A003",
+              "type": "background",
+              "description": "Full-bleed atmospheric splash background, 4 variants"
+            },
+            {
+              "ref": "A004",
+              "type": "ui_element",
+              "description": "Animated loading bar or spinner, dark mode variant"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-001",
+              "type": "sfx",
+              "description": "App launch audio sting or ambient intro sound"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-001",
+              "type": "transition",
+              "description": "Splash logo reveal and fade-to-home transition"
+            },
+            {
+              "ref": "MI-002",
+              "type": "micro-interaction",
+              "description": "Loading bar fill or spinner loop animation"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-003",
+      "feature_name": "Consent, ATT & COPPA Gate",
+      "description": "GDPR consent modal, iOS ATT pre-prompt, underage block screen",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Illustrationen (A006, A007, A008)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 5,
+        "complexity": "medium"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A006",
+              "type": "illustration",
+              "description": "GDPR consent modal thematic illustration, 2 variants"
+            },
+            {
+              "ref": "A007",
+              "type": "illustration",
+              "description": "ATT pre-permission explainer visual, iOS only"
+            },
+            {
+              "ref": "A008",
+              "type": "illustration",
+              "description": "Friendly underage block illustration, COPPA compliant"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": false,
+          "items": []
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-003",
+              "type": "transition",
+              "description": "Modal slide-up entrance and dismissal animation"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-004",
+      "feature_name": "Match-3 Gameplay Core",
+      "description": "Full match-3 grid with tiles, specials, obstacles, HUD counters",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Gameplay-Assets (A009–A011, A013, A065, A066), UI-Elemente (A014, A015, A016)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 12,
+        "complexity": "high"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A009",
+              "type": "sprite",
+              "description": "Full match-3 tile sprite set, 4 variants, animated"
+            },
+            {
+              "ref": "A010",
+              "type": "background",
+              "description": "Gameplay field background, 4 theme variants"
+            },
+            {
+              "ref": "A011",
+              "type": "sprite",
+              "description": "Special and booster stone sprites, animated"
+            },
+            {
+              "ref": "A013",
+              "type": "ui_element",
+              "description": "Grid frame and cell design for match-3 board"
+            },
+            {
+              "ref": "A066",
+              "type": "sprite",
+              "description": "Obstacle sprites: ice, stone, chain, fog, animated"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-002",
+              "type": "sfx",
+              "description": "Tile match success sound, layered by combo size"
+            },
+            {
+              "ref": "SFX-003",
+              "type": "sfx",
+              "description": "Special tile activation and explosion sounds"
+            },
+            {
+              "ref": "SFX-004",
+              "type": "sfx",
+              "description": "Obstacle break sounds per type (ice crack, chain snap)"
+            },
+            {
+              "ref": "SFX-005",
+              "type": "ambient",
+              "description": "Gameplay background music loop"
+            },
+            {
+              "ref": "SFX-006",
+              "type": "sfx",
+              "description": "Low-moves warning sound for move counter under 5"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-004",
+              "type": "micro-interaction",
+              "description": "Tile swap, fall, and snap animations"
+            },
+            {
+              "ref": "MI-005",
+              "type": "feedback",
+              "description": "Move counter warning pulse animation under 5 moves"
+            },
+            {
+              "ref": "MI-006",
+              "type": "micro-interaction",
+              "description": "Score counter animated number roll-up"
+            },
+            {
+              "ref": "MI-007",
+              "type": "micro-interaction",
+              "description": "Booster icon tap activation animation"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-005",
+      "feature_name": "Match Effects & Particle System",
+      "description": "Particle bursts and animations for successful match combinations",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Animationen & Effekte (A012)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 4,
+        "complexity": "high"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A012",
+              "type": "sprite",
+              "description": "Particle and burst sprite sheets for match combinations"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-007",
+              "type": "sfx",
+              "description": "Escalating combo burst sounds per match size"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-008",
+              "type": "feedback",
+              "description": "Particle burst and screen shake on combo matches"
+            },
+            {
+              "ref": "MI-009",
+              "type": "feedback",
+              "description": "Color-coded echo ripple effect per tile color"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-006",
+      "feature_name": "Level Won / Lost Results Screen",
+      "description": "Win celebration and empathetic loss state with star rating",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Illustrationen (A018), Animationen & Effekte (A017, A019)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 5,
+        "complexity": "medium"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A018",
+              "type": "illustration",
+              "description": "Empathetic level-failed illustration, non-demotivating"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-008",
+              "type": "sfx",
+              "description": "Level win fanfare with confetti audio"
+            },
+            {
+              "ref": "SFX-009",
+              "type": "sfx",
+              "description": "Star reveal sound, one per star earned"
+            },
+            {
+              "ref": "SFX-010",
+              "type": "sfx",
+              "description": "Gentle level-failed audio, non-punishing tone"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-010",
+              "type": "transition",
+              "description": "Full-screen confetti and star win animation"
+            },
+            {
+              "ref": "MI-011",
+              "type": "micro-interaction",
+              "description": "1-3 star drop-in animation sequenced per star"
+            },
+            {
+              "ref": "MI-012",
+              "type": "transition",
+              "description": "Results screen entrance transition from gameplay"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-007",
+      "feature_name": "Level Map & World Progression",
+      "description": "Scrollable level map with nodes, path, world backgrounds, unlock animation",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Illustrationen (A021, A023), UI-Elemente (A022), Animationen & Effekte (A050, A051)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 7,
+        "complexity": "high"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A021",
+              "type": "illustration",
+              "description": "Curved progress path graphic for level map"
+            },
+            {
+              "ref": "A022",
+              "type": "icon",
+              "description": "Level node icons: locked, completed, current states"
+            },
+            {
+              "ref": "A023",
+              "type": "background",
+              "description": "Thematic world background illustrations, 2 variants"
+            },
+            {
+              "ref": "A065",
+              "type": "icon",
+              "description": "Level goal type icons for S006 and S008"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-011",
+              "type": "sfx",
+              "description": "Level node tap and unlock sound effect"
+            },
+            {
+              "ref": "SFX-012",
+              "type": "ambient",
+              "description": "Map screen ambient background music loop"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-013",
+              "type": "transition",
+              "description": "New level unlock celebration animation on map"
+            },
+            {
+              "ref": "MI-014",
+              "type": "micro-interaction",
+              "description": "AI level loading placeholder animated scene"
+            },
+            {
+              "ref": "MI-015",
+              "type": "micro-interaction",
+              "description": "Level node idle pulse for current level"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-008",
+      "feature_name": "Home Hub & Daily Engagement",
+      "description": "Home hub with hero banner, daily quests, quest cards and social nudge",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Illustrationen (A028), UI-Elemente (A029, A030, A067), Animationen & Effekte (A061)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 6,
+        "complexity": "medium"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A028",
+              "type": "illustration",
+              "description": "Dynamic hero banner artwork, 3 time-of-day variants"
+            },
+            {
+              "ref": "A029",
+              "type": "ui_element",
+              "description": "Daily quest card design with progress, 2 variants"
+            },
+            {
+              "ref": "A030",
+              "type": "icon",
+              "description": "Quest type icon set (sword, collect, etc.)"
+            },
+            {
+              "ref": "A067",
+              "type": "ui_element",
+              "description": "Social nudge banner post-session, animated"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-013",
+              "type": "sfx",
+              "description": "Quest completion chime sound"
+            },
+            {
+              "ref": "SFX-014",
+              "type": "ambient",
+              "description": "Home hub background ambient music loop"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-016",
+              "type": "micro-interaction",
+              "description": "Quest checkmark green fill animation on completion"
+            },
+            {
+              "ref": "MI-017",
+              "type": "micro-interaction",
+              "description": "Social nudge banner slide-in animation post-session"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-009",
+      "feature_name": "Battle Pass & Season System",
+      "description": "Battle pass tier progression, season banner, timer, reward unlock",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — UI-Elemente (A031, A033), Illustrationen (A032), Animationen & Effekte (A060)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 6,
+        "complexity": "high"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A031",
+              "type": "ui_element",
+              "description": "Horizontal tier reward bar with visual tier nodes"
+            },
+            {
+              "ref": "A032",
+              "type": "illustration",
+              "description": "Battle pass season key art banner"
+            },
+            {
+              "ref": "A033",
+              "type": "ui_element",
+              "description": "Animated season countdown timer visual"
+            },
+            {
+              "ref": "A020",
+              "type": "icon",
+              "description": "Reward item icons for battle pass and quests"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-015",
+              "type": "sfx",
+              "description": "Reward tier unlock fanfare sound"
+            },
+            {
+              "ref": "SFX-016",
+              "type": "sfx",
+              "description": "Timer urgency tick sound for near-expiry state"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-018",
+              "type": "feedback",
+              "description": "Reward item burst unlock animation on tier claim"
+            },
+            {
+              "ref": "MI-019",
+              "type": "micro-interaction",
+              "description": "Tier progress bar fill animation on advancement"
+            },
+            {
+              "ref": "MI-020",
+              "type": "micro-interaction",
+              "description": "Countdown timer digit flip animation"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-010",
+      "feature_name": "Shop & IAP Purchase Flow",
+      "description": "Shop offer cards, foot-in-door highlight, currency icons, purchase confirmation",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — UI-Elemente (A034, A035, A036), Animationen & Effekte (A064)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 7,
+        "complexity": "high"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A034",
+              "type": "ui_element",
+              "description": "IAP offer cards with product visuals, 2 variants"
+            },
+            {
+              "ref": "A035",
+              "type": "ui_element",
+              "description": "Foot-in-door first IAP highlight design, animated"
+            },
+            {
+              "ref": "A036",
+              "type": "icon",
+              "description": "Soft and hard currency icons, contrast-safe"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-017",
+              "type": "sfx",
+              "description": "Purchase success celebration sound"
+            },
+            {
+              "ref": "SFX-018",
+              "type": "sfx",
+              "description": "Coin/currency collection sound for rewards"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-021",
+              "type": "feedback",
+              "description": "Reward items rain down after successful IAP"
+            },
+            {
+              "ref": "MI-022",
+              "type": "micro-interaction",
+              "description": "Foot-in-door offer pulse or glow highlight loop"
+            },
+            {
+              "ref": "MI-023",
+              "type": "transition",
+              "description": "Shop card tap expand and purchase confirmation flow"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-011",
+      "feature_name": "Social Hub & Challenges",
+      "description": "Social hub with avatar frames, leaderboard, challenges, friend cards",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — UI-Elemente (A037, A038, A055, A057), Illustrationen (A039), Social-Assets (A068)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 8,
+        "complexity": "high"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A037",
+              "type": "ui_element",
+              "description": "Decorative avatar frames by rarity tier"
+            },
+            {
+              "ref": "A038",
+              "type": "ui_element",
+              "description": "Challenge card design with opponent avatar"
+            },
+            {
+              "ref": "A039",
+              "type": "illustration",
+              "description": "Empty state illustration for no-friends state"
+            },
+            {
+              "ref": "A057",
+              "type": "ui_element",
+              "description": "Top-3 leaderboard podium design"
+            },
+            {
+              "ref": "A068",
+              "type": "ui_element",
+              "description": "Friend challenge card with opponent data, dynamic"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-019",
+              "type": "sfx",
+              "description": "Challenge received notification sound"
+            },
+            {
+              "ref": "SFX-020",
+              "type": "ambient",
+              "description": "Social hub background ambient music"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-024",
+              "type": "micro-interaction",
+              "description": "Challenge card entrance animation in social hub"
+            },
+            {
+              "ref": "MI-025",
+              "type": "micro-interaction",
+              "description": "Phase-B coming-soon badge pulse animation"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-012",
+      "feature_name": "Story / Narrative Mode",
+      "description": "Narrative hook sequence, character portraits, chapter covers, scene backgrounds",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Story/Narrative Assets (A024, A025, A026, A027)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 6,
+        "complexity": "medium"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A024",
+              "type": "illustration",
+              "description": "Full-bleed story hook artwork 3-5 panels, animated"
+            },
+            {
+              "ref": "A025",
+              "type": "illustration",
+              "description": "Main character portrait set, 3 style variants"
+            },
+            {
+              "ref": "A026",
+              "type": "illustration",
+              "description": "Chapter cover artwork per story chapter"
+            },
+            {
+              "ref": "A027",
+              "type": "background",
+              "description": "Story scene backgrounds, multiple locations, 3 variants"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-021",
+              "type": "sfx",
+              "description": "Narrative panel transition whoosh sound"
+            },
+            {
+              "ref": "SFX-022",
+              "type": "ambient",
+              "description": "Story mode atmospheric music per chapter theme"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-026",
+              "type": "transition",
+              "description": "Panel-to-panel story sequence transition animation"
+            },
+            {
+              "ref": "MI-027",
+              "type": "micro-interaction",
+              "description": "Character portrait entrance parallax on story screen"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-013",
+      "feature_name": "Onboarding & Tutorial",
+      "description": "Personalization cards, tutorial arrows, tap overlays, narrative hook entry",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — UI-Elemente (A048, A049)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 6,
+        "complexity": "medium"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A048",
+              "type": "ui_element",
+              "description": "Playstyle preference selection cards for S020"
+            },
+            {
+              "ref": "A049",
+              "type": "ui_element",
+              "description": "Animated tutorial arrows and finger-tap overlays"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-023",
+              "type": "sfx",
+              "description": "Tutorial step advance confirmation sound"
+            },
+            {
+              "ref": "SFX-024",
+              "type": "sfx",
+              "description": "Personalization card selection tap feedback sound"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-028",
+              "type": "micro-interaction",
+              "description": "Finger tap bounce loop for tutorial highlight"
+            },
+            {
+              "ref": "MI-029",
+              "type": "transition",
+              "description": "Personalization card flip or slide-in entrance"
+            },
+            {
+              "ref": "MI-030",
+              "type": "micro-interaction",
+              "description": "Highlight overlay pulse on tutorial target element"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-014",
+      "feature_name": "Player Profile & Statistics",
+      "description": "Profile screen with avatar, stats charts, sync error state",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — UI-Elemente (A043), Datenvisualisierung (A044), Illustrationen (A045)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 5,
+        "complexity": "medium"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A043",
+              "type": "illustration",
+              "description": "Default avatar placeholder for new player profile"
+            },
+            {
+              "ref": "A044",
+              "type": "ui_element",
+              "description": "Animated stats charts and progress visualizations"
+            },
+            {
+              "ref": "A045",
+              "type": "illustration",
+              "description": "Sync error illustration showing connection problem"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": false,
+          "items": []
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-031",
+              "type": "micro-interaction",
+              "description": "Chart bar or line animated fill on screen entry"
+            },
+            {
+              "ref": "MI-032",
+              "type": "transition",
+              "description": "Profile screen entrance with avatar scale-in"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    },
+    {
+      "feature_id": "F-015",
+      "feature_name": "Rewarded Ads & Share Flow",
+      "description": "Rewarded ad offer screen, ad loading animation, share result template",
+      "source_reference": "Asset_Discovery_Echomatch_2026-03-21.pdf — Illustrationen (A041), Animationen & Effekte (A042), UI-Elemente (A040)",
+      "code_requirements": {
+        "lines_needed": [
+          "ios",
+          "android"
+        ],
+        "estimated_files": 5,
+        "complexity": "medium"
+      },
+      "forge_requirements": {
+        "asset_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "A041",
+              "type": "illustration",
+              "description": "Rewarded ad offer screen reward preview illustration"
+            },
+            {
+              "ref": "A040",
+              "type": "ui_element",
+              "description": "Share result image template with score and level, 2 variants"
+            }
+          ]
+        },
+        "sound_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "SFX-025",
+              "type": "sfx",
+              "description": "Ad loading ambient loop sound, non-intrusive"
+            }
+          ]
+        },
+        "motion_forge": {
+          "needed": true,
+          "items": [
+            {
+              "ref": "MI-033",
+              "type": "micro-interaction",
+              "description": "Ad loading thematic spinner animation"
+            },
+            {
+              "ref": "MI-034",
+              "type": "transition",
+              "description": "Rewarded ad offer screen slide-up entrance"
+            }
+          ]
+        },
+        "scene_forge": {
+          "needed": false,
+          "items": []
+        }
+      },
+      "dependencies": {
+        "order": [
+          "A: asset_forge + sound_forge + motion_forge (parallel)",
+          "C: integration (copy forge outputs to project)",
+          "D: code_generation"
+        ],
+        "reason": "standard forge-before-code pipeline"
+      }
+    }
+  ],
+  "forge_summary": {
+    "asset_forge": {
+      "total_items": 47,
+      "features_needing": 15
+    },
+    "sound_forge": {
+      "total_items": 25,
+      "features_needing": 12
+    },
+    "motion_forge": {
+      "total_items": 34,
+      "features_needing": 14
+    },
+    "scene_forge": {
+      "total_items": 0,
+      "features_needing": 0
+    }
+  }
+}

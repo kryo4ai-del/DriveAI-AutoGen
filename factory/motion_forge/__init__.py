@@ -1,0 +1,7 @@
+from factory.motion_forge.anim_spec_extractor import AnimSpecExtractor, AnimSpec, AnimManifest
+from factory.motion_forge.lottie_writer import LottieWriter, LottieResult
+from factory.motion_forge.template_composer import TemplateComposer
+from factory.motion_forge.platform_adapter import PlatformAdapter, AdaptResult, BatchAdaptResult
+from factory.motion_forge.animation_validator import AnimationValidator, ValidationResult
+from factory.motion_forge.animation_catalog_manager import AnimationCatalogManager, AnimationCatalog
+from factory.motion_forge.motion_forge_orchestrator import MotionForgeOrchestrator, OrchestratorResult

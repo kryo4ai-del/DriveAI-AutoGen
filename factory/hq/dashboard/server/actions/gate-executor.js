@@ -47,11 +47,26 @@ function executeGateDecision(projectId, gateType, decision, reasoning, autoTrigg
     date: now,
     notes: reasoning || null,
   };
+  // Also update chapters gate entry
+  if (!project.chapters) project.chapters = {};
+  project.chapters[gateType] = {
+    status: 'complete',
+    decision: decision,
+    date: now,
+    notes: reasoning || '',
+  };
+  project.updated_at = now;
   project.updated = now;
   project.status = deriveStatus(project);
   project.current_phase = deriveCurrentPhase(project);
 
   fs.writeFileSync(projectFile, JSON.stringify(project, null, 2), 'utf-8');
+
+  // Also call Python project_registry for consistency
+  const registryCmd = `python -c "from factory.project_registry import update_project_gate; update_project_gate('${projectId}', '${gateType}', '${decision}', '${(reasoning || '').replace(/'/g, '')}')"`;
+  exec(registryCmd, { cwd: config.FACTORY_BASE, timeout: 15000 }, (err) => {
+    if (err) console.error(`[GateExecutor] Registry update warning: ${err.message}`);
+  });
 
   let triggerResult = null;
   if (autoTrigger && nextCommand && (decision === 'GO' || decision === 'GO_MIT_NOTES')) {

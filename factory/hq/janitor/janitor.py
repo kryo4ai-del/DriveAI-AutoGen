@@ -1,0 +1,375 @@
+"""Factory Janitor -- Hauptmodul.
+
+Orchestriert die drei Scan-Zyklen und speichert Reports.
+
+CLI:
+    python -m factory.hq.janitor daily       # Taeglicher Scan
+    python -m factory.hq.janitor weekly      # Woechentlicher Scan + Auto-Fixes
+    python -m factory.hq.janitor monthly     # Monatliche Tiefenanalyse
+    python -m factory.hq.janitor status      # Letzten Report anzeigen
+    python -m factory.hq.janitor restore <path>  # Datei aus Quarantaene wiederherstellen
+    python -m factory.hq.janitor proposals   # Offene Vorschlaege anzeigen
+"""
+
+import json
+import logging
+import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+JANITOR_DIR = Path(__file__).parent
+REPORTS_DIR = JANITOR_DIR / "reports"
+CONFIG_FILE = JANITOR_DIR / "config.json"
+
+
+def _load_config() -> dict:
+    """Load janitor configuration."""
+    return json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
+
+
+def _save_report(report: dict, cycle: str) -> str:
+    """Save report to cycle-specific directory."""
+    cycle_dir = REPORTS_DIR / cycle
+    cycle_dir.mkdir(parents=True, exist_ok=True)
+
+    ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    filename = f"report_{ts}.json"
+    path = cycle_dir / filename
+    path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    logger.info("Report saved: %s", path)
+    return str(path)
+
+
+def _cleanup_old_reports(config: dict):
+    """Remove reports older than retention period."""
+    now = datetime.now(timezone.utc)
+    retention = {"daily": 30, "weekly": 90, "monthly": 999999}
+
+    for cycle, days in retention.items():
+        cycle_dir = REPORTS_DIR / cycle
+        if not cycle_dir.exists():
+            continue
+        for f in cycle_dir.glob("report_*.json"):
+            try:
+                age = (now - datetime.fromtimestamp(f.stat().st_mtime, tz=timezone.utc)).days
+                if age > days:
+                    f.unlink()
+                    logger.info("Deleted old report: %s (age: %d days)", f.name, age)
+            except Exception:
+                pass
+
+
+def run_daily() -> dict:
+    """Daily scan (Stage 1 + 2). No actions, only scan and report."""
+    start = time.time()
+    config = _load_config()
+
+    from factory.hq.janitor.scanner import scan_files
+    from factory.hq.janitor.graph_builder import build_dependency_graph
+    from factory.hq.janitor.analyzer import analyze
+
+    # Stage 1: File scan
+    scan_data = scan_files(config)
+
+    # Stage 2: Dependency graph
+    graph = build_dependency_graph(config)
+
+    # Analyze
+    analysis = analyze(scan_data, graph, config)
+
+    duration = time.time() - start
+
+    report = {
+        "cycle": "daily",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "duration_sec": round(duration, 2),
+        "cost_usd": 0.0,
+        "scan": {
+            "total_files": scan_data["total_files"],
+            "total_lines": scan_data["total_lines"],
+            "total_size_mb": scan_data["total_size_mb"],
+            "by_type": scan_data["by_type"],
+        },
+        "graph": {
+            "total_nodes": graph["stats"]["total_nodes"],
+            "total_edges": graph["stats"]["total_edges"],
+            "orphan_nodes": graph["stats"]["orphan_nodes"],
+            "circular_dependencies": graph["stats"]["circular_dependencies"],
+            "max_depth": graph["stats"]["max_depth"],
+        },
+        "findings": analysis["findings"],
+        "summary": analysis["summary"],
+        "actions": {"auto_fixed": [], "proposed": [], "reported": []},
+    }
+
+    report_path = _save_report(report, "daily")
+    report["report_path"] = report_path
+
+    return report
+
+
+def run_weekly() -> dict:
+    """Weekly scan (Stage 1 + 2 + Auto-Fixes + Proposals)."""
+    start = time.time()
+    config = _load_config()
+
+    from factory.hq.janitor.scanner import scan_files
+    from factory.hq.janitor.graph_builder import build_dependency_graph
+    from factory.hq.janitor.analyzer import analyze
+    from factory.hq.janitor.executor import execute_findings, cleanup_quarantine
+
+    # Stage 1 + 2
+    scan_data = scan_files(config)
+    graph = build_dependency_graph(config)
+    analysis = analyze(scan_data, graph, config)
+
+    # Execute auto-fixes and create proposals
+    actions = execute_findings(analysis["findings"], config)
+
+    # Cleanup expired quarantine items
+    quarantine_cleanup = cleanup_quarantine(config)
+
+    # Cleanup old reports
+    _cleanup_old_reports(config)
+
+    duration = time.time() - start
+
+    report = {
+        "cycle": "weekly",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "duration_sec": round(duration, 2),
+        "cost_usd": 0.0,
+        "scan": {
+            "total_files": scan_data["total_files"],
+            "total_lines": scan_data["total_lines"],
+            "total_size_mb": scan_data["total_size_mb"],
+            "by_type": scan_data["by_type"],
+        },
+        "graph": {
+            "total_nodes": graph["stats"]["total_nodes"],
+            "total_edges": graph["stats"]["total_edges"],
+            "orphan_nodes": graph["stats"]["orphan_nodes"],
+            "circular_dependencies": graph["stats"]["circular_dependencies"],
+            "max_depth": graph["stats"]["max_depth"],
+        },
+        "findings": analysis["findings"],
+        "summary": analysis["summary"],
+        "actions": actions,
+        "quarantine_cleanup": quarantine_cleanup,
+    }
+
+    report_path = _save_report(report, "weekly")
+    report["report_path"] = report_path
+
+    return report
+
+
+def run_monthly() -> dict:
+    """Monthly deep analysis (Stage 1 + 2 + 3 + Actions)."""
+    start = time.time()
+    config = _load_config()
+
+    from factory.hq.janitor.scanner import scan_files
+    from factory.hq.janitor.graph_builder import build_dependency_graph
+    from factory.hq.janitor.analyzer import analyze
+    from factory.hq.janitor.deep_analyzer import deep_analyze
+    from factory.hq.janitor.executor import execute_findings, cleanup_quarantine
+
+    # Stage 1 + 2
+    scan_data = scan_files(config)
+    graph = build_dependency_graph(config)
+    analysis = analyze(scan_data, graph, config)
+
+    # Stage 3: LLM deep analysis
+    deep = deep_analyze(graph, analysis["findings"], config)
+
+    # Execute auto-fixes + proposals
+    actions = execute_findings(analysis["findings"], config)
+    quarantine_cleanup = cleanup_quarantine(config)
+    _cleanup_old_reports(config)
+
+    duration = time.time() - start
+
+    report = {
+        "cycle": "monthly",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "duration_sec": round(duration, 2),
+        "cost_usd": deep.get("cost_usd", 0.0),
+        "scan": {
+            "total_files": scan_data["total_files"],
+            "total_lines": scan_data["total_lines"],
+            "total_size_mb": scan_data["total_size_mb"],
+            "by_type": scan_data["by_type"],
+        },
+        "graph": {
+            "total_nodes": graph["stats"]["total_nodes"],
+            "total_edges": graph["stats"]["total_edges"],
+            "orphan_nodes": graph["stats"]["orphan_nodes"],
+            "circular_dependencies": graph["stats"]["circular_dependencies"],
+            "max_depth": graph["stats"]["max_depth"],
+        },
+        "findings": analysis["findings"],
+        "summary": analysis["summary"],
+        "deep_analysis": deep,
+        "actions": actions,
+        "quarantine_cleanup": quarantine_cleanup,
+    }
+
+    report_path = _save_report(report, "monthly")
+    report["report_path"] = report_path
+
+    return report
+
+
+def get_status() -> dict:
+    """Get latest report + pending proposals + quarantine status."""
+    from factory.hq.janitor.executor import get_quarantine_status, get_pending_proposals
+
+    # Find latest report across all cycles
+    latest_report = None
+    latest_ts = ""
+    for cycle in ("daily", "weekly", "monthly"):
+        cycle_dir = REPORTS_DIR / cycle
+        if not cycle_dir.exists():
+            continue
+        reports = sorted(cycle_dir.glob("report_*.json"), reverse=True)
+        if reports:
+            try:
+                report = json.loads(reports[0].read_text(encoding="utf-8"))
+                ts = report.get("timestamp", "")
+                if ts > latest_ts:
+                    latest_ts = ts
+                    latest_report = report
+            except Exception:
+                pass
+
+    quarantine = get_quarantine_status()
+    proposals = get_pending_proposals()
+
+    # Last scan dates
+    last_scans = {}
+    for cycle in ("daily", "weekly", "monthly"):
+        cycle_dir = REPORTS_DIR / cycle
+        if cycle_dir.exists():
+            reports = sorted(cycle_dir.glob("report_*.json"), reverse=True)
+            if reports:
+                try:
+                    r = json.loads(reports[0].read_text(encoding="utf-8"))
+                    last_scans[cycle] = r.get("timestamp", "unknown")
+                except Exception:
+                    last_scans[cycle] = "error"
+
+    return {
+        "latest_report": {
+            "cycle": latest_report.get("cycle") if latest_report else None,
+            "timestamp": latest_ts or None,
+            "summary": latest_report.get("summary") if latest_report else None,
+            "finding_count": len(latest_report.get("findings", [])) if latest_report else 0,
+        },
+        "last_scans": last_scans,
+        "quarantine": quarantine,
+        "proposals": proposals,
+        "health_score": latest_report.get("summary", {}).get("health_score") if latest_report else None,
+    }
+
+
+def restore_from_quarantine(path: str) -> dict:
+    """Restore a file from quarantine."""
+    from factory.hq.janitor.executor import restore_file
+    return restore_file(path)
+
+
+def format_report(report: dict) -> str:
+    """Format report for console output."""
+    lines = []
+    lines.append("=" * 60)
+    lines.append(f"  FACTORY JANITOR -- {report.get('cycle', 'unknown').upper()} SCAN")
+    lines.append("=" * 60)
+    lines.append("")
+
+    scan = report.get("scan", {})
+    lines.append(f"  Files:        {scan.get('total_files', 0)}")
+    lines.append(f"  Lines:        {scan.get('total_lines', 0):,}")
+    lines.append(f"  Size:         {scan.get('total_size_mb', 0)} MB")
+    lines.append(f"  Duration:     {report.get('duration_sec', 0)}s")
+    lines.append(f"  Cost:         ${report.get('cost_usd', 0):.4f}")
+    lines.append("")
+
+    graph = report.get("graph", {})
+    lines.append(f"  Graph Nodes:  {graph.get('total_nodes', 0)}")
+    lines.append(f"  Graph Edges:  {graph.get('total_edges', 0)}")
+    lines.append(f"  Orphans:      {graph.get('orphan_nodes', 0)}")
+    lines.append(f"  Circular:     {graph.get('circular_dependencies', 0)}")
+    lines.append(f"  Max Depth:    {graph.get('max_depth', 0)}")
+    lines.append("")
+
+    summary = report.get("summary", {})
+    lines.append(f"  Health Score: {summary.get('health_score', '?')}/100")
+    lines.append(f"  Findings:     {summary.get('total_findings', 0)}")
+    lines.append(f"    Green:      {summary.get('green_auto_fixable', 0)} (auto-fixable)")
+    lines.append(f"    Yellow:     {summary.get('yellow_proposals', 0)} (proposals)")
+    lines.append(f"    Red:        {summary.get('red_report_only', 0)} (report only)")
+    lines.append("")
+
+    actions = report.get("actions", {})
+    if actions.get("auto_fixed"):
+        lines.append(f"  Auto-Fixed:   {len(actions['auto_fixed'])}")
+        for af in actions["auto_fixed"][:5]:
+            lines.append(f"    - {af.get('status')}: {af.get('path', af.get('finding_id', ''))}")
+    if actions.get("proposed"):
+        lines.append(f"  Proposed:     {len(actions['proposed'])}")
+        for p in actions["proposed"][:5]:
+            lines.append(f"    - {p.get('proposal_id', '')}: {p.get('status', '')}")
+    if actions.get("reported"):
+        lines.append(f"  Reported:     {len(actions['reported'])}")
+        for r in actions["reported"][:5]:
+            lines.append(f"    - [{r.get('type')}] {r.get('title', '')[:60]}")
+
+    if report.get("report_path"):
+        lines.append("")
+        lines.append(f"  Report: {report['report_path']}")
+
+    lines.append("")
+    lines.append("=" * 60)
+    return "\n".join(lines)
+
+
+def main():
+    """CLI entry point."""
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    if len(sys.argv) < 2:
+        print("Usage: python -m factory.hq.janitor [daily|weekly|monthly|status|restore|proposals]")
+        sys.exit(1)
+
+    command = sys.argv[1]
+
+    if command == "daily":
+        result = run_daily()
+        print(format_report(result))
+    elif command == "weekly":
+        result = run_weekly()
+        print(format_report(result))
+    elif command == "monthly":
+        result = run_monthly()
+        print(format_report(result))
+    elif command == "status":
+        result = get_status()
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    elif command == "restore" and len(sys.argv) > 2:
+        result = restore_from_quarantine(sys.argv[2])
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    elif command == "proposals":
+        from factory.hq.janitor.executor import get_pending_proposals
+        result = get_pending_proposals()
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    else:
+        print(f"Unknown command: {command}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

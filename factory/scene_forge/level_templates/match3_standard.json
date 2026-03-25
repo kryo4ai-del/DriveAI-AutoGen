@@ -1,0 +1,28 @@
+{
+  "level_id": "TMPL-STANDARD",
+  "grid": {
+    "width": 7,
+    "height": 9,
+    "cells": "all_normal"
+  },
+  "cell_types": {"0": "blocked", "1": "normal"},
+  "stone_pool": {
+    "types": ["red", "blue", "green", "yellow"],
+    "weights": [1.0, 1.0, 1.0, 1.0]
+  },
+  "initial_fill": "random_no_matches",
+  "objectives": {
+    "type": "score",
+    "value": 1000,
+    "move_limit": 30
+  },
+  "difficulty_score": 0.1,
+  "meta": {
+    "chapter": 1,
+    "position": 0,
+    "is_tutorial": true,
+    "tutorial_hints": ["Match 3 gems of the same color to score points"],
+    "template": "match3_standard",
+    "description": "Full rectangular grid, no obstacles, 4 stone types"
+  }
+}

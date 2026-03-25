@@ -26,6 +26,18 @@ app.use('/api/showcase', showcaseApi);
 const startApi = require('./api/start');
 app.use('/api/start', startApi);
 
+const assistantApi = require('./api/assistant');
+app.use('/api/assistant', assistantApi);
+
+const teamApi = require('./api/team');
+app.use('/api/team', teamApi);
+
+const providersApi = require('./api/providers');
+app.use('/api/providers', providersApi);
+
+const janitorApi = require('./api/janitor');
+app.use('/api/janitor', janitorApi);
+
 app.get('/api/health-check', (req, res) => {
   res.json({
     status: 'ok',

@@ -1,0 +1,16 @@
+{
+  "id": "SWF-12",
+  "name": "Kosten-Kalkulation",
+  "role": "Financial Calculator",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Kapitel 3",
+  "task_type": "calculation",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Gesamtkalkulation mit Break-Even und Worst-Case",
+  "py_file": "cost_calculation.py"
+}

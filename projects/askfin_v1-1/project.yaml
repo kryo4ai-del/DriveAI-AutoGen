@@ -6,7 +6,8 @@ project:
 
 lines:
   ios:
-    status: active
+    status: disabled
+    disabled_reason: "iOS production runs on Mac Assembly Factory. Re-enable when Xcode tooling becomes available on Windows."
     language: swift
     framework: swiftui
     architecture: mvvm

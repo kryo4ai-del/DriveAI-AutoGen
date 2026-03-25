@@ -164,7 +164,7 @@ def run_gate(result: dict, decision: str = None, reasoning: str = None) -> dict:
     """
     # Present summary
     summary = present_summary(result)
-    print(summary)
+    print(summary.encode("ascii", errors="replace").decode("ascii"))
 
     # Get decision
     if decision is None:
@@ -239,6 +239,16 @@ def run_gate(result: dict, decision: str = None, reasoning: str = None) -> dict:
         print("[CEOGate] Learnings aktualisiert.")
     except Exception as e:
         print(f"[CEOGate] WARNING: Could not update learnings — {e}")
+
+    # Update project registry
+    try:
+        from factory.project_registry import update_project_gate
+        slug = result.get("idea_title", "unknown").lower().replace(" ", "_").replace("-", "_")[:40]
+        import re
+        slug = re.sub(r'[^a-z0-9_]', '', slug)
+        update_project_gate(slug, "ceo_gate", result["ceo_decision"], result.get("ceo_reasoning", ""))
+    except Exception as e:
+        print(f"[CEOGate] Registry warning: {e}")
 
     return result
 

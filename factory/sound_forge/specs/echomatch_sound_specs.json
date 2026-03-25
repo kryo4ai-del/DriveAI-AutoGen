@@ -1,0 +1,426 @@
+{
+  "project_name": "echomatch",
+  "extraction_date": "2026-03-24",
+  "total_sounds": 17,
+  "by_category": {
+    "sfx": 7,
+    "ui_sound": 5,
+    "ambient": 4,
+    "notification": 1
+  },
+  "by_priority": {
+    "high": 6,
+    "medium": 10,
+    "low": 1
+  },
+  "specs": [
+    {
+      "sound_id": "SFX-001",
+      "name": "resonance_kling_match",
+      "category": "sfx",
+      "description": "Resonant match sound that echoes instead of bursting; core gameplay feedback for successful stone matches",
+      "technical_specs": {
+        "frequency_hz": null,
+        "duration_ms": 1500,
+        "decay_type": "exponential",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "warm, resonant, satisfying",
+      "context": "Plays when two or more stones match in the core gameplay loop",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Sound-Prinzip (DriveAI Swarm Factory), Anti-Standard-Regeln (VERBOTE), Core Loop / Match-3 (S006)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-002",
+      "name": "cascade_tone_rising",
+      "category": "sfx",
+      "description": "Ascending tones during stone cascades that signal success; part of the adaptive sound layer",
+      "technical_specs": {
+        "frequency_hz": null,
+        "duration_ms": 1500,
+        "decay_type": "linear",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "uplifting, successful, rhythmic",
+      "context": "Plays during stone fall cascades in the core gameplay loop",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Sound-Prinzip (DriveAI Swarm Factory), Core Loop / Match-3 (S006)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-003",
+      "name": "movement_whoosh_drag",
+      "category": "sfx",
+      "description": "Very quiet whoosh sound during stone drag movements; subtle feedback for player action",
+      "technical_specs": {
+        "frequency_hz": null,
+        "duration_ms": 500,
+        "decay_type": "exponential",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "subtle, organic, barely perceptible",
+      "context": "Plays when player drags stones during gameplay",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Sound-Prinzip (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-004",
+      "name": "snap_feedback_stone",
+      "category": "ui_sound",
+      "description": "Medium snap sound when stones lock into place after a valid move",
+      "technical_specs": {
+        "frequency_hz": null,
+        "duration_ms": 300,
+        "decay_type": "instant",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "precise, confirming, neutral",
+      "context": "Plays when a stone snaps into place during gameplay",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Touch-Reaktion (DriveAI Swarm Factory), Feedback-Prinzip (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-005",
+      "name": "rumble_cascade_combo",
+      "category": "sfx",
+      "description": "Deep rumble that fades like a tuning fork after cascades; intensity scales with combo size (3-match=80ms, 5-match=200ms)",
+      "technical_specs": {
+        "frequency_hz": "low",
+        "duration_ms": 200,
+        "decay_type": "exponential",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "satisfying, resonant, fading",
+      "context": "Plays after successful cascade combos in the core gameplay loop",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Feedback-Prinzip (DriveAI Swarm Factory), Core Loop / Match-3 (S006)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-006",
+      "name": "stone_touch_echo",
+      "category": "ui_sound",
+      "description": "Single crystal-like tone that forms the EchoMatch logo during splash screen; heartbeat-like echo on slow connections",
+      "technical_specs": {
+        "frequency_hz": "high",
+        "duration_ms": 1500,
+        "decay_type": "exponential",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "crisp, elegant, minimal",
+      "context": "Plays during splash screen animation when app loads",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "W2 Der lebendige Splash (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-007",
+      "name": "special_stone_bomb",
+      "category": "sfx",
+      "description": "Deep booming sound for bomb special stones",
+      "technical_specs": {
+        "frequency_hz": "very_low",
+        "duration_ms": 800,
+        "decay_type": "exponential",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "powerful, resonant, impactful",
+      "context": "Plays when bomb special stones are activated",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Sound-Prinzip (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-008",
+      "name": "special_stone_line_clearer",
+      "category": "sfx",
+      "description": "High sweeping sound for line-clearer special stones",
+      "technical_specs": {
+        "frequency_hz": "high",
+        "duration_ms": 600,
+        "decay_type": "linear",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "sharp, clean, efficient",
+      "context": "Plays when line-clearer special stones are activated",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Sound-Prinzip (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-009",
+      "name": "special_stone_color_bomb",
+      "category": "sfx",
+      "description": "Short harmonic chord sequence for color-bomb special stones",
+      "technical_specs": {
+        "frequency_hz": "mid",
+        "duration_ms": 400,
+        "decay_type": "instant",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "harmonic, magical, satisfying",
+      "context": "Plays when color-bomb special stones are activated",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Sound-Prinzip (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "SFX-010",
+      "name": "tick_drag_start",
+      "category": "ui_sound",
+      "description": "Light ticking sound when stone drag starts; first layer of three-part haptic+audio feedback",
+      "technical_specs": {
+        "frequency_hz": "high",
+        "duration_ms": 100,
+        "decay_type": "instant",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "subtle, beginning, neutral",
+      "context": "Plays when player starts dragging a stone in the core gameplay loop",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Feedback-Prinzip (DriveAI Swarm Factory), Touch-Reaktion (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "AMB-001",
+      "name": "ambient_field_pulse",
+      "category": "ambient",
+      "description": "Adaptive ambient sound layer that breathes with gameplay tempo; slow moves = deep calm ambient, fast moves = rhythmic tempo",
+      "technical_specs": {
+        "frequency_hz": null,
+        "duration_ms": null,
+        "decay_type": "organic",
+        "layers": 3,
+        "loop_seamless": true,
+        "bpm": "60-120"
+      },
+      "mood": "pulsing, organic, adaptive",
+      "context": "Continuous background sound that adapts to player's gameplay tempo",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Sound-Prinzip (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "AMB-002",
+      "name": "social_light_pulse",
+      "category": "ambient",
+      "description": "Ambient light pulse on friend avatars in the level map; second color (amber) for challenge invitations",
+      "technical_specs": {
+        "frequency_hz": "mid",
+        "duration_ms": 800,
+        "decay_type": "exponential",
+        "layers": 1,
+        "loop_seamless": true,
+        "bpm": "40-60"
+      },
+      "mood": "warm, inviting, subtle",
+      "context": "Plays when friends are active on the level map",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Social-Präsenz (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "AMB-003",
+      "name": "story_transition_breath",
+      "category": "ambient",
+      "description": "Slow breathing transitions for story moments; organic textures with space between sounds",
+      "technical_specs": {
+        "frequency_hz": "low",
+        "duration_ms": 3000,
+        "decay_type": "exponential",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "calm, intimate, spacious",
+      "context": "Plays during narrative story transitions",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Story / Narrative (S004)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "AMB-004",
+      "name": "golden_screen_shift",
+      "category": "ambient",
+      "description": "1.5-second golden color shift of the entire screen during reward screens",
+      "technical_specs": {
+        "frequency_hz": null,
+        "duration_ms": 1500,
+        "decay_type": "linear",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "warm, celebratory, minimal",
+      "context": "Plays during reward screens after level completion",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Reward / Ergebnis (S008, S009)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "UI-001",
+      "name": "npc_comment_appear",
+      "category": "ui_sound",
+      "description": "Sound when Story-NPC appears in Home Hub with contextual comment",
+      "technical_specs": {
+        "frequency_hz": "mid",
+        "duration_ms": 400,
+        "decay_type": "instant",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "intimate, narrative, warm",
+      "context": "Plays when Story-NPC appears after a lost level",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "S008 Story-NPC als Interface-Brecher",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "UI-002",
+      "name": "consent_rising_card",
+      "category": "ui_sound",
+      "description": "Sound for rising consent card in DSGVO/legal screens",
+      "technical_specs": {
+        "frequency_hz": "mid",
+        "duration_ms": 800,
+        "decay_type": "linear",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "respectful, clear, neutral",
+      "context": "Plays when consent card rises in legal screens",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Consent / DSGVO (S002)",
+      "roadbook_warnings": []
+    },
+    {
+      "sound_id": "NOT-001",
+      "name": "error_neutral_feedback",
+      "category": "notification",
+      "description": "Neutral feedback for impossible moves; stone bounces back without negative sound",
+      "technical_specs": {
+        "frequency_hz": null,
+        "duration_ms": 200,
+        "decay_type": "instant",
+        "layers": 1,
+        "loop_seamless": false,
+        "bpm": null
+      },
+      "mood": "neutral, non-punitive, calm",
+      "context": "Plays when player attempts impossible moves",
+      "priority": "low",
+      "platform_targets": [
+        "ios",
+        "android",
+        "unity"
+      ],
+      "source_reference": "Touch-Reaktion (DriveAI Swarm Factory)",
+      "roadbook_warnings": []
+    }
+  ]
+}

@@ -1,0 +1,759 @@
+{
+  "project": "echomatch",
+  "generated_at": "2026-03-24 17:17",
+  "total_animations": 16,
+  "total_cost_usd": 0.0,
+  "generation_stats": {
+    "template": 6,
+    "composition": 10,
+    "custom_llm": 0,
+    "external": 0
+  },
+  "categories": {
+    "loading": 1,
+    "screen_transition": 4,
+    "ambient": 4,
+    "micro_interaction": 3,
+    "feedback": 4
+  },
+  "platform_stats": {
+    "ios": 16,
+    "android": 16,
+    "web": 16,
+    "unity": 16
+  },
+  "animations": [
+    {
+      "anim_id": "MI-002",
+      "name": "slow_connection_heartbeat_pulse",
+      "category": "loading",
+      "complexity": "simple",
+      "generation_method": "template",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-002.json",
+          "size_bytes": 681,
+          "checksum": "7d112ed51440"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-002.json",
+          "size_bytes": 681,
+          "checksum": "7d112ed51440"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-002.json",
+          "size_bytes": 681,
+          "checksum": "7d112ed51440"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-002.css",
+          "size_bytes": 441,
+          "checksum": "d35da3d9d39a"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi002.cs",
+          "size_bytes": 1724,
+          "checksum": "240e839bf1de"
+        }
+      },
+      "warnings": [
+        "timing_range: loading: 300ms < min 800ms"
+      ],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-003",
+      "name": "consent_card_rise",
+      "category": "screen_transition",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "pass",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-003.json",
+          "size_bytes": 592,
+          "checksum": "bf27f7c43531"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-003.json",
+          "size_bytes": 592,
+          "checksum": "bf27f7c43531"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-003.json",
+          "size_bytes": 592,
+          "checksum": "bf27f7c43531"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-003.css",
+          "size_bytes": 381,
+          "checksum": "33a3fae6da3b"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi003.cs",
+          "size_bytes": 1780,
+          "checksum": "9a4479cd9d97"
+        }
+      },
+      "warnings": [],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-004",
+      "name": "idle_gem_attention_pulse",
+      "category": "ambient",
+      "complexity": "simple",
+      "generation_method": "template",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-004.json",
+          "size_bytes": 597,
+          "checksum": "b1dfd3119104"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-004.json",
+          "size_bytes": 597,
+          "checksum": "b1dfd3119104"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-004.json",
+          "size_bytes": 597,
+          "checksum": "b1dfd3119104"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-004.css",
+          "size_bytes": 438,
+          "checksum": "cfcfe9723cd4"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi004.cs",
+          "size_bytes": 1741,
+          "checksum": "497cfd9e9a65"
+        }
+      },
+      "warnings": [
+        "timing_range: ambient: 300ms < min 2000ms"
+      ],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-005",
+      "name": "gem_drag_elastic_follow",
+      "category": "micro_interaction",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-005.json",
+          "size_bytes": 598,
+          "checksum": "e93e6d0e0179"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-005.json",
+          "size_bytes": 598,
+          "checksum": "e93e6d0e0179"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-005.json",
+          "size_bytes": 598,
+          "checksum": "e93e6d0e0179"
+        },
+        "web": {
+          "format": "lottie_json",
+          "path": "web\\MI-005.json",
+          "size_bytes": 598,
+          "checksum": "e93e6d0e0179"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi005.cs",
+          "size_bytes": 1787,
+          "checksum": "0467fe467f1c"
+        }
+      },
+      "warnings": [
+        "platform_web: 'custom' needs lottie-web fallback for CSS"
+      ],
+      "css_fallback": true
+    },
+    {
+      "anim_id": "MI-006",
+      "name": "match_resolution",
+      "category": "feedback",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-006.json",
+          "size_bytes": 591,
+          "checksum": "14fe54192bb2"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-006.json",
+          "size_bytes": 591,
+          "checksum": "14fe54192bb2"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-006.json",
+          "size_bytes": 591,
+          "checksum": "14fe54192bb2"
+        },
+        "web": {
+          "format": "lottie_json",
+          "path": "web\\MI-006.json",
+          "size_bytes": 591,
+          "checksum": "14fe54192bb2"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi006.cs",
+          "size_bytes": 1787,
+          "checksum": "015cbda6ee0a"
+        }
+      },
+      "warnings": [
+        "platform_web: 'custom' needs lottie-web fallback for CSS"
+      ],
+      "css_fallback": true
+    },
+    {
+      "anim_id": "MI-007",
+      "name": "gem_fall_physics",
+      "category": "feedback",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-007.json",
+          "size_bytes": 591,
+          "checksum": "cbec07c50cdb"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-007.json",
+          "size_bytes": 591,
+          "checksum": "cbec07c50cdb"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-007.json",
+          "size_bytes": 591,
+          "checksum": "cbec07c50cdb"
+        },
+        "web": {
+          "format": "lottie_json",
+          "path": "web\\MI-007.json",
+          "size_bytes": 591,
+          "checksum": "cbec07c50cdb"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi007.cs",
+          "size_bytes": 1787,
+          "checksum": "339de9747515"
+        }
+      },
+      "warnings": [
+        "platform_web: 'custom' needs lottie-web fallback for CSS"
+      ],
+      "css_fallback": true
+    },
+    {
+      "anim_id": "MI-009",
+      "name": "combo_background_bloom",
+      "category": "feedback",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-009.json",
+          "size_bytes": 597,
+          "checksum": "22e334768eff"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-009.json",
+          "size_bytes": 597,
+          "checksum": "22e334768eff"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-009.json",
+          "size_bytes": 597,
+          "checksum": "22e334768eff"
+        },
+        "web": {
+          "format": "lottie_json",
+          "path": "web\\MI-009.json",
+          "size_bytes": 597,
+          "checksum": "22e334768eff"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi009.cs",
+          "size_bytes": 1787,
+          "checksum": "6ad253676f69"
+        }
+      },
+      "warnings": [
+        "platform_web: 'custom' needs lottie-web fallback for CSS"
+      ],
+      "css_fallback": true
+    },
+    {
+      "anim_id": "MI-011",
+      "name": "npc_edge_slide_in",
+      "category": "micro_interaction",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "pass",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-011.json",
+          "size_bytes": 592,
+          "checksum": "df46ca370f26"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-011.json",
+          "size_bytes": 592,
+          "checksum": "df46ca370f26"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-011.json",
+          "size_bytes": 592,
+          "checksum": "df46ca370f26"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-011.css",
+          "size_bytes": 381,
+          "checksum": "c2e4c4578ee0"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi011.cs",
+          "size_bytes": 1780,
+          "checksum": "86e7dd766f7b"
+        }
+      },
+      "warnings": [],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-012",
+      "name": "friend_avatar_light_pulse",
+      "category": "ambient",
+      "complexity": "simple",
+      "generation_method": "template",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-012.json",
+          "size_bytes": 675,
+          "checksum": "15beaf674498"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-012.json",
+          "size_bytes": 675,
+          "checksum": "15beaf674498"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-012.json",
+          "size_bytes": 675,
+          "checksum": "15beaf674498"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-012.css",
+          "size_bytes": 441,
+          "checksum": "78843ab2bf4a"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi012.cs",
+          "size_bytes": 1724,
+          "checksum": "4d9fdc678e7f"
+        }
+      },
+      "warnings": [
+        "timing_range: ambient: 300ms < min 2000ms"
+      ],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-013",
+      "name": "challenge_invite_pulse",
+      "category": "ambient",
+      "complexity": "simple",
+      "generation_method": "template",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-013.json",
+          "size_bytes": 672,
+          "checksum": "ef40ac0875bf"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-013.json",
+          "size_bytes": 672,
+          "checksum": "ef40ac0875bf"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-013.json",
+          "size_bytes": 672,
+          "checksum": "ef40ac0875bf"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-013.css",
+          "size_bytes": 441,
+          "checksum": "62c051241828"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi013.cs",
+          "size_bytes": 1724,
+          "checksum": "89155b51e353"
+        }
+      },
+      "warnings": [
+        "timing_range: ambient: 300ms < min 2000ms"
+      ],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-014",
+      "name": "story_page_turn_transition",
+      "category": "screen_transition",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-014.json",
+          "size_bytes": 601,
+          "checksum": "917c0d8873f4"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-014.json",
+          "size_bytes": 601,
+          "checksum": "917c0d8873f4"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-014.json",
+          "size_bytes": 601,
+          "checksum": "917c0d8873f4"
+        },
+        "web": {
+          "format": "lottie_json",
+          "path": "web\\MI-014.json",
+          "size_bytes": 601,
+          "checksum": "917c0d8873f4"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi014.cs",
+          "size_bytes": 1787,
+          "checksum": "d879674e923c"
+        }
+      },
+      "warnings": [
+        "platform_web: 'custom' needs lottie-web fallback for CSS"
+      ],
+      "css_fallback": true
+    },
+    {
+      "anim_id": "MI-016",
+      "name": "shop_catalog_open",
+      "category": "screen_transition",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "pass",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-016.json",
+          "size_bytes": 592,
+          "checksum": "79494eed05e9"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-016.json",
+          "size_bytes": 592,
+          "checksum": "79494eed05e9"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-016.json",
+          "size_bytes": 592,
+          "checksum": "79494eed05e9"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-016.css",
+          "size_bytes": 381,
+          "checksum": "2249977548eb"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi016.cs",
+          "size_bytes": 1780,
+          "checksum": "6a23faae23d1"
+        }
+      },
+      "warnings": [],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-017",
+      "name": "gem_snap_feedback",
+      "category": "micro_interaction",
+      "complexity": "simple",
+      "generation_method": "template",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-017.json",
+          "size_bytes": 586,
+          "checksum": "8b10bd75d0c9"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-017.json",
+          "size_bytes": 586,
+          "checksum": "8b10bd75d0c9"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-017.json",
+          "size_bytes": 586,
+          "checksum": "8b10bd75d0c9"
+        },
+        "web": {
+          "format": "lottie_json",
+          "path": "web\\MI-017.json",
+          "size_bytes": 586,
+          "checksum": "8b10bd75d0c9"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi017.cs",
+          "size_bytes": 1787,
+          "checksum": "81dd0a5ffe78"
+        }
+      },
+      "warnings": [
+        "platform_web: 'custom' needs lottie-web fallback for CSS"
+      ],
+      "css_fallback": true
+    },
+    {
+      "anim_id": "MI-018",
+      "name": "cascade_haptic_rumble",
+      "category": "feedback",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "pass",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-018.json",
+          "size_bytes": 679,
+          "checksum": "7b2716c63a2d"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-018.json",
+          "size_bytes": 679,
+          "checksum": "7b2716c63a2d"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-018.json",
+          "size_bytes": 679,
+          "checksum": "7b2716c63a2d"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-018.css",
+          "size_bytes": 434,
+          "checksum": "0cd7dbcd148c"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi018.cs",
+          "size_bytes": 1707,
+          "checksum": "74ee02f0528c"
+        }
+      },
+      "warnings": [],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-019",
+      "name": "ui_narrative_transition",
+      "category": "screen_transition",
+      "complexity": "simple",
+      "generation_method": "template",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "pass",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-019.json",
+          "size_bytes": 592,
+          "checksum": "a3102fb9328a"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-019.json",
+          "size_bytes": 592,
+          "checksum": "a3102fb9328a"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-019.json",
+          "size_bytes": 592,
+          "checksum": "a3102fb9328a"
+        },
+        "web": {
+          "format": "css",
+          "path": "web\\MI-019.css",
+          "size_bytes": 380,
+          "checksum": "1c72d4cfbc1d"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi019.cs",
+          "size_bytes": 1612,
+          "checksum": "38372b5f1a0a"
+        }
+      },
+      "warnings": [],
+      "css_fallback": false
+    },
+    {
+      "anim_id": "MI-020",
+      "name": "friend_lightpoint_ambient_map",
+      "category": "ambient",
+      "complexity": "medium",
+      "generation_method": "composition",
+      "duration_ms": 300,
+      "cost_usd": 0.0,
+      "validation_status": "warn",
+      "files": {
+        "source": {
+          "format": "lottie_json",
+          "path": "lottie\\MI-020.json",
+          "size_bytes": 1215,
+          "checksum": "4bfa94cef9e7"
+        },
+        "ios": {
+          "format": "lottie_json",
+          "path": "ios\\MI-020.json",
+          "size_bytes": 1215,
+          "checksum": "4bfa94cef9e7"
+        },
+        "android": {
+          "format": "lottie_json",
+          "path": "android\\MI-020.json",
+          "size_bytes": 1215,
+          "checksum": "4bfa94cef9e7"
+        },
+        "web": {
+          "format": "lottie_json",
+          "path": "web\\MI-020.json",
+          "size_bytes": 1215,
+          "checksum": "4bfa94cef9e7"
+        },
+        "unity": {
+          "format": "csharp",
+          "path": "unity\\AnimMi020.cs",
+          "size_bytes": 1805,
+          "checksum": "5f2a49a29a22"
+        }
+      },
+      "warnings": [
+        "timing_range: ambient: 300ms < min 2000ms",
+        "platform_web: 'shimmer' needs lottie-web fallback for CSS"
+      ],
+      "css_fallback": true
+    }
+  ],
+  "failed_animations": [
+    "MI-001"
+  ],
+  "css_incompatible": 7,
+  "warnings": []
+}

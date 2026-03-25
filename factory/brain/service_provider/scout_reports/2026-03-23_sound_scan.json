@@ -1,0 +1,60 @@
+{
+  "scan_date": "2026-03-23",
+  "category_scanned": "sound",
+  "existing_services": [
+    "elevenlabs_sfx"
+  ],
+  "findings": [
+    {
+      "name": "AudioCraft (Meta)",
+      "provider": "meta_audiocraft",
+      "category": "sound",
+      "api_url": "https://huggingface.co/facebook/musicgen-large",
+      "api_docs_url": "https://github.com/facebookresearch/audiocraft",
+      "capabilities": [
+        "text_to_music",
+        "ambient_generation",
+        "wav_output",
+        "max_30s"
+      ],
+      "estimated_cost_per_call": 0.0,
+      "pros": [
+        "Guenstiger: $0.00 vs $0.01",
+        "Neue Capabilities: ambient_generation, max_30s, text_to_music",
+        "Open source, self-host, no API cost but needs GPU"
+      ],
+      "cons": [
+        "Self-Hosting noetig (GPU-Kosten)"
+      ],
+      "comparison_to_existing": "replacement",
+      "recommended_action": "add_to_registry"
+    },
+    {
+      "name": "Stability Audio",
+      "provider": "stability_audio",
+      "category": "sound",
+      "api_url": "https://api.stability.ai/v2beta/stable-audio/generate",
+      "api_docs_url": "https://platform.stability.ai/docs/api-reference#tag/Audio",
+      "capabilities": [
+        "text_to_sfx",
+        "text_to_music",
+        "wav_output",
+        "max_47s",
+        "stereo"
+      ],
+      "estimated_cost_per_call": 0.01,
+      "pros": [
+        "Neue Capabilities: max_47s, text_to_music, stereo",
+        "Same provider as Stability SDXL, might bundle API key"
+      ],
+      "cons": [],
+      "comparison_to_existing": "new_capability",
+      "recommended_action": "add_to_registry"
+    }
+  ],
+  "summary": "2 neue Services gefunden fuer 'sound'. 2 empfohlen zum Hinzufuegen, 0 zum Beobachten. Bestehende Services: elevenlabs_sfx.",
+  "adapter_files_written": [
+    "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\brain\\service_provider\\adapters\\drafts\\meta_audiocraft_adapter.py",
+    "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\brain\\service_provider\\adapters\\drafts\\stability_audio_adapter.py"
+  ]
+}

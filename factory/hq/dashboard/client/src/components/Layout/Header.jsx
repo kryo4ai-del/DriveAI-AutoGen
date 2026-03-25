@@ -4,12 +4,16 @@ const SECTION_TITLES = {
   gates: 'CEO Gates',
   documents: 'Dokumente',
   factory: 'Factory Status',
+  providers: 'Provider Balance',
   agents: 'Agent Monitor',
+  team: 'Team',
   history: 'Projekt-Historie',
   showcase: 'Schaufenster',
 };
 
-export default function Header({ activeSection }) {
+import { MessageCircle } from 'lucide-react';
+
+export default function Header({ activeSection, onToggleChat, chatOpen }) {
   return (
     <header className="h-16 bg-factory-surface border-b border-factory-border flex items-center justify-between px-6">
       <h2 className="text-lg font-semibold text-factory-text">
@@ -20,6 +24,17 @@ export default function Header({ activeSection }) {
           <div className="w-2.5 h-2.5 rounded-full bg-factory-success"></div>
           <span className="text-sm text-factory-text-secondary">Factory Online</span>
         </div>
+        <button
+          onClick={onToggleChat}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
+            chatOpen
+              ? 'bg-factory-accent text-factory-bg'
+              : 'bg-factory-bg text-factory-text-secondary hover:text-factory-accent hover:bg-factory-accent/10'
+          }`}
+        >
+          <MessageCircle size={16} />
+          Assistant
+        </button>
       </div>
     </header>
   );

@@ -1,0 +1,483 @@
+{
+  "project": "echomatch",
+  "platform": "ios",
+  "generated_at": "2026-03-25T03:39:00.964204+00:00",
+  "total_entries": 59,
+  "integrated": 33,
+  "missing": 0,
+  "not_applicable": 26,
+  "entries": {
+    "AMB-001": {
+      "asset_id": "AMB-001",
+      "asset_type": "ambient",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\AMB-001.m4a",
+      "destination": "Resources/Sounds/ambient_field_pulse.m4a",
+      "code_reference": "SoundManager.play(\"ambient_field_pulse\")",
+      "status": "integrated"
+    },
+    "AMB-002": {
+      "asset_id": "AMB-002",
+      "asset_type": "ambient",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\AMB-002.m4a",
+      "destination": "Resources/Sounds/social_light_pulse.m4a",
+      "code_reference": "SoundManager.play(\"social_light_pulse\")",
+      "status": "integrated"
+    },
+    "AMB-003": {
+      "asset_id": "AMB-003",
+      "asset_type": "ambient",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\AMB-003.m4a",
+      "destination": "Resources/Sounds/story_transition_breath.m4a",
+      "code_reference": "SoundManager.play(\"story_transition_breath\")",
+      "status": "integrated"
+    },
+    "AMB-004": {
+      "asset_id": "AMB-004",
+      "asset_type": "ambient",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\AMB-004.m4a",
+      "destination": "Resources/Sounds/golden_screen_shift.m4a",
+      "code_reference": "SoundManager.play(\"golden_screen_shift\")",
+      "status": "integrated"
+    },
+    "NOT-001": {
+      "asset_id": "NOT-001",
+      "asset_type": "notification",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\NOT-001.m4a",
+      "destination": "Resources/Sounds/error_neutral_feedback.m4a",
+      "code_reference": "SoundManager.play(\"error_neutral_feedback\")",
+      "status": "integrated"
+    },
+    "SFX-001": {
+      "asset_id": "SFX-001",
+      "asset_type": "sfx",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-001.m4a",
+      "destination": "Resources/Sounds/resonance_kling_match.m4a",
+      "code_reference": "SoundManager.play(\"resonance_kling_match\")",
+      "status": "integrated"
+    },
+    "SFX-002": {
+      "asset_id": "SFX-002",
+      "asset_type": "sfx",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-002.m4a",
+      "destination": "Resources/Sounds/cascade_tone_rising.m4a",
+      "code_reference": "SoundManager.play(\"cascade_tone_rising\")",
+      "status": "integrated"
+    },
+    "SFX-003": {
+      "asset_id": "SFX-003",
+      "asset_type": "sfx",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-003.m4a",
+      "destination": "Resources/Sounds/movement_whoosh_drag.m4a",
+      "code_reference": "SoundManager.play(\"movement_whoosh_drag\")",
+      "status": "integrated"
+    },
+    "SFX-004": {
+      "asset_id": "SFX-004",
+      "asset_type": "ui_sound",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-004.m4a",
+      "destination": "Resources/Sounds/snap_feedback_stone.m4a",
+      "code_reference": "SoundManager.play(\"snap_feedback_stone\")",
+      "status": "integrated"
+    },
+    "SFX-005": {
+      "asset_id": "SFX-005",
+      "asset_type": "sfx",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-005.m4a",
+      "destination": "Resources/Sounds/rumble_cascade_combo.m4a",
+      "code_reference": "SoundManager.play(\"rumble_cascade_combo\")",
+      "status": "integrated"
+    },
+    "SFX-006": {
+      "asset_id": "SFX-006",
+      "asset_type": "ui_sound",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-006.m4a",
+      "destination": "Resources/Sounds/stone_touch_echo.m4a",
+      "code_reference": "SoundManager.play(\"stone_touch_echo\")",
+      "status": "integrated"
+    },
+    "SFX-007": {
+      "asset_id": "SFX-007",
+      "asset_type": "sfx",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-007.m4a",
+      "destination": "Resources/Sounds/special_stone_bomb.m4a",
+      "code_reference": "SoundManager.play(\"special_stone_bomb\")",
+      "status": "integrated"
+    },
+    "SFX-008": {
+      "asset_id": "SFX-008",
+      "asset_type": "sfx",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-008.m4a",
+      "destination": "Resources/Sounds/special_stone_line_clearer.m4a",
+      "code_reference": "SoundManager.play(\"special_stone_line_clearer\")",
+      "status": "integrated"
+    },
+    "SFX-009": {
+      "asset_id": "SFX-009",
+      "asset_type": "sfx",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-009.m4a",
+      "destination": "Resources/Sounds/special_stone_color_bomb.m4a",
+      "code_reference": "SoundManager.play(\"special_stone_color_bomb\")",
+      "status": "integrated"
+    },
+    "SFX-010": {
+      "asset_id": "SFX-010",
+      "asset_type": "ui_sound",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\SFX-010.m4a",
+      "destination": "Resources/Sounds/tick_drag_start.m4a",
+      "code_reference": "SoundManager.play(\"tick_drag_start\")",
+      "status": "integrated"
+    },
+    "UI-001": {
+      "asset_id": "UI-001",
+      "asset_type": "ui_sound",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\UI-001.m4a",
+      "destination": "Resources/Sounds/npc_comment_appear.m4a",
+      "code_reference": "SoundManager.play(\"npc_comment_appear\")",
+      "status": "integrated"
+    },
+    "UI-002": {
+      "asset_id": "UI-002",
+      "asset_type": "ui_sound",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\sound_forge\\catalog\\echomatch\\ios\\UI-002.m4a",
+      "destination": "Resources/Sounds/consent_rising_card.m4a",
+      "code_reference": "SoundManager.play(\"consent_rising_card\")",
+      "status": "integrated"
+    },
+    "MI-002": {
+      "asset_id": "MI-002",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-002.json",
+      "destination": "Resources/Animations/MI-002.json",
+      "code_reference": "LottieView(name: \"MI-002\")",
+      "status": "integrated"
+    },
+    "MI-003": {
+      "asset_id": "MI-003",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-003.json",
+      "destination": "Resources/Animations/MI-003.json",
+      "code_reference": "LottieView(name: \"MI-003\")",
+      "status": "integrated"
+    },
+    "MI-004": {
+      "asset_id": "MI-004",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-004.json",
+      "destination": "Resources/Animations/MI-004.json",
+      "code_reference": "LottieView(name: \"MI-004\")",
+      "status": "integrated"
+    },
+    "MI-005": {
+      "asset_id": "MI-005",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-005.json",
+      "destination": "Resources/Animations/MI-005.json",
+      "code_reference": "LottieView(name: \"MI-005\")",
+      "status": "integrated"
+    },
+    "MI-006": {
+      "asset_id": "MI-006",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-006.json",
+      "destination": "Resources/Animations/MI-006.json",
+      "code_reference": "LottieView(name: \"MI-006\")",
+      "status": "integrated"
+    },
+    "MI-007": {
+      "asset_id": "MI-007",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-007.json",
+      "destination": "Resources/Animations/MI-007.json",
+      "code_reference": "LottieView(name: \"MI-007\")",
+      "status": "integrated"
+    },
+    "MI-009": {
+      "asset_id": "MI-009",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-009.json",
+      "destination": "Resources/Animations/MI-009.json",
+      "code_reference": "LottieView(name: \"MI-009\")",
+      "status": "integrated"
+    },
+    "MI-011": {
+      "asset_id": "MI-011",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-011.json",
+      "destination": "Resources/Animations/MI-011.json",
+      "code_reference": "LottieView(name: \"MI-011\")",
+      "status": "integrated"
+    },
+    "MI-012": {
+      "asset_id": "MI-012",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-012.json",
+      "destination": "Resources/Animations/MI-012.json",
+      "code_reference": "LottieView(name: \"MI-012\")",
+      "status": "integrated"
+    },
+    "MI-013": {
+      "asset_id": "MI-013",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-013.json",
+      "destination": "Resources/Animations/MI-013.json",
+      "code_reference": "LottieView(name: \"MI-013\")",
+      "status": "integrated"
+    },
+    "MI-014": {
+      "asset_id": "MI-014",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-014.json",
+      "destination": "Resources/Animations/MI-014.json",
+      "code_reference": "LottieView(name: \"MI-014\")",
+      "status": "integrated"
+    },
+    "MI-016": {
+      "asset_id": "MI-016",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-016.json",
+      "destination": "Resources/Animations/MI-016.json",
+      "code_reference": "LottieView(name: \"MI-016\")",
+      "status": "integrated"
+    },
+    "MI-017": {
+      "asset_id": "MI-017",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-017.json",
+      "destination": "Resources/Animations/MI-017.json",
+      "code_reference": "LottieView(name: \"MI-017\")",
+      "status": "integrated"
+    },
+    "MI-018": {
+      "asset_id": "MI-018",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-018.json",
+      "destination": "Resources/Animations/MI-018.json",
+      "code_reference": "LottieView(name: \"MI-018\")",
+      "status": "integrated"
+    },
+    "MI-019": {
+      "asset_id": "MI-019",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-019.json",
+      "destination": "Resources/Animations/MI-019.json",
+      "code_reference": "LottieView(name: \"MI-019\")",
+      "status": "integrated"
+    },
+    "MI-020": {
+      "asset_id": "MI-020",
+      "asset_type": "animation_lottie",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\motion_forge\\catalog\\echomatch\\ios\\MI-020.json",
+      "destination": "Resources/Animations/MI-020.json",
+      "code_reference": "LottieView(name: \"MI-020\")",
+      "status": "integrated"
+    },
+    "lvl-001": {
+      "asset_id": "lvl-001",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-001.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-002": {
+      "asset_id": "lvl-002",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-002.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-003": {
+      "asset_id": "lvl-003",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-003.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-004": {
+      "asset_id": "lvl-004",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-004.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-005": {
+      "asset_id": "lvl-005",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-005.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-006": {
+      "asset_id": "lvl-006",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-006.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-007": {
+      "asset_id": "lvl-007",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-007.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-008": {
+      "asset_id": "lvl-008",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-008.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-009": {
+      "asset_id": "lvl-009",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-009.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-010": {
+      "asset_id": "lvl-010",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-010.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "lvl-test": {
+      "asset_id": "lvl-test",
+      "asset_type": "level",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\levels\\lvl-test.json",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "GameplayField": {
+      "asset_id": "GameplayField",
+      "asset_type": "scene",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\scenes\\GameplayField.unity",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "HomeHub": {
+      "asset_id": "HomeHub",
+      "asset_type": "scene",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\scenes\\HomeHub.unity",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "LevelMapScreen": {
+      "asset_id": "LevelMapScreen",
+      "asset_type": "scene",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\scenes\\LevelMapScreen.unity",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "LevelResultScreen": {
+      "asset_id": "LevelResultScreen",
+      "asset_type": "scene",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\scenes\\LevelResultScreen.unity",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "ShopScreen": {
+      "asset_id": "ShopScreen",
+      "asset_type": "scene",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\scenes\\ShopScreen.unity",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "SplashScreen": {
+      "asset_id": "SplashScreen",
+      "asset_type": "scene",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\scenes\\SplashScreen.unity",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "GameFieldBackground": {
+      "asset_id": "GameFieldBackground",
+      "asset_type": "shader",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\shaders\\GameFieldBackground.shader",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "ParticleMatchBurst": {
+      "asset_id": "ParticleMatchBurst",
+      "asset_type": "shader",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\shaders\\ParticleMatchBurst.shader",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "StoneBloomEmission": {
+      "asset_id": "StoneBloomEmission",
+      "asset_type": "shader",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\shaders\\StoneBloomEmission.shader",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "UIGlassPanel": {
+      "asset_id": "UIGlassPanel",
+      "asset_type": "shader",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\shaders\\UIGlassPanel.shader",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "GameGrid": {
+      "asset_id": "GameGrid",
+      "asset_type": "prefab",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\prefabs\\GameGrid.prefab",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "GameHUD": {
+      "asset_id": "GameHUD",
+      "asset_type": "prefab",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\prefabs\\GameHUD.prefab",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "LevelMapNode": {
+      "asset_id": "LevelMapNode",
+      "asset_type": "prefab",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\prefabs\\LevelMapNode.prefab",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "LevelResultPanel": {
+      "asset_id": "LevelResultPanel",
+      "asset_type": "prefab",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\prefabs\\LevelResultPanel.prefab",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    },
+    "MatchStone": {
+      "asset_id": "MatchStone",
+      "asset_type": "prefab",
+      "source": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\scene_forge\\catalog\\echomatch\\prefabs\\MatchStone.prefab",
+      "destination": "",
+      "code_reference": "MISSING_ASSET_TODO",
+      "status": "not_applicable"
+    }
+  }
+}

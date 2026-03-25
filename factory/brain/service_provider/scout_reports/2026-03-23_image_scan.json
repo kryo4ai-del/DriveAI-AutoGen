@@ -1,0 +1,86 @@
+{
+  "scan_date": "2026-03-23",
+  "category_scanned": "image",
+  "existing_services": [
+    "dalle3",
+    "stability_sdxl"
+  ],
+  "findings": [
+    {
+      "name": "Flux Pro 1.1",
+      "provider": "black_forest_labs",
+      "category": "image",
+      "api_url": "https://api.bfl.ml/v1/flux-pro-1.1",
+      "api_docs_url": "https://docs.bfl.ml/",
+      "capabilities": [
+        "text_to_image",
+        "png_output",
+        "max_2048x2048",
+        "style_control",
+        "fast_generation"
+      ],
+      "estimated_cost_per_call": 0.04,
+      "pros": [
+        "Neue Capabilities: fast_generation",
+        "Fast generation, high quality, good prompt adherence"
+      ],
+      "cons": [
+        "Teurer als guenstigster bestehender ($0.02)"
+      ],
+      "comparison_to_existing": "new_capability",
+      "recommended_action": "add_to_registry"
+    },
+    {
+      "name": "Ideogram v2",
+      "provider": "ideogram",
+      "category": "image",
+      "api_url": "https://api.ideogram.ai/generate",
+      "api_docs_url": "https://docs.ideogram.ai/",
+      "capabilities": [
+        "text_to_image",
+        "png_output",
+        "text_in_image",
+        "max_1024x1024",
+        "style_control"
+      ],
+      "estimated_cost_per_call": 0.03,
+      "pros": [
+        "Excellent text-in-image rendering, good for UI mockups"
+      ],
+      "cons": [
+        "Teurer als guenstigster bestehender ($0.02)"
+      ],
+      "comparison_to_existing": "similar",
+      "recommended_action": "monitor"
+    },
+    {
+      "name": "Leonardo AI",
+      "provider": "leonardo",
+      "category": "image",
+      "api_url": "https://cloud.leonardo.ai/api/rest/v1/generations",
+      "api_docs_url": "https://docs.leonardo.ai/",
+      "capabilities": [
+        "text_to_image",
+        "png_output",
+        "style_control",
+        "max_1024x1024",
+        "game_assets"
+      ],
+      "estimated_cost_per_call": 0.02,
+      "pros": [
+        "Neue Capabilities: game_assets",
+        "Specialized in game assets, characters, and environments"
+      ],
+      "cons": [
+        "Teurer als guenstigster bestehender ($0.02)"
+      ],
+      "comparison_to_existing": "new_capability",
+      "recommended_action": "add_to_registry"
+    }
+  ],
+  "summary": "3 neue Services gefunden fuer 'image'. 2 empfohlen zum Hinzufuegen, 1 zum Beobachten. Bestehende Services: dalle3, stability_sdxl.",
+  "adapter_files_written": [
+    "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\brain\\service_provider\\adapters\\drafts\\black_forest_labs_adapter.py",
+    "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\brain\\service_provider\\adapters\\drafts\\leonardo_adapter.py"
+  ]
+}

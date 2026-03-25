@@ -1,0 +1,16 @@
+{
+  "id": "SWF-06",
+  "name": "Risk-Assessment",
+  "role": "Risk Evaluator",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Phase 2",
+  "task_type": "analysis",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Risikobewertung mit Ampel-System und Empfehlung",
+  "py_file": "risk_assessment.py"
+}

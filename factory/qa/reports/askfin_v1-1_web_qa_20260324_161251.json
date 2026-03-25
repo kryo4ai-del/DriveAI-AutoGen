@@ -1,0 +1,25 @@
+{
+  "project": "askfin_v1-1",
+  "platform": "web",
+  "timestamp": "2026-03-24T16:12:51Z",
+  "status": "BOUNCED",
+  "duration_seconds": 1,
+  "bounce_count": 1,
+  "phases": {
+    "build": {
+      "status": "FAILED",
+      "duration_seconds": 1.1,
+      "details": {
+        "compiler_errors": 0,
+        "repaired": true
+      }
+    }
+  },
+  "warnings": [
+    {
+      "title": "repair_applied",
+      "detail": "Tier1: 0 fixes"
+    }
+  ],
+  "recommendation": "Bounce #1: Fix build issue — FAILED. Then re-submit to QA."
+}

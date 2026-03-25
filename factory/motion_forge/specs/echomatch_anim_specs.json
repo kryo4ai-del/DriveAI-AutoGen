@@ -1,0 +1,784 @@
+{
+  "project_name": "echomatch",
+  "extraction_date": "2026-03-24",
+  "total_animations": 20,
+  "by_category": {
+    "branding": 1,
+    "loading": 1,
+    "screen_transition": 5,
+    "ambient": 4,
+    "micro_interaction": 3,
+    "feedback": 6
+  },
+  "by_complexity": {
+    "complex": 4,
+    "simple": 6,
+    "medium": 10
+  },
+  "by_priority": {
+    "high": 14,
+    "medium": 6
+  },
+  "specs": [
+    {
+      "anim_id": "MI-001",
+      "name": "logo_stone_assembly",
+      "category": "branding",
+      "type": "custom",
+      "description": "EchoMatch logo emerges from three matching stones that come together. A single crystal tone plays. Silence before and after is intentional. On slow connection, the pulse repeats calmly like a heartbeat echo. The animation IS the loading time — never finishes before content is ready.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "complex",
+      "generation_method": "custom_llm",
+      "mood": "",
+      "context": "Splash screen S001 on app launch, max load time 2 seconds",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-002",
+      "name": "slow_connection_heartbeat_pulse",
+      "category": "loading",
+      "type": "pulse",
+      "description": "When connection is slow, the logo pulse repeats calmly and rhythmically like a heartbeat echo, never agitated or frantic. Conveys patience and calm waiting.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": -1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "simple",
+      "generation_method": "template",
+      "mood": "",
+      "context": "Splash screen S001 during slow network connection, loops until load completes",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-003",
+      "name": "consent_card_rise",
+      "category": "screen_transition",
+      "type": "slide",
+      "description": "DSGVO/consent card rises from the bottom of the screen. The game field behind it remains visible through a frosted glass (milchglas) blur effect. Conveys respect and transparency — the game world is not hidden.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Consent / DSGVO screen S002 on first launch or permission request",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-004",
+      "name": "idle_gem_attention_pulse",
+      "category": "ambient",
+      "type": "scale",
+      "description": "After 4 seconds of player inactivity on the game board, a gem gently pulses to guide attention organically. Scale animates 1.0 → 1.03 → 1.0. Feels like a living suggestion, not a tutorial prompt.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": -1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "simple",
+      "generation_method": "template",
+      "mood": "",
+      "context": "Game board S003, triggers after 4 seconds of player inactivity",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-005",
+      "name": "gem_drag_elastic_follow",
+      "category": "micro_interaction",
+      "type": "custom",
+      "description": "The dragged gem follows the player's finger with 20% elastic lag, as if moving through water. Creates a tactile, physical feel that communicates the game's mechanic through play, not instruction.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Game board S003, active whenever player drags a gem",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-006",
+      "name": "match_resolution",
+      "category": "feedback",
+      "type": "custom",
+      "description": "Matched gems resolve and disappear. No burst particle explosion. Instead a resonance pulse — a tone that lingers rather than bursts. Cascade tones rise in pitch instead of falling. Clean, satisfying, not chaotic.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Game board S006/S008, triggers on every successful gem match",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-007",
+      "name": "gem_fall_physics",
+      "category": "feedback",
+      "type": "custom",
+      "description": "Gems fall into empty spaces after a match using physics-based movement with a slight overshoot bounce of 8%. Feels grounded and satisfying, communicates weight and physicality.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Game board S006/S008, triggers after match resolution when gems fall to fill gaps",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-008",
+      "name": "special_gem_morph",
+      "category": "feedback",
+      "type": "custom",
+      "description": "Special gems form via a 400ms morphing animation that looks like metal drawing itself into a new shape. Accompanied by a deep haptic pulse. Conveys transformation and power without explosion.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "complex",
+      "generation_method": "custom_llm",
+      "mood": "",
+      "context": "Game board S006/S008, triggers when a special gem is created from a match",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-009",
+      "name": "combo_background_bloom",
+      "category": "feedback",
+      "type": "custom",
+      "description": "During a combo cascade, the background bloom intensity rises from 0.4 to 0.7 over 200ms, then slowly falls back to 0.4 over 600ms. Adds atmospheric depth and rhythm to combo sequences without visual chaos.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Game board S006/S008, triggers during combo cascade sequences",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-010",
+      "name": "reward_screen_golden_shift",
+      "category": "feedback",
+      "type": "color_shift",
+      "description": "The entire screen shifts to a warm golden color over 1.5 seconds. No confetti, no stars, no AMAZING text. Instead a readable summary of the player's game history appears in poster aesthetic. Warm pause rather than visual overwhelm. Share-optimized format.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "complex",
+      "generation_method": "custom_llm",
+      "mood": "",
+      "context": "Reward screen, triggers on level completion or quest achievement",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-011",
+      "name": "npc_edge_slide_in",
+      "category": "micro_interaction",
+      "type": "slide",
+      "description": "NPC character slides in from the screen edge, delivers a short contextual comment in the game world's tone, stays for 4 seconds, then slides back out. Max once per week. Tapping the NPC opens a mini story sequence.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Any screen, triggers max once per week as a fourth-wall narrative moment",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-012",
+      "name": "friend_avatar_light_pulse",
+      "category": "ambient",
+      "type": "pulse",
+      "description": "Friend avatars on the level map glow as ambient light points. Social nudges appear as a light pulse on friend avatars in the header rather than push banners. Pulse is calm and warm, like a second heartbeat — never aggressive.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": -1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "simple",
+      "generation_method": "template",
+      "mood": "",
+      "context": "Level map and hub screens S005/S007, ambient and continuous when friends are active",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-013",
+      "name": "challenge_invite_pulse",
+      "category": "ambient",
+      "type": "pulse",
+      "description": "Challenge invitation pulses like a second heartbeat. Warm and rhythmic, never aggressive or competitive-feeling. Invites engagement without pressure.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": -1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "simple",
+      "generation_method": "template",
+      "mood": "",
+      "context": "Social / Challenges area, triggers when a friend sends a challenge invitation",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-014",
+      "name": "story_page_turn_transition",
+      "category": "screen_transition",
+      "type": "custom",
+      "description": "Story screen transitions feel like turning a page just before midnight — slow, breathing, with organic textures. Large quiet text with generous spacing. Story moments reward game flow rather than interrupting it.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Story / narrative screens, triggers on story moment entry and exit",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-015",
+      "name": "home_hub_daily_quest_entrance",
+      "category": "screen_transition",
+      "type": "custom",
+      "description": "On daily re-entry the Home Hub composes itself dynamically based on time of day. Morning 6–10h: Daily Quest dominates, social is minimized. Midday 12–14h: compact commuter view. Evening 19–23h: Story Hub teaser prominent with shop nudge. Feels like arriving home and seeing what awaits.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "complex",
+      "generation_method": "custom_llm",
+      "mood": "",
+      "context": "Home Hub S005, triggers on every app open / daily re-entry",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-016",
+      "name": "shop_catalog_open",
+      "category": "screen_transition",
+      "type": "slide",
+      "description": "Shop opens like a premium catalog — generous whitespace, clear hierarchy, no aggressive sales stickers. The transition into the shop feels calm and self-directed, not pressured.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Shop screen, triggers when player opens the shop",
+      "priority": "medium",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-017",
+      "name": "gem_snap_feedback",
+      "category": "micro_interaction",
+      "type": "custom",
+      "description": "When a dragged gem snaps into its target position, a snap feedback fires at the exact moment of snapping — not on finger release. Confirms the move is registered. Neutral if invalid — no error buzz, no negative feedback loop.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "simple",
+      "generation_method": "template",
+      "mood": "",
+      "context": "Game board S003/S006, triggers at the moment a gem locks into a valid position during drag",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-018",
+      "name": "cascade_haptic_rumble",
+      "category": "feedback",
+      "type": "pulse",
+      "description": "Tiered haptic rumble scales with cascade size: 3-match = 80ms, 5-match = 200ms, larger cascades = proportionally longer. Feels like a tuning fork slowly fading — never like an error buzz or alarm.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Game board S006/S008, triggers on cascade combo completion, duration scales with match size",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-019",
+      "name": "ui_narrative_transition",
+      "category": "screen_transition",
+      "type": "fade",
+      "description": "Standard UI and narrative screen transitions breathe at 600–900ms with ease-in-out. No 200ms bursts. Every transition feels deliberate and calm, like inhaling before speaking.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": 1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "simple",
+      "generation_method": "template",
+      "mood": "",
+      "context": "All narrative and UI screen transitions across the entire app",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    },
+    {
+      "anim_id": "MI-020",
+      "name": "friend_lightpoint_ambient_map",
+      "category": "ambient",
+      "type": "shimmer",
+      "description": "Friends appear as persistent ambient light points on the level map following the Zenly principle. Softly glowing and always visible without requiring a separate social tab. Their light subtly shimmers to indicate activity.",
+      "technical_specs": {
+        "duration_ms": 300,
+        "delay_ms": 0,
+        "ease": "ease-out",
+        "iterations": -1,
+        "direction": "normal",
+        "fill_mode": "forwards"
+      },
+      "visual_specs": {
+        "scale_from": 1.0,
+        "scale_to": 1.0,
+        "opacity_from": 1.0,
+        "opacity_to": 1.0,
+        "rotation_deg": 0,
+        "translate_x": 0,
+        "translate_y": 0,
+        "color_shift": null
+      },
+      "complexity": "medium",
+      "generation_method": "composition",
+      "mood": "",
+      "context": "Level map screen, ambient and continuous whenever the map is visible",
+      "priority": "high",
+      "platform_targets": [
+        "ios",
+        "android",
+        "web",
+        "unity"
+      ],
+      "source_reference": "",
+      "roadbook_warnings": []
+    }
+  ]
+}

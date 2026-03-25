@@ -1,0 +1,38 @@
+{
+  "gate_id": "gate_20260324_104520_testprojekt_release_timing",
+  "project": "testprojekt",
+  "platform": "ios",
+  "gate_type": "release_timing",
+  "category": "release",
+  "title": "App Approved — Wann releasen?",
+  "description": "Apple hat die App genehmigt. Release-Zeitpunkt waehlen.",
+  "severity": "info",
+  "created_at": "2026-03-24T10:45:20.320936+00:00",
+  "source_department": "factory/store",
+  "source_agent": "release_coordinator",
+  "context": {},
+  "options": [
+    {
+      "id": "immediate",
+      "label": "Sofort releasen",
+      "color": "green"
+    },
+    {
+      "id": "scheduled",
+      "label": "Naechster Dienstag",
+      "color": "blue"
+    },
+    {
+      "id": "manual",
+      "label": "Manuell spaeter",
+      "color": "yellow"
+    }
+  ],
+  "notes_field": true,
+  "notes_placeholder": "Anmerkungen oder Auflagen (optional)...",
+  "recommendation": null,
+  "status": "pending",
+  "decided_at": null,
+  "decision": null,
+  "decision_notes": null
+}

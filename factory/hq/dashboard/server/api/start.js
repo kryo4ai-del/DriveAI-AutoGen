@@ -91,44 +91,52 @@ router.post('/launch', (req, res) => {
       return res.status(400).json({ error: 'title and ambition required' });
     }
 
-    let command;
+    const mode = ambition === 'realistic' ? 'factory' : 'vision';
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+    let ideaFilePath;
 
+    // Step 1: Ensure idea file exists
     if (idea_source === 'file' && req.body.idea_file) {
-      const ideaPath = path.join(config.PATHS.ideas, req.body.idea_file);
-      if (!fs.existsSync(ideaPath)) {
+      ideaFilePath = path.join(config.PATHS.ideas, req.body.idea_file);
+      if (!fs.existsSync(ideaFilePath)) {
         return res.status(404).json({ error: 'Idee-Datei nicht gefunden' });
       }
-      command = `python main.py --factory-submit --idea-file "${ideaPath}" --title "${title}" --ambition ${ambition}`;
     } else if (req.body.idea_text) {
-      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
-      const filename = `${slug}.md`;
       const ideasDir = config.PATHS.ideas;
       if (!fs.existsSync(ideasDir)) fs.mkdirSync(ideasDir, { recursive: true });
-
-      const filePath = path.join(ideasDir, filename);
-      if (!fs.existsSync(filePath)) {
-        fs.writeFileSync(filePath, `# ${title}\n\n${req.body.idea_text}`, 'utf-8');
+      ideaFilePath = path.join(ideasDir, `${slug}.md`);
+      if (!fs.existsSync(ideaFilePath)) {
+        fs.writeFileSync(ideaFilePath, `# ${title}\n\n${req.body.idea_text}`, 'utf-8');
       }
-      command = `python main.py --factory-submit --idea-file "${filePath}" --title "${title}" --ambition ${ambition}`;
     } else {
       return res.status(400).json({ error: 'Either idea_text or idea_file required' });
     }
 
+    // Step 2: Register project in project_registry (creates project.json + folder)
+    const registerCmd = `python -c "from factory.project_registry import register_project; register_project('${slug}', '${title.replace(/'/g, "\\'")}', open('${ideaFilePath.replace(/\\/g, '/')}', encoding='utf-8').read(), '${mode}')"`;
+    exec(registerCmd, { cwd: config.FACTORY_BASE }, (err) => {
+      if (err) console.error(`[Start] Registry error: ${err.message}`);
+      else console.log(`[Start] Project registered: ${slug}`);
+    });
+
+    // Step 3: Launch the actual pipeline
+    const command = `python -m factory.pre_production.pipeline --idea-file "${ideaFilePath}" --title "${title}" --mode ${mode}`;
     console.log(`[Start] Launching: ${command}`);
     exec(command, { cwd: config.FACTORY_BASE }, (error, stdout, stderr) => {
       if (error) {
         console.error(`[Start] Pipeline error: ${error.message}`);
       } else {
-        console.log(`[Start] Pipeline started successfully`);
+        console.log(`[Start] Pipeline completed successfully`);
       }
     });
 
     res.json({
       title,
-      ambition,
+      slug,
+      mode,
       command,
       status: 'launched',
-      message: `Factory gestartet: ${title} (${ambition})`,
+      message: `Factory gestartet: ${title} (${mode} mode)`,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

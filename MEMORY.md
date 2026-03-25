@@ -1,970 +1,610 @@
 # DriveAI-AutoGen — MEMORY.md
 
-## Projekt-Übersicht
+## Projekt-Uebersicht
 - **Pfad**: `C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\`
-- **Zweck**: Multi-Agent AI App Factory (AutoGen v0.4+) + AskFinn iOS App
+- **Zweck**: Multi-Agent AI App Factory (AutoGen v0.4+) — generiert iOS/Android/Web/Unity Apps autonom
 - **GitHub**: `https://github.com/kryo4ai-del/DriveAI-AutoGen` (main branch)
 - **Git-User**: `kryo4ai-del` / `kryo4ai@gmail.com`
+- **Mac**: `/Users/andreasott/DriveAI-AutoGen/` (Build Agent)
 
 ## Tech-Stack
-- Python + AutoGen AgentChat v0.4+
-- **LLM Provider**: Anthropic Claude (100% — kein OpenAI)
-- **Modelle**: claude-sonnet-4-6 (Tier 1+2), claude-haiku-4-5 (Tier 3), claude-opus-4-6 (Premium)
-- **API Key**: `ANTHROPIC_API_KEY` in `.env`
-- 21 aktive Agents, 4 deaktiviert (Android/Kotlin/Web)
+- Python + AutoGen AgentChat v0.4+ + LiteLLM
+- **LLM Provider**: 4 — Anthropic, OpenAI, Google, Mistral (9 Modelle)
+- **Routing**: TheBrain (dynamisch, Tier+Quality+Cost-basiert)
+- **API Keys**: ANTHROPIC, OPENAI, GOOGLE, MISTRAL in `.env`
+- 62 Agents total (22 Code-Pipeline, 27 Swarm Factory, 13 Infrastruktur)
 
-## 3-Tier Modell-System
-| Tier | Modell | Tasks |
+## TheBrain Modell-System
+| Tier | Modelle | Preis (1k output) |
 |---|---|---|
-| 1 (Code) | Sonnet | code_generation, architecture, code_review, bug_hunting, refactoring, test_generation |
-| 2 (Reasoning) | Sonnet | planning, orchestration, content, compliance, accessibility |
-| 3 (Lightweight) | Haiku | classification, summarization, trend_analysis, scoring, labeling, extraction, briefing |
+| Low | mistral-small ($0.0003), gemini-flash ($0.0006), haiku ($0.004), gpt-4o-mini ($0.0006) | Billigste |
+| Mid | o3-mini ($0.0044), sonnet ($0.015), gpt-4o ($0.01), gemini-pro ($0.01) | Standard |
+| High | opus ($0.075) | Premium |
 
-## LLM Profile (`config/llm_profiles.json`)
-| Profil | Modell | Verwendung |
-|---|---|---|
-| dev | claude-haiku-4-5 | Entwicklung, Tests |
-| standard | claude-sonnet-4-6 | Normaler Betrieb |
-| premium | claude-opus-4-6 | High-End Projekte |
+### Quality Priority (neu 2026-03-23)
+- `quality_priority` in project.yaml → Quality Score 0.0-1.0
+- iOS askfin_v1-1: Score 1.0 → immer Sonnet fuer Code-Tasks
+- Neutral (0.5): normales Cost-Sorting
+- Nur fuer code-generierende Tasks, nicht Reviews
+
+## 4 Production Lines
+| Line | Stack | Assembly | Status |
+|---|---|---|---|
+| iOS | Swift/SwiftUI/MVVM | Mac Bridge | **Aktiv** (via Mac) |
+| Android | Kotlin/Compose/Hilt | Gradle (Windows) | Bereit |
+| Web | TypeScript/React/Next.js | npm (Windows) | Bereit |
+| Unity | C#/Unity/URP | Unity CLI | Scene Forge complete (Phase 11) |
+| Backend | Python/FastAPI/Pydantic | pip + Docker | Phase 12 Step 6 (Scaffolding) |
 
 ## Wichtige Befehle
 ```bash
-# Einzelner Template-Run
-python main.py --template <template> --name <Name> --profile dev --approval auto
+# Code-Pipeline
+python main.py --template feature --name Name --profile standard --approval auto --project askfin_v1-1
+python main.py --mac-build breathflow5
+python main.py --mac-generate askfin_v1-1 --feature "Name" --spec "..." --files "File1.swift,..."
 
-# Task Pack (mehrere Templates)
-python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approval auto
+# Swarm Factory (6 Kapitel + PDFs)
+python -m factory.pre_production.pipeline --idea-file ideas/app.md --title "App" --mode factory
+python -m factory.pre_production.ceo_gate --run-dir <dir> --decision GO
+python -m factory.market_strategy.pipeline --run-dir <p1-dir>
+python -m factory.mvp_scope.pipeline --latest
+python -m factory.design_vision.pipeline --latest
+python -m factory.visual_audit.pipeline --latest
+python -m factory.roadbook_assembly.pipeline --latest
+python -m factory.document_secretary.secretary --type all
 
-# Approval: immer --approval auto (--approval ask = EOFError in non-interactive shell)
+# Factory Status
+python main.py --factory-status
+python main.py --brain-models
+python main.py --assemble askfin_android
+
+# QA Department
+python main.py --qa askfin_v1-1 --platform ios
+python main.py --qa askfin_v1-1 --platform all
+python main.py --qa-status askfin_v1-1
+python main.py --qa-reset-bounces askfin_v1-1 --platform ios
+
+# Store Preparation
+python main.py --store-prep askfin_v1-1 --platform ios          # Full 4-Phase run
+python main.py --store-prep askfin_v1-1 --platform all           # All platforms
+python main.py --store-prep-status askfin_v1-1                   # Show last report
+python main.py --store-prep askfin_v1-1 --platform ios --metadata-only    # Only Phase 1
+python main.py --store-prep askfin_v1-1 --platform web --compliance-only  # Only Phase 3
+
+# Signing & Packaging
+python main.py --sign brainpuzzle --platform android,web        # Build + Sign
+python main.py --sign brainpuzzle --platform all                # Android + Web (iOS excluded on Windows)
+python main.py --sign brainpuzzle --platform ios                # SKIPPED (Mac session noetig)
+python main.py --check-credentials brainpuzzle --platform android  # Credential Check
+python main.py --show-version brainpuzzle                       # Version anzeigen (alle Plattformen)
+python main.py --bump-version brainpuzzle --version-type patch  # Version erhoehen (patch/minor/major)
+python main.py --list-artifacts brainpuzzle                     # Gespeicherte Artefakte auflisten
 ```
 
-## Templates verfügbar
-| Template | Zweck |
+## Swarm Factory Pipeline
+```
+Idee → P1 (7 Agents) → CEO Gate → K3 (5) → K4 (3) → K4.5 (3) → K5 (4) → K6 (2) → PDFs (15)
+```
+- **Vision Mode** (Default): Keine Limits
+- **Factory Mode**: Max 20 Features, 12 Screens, realistischer Tech-Stack, Factory Constraints injected
+
+### Produkte
+| Produkt | Status | Mode |
+|---|---|---|
+| EchoMatch | K6 komplett, 10 PDFs | Vision |
+| SkillSense | P1 komplett, Gate pending | Vision |
+| MemeRun2026 | K6 komplett, 15 PDFs | **Factory** |
+
+## Operations Layer (10 Steps)
+```
+OutputIntegrator → CompletionVerifier → ImportHygiene → PseudocodeSanitizer
+→ CompileHygiene → StaleArtifactGuard → TypeStubGen → PropertyShapeRepair
+→ SwiftCompileCheck → QualityGateLoop → RunMemory
+```
+
+### Quality Gate Loop (neu 2026-03-23)
+- Nach Step 9, ersetzt alten Recovery Loop
+- Tier 1: Deterministisch (kostenlos) — Import, Stub, Shape Repair
+- Tier 2: LLM Repair (TheBrain-gesteuert)
+- Max 3 Iterationen → PASS oder Escalation Report
+
+## Swift Compile Contract (neu 2026-03-23)
+- 6 Regeln in `config/platform_roles/ios.json`
+- Injected in: swift_developer, ios_architect, refactor_agent, bug_hunter, test_generator
+- Code Extractor Blocklist: 112 Framework-Types
+
+## Mac Bridge
+- iOS Line auf Windows: **disabled** (Mac uebernimmt)
+- Commands: build_ios, generate_and_build, run_tests, screenshots, archive
+- Git-Queue: `_commands/pending/*.json` → Mac pollt → `_commands/completed/*.json`
+- `factory/mac_bridge/generate_command.py` — neuer Command Sender mit auto-retry
+
+## AskFin Premium (askfin_v1-1)
+- 255 Swift Files im Projekt
+- iOS Line disabled — Mac Assembly Factory uebernimmt
+- StudyStreak: via Mac generiert, 0 Compile Errors, 5 Files
+- FocusTimer: via Mac generiert
+- BreathFlow/Meditation Files: bereinigt (17 Files geloescht, 27 in Quarantine)
+- Quality Score: 1.0 (hoechste Prioritaet)
+
+## QA Department (neu 2026-03-24)
+- Pfad: `factory/qa/`
+- 6 Module: config, bounce_tracker, qa_report, test_runner, quality_criteria, qa_coordinator
+- **4-Phase Pipeline**: Build → Operations → Tests → Quality Gate
+- **Bounce System**: Max 3 Bounces pro Produkt, dann CEO Escalation via gate_api
+- **BuildVerifier**: iOS (Mac Bridge), Android (Gradle), Web (npm/tsc)
+- **TestRunner**: iOS (Mac Bridge run_tests), Android (Gradle test + JUnit XML), Web (Jest --json)
+- **QualityCriteria**: 5 Checks — build_success (REQ), zero_blocking (REQ), no_crashes (REQ), test_pass_rate (REC), min_test_coverage (REC)
+- **Auto-Repair**: Phase A nutzt RepairCoordinator, Phase B nutzt quality_gate_loop
+- Reports: `factory/qa/reports/*.json`
+
+## Store Preparation Layer (neu 2026-03-25)
+- Pfad: `factory/store_prep/`
+- Sitzt ZWISCHEN QA Department und bestehendem `factory/store/StorePipeline`
+- **config.py**: StorePrepConfig — Apple/Google/Web Limits, LLM Toggle, Screenshot Sizes
+- **platform_metadata.py**: 3 Dataclasses + Adapter
+  - `AppleStoreMetadata`: app_name, subtitle, promotional_text, description, keywords (14 Felder)
+  - `GooglePlayMetadata`: app_name, short_description, full_description, category (13 Felder)
+  - `WebMetadata`: title, meta_description, og_*, manifest, robots (12 Felder)
+  - Alle: `to_dict()`, `to_json(path)`, `validate() -> list[str]`
+  - `PlatformMetadataAdapter`: generic StoreMetadata → plattformspezifisch
+  - Zwei Pfade: LLM (TheBrain/LiteLLM) → Template Fallback
+  - Apple Keywords Optimizer: no spaces, remove app name, max 100 chars
+- **metadata_enricher.py**: MetadataEnricher — laedt Pre-Prod + Market Strategy + Design Vision Reports
+  - `enrich()` → dict mit 7 Keys: audience, usp, competitors, positioning, monetization, marketing_hooks, design_language
+  - Alle deterministisch (Regex/Text-Parsing, kein LLM)
+  - Report-Aufloesung: project_registry → glob fallback
+  - Unterstuetzt 3 Header-Formate: Markdown (##), Arrow (▶), Nummeriert (1.)
+  - Getestet mit memerun2026: alle 7 Felder befuellt (167-3019 chars)
+- **privacy_labels.py**: PrivacyLabelGenerator — scannt Source Code fuer Privacy Patterns
+  - `CodePrivacyScan`: 14 Kategorien (networking, analytics, location, camera, ...)
+  - `generate()` → dict mit scan, apple, google, web
+  - Apple Privacy Nutrition Labels (privacy_tier, data_types)
+  - Google Data Safety Sections (data_collected, data_shared, security_practices)
+  - Web Privacy Hints (GDPR sections, consent_required, cookie_banner_needed)
+  - `save()` → 4 JSON-Dateien (code_scan, apple_privacy_label, google_data_safety, web_privacy_hints)
+  - 290 Swift-Dateien gescannt bei askfin_v1-1 Test (2 Kategorien erkannt)
+- **screenshot_coordinator.py**: ScreenshotCoordinator — orchestriert Screenshot-Capture pro Plattform
+  - `ScreenshotResult`: status (CAPTURED/SKIPPED/FAILED/PARTIAL), screenshots, count, reason, duration
+  - iOS: Mac Bridge file-based queue (_commands/pending → completed), 120s Timeout, Polling 10s
+  - Android/Web/Unity: SKIPPED (nicht implementiert)
+  - `check_existing_screenshots()`: Prueft ob Screenshots bereits existieren (manuell/vorheriger Run)
+  - Graceful Handling: kein _commands/ → SKIPPED, Timeout → SKIPPED, Fehler → FAILED
+- **store_prep_report.py**: StorePrepReport — strukturierter JSON-Report pro Store Prep Run
+  - `PlatformPrepStatus`: metadata, assets (icon/screenshots/feature_graphic), compliance, privacy_label, missing_items
+  - `evaluate_overall_status()`: READY | INCOMPLETE | BLOCKED | PENDING (Priority: BLOCKED > INCOMPLETE)
+  - `save()` → store_prep_report.json, `print_summary()` → Console Output
+  - CEO Gates + Warnings tracking
+- **store_prep_coordinator.py**: StorePrepCoordinator — Haupt-Orchestrator (4 Phasen pro Plattform)
+  - Phase 1: MetadataGenerator → PlatformMetadataAdapter (LLM/Template) → validate → save → CEO Gate
+  - Phase 2: AssetForge Icons (Roadbook) → Projekt-Icons Fallback → ScreenshotCoordinator
+  - Phase 3: ComplianceChecker → PrivacyLabelGenerator → CEO Gate bei sensitiven Kategorien
+  - Phase 4: Evaluate Readiness (READY/INCOMPLETE/BLOCKED) + missing_items
+  - `StorePrepResult`: status, per_platform, report_path, output_dir, gates_triggered
+  - Alle externen Imports lazy + try/except (MetadataGenerator, ComplianceChecker, AssetForge, gate_api)
+  - Fallback: SimpleNamespace wenn MetadataGenerator fehlt
+  - CEO Gates non-blocking (create only, kein wait)
+  - Getestet: askfin_v1-1 iOS/web (0.6-1.6s), memerun2026 iOS/Android (7/7 Enrichment)
+- Bestehendes `factory/store/` wird NICHT modifiziert
+- Output: `factory/store_prep/output/{project}/{platform}/` (metadata.json, privacy/, compliance_report.md)
+- **8 Module gesamt**: __init__, config, platform_metadata, metadata_enricher, privacy_labels, screenshot_coordinator, store_prep_report, store_prep_coordinator
+- **CLI Integration** (main.py): 4 neue Flags, Handler nach QA-Handlern
+  - `--store-prep PROJECT --platform PLAT` → voller 4-Phasen Run (StorePrepCoordinator.run())
+  - `--store-prep-status PROJECT` → liest store_prep_report.json, zeigt Status/Metadata/Assets/Compliance/Privacy
+  - `--store-prep PROJECT --platform PLAT --metadata-only` → nur Phase 1 (Metadata + Enrichment + Adapter)
+  - `--store-prep PROJECT --platform PLAT --compliance-only` → nur Phase 3 (ComplianceChecker direkt)
+  - `--platform all` iteriert ueber ios/android/web/unity
+  - Benutzt bestehenden `--platform` Flag (shared mit QA)
+
+## Signing & Packaging Layer (neu 2026-03-25)
+- Pfad: `factory/signing/`
+- Foundation fuer Build-Versionierung, Code Signing, Artifact Management
+- **config.py**: SigningConfig — Timeouts, Keystore-Defaults, iOS Export, CEO Gates, Web Build
+  - Android: RSA 2048, DNAME=DriveAI Stadtoldendorf, Validity 10000 Tage
+  - iOS: ExportOptions.plist Template-Pfad, export_method (app-store/ad-hoc/development)
+- **version_manager.py**: VersionManager — zentrale Versionsverwaltung pro Projekt+Plattform
+  - `VersionInfo`: marketing_version + build_number + build_id + full_version
+  - `get_current(platform)`: Laedt oder initialisiert (1.0.0, build 1)
+  - `bump_build(platform)`: iOS build_number++, Android version_code++, Web YYYYMMDD-NNN
+  - `bump_version(patch|minor|major)`: Marketing-Version erhoehen, Build-Numbers NICHT resetten
+  - `apply_to_project(platform, dir)`: Schreibt Version in Info.plist / build.gradle.kts / package.json
+  - `get_history(platform)`: Letzte 50 Eintraege mit Timestamp + Action
+  - Persistenz: versions.json (atomic write, corrupt-file Backup, auto-create)
+- Verzeichnisse: artifacts/ (Build-Artefakte), keystores/ (Signing Keys), templates/ (ExportOptions etc.)
+- 14/14 Smoke Tests bestanden (alle Plattformen, apply_to_project, History, Edge Cases)
+- **credential_checker.py**: CredentialChecker — prueft Signing-Voraussetzungen VOR Build
+  - `check(platform, project)` → CredentialStatus (ready, found, missing, instructions)
+  - iOS: ExportOptions.plist + Mac Bridge _commands/ (Limited, Full Check auf Mac)
+  - Android: Keystore (.keystore/.jks) + Password (ENV) + keytool + Gradle
+  - Web: npm + node (kein Signing noetig)
+  - `get_keystore_path(project)` / `get_keystore_password(project)` — Utility fuer AndroidSigner
+  - Keystore-Suche: keystores/{project}.keystore → .jks → ANDROID_KEYSTORE_PATH env
+  - Password-Suche: ANDROID_KS_{PROJECT}_PASSWORD → ANDROID_KEYSTORE_PASSWORD
+  - Instruktionen: keytool-Command generiert, .env Hinweise
+- **artifact_registry.py**: ArtifactRegistry — zentraler Speicher fuer Build-Artefakte
+  - `store(project, platform, version_info, artifact_path, metadata)` → ArtifactEntry
+  - Kopiert Files (IPA/AAB) und Directories (Web-Bundle .next/)
+  - build_info.json pro Version (git commit, timestamp, metadata)
+  - `get_latest()`, `list_versions()`, `list_projects()`, `get_artifact_path()`
+  - `cleanup_old(keep=N)` — entfernt aelteste, behaelt N neueste
+  - `get_total_size()` — Disk-Usage Monitoring
+  - Struktur: artifacts/{project}/{platform}/{version}_build{N}/
+- 13/13 Artifact Registry Tests bestanden (store, copy, build_info, list, cleanup, web_bundle)
+- 4/4 Credential Checker Tests bestanden (web READY, android NOT READY, ios limited, keystore None)
+- Ergebnis Windows: npm/node OK, keytool/gradle/keystore MISSING, ExportOptions MISSING
+- **signing_result.py**: SigningResult — shared Dataclass fuer alle Builder/Signer
+  - Fields: status (SUCCESS/FAILED/SKIPPED), phase, artifact_path, artifact_type, version, error, duration_seconds, details
+  - `summary()` — einzeilige Zusammenfassung (ASCII-safe, kein Unicode)
+- **web_builder.py**: WebBuilder — npm Production Build
+  - `build()` -> SigningResult: verify pkg.json -> npm install (skip wenn node_modules) -> npm run build -> find output
+  - Windows: npm.cmd (sys.platform check), Timeout: config.web_build_timeout (300s)
+  - Output-Suche: config.web_output_dirs in Reihenfolge (.next, dist, build, out)
+  - Subprocess: capture_output, TimeoutExpired/FileNotFoundError/OSError abgefangen
+- **android_signer.py**: AndroidSigner — Keystore + Gradle Release Build
+  - `build_and_sign()` -> SigningResult: ensure keystore -> inject signingConfigs -> bundleRelease -> APK Fallback
+  - `_ensure_keystore()`: keystores/{project}.keystore -> .jks -> ENV -> auto-create via keytool
+  - Auto-Create: keytool -genkey mit config Defaults (RSA 2048, DNAME, 10000 Tage), Passwort aus ENV oder auto-generiert
+  - `_inject_signing_config()`: signingConfigs Block in build.gradle.kts, Passwords via System.getenv() (NIE hardcoded)
+  - Idempotent: erkennt bestehende signingConfigs, updated nur storeFile wenn noetig
+  - Backup: .gradle.kts.bak vor Modifikation
+  - Gradle-Suche: gradlew.bat/gradlew im Projekt -> shutil.which(gradle/gradle.bat)
+  - Fallback: bundleRelease (AAB) -> assembleRelease (APK)
+  - Artifact-Suche: app/build/outputs/bundle/release/*.aab bzw. apk/release/*.apk
+- 17/17 Smoke Tests bestanden (SigningResult, WebBuilder verify/build/output, AndroidSigner gradle/password/keystore/inject/idempotent/artifacts)
+- **signing_coordinator.py**: SigningCoordinator -- Haupt-Orchestrator fuer Signing Pipeline
+  - `run(store_prep_path)` -> dict mit status (SUCCESS/PARTIAL/FAILED), platforms, artifacts, duration
+  - Per-Platform Flow: credential check -> version bump -> build/sign -> artifact store
+  - iOS: SKIPPED (deferred to Mac session), Unity: SKIPPED (not implemented)
+  - Credential Gate: CEO Gate (blocking) bei fehlenden Credentials, 3 Optionen (setup_done/skip/abort)
+  - Fallback: Wenn gate_api nicht verfuegbar -> FAILED mit fehlenden Credentials
+  - `_resolve_project_dir()`: project_registry -> convention projects/{name}/ -> None
+  - Lazy imports: gate_api, project_registry, AndroidSigner, WebBuilder
+- **CLI Integration** (main.py): 6 neue Flags, Handler nach Store Prep
+  - `--sign PROJECT --platform PLAT` -> SigningCoordinator.run() (Komma-getrennt oder 'all')
+  - `--check-credentials PROJECT [--platform PLAT]` -> CredentialChecker fuer alle/bestimmte Plattformen
+  - `--show-version PROJECT` -> Zeigt aktuelle Version fuer iOS/Android/Web
+  - `--bump-version PROJECT --version-type patch|minor|major` -> Marketing-Version erhoehen
+  - `--list-artifacts PROJECT` -> Letzte 10 Artefakte pro Plattform + Gesamtgroesse
+  - `--platform all` bei --sign = android+web (iOS auf Windows excluded)
+- 15/15 CLI Smoke Tests bestanden (import, iOS SKIPPED, Unity SKIPPED, web graceful fail, --show-version, --bump-version, --check-credentials, --list-artifacts, --sign ios/web, --sign ohne --platform, --factory-status weiterhin OK)
+- **Signing Layer komplett (Windows-Seite)**: 9 Module (config, version_manager, credential_checker, artifact_registry, signing_result, web_builder, android_signer, signing_coordinator, __init__)
+- Noch NICHT implementiert: IPA-Export (Mac Session, ios_signer.py + Mac Bridge commands)
+
+## Factory Capabilities (Stand 2026-03-25)
+| Bereich | Status |
 |---|---|
-| `screen` | SwiftUI Screen |
-| `viewmodel` | ViewModel |
-| `service` | Service-Klasse + Protocol |
-| `feature` | Vollständiges Feature (Views + VMs + Services) |
-| Pack: `screen_plus_viewmodel` | Screen + ViewModel zusammen |
-
-## Generierter Code
-- **Pfad**: `generated_code/` (in .gitignore — nicht committed)
-- **Xcode-Integration**: `DriveAI/` (wird committed)
-- **Subfolder-Routing**: Views → `Views/`, ViewModels → `ViewModels/`, Services → `Services/`, Rest → `Models/`
-
-## Git Auto-Commit
-- Nach jedem erfolgreichen Pipeline-Run automatisch: stage → commit → push
-- Commit-Message: `AI run: <task[:72]>`
-- Implementiert in `utils/git_auto_commit.py`
-
-## Schlüsseldateien
-| Datei | Zweck |
-|---|---|
-| `main.py` | Entry Point, CLI-Parsing, Pipeline-Orchestrierung |
-| `config/llm_config.py` | LLM Config (Anthropic + Ollama) |
-| `config/model_router.py` | 3-Tier Routing (Sonnet + Haiku) |
-| `config/llm_profiles.json` | Profile: dev/standard/premium |
-| `config/agent_toggles.json` | 19 aktiv, 4 deaktiviert |
-| `config/agent_roles.json` | Agent System Messages |
-| `code_generation/code_extractor.py` | Swift-Code-Extraktion aus Agent-Messages |
-| `utils/git_auto_commit.py` | Automatischer Git-Commit nach Pipeline-Run |
-| `memory/memory_store.json` | Persistente Agent-Memory |
-| `control_center/app.py` | Streamlit Dashboard |
-
-## Fixes & Bugs (historisch)
-
-### code_extractor.py — komplettes Rewrite
-- Alt: generische `NAME_PATTERNS`, fallback auf `GeneratedFile_N.swift` → File-Explosion
-- Neu: Priority-Detection (SwiftUI View > named type > extension > orphan)
-- Orphan-Blocks → einzelne `GeneratedHelpers.swift` statt N Dateien
-
-### Regex-Bug: `to.swift` (behoben)
-- Problem: `_TYPE_RE` matched `class to` in Kommentar
-- Fix: `[A-Z]\w+` statt `\w+` — Typname muss mit Großbuchstabe beginnen (PascalCase)
-
-### SyntaxError in delivery-Dateien (behoben)
-- Problem: required params nach optional params ohne `*`-Separator
-- Fix: `*` vor erstem required param eingefügt
+| App Icons (multi-size) | JA — AssetForge |
+| Screenshots (iOS Simulator) | Teilweise — nur Mac |
+| Marketing Frames/Mockups | NEIN |
+| Store Metadata (Name, Desc, Keywords) | JA — MetadataGenerator |
+| Privacy Policy (Code-Analyse) | JA |
+| Compliance Checker (iOS/Android/Web) | JA |
+| Privacy Labels / Data Safety | JA — PrivacyLabelGenerator (Apple/Google/Web, Code-Scan) |
+| Android Build (Gradle) | JA (wenn SDK installiert) |
+| Web Build (npm/tsc) | JA |
+| iOS Build (Mac Bridge) | JA |
+| Build Versioning | JA — VersionManager (iOS/Android/Web, auto-increment, apply_to_project) |
+| Web Production Build | JA — WebBuilder (npm install + npm run build, Output-Detection) |
+| Android Signing | JA — AndroidSigner (Keystore auto-create, signingConfigs inject, bundleRelease/assembleRelease) |
+| iOS Signing | NEIN — Mac Session noetig |
+| Store API Upload | NEIN |
+| Gate System (HQ) | JA — 2 Gates (ceo_gate, visual_review) |
+| QA Department | JA — 4-Phase Pipeline, CLI: --qa / --qa-status / --qa-reset-bounces |
+| Store Prep Layer | JA — 8 Module + CLI (--store-prep / --store-prep-status / --metadata-only / --compliance-only) |
+| Store Pipeline (5 Steps) | JA — factory/store/ (Metadata, Compliance, Package, Submission, Readiness) |
+| Factory Janitor (INF-13) | JA — 3 Zyklen (daily/weekly/monthly), Dashboard-Seite, HQ Assistant Tools |
+| CD Forge Interface (Phase 12) | JA — Roadbook→Forge Mapping, Build Plan v2, 4 Parallel Groups, Validator |
+| Forge Orchestrator (Phase 12) | JA — Koordiniert 4 Forges (A→B), Budget-Kontrolle, Manifest-Discovery |
+| Asset Integration (Phase 12) | JA — Platform Asset Mapper (4 Plattformen) + IntegrationMap + Code-Referenzen |
+| Backend Line (Phase 12) | JA — Line 5: Python/FastAPI, PythonExtractor (102 Types), 8-File Scaffolding |
+| Full Pipeline (Phase 12) | JA — End-to-End: Roadbook→Forges→Integration→Code Ready, CLI, 24h Cache, Budget |
 
 ## Changelog
 
-### 2026-03-12 — Claude Migration
-- Komplette Umstellung von OpenAI GPT → Anthropic Claude
-- 3-Tier System: Sonnet (Tier 1+2) + Haiku (Tier 3)
-- 4 Agents deaktiviert: android_architect, kotlin_developer, web_architect, webapp_developer
-- Alle OpenAI-Referenzen entfernt (config, docs, agent_roles)
-- API Key: `ANTHROPIC_API_KEY` in `.env` eingetragen
-
-### 2026-03-12 — Projekt-Bereinigung
-- Alte DriveAI-Duplikate gelöscht (224 Files), nur AskFinn bleibt
-- AskFinn iOS App: BUILD SUCCEEDED auf Mac (iPhone 17 Pro Simulator, iOS 26.3)
-- 68 AutoGen-Logs analysiert → 3 kritische Factory-Schwachstellen identifiziert
-
-### 2026-03-12 — Factory-Erweiterung
-- AutoResearchAgent, ResearchMemoryGraph, StrategyReportAgent hinzugefügt
-- Neue Module: radar/, costs/, research/, research_graph/, strategy/
-- Control Center: 19 Pages (inkl. Radar, AI Costs, Strategy, Research Graph, Research)
-- store_reader.py + app.py + daily_briefing.py erweitert
-
-### 2026-03-12 — Premium Product Strategy
-- Factory-Philosophie definiert: Premium-Produkte statt generische Apps
-- AskFin als erstes Referenzprojekt reframed (Coach statt Tool)
-- Factory Learning Loop designt (factory_knowledge/ mit 6 Wissenstypen)
-- 3 neue Agents vorgeschlagen: Creative Director (Sonnet), UX Psychology (Sonnet, on-demand), Factory Learning (Haiku)
-- 4 neue Quality Gates: Innovation, Experience Uniqueness, Motivation Quality, Premium Design
-- Neue Docs: factory_premium_product_principles.md, askfin_premium_reframing.md, factory_learning_loop.md, factory_new_roles_proposal.md, factory_new_gates_proposal.md
-
-### 2026-03-12 — Implementation Planning
-- Plausibilitaets-Check: 3 Risiken identifiziert (Doppel-Insertion, SelectorGroupChat Message-Limit, factory_knowledge Abhaengigkeit)
-- Creative Director: NICHT als Full Agent im Team, sondern als separater Review Pass (wie Bug Hunter)
-- Factory Knowledge Schema: 1 knowledge.json statt 6 separate Dateien (zu granular fuer Start)
-- factory_knowledge/ Scaffold angelegt: knowledge.json + index.json + README.md
-- 5-Step Rollout definiert: Scaffold -> CD Advisory -> Knowledge Seeding -> CD Gate -> Learning Writeback
-- Neue Docs: creative_director_integration_plan.md, factory_learning_schema.md, first_rollout_execution_plan.md
-
-### 2026-03-12 — Creative Director Advisory Pass (Step 2)
-- CD implementiert als Team-Mitglied + separater Pass (wie Bug Hunter Pattern)
-- Laeuft nach Bug Review, vor Refactor (standard + full Mode)
-- Skip bei service/viewmodel Templates, skip bei quick Mode
-- Advisory only: loggt Feedback, blockiert nichts
-- Deaktivierbar: `--disable-agent creative_director`
-- Dateien: agents/creative_director.py, agent_roles.json, agent_toggles.json, agent_toggle_config.py, model_router.py, task_manager.py, main.py
-- Agent-Count: 20 aktiv + 4 deaktiviert = 24
-
-### 2026-03-12 — Pipeline Reliability (Steps 2b/2c)
-- team.reset() zwischen Passes gegen Context-Explosion (>50k Tokens nach Implementation Pass)
-- _run_with_retry() Wrapper fuer alle 6 Passes (65s Backoff bei Rate Limit)
-- Exception-Catch auf beide AutoGen-Fehlerpfade erweitert (RuntimeError + direkter RateLimitError)
-- Implementation Summary: kompakte Zusammenfassung (300-2000 chars) aus Extraction-Metadaten fuer Review-Passes
-- Docs: pipeline_reliability_fix.md, implementation_summary_integration.md
-
-### 2026-03-12 — Factory Knowledge Seed Round 1 (Step 3)
-- 6 Eintraege in factory_knowledge/knowledge.json geseedet
-- FK-001 (failure_case): Funktionale App ohne Motivation = kein Retention
-- FK-002 (ux_insight): Emotionale Micro-Copy > Daten-Feedback
-- FK-003 (motivational_mechanic): Domaenenspezifischer Fortschritt > generische Gamification
-- FK-004 (technical_pattern): SelectorGroupChat Reset zwischen Passes
-- FK-005 (technical_pattern): Implementation Summary fuer Review-Qualitaet
-- FK-006 (success_pattern): Neue Review-Agents starten advisory-only
-- Confidence: 3x hypothesis (Product), 3x validated (Pipeline)
-- Doc: factory_knowledge_seed_round_1.md
-
-### 2026-03-12 — CD Knowledge Integration (Step 3b)
-- factory_knowledge/knowledge_reader.py erstellt: deterministische Entry-Selektion fuer CD
-- Selektion: type-Filter (nicht technical_pattern) + product_type-Filter (nicht ai_pipeline) + confidence-Sort + Cap bei 5
-- 3 Entries (FK-001/002/003) werden als kompakter Block (706 chars) in CD-Task injiziert
-- Injection-Reihenfolge: Factory Knowledge → Implementation Summary → CD Review Task
-- Validierung: CD-Output referenziert alle 3 Entries, gibt domänenspezifische Vorschläge statt generischem Feedback
-- CD-Summary: "functionally complete but emotionally hollow" = FK-001 als Review-Fazit
-- Doc: creative_director_knowledge_integration.md
-
-### 2026-03-12 — Knowledge Proposal System (Step 3c)
-- factory_knowledge/proposal_generator.py erstellt: analysiert Run-Output, generiert Kandidaten-Entries
-- 5 Signale erkannt: Critical Bugs, CD Fail Rating, Emotional Design Gaps, File Duplication, Lifecycle Bugs
-- Max 3 Proposals pro Run, deterministisch (Regex), kein LLM
-- Proposals landen in factory_knowledge/proposals/proposal_<run_id>.json (NICHT in knowledge.json)
-- Integration in main.py nach Analytics, vor Console-Summary (try/except — non-blocking)
-- Doc: factory_knowledge_proposal_system.md
-
-### 2026-03-13 — Creative Director Soft Gate (Step 4)
-- CD Rating Parser in knowledge_reader.py: robuster Regex fuer 6+ Format-Variationen + Fallback-Scan
-- Gate-Logik in main.py: FAIL → stoppt Refactor/Test/Fix-Passes, conditional_pass → Warning, pass/unparseable → weiter
-- Template-aware: Gate nur bei screen/feature aktiv (service/viewmodel/andere → kein Gate)
-- Fail-open Design: unerkannte Ratings → pass (Pipeline blockiert nie wegen Parsing)
-- CLI Flag: --no-cd-gate umgeht Gate komplett
-- Bugs entdeckt und gefixt:
-  - SelectorGroupChat waehlte falschen Speaker → Task-Prefix "creative_director:" + Fallback-Scan in extract_cd_rating
-  - team.reset() fehlte zwischen Bug Hunter und CD Pass → hinzugefuegt
-  - MaxMessageTermination(2) Override wirkte nicht (nur Team-Attribut, nicht GroupChatManager) → entfernt
-- Validiert: FAIL stoppt Pipeline (3 Phases uebersprungen), conditional_pass laeuft weiter
-- Doc: creative_director_gate_mode.md
-
-### 2026-03-13 — UX Psychology Review Layer
-- Neuer Advisory Pass: analysiert Verhaltenspsychologie, Lernpsychologie, Motivation, Retention
-- Trennung: CD = "sieht es premium aus?" vs. UX Psych = "funktioniert die Verhaltenssteuerung?"
-- Laeuft nur bei screen/feature Templates, wird bei CD-Gate-Stop uebersprungen
-- Position in Pipeline: nach CD Gate, vor Refactor
-- Agent-Count: 21 aktiv + 4 deaktiviert = 25
-- Dateien: agents/ux_psychology.py, agent_roles.json, agent_toggles.json, agent_toggle_config.py, model_router.py, task_manager.py, main.py
-- Validiert: ExamSimulation Run — 5 spezifische Findings mit psychologischen Prinzipien (Testing Effect, SDT, Cognitive Load Theory, Spacing Effect, Cognitive Appraisal)
-- Deaktivierbar: --disable-agent ux_psychology
-- Doc: ux_psychology_review_layer.md
-
-### 2026-03-13 — UX Knowledge Seed Round 1
-- 4 neue Eintraege in factory_knowledge/knowledge.json (FK-007 bis FK-010)
-- FK-007 (ux_insight): Answer feedback must explain WHY — Testing Effect
-- FK-008 (motivational_mechanic): Competence progress between tasks — SDT
-- FK-009 (ux_insight): Task type differentiation — Cognitive Load Theory
-- FK-010 (ux_insight): Spacing/Interleaving weak topics — Ebbinghaus
-- Alle hypothesis-Level, Quelle: UX Psychology Validation Run
-- Knowledge Block: 706 → 1158 chars (5 Entries injected, Cap bei 5)
-- Excluded: Timer Reframing (zu spezifisch fuer Pruefungssimulationen)
-- Total: 10 Entries (7 hypothesis, 3 validated)
-- Doc: factory_ux_knowledge_seed_round_1.md
-
-### 2026-03-13 — Commercial Strategy Generator
-- Neues Modul: factory_strategy/commercial_strategy_generator.py
-- Generiert strukturierte Strategy Books (7 Sektionen) via Claude Sonnet API
-- Kontext-Quellen: Project Registry, Premium Reframing, Compliance, Architecture, Factory Knowledge
-- AskFin Strategy Book generiert (15k chars): Positioning, Monetization, Distribution, Marketing, Assets, Risks, Next Steps
-- Speicherort: strategy_books/<project>_strategy.md
-- Standalone — keine Pipeline-Integration, kein neuer Agent
-- Doc: commercial_strategy_generator.md
-
-### 2026-03-13 — AskFin Premium Projekt
-- Neues Projekt: projects/askfin_premium/ (MVP in DriveAI/ bleibt unangetastet)
-- 5 Experience Pillars priorisiert: P0=Training Mode + Skill Map, P1=Exam Sim + Progress, P2=Motivational Feedback
-- Factory Knowledge FK-001 bis FK-010 auf Pillars gemappt
-- Design-Signatur definiert: Dark Theme, Swipe-basiert, Haptic Feedback, Progressive Disclosure
-- Project Registry aktualisiert (3 Projekte: askfin, factory-core, askfin_premium)
-- Constraints dokumentiert: Legal (kein App Store ohne Lizenz), LLM-Kosten, Offline
-
-### 2026-03-14 — Repo-Bereinigung & Konsolidierung
-- DriveAI/ Ordner geloescht (alte AskFinn App, 184 Swift Files — Duplikat)
-- DriveAi-AutoGen/ geloescht (leeres Xcode Template)
-- projects/askfin_premium/ geloescht (alte ungefixte Version)
-- AskFin Premium konsolidiert nach projects/askfin_v1-1/ (75 Swift Files, gefixte Version)
-- GeneratedHelpers.swift geloescht (588 Zeilen invalider Swift Code)
-
-### 2026-03-14 — Factory Knowledge Error Pattern Seed
-- 7 Error Patterns aus Xcode Fix Report extrahiert (FK-011 bis FK-017)
-- FK-011: AI Review Text in Source Files (BLOCKING)
-- FK-012: Doppelte Typ-Definitionen (BLOCKING)
-- FK-013: Parameter-Mismatch an Call-Sites (BLOCKING/WARNING)
-- FK-014: Referenzierte Typen nie generiert (BLOCKING)
-- FK-015: Bundle.module in App Targets (WARNING)
-- FK-016: Custom init unterdrueckt memberwise init (INFO, nicht implementiert)
-- FK-017: Namespace-Kollisionen zwischen Feature-Layern (BLOCKING/WARNING)
-- Total Factory Knowledge: 17 Eintraege (FK-001 bis FK-017)
-- Doc: factory_error_pattern_seed_round_1.md
-
-### 2026-03-14 — Compile Hygiene Validator (Round 2 + 3)
-- factory/operations/compile_hygiene_validator.py erstellt
-- 6 deterministische Checks implementiert (kein LLM):
-  - FK-011: AI Review Text Detection (7 Regex Patterns)
-  - FK-012: Doppelte Typ-Definitionen (Cross-File Registry + Nested Types)
-  - FK-013: Parameter-Mismatch (Balanced-Paren Init Parsing, Scope-Aware Signatures)
-  - FK-014: Fehlende Typen (100+ Framework-Type-Exclusions)
-  - FK-015: Bundle.module Detection
-  - FK-017: Namespace-Kollisionen (Pfad-basierte Layer-Erkennung)
-- Extensive False-Positive-Tuning: von 38 auf 0 Issues bei askfin_v1-1
-- Reports: factory/reports/hygiene/<project>_compile_hygiene.json
-- Pipeline-Integration nach Completion Verifier
-- Doc: compile_hygiene_validator.md
-
-### 2026-03-14 — Swift Compile Check
-- factory/operations/swift_compile_check.py erstellt
-- Nutzt echten Swift Compiler (swiftc -parse) fuer Syntax-Validierung
-- Graceful SKIPPED auf Windows (kein swiftc)
-- 2 Modi: parse (Syntax) und typecheck (Typen)
-- 30s Timeout pro Datei, JSON Reports
-- Pipeline-Integration nach Compile Hygiene Validator
-- Reihenfolge: Output Integrator → Completion Verifier → Compile Hygiene → Swift Compile → Recovery → Run Memory
-- Doc: swift_compile_check.md
-
-### 2026-03-14 — OutputIntegrator Dedup Fix (Report 9-0)
-- `_collect_all()` sammelt nur noch current-run Artifacts (generated_code/ + gefilterter Log)
-- Alte Logs, Delivery-Exports, existing_output werden nicht mehr gesammelt
-- `generated/` wird vor jeder Integration geleert (clean_before_integrate)
-- Projekt-Level Dedup Guard: Skip wenn Filename bereits im Projekt existiert
-- `run_id` wird an `_run_operations_layer()` durchgereicht als `log_filter`
-- Ergebnis: 110→24 Artifacts, 95→4 geschriebene Files, FK-012 (Integrator) von ~105 auf 0
-
-### 2026-03-14 — Inline Type Dedup (Report 11-0)
-- `_strip_duplicate_types()` in code_extractor.py: entfernt top-level Inline-Types wenn eigene Datei existiert
-- Greift nach Sammlung aller Code-Blocks, vor dem Write
-- Nur top-level (Column 0), nested Types werden nie entfernt, Primary geschuetzt
-- Ergebnis: 6/16 Dateien deduped, FK-012 von 13 auf ~8 erwartet
-
-### 2026-03-14 — DeveloperReports Reorganisation
-- `DeveloperReports/CodeAgent/` fuer Code-Agent-Reports (1-0 bis 11-0)
-- `DeveloperReports/Steps-MasterLead/` fuer Master-Lead-Steps (Andreas)
-- CLAUDE.md aktualisiert mit neuer Ordnerstruktur
-
-### 2026-03-14 — AskFin Baseline Cleanup (Report 12-0)
-- 14 Duplicate-Type-Clusters gefunden (11 INTRA-PROJ, 3 GEN+PROJ)
-- 10 Dateien bereinigt, 663 Zeilen Duplikat-Code entfernt
-- generated/ komplett geleert und geloescht
-- FK-012: 13 → 1, Total Issues: 21 → 5, Blocking: 20 → 4
-
-### 2026-03-14 — Final Baseline Repair (Report 13-0)
-- StreakData FK-012: API-Version umbenannt zu `ReadinessStreakData` (inkompatible Properties)
-- LocalDataService FK-014: Klasse + `LocalDataServiceProtocol` + `UserProgressServiceProtocol` erstellt
-- ExamReadinessViewModel FK-013: Preview-Extension auf korrektes init gefixt
-- ExamReadinessService: init + Protocol-Stubs hinzugefuegt
-- Stray Code entfernt: `@MainActor` in Protocol-Datei, Demo-Code in MockService
-- CategoryStat: Properties hinzugefuegt (war leerer Struct)
-- XCTestCase zu Validator Framework-Types hinzugefuegt
-- **Ergebnis: 0 Blocking Issues, 1 Warning (FK-015 Bundle.module)**
-- Kumulativ: FK-012 von 105 → 0, Total Blocking von 155 → 0
-
-### 2026-03-14 — Third Autonomy Proof Run (Report 14-0)
-- Run 20260314_163402, template=feature, name=ExamReadiness, model=claude-haiku-4-5
-- Baseline war sauber (0 Blocking). Pipeline lief: Implementation → Bug Hunter → CD → STOP (CD Gate FAIL)
-- 22 Files generiert, 9 integriert, 13 durch CodeExtractor Dedup entfernt
-- OutputIntegrator korrekt: 9 Artifacts gesammelt, 0 geschrieben (alle Projekt-Duplikate)
-- Compile Hygiene nach Run: 10 Blocking (5 FK-012 + 5 FK-014)
-- **Naechster Blocker: ProjectIntegrator kopiert blind ins Projekt (kein Dedup-Guard)**
-  - Ueberschreibt existierende Dateien (ReadinessLevel.swift)
-  - Fuegt Dateien mit Inline-Duplikaten hinzu (UserProgressService.swift enthält LocalDataService + CategoryProgress)
-  - OutputIntegrator Dedup-Guard laeuft zu spaet (nach ProjectIntegrator)
-- Fix-Optionen: (A) ProjectIntegrator Dedup-Guard oder (B) ProjectIntegrator komplett entfernen
-- Sekundaer: CodeExtractor braucht Projekt-Awareness (Inline-Dedup gegen Projekt, nicht nur Run)
-
-### 2026-03-14 — ProjectIntegrator Dedup Guard (Report 15-0)
-- Statische _PROTECTED_FILES (55 hardcodierte Eintraege) ersetzt durch dynamischen Projekt-File-Index
-- _build_project_file_index() scannt alle .swift-Dateien im Projekt (exkl. generated_code/)
-- Existierende Dateien werden nie mehr ueberschrieben (Skip + Log)
-- Run-3-Simulation: 3 von 5 FK-012 verhindert (alle Overwrites), 2 verbleiben (neue Files mit Inline-Dupes)
-- Compile Hygiene nach Cleanup: FK-012=0, 1 Blocking (FK-014 ExamReadiness aus User-Modifikation)
-- **Naechster Blocker**: CodeExtractor Projekt-Awareness (Inline-Dedup gegen Projekt-File-Index)
-
-### 2026-03-14 — CodeExtractor Project-Awareness (Report 16-0)
-- `extract_swift_code()` erhaelt `project_name` Parameter
-- Scannt Projekt-Verzeichnis fuer .swift File-Stems und merged mit current-run Names
-- `_strip_duplicate_types()` prueft jetzt gegen Run-Files UND Projekt-Files
-- Run-3-Simulation: CategoryReadiness, LocalDataService, CategoryProgress jetzt gestrippt
-- Zusammen mit Report 15-0: Alle 5 FK-012 aus Run 3 waeren verhindert worden
-- Dreischichtiger Schutz: CodeExtractor → ProjectIntegrator → OutputIntegrator
-
-### 2026-03-14 — Fourth Autonomy Proof Run (Report 17-0)
-- Run 20260314_182358, template=feature, name=ExamReadiness, model=claude-haiku-4-5
-- Baseline sauber (0 Blocking). Pipeline: Implementation → Bug Hunter → CD → STOP (CD Gate FAIL)
-- **Dreischichtiger Dedup voll funktional**:
-  - CodeExtractor: 4 Dateien gegen Projekt bereinigt (Projekt-Awareness)
-  - ProjectIntegrator: 5 existierende Dateien uebersprungen (0 Overwrites)
-  - OutputIntegrator: 0 geschrieben (Backstop korrekt)
-- Compile Hygiene: **1 FK-012 (False Positive)** — ReadinessLevel nested enum in ExamReadiness.swift
-  - Validator erkennt keine Nested Types → Limitation, kein echtes Duplikat
-- FK-012 Trend: 105 → 13 → 5 → **1 (False Positive)** — Duplikate materiell geloest
-- Knowledge: 3 Proposals, 1 Auto-Promotion (FK-019 SwiftUI lifecycle memory leak)
-- **Naechster Blocker: CD Gate Rating** — Pipeline kommt nie ueber CD Gate hinaus
-  - Rating Parser nimmt letztes "Rating:" im GroupChat (moeglicherweise Non-CD Agent)
-  - CD Erwartungen zu hoch fuer Haiku-generierten Erstlauf
-  - Fix: Parser haerten (CD-spezifisch) + CD Gate Mode ueberdenken (Advisory fuer Dev-Profile)
-
-### 2026-03-14 — CD Rating Parser Hardening (Report 18-0)
-- Log-Analyse: Alle Rating-Zeilen in Run 3+4 stammten tatsaechlich vom creative_director Agent
-- Hypothese "Non-CD Agent Rating" aus Report 14-0 war falsch — Parser war korrekt
-- Trotzdem verbessert: CDRatingResult Klasse mit vollem Audit Trail (Kandidaten, Quelle, Begruendung)
-- Fix: Letzter CD-Match statt erster (finales Verdict bei mehrfachem CD-Sprechen)
-- Console zeigt jetzt alle Kandidaten + Auswahlgrund + Quell-Agent
-- 9 Validierungstests geschrieben und bestanden
-- **Naechster Blocker: CD Gate Policy** — fail bei Dev-Profile stoppt Pipeline, CD Erwartungen zu hoch
-- Dateien: knowledge_reader.py (CDRatingResult + extract_cd_rating_detailed), main.py (Gate-Logging), tests/test_cd_rating_parser.py
-
-### 2026-03-14 — CD Gate Policy Profile-Aware (Report 19-0)
-- CD Gate ist jetzt profil-abhaengig: dev/fast → advisory (non-blocking), standard/premium → blocking
-- `_cd_blocking = profile in ("standard", "premium")` — 1 Kontrollpunkt in main.py
-- Dev-Runs durchlaufen jetzt alle 8 Pipeline-Passes statt nur 3
-- CD-Findings fliessen via review_digests in UX Psychology, Refactor, Fix Execution
-- 10 Policy-Tests + 9 Parser-Tests = 19 Tests bestanden
-- `--no-cd-gate` bleibt als expliziter Override
-- **Naechster Schritt**: Autonomy Proof Run mit Dev-Profile → sollte volle Pipeline durchlaufen
-
-### 2026-03-14 — Fifth Autonomy Proof Run (Report 20-0)
-- Run 20260314_194620, template=feature, name=ExamReadiness, model=claude-haiku-4-5, profile=dev
-- **ERSTMALS**: Alle 6 Agent-Passes ausgefuehrt (Impl + Bug + CD + UX Psych + Refactor + Test Gen)
-- **CD conditional_pass** (nicht fail!) — Pipeline waere aber auch bei fail weitergelaufen (advisory)
-- 31 Files generiert davon **7 Test-Dateien** (erstmals Tests generiert!)
-- Review Digest Chain funktioniert: Bug Hunter → CD → UX Psych → Refactor (akkumuliert)
-- Pipeline meldet "status: success" — erster erfolgreicher Run
-- **PROBLEM**: `--project askfin_v1-1` fehlte im Aufruf → Files in DriveAI/ statt Projekt
-  - Operations Layer nicht ausgefuehrt (OutputIntegrator, CompileHygiene, Recovery, RunMemory)
-  - CodeExtractor Projekt-Awareness nicht aktiv
-  - ProjectIntegrator Dedup gegen falsches Verzeichnis
-- **Naechster Schritt**: Run mit `--project askfin_v1-1` → volle Validierungs-Pipeline
-- Korrekter Aufruf: `python main.py --template feature --name ExamReadiness --profile dev --approval auto --project askfin_v1-1`
-
-### 2026-03-14 — Project Context Hardening (Report 21-0)
-- Auto-Inferenz: Wenn 1 Projekt in projects/ → automatisch verwenden (kein --project noetig)
-- Warning-Logging bei fehlendem Projekt (Console + Pipeline-Header)
-- Quelle wird geloggt: "explicit (--project flag)" vs "auto-inferred (single project)"
-- `--project` bleibt als expliziter Override wenn mehrere Projekte existieren
-- Validiert: Alle 3 Szenarien (kein Flag, explizit, Template-only) resolven korrekt auf askfin_v1-1
-
-### 2026-03-15 — Sixth Autonomy Proof (Report 22-0)
-- **Erster Run mit Auto-Inferenz**: `--project` weggelassen → `askfin_v1-1` automatisch erkannt
-- **Operations Layer erstmals automatisch aktiv**: OutputIntegrator (137-File Index), CompileHygiene (137 Files), RunMemory, KnowledgeWriteback
-- CD Gate: `conditional_pass` (konsistent, Parser korrekt)
-- Alle 6 Pipeline-Passes ausgefuehrt (Impl → Bug → CD → UX → Refactor → Tests)
-- CompileHygiene: 4 BLOCKING, 1 WARNING
-  - FK-012: ReadinessLevel nested enum (false positive)
-  - FK-013: DateComponentsValue Init nicht erkannt
-  - FK-014 (x2): PriorityLevel + ReadinessCalculationService nicht deklariert
-- **Naechster Blocker**: FK-014 — Factory erzeugt Code der Typen referenziert die nie deklariert werden
-- **Empfehlung**: Type-Stub-Generator als Post-Generation-Fix
-
-### 2026-03-15 — FK-014 Type Stub Generator (Report 23-0)
-- Neues Modul: `factory/operations/type_stub_generator.py` — deterministisch, kein LLM
-- Inferiert Typ-Art aus Namenskonvention (Service->class, Level->enum, View->SwiftUI struct, etc.)
-- Generiert minimale kompilierbare Stubs ins Projekt
-- In Operations Layer eingefuegt: zwischen CompileHygiene und SwiftCompile
-- Re-run CompileHygiene nach Stub-Erstellung
-- **Validiert**: FK-014 von 1 -> 0 reduziert, Blocking total von 3 -> 2
-
-### 2026-03-15 — Compile Hygiene Truthfulness (Report 24-0)
-- FK-012 Fix: Column-aware Duplikat-Erkennung (nested types column>0 ignoriert)
-- FK-013 Fix: Memberwise init aus stored properties erkannt (nicht nur explizite inits)
-- Type-Registry auf 4-Tupel erweitert: (rel_path, kind, line_num, column)
-- **BLOCKING vorher: 4** (FK-012 x1 + FK-013 x1 + FK-014 x2)
-- **BLOCKING nachher: 1** (ExamReadinessSnapshot — echtes Problem, kein false positive)
-- 10 neue FK-013 Warnings (korrekt: teilweise Init-Mismatches im generierten Code)
-- Verbleibender BLOCKING: ExamReadinessSnapshot hat keine Properties, Call-Site nutzt 7 Labels
-
-### 2026-03-15 — Seventh Autonomy Proof (Report 25-0)
-- Alle 5 BLOCKING sind echte Probleme — **0 false positives erstmals**
-- CodeExtractor Dedup: 10 Files (Rekord)
-- OutputIntegrator: 3 Files geschrieben (erstmals nicht 0)
-- Stub Generator: 1 Stub (Element) automatisch erstellt
-- CD Gate: `fail` aber advisory (dev-profile, korrekt)
-- Neue Erkenntnis: OutputIntegrator schreibt in `generated/` neben bestehenden Projekt-Files
-  - FK-012 x3: AssessmentPersistenceServiceProtocol, ReadinessAssessmentService, ReadinessAssessmentServiceProtocol
-  - Root Cause: Dedup prueft nur Dateinamen, nicht Type-Inhalte
-- **Naechster Blocker**: OutputIntegrator generated/ vs Projekt-Root Duplikate (FK-012)
-
-### 2026-03-15 — OutputIntegrator Semantic Dedup + Markdown Sanitization (Report 26-0)
-- Type-Level Dedup: Neuer `_build_project_type_index()` scannt 214 Types aus 158 Files
-- OutputIntegrator prueft jetzt Type-Deklarationen, nicht nur Dateinamen
-- Markdown Sanitization: `---` und `## Heading` werden vor dem Schreiben entfernt
-- **BLOCKING vorher (Run 7): 5** (FK-011 x1, FK-012 x3, FK-013 x1)
-- **BLOCKING nachher: 1** (nur ExamReadinessSnapshot FK-013 — echtes Code-Problem)
-- 5 Dedup-Layers: CodeExtractor → ProjectIntegrator → OutputIntegrator Filename → OutputIntegrator Type → CompileHygiene
-- **Naechster Blocker**: ExamReadinessSnapshot struct ohne Properties (FK-013)
-
-### 2026-03-15 — FK-013 Property Shape Repair (Report 27-0)
-- Neues Modul: `factory/operations/property_shape_repairer.py` — deterministisch, kein LLM
-- Inferiert Property-Types aus Call-Site-Argumenten (Double, Int, Date, [Type], etc.)
-- Fuegt fehlende Properties in 0-Property-Structs ein
-- In Operations Layer nach StubGen, vor SwiftCompile
-- **ExamReadinessSnapshot**: 8 Properties aus Call-Site inferiert und eingefuegt
-- **BLOCKING: 1 -> 0** — CompileHygiene Status erstmals **WARNINGS** statt BLOCKING
-- Repair-Pipeline komplett: FK-014→StubGen, FK-013→ShapeRepairer, FK-012→TypeDedup, FK-011→Sanitization
-
-### 2026-03-15 — Eighth Autonomy Proof (Report 28-0)
-- StubGen: ExamSession automatisch geloest (FK-014)
-- OutputIntegrator: 233 Types im Index, 0 Duplikate durchgelassen
-- FK-012 und FK-011: Kein einziger Fall mehr (Type-Dedup + Sanitization wirken)
-- ShapeRepairer: AnswerButtonView uebersprungen (zaehlt @State/body als stored property)
-- **BLOCKING initial: 2, nach Auto-Fix: 1** (nur FK-013 AnswerButtonView)
-- **Naechster Fix**: SwiftUI-Awareness im Property-Counter (@State/@Binding/body ausschliessen)
-
-### 2026-03-15 — SwiftUI-Aware Property Counting (Report 29-0)
-- PropertyShapeRepairer + CompileHygiene: SwiftUI Property-Wrapper (@State, @Binding, etc.) ausgeschlossen
-- Computed properties (`var body: some View {`) korrekt erkannt (same-line `{` check)
-- Lookahead-Bug gefixt: Nur same-line statt 80-char lookahead (verhinderte false positives)
-- **AnswerButtonView FK-013: GELOEST** — stored props korrekt 0
-- **CompileHygiene Status: WARNINGS (0 BLOCKING)** — erstmals stabil
-- 5 Regression-Tests bestanden (AnswerButtonView, ExamReadinessSnapshot, DateComponentsValue, @State/@Binding, @Published)
-
-### 2026-03-15 — CompletionVerifier Evidence Mode (Report 30-0)
-- Neuer Modus: Project-Evidence wenn kein specs/ vorhanden
-- Evidenz-Quellen: Projekt-Files (173), Core-Ordner, Hygiene-Report (blocking=0)
-- Neues Verdict: `INSUFFICIENT_EVIDENCE` fuer ehrliche Unsicherheit
-- AskFin: FAILED -> **MOSTLY_COMPLETE (95%)** — korrektes Verdikt
-- Recovery Gate: Nicht mehr false-FAILED blockiert
-- `classify_health()` Regression-Tests alle bestanden
-
-### 2026-03-15 — Ninth Autonomy Proof (Report 31-0)
-- **MOSTLY_COMPLETE / 95%** — erstmals positiver CompletionVerifier + RunMemory
-- CompletionVerifier Evidence-Mode im Live-Run bestaetigt
-- Recovery Gate: "no recovery needed" statt false "too little output"
-- 1 BLOCKING: FK-013 ExamReadinessViewModel (class, nicht struct) → ShapeRepairer braucht class-Awareness
-- Kein FK-011, FK-012, FK-014 — alle Auto-Repairs stabil
-- DriveAI/ Ordner geloescht, Fallback entfernt
-- **Naechster Fix**: ShapeRepairer class-Support (struct|class statt nur struct)
-
-### 2026-03-15 — PropertyShapeRepairer Class Support (Report 32-0)
-- Regex erweitert: `struct` → `(?:struct|class)` in 4 Stellen
-- Neuer Guard: Classes mit explizitem init werden uebersprungen (Swift hat keine memberwise init fuer classes)
-- ExamReadinessViewModel: Korrekt gefunden + korrekt uebersprungen (init(service:) existiert)
-- Properties-Einfuegung bei Classes ohne init funktioniert (getestet)
-- Verbleibender BLOCKING: Init-Signatur-Mismatch (ServiceContainer nutzt falsche Labels)
-- **Das ist ein Code-Gen-Problem, kein Repairer-Problem**
-
-### 2026-03-15 — Tenth Autonomy Proof (Report 33-0)
-- **0 Code Output** — Haiku hat nur Architektur diskutiert, keinen Swift-Code generiert
-- CD: `conditional_pass` (erstmals seit Run 6 positiv)
-- CompletionVerifier: INCOMPLETE/80% (wegen persistentem FK-013 blocking=1)
-- **Recovery Loop erstmals aktiviert!** INCOMPLETE → Recovery gestartet → 0 Targets → SKIPPED
-- FK-013 ServiceContainer ist persistentes Artefakt aus Run 9, kein neuer Mismatch
-- Class-init-Mismatch ist NICHT wiederkehrend — nur ein einzelnes persistentes File
-- **Empfehlung**: ServiceContainer.swift loeschen (Artefakt) oder standard-profile Run fuer mehr Code-Output
-
-### 2026-03-15 — Stale Artifact Guard (Report 34-0)
-- Neues Modul: `factory/operations/stale_artifact_guard.py` — Git-Provenance-basiert
-- Erkennt BLOCKING-Files die durch "AI run:" Commits hinzugefuegt wurden
-- **Quarantine** statt Delete: Files in `quarantine/` verschoben (nicht geloescht)
-- CompileHygiene scannt quarantine/, generated/, .git nicht mehr
-- **ServiceContainer.swift quarantiniert** → 0 BLOCKING, Status: WARNINGS
-- Safety: App/, Config/, Resources/, Info.plist geschuetzt (nie quarantiniert)
-- **Baseline jetzt: 0 BLOCKING, 13 Warnings, 177 Files, MOSTLY_COMPLETE/95%**
-
-### 2026-03-15 — Eleventh Autonomy Proof (Report 35-0)
-- **Sauberster Run aller Zeiten**: 0 BLOCKING, MOSTLY_COMPLETE/95%, kein Ops-Layer-Eingriff noetig
-- Kein StubGen, kein ShapeRepair, kein StaleGuard, kein Recovery
-- Haiku-Limit: Nur 1 File generiert (GeneratedHelpers, uebersprungen)
-- CD: "not detected" (Haiku generierte kein Rating-Label)
-- 10 Runs im RunMemory, davon 1 Recovery-Run
-- **Engpass ist jetzt Code-Gen-Output** (Haiku bei wiederholtem Feature), nicht mehr Pipeline/Repair
-- **Empfehlung**: standard-Profile (Sonnet) oder anderes Feature testen
-
-### 2026-03-15 — Twelfth Autonomy Proof (Report 36-0) — standard profile
-- **45 Swift Files generiert** (39 impl + 6 fix) — deutlich mehr als Haiku-Runs
-- **7 Passes** (erstmals Fix Execution!) — standard profile setzt run_mode: full
-- 16 Files integriert, Projekt wuchs auf 194 Files, 270 Types
-- FK-014 `ReadinessCalculationResult` automatisch durch StubGen geloest
-- **0 BLOCKING nach Auto-Fix**, 19 Warnings
-- MOSTLY_COMPLETE / 95% — Baseline stabil unter realistischer Last
-- **Bug**: Modell blieb Haiku trotz `--profile standard` — Profile setzt run_mode aber nicht model
-- **Empfehlung**: Profile-System Model-Resolution debuggen
-
-### 2026-03-15 — Profile Model Resolution Fix (Report 37-0)
-- Root Cause: `--profile` und `--env-profile` waren getrennte Systeme — `--profile standard` setzte nur run_mode, nicht das LLM-Modell
-- Fix: Profile-zu-EnvProfile-Bridge — wenn `--profile` einem LLM-Profile entspricht (dev/standard/premium), wird es automatisch als env_profile genutzt
-- `PROFILE_DEFAULTS` um `standard` und `premium` erweitert
-- `--profile standard` -> Sonnet + full mode (vorher: Haiku + full)
-- `--profile premium` -> Opus + full mode (vorher: Haiku + full)
-- Alle 7 Regression-Tests bestanden, explizites `--env-profile` hat weiterhin Vorrang
-- **Zweiter Bug**: `VALID_PROFILES` Tuple fehlte "standard"/"premium" → `--profile standard` wurde verworfen → gefixt
-
-### 2026-03-15 — Thirteenth Autonomy Proof (Report 38-0)
-- Noch Haiku (VALID_PROFILES Fix kam nach Run-Start), 42 Files, 11 integriert, Projekt 206 Files
-- **4 BLOCKING → 0 durch vollen Auto-Repair-Stack** (StubGen + StaleGuard)
-- StaleGuard quarantinierte ReadinessCalculationServiceTests.swift
-- **`Hasher` Bug**: Swift-Framework-Typ faelschlich als FK-014 → zu `_KNOWN_FRAMEWORK_TYPES` hinzugefuegt
-- Falschen Hasher.swift Stub geloescht
-
-### 2026-03-15 — Fourteenth Autonomy Proof (Report 40-0) — ERSTER SONNET RUN
-- **Model: claude-sonnet-4-6 BESTAETIGT** — Profile-Fix funktioniert
-- **62 Swift Files** (42 impl + 20 fix) — Rekord! 47% mehr als Haiku
-- **21 Files integriert**, Projekt auf 227 Files + 302 Types gewachsen
-- Sonnet generiert Tests, Views, Extensions, Protocols (nicht nur Models)
-- 21 Code-Artifacts aus Logs (Sonnet schreibt Code in Review-Passes!)
-- 3 FK-014 → StubGen automatisch → 0 BLOCKING
-- **ClosedRange Bug**: Swift-Framework-Typ → zu Known-Types hinzugefuegt + Stub geloescht
-- Weitere Swift-Runtime-Types hinzugefuegt (Range, Substring, Character, etc.)
-
-### 2026-03-15 — Run Promotion Policy (Report 41-0)
-- `config/run_promotion_policy.json` — Tier-Definitionen + Promotion-Rules
-- `factory/promotion_advisor.py` — Deterministischer Advisor, CLI: `python -m factory.promotion_advisor`
-- 4 Tiers: static_validation (0) → dev (50k) → standard (200k) → premium (500k)
-- **Aktueller Status: NO_ACTION** — Baseline sauber, kein offener Blocker
-- Empfehlung: Anderes Feature testen, Mac-Compile, oder auf neue Anforderung warten
-
-### 2026-03-15 — Swift Compile Reality Check (Report 42-0)
-- **Erster echter swiftc Parse-Check auf Mac** (Xcode 26.3)
-- **227 Files, 211 sauber (93%), 16 mit Fehlern (7%)**
-- 4 Fehler-Patterns (alle Factory-Central, nicht projekt-spezifisch):
-  - P1: Top-Level Statements (11 Files) — Usage-Beispiele als echten Code generiert
-  - P2: Strukturelle Fragmente (4 Files) — Code ohne umschliessende Struktur
-  - P3: Abgeschnittener Code (2 Files) — Truncation nach @MainActor
-  - P4: Pseudo-Code (1 File) — `{ ... }` Platzhalter
-- **Naechster Fix**: Top-Level-Statement-Cleaner als FK-019 oder CodeExtractor-Verbesserung
-- `_commands/` Queue funktioniert (Windows -> Mac -> Windows via Git)
-
-### 2026-03-15 — FK-019 Top-Level Sanitizer (Report 43-0)
-- Neues Modul: `factory/operations/toplevel_sanitizer.py`
-- Scope-basierte Analyse: findet Code ausserhalb von struct/class/enum/extension Blocks
-- Dangling-Decorator-Erkennung (@MainActor ohne folgende Deklaration)
-- **28 Files sanitized, 130 Zeilen auskommentiert** (14 von 15 Mac-Fehlern gefixt)
-- Erwartete Compile-Sauberkeit: 93% -> **~99%**
-- 1 verbleibendes File: PreviewDataFactory.swift (fehlendes #endif — strukturell, nicht sanitierbar)
-
-### 2026-03-15 — Swift Compile Recheck (Report 44-0)
-- 3 Mac-Checks durchgefuehrt: 19 Errors → 35 (v1 Bug) → **4 Errors (Block-Aware Fix)**
-- **99.1% compile-sauber** (225 von 227 Files)
-- 2 verbleibende Files: ReadinessScore+Extension (Fragment), PreviewDataFactory (#endif fehlt)
-- Beide Debug-only Code — blockieren kein Release-Build
-
-### 2026-03-15 — Residual Compile Policy + 100% Clean (Report 45-0)
-- `config/residual_compile_policy.json` — Klassifizierung: release-critical / debug-only / fragment
-- PreviewDataFactory.swift: `#endif` manuell eingefuegt (Mac-Agent)
-- 4 Files quarantiniert: ReadinessScore+Extension, WeakCategory, Priority, ExamReadinessView
-- **223/223 Files = 0 Errors = Exit Code 0 = 100% CLEAN PARSE**
-- Compile-Fortschritt: 93% → 85% (v1 Bug) → 99.1% → **100%**
-
-### 2026-03-15 — Xcode Build Reality Check (Report 46-0)
-- Kein .xcodeproj/Package.swift vorhanden → `swiftc -typecheck` mit iOS Simulator SDK
-- **215 App-Files: 213 clean (99.1%), 2 fehlende `import Foundation`**
-- Root Causes: ExamReadinessError.swift + MockTrendPersistenceService.swift
-- 8 Test-Files brauchen Xcode-Projekt (erwartbar)
-- 4 Warnings (Swift 6 Sendable — nicht blockierend)
-- **Naechster Schritt**: .xcodeproj erstellen + 2 Import-Fixes
-
-### 2026-03-15 — Import Hygiene + Typecheck (Reports 46-0, 47-0)
-- `factory/operations/import_hygiene.py` auf Mac erstellt (deterministisch, 30+ Foundation-Symbole)
-- **41 Files gefixt** (fehlende `import Foundation` praeventiv ergaenzt)
-- 2 originale Root-Cause Errors (Foundation) geloest
-- **Neue Errors aufgedeckt**:
-  - RecommendationViewModel: fehlendes `import Combine` (ObservableObject/@Published)
-  - WeakArea: 3x dupliziert (AssessmentResult, WeakArea, Recommendation) → Typ-Ambiguitaet
-- Import-Hygiene muss um Combine-Symbole erweitert werden
-- WeakArea-Duplikat ist ein strukturelles Problem (CodeExtractor/Dedup)
-
-### 2026-03-15 — Combine Import Hygiene (Report 48-0)
-- import_hygiene.py um 11 Combine-Symbole erweitert (ObservableObject, Published, etc.)
-- **11 Files gefixt** (inkl. RecommendationViewModel)
-- Errors: 14 → **4** (1 Root Cause: WeakArea 3x dupliziert)
-- **Einziger verbleibender Blocker**: WeakArea in 3 Files definiert (AssessmentResult, WeakArea, Recommendation)
-
-### 2026-03-15 — WeakArea Dedup + Typecheck (Report 49-0)
-- Policy: `dedicated-file-wins` in `residual_compile_policy.json`
-- WeakArea inline-Duplikate aus AssessmentResult + Recommendation entfernt
-- **WeakArea: GELOEST (0 Errors)**
-- Neuer Blocker: ExamSessionViewModel.swift (10 Errors — @StateObject braucht SwiftUI, fehlende Properties)
-- Typecheck-Fortschritt: 19 → 35 → 4 → 14 → 4 → 10 → **8 (1 File)**
-
-### 2026-03-15 — SwiftUI Import Hygiene (Report 50-0)
-- import_hygiene.py um 40+ SwiftUI-Symbole erweitert
-- **29 Files gefixt** (inkl. ExamSessionViewModel)
-- Errors: 10 → **8** (Import geloest, strukturelle Fehler bleiben)
-- Verbleibender Blocker: ExamSessionViewModel.swift — 3 strukturelle Probleme:
-  1. ExamTimerService conformt nicht zu ObservableObject
-  2. ExamSession hat kein Property `startTime`
-  3. `examSessionService` nicht als Property deklariert
-- **Alle Import-Klassen geloest** (Foundation + Combine + SwiftUI)
-
-### 2026-03-15 — ViewModel Contract Reconciliation (Report 51-0)
-- Policy: `consumer-declares-need` in `residual_compile_policy.json`
-- 3 Fixes: ExamTimerService+ObservableObject, ExamSession Properties, examSessionService Property
-- Errors: 8 → **2** (1 unique)
-- Verbleibend: Swift Concurrency Error (`actor-isolated property 'session' cannot be passed inout to async`)
-- **Typecheck-Fortschritt**: 19 → 35 → 4 → 14 → 4 → 10 → 8 → 2 → **2 (neues File)**
-
-### 2026-03-15 — Concurrency Pattern Fix (Report 52-0)
-- Policy: `local-copy-then-assign` fuer inout+async auf actor-isolated Properties
-- ExamSessionViewModel: **0 Errors** (Concurrency geloest)
-- Neuer Blocker (vorher maskiert): OfflineStatusViewModel — `NetworkMonitor` nicht im Scope
-- Das ist ein FK-014-Klasse Problem (fehlender Typ) — braucht Stub oder Implementierung
-
-### 2026-03-15 — NetworkMonitor + Protocol Mismatch (Reports 52-0, 53-0)
-- NetworkMonitor: Minimale NWPathMonitor-Implementierung erstellt → **geloest**
-- Neuer Blocker (maskiert): ExamReadinessServiceProtocol fehlen 4 Methoden
-  - calculateOverallReadiness(), getCategoryReadiness(), getWeakCategories(limit:), getTrendData(days:)
-- Das ist ein Protocol-Contract-Mismatch (Consumer erwartet Methoden die im Protocol nicht definiert sind)
-- **Typecheck: 19 → 35 → 4 → 14 → 4 → 10 → 8 → 2 → 2 → 8 (neues File)**
-
-### 2026-03-16/17/18 — AskFin Mac Baseline → App Store Prep (Reports 46-131)
-
-#### Compile-to-Ship Journey (Reports 46-70)
-- **Import Hygiene**: Foundation + Combine + SwiftUI (41+11+29 Files gefixt)
-- **WeakArea Dedup**: `dedicated-file-wins` Policy
-- **Contract Reconciliation**: ViewModel, Protocol, Enum, Snapshot Contracts gefixt
-- **Concurrency Fix**: `local-copy-then-assign` fuer actor-isolated inout+async
-- **Batch Fix Loop**: Ab Report 65 mehrere Fixes pro Command
-- **100% Typecheck Clean**: 0 Errors nach allen Fixes
-
-#### Xcode Build + Runtime (Reports 71-84)
-- **Xcode Build**: SUCCEEDED (xcodegen → AskFinPremium.xcodeproj)
-- **Simulator Launch**: App startet, alle 4 Tabs funktional
-- **Home Flows**: Taegliches Training + Thema ueben + Schwaechen trainieren
-- **End-to-End Journey**: Brief → 5 Fragen → Ende → Home
-- **Persistence**: UserDefaults via TopicCompetenceService, Cold Restart bestaetigt
-- **Golden Gate Suite**: 13 Gates, 20 XCUITests, 0 Failures
-
-#### Feature Expansion (Reports 85-112)
-- **Quarantine Cleanup**: 10 Files geloescht, 3 rehabilitiert, 7 frozen
-- **Exam Result Persistence**: Generalprobe → Verlauf
-- **Schwaechen-Training CTA**: Result → TrainingSessionView(.weaknessFocus)
-- **Insight-to-Action Loop**: Result → Gap → Drilldown → "Thema ueben" → Training
-- **Factory Reflection**: Report 112 — komplette Bestandsaufnahme
-
-#### Adaptive Learning (Reports 113-122)
-- **Echte Fragen-DB**: 173 Fuehrerschein-Fragen (questions.json)
-- **QuestionLoader**: JSON-Bundle → QuestionBankProtocol
-- **Adaptive Selection**: Schwache Kategorien priorisiert, beantwortete Fragen vermieden
-- **Learning Signal Persistence**: Per-Question richtig/falsch in UserDefaults
-- **Confidence Integration**: TopicCompetenceService nutzt echte Antwort-Daten
-- **User Feedback Loop**: Richtig/falsch Banner + Erklaerung nach jeder Antwort
-- **Adaptive Visibility**: Kategorie-Label, Schwaechen-Indikator, Fortschritts-Counter
-- **15 Golden Gates**: Adaptive Learning Gate hinzugefuegt
-
-#### App Store Prep (Reports 123-131)
-- **Factory Transition**: Report 123 — Template-Konzept fuer wiederverwendbare Learning Apps
-- **Quality Gate STOPP**: Template-Schema-Abstraktion als Overengineering gestoppt (Report 124)
-- **Asset Catalog**: AccentColor + AppIcon Placeholder
-- **Visual Identity**: Dark Theme, Dunkelblau/Teal Gradient, SF Symbols
-- **Screenshot Tests**: Automatisiert fuer alle 4 Hauptscreens
-- **App Store Metadata**: Name, Subtitle, Beschreibung, Keywords, Kategorie
-- **Privacy Policy**: Offline-only, keine Datenerhebung
-- **Launch Strategy**: TestFlight → Soft Launch → Full Release
-- **Submission Blockers**: Nur noch App Icon (1024x1024) + Apple Developer Account
-
-#### MasterPrompt Dispatch (ab Report 102)
-- Reports in `MasterPrompt/reportAgent/` statt `DeveloperReports/CodeAgent/`
-- Commands weiterhin in `_commands/`
-- Mac-Agent arbeitet autonom mit Quality Gate
-
-### 2026-03-18 — Phase 2: Factory Multi-Platform Umbau (Steps 1-23)
-
-#### Pipeline Extraction + Project Config (Steps 1-2)
-- `factory/pipeline/pipeline_runner.py`: Pipeline aus main.py extrahiert (~1000 Zeilen)
-- `factory/project_config.py`: Per-Project YAML Config (lines, platform, language, framework)
-- `projects/askfin_v1-1/project.yaml`: iOS active, android/web planned
-- main.py von ~1850 auf ~900 Zeilen reduziert
-
-#### Multi-Platform Extractors (Steps 3, 6, 7)
-- `code_generation/extractors/`: Plugin-System mit BaseCodeExtractor ABC
-- **SwiftCodeExtractor**: Wraps existing battle-tested logic
-- **KotlinCodeExtractor**: Full implementation (data class, sealed class, @Composable, @HiltViewModel detection)
-- **TypeScriptCodeExtractor**: Full implementation (React components, hooks, types, .tsx/.ts routing)
-- **PythonCodeExtractor**: Skeleton (NotImplementedError)
-- 12 Kotlin + 15 TypeScript Unit Tests bestanden
-
-#### Factory Brain (Step 4)
-- `factory/brain/brain.py`: Cross-Project Knowledge Store
-- 22 Entries (FK-001 bis FK-022), query/filter/rank nach Platform/Language/Tags
-- Backward-kompatibel mit bestehendem `knowledge_reader.py`
-
-#### Factory Orchestrator (Steps 5, 9, 10)
-- `factory/orchestrator/`: Build-Planung aus Specs
-- **Flat Mode**: 1 Step pro Feature
-- **Layered Mode**: 5 Steps pro Feature (Foundation → Domain → Application → Presentation → Polish)
-- **Quality Gates**: Layer-spezifische Validierung + Import-Boundary-Checker
-- CLI: `--orchestrate-dry`, `--orchestrate-layered-dry`, `--show-plan`, `--factory-status`
-
-#### Agent Platform Roles (Step 8)
-- `config/platform_roles/`: ios.json, android.json, web.json
-- `config/platform_role_resolver.py`: Agent-Messages platform-aware
-- Template Task Rendering mit Platform-Prefix
-
-#### Multi-Project Setup (Step 11)
-- `projects/askfin_android/`: Kotlin/Compose, build_spec.yaml (4 Features)
-- `projects/askfin_web/`: TypeScript/Next.js, build_spec.yaml (4 Features)
-- 3 Projekte total, 3 Active Lines (iOS, Android, Web)
-
-#### Operations Layer Kotlin-Awareness (Steps 14, 16, 18, 22)
-- **ProjectIntegrator**: Content-aware Routing (@Composable → Views/, @HiltViewModel → ViewModels/)
-- **CompileHygieneValidator**: Kotlin Type-Declaration Regex + 150+ Kotlin Built-in Exclusions
-- **TypeStubGenerator**: Language-aware (.kt/.ts/.swift Stubs)
-- **FK-014 Enum Case Fix**: ALL_CAPS Identifiers excluded (Kotlin enum values)
-
-#### Project Context Routing (Step 20)
-- `project_context/context_loader.py`: Per-Project context statt globaler Roadbook
-- `projects/askfin_android/project_context.md`: Kotlin/Compose Architektur
-- `projects/askfin_web/project_context.md`: TypeScript/React Architektur
-
-#### AskFin Android Build (Steps 13, 15, 17, 21, 23)
-- **5 Proof Runs**: Pipeline verifiziert (Run 13-17), dann Full Build (Run 21+23)
-- **4 Features x 5 Layers = 20 Pipeline-Runs** (Step 23)
-- **204 .kt Files generiert** — echtes Kotlin/Compose, kein Swift
-- TrainingMode: 50 Files (Foundation + Presentation stark, Domain schwach bei Haiku)
-- ExamSimulation: 47 Files
-- SkillMap: 45 Files
-- ReadinessScore: 62 Files
-- **Erkenntnis FK-020**: Haiku generiert bei Domain-Layer Architektur-Text statt Code → Sonnet noetig
-
-#### Factory Status Dashboard (Step 12)
-- `factory/status/factory_status.py`: CEO-Dashboard ueber alle Projekte
-- `--factory-status`: 3 Projekte, 3 Lines, Brain Stats, Build Plans
-- `--factory-summary`: 5-Zeilen Kompakt-Uebersicht
-- `--factory-status --json`: Strukturierter JSON Output
-
-### 2026-03-20 — Swarm Factory: Pre-Production Pipeline (Phase 1, 12 Steps)
-- **Komplett implementiert und E2E getestet**
-- 12 Steps: Scaffold → Web-Research-Tool → Memory-Agent → 3 Research Agents → Concept-Analyst → Legal → Risk → Pipeline-Runner → CEO-Gate → E2E-Test
-- 7 Agents: Trend-Scout, Competitor-Scan, Audience-Analyst (Sonnet + SerpAPI), Concept-Analyst (Sonnet, Synthese), Legal-Research (Sonnet + SerpAPI), Risk-Assessment (Sonnet), Memory-Agent (Haiku, File I/O)
-- Web-Research-Tool: SerpAPI + In-Memory-Cache + URL-Fetching (BeautifulSoup)
-- Pipeline-Runner: Sequential, Error-Handling pro Agent, Reports als .md in output/
-- CEO-Gate: Interaktiv oder programmatisch, Memory-Integration
-- **EchoMatch E2E Run #003**: Alle 6 Reports erfolgreich, ~18 SerpAPI Credits, CEO-Gate: GO
-- Pfad: `factory/pre_production/`
-
-### 2026-03-20 — Swarm Factory: Market Strategy Pipeline (Phase 2, 7 Steps)
-- **Komplett implementiert und E2E getestet**
-- 7 Steps: Scaffold + Config + Input-Loader → Platform + Monetization → Marketing + Release → Cost Calculation → Pipeline-Runner → Memory Integration → E2E-Test
-- 5 Agents: Platform-Strategy (Sonnet + SerpAPI), Monetization-Architect (Sonnet + SerpAPI), Marketing-Strategy (Sonnet + SerpAPI), Release-Planner (Sonnet, keine Web-Recherche), Cost-Calculation (Sonnet, keine Web-Recherche)
-- Input-Loader: Laedt Phase 1 Output, validiert CEO-Gate = GO
-- Pipeline-Runner: 3-Wave-Ausfuehrung, Wave-Abhaengigkeiten
-- **EchoMatch E2E Run #001**: Alle 5 Reports erfolgreich, ~14 SerpAPI Credits
-- Pfad: `factory/market_strategy/`
-
-### 2026-03-20 — Document Secretary (Agent 13)
-- **9 PDF-Dokument-Typen implementiert** (6 initial + 3 fuer Kapitel 4)
-- v1: python-docx (.docx) → v2: HTML/CSS → PDF via Playwright (Chromium)
-- Weasyprint fehlte GTK/Pango auf Windows → Playwright als Renderer
-- Templates: CEO Briefing P1, CEO Briefing P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary, Feature-Liste, MVP Scope, Screen-Architektur
-- Jedes Template: 1 Claude Sonnet Call → JSON → PdfBuilder → PDF
-- JSON-Repair-Fallback bei Truncation + Markdown-Fallback-Rendering (Screen-Architektur)
-- CLI: `python -m factory.document_secretary.secretary --type <type> --p1-dir ... --p2-dir ... --k4-dir ...`
-- `--type all` generiert alle 9 Dokumente auf einmal
-- E-Mail-Versand via SMTP (.env BRIEFING_SMTP_* Variablen)
-- **EchoMatch PDFs (10 Stueck)**: CEO P1 (87KB), CEO P2 (67KB), Marketing (101KB), Investor (129KB), Tech (38KB), Legal (38KB), Features (85KB), MVP Scope (65KB), Screen-Arch (79KB)
-- Pfad: `factory/document_secretary/`
-- Dependencies: `python-docx` (v1 backup), `playwright` + Chromium, `beautifulsoup4`, `anthropic`
-
-### 2026-03-21 — Kapitel 4: MVP & Feature Scope (7 Steps)
-- **Komplett implementiert und E2E getestet**
-- 7 Steps: Scaffold + Config + Input-Loader → Feature-Extraction → Feature-Priorisierung → Screen-Architect → Pipeline-Runner → Document Secretary PDFs → E2E-Test
-- 3 Agents: Feature-Extraction (Sonnet, 2 Calls: Core + Supporting), Feature-Priorisierung (Sonnet, 2 Calls: Priorisierung + Budget-Check), Screen-Architect (Sonnet, 2 Calls: Screens + Flows)
-- Input-Loader: Laedt alle 11 Reports aus Phase 1 (6) + Kapitel 3 (5)
-- Budget-Constraints: Phase A €252.500 (Soft-Launch), Phase B €230.000 (Full Production)
-- KPI-Targets: D1≥40%, D7≥20%, D30≥10%, eCPM≥$10, Rating≥4.2, KI-Latenz <2s
-- Flow-Retry-Logik: Wenn User Flows fehlen → Markdown-basierter Retry (vermeidet JSON-Parse-Fehler)
-- **EchoMatch E2E Run #001**: 72 Features extrahiert, Phase A/B Priorisierung, 22 Screens + 7 Flows
-- Pfad: `factory/mvp_scope/`
-
-### 2026-03-21 — SkillSense Phase 1 Run
-- ideas/SkillSense.md als Ideen-Input (aus skillforge-pro verschoben)
-- Phase 1 Run #004: Alle 6 Agents erfolgreich, 16 SerpAPI Credits
-- CEO-Gate noch NICHT ausgefuehrt (pending)
-- Output: `factory/pre_production/output/004_skillsense/`
-
-### 2026-03-21 — Fixes
-- **Screen-Architektur PDF**: Markdown-Fallback-Rendering wenn JSON-Extraction fehlschlaegt (war leer)
-- **Feature-Priorisierung Prompt**: Haertere Phase-A/B-Trennung — "MINIMUM fuer Soft Launch, nicht alles was ins Budget passt"
-
-
-### 2026-03-19/20 — Phase 2b: Assembly + Repair (Steps 24-37)
-
-#### Assembly Department (Steps 24-25)
-- `factory/assembly/`: Handoff Protocol, Assembly Manager, BaseAssemblyLine
-- **AndroidAssemblyLine**: Content-aware organize (207 .kt files → Android packages), Gradle build, wiring (Application, MainActivity, NavHost, Theme, Hilt AppModule)
-- **WebAssemblyLine**: npm/Next.js build system, organize into App Router structure, wiring (layout, pages, globals.css)
-- Package-Declarations auto-fix bei organize
-
-#### RepairEngine (Steps 28-29)
-- `factory/assembly/repair/`: Central Cross-Platform Auto-Fix Engine
-- **ErrorParser**: tsc, kotlinc, swiftc Output → strukturierte CompilerErrors
-- **5 Fix-Strategies**: MissingImport, MissingType, TypeAnnotation, DuplicateType, ModulePath
-- **Language Profiles**: TypeScript (TS2304, TS7006, etc.), Kotlin (Unresolved reference, etc.)
-- Web: 228 → 4 Errors (98% Reduktion)
-
-#### LLM Repair Agent (Steps 33-36)
-- `factory/assembly/repair/llm_repair_agent.py`: Direkte API-Calls für strukturelle Code-Fixes
-- `factory/assembly/repair/repair_coordinator.py`: 3-Tier Repair (Deterministic → LLM → CEO Escalation)
-- Sonnet Repair: 19/20 Files gefixt, $0.03 pro Batch
-- **Android: 2525 → 246 Errors (90% Reduktion, $0.24 total)**
-
-### 2026-03-20/21 — Phase 3: TheBrain + Multi-Provider (Steps A1-C1)
-
-#### TheBrain Model Provider (Step A1)
-- `factory/brain/model_provider/`: Zentrales Model-Intelligence-System
-- **ModelRegistry**: 9 Modelle, 4 Provider (Anthropic, OpenAI, Google, Mistral)
-- **ProviderRouter**: LiteLLM-basiert, unified API für alle Provider
-- **AutoSplitter**: Token-Limit-Management, Auto-Model-Switch
-- Alle 4 API Keys konfiguriert in .env
-
-#### Integration Bridge (Step A2)
-- **ChainTracker**: Per-Run Cost-Tracking (Agent × Model × Tokens × Cost)
-- `config/llm_config.py`: TheBrain-Routing mit Anthropic-Fallback
-- Pipeline-Agents: Anthropic (AutoGen-kompatibel)
-- Assembly/Repair: Alle 4 Provider via ProviderRouter
-
-#### Hybrid Pipeline (Step B0) — GAME CHANGER
-- `factory/pipeline/review_pass.py`: Single-Call Review Passes via ProviderRouter
-- Pass 1 (Implementation): SelectorGroupChat (bleibt)
-- Pass 2-7 (Reviews): **Direkte Single-Calls** statt Multi-Agent-Chat
-- **Kosten: $63 → $0.08 pro Run (788x günstiger)**
-- Review-Tokens: ~10k statt ~80-150k pro Pass
-- 4 Mistral-Passes: $0.003 total
-
-#### Benchmark + Chain Optimizer (Step B1)
-- **BenchmarkRunner**: Kontrollierte Experimente pro Agent über alle Modelle
-- **ChainOptimizer**: Findet günstigste Model-Kombination für 0 Errors
-- **ChainProfile**: Optimierte Model-Zuweisung pro Agent
-
-#### Price Monitor (Step C1)
-- **PriceMonitor**: Provider Health Checks, neue Modelle erkennen
-- Volle CLI: `--brain-models`, `--brain-chain`, `--brain-health`, `--brain-costs`
-
-### 2026-03-21 — Phase 3b: Unity + Store + Mac Bridge
-
-#### Unity Line (C# Extractor)
-- `code_generation/extractors/csharp_extractor.py`: 20/20 Tests
-- `config/platform_roles/unity.json`: MonoBehaviour, ScriptableObject, Unity Lifecycle
-- `factory/assembly/lines/unity_line.py`: Unity-Projektstruktur, GameManager, AudioManager, ServiceLocator
-- 102 C# Built-in Types in CompileHygiene
-- **Factory hat jetzt 5 Production Lines**: iOS, Android, Web, Unity, (Python Backend skeleton)
-
-#### Store Submission Pipeline
-- `factory/store/`: Komplett neues Department
-- **MetadataGenerator**: App Name, Description, Keywords, Privacy Policy (Code-Analyse)
-- **ComplianceChecker**: iOS/Android/Web Guideline-Checks (deterministisch)
-- **BuildPackager**: .ipa/.aab/npm build (SKIP wenn Tools fehlen)
-- **SubmissionPreparer**: Submission-Ordner mit CHECKLIST.md
-- **ReadinessReport**: CEO-Readiness in % mit Tabelle
-- AskFin iOS: 75% ready, AskFin Android: 55% ready
-
-#### Mac Bridge
-- `mac_agent/mac_build_agent.py`: Daemon auf Mac (git pull → execute → git push, 30s Poll)
-- `factory/mac_bridge/mac_bridge.py`: Factory-seitige Steuerung
-- Commands: health_check, build_ios, run_tests, screenshots, archive
-- CLI: `--mac-status`, `--mac-build`, `--mac-test`, `--mac-archive`
-- BuildPackager nutzt Mac Bridge automatisch wenn verfügbar
-
-#### Weitere Departments (von anderen Agents erstellt)
-- `factory/pre_production/`: 7 Agents, CEO Gate, Pipeline
-- `factory/market_strategy/`: 5 Agents, Monetization/Distribution
-- `factory/mvp_scope/`: 3 Agents, Feature-Priorisierung
-- `factory/document_secretary/`: PDF/Report Generation, CEO Briefing Templates
-- `factory/design_vision/`: Design-System Generierung
-- `factory/visual_audit/`: UI/UX Audit Pipeline
-- `factory/roadbook_assembly/`: Roadbook-Generierung
-
-### 2026-03-22 — TheBrain Migration: Remaining Agent Files
-- 8 Agent-Dateien von hardcoded `anthropic.Anthropic()` auf `_call_llm()` mit TheBrain `get_model()`/`get_router()` + Anthropic Fallback migriert
-- Betrifft: trend_breaker.py, emotion_architect.py, vision_compiler.py, asset_discovery.py, asset_strategy.py, visual_consistency.py, review_assistant.py, screen_architect.py (Call 2)
-- `import anthropic` und `from factory.*.config import AGENT_MODEL_MAP` als Top-Level entfernt
-- Alle `client = anthropic.Anthropic()` + `client.messages.create()` durch `_call_llm()` ersetzt
-- Profile: visual_consistency.py = "dev" (large output), alle anderen = "standard"
-- 11 pre_production + market_strategy + mvp_scope Agents waren bereits migriert (hatten schon _call_llm)
-- Kapitel 6 (ceo_roadbook.py, cd_roadbook.py) nicht angefasst — nutzen bereits TheBrain direkt
-
-## Aktueller Stand (2026-03-22)
-
-### Factory Capabilities
-| Komponente | Status |
-|---|---|
-| Pipeline Runner | Hybrid (SelectorGroupChat + Single-Calls) |
-| Code Extractors | Swift + Kotlin + TypeScript + C# + Python(skeleton) |
-| Project Config | YAML-basiert, 3+ Projekte |
-| Factory Brain | 25 Entries, 4 Provider, 9 Modelle |
-| TheBrain | Model Selection, AutoSplit, Chain Optimizer, Price Monitor |
-| Orchestrator | Flat + Layered (5 Layers) + Quality Gates |
-| Assembly | Android + Web + Unity + iOS(Mac Bridge) |
-| RepairEngine | Deterministic + LLM (3-Tier Coordinator) |
-| Operations Layer | Kotlin/TS/C#-aware (Hygiene, Stubs, Repair, Guard) |
-| Store Pipeline | Metadata, Compliance, Packaging, Readiness Report |
-| Mac Bridge | Autonomous iOS builds via Git-Queue |
-| Pre-Production | 7 Agents, CEO Gate |
-| Market Strategy | 5 Agents, Monetization |
-
-### Projekte
-| Projekt | Platform | Files | Status |
-|---|---|---|---|
-| AskFin Premium (iOS) | Swift/SwiftUI | 234 | App Store Prep (75% ready) |
-| AskFin Android | Kotlin/Compose | 537 | 4 Features, 246 compile errors |
-| AskFin Web | TypeScript/React | 197 | 4 Features, 4 compile errors |
-
-### Kosten-Optimierung
-| Pipeline-Modus | Kosten/Run |
-|---|---|
-| Legacy (SelectorGroupChat alle Passes) | ~$63 |
-| Hybrid + Mistral Small | **$0.08** |
-| Faktor | **788x günstiger** |
-
-## Geplant
-- [x] factory_knowledge/ Verzeichnis + JSON-Stores anlegen (Step 1 done)
-- [x] Creative Director Advisory Pass implementieren (Step 2 done)
-- [x] Step 3: Knowledge Seeding Round 1 (10 Eintraege FK-001 bis FK-010)
-- [x] Step 4: Creative Director Soft Gate (validiert: FAIL stoppt Pipeline, conditional_pass laeuft weiter)
-- [x] AskFin Experience Pillars priorisieren
-- [x] Error Pattern Seed (FK-011 bis FK-017 aus Xcode Fix Report)
-- [x] Compile Hygiene Validator (6 Checks: FK-011, FK-012, FK-013, FK-014, FK-015, FK-017)
-- [x] Swift Compile Check (swiftc -parse Validierung + Pipeline-Integration)
-- [ ] Step 5: Factory Learning Writeback Agent
-- [ ] AskFin Premium: Training Mode Spec → Factory Run
-- [ ] AskFin Premium: Skill Map Spec → Factory Run
-- [x] Factory-Verbesserungen: MAX_FILES 10→50, Dead Integration Path, Silent Exceptions
-- [x] Context Handoff: API Skeleton Extraction (impl_summary mit Typ-Signaturen)
-- [x] Review Handoff: Digest Accumulation über alle Review-Passes
-- [x] DeveloperReports System eingeführt (11 Reports in CodeAgent/, Steps-MasterLead/ für Andreas)
-- [x] Stateful Recovery: RecoveryState, Fingerprinting, Repeated Failure Detection, MAX_RECOVERY_ATTEMPTS enforced
-- [x] Step 5: Knowledge Writeback Loop (Proposal Auto-Promotion + Run Pattern Extraction)
-- [x] Role-Based Knowledge Injection: Bug Hunter, Refactor, Fix Executor empfangen jetzt Factory Knowledge
-- [x] TheBrain Migration: 8 Agent-Dateien von hardcoded anthropic.Anthropic() auf _call_llm() mit TheBrain get_model()/get_router() + Anthropic Fallback migriert
-- [ ] AskFin Premium: Training Mode Spec → Factory Run
-- [ ] AskFin Premium: Skill Map Spec → Factory Run
-
+### 2026-03-25 — Phase 12 Step 7: Full Pipeline Orchestrator
+- **full_pipeline_orchestrator.py**: End-to-End Pipeline (Roadbook → Forges → Integration → Code Ready)
+- FullPipelineResult Dataclass: per-Forge results, integration stats, CEO actions, JSON export
+- `run()`: Complete pipeline — analyze roadbook → run forges (cached/fresh) → integrate → CEO actions
+- `dry_run()`: Analysis + cached output check, no generation
+- `estimate_cost()`: Quick cost estimate via BuildPlanGenerator
+- 24h Cache: forge_requirements.json + Forge manifests — skips re-analysis/re-generation
+- Budget enforcement: max_cost checked before each Forge run
+- CEO Actions: Unity verify, missing assets, integration readiness, cost summary
+- CLI: --project, --roadbook-dir, --platform, --dry-run, --estimate-cost, --forges-only, --skip, --budget
+- Pipeline result saved as JSON: maps/{project}_pipeline_result.json
+- **Proof Run EchoMatch (Dry)**: 15 features, 106 forge items, 3 cached forges, $5.61 estimate, 105s
+- **Proof Run EchoMatch (Full)**: 59 entries, 59 integrated, 0 missing, $0.00 (all cached), 0s
+
+### 2026-03-25 — Signing: Coordinator + CLI (Windows-Seite komplett)
+- **signing_coordinator.py**: SigningCoordinator -- orchestriert credential check -> version bump -> build/sign -> artifact store
+  - iOS/Unity: SKIPPED (deferred), Android/Web: full pipeline
+  - CEO Gate bei fehlenden Credentials (blocking, 3 Optionen), Fallback ohne gate_api
+  - Project-Dir Resolution: project_registry -> convention -> None
+- **main.py CLI**: 6 neue Flags (--sign, --check-credentials, --show-version, --bump-version, --version-type, --list-artifacts)
+- 15/15 Smoke Tests: SigningCoordinator (import, iOS/Unity SKIPPED, web graceful fail), CLI (alle 6 Flags + bestehende Commands weiterhin OK)
+- Signing Layer Windows-Seite komplett: 9 Module
+
+### 2026-03-25 — Phase 12 Step 6: Backend Line (Line 5)
+- **Backend Assembly Line**: `factory/integration/backend_line/` — Python/FastAPI Backend Generation
+- **python_extractor.py**: PythonExtractor — AST-basierte Code-Extraktion (102 Known Types)
+  - detect_file_type (7 Typen), validate_syntax (compile()), extract_routes (FastAPI Decorators)
+  - extract_imports/classes/functions: AST + Regex Fallback
+- **backend_assembly_line.py**: Generiert 8-File FastAPI Projekt aus BackendSpec
+  - main.py, models.py, database.py, auth.py, config.py, requirements.txt, Dockerfile, .env.example
+  - Database: Firebase (default) / PostgreSQL, Auth: Firebase / JWT
+  - generate_from_roadbook(): PDF → LLM Spec-Extraktion → Projekt
+- **config/platform_roles/backend.json**: role_overrides (architect, developer, test_generator)
+- **EchoMatch Test**: 5 Endpoints, 3 Models → 8 Files, 4915 bytes, alle syntax-valide
+- **Self-Tests**: 18/18 bestanden — 5 Production Lines (vorher 4)
+
+### 2026-03-25 — Signing: Web Builder + Android Signer
+- **signing_result.py**: SigningResult Dataclass (shared, ASCII-safe summary)
+- **web_builder.py**: WebBuilder — npm install + npm run build, Output-Detection (.next/dist/build/out)
+  - Windows: npm.cmd, Timeout 300s, node_modules Skip, alle Subprocess-Exceptions gefangen
+- **android_signer.py**: AndroidSigner — Full Signing Flow
+  - Keystore: find (keystores/ + ENV) oder auto-create via keytool
+  - Gradle Injection: signingConfigs Block, Passwords via System.getenv(), Backup .bak, idempotent
+  - Build: bundleRelease (AAB) mit assembleRelease (APK) Fallback
+  - Artifact-Suche: app/build/outputs/{bundle,apk}/release/
+- 17/17 Smoke Tests: SigningResult, WebBuilder (verify/build/output-dir), AndroidSigner (gradle/password/keystore/inject/idempotent/find-artifacts)
+- Environment: npm/node OK, gradle/keytool NOT FOUND (kein JDK/Android SDK installiert)
+
+### 2026-03-25 — Phase 12 Steps 3+4+5: Forge Orchestrator + Asset Integrator + Platform Mapper
+- **forge_orchestrator.py**: ForgeOrchestrator — koordiniert alle 4 Forge-Runs
+  - Group A (sequential): asset_forge + sound_forge + motion_forge
+  - Group B (nach A): scene_forge
+  - Budget-Kontrolle: max_cost, remaining berechnet vor jedem Forge-Run
+  - `run()`: Vollstaendiger Run mit Budget, skip_forges, build_plan-Filterung
+  - `dry_run()`: Kostenschaetzung ohne Generierung
+  - `_find_manifest()`: Auto-Discovery in catalog/ und output/ Verzeichnissen
+  - Alle Forges lazy imported, Fehler einzeln gefangen (andere laufen weiter)
+- **platform_asset_mapper.py**: PlatformAssetMapper — plattformspezifische Pfade + Code-Referenzen
+  - 4 Plattformen: Unity (Resources.Load), iOS (xcassets/SwiftUI), Android (R.drawable/R.raw), Web (public/assets)
+  - 12+ Asset-Typen: sprite, icon, background, sfx, ambient, music, ui_sound, notification, animation_lottie, animation_css, animation_cs, scene, shader, prefab, level
+  - `convert_name()`: snake_case, PascalCase, kebab-case, UPPER_ID
+  - `map_manifest_entry()`: Manifest-Eintrag → {source, destination, code_reference, supported}
+- **asset_integrator.py**: AssetIntegrator — kopiert Forge-Outputs in Projektstruktur
+  - `_find_manifests()`: Auto-Discovery aller 4 Forge-Manifeste (catalog/ → output/ Fallback)
+  - `integrate()`: Liest Manifeste → mappt → kopiert → IntegrationMap
+  - 4 Manifest-Parser: asset, sound (per-platform files), animation (Lottie/CSS/C# je nach Platform), scene (levels/scenes/shaders/prefabs)
+  - IntegrationMap: JSON-serialisierbar, `get_code_ref(asset_id)` fuer Code-Generator
+  - Maps gespeichert in factory/integration/maps/{project}_{platform}_map.json
+- **EchoMatch Proof Run**: Unity 59 entries (59 integrated, 0 missing), iOS/Android/Web je 33 integrated + 26 n/a (Unity-only Assets)
+- **Self-Tests**: 17/17 bestanden
+
+### 2026-03-25 — Signing & Packaging Foundation
+- **Signing Layer**: `factory/signing/` — Foundation fuer Build-Versionierung und Code Signing
+- config.py: SigningConfig (Android Keystore Defaults, iOS Export, Timeouts, CEO Gates, Web Build)
+- version_manager.py: VersionManager + VersionInfo
+  - 3 Plattformen: iOS (build_number), Android (version_code), Web (YYYYMMDD-NNN build_id)
+  - bump_build: Incrementiert plattformspezifisch, bump_version: patch/minor/major (ohne Build-Reset)
+  - apply_to_project: Info.plist (plistlib), build.gradle.kts (regex), package.json (json)
+  - Persistenz: versions.json (atomic write, corrupt backup, auto-create, 50-entry history)
+- Verzeichnisse: artifacts/, keystores/, templates/ (mit .gitkeep)
+- 14/14 Smoke Tests: Import, get_current, 3x bump_build, 3x bump_version, no-reset-check, history, apply Web/Android/iOS-missing
+- Capability Check (vorher): iOS Archive=JA, IPA Export=NEIN, Android assembleRelease=NEIN, Web npm build=nur StorePipeline, Versioning=Hardcoded 1.0.0
+
+### 2026-03-25 — Phase 12: CD Forge Interface + Build Plan Schema
+- **Integration Package**: `factory/integration/` — verbindet CD Roadbook Features mit Forge-Pipelines
+- **cd_forge_interface.py**: CDForgeInterface + 3 Dataclasses (ForgeRequirement, FeatureForgeMap, ProjectForgeMap)
+  - `analyze(roadbook_dir, project_name)`: PDF-Reader → LLM Feature-Extraktion → Forge-Mapping
+  - `analyze_from_text(text, project_name)`: Direkt aus Text (15k char Limit)
+  - LLM: TheBrain → Anthropic Fallback, robustes JSON-Parsing mit Truncation-Repair
+  - Auto-Save nach build_plans/{project}_forge_requirements.json
+  - `_set_dependencies()`: Standard-Reihenfolge A→B→C→D (Forge→Scene→Integrate→Code)
+  - `_build_forge_summary()`: Zaehlt Items pro Forge ueber alle Features
+- **build_plan_schema.py**: BuildPlan v2 mit Forge+Code Steps
+  - 4 Dataclasses: BuildStep, BuildPhase, FeatureBuildPlan, BuildPlan
+  - BuildPlanGenerator: Erzeugt v2 Plan aus ProjectForgeMap
+    - Group A: asset_forge + sound_forge + motion_forge (parallel)
+    - Group B: scene_forge (depends on A)
+    - Group C: integration (depends on B/A)
+    - Group D: code_generation (depends on C)
+  - Cost Estimates: asset=$0.04, sound=$0.01, motion/scene=$0.00, code=$0.02/file
+  - `validate_build_plan()`: 6 Checks (Version, depends_on Refs, Zyklen, specs_ref, Steps)
+  - `is_legacy_plan()`: Erkennt v1 vs v2
+  - Backward compatible: v1 (code-only) Plans funktionieren weiterhin
+- **Self-Tests**: 11/12 bestanden (Test 4 LLM-Extraktion uebersprungen wg. API-Kosten)
+  - Import, JSON Round-Trip, Summary, BuildPlan Create/Validate, Circular Dep Detection, Missing Specs, Legacy Detection, Generator, Cost Calculation
+
+### 2026-03-25 — Factory Janitor (INF-13)
+- **Factory Janitor**: `factory/hq/janitor/` — Autonomer Wartungs-Agent fuer Code-Hygiene
+- 8 Module: janitor.py, scanner.py, graph_builder.py, analyzer.py, deep_analyzer.py, executor.py, config.json, agent.json
+- **Drei Zyklen**:
+  - Daily (Stufe 1+2): File-Scan + Abhaengigkeits-Graph, $0.00, ~20s
+  - Weekly (+ Auto-Fixes): Green-Fixes ausfuehren + Yellow-Proposals erstellen, $0.00
+  - Monthly (+ Stufe 3): LLM-Tiefenanalyse via Claude Sonnet, ~$0.50-2.00
+- **Drei Sicherheitsstufen**:
+  - Green: Auto-Fix (<=1 Datei, risikolos, z.B. __pycache__, leere Dateien, fehlende __init__.py)
+  - Yellow: Proposal (2-5 Dateien, CEO entscheidet via Gate-System)
+  - Red: Nur Report (6+ Dateien, z.B. grosse Dateien, zirkulaere Deps)
+- **Scanner (10 Checks)**: empty_file, large_file, stale_file, backup_file, duplicate_filename, pycache, empty_dir, tech_debt_comments, commented_code_block, missing_init
+- **Graph Builder**: Python AST-Parsing + JS require/import Regex, Orphan-Detection, Circular-Dep-Finder, Max-Depth
+- **Analyzer**: dead_code, duplicate_logic, circular_dependency, stale_import, Safety-Level-Zuweisung
+- **Executor**: Quarantaene-System (7 Tage Restore), Proposal-System (Gate-Integration), Protected Paths
+- **Dashboard**: JanitorView.jsx mit Health Score Bar, Findings-Tabelle (filter by severity), Aktions-Log, Quarantaene, Proposals
+- **HQ Assistant**: 2 neue Tools (get_janitor_status, run_janitor_scan)
+- **Dashboard Routing**: Sidebar "Janitor" (Wrench Icon) mit Badge fuer offene Proposals
+- **Initialer Scan**: 18.930 Dateien, 1.328.824 Zeilen, 362 Graph-Nodes, 473 Edges, Health Score 74/100
+  - 172 Green (auto-fixable), 1662 Yellow (proposals, davon 1489 duplicate_filename), 285 Red (report only)
+  - 8 Orphans, 2 zirkulaere Abhaengigkeiten, Max Depth 7
+- CLI: `python -m factory.hq.janitor [daily|weekly|monthly|status|restore|proposals]`
+
+### 2026-03-25 — Scene Forge (Phase 11 Steps 1-8) ✅ COMPLETE
+- **Scene Forge**: `factory/scene_forge/` — Unity Scene/Level/Shader/Prefab Generation Pipeline
+
+**Steps 1+2 (Spec Extractor + Level Generator):**
+- scene_spec_extractor.py: 4 Spec-Dataclasses + SceneManifest + LLM Extraction aus Roadbook PDFs
+- level_generator.py: S-Kurve Difficulty, BFS Reachability, No-Initial-Matches
+- 4 Level Templates: match3_standard, match3_obstacles, match3_timed, match3_cascade
+
+**Steps 3+4+5 (Scene Writer + Shader Generator + Prefab Generator):**
+- utils/: unity_guid (deterministisches GUID), unity_fileid (21 ClassIDs), yaml_serializer (Custom Unity YAML, NICHT PyYAML)
+- unity_scene_writer.py: .unity Files — Base Settings + Camera + Light + Canvas + EventSystem + required_elements
+- shader_generator.py: URP HLSL — 3 Templates (unlit, bloom_emission, dissolve) + Custom Fallback, SRP Batcher
+- prefab_generator.py: .prefab + .meta — Root/Children Hierarchie, m_Father/m_Children korrekt, 10+ Component-Types
+
+**Steps 6+7+8 (Validator + Catalog + Orchestrator):**
+- scene_validator.py: Deterministische Validierung (kein LLM), 4 Dateitypen
+  - Scenes: 7 Checks (YAML header, TAG, documents, no dupe FileIDs, FileID consistency, camera, canvas+eventsystem)
+  - Shaders: 8 Checks (Shader decl, SubShader, Pass, vertex/fragment pragmas, URP tag, SRP Batcher, no builtin includes, placeholders)
+  - Prefabs: 7 Checks (YAML header, documents, no dupes, GameObject, Transform, FileID consistency, .meta+GUID)
+  - Levels: 6 Checks (valid JSON, grid cells, dimensions, BFS reachability, difficulty 0-1, objectives)
+- scene_catalog_manager.py: Kopiert in catalog/{project}/{type}/, Dedup Guard, scene_manifest.json
+- scene_forge_orchestrator.py: 7-Step Pipeline (Load/Extract Specs -> Levels -> Scenes -> Shaders -> Prefabs -> Validate -> Catalog)
+  - Budget Enforcement, Spec Caching, CLI: --project, --roadbook-dir, --dry-run, --estimate-cost, --only, --budget
+  - Campaign: 10 Levels + Spec-basierte Levels, Filter: --only levels,shaders
+
+**Proof Runs:**
+- Steps 1+2: 5/5 Tests (LLM Extraction: 20 Specs aus 16 PDFs)
+- Steps 3+4+5: 22/22 Tests (Utils + Scene + Shader + Prefab + Batch 15/15 EchoMatch Files)
+- Steps 6+7+8 E2E: 30 Files generiert (15 Levels, 6 Scenes, 4 Shaders, 5 Prefabs), Validation 26 pass / 0 warn / 0 fail, $0.00 Cost
+
+**Bugs gefixt:**
+- PDFReader `.full_text`, max_tokens 8192, JSON Truncation-Repair, TheBrain Fallback, PYTHONPATH
+
+### 2026-03-25 — Store Prep Layer + HQ Memory
+- **Store Preparation Layer**: `factory/store_prep/` — neue Schicht zwischen QA und Store Pipeline
+- config.py: StorePrepConfig (Apple/Google/Web Limits, LLM Toggle, Screenshot Sizes)
+- platform_metadata.py: AppleStoreMetadata + GooglePlayMetadata + WebMetadata + PlatformMetadataAdapter
+- LLM-Pfad (TheBrain/LiteLLM) mit Template-Fallback
+- Apple Keywords Optimizer: no spaces, app name removal, 100-char limit
+- metadata_enricher.py: Laedt Phase 1/2/4.5 Reports, extrahiert 7 Enrichment-Keys deterministisch
+- privacy_labels.py: Scannt Source Code (14 Kategorien), generiert Apple/Google/Web Privacy Labels
+- Enricher unterstuetzt 3 Header-Formate (Markdown ##, Arrow ▶, Nummeriert 1.)
+- Privacy: CodePrivacyScan → Apple Nutrition Labels + Google Data Safety + Web GDPR Hints
+- Alle Smoke Tests bestanden (Enricher: 7/7 Felder, Privacy: askfin 290 Files gescannt)
+- screenshot_coordinator.py: ScreenshotCoordinator (iOS Mac Bridge + SKIPPED fuer Android/Web/Unity)
+- store_prep_report.py: StorePrepReport + PlatformPrepStatus (JSON + Console Summary)
+- Screenshot iOS Test: _commands/ existiert → 120s Poll → korrekt SKIPPED (Stub)
+- Report Test: 2 Platforms, INCOMPLETE evaluation, JSON saved (1787 bytes), Summary printed
+- store_prep_coordinator.py: StorePrepCoordinator — 4-Phasen Orchestrator pro Plattform
+- Integriert: MetadataGenerator + PlatformMetadataAdapter + MetadataEnricher + ComplianceChecker + PrivacyLabelGenerator + ScreenshotCoordinator + AssetForge + Gate API
+- Alle externen Imports lazy + try/except, Fallback SimpleNamespace fuer Metadata
+- CEO Gates: non-blocking (store_metadata_review, store_asset_review, privacy_label_review)
+- askfin_v1-1 iOS: INCOMPLETE (Privacy URL + Icon + Screenshots fehlen), 290 Files gescannt
+- memerun2026 iOS+Android: 7/7 Enrichment, AssetForge tried (0 Specs), Compliance BLOCKED (kein Source)
+- **CLI Integration** in main.py: --store-prep, --store-prep-status, --metadata-only, --compliance-only
+- Handler nach QA-Handlern platziert, nutzt bestehenden --platform Flag
+- Tests: Parse OK (alle 4 Flags), --store-prep-status zeigt Report, --compliance-only zeigt Blocker, --metadata-only generiert + speichert, fehlendes --platform gibt Error
+
+### 2026-03-25 — HQ Assistant Persistent Memory Store
+- `factory/hq/assistant/memory.json` — persistentes Gedaechtnis, ueberlebt Server-Neustarts
+- 3 Kategorien: active_topics, recent_decisions, ceo_preferences + important_context + summary
+- Memory wird in System-Prompt injiziert via `_build_system_prompt()` (~4700 chars total)
+- Auto-Update alle 5 Nachrichten via Haiku (~$0.001 pro Update)
+- Session-Reset: Memory-Update + sessions_count++ vor History-Loeschung
+- 2 neue Tools: `get_memory` (CEO fragt "was weisst du noch?"), `update_memory_manual` (CEO sagt "merk dir...")
+- memory.json in .gitignore (persoenliche Daten)
+- Max-Limits: 5 topics, 15 decisions, 10 prefs, 10 context, summary max 500 chars
+
+### 2026-03-24 — QA + Motion Forge Phase 10 + ElevenLabs Voice
+- **QA Department komplett**: 6 Module in `factory/qa/`
+- qa_coordinator.py: Haupt-Orchestrator mit 4 Phasen (Build, Ops, Tests, Gate)
+- quality_criteria.py: Dynamische Kriterien aus project.yaml + Plattform
+- test_runner.py: BuildVerifier + TestRunner (iOS/Android/Web)
+- qa_report.py: Strukturierte JSON-Reports
+- bounce_tracker.py: Bounce-Persistenz per Projekt+Plattform
+- config.py: QAConfig Dataclass (Timeouts, Limits, Defaults)
+- Alle Imports verifiziert
+- **CLI Integration**: --qa, --qa-status, --qa-reset-bounces, --platform in main.py
+  - `--qa <project> --platform <plat>` → startet QA Pipeline (Build→Ops→Tests→Gate)
+  - `--qa-status <project>` → zeigt Bounce-Counts + letzte Reports
+  - `--qa-reset-bounces <project> --platform <plat|all>` → Reset Bounces
+  - `--platform all` iteriert ueber ios/android/web/unity
+
+**Motion Forge — Platform Adapter** (Phase 10 Step 5):
+- `factory/motion_forge/platform_adapter.py` — konvertiert Lottie JSON zu plattformspezifischen Formaten
+- iOS/Android: Lottie JSON copy (native lottie-ios/lottie-android)
+- Web: CSS @keyframes Konvertierung (12 Animationstypen), Fallback zu lottie-web bei inkompatiblen Typen (shimmer, custom, external)
+- Unity: C# MonoBehaviour Coroutine Scripts (mit Ease-Funktion, CanvasGroup alpha, Transform)
+- CLI: `--lottie-dir`, `--manifest`, `--output`, `--platforms`, `--anim-id`
+- BatchAdaptResult mit Statistiken pro Plattform + CSS-Fallback-Counter
+- `__init__.py` aktualisiert: exportiert PlatformAdapter, AdaptResult, BatchAdaptResult
+
+**Motion Forge — Validator + Catalog + Orchestrator** (Phase 10 Steps 6-8):
+- `factory/motion_forge/animation_validator.py` — deterministische Validierung (kein LLM)
+  - 5 Checks: Lottie Validity, Timing Range, File Size, Ease Curves, Platform Compat
+  - Timing-Ranges per Kategorie (micro: 100-900ms, transition: 300-1000ms, etc.)
+  - ValidationResult mit pass/warn/fail + Details
+- `factory/motion_forge/animation_catalog_manager.py` — organisiert alle Dateien in Katalog
+  - Kopiert Lottie/CSS/C# in catalog/{project}/{platform}/
+  - Generiert all_animations.css (combined CSS)
+  - AnimationCatalog manifest mit Statistiken, Dedup-Guard
+- `factory/motion_forge/motion_forge_orchestrator.py` — End-to-End Pipeline
+  - 5 Steps: Extract Specs -> Generate Lotties -> Adapt Platforms -> Validate -> Build Catalog
+  - Budget-Enforcement, 24h Spec-Cache, Filter nach anim_id/category/priority
+  - CLI: --project, --roadbook-dir, --dry-run, --estimate-cost, --budget, --anim-id, --category
+
+**Proof Run EchoMatch** ($0.04 total):
+- 20 Specs -> 16/20 generiert (80%), 4 failed (complex custom_llm)
+- Generation: 6 Template ($0), 10 Composition ($0), 4 Custom LLM ($0.04)
+- Platforms: iOS 16/16, Android 16/16, Web 16/16 (7 lottie-web fallback), Unity 16/16
+- Validation: Pass=5, Warn=12, Fail=0
+- Catalog: 82 Dateien, manifest + all_animations.css
+- Duration: 150s (mostly LLM wait time)
+- Unicode-Fix: em-dash/arrow durch ASCII ersetzt (Windows cp1252)
+
+**HQ Assistant — ElevenLabs Personal Voice**:
+- `server.py`: `/speak` Endpoint (ElevenLabs TTS, base64 mp3, max 300 chars, fallback-Error)
+- `server.py`: `/chat` gibt jetzt `speak_text` Feld zurueck (aus `<speak>` Tags)
+- `assistant.py`: VOICE_RULES im System-Prompt, `extract_speak_text()` Parser
+- `dashboard/server/api/assistant.js`: `/speak` Proxy-Route (port 3002)
+- `VoiceOutput.jsx`: Komplett rebuilt — ElevenLabs Audio (base64→blob→Audio), Fallback Browser TTS
+- `ChatPanel.jsx`: `speakText` in Messages, AutoVoice fuer letzte Nachricht, alte speakText-Funktion entfernt
+- `.env`: `ELEVENLABS_VOICE_ID=z1EhmmPwF0ENGYE8dBE6` eingetragen
+- Voice: `eleven_multilingual_v2`, stability=0.5, similarity_boost=0.75, style=0.3
+- Logik: Assistant entscheidet selbst was gesprochen wird via `<speak>` Tags (max 250 chars, 1 Satz)
+- Nur Begruessungen, Warnungen, Bestaetigungen — keine Listen, Tabellen, Reports
+- Character-Tracking: `/speak` trackt Zeichen via `balance_monitor.add_tracked_usage("elevenlabs")`
+
+### 2026-03-23 — Grosse Session (Factory Hardening + MemeRun)
+- **Swift Compile Contract**: 6 Regeln in ios.json, Injection via platform_role_resolver.py
+- **Framework Type Blocklist**: 52 → 112 Types im Code Extractor
+- **Quality Priority System**: quality_priority in project.yaml, Quality Score in TheBrain get_model()
+- **Quality Gate Loop**: Autonome 3-Iteration Repair (Tier 1 deterministisch + Tier 2 LLM)
+- **Ops Reihenfolge gefixt**: StaleArtifactGuard → StubGen → CompileHygiene (war falsch herum)
+- **Factory Mode**: --mode vision|factory in allen 6 Pipelines, Constraints in Roadbook injected
+- **MemeRun2026**: Kompletter Factory-Mode Run (P1→K3→K4→K4.5→K5→K6), 15 PDFs
+- **iOS auf Mac verlagert**: askfin_v1-1 ios.status=disabled, generate_command.py + --mac-generate CLI
+- **StudyStreak**: Via Mac generiert, 0 Compile Errors, 5 Files
+- **BreathFlow Cleanup**: 17 alte Files geloescht, 27 in Quarantine
+- **Unicode Fix**: Alle Checkmarks/Emojis in Pipeline-Outputs durch ASCII ersetzt
+- **Git Push Fix**: generate_command.py hatte silent Push-Failures (capture_output=True)
+- **Compile Hygiene**: DEBUG/RELEASE/TARGET_OS_SIMULATOR zur Blocklist hinzugefuegt
+
+### 2026-03-22 — Mac Build Agent + BreathFlow
+- breathflow5: 40 Swift Files generiert, Xcode Build
+- Mac Agent: RepairEngine (SwiftRepairEngine, deterministic + LLM Fallback)
+- Mac Agent: Pre-Build Cleanup, xcodegen Integration
+
+### 2026-03-21 — Kapitel 4 + Document Secretary
+- Kapitel 4 (MVP Scope) komplett: 3 Agents, EchoMatch E2E Run
+- Document Secretary: 9 PDF-Typen, Playwright/Chromium
+- SkillSense: Phase 1 Run #004 komplett
+
+### 2026-03-20 — Swarm Factory Phase 1 + 2
+- Pre-Production Pipeline (7 Agents) + Market Strategy (5 Agents)
+- CEO Gate, Memory System, SerpAPI Web Research
+- EchoMatch: Erster vollstaendiger E2E Run (GO)
+
+### 2026-03-18 — Multi-Platform Factory
+- TheBrain: 4 Provider, 9 Modelle, ChainOptimizer, AutoSplitter
+- Assembly Lines: iOS, Android, Web, Unity
+- RepairEngine: 5 Fix-Strategien, 90% Auto-Fix-Rate
+- Hybrid Pipeline: $63 → $0.08/Run (788x guenstiger)
+
+### 2026-03-15 — Operations Layer v2
+- Property Shape Repairer, Type Stub Generator, OutputIntegrator Semantic Dedup
+- Compile Hygiene: FK-011 bis FK-017, Column-aware
+- 8 Autonomy Proof Runs
+
+### 2026-03-14 — Compile Pipeline
+- Swift Compile Check (swiftc -parse)
+- Factory Knowledge Error Patterns (FK-011 bis FK-017)
+
+### 2026-03-12-13 — Foundation
+- Claude Migration (OpenAI → Anthropic 100%)
+- Creative Director + UX Psychology Agents
+- Factory Knowledge System (22 Entries)
+- Premium Product Strategy

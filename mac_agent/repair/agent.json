@@ -1,0 +1,15 @@
+{
+  "id": "INF-02",
+  "name": "LLM Repair Agent",
+  "role": "Swift Error Fixer",
+  "department": "Infrastruktur",
+  "status": "active",
+  "task_type": "repair",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "3-Tier Repair fuer Xcode-Compile-Errors",
+  "py_file": "swift_repair_engine.py"
+}

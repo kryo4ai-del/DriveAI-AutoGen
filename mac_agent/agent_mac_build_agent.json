@@ -1,0 +1,12 @@
+{
+  "id": "INF-03",
+  "name": "Mac Build Agent",
+  "role": "iOS Build Executor",
+  "department": "Infrastruktur",
+  "status": "active",
+  "task_type": "build",
+  "model_tier": "none",
+  "uses_web": false,
+  "description": "Fuehrt xcodebuild auf dem Mac aus, Git Push/Pull",
+  "py_file": "mac_build_agent.py"
+}

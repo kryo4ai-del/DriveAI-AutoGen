@@ -128,6 +128,8 @@ function ProjectCard({ project, onArchive, onSetType, onSelect }) {
         <div>
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-bold text-factory-text">{project.title}</h3>
+            {project.mode === 'factory' && <span className="text-[10px] px-1.5 py-0.5 bg-factory-accent/20 rounded text-factory-accent font-medium">Factory</span>}
+            {project.mode === 'vision' && <span className="text-[10px] px-1.5 py-0.5 bg-factory-accent-blue/20 rounded text-factory-accent-blue font-medium">Vision</span>}
             {isIteration && <span className="text-[10px] px-1.5 py-0.5 bg-factory-border rounded text-factory-text-secondary">Iteration</span>}
             {isTest && <span className="text-[10px] px-1.5 py-0.5 bg-factory-warning/20 rounded text-factory-warning">Test</span>}
             {project.archived && <span className="text-[10px] px-1.5 py-0.5 bg-factory-border rounded text-factory-text-secondary">Archiv</span>}

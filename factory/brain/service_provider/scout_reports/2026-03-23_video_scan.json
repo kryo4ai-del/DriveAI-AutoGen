@@ -1,0 +1,54 @@
+{
+  "scan_date": "2026-03-23",
+  "category_scanned": "video",
+  "existing_services": [],
+  "findings": [
+    {
+      "name": "Kling AI",
+      "provider": "kling",
+      "category": "video",
+      "api_url": "https://api.klingai.com/v1/videos/text2video",
+      "api_docs_url": "https://docs.klingai.com/",
+      "capabilities": [
+        "text_to_video",
+        "image_to_video",
+        "mp4_output",
+        "max_10s"
+      ],
+      "estimated_cost_per_call": 0.08,
+      "pros": [
+        "Neue Capabilities: max_10s, image_to_video, text_to_video, mp4_output",
+        "Cheaper than Runway, good quality, Chinese provider"
+      ],
+      "cons": [],
+      "comparison_to_existing": "new_capability",
+      "recommended_action": "add_to_registry"
+    },
+    {
+      "name": "Luma Dream Machine",
+      "provider": "luma",
+      "category": "video",
+      "api_url": "https://api.lumalabs.ai/dream-machine/v1/generations",
+      "api_docs_url": "https://docs.lumalabs.ai/",
+      "capabilities": [
+        "text_to_video",
+        "image_to_video",
+        "mp4_output",
+        "max_5s"
+      ],
+      "estimated_cost_per_call": 0.05,
+      "pros": [
+        "Neue Capabilities: image_to_video, text_to_video, max_5s, mp4_output",
+        "Good quality, fast generation, camera motion control"
+      ],
+      "cons": [],
+      "comparison_to_existing": "new_capability",
+      "recommended_action": "add_to_registry"
+    }
+  ],
+  "summary": "2 neue Services gefunden fuer 'video'. 2 empfohlen zum Hinzufuegen, 0 zum Beobachten. Bestehende Services: keine aktiven.",
+  "adapter_files_written": [
+    "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\brain\\service_provider\\adapters\\drafts\\kling_adapter.py",
+    "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\brain\\service_provider\\adapters\\drafts\\luma_adapter.py"
+  ]
+}

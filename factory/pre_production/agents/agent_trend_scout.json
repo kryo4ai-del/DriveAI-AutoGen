@@ -1,0 +1,16 @@
+{
+  "id": "SWF-01",
+  "name": "Trend-Scout",
+  "role": "Market Trend Researcher",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Phase 1",
+  "task_type": "research",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": true,
+  "description": "Markttrends und Technologie-Entwicklungen via SerpAPI",
+  "py_file": "trend_scout.py"
+}

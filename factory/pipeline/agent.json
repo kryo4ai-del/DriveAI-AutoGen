@@ -1,0 +1,12 @@
+{
+  "id": "INF-05",
+  "name": "Dispatcher",
+  "role": "Command Router",
+  "department": "Infrastruktur",
+  "status": "active",
+  "task_type": "orchestration",
+  "model_tier": "none",
+  "uses_web": false,
+  "description": "Routing von Befehlen an die richtige Pipeline",
+  "py_file": "pipeline_runner.py"
+}

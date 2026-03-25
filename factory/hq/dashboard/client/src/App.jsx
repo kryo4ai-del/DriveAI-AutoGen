@@ -10,6 +10,10 @@ import AgentMonitor from './components/AgentMonitor/AgentMonitor';
 import ProjectHistory from './components/History/ProjectHistory';
 import ShowcaseView from './components/Showcase/ShowcaseView';
 import StartView from './components/Start/StartView';
+import ChatPanel from './components/Assistant/ChatPanel';
+import TeamView from './components/Team/TeamView';
+import ProviderView from './components/Provider/ProviderView';
+import JanitorView from './components/Janitor/JanitorView';
 
 const BASE_SECTIONS = [
   { id: 'start', label: 'Start', icon: 'Rocket' },
@@ -17,7 +21,10 @@ const BASE_SECTIONS = [
   { id: 'gates', label: 'Gates', icon: 'ShieldCheck', badge: 0 },
   { id: 'documents', label: 'Dokumente', icon: 'FileText' },
   { id: 'factory', label: 'Factory Status', icon: 'Activity' },
+  { id: 'providers', label: 'Provider', icon: 'Wallet' },
+  { id: 'janitor', label: 'Janitor', icon: 'Wrench', badge: 0 },
   { id: 'agents', label: 'Agent Monitor', icon: 'Bot' },
+  { id: 'team', label: 'Team', icon: 'Users' },
   { id: 'history', label: 'Historie', icon: 'Clock' },
   { id: 'showcase', label: 'Schaufenster', icon: 'Eye' },
 ];
@@ -26,23 +33,49 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('start');
   const [selectedProject, setSelectedProject] = useState(null);
   const [gateCount, setGateCount] = useState(0);
+  const [janitorProposals, setJanitorProposals] = useState(0);
+  const [chatOpen, setChatOpen] = useState(false);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    function handleKeyboard(e) {
+      // Ctrl+K / Cmd+K: Toggle chat
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setChatOpen(prev => !prev);
+      }
+      // Escape: Close chat
+      if (e.key === 'Escape' && chatOpen) {
+        setChatOpen(false);
+      }
+    }
+    window.addEventListener('keydown', handleKeyboard);
+    return () => window.removeEventListener('keydown', handleKeyboard);
+  }, [chatOpen]);
 
   useEffect(() => {
-    async function fetchGateCount() {
+    async function fetchCounts() {
       try {
-        const res = await fetch('/api/gates');
-        const data = await res.json();
-        setGateCount(data.count || 0);
+        const [gatesRes, janitorRes] = await Promise.all([
+          fetch('/api/gates'),
+          fetch('/api/janitor/proposals').catch(() => ({ json: () => ({ proposals: [] }) })),
+        ]);
+        const gates = await gatesRes.json();
+        setGateCount(gates.count || 0);
+        const janitor = await janitorRes.json();
+        setJanitorProposals((janitor.proposals || []).filter(p => p.status === 'pending').length);
       } catch (err) { /* ignore */ }
     }
-    fetchGateCount();
-    const interval = setInterval(fetchGateCount, 15000);
+    fetchCounts();
+    const interval = setInterval(fetchCounts, 15000);
     return () => clearInterval(interval);
   }, []);
 
-  const sections = BASE_SECTIONS.map(s =>
-    s.id === 'gates' ? { ...s, badge: gateCount } : s
-  );
+  const sections = BASE_SECTIONS.map(s => {
+    if (s.id === 'gates') return { ...s, badge: gateCount };
+    if (s.id === 'janitor') return { ...s, badge: janitorProposals };
+    return s;
+  });
 
   function handleSelectSection(section) {
     setActiveSection(section);
@@ -57,7 +90,7 @@ export default function App() {
         onSelect={handleSelectSection}
       />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header activeSection={activeSection} />
+        <Header activeSection={activeSection} onToggleChat={() => setChatOpen(!chatOpen)} chatOpen={chatOpen} />
         <main className="flex-1 overflow-y-auto p-6">
           {activeSection === 'start' && <StartView />}
           {activeSection === 'pipeline' && !selectedProject && (
@@ -69,10 +102,13 @@ export default function App() {
           {activeSection === 'gates' && <GateInbox />}
           {activeSection === 'documents' && <DocumentLibrary />}
           {activeSection === 'factory' && <HealthOverview />}
+          {activeSection === 'providers' && <ProviderView />}
+          {activeSection === 'janitor' && <JanitorView />}
           {activeSection === 'agents' && <AgentMonitor />}
+          {activeSection === 'team' && <TeamView />}
           {activeSection === 'history' && <ProjectHistory />}
           {activeSection === 'showcase' && <ShowcaseView />}
-          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'agents', 'history', 'showcase'].includes(activeSection) && (
+          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase'].includes(activeSection) && (
             <PlaceholderView
               title={sections.find(s => s.id === activeSection)?.label || ''}
               description="Wird in einem zukuenftigen Step implementiert"
@@ -80,6 +116,7 @@ export default function App() {
           )}
         </main>
       </div>
+      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 }

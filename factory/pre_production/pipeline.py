@@ -74,7 +74,7 @@ def _banner(title: str, run_number: int) -> str:
     )
 
 
-def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realistic") -> dict:
+def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realistic", mode: str = "vision") -> dict:
     """Run the complete Phase 1 pipeline.
 
     Args:
@@ -92,6 +92,18 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
     slug = _make_slug(idea_title)
     output_dir = OUTPUT_BASE / f"{run_number:03d}_{slug}"
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Register project in central registry
+    try:
+        from factory.project_registry import register_project
+        register_project(slug, idea_title, ceo_idea, mode)
+    except Exception as e:
+        print(f"  [Registry] Warning: {e}")
+
+    # Save run config (mode + metadata)
+    import json as _json
+    run_config = {"mode": mode, "ambition": ambition, "run_number": run_number, "slug": slug}
+    (output_dir / "run_config.json").write_text(_json.dumps(run_config, indent=2), encoding="utf-8")
 
     # Ambition controller
     from factory.pre_production.ambition_controller import AmbitionController
@@ -131,7 +143,7 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
     try:
         result["trend_report"] = trend_scout.run(ceo_idea, learnings)
         _save_report(output_dir, "trend_report.md", result["trend_report"])
-        print(f"           -> Trend-Report: {len(result['trend_report']):,} Zeichen ✓")
+        print(f"           -> Trend-Report: {len(result['trend_report']):,} Zeichen OK")
     except Exception as e:
         result["trend_report"] = _error_report("Trend-Scout", str(e))
         result["failed_agents"].append("trend_scout")
@@ -144,7 +156,7 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
     try:
         result["competitive_report"] = competitor_scan.run(ceo_idea, learnings)
         _save_report(output_dir, "competitive_report.md", result["competitive_report"])
-        print(f"           -> Competitive-Report: {len(result['competitive_report']):,} Zeichen ✓")
+        print(f"           -> Competitive-Report: {len(result['competitive_report']):,} Zeichen OK")
     except Exception as e:
         result["competitive_report"] = _error_report("Competitor-Scan", str(e))
         result["failed_agents"].append("competitor_scan")
@@ -157,7 +169,7 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
     try:
         result["audience_profile"] = audience_analyst.run(ceo_idea, learnings)
         _save_report(output_dir, "audience_profile.md", result["audience_profile"])
-        print(f"           -> Audience-Profile: {len(result['audience_profile']):,} Zeichen ✓")
+        print(f"           -> Audience-Profile: {len(result['audience_profile']):,} Zeichen OK")
     except Exception as e:
         result["audience_profile"] = _error_report("Audience-Analyst", str(e))
         result["failed_agents"].append("audience_analyst")
@@ -178,7 +190,7 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
             result["audience_profile"],
         )
         _save_report(output_dir, "concept_brief.md", result["concept_brief"])
-        print(f"      -> Concept Brief: {len(result['concept_brief']):,} Zeichen ✓\n")
+        print(f"      -> Concept Brief: {len(result['concept_brief']):,} Zeichen OK\n")
     except Exception as e:
         result["concept_brief"] = _error_report("Concept-Analyst", str(e))
         result["failed_agents"].append("concept_analyst")
@@ -204,7 +216,7 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
         try:
             result["legal_report"] = legal_research.run(result["concept_brief"])
             _save_report(output_dir, "legal_report.md", result["legal_report"])
-            print(f"           -> Legal-Report: {len(result['legal_report']):,} Zeichen ✓")
+            print(f"           -> Legal-Report: {len(result['legal_report']):,} Zeichen OK")
         except Exception as e:
             result["legal_report"] = _error_report("Legal-Research", str(e))
             result["failed_agents"].append("legal_research")
@@ -219,7 +231,7 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
                 result["concept_brief"], result["legal_report"]
             )
             _save_report(output_dir, "risk_assessment.md", result["risk_assessment"])
-            print(f"           -> Risk-Assessment: {len(result['risk_assessment']):,} Zeichen ✓")
+            print(f"           -> Risk-Assessment: {len(result['risk_assessment']):,} Zeichen OK")
         except Exception as e:
             result["risk_assessment"] = _error_report("Risk-Assessment", str(e))
             result["failed_agents"].append("risk_assessment")
@@ -250,6 +262,17 @@ def run_pipeline(ceo_idea: str, idea_title: str = None, ambition: str = "realist
     if result["failed_agents"]:
         result["status"] = "completed_with_errors"
         result["error"] = f"Failed agents: {', '.join(result['failed_agents'])}"
+
+    # Update project registry
+    try:
+        from factory.project_registry import update_project_phase
+        update_project_phase(
+            slug, "phase1", "complete" if result["status"] == "completed" else "partial",
+            str(output_dir),
+            costs={"serpapi": stats.get("total_searches", 0)},
+        )
+    except Exception as e:
+        print(f"  [Registry] Warning: {e}")
 
     return result
 
@@ -302,6 +325,8 @@ if __name__ == "__main__":
     )
     parser.add_argument("--ambition", default="realistic", choices=["realistic", "visionary"],
                         help="Ambition level: realistic (constrained) or visionary (full)")
+    parser.add_argument("--mode", default="vision", choices=["vision", "factory"],
+                        help="Pipeline mode: vision (default) or factory (production-constrained)")
     parser.add_argument("--idea", type=str, help="CEO idea text (in quotes)")
     parser.add_argument("--idea-file", type=str, help="Path to text file with CEO idea")
     parser.add_argument("--title", type=str, help="Short title for the idea (optional)")
@@ -314,7 +339,7 @@ if __name__ == "__main__":
     else:
         parser.error("Either --idea or --idea-file is required")
 
-    result = run_pipeline(idea_text, idea_title=args.title)
+    result = run_pipeline(idea_text, idea_title=args.title, mode=args.mode)
 
     # Print final summary
     line = "=" * 60

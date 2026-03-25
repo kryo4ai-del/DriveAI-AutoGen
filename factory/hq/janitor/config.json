@@ -1,0 +1,73 @@
+{
+  "scan_paths": {
+    "python": [
+      "agents/",
+      "factory/",
+      "config/",
+      "code_generation/",
+      "mac_agent/",
+      "briefings/",
+      "MasterPrompt/"
+    ],
+    "javascript": [
+      "factory/hq/dashboard/server/",
+      "factory/hq/dashboard/client/src/"
+    ],
+    "config_files": [
+      "config/",
+      "factory/hq/providers/",
+      "factory/hq/gates/"
+    ],
+    "data_dirs": [
+      "factory/pre_production/output/",
+      "factory/market_strategy/output/",
+      "factory/mvp_scope/output/",
+      "factory/design_vision/output/",
+      "factory/visual_audit/output/",
+      "factory/roadbook_assembly/output/",
+      "factory/document_secretary/output/",
+      "ideas/",
+      "DeveloperReports/"
+    ]
+  },
+  "exclude_paths": [
+    "node_modules/",
+    ".git/",
+    "__pycache__/",
+    ".venv/",
+    "venv/",
+    "factory/hq/janitor/quarantine/",
+    "factory/hq/janitor/reports/"
+  ],
+  "thresholds": {
+    "large_file_lines": 500,
+    "dead_file_days": 90,
+    "empty_file_min_bytes": 10,
+    "duplicate_similarity": 0.85,
+    "max_import_depth": 8,
+    "quarantine_days_before_delete": 7
+  },
+  "schedules": {
+    "daily": "06:00",
+    "weekly": "sunday_06:00",
+    "monthly": "1st_06:00"
+  },
+  "safety": {
+    "auto_fix_max_files": 1,
+    "proposal_max_files": 5,
+    "report_only_above": 6,
+    "protected_paths": [
+      ".env",
+      "factory/hq/assistant/memory.json",
+      "factory/projects/",
+      "factory/hq/gates/decided/",
+      "factory/hq/providers/provider_registry.json"
+    ],
+    "protected_patterns": [
+      "project.yaml",
+      "CLAUDE.md",
+      "MEMORY.md",
+      "README.md"
+    ]
+  }
+}

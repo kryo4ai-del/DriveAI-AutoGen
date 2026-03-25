@@ -92,7 +92,37 @@ REGELN:
 - Glossar am Ende mit Erklaerungen fuer Nicht-Techniker"""
 
 
-def run(all_reports: dict) -> str:
+def _load_factory_constraints() -> str:
+    """Load factory_constraints.md content."""
+    from pathlib import Path
+    p = Path(__file__).resolve().parent.parent / "factory_constraints.md"
+    if p.exists():
+        return p.read_text(encoding="utf-8")
+    return ""
+
+
+def _build_factory_injection() -> str:
+    """Build the factory mode injection block for the CEO prompt."""
+    constraints = _load_factory_constraints()
+    if not constraints:
+        return ""
+    return f"""## FACTORY MODE ACTIVE — PRODUCTION CONSTRAINTS
+
+This roadbook must be written for the DriveAI Factory's ACTUAL production capabilities.
+All budget estimates, feature scoping, tech stack decisions, and timeline projections
+must be realistic for a solo developer operating the DriveAI Factory.
+
+{constraints}
+
+IMPORTANT: The research and analysis data above is complete and high-quality.
+Your job is to synthesize it into a BUILDABLE product plan, not a dream document.
+If a market opportunity exists but the factory cannot build it today, mention it
+briefly in a "Future Expansion" section — do NOT include it in the main roadbook.
+Budget must reflect factory reality (typically €500-5.000 for Phase A, not €250.000+).
+"""
+
+
+def run(all_reports: dict, mode: str = "vision") -> str:
     """Generate the CEO Strategic Roadbook."""
     from factory.roadbook_assembly.config import get_agent_model
 
@@ -102,11 +132,18 @@ def run(all_reports: dict) -> str:
 
     # Build input from all chapter groups
     all_input = _build_input(all_reports)
+
+    # Factory mode: inject constraints
+    _factory_block = ""
+    if mode == "factory":
+        _factory_block = _build_factory_injection()
+        print(f"[{AGENT_NAME}] MODE: FACTORY — constraints injected ({len(_factory_block)} chars)")
+
     print(f"[{AGENT_NAME}] Model: {model} ({provider}) via TheBrain")
     print(f"[{AGENT_NAME}] Input: {len(all_input) // 1000}k chars (all reports)")
 
     # Try TheBrain router first
-    report = _call_via_router(model, provider, all_input, selection)
+    report = _call_via_router(model, provider, all_input, selection, _factory_block)
     if report:
         return report
 
@@ -130,7 +167,7 @@ def _build_input(data: dict) -> str:
     return "\n\n".join(parts)
 
 
-def _call_via_router(model: str, provider: str, all_input: str, selection: dict) -> str | None:
+def _call_via_router(model: str, provider: str, all_input: str, selection: dict, factory_block: str = "") -> str | None:
     try:
         from factory.brain.model_provider import get_router
 
@@ -154,13 +191,11 @@ def _call_via_router(model: str, provider: str, all_input: str, selection: dict)
 
         print(f"[{AGENT_NAME}] Generating CEO Strategic Roadbook via {litellm_name}...")
 
+        _factory_section = f"\n\n{factory_block}\n\n---\n\n" if factory_block else "\n\n---\n\n"
         prompt = f"""## Alle Reports aus 5 Kapiteln (Rohdaten)
 
 {all_input}
-
----
-
-{CEO_STRUCTURE}"""
+{_factory_section}{CEO_STRUCTURE}"""
 
         response = router.call(
             model_id=model,

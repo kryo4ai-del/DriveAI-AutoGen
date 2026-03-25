@@ -1,0 +1,30 @@
+{
+  "level_id": "TMPL-OBSTACLES",
+  "grid": {
+    "width": 7,
+    "height": 9,
+    "cells": "normal_with_obstacles",
+    "obstacle_count": 6,
+    "obstacle_types": ["ice"]
+  },
+  "cell_types": {"0": "blocked", "1": "normal", "2": "obstacle_ice"},
+  "stone_pool": {
+    "types": ["red", "blue", "green", "yellow", "purple"],
+    "weights": [1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "initial_fill": "random_no_matches",
+  "objectives": {
+    "type": "score",
+    "value": 2500,
+    "move_limit": 25
+  },
+  "difficulty_score": 0.35,
+  "meta": {
+    "chapter": 2,
+    "position": 0,
+    "is_tutorial": false,
+    "tutorial_hints": [],
+    "template": "match3_obstacles",
+    "description": "7x9 grid with 6 ice obstacles, 5 stone types"
+  }
+}

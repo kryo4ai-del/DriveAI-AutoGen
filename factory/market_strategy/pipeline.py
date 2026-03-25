@@ -85,13 +85,18 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
 
     print(f"[0/5] Phase-1 Input laden: {phase1_run_dir}")
     phase1 = load_phase1_output(phase1_run_dir)
-    print(f"      -> 6 Reports geladen, CEO-Entscheidung: {phase1['ceo_decision']} ✓\n")
+    print(f"      -> 6 Reports geladen, CEO-Entscheidung: {phase1['ceo_decision']} OK\n")
 
     title = phase1["idea_title"]
     p2_run = _get_next_run_number()
     slug = _make_slug(title)
     output_dir = OUTPUT_BASE / f"{p2_run:03d}_{slug}"
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Propagate run mode from Phase 1
+    from factory.run_mode import read_mode, write_mode
+    _mode = read_mode(phase1_run_dir)
+    write_mode(output_dir, _mode)
 
     result = {
         "idea_title": title,
@@ -123,7 +128,7 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
             phase1["risk_assessment"], phase1["legal_report"],
         )
         _save_report(output_dir, "platform_strategy.md", result["platform_strategy"])
-        print(f"           -> Platform Strategy: {len(result['platform_strategy']):,} Zeichen ✓")
+        print(f"           -> Platform Strategy: {len(result['platform_strategy']):,} Zeichen OK")
     except Exception as e:
         result["platform_strategy"] = _error_report("Plattform-Strategie", str(e))
         result["failed_agents"].append("platform_strategy")
@@ -140,7 +145,7 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
             phase1["competitive_report"], phase1["risk_assessment"],
         )
         _save_report(output_dir, "monetization_report.md", result["monetization_report"])
-        print(f"           -> Monetization Report: {len(result['monetization_report']):,} Zeichen ✓")
+        print(f"           -> Monetization Report: {len(result['monetization_report']):,} Zeichen OK")
     except Exception as e:
         result["monetization_report"] = _error_report("Monetarisierungs-Architekt", str(e))
         result["failed_agents"].append("monetization_architect")
@@ -170,7 +175,7 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
                 result["platform_strategy"], result["monetization_report"],
             )
             _save_report(output_dir, "marketing_strategy.md", result["marketing_strategy"])
-            print(f"           -> Marketing Strategy: {len(result['marketing_strategy']):,} Zeichen ✓")
+            print(f"           -> Marketing Strategy: {len(result['marketing_strategy']):,} Zeichen OK")
         except Exception as e:
             result["marketing_strategy"] = _error_report("Marketing-Strategie", str(e))
             result["failed_agents"].append("marketing_strategy")
@@ -186,7 +191,7 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
                 result["monetization_report"],
             )
             _save_report(output_dir, "release_plan.md", result["release_plan"])
-            print(f"           -> Release Plan: {len(result['release_plan']):,} Zeichen ✓")
+            print(f"           -> Release Plan: {len(result['release_plan']):,} Zeichen OK")
         except Exception as e:
             result["release_plan"] = _error_report("Release-Planer", str(e))
             result["failed_agents"].append("release_planner")
@@ -212,7 +217,7 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
                 result["release_plan"], phase1["risk_assessment"],
             )
             _save_report(output_dir, "cost_calculation.md", result["cost_calculation"])
-            print(f"      -> Cost Calculation: {len(result['cost_calculation']):,} Zeichen ✓")
+            print(f"      -> Cost Calculation: {len(result['cost_calculation']):,} Zeichen OK")
         except Exception as e:
             result["cost_calculation"] = _error_report("Kosten-Kalkulation", str(e))
             result["failed_agents"].append("cost_calculation")
@@ -239,7 +244,7 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
     print("\n[5/5] Memory aktualisieren...")
     try:
         _save_phase2_learnings(result, phase1)
-        print("      -> Phase-2 Learnings gespeichert ✓")
+        print("      -> Phase-2 Learnings gespeichert OK")
     except Exception as e:
         print(f"      -> WARNING: Learnings konnten nicht gespeichert werden — {e}")
 
@@ -247,6 +252,17 @@ def run_pipeline(phase1_run_dir: str = None) -> dict:
     if result["failed_agents"]:
         result["status"] = "completed_with_errors"
         result["error"] = f"Failed agents: {', '.join(result['failed_agents'])}"
+
+    # Update project registry
+    try:
+        from factory.project_registry import update_project_phase
+        import re
+        _slug = re.sub(r'[^a-z0-9_]', '', title.lower().replace(" ", "_").replace("-", "_"))[:40]
+        _stats = get_search_stats()
+        update_project_phase(_slug, "kapitel3", "complete" if result["status"] == "completed" else "partial", str(output_dir),
+                             costs={"serpapi": _stats.get("total_searches", 0)})
+    except Exception as e:
+        print(f"  [Registry] Warning: {e}")
 
     # Print final banner
     line = "=" * 60

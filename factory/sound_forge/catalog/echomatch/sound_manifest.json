@@ -1,0 +1,566 @@
+{
+  "project": "echomatch",
+  "generated_at": "2026-03-24T09:39:11.044454",
+  "total_sounds": 17,
+  "total_cost_usd": 0.17,
+  "categories": {
+    "ambient": 4,
+    "notification": 1,
+    "sfx": 7,
+    "ui_sound": 5
+  },
+  "platforms": [
+    "ios",
+    "android",
+    "web",
+    "unity"
+  ],
+  "sounds": [
+    {
+      "sound_id": "AMB-001",
+      "name": "ambient_field_pulse",
+      "category": "ambient",
+      "description": "Adaptive ambient sound layer that breathes with gameplay tempo; slow moves = deep calm ambient, fast moves = rhythmic tempo",
+      "files": {
+        "ios": "ios/AMB-001.m4a",
+        "android": "android/AMB-001.ogg",
+        "web": "web/AMB-001.mp3",
+        "unity": "unity/AMB-001.wav"
+      },
+      "checksums": {
+        "ios": "92a8668e50d0520079a53bb22d25af89",
+        "android": "ce0e6db99b0c00a3ceeae286498f7874",
+        "web": "2a35b49b0f8277560686f25f9b8b4727",
+        "unity": "1525c22dc5c25fa42a4dd84a145580a7"
+      },
+      "duration_ms": 0,
+      "file_sizes_kb": {
+        "ios": 369.6,
+        "android": 217.4,
+        "web": 344.9,
+        "unity": 1895.0
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": true,
+      "mood": "pulsing, organic, adaptive",
+      "context": "Continuous background sound that adapts to player's gameplay tempo"
+    },
+    {
+      "sound_id": "AMB-002",
+      "name": "social_light_pulse",
+      "category": "ambient",
+      "description": "Ambient light pulse on friend avatars in the level map; second color (amber) for challenge invitations",
+      "files": {
+        "ios": "ios/AMB-002.m4a",
+        "android": "android/AMB-002.ogg",
+        "web": "web/AMB-002.mp3",
+        "unity": "unity/AMB-002.wav"
+      },
+      "checksums": {
+        "ios": "0e7ef49835529c5cbe655feae3d410b2",
+        "android": "1aad6985ebcffa2e8a12df0ed2bcb80c",
+        "web": "5dd243ee549b49224e7b9353ad984410",
+        "unity": "9b1ca408eefdefc3d4a4f3095ae6b992"
+      },
+      "duration_ms": 800,
+      "file_sizes_kb": {
+        "ios": 12.7,
+        "android": 14.1,
+        "web": 13.5,
+        "unity": 69.0
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": true,
+      "mood": "warm, inviting, subtle",
+      "context": "Plays when friends are active on the level map"
+    },
+    {
+      "sound_id": "AMB-003",
+      "name": "story_transition_breath",
+      "category": "ambient",
+      "description": "Slow breathing transitions for story moments; organic textures with space between sounds",
+      "files": {
+        "ios": "ios/AMB-003.m4a",
+        "android": "android/AMB-003.ogg",
+        "web": "web/AMB-003.mp3",
+        "unity": "unity/AMB-003.wav"
+      },
+      "checksums": {
+        "ios": "8eb01c6b7b6cfc3df749e0094891a6c9",
+        "android": "3e4c774846d54981ae928c4bbcafd01c",
+        "web": "293352be6773d43299abc4b4719804e4",
+        "unity": "603a26cd692347024025a23f0ea791c3"
+      },
+      "duration_ms": 3000,
+      "file_sizes_kb": {
+        "ios": 48.6,
+        "android": 35.0,
+        "web": 47.8,
+        "unity": 258.5
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "calm, intimate, spacious",
+      "context": "Plays during narrative story transitions"
+    },
+    {
+      "sound_id": "AMB-004",
+      "name": "golden_screen_shift",
+      "category": "ambient",
+      "description": "1.5-second golden color shift of the entire screen during reward screens",
+      "files": {
+        "ios": "ios/AMB-004.m4a",
+        "android": "android/AMB-004.ogg",
+        "web": "web/AMB-004.mp3",
+        "unity": "unity/AMB-004.wav"
+      },
+      "checksums": {
+        "ios": "375435e616d709eb1e459b42387dd4e0",
+        "android": "8d1d18bc3de581b9a4496a6f3b844c4d",
+        "web": "c129052f9fedb8ff54775074d93dd0a3",
+        "unity": "e77d40a8b9ea0cddac459fb2e3037939"
+      },
+      "duration_ms": 1500,
+      "file_sizes_kb": {
+        "ios": 24.2,
+        "android": 20.4,
+        "web": 24.1,
+        "unity": 127.6
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "warm, celebratory, minimal",
+      "context": "Plays during reward screens after level completion"
+    },
+    {
+      "sound_id": "NOT-001",
+      "name": "error_neutral_feedback",
+      "category": "notification",
+      "description": "Neutral feedback for impossible moves; stone bounces back without negative sound",
+      "files": {
+        "ios": "ios/NOT-001.m4a",
+        "android": "android/NOT-001.ogg",
+        "web": "web/NOT-001.mp3",
+        "unity": "unity/NOT-001.wav"
+      },
+      "checksums": {
+        "ios": "f3e919685e8de7f00a35ce701c319fca",
+        "android": "7a43b0908f3fdf6fcfbbcf0406913e65",
+        "web": "a6b2dacb1b4e313984b3a6ddcc722f0a",
+        "unity": "e257d4635d309136d6169701466e2e28"
+      },
+      "duration_ms": 200,
+      "file_sizes_kb": {
+        "ios": 8.0,
+        "android": 9.5,
+        "web": 8.6,
+        "unity": 41.4
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "neutral, non-punitive, calm",
+      "context": "Plays when player attempts impossible moves"
+    },
+    {
+      "sound_id": "SFX-001",
+      "name": "resonance_kling_match",
+      "category": "sfx",
+      "description": "Resonant match sound that echoes instead of bursting; core gameplay feedback for successful stone matches",
+      "files": {
+        "ios": "ios/SFX-001.m4a",
+        "android": "android/SFX-001.ogg",
+        "web": "web/SFX-001.mp3",
+        "unity": "unity/SFX-001.wav"
+      },
+      "checksums": {
+        "ios": "bf5df61db6701dc43819bc48877e6b65",
+        "android": "6eecdf5723823956a0c26eda8a9f7e8c",
+        "web": "dad055222ec65976b1961f3fd5b3a486",
+        "unity": "dc068a8a768de41fc996000f74182972"
+      },
+      "duration_ms": 1500,
+      "file_sizes_kb": {
+        "ios": 23.3,
+        "android": 22.9,
+        "web": 24.1,
+        "unity": 127.6
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "warm, resonant, satisfying",
+      "context": "Plays when two or more stones match in the core gameplay loop"
+    },
+    {
+      "sound_id": "SFX-002",
+      "name": "cascade_tone_rising",
+      "category": "sfx",
+      "description": "Ascending tones during stone cascades that signal success; part of the adaptive sound layer",
+      "files": {
+        "ios": "ios/SFX-002.m4a",
+        "android": "android/SFX-002.ogg",
+        "web": "web/SFX-002.mp3",
+        "unity": "unity/SFX-002.wav"
+      },
+      "checksums": {
+        "ios": "e77599a30619f23776b214f5af8916fa",
+        "android": "5e3972a4d127503c818d70c054bfe532",
+        "web": "9306f784b05a82ecba4191d805089a6f",
+        "unity": "a2c2c89569ac5fe451b52df36f4c0a92"
+      },
+      "duration_ms": 1500,
+      "file_sizes_kb": {
+        "ios": 23.4,
+        "android": 20.0,
+        "web": 24.1,
+        "unity": 127.6
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "uplifting, successful, rhythmic",
+      "context": "Plays during stone fall cascades in the core gameplay loop"
+    },
+    {
+      "sound_id": "SFX-003",
+      "name": "movement_whoosh_drag",
+      "category": "sfx",
+      "description": "Very quiet whoosh sound during stone drag movements; subtle feedback for player action",
+      "files": {
+        "ios": "ios/SFX-003.m4a",
+        "android": "android/SFX-003.ogg",
+        "web": "web/SFX-003.mp3",
+        "unity": "unity/SFX-003.wav"
+      },
+      "checksums": {
+        "ios": "7b440655d91f76cccb72d7e20f73d6a5",
+        "android": "5c32cee0f39935d7af0b14d6a5755500",
+        "web": "df537b60b53d4f9e836109048879a110",
+        "unity": "88a37791dd27c421d1a4c5d392b932fd"
+      },
+      "duration_ms": 500,
+      "file_sizes_kb": {
+        "ios": 8.2,
+        "android": 12.2,
+        "web": 8.6,
+        "unity": 41.4
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "subtle, organic, barely perceptible",
+      "context": "Plays when player drags stones during gameplay"
+    },
+    {
+      "sound_id": "SFX-004",
+      "name": "snap_feedback_stone",
+      "category": "ui_sound",
+      "description": "Medium snap sound when stones lock into place after a valid move",
+      "files": {
+        "ios": "ios/SFX-004.m4a",
+        "android": "android/SFX-004.ogg",
+        "web": "web/SFX-004.mp3",
+        "unity": "unity/SFX-004.wav"
+      },
+      "checksums": {
+        "ios": "5a83ef04d9d6a3c58698f67692697196",
+        "android": "f91ea503b0e46ffd914734a2d86db90a",
+        "web": "3a51fe24ba7b1c17684d20660caeb77b",
+        "unity": "cc65b03321a26320bcc3003611c11004"
+      },
+      "duration_ms": 300,
+      "file_sizes_kb": {
+        "ios": 8.1,
+        "android": 12.5,
+        "web": 8.6,
+        "unity": 41.4
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "precise, confirming, neutral",
+      "context": "Plays when a stone snaps into place during gameplay"
+    },
+    {
+      "sound_id": "SFX-005",
+      "name": "rumble_cascade_combo",
+      "category": "sfx",
+      "description": "Deep rumble that fades like a tuning fork after cascades; intensity scales with combo size (3-match=80ms, 5-match=200ms)",
+      "files": {
+        "ios": "ios/SFX-005.m4a",
+        "android": "android/SFX-005.ogg",
+        "web": "web/SFX-005.mp3",
+        "unity": "unity/SFX-005.wav"
+      },
+      "checksums": {
+        "ios": "0f759c63c14648b866d4a4ce579b7498",
+        "android": "b116fbba80e0f46dade47aa271a8e87d",
+        "web": "542f9501da674f7d3f9793bce031f2f2",
+        "unity": "141aceb7adcd14deeec2ea277768574f"
+      },
+      "duration_ms": 200,
+      "file_sizes_kb": {
+        "ios": 8.0,
+        "android": 8.7,
+        "web": 8.6,
+        "unity": 41.4
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "satisfying, resonant, fading",
+      "context": "Plays after successful cascade combos in the core gameplay loop"
+    },
+    {
+      "sound_id": "SFX-006",
+      "name": "stone_touch_echo",
+      "category": "ui_sound",
+      "description": "Single crystal-like tone that forms the EchoMatch logo during splash screen; heartbeat-like echo on slow connections",
+      "files": {
+        "ios": "ios/SFX-006.m4a",
+        "android": "android/SFX-006.ogg",
+        "web": "web/SFX-006.mp3",
+        "unity": "unity/SFX-006.wav"
+      },
+      "checksums": {
+        "ios": "228796ab986269dd67a1d9f367343c4b",
+        "android": "9d2bdbeba8185c4c8638866d1e3dfafa",
+        "web": "cc872c20e31068d647bafd096d6cd36b",
+        "unity": "1e34cf0297b7de1201f608bceba79575"
+      },
+      "duration_ms": 1500,
+      "file_sizes_kb": {
+        "ios": 23.5,
+        "android": 20.4,
+        "web": 24.1,
+        "unity": 127.6
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "crisp, elegant, minimal",
+      "context": "Plays during splash screen animation when app loads"
+    },
+    {
+      "sound_id": "SFX-007",
+      "name": "special_stone_bomb",
+      "category": "sfx",
+      "description": "Deep booming sound for bomb special stones",
+      "files": {
+        "ios": "ios/SFX-007.m4a",
+        "android": "android/SFX-007.ogg",
+        "web": "web/SFX-007.mp3",
+        "unity": "unity/SFX-007.wav"
+      },
+      "checksums": {
+        "ios": "9ea86c9b5d5cbcc59887b2140ab9ee92",
+        "android": "6ed729f4c2cc9a8f8febff62d01230cd",
+        "web": "3ad899b1ce1826dfedb4481dad51bdfc",
+        "unity": "2f93642250cac5d22ed856292136ad7d"
+      },
+      "duration_ms": 800,
+      "file_sizes_kb": {
+        "ios": 12.9,
+        "android": 12.3,
+        "web": 13.5,
+        "unity": 69.0
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "powerful, resonant, impactful",
+      "context": "Plays when bomb special stones are activated"
+    },
+    {
+      "sound_id": "SFX-008",
+      "name": "special_stone_line_clearer",
+      "category": "sfx",
+      "description": "High sweeping sound for line-clearer special stones",
+      "files": {
+        "ios": "ios/SFX-008.m4a",
+        "android": "android/SFX-008.ogg",
+        "web": "web/SFX-008.mp3",
+        "unity": "unity/SFX-008.wav"
+      },
+      "checksums": {
+        "ios": "ca987a5ea64b3188f666d0695df1b4e3",
+        "android": "2fa22ebba7418a742989588aef98829f",
+        "web": "449011e5d903c853c2d84d0777f9d191",
+        "unity": "73e13ab4e2573f9fdbe12a878fc04540"
+      },
+      "duration_ms": 600,
+      "file_sizes_kb": {
+        "ios": 9.7,
+        "android": 12.4,
+        "web": 10.2,
+        "unity": 51.8
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "sharp, clean, efficient",
+      "context": "Plays when line-clearer special stones are activated"
+    },
+    {
+      "sound_id": "SFX-009",
+      "name": "special_stone_color_bomb",
+      "category": "sfx",
+      "description": "Short harmonic chord sequence for color-bomb special stones",
+      "files": {
+        "ios": "ios/SFX-009.m4a",
+        "android": "android/SFX-009.ogg",
+        "web": "web/SFX-009.mp3",
+        "unity": "unity/SFX-009.wav"
+      },
+      "checksums": {
+        "ios": "d6d1c86b653588b37ec44344c762f6b1",
+        "android": "9f8755abdd8b2ad69ae7e536b296145d",
+        "web": "605f814dd622b7eb0338604e0206e734",
+        "unity": "9e834951f7cbcaa6893628a1a8ad2513"
+      },
+      "duration_ms": 400,
+      "file_sizes_kb": {
+        "ios": 8.1,
+        "android": 9.3,
+        "web": 8.6,
+        "unity": 41.4
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "harmonic, magical, satisfying",
+      "context": "Plays when color-bomb special stones are activated"
+    },
+    {
+      "sound_id": "SFX-010",
+      "name": "tick_drag_start",
+      "category": "ui_sound",
+      "description": "Light ticking sound when stone drag starts; first layer of three-part haptic+audio feedback",
+      "files": {
+        "ios": "ios/SFX-010.m4a",
+        "android": "android/SFX-010.ogg",
+        "web": "web/SFX-010.mp3",
+        "unity": "unity/SFX-010.wav"
+      },
+      "checksums": {
+        "ios": "c6d608341d43962e04582ddf58fe7ffa",
+        "android": "3e226d2bd5b2dd41a488bb4921ff670d",
+        "web": "f649e547529adde9ac8059db89cb34eb",
+        "unity": "00c7c1e4470e9c4091fb578e1f97da82"
+      },
+      "duration_ms": 100,
+      "file_sizes_kb": {
+        "ios": 8.0,
+        "android": 10.2,
+        "web": 8.6,
+        "unity": 41.4
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "subtle, beginning, neutral",
+      "context": "Plays when player starts dragging a stone in the core gameplay loop"
+    },
+    {
+      "sound_id": "UI-001",
+      "name": "npc_comment_appear",
+      "category": "ui_sound",
+      "description": "Sound when Story-NPC appears in Home Hub with contextual comment",
+      "files": {
+        "ios": "ios/UI-001.m4a",
+        "android": "android/UI-001.ogg",
+        "web": "web/UI-001.mp3",
+        "unity": "unity/UI-001.wav"
+      },
+      "checksums": {
+        "ios": "623b4e4d8bfe8ce4981c4d54a92244dd",
+        "android": "36a790f1865e194acf6c278c88680558",
+        "web": "7fdeccdfd22a90fb7158324713e4f415",
+        "unity": "06237646b0695e99e6f104b7b28b8a33"
+      },
+      "duration_ms": 400,
+      "file_sizes_kb": {
+        "ios": 8.0,
+        "android": 9.3,
+        "web": 8.6,
+        "unity": 41.4
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "intimate, narrative, warm",
+      "context": "Plays when Story-NPC appears after a lost level"
+    },
+    {
+      "sound_id": "UI-002",
+      "name": "consent_rising_card",
+      "category": "ui_sound",
+      "description": "Sound for rising consent card in DSGVO/legal screens",
+      "files": {
+        "ios": "ios/UI-002.m4a",
+        "android": "android/UI-002.ogg",
+        "web": "web/UI-002.mp3",
+        "unity": "unity/UI-002.wav"
+      },
+      "checksums": {
+        "ios": "128827af603086bb32eb7c4cdec5afbe",
+        "android": "305313fdb635744742e6f29863587bf1",
+        "web": "b7822fb779583718381e16b4a799cf20",
+        "unity": "34c13c13819d077681fcd0121e1bdd60"
+      },
+      "duration_ms": 800,
+      "file_sizes_kb": {
+        "ios": 12.9,
+        "android": 13.1,
+        "web": 13.5,
+        "unity": 69.0
+      },
+      "generated_by": "elevenlabs_sfx",
+      "generation_cost_usd": 0.01,
+      "quality_score": null,
+      "status": "ready",
+      "loop_seamless": false,
+      "mood": "respectful, clear, neutral",
+      "context": "Plays when consent card rises in legal screens"
+    }
+  ],
+  "failed_sounds": [],
+  "warnings": []
+}

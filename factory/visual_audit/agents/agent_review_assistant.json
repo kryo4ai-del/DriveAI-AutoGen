@@ -1,0 +1,16 @@
+{
+  "id": "SWF-22",
+  "name": "Review-Assistant",
+  "role": "Interactive Reviewer",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Kapitel 5",
+  "task_type": "review",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Interaktiv bei Human Review Gate",
+  "py_file": "review_assistant.py"
+}

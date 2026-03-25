@@ -1,0 +1,15 @@
+{
+  "id": "CPL-10",
+  "name": "Product Strategist",
+  "role": "Product Strategy",
+  "department": "Code-Pipeline",
+  "status": "active",
+  "task_type": "strategy",
+  "model_tier": "standard",
+  "default_model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Produkt-Strategie und Feature-Priorisierung",
+  "py_file": "product_strategist.py"
+}

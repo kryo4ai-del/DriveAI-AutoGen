@@ -1,30 +1,53 @@
 import { useState, useEffect } from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, ArrowLeft, Star, FileText, Loader2 } from 'lucide-react';
+
+const SEVERITY_STYLES = {
+  blocking: { border: 'border-factory-error', bg: 'bg-factory-error/10', badge: 'bg-factory-error text-white', label: 'Blocking' },
+  warning:  { border: 'border-factory-warning', bg: 'bg-factory-warning/10', badge: 'bg-factory-warning text-factory-bg', label: 'Warning' },
+  info:     { border: 'border-factory-accent-blue', bg: 'bg-factory-accent-blue/10', badge: 'bg-factory-accent-blue text-white', label: 'Info' },
+};
+
+const OPTION_COLORS = {
+  green:  'bg-factory-success hover:bg-factory-success/80 text-white',
+  orange: 'bg-factory-warning hover:bg-factory-warning/80 text-factory-bg',
+  yellow: 'bg-yellow-500 hover:bg-yellow-400 text-factory-bg',
+  red:    'bg-factory-error hover:bg-factory-error/80 text-white',
+  blue:   'bg-factory-accent-blue hover:bg-factory-accent-blue/80 text-white',
+};
+
+const OPTION_COLORS_INACTIVE = {
+  green:  'border-factory-success/50 text-factory-success hover:bg-factory-success/20',
+  orange: 'border-factory-warning/50 text-factory-warning hover:bg-factory-warning/20',
+  yellow: 'border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/20',
+  red:    'border-factory-error/50 text-factory-error hover:bg-factory-error/20',
+  blue:   'border-factory-accent-blue/50 text-factory-accent-blue hover:bg-factory-accent-blue/20',
+};
 
 export default function GateInbox() {
   const [gates, setGates] = useState([]);
-  const [selectedGate, setSelectedGate] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedGate, setSelectedGate] = useState(null);
+  const [filterCategory, setFilterCategory] = useState('all');
 
-  useEffect(() => {
-    fetchGates();
-    const interval = setInterval(fetchGates, 15000);
-    return () => clearInterval(interval);
-  }, []);
+  useEffect(() => { fetchGates(); }, []);
 
   async function fetchGates() {
     try {
       const res = await fetch('/api/gates');
       const data = await res.json();
       setGates(data.gates || []);
-    } catch (err) {
-      console.error('Failed to fetch gates:', err);
-    } finally {
-      setLoading(false);
-    }
+    } catch (err) { console.error(err); }
+    finally { setLoading(false); }
   }
 
   if (loading) return <p className="text-factory-text-secondary">Lade Gates...</p>;
+
+  if (selectedGate) {
+    return <GateDetail gate={selectedGate} onBack={() => { setSelectedGate(null); fetchGates(); }} />;
+  }
+
+  const categories = ['all', ...new Set(gates.map(g => g.category).filter(Boolean))];
+  const filtered = filterCategory === 'all' ? gates : gates.filter(g => g.category === filterCategory);
 
   if (gates.length === 0) {
     return (
@@ -36,81 +59,87 @@ export default function GateInbox() {
     );
   }
 
-  if (selectedGate) {
-    return <GateDecisionView gate={selectedGate} onBack={() => { setSelectedGate(null); fetchGates(); }} />;
-  }
-
   return (
     <div>
-      <div className="mb-6">
-        <p className="text-factory-text-secondary">{gates.length} Gate{gates.length > 1 ? 's' : ''} warten auf Entscheidung</p>
-      </div>
-      <div className="space-y-4">
-        {gates.map((gate) => (
-          <div
-            key={`${gate.project_id}-${gate.gate_type}`}
-            onClick={() => setSelectedGate(gate)}
-            className="bg-factory-surface border-2 border-factory-error rounded-xl p-6 cursor-pointer hover:bg-factory-surface-hover transition-all animate-blink-red"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-bold text-factory-text">{gate.project_title}</h3>
-                <p className="text-factory-warning font-medium mt-1">{gate.gate_label}</p>
-                <p className="text-sm text-factory-text-secondary mt-1">Wartet seit {gate.since}</p>
-              </div>
-              <span className="px-4 py-2 bg-factory-error/20 text-factory-error font-bold rounded-lg text-sm">
-                ENTSCHEIDUNG
-              </span>
-            </div>
-          </div>
+      {/* Category filter */}
+      <div className="flex items-center gap-2 mb-4">
+        {categories.map(c => (
+          <button key={c} onClick={() => setFilterCategory(c)}
+            className={`px-3 py-1 rounded-lg text-xs transition-colors ${
+              filterCategory === c ? 'bg-factory-accent text-factory-bg' : 'bg-factory-surface text-factory-text-secondary hover:text-factory-text'
+            }`}>
+            {c === 'all' ? `Alle (${gates.length})` : `${c} (${gates.filter(g => g.category === c).length})`}
+          </button>
         ))}
+      </div>
+
+      {/* Gate cards */}
+      <div className="space-y-3">
+        {filtered.map(gate => {
+          const sev = SEVERITY_STYLES[gate.severity] || SEVERITY_STYLES.info;
+          const age = gate.created_at ? timeSince(gate.created_at) : '';
+
+          return (
+            <div key={gate.gate_id} onClick={() => setSelectedGate(gate)}
+              className={`${sev.bg} border-2 ${sev.border} rounded-xl p-5 cursor-pointer hover:brightness-110 transition-all`}>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${sev.badge}`}>{sev.label}</span>
+                    <span className="text-[10px] text-factory-text-secondary">{gate.category}</span>
+                    {gate.platform && <span className="text-[10px] px-1.5 py-0.5 bg-factory-border rounded text-factory-text-secondary">{gate.platform}</span>}
+                  </div>
+                  <h3 className="text-factory-text font-bold">{gate.title}</h3>
+                  <p className="text-sm text-factory-text-secondary mt-1">{gate.project} {age ? `• ${age}` : ''}</p>
+                </div>
+                {gate.recommendation && (
+                  <div className="flex items-center gap-1 text-factory-warning text-xs">
+                    <Star size={12} /> Empfehlung
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 }
 
-function GateDecisionView({ gate, onBack }) {
-  const [decision, setDecision] = useState(null);
-  const [reasoning, setReasoning] = useState('');
-  const [autoTrigger, setAutoTrigger] = useState(true);
+function GateDetail({ gate, onBack }) {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
 
+  const sev = SEVERITY_STYLES[gate.severity] || SEVERITY_STYLES.info;
+  const recId = gate.recommendation?.option_id;
+
   async function submitDecision() {
-    if (!decision) return;
+    if (!selectedOption) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/gates/${gate.project_id}/decide`, {
+      const res = await fetch(`/api/gates/${gate.gate_id}/decide`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ gate_type: gate.gate_type, decision, reasoning, auto_trigger: autoTrigger }),
+        body: JSON.stringify({ decision: selectedOption, notes }),
       });
-      setResult(await res.json());
+      const data = await res.json();
+      setResult(data);
     } catch (err) {
-      console.error('Gate decision failed:', err);
-    } finally {
-      setSubmitting(false);
-    }
+      setResult({ error: err.message });
+    } finally { setSubmitting(false); }
   }
 
-  if (result) {
-    const isKill = result.decision === 'KILL';
+  if (result && !result.error) {
+    const chosenOpt = (gate.options || []).find(o => o.id === result.decision);
     return (
       <div className="max-w-2xl mx-auto">
-        <div className={`p-8 rounded-xl border-2 ${isKill ? 'border-factory-error bg-factory-error/10' : 'border-factory-success bg-factory-success/10'}`}>
-          <h2 className="text-2xl font-bold text-factory-text mb-2">
-            {isKill ? 'Projekt beendet' : 'Entscheidung gespeichert'}
-          </h2>
-          <p className="text-factory-text-secondary mb-4">
-            {result.gate_type === 'ceo_gate' ? 'CEO-Gate' : 'Human Review Gate'}: {result.decision}
-          </p>
-          <p className="text-sm text-factory-text-secondary">Neuer Status: {result.project_status}</p>
-          {result.next_pipeline && (
-            <p className="text-sm text-factory-accent mt-2">Pipeline gestartet</p>
-          )}
-          <button onClick={onBack} className="mt-6 px-6 py-2 bg-factory-accent text-factory-bg rounded-lg font-medium hover:bg-factory-accent/80">
-            Zurueck
-          </button>
+        <div className="p-8 rounded-xl border-2 border-factory-success bg-factory-success/10">
+          <h2 className="text-2xl font-bold text-factory-text mb-2">Entscheidung gespeichert</h2>
+          <p className="text-factory-text-secondary">{gate.title}: {chosenOpt?.label || result.decision}</p>
+          {result.decision_notes && <p className="text-sm text-factory-text-secondary mt-1">Notiz: {result.decision_notes}</p>}
+          <button onClick={onBack} className="mt-6 px-6 py-2 bg-factory-accent text-factory-bg rounded-lg font-medium">Zurueck</button>
         </div>
       </div>
     );
@@ -118,88 +147,117 @@ function GateDecisionView({ gate, onBack }) {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <button onClick={onBack} className="text-factory-text-secondary hover:text-factory-text mb-6 flex items-center gap-2 text-sm">
-        &#8592; Zurueck zu Gates
+      <button onClick={onBack} className="text-factory-text-secondary hover:text-factory-text mb-4 text-sm flex items-center gap-1">
+        <ArrowLeft size={14} /> Zurueck
       </button>
 
-      <div className="bg-factory-surface rounded-xl border border-factory-border p-6 mb-6">
-        <h2 className="text-xl font-bold text-factory-text">{gate.project_title}</h2>
-        <p className="text-factory-warning font-medium mt-1">{gate.gate_label}</p>
-        {gate.summary?.hint && (
-          <p className="text-sm text-factory-text-secondary mt-3">{gate.summary.hint}</p>
-        )}
+      {/* Header */}
+      <div className={`${sev.bg} border ${sev.border} rounded-xl p-5 mb-4`}>
+        <div className="flex items-center gap-2 mb-2">
+          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${sev.badge}`}>{sev.label}</span>
+          <span className="text-xs text-factory-text-secondary">{gate.gate_type}</span>
+          {gate.platform && <span className="text-xs px-1.5 py-0.5 bg-factory-border rounded text-factory-text-secondary">{gate.platform}</span>}
+        </div>
+        <h2 className="text-xl font-bold text-factory-text">{gate.title}</h2>
+        <p className="text-sm text-factory-text-secondary mt-2">{gate.description}</p>
+        <p className="text-xs text-factory-text-secondary mt-2">Projekt: {gate.project} • Von: {gate.source_agent} • {gate.source_department}</p>
       </div>
 
-      {gate.summary && (
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          {gate.gate_type === 'ceo_gate' && (
-            <>
-              <MetricCard label="Kapitel abgeschlossen" value={gate.summary.chapters_complete || 0} />
-              <MetricCard label="SerpAPI Credits" value={gate.summary.serpapi_credits || 0} />
-            </>
+      {/* Context */}
+      {gate.context && Object.keys(gate.context).length > 0 && (
+        <div className="bg-factory-surface rounded-xl border border-factory-border p-4 mb-4">
+          <p className="text-xs text-factory-text-secondary mb-2 font-medium">Kontext</p>
+          {/* Reports as clickable chips */}
+          {gate.context.reports && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {gate.context.reports.map((r, i) => (
+                <button key={i} onClick={() => window.open(`/api/documents/${gate.project}/view/phase1/${r.path?.split('/').pop() || r.label}`, '_blank')}
+                  className="flex items-center gap-1 px-2 py-1 bg-factory-bg rounded text-xs text-factory-accent-blue hover:text-factory-accent">
+                  <FileText size={10} /> {r.label}
+                </button>
+              ))}
+            </div>
           )}
-          {gate.gate_type === 'visual_review' && (
-            <>
-              <MetricCard label="Assets gesamt" value={gate.summary.assets_total || 0} />
-              <MetricCard label="Launch-kritisch" value={gate.summary.assets_critical || 0} />
-              <MetricCard label="Blocker" value={gate.summary.blocker_count || 0} color="error" />
-              <MetricCard label="KI-Warnungen" value={gate.summary.ki_warnings || 0} color="warning" />
-            </>
+          {/* Other context as key-value */}
+          {Object.entries(gate.context).filter(([k]) => k !== 'reports').map(([k, v]) => (
+            <div key={k} className="text-xs mb-1">
+              <span className="text-factory-text-secondary">{k}: </span>
+              <span className="text-factory-text">{typeof v === 'object' ? JSON.stringify(v) : String(v)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Recommendation */}
+      {gate.recommendation && (
+        <div className="bg-factory-warning/10 border border-factory-warning/30 rounded-xl p-4 mb-4">
+          <div className="flex items-center gap-2 mb-1">
+            <Star size={14} className="text-factory-warning" />
+            <span className="text-sm font-medium text-factory-warning">Agent empfiehlt: {(gate.options || []).find(o => o.id === recId)?.label || recId}</span>
+          </div>
+          {gate.recommendation.reasoning && (
+            <p className="text-xs text-factory-text-secondary mt-1">{gate.recommendation.reasoning}</p>
           )}
         </div>
       )}
 
-      <div className="bg-factory-surface rounded-xl border border-factory-border p-6">
-        <h3 className="text-lg font-semibold text-factory-text mb-4">Entscheidung</h3>
-
-        <div className="flex gap-4 mb-6">
-          {['GO', 'GO_MIT_NOTES', 'KILL'].map((d) => {
-            const colors = {
-              GO: { active: 'bg-factory-success text-white shadow-lg shadow-factory-success/30', inactive: 'bg-factory-success/20 text-factory-success hover:bg-factory-success/30' },
-              GO_MIT_NOTES: { active: 'bg-factory-warning text-white shadow-lg shadow-factory-warning/30', inactive: 'bg-factory-warning/20 text-factory-warning hover:bg-factory-warning/30' },
-              KILL: { active: 'bg-factory-error text-white shadow-lg shadow-factory-error/30', inactive: 'bg-factory-error/20 text-factory-error hover:bg-factory-error/30' },
-            };
-            const labels = { GO: 'GO', GO_MIT_NOTES: 'GO mit Auflagen', KILL: 'KILL' };
+      {/* Options */}
+      <div className="bg-factory-surface rounded-xl border border-factory-border p-5 mb-4">
+        <p className="text-sm font-medium text-factory-text mb-3">Entscheidung</p>
+        <div className="flex flex-wrap gap-3">
+          {(gate.options || []).map(opt => {
+            const isSelected = selectedOption === opt.id;
+            const isRec = opt.id === recId;
             return (
-              <button key={d} onClick={() => setDecision(d)}
-                className={`flex-1 py-4 rounded-xl font-bold text-lg transition-all ${decision === d ? colors[d].active : colors[d].inactive}`}>
-                {labels[d]}
+              <button key={opt.id} onClick={() => setSelectedOption(opt.id)}
+                className={`flex-1 min-w-[120px] py-3 px-4 rounded-xl font-bold text-sm transition-all border-2 ${
+                  isSelected
+                    ? OPTION_COLORS[opt.color] || OPTION_COLORS.blue
+                    : `bg-transparent ${OPTION_COLORS_INACTIVE[opt.color] || 'border-factory-border text-factory-text-secondary'}`
+                } ${isRec && !isSelected ? 'ring-2 ring-factory-warning/30' : ''}`}
+                title={opt.description || ''}>
+                {opt.label}
+                {isRec && <span className="ml-1 text-[10px]">★</span>}
               </button>
             );
           })}
         </div>
-
-        <textarea value={reasoning} onChange={(e) => setReasoning(e.target.value)}
-          placeholder="Anmerkungen oder Auflagen (optional)..."
-          className="w-full bg-factory-bg border border-factory-border rounded-lg p-4 text-factory-text placeholder-factory-text-secondary resize-none h-24 focus:border-factory-accent focus:outline-none" />
-
-        {decision && decision !== 'KILL' && (
-          <label className="flex items-center gap-3 mt-4 cursor-pointer">
-            <input type="checkbox" checked={autoTrigger} onChange={(e) => setAutoTrigger(e.target.checked)}
-              className="w-4 h-4 accent-factory-accent" />
-            <span className="text-sm text-factory-text-secondary">Naechste Pipeline automatisch starten</span>
-          </label>
+        {/* Option descriptions */}
+        {selectedOption && (
+          <p className="text-xs text-factory-text-secondary mt-2">
+            {(gate.options || []).find(o => o.id === selectedOption)?.description || ''}
+          </p>
         )}
-
-        <button onClick={submitDecision} disabled={!decision || submitting}
-          className={`w-full mt-6 py-3 rounded-xl font-bold text-lg transition-all ${
-            !decision || submitting
-              ? 'bg-factory-border text-factory-text-secondary cursor-not-allowed'
-              : 'bg-factory-accent text-factory-bg hover:bg-factory-accent/80'
-          }`}>
-          {submitting ? 'Wird gespeichert...' : 'Entscheidung bestaetigen'}
-        </button>
       </div>
+
+      {/* Notes */}
+      {gate.notes_field !== false && (
+        <textarea value={notes} onChange={e => setNotes(e.target.value)}
+          placeholder={gate.notes_placeholder || 'Anmerkungen...'}
+          className="w-full bg-factory-bg border border-factory-border rounded-lg p-3 text-sm text-factory-text placeholder-factory-text-secondary resize-none h-20 focus:border-factory-accent focus:outline-none mb-4" />
+      )}
+
+      {/* Submit */}
+      <button onClick={submitDecision} disabled={!selectedOption || submitting}
+        className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${
+          selectedOption && !submitting
+            ? 'bg-factory-accent text-factory-bg hover:bg-factory-accent/80'
+            : 'bg-factory-border text-factory-text-secondary cursor-not-allowed'
+        }`}>
+        {submitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={16} className="animate-spin" /> Wird gespeichert...</span> : 'Entscheidung bestaetigen'}
+      </button>
+
+      {result?.error && <p className="text-factory-error text-sm mt-2">Fehler: {result.error}</p>}
     </div>
   );
 }
 
-function MetricCard({ label, value, color = 'text' }) {
-  const cls = color === 'error' ? 'text-factory-error' : color === 'warning' ? 'text-factory-warning' : 'text-factory-text';
-  return (
-    <div className="bg-factory-surface rounded-lg border border-factory-border p-4">
-      <p className="text-sm text-factory-text-secondary">{label}</p>
-      <p className={`text-2xl font-bold ${cls}`}>{value}</p>
-    </div>
-  );
+function timeSince(dateStr) {
+  try {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const hours = Math.floor(diff / 3600000);
+    if (hours < 1) return 'gerade eben';
+    if (hours < 24) return `seit ${hours}h`;
+    return `seit ${Math.floor(hours / 24)}d`;
+  } catch { return ''; }
 }

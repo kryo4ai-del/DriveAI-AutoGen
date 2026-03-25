@@ -109,6 +109,33 @@ def _parse_args() -> dict:
         "no_llm_repair": False,
         "repair_model": "claude-haiku-4-5",
         "create_handoff": None,
+        "mac_generate": None,
+        "mac_feature": None,
+        "mac_spec": None,
+        "mac_spec_file": None,
+        "mac_files": None,
+        "mac_result": None,
+        "brain_services": False,
+        "brain_services_health": False,
+        "brain_services_costs": False,
+        "brain_scout": None,
+        # QA Department
+        "qa": None,
+        "qa_status": None,
+        "qa_reset_bounces": None,
+        "platform": None,
+        # Store Prep
+        "store_prep": None,
+        "store_prep_status": None,
+        "metadata_only": False,
+        "compliance_only": False,
+        # Signing & Packaging
+        "sign": None,
+        "check_credentials": None,
+        "show_version": None,
+        "bump_version": None,
+        "version_type": "patch",
+        "list_artifacts": None,
     }
     explicit_mode = None
     explicit_approval = None
@@ -268,6 +295,18 @@ def _parse_args() -> dict:
         elif args[i] == "--agent" and i + 1 < len(args):
             result["brain_benchmark_agent"] = args[i + 1]
             i += 2
+        elif args[i] == "--brain-services":
+            result["brain_services"] = True
+            i += 1
+        elif args[i] == "--brain-services-health":
+            result["brain_services_health"] = True
+            i += 1
+        elif args[i] == "--brain-services-costs":
+            result["brain_services_costs"] = True
+            i += 1
+        elif args[i] == "--brain-scout" and i + 1 < len(args):
+            result["brain_scout"] = args[i + 1]
+            i += 2
         elif args[i] == "--hybrid-pipeline":
             result["hybrid_pipeline"] = True
             i += 1
@@ -316,6 +355,66 @@ def _parse_args() -> dict:
             result["create_handoff"] = args[i + 1]
             i += 2
             i += 1
+        elif args[i] == "--mac-generate" and i + 1 < len(args):
+            result["mac_generate"] = args[i + 1]
+            i += 2
+        elif args[i] == "--feature" and i + 1 < len(args):
+            result["mac_feature"] = args[i + 1]
+            i += 2
+        elif args[i] == "--spec" and i + 1 < len(args):
+            result["mac_spec"] = args[i + 1]
+            i += 2
+        elif args[i] == "--spec-file" and i + 1 < len(args):
+            result["mac_spec_file"] = args[i + 1]
+            i += 2
+        elif args[i] == "--files" and i + 1 < len(args):
+            result["mac_files"] = args[i + 1]
+            i += 2
+        elif args[i] == "--mac-result" and i + 1 < len(args):
+            result["mac_result"] = args[i + 1]
+            i += 2
+        elif args[i] == "--qa" and i + 1 < len(args):
+            result["qa"] = args[i + 1]
+            i += 2
+        elif args[i] == "--qa-status" and i + 1 < len(args):
+            result["qa_status"] = args[i + 1]
+            i += 2
+        elif args[i] == "--qa-reset-bounces" and i + 1 < len(args):
+            result["qa_reset_bounces"] = args[i + 1]
+            i += 2
+        elif args[i] == "--platform" and i + 1 < len(args):
+            result["platform"] = args[i + 1].lower()
+            i += 2
+        elif args[i] == "--store-prep" and i + 1 < len(args):
+            result["store_prep"] = args[i + 1]
+            i += 2
+        elif args[i] == "--store-prep-status" and i + 1 < len(args):
+            result["store_prep_status"] = args[i + 1]
+            i += 2
+        elif args[i] == "--metadata-only":
+            result["metadata_only"] = True
+            i += 1
+        elif args[i] == "--compliance-only":
+            result["compliance_only"] = True
+            i += 1
+        elif args[i] == "--sign" and i + 1 < len(args):
+            result["sign"] = args[i + 1]
+            i += 2
+        elif args[i] == "--check-credentials" and i + 1 < len(args):
+            result["check_credentials"] = args[i + 1]
+            i += 2
+        elif args[i] == "--show-version" and i + 1 < len(args):
+            result["show_version"] = args[i + 1]
+            i += 2
+        elif args[i] == "--bump-version" and i + 1 < len(args):
+            result["bump_version"] = args[i + 1]
+            i += 2
+        elif args[i] == "--version-type" and i + 1 < len(args):
+            result["version_type"] = args[i + 1].lower()
+            i += 2
+        elif args[i] == "--list-artifacts" and i + 1 < len(args):
+            result["list_artifacts"] = args[i + 1]
+            i += 2
         elif args[i] == "--factory-submit":
             result["factory_submit"] = True
             i += 1
@@ -689,6 +788,56 @@ async def main():
                           approval=approval_mode or "auto")
         return
 
+    # ── Mac Generate commands ─────────────────────────────────
+    if a["mac_result"]:
+        from factory.mac_bridge.generate_command import check_result
+        result = check_result(a["mac_result"])
+        if result:
+            import json as _json
+            print(_json.dumps(result, indent=2))
+        else:
+            print(f"No result yet for {a['mac_result']}")
+        return
+
+    if a["mac_generate"]:
+        from factory.mac_bridge.generate_command import send_generate_and_build, wait_for_result
+
+        project = a["mac_generate"]
+        feature = a["mac_feature"]
+        if not feature:
+            print("Error: --feature <name> required with --mac-generate")
+            return
+
+        spec = a["mac_spec"]
+        if not spec and a["mac_spec_file"]:
+            try:
+                with open(a["mac_spec_file"], encoding="utf-8") as sf:
+                    spec = sf.read().strip()
+            except Exception as e:
+                print(f"Error reading spec file: {e}")
+                return
+        if not spec:
+            print("Error: --spec <text> or --spec-file <path> required with --mac-generate")
+            return
+
+        files_str = a["mac_files"] or ""
+        target_files = [f.strip() for f in files_str.split(",") if f.strip()]
+
+        model = a.get("model") or "claude-sonnet-4-6"
+
+        cmd_id = send_generate_and_build(
+            project=project,
+            feature_name=feature,
+            feature_spec=spec,
+            target_files=target_files,
+            model=model,
+        )
+        print(f"\nWaiting for Mac result (5 min timeout)...")
+        mac_result = wait_for_result(cmd_id, timeout_seconds=300)
+        import json as _json
+        print(_json.dumps(mac_result, indent=2))
+        return
+
     # ── Assembly commands ───────────────────────────────────────
     if a["create_handoff"]:
         from factory.assembly import AssemblyManager
@@ -719,7 +868,325 @@ async def main():
         print(report.summary())
         return
 
-        # Resolve task from file if provided (highest priority)
+    # ── QA Department commands ────────────────────────────────────
+    if a["qa"]:
+        from factory.qa.qa_coordinator import QACoordinator
+        from factory.qa.config import QAConfig
+
+        project = a["qa"]
+        platform = a["platform"]
+
+        if not platform:
+            print("[QA] ERROR: --platform required (ios, android, web, unity, all)")
+            return
+
+        project_dir = os.path.join("projects", project)
+        if not os.path.isdir(project_dir):
+            if os.path.isdir(project):
+                project_dir = project
+            else:
+                print(f"[QA] ERROR: Project directory not found: {project_dir}")
+                return
+
+        platforms = ["ios", "android", "web", "unity"] if platform == "all" else [platform]
+
+        for plat in platforms:
+            print(f"\n{'='*60}")
+            print(f"[QA] Starting QA for {project} / {plat}")
+            print(f"{'='*60}")
+
+            coordinator = QACoordinator(
+                project_name=project,
+                platform=plat,
+                project_dir=project_dir,
+            )
+            result = coordinator.run_qa()
+
+            print(f"\n[QA] === Result: {result.status} ===")
+            if result.report_path:
+                print(f"[QA] Report: {result.report_path}")
+            if result.status == "BOUNCED":
+                print(f"[QA] Bounced (#{result.bounce_count}): {result.recommendation}")
+            elif result.status == "ESCALATED":
+                print(f"[QA] Escalated to CEO Gate")
+            elif result.status == "PASSED":
+                print(f"[QA] All checks passed. Ready for Store Preparation.")
+            elif result.status in ("FAILED", "ERROR"):
+                print(f"[QA] {result.recommendation}")
+        return
+
+    if a["qa_status"]:
+        from factory.qa.bounce_tracker import BounceTracker
+        import glob
+
+        project = a["qa_status"]
+        platforms = ["ios", "android", "web", "unity"]
+
+        print(f"\n[QA Status] Project: {project}")
+        print(f"{'-'*50}")
+
+        for plat in platforms:
+            tracker = BounceTracker(project, plat)
+            count = tracker.get_count()
+            status_icon = "OK" if count == 0 else f"BOUNCE x{count}"
+            print(f"  {plat:10s} -- Bounces: {count} [{status_icon}]")
+
+        report_pattern = os.path.join("factory", "qa", "reports", f"{project}_*_qa_*.json")
+        reports = sorted(glob.glob(report_pattern), reverse=True)[:5]
+        if reports:
+            print(f"\n[QA Reports] Last {len(reports)} reports:")
+            for r in reports:
+                print(f"  {r}")
+        else:
+            print(f"\n[QA Reports] No reports found.")
+        return
+
+    if a["qa_reset_bounces"]:
+        from factory.qa.bounce_tracker import BounceTracker
+
+        project = a["qa_reset_bounces"]
+        platform = a["platform"]
+
+        if not platform:
+            print("[QA] ERROR: --platform required (ios, android, web, unity, all)")
+            return
+
+        platforms = ["ios", "android", "web", "unity"] if platform == "all" else [platform]
+
+        for plat in platforms:
+            tracker = BounceTracker(project, plat)
+            old_count = tracker.get_count()
+            tracker.reset()
+            print(f"[QA] Reset bounces for {project}/{plat}: {old_count} -> 0")
+        return
+
+    # ── Store Prep commands ──────────────────────────────────────
+    if a["store_prep"]:
+        project = a["store_prep"]
+        platform = a["platform"]
+
+        if not platform:
+            print("[Store Prep] ERROR: --platform required (ios, android, web, unity, all)")
+            return
+
+        platforms = ["ios", "android", "web", "unity"] if platform == "all" else [platform]
+
+        if a["metadata_only"]:
+            # Metadata-only: generate + enrich + adapt, no assets/compliance
+            import types as _types
+            from factory.store_prep.config import StorePrepConfig
+            from factory.store_prep.metadata_enricher import MetadataEnricher
+            from factory.store_prep.platform_metadata import PlatformMetadataAdapter
+
+            config = StorePrepConfig()
+            output_base = os.path.join(config.output_base_dir, project)
+            enricher = MetadataEnricher(project)
+            enrichment = enricher.enrich()
+            adapter = PlatformMetadataAdapter(config)
+
+            for plat in platforms:
+                print(f"\n[Store Prep] Metadata-only: {project} / {plat}")
+                try:
+                    from factory.store.metadata_generator import MetadataGenerator
+                    meta = MetadataGenerator(project).generate(plat)
+                except Exception:
+                    meta = _types.SimpleNamespace(
+                        app_name=project.replace("_", " ").replace("-", " ").title(),
+                        subtitle="", description_de="", description_en="",
+                        keywords="", category_primary="", category_secondary="",
+                        age_rating="4+", privacy_url="", support_url="",
+                        whats_new="Initial release", privacy_policy="",
+                        platforms=[], version="1.0.0",
+                    )
+                platform_meta = adapter.adapt(meta, plat, enrichment)
+                errors = platform_meta.validate()
+                plat_dir = os.path.join(output_base, plat)
+                os.makedirs(plat_dir, exist_ok=True)
+                meta_path = os.path.join(plat_dir, "metadata.json")
+                platform_meta.to_json(meta_path)
+                filled = sum(1 for v in platform_meta.to_dict().values() if v and v != "N/A")
+                print(f"  Metadata saved: {meta_path} ({filled} fields, {len(errors)} errors)")
+                if errors:
+                    for err in errors:
+                        print(f"  Validation: {err}")
+            return
+
+        elif a["compliance_only"]:
+            # Compliance-only: run compliance checks, no metadata/assets
+            from factory.store.compliance_checker import ComplianceChecker
+
+            for plat in platforms:
+                print(f"\n[Store Prep] Compliance-only: {project} / {plat}")
+                report = ComplianceChecker(project).check(plat)
+                print(f"  {report.summary()}")
+                for issue in report.issues:
+                    icon = {"blocking": "BLOCK", "warning": "WARN", "info": "INFO"}[issue.severity]
+                    print(f"  [{icon}] {issue.guideline}: {issue.description}")
+                    print(f"    Fix: {issue.fix_suggestion}")
+            return
+
+        else:
+            # Full Store Prep run (all 4 phases)
+            from factory.store_prep.store_prep_coordinator import StorePrepCoordinator
+
+            coordinator = StorePrepCoordinator(
+                project_name=project,
+                platforms=platforms,
+            )
+            result = coordinator.run()
+            print(f"\n[Store Prep] === Result: {result.status} ===")
+            if result.report_path:
+                print(f"[Store Prep] Report: {result.report_path}")
+            for plat_name, plat_data in result.per_platform.items():
+                print(f"[Store Prep]   {plat_name}: {plat_data.status}")
+            return
+
+    if a["store_prep_status"]:
+        project = a["store_prep_status"]
+        from factory.store_prep.config import StorePrepConfig
+        config = StorePrepConfig()
+        report_path = os.path.join(config.output_base_dir, project, "store_prep_report.json")
+
+        if os.path.exists(report_path):
+            with open(report_path, encoding="utf-8") as f:
+                report_data = json.load(f)
+
+            print(f"\n[Store Prep Status] Project: {report_data.get('project', project)}")
+            print(f"Overall: {report_data.get('overall_status', 'UNKNOWN')}")
+            print(f"Timestamp: {report_data.get('timestamp', '?')}")
+            print(f"{'-'*50}")
+
+            for plat_name, plat_data in report_data.get("platforms", {}).items():
+                meta = plat_data.get("metadata", {})
+                assets = plat_data.get("assets", {})
+                comp = plat_data.get("compliance", {})
+                print(f"\n  {plat_name}:")
+                print(f"    Status: {plat_data.get('status', '?')}")
+                print(f"    Metadata: {meta.get('status', '?')} ({meta.get('fields_complete', 0)} fields)")
+                print(f"    Icon: {assets.get('icon_status', '?')}")
+                print(f"    Screenshots: {assets.get('screenshots_status', '?')} ({assets.get('screenshots_count', 0)})")
+                print(f"    Compliance: {comp.get('status', '?')} ({comp.get('checks_failed', 0)} blocking, {comp.get('checks_warning', 0)} warnings)")
+                print(f"    Privacy: {comp.get('privacy_label_status', '?')}")
+                missing = plat_data.get("missing_items", [])
+                if missing:
+                    for item in missing:
+                        print(f"    Missing: {item}")
+
+            warnings = report_data.get("warnings", [])
+            if warnings:
+                print(f"\n  Warnings:")
+                for w in warnings:
+                    print(f"    {w}")
+
+            gates = report_data.get("ceo_gates_triggered", [])
+            if gates:
+                print(f"\n  CEO Gates:")
+                for g in gates:
+                    print(f"    {g['gate_type']}: {g['status']}{' -> ' + g['decision'] if g.get('decision') else ''}")
+        else:
+            print(f"\n[Store Prep Status] No report found for '{project}'.")
+            print(f"  Expected: {report_path}")
+            print(f"  Run --store-prep {project} --platform <platform> first.")
+        return
+
+    # -- Signing & Packaging commands ------------------------------------
+    if a["sign"]:
+        from factory.signing.signing_coordinator import SigningCoordinator
+
+        project = a["sign"]
+        platform = a["platform"]
+
+        if not platform:
+            print("[Signing] ERROR: --platform required (android, web, ios, or comma-separated, or 'all')")
+            return
+
+        if platform == "all":
+            platforms = ["android", "web"]
+            print("[Signing] Note: iOS signing excluded -- run on Mac for iOS")
+        else:
+            platforms = [p.strip() for p in platform.split(",")]
+
+        coordinator = SigningCoordinator(project_name=project, platforms=platforms)
+        result = coordinator.run()
+
+        print(f"\n[Signing] Overall: {result['status']}")
+        return
+
+    if a["check_credentials"]:
+        from factory.signing.credential_checker import CredentialChecker
+
+        project = a["check_credentials"]
+        platform = a["platform"]
+
+        if not platform or platform == "all":
+            platforms = ["ios", "android", "web"]
+        else:
+            platforms = [p.strip() for p in platform.split(",")]
+
+        checker = CredentialChecker()
+        for plat in platforms:
+            status = checker.check(plat, project)
+            icon = "READY" if status.ready else "NOT READY"
+            print(f"\n[Credentials] {plat}: {icon}")
+            if status.found:
+                for f_item in status.found:
+                    print(f"  + {f_item}")
+            if status.missing:
+                for m in status.missing:
+                    print(f"  - MISSING: {m}")
+            if status.instructions:
+                print(f"  Instructions: {status.instructions[:200]}")
+        return
+
+    if a["show_version"]:
+        from factory.signing.version_manager import VersionManager
+
+        project = a["show_version"]
+        vm = VersionManager(project)
+
+        print(f"\n[Version] Project: {project}")
+        for plat in ["ios", "android", "web"]:
+            v = vm.get_current(plat)
+            print(f"  {plat:10s} -- {v.full_version}")
+        return
+
+    if a["bump_version"]:
+        from factory.signing.version_manager import VersionManager
+
+        project = a["bump_version"]
+        bump_type = a["version_type"]
+        if bump_type not in ("patch", "minor", "major"):
+            bump_type = "patch"
+        vm = VersionManager(project)
+
+        old = vm.get_current("ios")
+        new = vm.bump_version(bump_type)
+        print(f"[Version] {project}: {old.marketing_version} -> {new.marketing_version} ({bump_type})")
+        return
+
+    if a["list_artifacts"]:
+        from factory.signing.artifact_registry import ArtifactRegistry
+
+        project = a["list_artifacts"]
+        registry = ArtifactRegistry()
+
+        print(f"\n[Artifacts] Project: {project}")
+        for plat in ["ios", "android", "web"]:
+            versions = registry.list_versions(project, plat)
+            if versions:
+                print(f"\n  {plat}:")
+                for entry in versions[:10]:
+                    size_mb = round(entry.artifact_size_bytes / 1024 / 1024, 1) if entry.artifact_size_bytes else 0
+                    print(f"    {entry.version} build {entry.build_number} -- {entry.artifact_type} ({size_mb} MB) -- {entry.timestamp}")
+            else:
+                print(f"\n  {plat}: No artifacts")
+
+        total = registry.get_total_size(project)
+        total_mb = round(total / 1024 / 1024, 1) if total else 0
+        print(f"\n  Total size: {total_mb} MB")
+        return
+
+    # Resolve task from file if provided (highest priority)
     cli_task = a["task"]
     template_used = None
     template_name_value = None
@@ -1146,6 +1613,106 @@ async def main():
         print("\n=== TheBrain Stats ===")
         print(f"Models: {reg.stats}")
         print(f"Available: {reg.get_available_providers()}")
+        return
+
+    # ── External Service commands (Phase 7) ─────────────────────────
+
+    if a.get("brain_services"):
+        try:
+            from factory.brain.service_provider.service_registry import ServiceRegistry
+            reg = ServiceRegistry()
+            categories = reg.get_categories()
+            total = 0
+            active_total = 0
+            print(f"\n{'='*58}")
+            print("THEBRAIN — External Services Overview")
+            print(f"{'='*58}")
+            for cat in categories:
+                all_in_cat = [s for s in reg.get_all_services() if s.category == cat]
+                active_in_cat = reg.get_active_services(cat)
+                total += len(all_in_cat)
+                active_total += len(active_in_cat)
+                print(f"\n{cat.upper()} ({len(all_in_cat)} registered, {len(active_in_cat)} active)")
+                print("-" * 58)
+                if not all_in_cat:
+                    print("  (no services registered)")
+                for s in all_in_cat:
+                    cost = reg.get_cost_estimate(s.service_id, {})
+                    icon = "+" if s.status == "active" else " "
+                    tag = "" if s.status == "active" else "  [inactive]"
+                    print(f"  {icon} {s.service_id:<18} {s.name:<24} ${cost:<.2f}/call  {len(s.capabilities)} caps{tag}")
+            print(f"\n{'='*58}")
+            print(f"Total: {total} services ({active_total} active, {total - active_total} inactive)")
+            print(f"{'='*58}")
+        except Exception as e:
+            print(f"Error: {e}")
+        return
+
+    if a.get("brain_services_health"):
+        try:
+            from factory.brain.service_provider.service_registry import ServiceRegistry
+            from factory.brain.service_provider.service_router import ServiceRouter
+            import time as _time
+            reg = ServiceRegistry()
+            router = ServiceRouter(reg)
+            active = [s for s in reg.get_all_services() if s.status == "active"]
+            print(f"\nTHEBRAIN — Service Health Check")
+            print("-" * 42)
+            healthy = 0
+            for s in active:
+                adapter = router._create_adapter(s.service_id)
+                if adapter is None:
+                    print(f"  {s.service_id:<18} ... no API key")
+                    continue
+                t0 = _time.time()
+                ok = adapter.health_check()
+                ms = int((_time.time() - t0) * 1000)
+                icon = "OK" if ok else "FAILED"
+                print(f"  {s.service_id:<18} ... {icon} ({ms}ms)")
+                if ok:
+                    healthy += 1
+            print("-" * 42)
+            print(f"{healthy}/{len(active)} active services healthy")
+        except Exception as e:
+            print(f"Error: {e}")
+        return
+
+    if a.get("brain_services_costs"):
+        try:
+            from factory.brain.service_provider.cost_tracker import ServiceCostTracker
+            tracker = ServiceCostTracker()
+            spend = tracker.get_total_spend()
+            if not spend or spend.get("grand_total", 0) == 0:
+                print("\nNo external service costs recorded yet.")
+            else:
+                print(f"\nTHEBRAIN — External Service Costs (All Time)")
+                print("-" * 42)
+                for cat, cost in sorted(spend.items()):
+                    if cat != "grand_total":
+                        print(f"  {cat:<14} ${cost:.4f}")
+                print("-" * 42)
+                print(f"  {'TOTAL':<14} ${spend.get('grand_total', 0):.4f}")
+        except Exception as e:
+            print(f"Error: {e}")
+        return
+
+    if a.get("brain_scout"):
+        try:
+            from factory.brain.service_provider.service_registry import ServiceRegistry
+            from factory.brain.service_provider.service_scout import ServiceScout
+            reg = ServiceRegistry()
+            scout = ServiceScout(reg)
+            category = a["brain_scout"]
+            if category == "all":
+                reports = scout.scan_all_categories()
+                for r in reports:
+                    print(scout.generate_ceo_report(r))
+                    print()
+            else:
+                report = scout.scan_category(category)
+                print(scout.generate_ceo_report(report))
+        except Exception as e:
+            print(f"Error: {e}")
         return
 
     # ── Single run ───────────────────────────────────────────────────

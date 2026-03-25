@@ -1,0 +1,16 @@
+{
+  "id": "SWF-24",
+  "name": "CD-Roadbook",
+  "role": "Technical Roadbook Author",
+  "department": "Swarm Factory",
+  "status": "active",
+  "chapter": "Kapitel 6",
+  "task_type": "compilation",
+  "model_tier": "large_context",
+  "default_model": "gemini-2.5-flash",
+  "provider": "google",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Creative Director Technical Roadbook (30-50 Seiten)",
+  "py_file": "cd_roadbook.py"
+}

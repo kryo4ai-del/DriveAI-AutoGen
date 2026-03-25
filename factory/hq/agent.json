@@ -1,0 +1,12 @@
+{
+  "id": "INF-10",
+  "name": "Health Monitor",
+  "role": "Factory Health Scanner",
+  "department": "Infrastruktur",
+  "status": "active",
+  "task_type": "monitoring",
+  "model_tier": "none",
+  "uses_web": false,
+  "description": "Deterministischer Health Check, 8 Pruef-Kategorien",
+  "py_file": "health_monitor.py"
+}

@@ -1,0 +1,41 @@
+{
+  "project": "askfin_v1-1",
+  "timestamp": "2026-03-25T00:56:43.576393+00:00",
+  "overall_status": "INCOMPLETE",
+  "platforms": {
+    "ios": {
+      "platform": "ios",
+      "status": "INCOMPLETE",
+      "metadata": {
+        "status": "INCOMPLETE",
+        "fields_complete": 9,
+        "fields_missing": 1,
+        "validation_errors": [
+          "privacy_url is required for Apple"
+        ]
+      },
+      "assets": {
+        "icon_status": "MISSING",
+        "screenshots_status": "SKIPPED",
+        "screenshots_count": 0,
+        "feature_graphic_status": "N/A"
+      },
+      "compliance": {
+        "status": "READY",
+        "checks_passed": 1,
+        "checks_failed": 0,
+        "checks_warning": 21,
+        "privacy_label_status": "GENERATED"
+      },
+      "missing_items": [
+        "App Icon (required for store submission)",
+        "Screenshots (min 3 required for App Store)",
+        "Privacy Policy URL (required)"
+      ]
+    }
+  },
+  "ceo_gates_triggered": [],
+  "warnings": [
+    "ios: privacy_url is required for Apple"
+  ]
+}
