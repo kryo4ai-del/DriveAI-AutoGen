@@ -128,13 +128,6 @@ def _parse_args() -> dict:
         "feasibility_check": None,
         "capability_sheet": False,
         "recheck_parked": False,
-        # Evolution Loop
-        "evolution_loop": None,
-        "project_type": None,
-        "production_line": None,
-        "evolution_status": None,
-        "evolution_history": None,
-        "evolution_ceo_review": None,
     }
     explicit_mode = None
     explicit_approval = None
@@ -419,25 +412,6 @@ def _parse_args() -> dict:
         elif args[i] == "--recheck-parked":
             result["recheck_parked"] = True
             i += 1
-        # Evolution Loop
-        elif args[i] == "--evolution-loop" and i + 1 < len(args):
-            result["evolution_loop"] = args[i + 1]
-            i += 2
-        elif args[i] == "--project-type" and i + 1 < len(args):
-            result["project_type"] = args[i + 1].lower()
-            i += 2
-        elif args[i] == "--production-line" and i + 1 < len(args):
-            result["production_line"] = args[i + 1].lower()
-            i += 2
-        elif args[i] == "--evolution-status" and i + 1 < len(args):
-            result["evolution_status"] = args[i + 1]
-            i += 2
-        elif args[i] == "--evolution-history" and i + 1 < len(args):
-            result["evolution_history"] = args[i + 1]
-            i += 2
-        elif args[i] == "--evolution-ceo-review" and i + 1 < len(args):
-            result["evolution_ceo_review"] = args[i + 1]
-            i += 2
         elif not args[i].startswith("--"):
             result["task"] = args[i]
             i += 1
@@ -876,114 +850,6 @@ async def main():
                     print(f"  {c['slug']}: {c['old_status']} -> {c['new_status']} (score: {c.get('new_score', '?')})")
             else:
                 print("Re-Check: Keine Aenderungen bei geparkten Projekten.")
-        return
-
-    # ── Evolution Loop commands ────────────────────────────────────
-    if a.get("evolution_loop"):
-        project_id = a["evolution_loop"]
-        project_type = a.get("project_type") or "utility"
-        production_line = a.get("production_line") or "web"
-
-        from factory.evolution_loop import LoopOrchestrator
-        from factory.evolution_loop.ldo import LoopDataObject
-        from factory.evolution_loop.adapters.orchestrator_handoff import OrchestratorHandoff
-
-        print(f"[EVO] Starting Evolution Loop for: {project_id}")
-        print(f"[EVO] Type: {project_type}, Line: {production_line}")
-
-        handoff = OrchestratorHandoff()
-        ldo = handoff.receive_from_orchestrator(
-            build_result={},
-            qa_result={},
-            project_id=project_id,
-            project_type=project_type,
-            production_line=production_line,
-        )
-
-        orch = LoopOrchestrator(project_id, project_type, production_line)
-        result_ldo = orch.run_loop(ldo)
-        print(f"\n{orch.get_status_report()}")
-        return
-
-    if a.get("evolution_status"):
-        from factory.evolution_loop.ldo import LDOStorage
-
-        project_id = a["evolution_status"]
-        storage = LDOStorage(project_id)
-        latest = storage.load_latest()
-
-        if latest is None:
-            print(f"No evolution data found for project: {project_id}")
-            return
-
-        print(f"=== Evolution Loop Status: {project_id} ===")
-        print(f"Iteration: {latest.meta.iteration}")
-        print(f"Mode: {latest.meta.loop_mode}")
-        print(f"Cost: ${latest.meta.accumulated_cost:.4f}")
-        print(f"Scores:")
-        print(f"  Bug: {latest.scores.bug_score.value:.1f} (conf={latest.scores.bug_score.confidence:.0f}%)")
-        print(f"  Roadbook: {latest.scores.roadbook_match_score.value:.1f}")
-        print(f"  Structural: {latest.scores.structural_health_score.value:.1f}")
-        print(f"  Performance: {latest.scores.performance_score.value:.1f}")
-        print(f"  UX: {latest.scores.ux_score.value:.1f}")
-        print(f"  Aggregate: {latest.scores.quality_score_aggregate:.1f}")
-        print(f"Trend: {latest.regression_data.trend}")
-        print(f"Recommendation: {latest.regression_data.recommendation}")
-        print(f"Gaps: {len(latest.gaps)}")
-        print(f"Tasks: {len(latest.tasks)}")
-        return
-
-    if a.get("evolution_history"):
-        from factory.evolution_loop.ldo import LDOStorage
-        from factory.evolution_loop.regression_tracker import RegressionTracker
-        from factory.evolution_loop.config.config_loader import EvolutionConfig
-
-        project_id = a["evolution_history"]
-        storage = LDOStorage(project_id)
-        history = storage.get_history()
-
-        if not history:
-            print(f"No evolution history found for project: {project_id}")
-            return
-
-        print(f"=== Evolution Loop History: {project_id} ===")
-        print(f"{'Iter':>4} {'Mode':>8} {'Bug':>6} {'Road':>6} {'Struct':>6} {'Perf':>6} {'UX':>6} {'Agg':>6} {'Gaps':>5} {'Tasks':>5} {'Trend':>12}")
-        print("-" * 85)
-        for ldo in history:
-            print(f"{ldo.meta.iteration:>4} {ldo.meta.loop_mode:>8} "
-                  f"{ldo.scores.bug_score.value:>6.1f} {ldo.scores.roadbook_match_score.value:>6.1f} "
-                  f"{ldo.scores.structural_health_score.value:>6.1f} {ldo.scores.performance_score.value:>6.1f} "
-                  f"{ldo.scores.ux_score.value:>6.1f} {ldo.scores.quality_score_aggregate:>6.1f} "
-                  f"{len(ldo.gaps):>5} {len(ldo.tasks):>5} {ldo.regression_data.trend:>12}")
-
-        tracker = RegressionTracker(EvolutionConfig())
-        print(f"\n{tracker.get_trend_summary(history)}")
-        return
-
-    if a.get("evolution_ceo_review"):
-        from factory.evolution_loop.ldo import LDOStorage
-        from factory.evolution_loop.gates import CEOReviewGate
-
-        project_id = a["evolution_ceo_review"]
-        storage = LDOStorage(project_id)
-        latest = storage.load_latest()
-
-        if latest is None:
-            print(f"No evolution data found for project: {project_id}")
-            return
-
-        gate = CEOReviewGate()
-        brief = gate.get_review_brief(latest)
-
-        data_dir = os.path.join("factory", "evolution_loop", "data", project_id)
-        brief_path = os.path.join(data_dir, "ceo_review_brief.md")
-        os.makedirs(data_dir, exist_ok=True)
-        with open(brief_path, "w", encoding="utf-8") as f:
-            f.write(brief)
-
-        print(brief)
-        print(f"\n--- Review Brief saved to: {brief_path} ---")
-        print(f"--- Write feedback to: {os.path.join(data_dir, 'ceo_feedback.json')} ---")
         return
 
     # ── Orchestrator commands (no direct pipeline run) ──────────────

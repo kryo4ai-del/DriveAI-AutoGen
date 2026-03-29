@@ -88,7 +88,25 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 
 ## Changelog
 
-### 2026-03-29 — Evolution Loop: Git Rollback + Cost Tracker (P-EVO-016)
+### 2026-03-29 -- Evolution Loop: CEO Review Gate (P-EVO-017)
+- **gates/review_provider.py** (~35 LOC): `ReviewProvider` (ABC) + `ReviewResult` (dataclass)
+  - `ReviewResult`: status ("go"/"no_go"/"pending") + issues (list[CEOIssue])
+  - `ReviewProvider`: abstrakt mit `review(ldo)` + `generate_review_brief(ldo)`
+- **gates/human_review_provider.py** (~160 LOC): `HumanReviewProvider` -- file-basierter CEO Review
+  - `review(ldo)`: Generiert Brief, prueft auf `ceo_feedback.json`, parst + validiert
+  - `generate_review_brief(ldo)`: Markdown mit Scores-Tabelle (pass/FAIL), Gaps, Trend, Kosten, Feedback-Template
+  - JSON-Validierung: Ungueltige Kategorie -> "bug", ungueltige Severity -> "minor", leere Description -> skip
+  - Valide Kategorien: bug, ux, performance, content, feel
+  - Valide Severities: blocker, major, minor
+- **gates/ceo_review_gate.py** (~60 LOC): `CEOReviewGate`
+  - `execute(ldo)`: Ruft Provider, schreibt in ldo.ceo_feedback, bei no_go -> DecisionAgent.translate_ceo_feedback()
+  - `get_review_brief(ldo)`: Delegiert an Provider
+  - Provider austauschbar via Constructor (Default: HumanReviewProvider)
+- **gates/__init__.py**: Exportiert CEOReviewGate, HumanReviewProvider, ReviewProvider, ReviewResult
+- **evolution_loop/__init__.py**: Exportiert alle 4 Gate-Klassen
+- Test-Ergebnis: 6/6 CEO Gate + 5/5 E2E + 8/8 Tracking -- alle bestanden
+
+### 2026-03-29 -- Evolution Loop: Git Rollback + Cost Tracker (P-EVO-016)
 - **tracking/git_tagger.py** (~150 LOC): `GitTagger` — Git-basiertes Tagging + Rollback
   - `tag_iteration(iteration, message)`: `git add -A`, `commit --allow-empty`, `tag -a evolution/{project_id}/iteration-{N}`
   - `rollback_to(iteration)`: Erstellt neuen Branch `evolution/{project_id}/rollback-to-{N}` — kein Force-Push
