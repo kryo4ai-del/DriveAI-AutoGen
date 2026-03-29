@@ -46,7 +46,7 @@ export default function ProjectHistory() {
         <StatCard label="Projekte gesamt" value={totalProjects} />
         <StatCard label="Abgeschlossen" value={completedProjects} color="success" />
         <StatCard label="Beendet (Kill)" value={killedProjects} color="error" />
-        <StatCard label="LLM-Kosten gesamt" value={totalCost > 0 ? `$${totalCost.toFixed(2)}` : '—'} />
+        <StatCard label="LLM-Kosten gesamt" value={`$${totalCost.toFixed(2)}`} />
         <StatCard label="SerpAPI gesamt" value={`${totalSerpApi} Credits`} />
       </div>
 
@@ -78,8 +78,8 @@ export default function ProjectHistory() {
                 <MiniStat label="Kapitel" value={`${project.chapters_complete}/${project.chapters_total}`} />
                 <MiniStat label="Dokumente" value={project.documents} />
                 <MiniStat label="PDFs" value={project.pdfs} />
-                <MiniStat label="SerpAPI" value={project.costs?.serpapi_credits_total > 0 ? `${project.costs.serpapi_credits_total}` : '—'} />
-                <MiniStat label="LLM-Kosten" value={project.costs?.llm_cost_usd_total > 0 ? `$${project.costs.llm_cost_usd_total.toFixed(2)}` : '—'} />
+                <MiniStat label="SerpAPI" value={`${project.costs?.serpapi_credits_total || 0}`} />
+                <MiniStat label="LLM-Kosten" value={`$${(project.costs?.llm_cost_usd_total || 0).toFixed(2)}`} />
                 <MiniStat label="Ergebnis" value={
                   project.status === 'killed' ? 'KILL' :
                   project.status === 'preproduction_done' ? 'Ready' :

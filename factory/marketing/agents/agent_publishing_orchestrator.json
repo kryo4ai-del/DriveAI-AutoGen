@@ -1,0 +1,16 @@
+{
+  "id": "MKT-08",
+  "name": "Publishing Orchestrator",
+  "role": "Content Publishing Coordinator",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "orchestration",
+  "model_tier": "none",
+  "default_model": "none",
+  "provider": "none",
+  "routing": "no_llm",
+  "uses_web": false,
+  "description": "Deterministischer Orchestrator der Content auf Plattformen verteilt. Liest Content-Kalender, ruft Adapter auf, trackt Ergebnisse. Kein LLM.",
+  "py_file": "publishing_orchestrator.py",
+  "_source": "factory\\marketing\\agents\\agent_publishing_orchestrator.json"
+}

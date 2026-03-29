@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "last_updated": "2026-03-26T07:43:47.309807+00:00",
+  "summary": "Session vom 24.03.2026: Factory Mode Pipeline gebaut, MemeRun 2026 komplett durchlaufen ($0.66), Dashboard massiv erweitert mit Project Registry, HQ Assistant (Voice + ElevenLabs), Team-Seite (61 Agents), dynamisches Gate-System, Provider Balance Monitor. Produktivste Session bisher.",
+  "active_topics": [
+    "Store Pipeline: Schritt 1 (Gate-System) fertig, Schritte 2-6 (QA, Store Prep, Signing, Upload, Release) offen",
+    "MemeRun 2026: Factory Mode Roadbook fertig, wartet auf Production-Start",
+    "Provider Balance: Anthropic ~$22, Stability 25 Credits (Warning), ElevenLabs 8.680 Characters",
+    "Production Tracks: Sub-Status pro Plattform auf Projekt-Karten — Design steht, Implementation offen",
+    "Mitarbeiter-Liste: Agent Auto-Discovery mit agent.json implementiert, 61 Agents registriert"
+  ],
+  "recent_decisions": [
+    {
+      "date": "2026-03-24",
+      "decision": "Factory Mode eingefuehrt (--mode factory)",
+      "project": "system"
+    },
+    {
+      "date": "2026-03-24",
+      "decision": "MemeRun 2026 CEO-Gate GO",
+      "project": "memerun2026"
+    },
+    {
+      "date": "2026-03-24",
+      "decision": "Dynamisches Gate-System implementiert (generisch, schema-basiert)",
+      "project": "system"
+    },
+    {
+      "date": "2026-03-24",
+      "decision": "ElevenLabs als persoenliche Stimme fuer den Assistant",
+      "project": "system"
+    },
+    {
+      "date": "2026-03-24",
+      "decision": "Provider Balance Monitor mit 7 Providern",
+      "project": "system"
+    }
+  ],
+  "ceo_preferences": [
+    "Kurze Antworten bevorzugt, keine langen Erklaerungen",
+    "Deutsch fuer Erklaerungen, Englisch fuer technische Begriffe",
+    "Morgens ein kurzes Briefing beim Dashboard-Login",
+    "Factory Mode als Standard fuer neue Projekte",
+    "Keine Wellness-Checks oder Pausenvorschlaege",
+    "Qualitaet ueber Geschwindigkeit, immer",
+    "Schritt fuer Schritt, keine gebuendelten Architektur-Aenderungen",
+    "Will per Voice und Chat kommunizieren koennen",
+    "Morning Briefing immer mit get_welcome_briefing starten. Nur wenn CEO explizit \"Factory Briefing\" sagt → brain_briefing aufrufen."
+  ],
+  "important_context": [
+    "Die Factory hat 61 Agents in 3 Abteilungen (Code-Pipeline, Swarm Factory, Infrastruktur)",
+    "4 Production Lines: iOS (Swift/SwiftUI), Android (Kotlin/Compose), Web (React/Next.js), Unity (C#/URP)",
+    "TheBrain routet Modelle dynamisch: o3-mini fuer Research, Gemini Flash fuer Roadbooks, Sonnet fuer Secretary/Assistant",
+    "Das Dashboard hat 10+ Seiten inkl. Team, Provider, dynamische Gates",
+    "Der MasterLead-Agent (Claude.ai) erstellt Prompts, der Execution Agent (Claude Code) setzt um",
+    "Andreas ist CEO und Day Trader, betreibt die Factory als Solo-Dev mit AI-Agents",
+    "TheBrain ist der COO der Factory. Das \"Factory Briefing\" (brain_briefing) ist sein täglicher Lagebericht. Er liefert Health, Alerts, Capabilities, Gaps und Subsystem-Status."
+  ],
+  "interaction_count": 0,
+  "sessions_count": 0
+}

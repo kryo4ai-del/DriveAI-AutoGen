@@ -55,6 +55,9 @@ router.get('/', (req, res) => {
       latest_scan: latest?.scan || null,
       latest_graph: latest?.graph || null,
       findings: latest?.findings || [],
+      growth_alerts: latest?.scan?.growth_alerts || [],
+      consistency: latest?.consistency || null,
+      dependencies: latest?.dependencies || null,
       quarantine: {
         total: activeQuarantine.length,
         items: activeQuarantine,

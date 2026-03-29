@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, ChevronDown, ChevronRight, FileText, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronRight, FileText, ShieldCheck, RefreshCw } from 'lucide-react';
 
 export default function ProjectDetail({ projectId, onBack }) {
   const [data, setData] = useState(null);
@@ -52,6 +52,10 @@ export default function ProjectDetail({ projectId, onBack }) {
           </div>
         </div>
       </div>
+
+      {project.feasibility && project.feasibility.status !== 'not_checked' && (
+        <FeasibilitySection project={project} />
+      )}
 
       <div className="relative ml-4">
         <div className="absolute left-2.5 top-0 bottom-0 w-0.5 bg-factory-border" />
@@ -174,6 +178,110 @@ function TimelineEntry({ entry }) {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function FeasibilitySection({ project }) {
+  const [report, setReport] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+  const [rechecking, setRechecking] = useState(false);
+
+  const feas = project.feasibility || {};
+  const statusColors = {
+    feasible: 'border-factory-success bg-factory-success/10',
+    parked_partially: 'border-orange-500 bg-orange-500/10',
+    parked_blocked: 'border-factory-error bg-factory-error/10',
+  };
+  const statusLabels = {
+    feasible: 'Produktionsbereit',
+    parked_partially: 'Teilweise machbar',
+    parked_blocked: 'Blockiert',
+    not_checked: 'Nicht geprueft',
+  };
+
+  async function loadReport() {
+    if (report) { setExpanded(!expanded); return; }
+    try {
+      const res = await fetch(`/api/feasibility/${project.project_id}`);
+      if (res.ok) setReport(await res.json());
+    } catch (err) { console.error(err); }
+    setExpanded(true);
+  }
+
+  async function recheck() {
+    setRechecking(true);
+    try {
+      await fetch(`/api/feasibility/${project.project_id}/recheck`, { method: 'POST' });
+      window.location.reload();
+    } catch (err) { console.error(err); }
+    setRechecking(false);
+  }
+
+  return (
+    <div className={`rounded-xl border-2 ${statusColors[feas.status] || 'border-factory-border'} p-6 mb-8`}>
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-factory-text">Feasibility Check</h3>
+          <p className="text-sm text-factory-text-secondary mt-1">
+            {statusLabels[feas.status] || feas.status}
+            {feas.score != null && ` — Score: ${(feas.score * 100).toFixed(0)}%`}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={recheck} disabled={rechecking}
+            className="flex items-center gap-1 px-3 py-1.5 text-sm bg-factory-bg border border-factory-border rounded-lg text-factory-text-secondary hover:text-factory-text transition-colors disabled:opacity-50">
+            <RefreshCw size={14} className={rechecking ? 'animate-spin' : ''} />
+            Re-Check
+          </button>
+          <button onClick={loadReport}
+            className="px-3 py-1.5 text-sm bg-factory-bg border border-factory-border rounded-lg text-factory-text-secondary hover:text-factory-text transition-colors">
+            {expanded ? 'Zuklappen' : 'Details'}
+          </button>
+        </div>
+      </div>
+
+      {feas.gaps?.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {feas.gaps.map((gap, i) => (
+            <span key={i} className="text-xs px-2 py-1 bg-factory-error/10 text-factory-error rounded border border-factory-error/20">
+              {gap.capability || gap}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {expanded && report && (
+        <div className="mt-4 border-t border-factory-border/50 pt-4 space-y-4">
+          {report.requirements?.length > 0 && (
+            <div>
+              <h4 className="text-xs font-medium text-factory-text-secondary mb-2 uppercase tracking-wider">Requirements</h4>
+              <div className="space-y-1">
+                {report.requirements.map((req, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm">
+                    <span className={req.status === 'met' ? 'text-factory-success' : req.status === 'warning' ? 'text-factory-warning' : 'text-factory-error'}>
+                      {req.status === 'met' ? '\u2713' : req.status === 'warning' ? '!' : '\u2717'}
+                    </span>
+                    <span className="text-factory-text">{req.name}</span>
+                    {req.gap && <span className="text-factory-text-secondary text-xs">— {req.gap}</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {report.recommendations?.length > 0 && (
+            <div>
+              <h4 className="text-xs font-medium text-factory-text-secondary mb-2 uppercase tracking-wider">Empfehlungen</h4>
+              <ul className="space-y-1">
+                {report.recommendations.map((rec, i) => (
+                  <li key={i} className="text-sm text-factory-text-secondary">{rec}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

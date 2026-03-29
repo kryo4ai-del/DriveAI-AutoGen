@@ -1,0 +1,146 @@
+{
+  "project": "echomatch",
+  "score_percent": 91.66666666666666,
+  "verdict": "CONDITIONAL_PASS",
+  "checks": [
+    {
+      "id": "DC-001",
+      "name": "Color Palette Compliance",
+      "category": "visual",
+      "passed": true,
+      "severity": "info",
+      "details": "5/5 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-002",
+      "name": "Brightness / Theme Consistency",
+      "category": "visual",
+      "passed": true,
+      "severity": "info",
+      "details": "5/5 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-003",
+      "name": "Resolution Minimums",
+      "category": "visual",
+      "passed": false,
+      "severity": "error",
+      "details": "1/5 failed: icon_settings: 64x64 too small (need 512x512)",
+      "auto": true
+    },
+    {
+      "id": "DC-004",
+      "name": "Alpha Channel Correctness",
+      "category": "visual",
+      "passed": true,
+      "severity": "info",
+      "details": "5/5 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-005",
+      "name": "Audio Loudness Standard",
+      "category": "audio",
+      "passed": true,
+      "severity": "warning",
+      "details": "3/4 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-006",
+      "name": "Sound Duration Ranges",
+      "category": "audio",
+      "passed": true,
+      "severity": "info",
+      "details": "4/4 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-007",
+      "name": "Audio Format & Platform",
+      "category": "audio",
+      "passed": true,
+      "severity": "info",
+      "details": "4/4 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-008",
+      "name": "Animation Timing Ranges",
+      "category": "animation",
+      "passed": true,
+      "severity": "info",
+      "details": "3/3 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-009",
+      "name": "Ease Curve Quality",
+      "category": "animation",
+      "passed": true,
+      "severity": "info",
+      "details": "2/2 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-010",
+      "name": "Lottie Structure Valid",
+      "category": "animation",
+      "passed": true,
+      "severity": "info",
+      "details": "2/2 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-011",
+      "name": "Level Reachability",
+      "category": "scene",
+      "passed": true,
+      "severity": "info",
+      "details": "3/3 passed",
+      "auto": true
+    },
+    {
+      "id": "DC-012",
+      "name": "Difficulty Curve Monotonic",
+      "category": "scene",
+      "passed": true,
+      "severity": "info",
+      "details": "Check 'difficulty_curve' not found in results",
+      "auto": true
+    }
+  ],
+  "manual_checklist": [
+    {
+      "id": "DC-M01",
+      "name": "Brand Identity Match",
+      "details": "Visual style matches brand guidelines and mood board"
+    },
+    {
+      "id": "DC-M02",
+      "name": "Audio-Visual Sync",
+      "details": "Sound effects match animation timing and context"
+    },
+    {
+      "id": "DC-M03",
+      "name": "Accessibility Review",
+      "details": "Color contrast, font sizes, screen reader support"
+    },
+    {
+      "id": "DC-M04",
+      "name": "Platform Feel Test",
+      "details": "iOS/Android/Web feel native on each platform"
+    },
+    {
+      "id": "DC-M05",
+      "name": "Emotional Response",
+      "details": "First-impression test: does the app feel premium?"
+    }
+  ],
+  "fixes_required": [
+    "[DC-003] Resolution Minimums: 1/5 failed: icon_settings: 64x64 too small (need 512x512)"
+  ],
+  "recommendations": []
+}

@@ -146,7 +146,7 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
     print("[0/4] Input laden...")
     all_reports = load_all_reports(phase1_dir, phase2_dir)
     title = all_reports["idea_title"]
-    print(f"      -> 11 Reports geladen (6 Phase-1 + 5 Kapitel-3) OK\n")
+    print(f"      -> 11 Reports geladen (6 Phase-1 + 5 Kapitel-3) ✓\n")
 
     k4_run = _get_next_run_number()
     slug = _make_slug(title)
@@ -155,11 +155,6 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
 
     p1_dir = all_reports["phase1_run_dir"]
     p2_dir = all_reports["phase2_run_dir"]
-
-    # Propagate run mode
-    from factory.run_mode import read_mode, write_mode
-    _mode = read_mode(p2_dir) or read_mode(p1_dir)
-    write_mode(output_dir, _mode)
 
     result = {
         "idea_title": title,
@@ -181,7 +176,7 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
         result["feature_list"] = feature_extraction.run(all_reports)
         _save(output_dir, "feature_list.md", result["feature_list"])
         feature_count = len(set(re.findall(r"F\d{3}", result["feature_list"])))
-        print(f"      -> Feature-Liste: {feature_count} Features, {len(result['feature_list']):,} Zeichen OK\n")
+        print(f"      -> Feature-Liste: {feature_count} Features, {len(result['feature_list']):,} Zeichen ✓\n")
     except Exception as e:
         print(f"      -> FEHLER: {e}")
         traceback.print_exc()
@@ -196,7 +191,7 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
     try:
         result["feature_prioritization"] = feature_prioritization.run(result["feature_list"], all_reports)
         _save(output_dir, "feature_prioritization.md", result["feature_prioritization"])
-        print(f"      -> Priorisierung: {len(result['feature_prioritization']):,} Zeichen OK\n")
+        print(f"      -> Priorisierung: {len(result['feature_prioritization']):,} Zeichen ✓\n")
     except Exception as e:
         print(f"      -> FEHLER: {e}")
         traceback.print_exc()
@@ -228,7 +223,7 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
             if _has_flows(flows_md):
                 result["screen_architecture"] += "\n\n" + flows_md
                 _save(output_dir, "screen_architecture.md", result["screen_architecture"])
-                print("      -> 7 Flows nachgeholt OK")
+                print("      -> 7 Flows nachgeholt ✓")
             else:
                 result["missing"].extend(["user_flows", "edge_cases"])
                 result["status"] = "partial"
@@ -238,7 +233,7 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
             result["status"] = "partial"
             print(f"      -> Retry FEHLER: {e}")
     elif result["screen_architecture"] and _has_flows(result["screen_architecture"]):
-        print("      -> Flows vorhanden OK")
+        print("      -> Flows vorhanden ✓")
 
     print()
 
@@ -250,7 +245,7 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
 
     try:
         _save_learnings(result, title)
-        print("      -> Memory aktualisiert OK")
+        print("      -> Memory aktualisiert ✓")
     except Exception as e:
         print(f"      -> WARNING: Learnings nicht gespeichert — {e}")
 
@@ -264,14 +259,6 @@ def run_pipeline(phase1_dir: str = None, phase2_dir: str = None) -> dict:
         print(f"  Fehlend: {', '.join(result['missing'])}")
     print(f"  Naechster Schritt: Kapitel 5 (Visual & Asset Audit)")
     print(line)
-
-    try:
-        from factory.project_registry import update_project_phase
-        import re
-        _slug = re.sub(r'[^a-z0-9_]', '', result.get("idea_title", "").lower().replace(" ", "_"))[:40]
-        update_project_phase(_slug, "kapitel4", "complete" if result["status"] == "completed" else "partial", str(output_dir))
-    except Exception as e:
-        print(f"  [Registry] Warning: {e}")
 
     return result
 

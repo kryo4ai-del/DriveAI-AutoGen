@@ -199,17 +199,7 @@ class ServiceRouter:
                       steps: list) -> Optional[RoutingResult]:
         primary = self._create_adapter(primary_id)
         if primary is None:
-            logger.warning("Could not create adapter for '%s' (API key missing?), trying fallback", primary_id)
-            if fallback_id:
-                fallback_adapter = self._create_adapter(fallback_id)
-                if fallback_adapter:
-                    logger.info("Fallback to %s (primary %s had no key)", fallback_id, primary_id)
-                    fb_cost = self._registry.get_cost_estimate(fallback_id, {})
-                    return RoutingResult(
-                        primary_adapter=fallback_adapter, fallback_adapter=None,
-                        service_id=fallback_id, estimated_cost=fb_cost if fb_cost >= 0 else cost,
-                        routing_reason=f"fallback_from_{primary_id}",
-                    )
+            logger.warning("Could not create adapter for '%s' (API key missing?)", primary_id)
             return None
 
         fallback = self._create_adapter(fallback_id) if fallback_id else None

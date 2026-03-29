@@ -11,13 +11,13 @@ import datetime
 from pathlib import Path
 
 
-def run_pipeline(phase1_dir=None, k3_dir=None, k4_dir=None, k45_dir=None, k5_dir=None, mode_override: str = None) -> dict:
+def run_pipeline(phase1_dir=None, k3_dir=None, k4_dir=None, k45_dir=None, k5_dir=None) -> dict:
     """Run the complete Kapitel 6 pipeline (FINALE)."""
     from factory.roadbook_assembly.input_loader import load_all_reports
 
     print("=" * 60)
     print("  DriveAI Swarm Factory — Kapitel 6: Roadbook Assembly")
-    print("  * FINALES KAPITEL DER PRE-PRODUCTION PIPELINE *")
+    print("  ★ FINALES KAPITEL DER PRE-PRODUCTION PIPELINE ★")
     print("=" * 60)
 
     print("\n[0/2] Input laden...")
@@ -48,20 +48,7 @@ def run_pipeline(phase1_dir=None, k3_dir=None, k4_dir=None, k45_dir=None, k5_dir
     run_dir = output_base / f"{run_number:03d}_{slug}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    # Detect run mode (from upstream or override)
-    from factory.run_mode import read_mode, write_mode
-    _mode = mode_override or "vision"
-    if not mode_override:
-        for src in [k5_dir, k45_dir, k4_dir, k3_dir, phase1_dir]:
-            if src:
-                _mode = read_mode(src)
-                if _mode != "vision":
-                    break
-    write_mode(run_dir, _mode)
-    if _mode == "factory":
-        print(f"      -> MODE: FACTORY (production-constrained)")
-
-    print(f"      -> 20 Reports aus 5 Kapiteln ({combined_k}k chars) OK")
+    print(f"      -> 20 Reports aus 5 Kapiteln ({combined_k}k chars) ✓")
     print(f"\n  Idee:  {title}")
     print(f"  Kapitel-6 Run: #{run_number:03d}")
     print(f"  Datum: {date_str}")
@@ -82,11 +69,11 @@ def run_pipeline(phase1_dir=None, k3_dir=None, k4_dir=None, k45_dir=None, k5_dir
     print("\n[1/2] CEO Strategic Roadbook (Agent 22)...")
     try:
         from factory.roadbook_assembly.agents.ceo_roadbook import run as ceo_run
-        ceo = ceo_run(data, mode=_mode)
+        ceo = ceo_run(data)
         result["ceo_roadbook"] = ceo
         (run_dir / "ceo_strategic_roadbook.md").write_text(ceo, encoding="utf-8")
         ceo_pages = len(ceo) // 1000
-        print(f"      -> {len(ceo):,} Zeichen (~{ceo_pages} Seiten) OK")
+        print(f"      -> {len(ceo):,} Zeichen (~{ceo_pages} Seiten) ✓")
     except Exception as e:
         print(f"      FEHLER: {e}")
         result["status"] = "partial"
@@ -95,11 +82,11 @@ def run_pipeline(phase1_dir=None, k3_dir=None, k4_dir=None, k45_dir=None, k5_dir
     print("\n[2/2] Creative Director Technical Roadbook (Agent 23)...")
     try:
         from factory.roadbook_assembly.agents.cd_roadbook import run as cd_run
-        cd = cd_run(data, mode=_mode)
+        cd = cd_run(data)
         result["cd_roadbook"] = cd
         (run_dir / "cd_technical_roadbook.md").write_text(cd, encoding="utf-8")
         cd_pages = len(cd) // 1000
-        print(f"      -> {len(cd):,} Zeichen (~{cd_pages} Seiten) OK")
+        print(f"      -> {len(cd):,} Zeichen (~{cd_pages} Seiten) ✓")
     except Exception as e:
         print(f"      FEHLER: {e}")
         if result["status"] == "partial":
@@ -116,7 +103,7 @@ def run_pipeline(phase1_dir=None, k3_dir=None, k4_dir=None, k45_dir=None, k5_dir
     cd_len = len(result.get("cd_roadbook", ""))
 
     print("\n" + "=" * 60)
-    print("  * PRE-PRODUCTION PIPELINE ABGESCHLOSSEN *")
+    print("  ★ PRE-PRODUCTION PIPELINE ABGESCHLOSSEN ★")
     print("=" * 60)
     print()
     print(f"  CEO Strategic Roadbook:     ~{ceo_len // 1000} Seiten -> fuer CEO + Investoren")
@@ -129,21 +116,8 @@ def run_pipeline(phase1_dir=None, k3_dir=None, k4_dir=None, k45_dir=None, k5_dir
     print(f"  - 15 PDF-Templates verfuegbar")
     print(f"  - 2 Roadbooks kompiliert")
     print()
-    print(f"  * Creative Director kann jetzt die Lines starten *")
+    print(f"  ★ Creative Director kann jetzt die Lines starten ★")
     print("=" * 60)
-
-    try:
-        from factory.project_registry import update_project_phase, add_document
-        import re
-        _slug = re.sub(r'[^a-z0-9_]', '', result.get("idea_title", "").lower().replace(" ", "_"))[:40]
-        update_project_phase(_slug, "kapitel6", "complete" if result["status"] == "completed" else "partial", str(run_dir))
-        # Register roadbook documents
-        for key in ["ceo_roadbook", "cd_roadbook"]:
-            if result.get(key):
-                rb_path = str(run_dir / f"{'ceo_strategic' if 'ceo' in key else 'cd_technical'}_roadbook.md")
-                add_document(_slug, "roadbooks", rb_path)
-    except Exception as e:
-        print(f"  [Registry] Warning: {e}")
 
     return result
 
@@ -165,8 +139,8 @@ def _save_summary(run_dir: Path, result: dict, date_str: str, input_k: int):
 ## Roadbooks
 | Roadbook | Status | Laenge | Zielgruppe |
 |---|---|---|---|
-| CEO Strategic | {"OK" if ceo_len > 0 else "FAIL"} | {ceo_len:,} Zeichen (~{ceo_len // 1000} Seiten) | CEO, Investoren |
-| CD Technical | {"OK" if cd_len > 0 else "FAIL"} | {cd_len:,} Zeichen (~{cd_len // 1000} Seiten) | Creative Director, Lines |
+| CEO Strategic | {"✓" if ceo_len > 0 else "✗"} | {ceo_len:,} Zeichen (~{ceo_len // 1000} Seiten) | CEO, Investoren |
+| CD Technical | {"✓" if cd_len > 0 else "✗"} | {cd_len:,} Zeichen (~{cd_len // 1000} Seiten) | Creative Director, Lines |
 
 ## Pipeline-Gesamtbilanz
 - Kapitel durchlaufen: 6 (Phase 1, K3, K4, K4.5, K5, K6)
@@ -193,7 +167,7 @@ def _update_memory(title: str, result: dict):
         content = content.replace("## Roadbook Assembly\n", f"## Roadbook Assembly\n{insight}", 1)
 
         learnings_path.write_text(content, encoding="utf-8")
-        print("      -> Memory aktualisiert OK")
+        print("      -> Memory aktualisiert ✓")
     except Exception as e:
         print(f"      WARNING: Memory-Update fehlgeschlagen: {e}")
 
@@ -208,13 +182,11 @@ if __name__ == "__main__":
     parser.add_argument("--k45-dir", type=str, help="Kapitel 4.5 output")
     parser.add_argument("--k5-dir", type=str, help="Kapitel 5 output")
     parser.add_argument("--latest", action="store_true", help="Auto-detect")
-    parser.add_argument("--mode", choices=["vision", "factory"], default=None,
-                        help="Override run mode (vision or factory)")
     args = parser.parse_args()
 
     if args.latest:
-        result = run_pipeline(mode_override=args.mode)
+        result = run_pipeline()
     elif args.p1_dir and args.k3_dir and args.k4_dir and args.k45_dir and args.k5_dir:
-        result = run_pipeline(args.p1_dir, args.k3_dir, args.k4_dir, args.k45_dir, args.k5_dir, mode_override=args.mode)
+        result = run_pipeline(args.p1_dir, args.k3_dir, args.k4_dir, args.k45_dir, args.k5_dir)
     else:
         parser.error("Either --latest or all five directories required")

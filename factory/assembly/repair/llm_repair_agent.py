@@ -14,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 from factory.assembly.repair.error_parser import CompilerError
+from config.model_router import get_fallback_model
 
 
 @dataclass
@@ -56,9 +57,9 @@ class BatchRepairResult:
 class LLMRepairAgent:
     """LLM-powered code repair agent."""
 
-    def __init__(self, model: str = "claude-haiku-4-5",
+    def __init__(self, model: str = None,
                  api_key_env: str = "ANTHROPIC_API_KEY"):
-        self.model = model
+        self.model = model or get_fallback_model("dev")
         self.api_key = os.environ.get(api_key_env, "")
         # Try loading from .env if not in environment
         if not self.api_key:

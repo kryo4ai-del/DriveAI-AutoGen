@@ -1,0 +1,16 @@
+{
+  "id": "MKT-07",
+  "name": "Video Script",
+  "role": "Video Content Creator",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "content_creation",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Schreibt Video-Skripte fuer alle Formate (YouTube, Shorts, TikTok, Reels). Kann ueber die Video-Pipeline einfache Clips aus Skripten erzeugen.",
+  "py_file": "video_script_agent.py",
+  "_source": "factory\\marketing\\agents\\agent_video_script.json"
+}

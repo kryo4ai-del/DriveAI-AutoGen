@@ -5,6 +5,8 @@ import json
 import anthropic
 from dotenv import load_dotenv
 
+from factory.document_secretary.config import get_fallback_model
+
 load_dotenv()
 
 
@@ -110,7 +112,7 @@ Antworte NUR in JSON (kein Markdown, keine Backticks):
     print("[DocumentSecretary] Extracting Asset Discovery content via Claude...")
     client = anthropic.Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-4-6", max_tokens=16000,
+        model=get_fallback_model(), max_tokens=16000,
         messages=[{"role": "user", "content": prompt}],
     )
     return _parse_json(response.content[0].text)

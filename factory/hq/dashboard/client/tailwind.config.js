@@ -3,17 +3,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'factory-bg': '#0a0a1a',
-        'factory-surface': '#141428',
-        'factory-surface-hover': '#1c1c38',
-        'factory-border': '#2a2a45',
-        'factory-accent': '#00e5a0',
-        'factory-accent-blue': '#00b8ff',
+        'factory-bg': '#13121A',
+        'factory-surface': '#1E1D25',
+        'factory-surface-hover': '#2a2935',
+        'factory-border': '#3a3950',
+        'factory-accent': '#D660D7',
+        'factory-accent-blue': '#6BD2F2',
+        'factory-accent-glow': '#F09CF8',
+        'factory-purple': '#7A3C9F',
         'factory-success': '#22c55e',
         'factory-warning': '#eab308',
         'factory-error': '#ef4444',
-        'factory-text': '#e8e8f0',
-        'factory-text-secondary': '#8888a0',
+        'factory-text': '#FFFFFF',
+        'factory-text-secondary': '#B0B0C0',
       },
       animation: {
         'pulse-gold': 'pulseGold 2s ease-in-out infinite',

@@ -5,6 +5,8 @@ import json
 import anthropic
 from dotenv import load_dotenv
 
+from factory.document_secretary.config import get_fallback_model
+
 load_dotenv()
 
 
@@ -140,7 +142,7 @@ Wenn ein Abschnitt fehlt, setze ein leeres Array."""
     print("[DocumentSecretary] Extracting Screen Architecture content via Claude...")
     client = anthropic.Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-4-6", max_tokens=8000,
+        model=get_fallback_model(), max_tokens=8000,
         messages=[{"role": "user", "content": prompt}],
     )
     result = _parse_json(response.content[0].text)

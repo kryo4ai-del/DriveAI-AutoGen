@@ -10,6 +10,7 @@ import re
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from datetime import datetime
+from config.model_router import get_fallback_model
 
 logger = logging.getLogger(__name__)
 
@@ -329,7 +330,7 @@ class SoundSpecExtractor:
                 import anthropic
                 client = anthropic.Anthropic()
                 resp = client.messages.create(
-                    model="claude-sonnet-4-6", max_tokens=max_tokens,
+                    model=get_fallback_model(), max_tokens=max_tokens,
                     messages=[{"role": "user", "content": f"{system_prompt}\n\n{user_prompt}"}],
                 )
                 return resp.content[0].text

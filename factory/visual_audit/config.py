@@ -1,10 +1,27 @@
 """Kapitel 5 Visual & Asset Audit — Configuration"""
 
+import os
+
+
+def get_fallback_model(profile: str = "standard") -> str:
+    """Get the best available model for a profile (TheBrain → .env → default)."""
+    try:
+        from factory.brain.model_provider import get_model
+        selection = get_model(profile=profile)
+        if selection and selection.get("model"):
+            return selection["model"]
+    except Exception:
+        pass
+    if profile in ("dev", "lightweight"):
+        return os.environ.get("ANTHROPIC_FALLBACK_MODEL_LIGHTWEIGHT", "claude-haiku-4-5")
+    return os.environ.get("ANTHROPIC_FALLBACK_MODEL", "claude-sonnet-4-6")
+
+
 AGENT_MODEL_MAP = {
-    "asset_discovery": "claude-sonnet-4-6",
-    "asset_strategy": "claude-sonnet-4-6",
-    "visual_consistency": "claude-sonnet-4-6",
-    "review_assistant": "claude-sonnet-4-6",
+    "asset_discovery": get_fallback_model(),
+    "asset_strategy": get_fallback_model(),
+    "visual_consistency": get_fallback_model(),
+    "review_assistant": get_fallback_model(),
 }
 
 PIPELINE_FLOW = {

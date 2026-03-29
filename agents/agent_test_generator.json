@@ -1,15 +1,10 @@
 {
   "id": "CPL-07",
   "name": "Test Generator",
-  "role": "Test Suite Creator",
-  "department": "Code-Pipeline",
-  "status": "active",
-  "task_type": "testing",
+  "role": "Test Case Generation",
+  "task_type": "test_generation",
   "model_tier": "standard",
-  "default_model": "claude-sonnet-4-6",
-  "provider": "anthropic",
-  "routing": "TheBrain",
-  "uses_web": false,
-  "description": "Generiert Unit- und UI-Tests",
-  "py_file": "test_generator.py"
+  "default_model": "claude-sonnet-4-20250514",
+  "status": "active",
+  "department": "Code-Pipeline"
 }

@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Optional
 
 from factory.asset_forge.config import AssetForgeConfig
+from config.model_router import get_fallback_model
 from factory.asset_forge.pdf_reader import PDFReader, ExtractedSections
 
 logger = logging.getLogger(__name__)
@@ -385,7 +386,7 @@ class AssetSpecExtractor:
         try:
             import anthropic
             client = anthropic.Anthropic()
-            model_id = "claude-haiku-4-5" if model == "haiku" else "claude-sonnet-4-6"
+            model_id = get_fallback_model("dev") if model == "haiku" else get_fallback_model()
             resp = client.messages.create(
                 model=model_id,
                 max_tokens=max_tokens,

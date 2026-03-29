@@ -62,6 +62,42 @@ def _cleanup_old_reports(config: dict):
                 pass
 
 
+def _run_extra_checks(config: dict) -> dict:
+    """Run consistency, dependency, and model hardcode checks."""
+    from factory.hq.janitor.consistency_checker import check_consistency
+    from factory.hq.janitor.dependency_checker import check_dependencies
+    from factory.hq.janitor.model_hardcode_checker import check_model_hardcodes
+
+    consistency = check_consistency(config)
+    dependencies = check_dependencies(config)
+    model_hardcodes = check_model_hardcodes(config)
+    model_evolution = _run_model_evolution()
+
+    return {
+        "consistency": consistency,
+        "dependencies": dependencies,
+        "model_hardcodes": model_hardcodes,
+        "model_evolution": model_evolution,
+    }
+
+
+def _run_model_evolution() -> dict:
+    """Run model evolution cycle (has internal 24h cooldown)."""
+    try:
+        from factory.brain.model_provider.model_evolution import ModelEvolution
+        report = ModelEvolution().run_cycle()
+        return {
+            "status": report.status,
+            "models_added": report.models_added,
+            "models_deprecated": report.models_deprecated,
+            "cost_usd": report.cost_usd,
+            "errors": report.errors,
+        }
+    except Exception as e:
+        logger.warning("Model evolution check failed: %s", e)
+        return {"status": "error", "error": str(e)}
+
+
 def run_daily() -> dict:
     """Daily scan (Stage 1 + 2). No actions, only scan and report."""
     start = time.time()
@@ -80,6 +116,9 @@ def run_daily() -> dict:
     # Analyze
     analysis = analyze(scan_data, graph, config)
 
+    # Extra checks: config consistency + dependency health
+    extra = _run_extra_checks(config)
+
     duration = time.time() - start
 
     report = {
@@ -89,9 +128,11 @@ def run_daily() -> dict:
         "cost_usd": 0.0,
         "scan": {
             "total_files": scan_data["total_files"],
+            "skipped_project_files": scan_data.get("skipped_project_files", 0),
             "total_lines": scan_data["total_lines"],
             "total_size_mb": scan_data["total_size_mb"],
             "by_type": scan_data["by_type"],
+            "growth_alerts": scan_data.get("growth_alerts", []),
         },
         "graph": {
             "total_nodes": graph["stats"]["total_nodes"],
@@ -102,6 +143,10 @@ def run_daily() -> dict:
         },
         "findings": analysis["findings"],
         "summary": analysis["summary"],
+        "consistency": extra["consistency"],
+        "dependencies": extra["dependencies"],
+        "model_hardcodes": extra["model_hardcodes"],
+        "model_evolution": extra["model_evolution"],
         "actions": {"auto_fixed": [], "proposed": [], "reported": []},
     }
 
@@ -135,6 +180,9 @@ def run_weekly() -> dict:
     # Cleanup old reports
     _cleanup_old_reports(config)
 
+    # Extra checks
+    extra = _run_extra_checks(config)
+
     duration = time.time() - start
 
     report = {
@@ -144,9 +192,11 @@ def run_weekly() -> dict:
         "cost_usd": 0.0,
         "scan": {
             "total_files": scan_data["total_files"],
+            "skipped_project_files": scan_data.get("skipped_project_files", 0),
             "total_lines": scan_data["total_lines"],
             "total_size_mb": scan_data["total_size_mb"],
             "by_type": scan_data["by_type"],
+            "growth_alerts": scan_data.get("growth_alerts", []),
         },
         "graph": {
             "total_nodes": graph["stats"]["total_nodes"],
@@ -157,6 +207,10 @@ def run_weekly() -> dict:
         },
         "findings": analysis["findings"],
         "summary": analysis["summary"],
+        "consistency": extra["consistency"],
+        "dependencies": extra["dependencies"],
+        "model_hardcodes": extra["model_hardcodes"],
+        "model_evolution": extra["model_evolution"],
         "actions": actions,
         "quarantine_cleanup": quarantine_cleanup,
     }
@@ -191,6 +245,9 @@ def run_monthly() -> dict:
     quarantine_cleanup = cleanup_quarantine(config)
     _cleanup_old_reports(config)
 
+    # Extra checks
+    extra = _run_extra_checks(config)
+
     duration = time.time() - start
 
     report = {
@@ -200,9 +257,11 @@ def run_monthly() -> dict:
         "cost_usd": deep.get("cost_usd", 0.0),
         "scan": {
             "total_files": scan_data["total_files"],
+            "skipped_project_files": scan_data.get("skipped_project_files", 0),
             "total_lines": scan_data["total_lines"],
             "total_size_mb": scan_data["total_size_mb"],
             "by_type": scan_data["by_type"],
+            "growth_alerts": scan_data.get("growth_alerts", []),
         },
         "graph": {
             "total_nodes": graph["stats"]["total_nodes"],
@@ -213,6 +272,10 @@ def run_monthly() -> dict:
         },
         "findings": analysis["findings"],
         "summary": analysis["summary"],
+        "consistency": extra["consistency"],
+        "dependencies": extra["dependencies"],
+        "model_hardcodes": extra["model_hardcodes"],
+        "model_evolution": extra["model_evolution"],
         "deep_analysis": deep,
         "actions": actions,
         "quarantine_cleanup": quarantine_cleanup,
@@ -291,7 +354,10 @@ def format_report(report: dict) -> str:
     lines.append("")
 
     scan = report.get("scan", {})
-    lines.append(f"  Files:        {scan.get('total_files', 0)}")
+    lines.append(f"  Files:        {scan.get('total_files', 0)} (Infrastruktur)")
+    skipped = scan.get("skipped_project_files", 0)
+    if skipped:
+        lines.append(f"  Skipped:      {skipped} (Projekt-Dateien)")
     lines.append(f"  Lines:        {scan.get('total_lines', 0):,}")
     lines.append(f"  Size:         {scan.get('total_size_mb', 0)} MB")
     lines.append(f"  Duration:     {report.get('duration_sec', 0)}s")
@@ -327,6 +393,61 @@ def format_report(report: dict) -> str:
         lines.append(f"  Reported:     {len(actions['reported'])}")
         for r in actions["reported"][:5]:
             lines.append(f"    - [{r.get('type')}] {r.get('title', '')[:60]}")
+
+    growth_alerts = scan.get("growth_alerts", [])
+    if growth_alerts:
+        lines.append("")
+        lines.append("  GROWTH ALERTS:")
+        for alert in growth_alerts:
+            sev = alert.get("severity", "yellow").upper()
+            lines.append(f"    [{sev}] {alert['message']}")
+
+    consistency = report.get("consistency", {})
+    if consistency.get("findings"):
+        lines.append("")
+        lines.append(f"  CONFIG CONSISTENCY: {len(consistency['findings'])} Issues")
+        for cf in consistency["findings"][:5]:
+            sev = cf.get("severity", "yellow").upper()
+            lines.append(f"    [{sev}] {cf['message']}")
+        if len(consistency["findings"]) > 5:
+            lines.append(f"    ... und {len(consistency['findings']) - 5} weitere")
+
+    deps = report.get("dependencies", {})
+    if deps.get("findings"):
+        lines.append("")
+        lines.append(f"  DEPENDENCY HEALTH: {len(deps['findings'])} Issues")
+        for df in deps["findings"][:5]:
+            sev = df.get("severity", "yellow").upper()
+            lines.append(f"    [{sev}] {df['message']}")
+
+    mhc = report.get("model_hardcodes", {})
+    mhc_findings = mhc.get("findings", [])
+    if mhc_findings:
+        mhc_stats = mhc.get("stats", {})
+        sev_counts = mhc_stats.get("by_severity", {})
+        lines.append("")
+        lines.append(f"  MODEL HARDCODES: {len(mhc_findings)} Findings "
+                      f"({sev_counts.get('red', 0)} red, {sev_counts.get('yellow', 0)} yellow)")
+        for mf in mhc_findings[:5]:
+            sev = mf.get("severity", "yellow").upper()
+            lines.append(f"    [{sev}] {mf['file']}:{mf['line_number']} — {mf['pattern_matched']}")
+        if len(mhc_findings) > 5:
+            lines.append(f"    ... und {len(mhc_findings) - 5} weitere")
+
+    evo = report.get("model_evolution", {})
+    if evo and evo.get("status") not in (None, "skipped_cooldown"):
+        lines.append("")
+        evo_status = evo.get("status", "?").upper()
+        lines.append(f"  MODEL EVOLUTION: {evo_status}")
+        if evo.get("models_added"):
+            lines.append(f"    Added: {evo['models_added']} model(s)")
+        if evo.get("models_deprecated"):
+            lines.append(f"    Deprecated: {evo['models_deprecated']} model(s)")
+        if evo.get("errors"):
+            for err in evo["errors"][:3]:
+                lines.append(f"    Error: {str(err)[:80]}")
+        if evo.get("cost_usd"):
+            lines.append(f"    Cost: ${evo['cost_usd']:.4f}")
 
     if report.get("report_path"):
         lines.append("")

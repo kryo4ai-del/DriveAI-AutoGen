@@ -1,0 +1,15 @@
+{
+  "id": "BRN-02",
+  "name": "TheBrain Response Collector",
+  "role": "Response Processing & Escalation",
+  "department": "Brain",
+  "status": "active",
+  "task_type": "processing",
+  "model_tier": "premium",
+  "default_model": "claude-opus-4-6",
+  "provider": "anthropic",
+  "routing": "tier_lock=premium",
+  "uses_web": false,
+  "description": "Verarbeitet und fasst Subsystem-Ergebnisse zusammen. Erkennt Eskalationen. Liefert handlungsorientierte Antworten im TheBrain-Stil.",
+  "py_file": "response_collector.py"
+}

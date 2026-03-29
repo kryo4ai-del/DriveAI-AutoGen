@@ -1,9 +1,26 @@
 """Kapitel 4 MVP & Feature Scope — Configuration"""
 
+import os
+
+
+def get_fallback_model(profile: str = "standard") -> str:
+    """Get the best available model for a profile (TheBrain → .env → default)."""
+    try:
+        from factory.brain.model_provider import get_model
+        selection = get_model(profile=profile)
+        if selection and selection.get("model"):
+            return selection["model"]
+    except Exception:
+        pass
+    if profile in ("dev", "lightweight"):
+        return os.environ.get("ANTHROPIC_FALLBACK_MODEL_LIGHTWEIGHT", "claude-haiku-4-5")
+    return os.environ.get("ANTHROPIC_FALLBACK_MODEL", "claude-sonnet-4-6")
+
+
 AGENT_MODEL_MAP = {
-    "feature_extraction": "claude-sonnet-4-6",
-    "feature_prioritization": "claude-sonnet-4-6",
-    "screen_architect": "claude-sonnet-4-6",
+    "feature_extraction": get_fallback_model(),
+    "feature_prioritization": get_fallback_model(),
+    "screen_architect": get_fallback_model(),
 }
 
 PIPELINE_FLOW = {

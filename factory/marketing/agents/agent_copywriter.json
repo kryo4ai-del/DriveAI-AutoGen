@@ -1,0 +1,16 @@
+{
+  "id": "MKT-03",
+  "name": "Copywriter",
+  "role": "Marketing Copywriter",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "content_creation",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Schreibt alle Marketing-Texte: Social Media Posts, Store-Beschreibungen, Blog-Artikel, Ad Copy. Mehrsprachig (DE/EN), plattformgerecht, mit A/B-Varianten.",
+  "py_file": "copywriter.py",
+  "_source": "factory\\marketing\\agents\\agent_copywriter.json"
+}

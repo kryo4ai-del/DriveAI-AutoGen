@@ -19,6 +19,33 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
+def _load_project_slugs(config: dict) -> set:
+    """Load all project slugs from factory/projects/ for exclusion."""
+    slugs = set()
+    slug_source = config.get("project_exclusions", {}).get("slug_source", "factory/projects/")
+    projects_dir = PROJECT_ROOT / slug_source
+    if projects_dir.exists():
+        for d in projects_dir.iterdir():
+            if d.is_dir() and not d.name.startswith("."):
+                slugs.add(d.name)
+    return slugs
+
+
+def _is_project_file(rel_path: str, config: dict) -> bool:
+    """Check if a file belongs to a project and should be skipped."""
+    excl = config.get("project_exclusions", {})
+    for out_dir in excl.get("output_dirs", []):
+        if rel_path.startswith(out_dir):
+            return True
+    for skip_dir in excl.get("additional_skip_dirs", []):
+        if rel_path.startswith(skip_dir):
+            return True
+    slug_source = excl.get("slug_source", "factory/projects/")
+    if rel_path.startswith(slug_source):
+        return True
+    return False
+
+
 def build_dependency_graph(config: dict) -> dict:
     """Build complete import/dependency graph.
 
@@ -31,9 +58,9 @@ def build_dependency_graph(config: dict) -> dict:
     nodes = {}
     edges = []
 
-    # Collect all files
-    py_files = _collect_files(scan_paths.get("python", []), [".py"], exclude)
-    js_files = _collect_files(scan_paths.get("javascript", []), [".js", ".jsx", ".ts", ".tsx"], exclude)
+    # Collect all files (project files excluded)
+    py_files = _collect_files(scan_paths.get("python", []), [".py"], exclude, config)
+    js_files = _collect_files(scan_paths.get("javascript", []), [".js", ".jsx", ".ts", ".tsx"], exclude, config)
 
     # Parse Python files
     for fpath in py_files:
@@ -137,7 +164,7 @@ def build_dependency_graph(config: dict) -> dict:
     return result
 
 
-def _collect_files(dirs: list, extensions: list, exclude: set) -> list:
+def _collect_files(dirs: list, extensions: list, exclude: set, config: dict = None) -> list:
     """Collect files with given extensions from directories."""
     files = []
     seen = set()
@@ -147,7 +174,8 @@ def _collect_files(dirs: list, extensions: list, exclude: set) -> list:
             continue
         for root, dirnames, fnames in os.walk(abs_dir):
             rel_root = Path(root).relative_to(PROJECT_ROOT).as_posix() + "/"
-            dirnames[:] = [d for d in dirnames if not any(
+            exclude_dir_names = {ex.rstrip("/") for ex in exclude}
+            dirnames[:] = [d for d in dirnames if d not in exclude_dir_names and not any(
                 (rel_root + d + "/").startswith(ex) for ex in exclude
             )]
             for fname in fnames:
@@ -155,6 +183,11 @@ def _collect_files(dirs: list, extensions: list, exclude: set) -> list:
                     fpath = Path(root) / fname
                     key = str(fpath.resolve())
                     if key not in seen:
+                        # Skip project output files
+                        if config:
+                            rel = fpath.relative_to(PROJECT_ROOT).as_posix()
+                            if _is_project_file(rel, config):
+                                continue
                         seen.add(key)
                         files.append(fpath)
     return files

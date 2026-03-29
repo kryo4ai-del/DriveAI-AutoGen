@@ -1,0 +1,20 @@
+evolution_loop:
+  sprint_max_iterations: 10
+  deep_max_iterations: 5
+  total_max_iterations: 20
+  stagnation_threshold_percent: 2
+  stagnation_iterations: 2
+  regression_threshold_percent: 5
+  budget_threshold_usd: 5.00
+
+quality_targets:
+  bug_score_min: 90
+  roadbook_match_min: 95
+  structural_health_min: 85
+  performance_score_min: 70
+  ux_score_min: 70
+  quality_score_aggregate_min: 85
+
+confidence:
+  auto_decision_min: 80
+  ceo_review_trigger: 50

@@ -1,0 +1,1 @@
+"""Marketing-Abteilung — Shared Utilities."""

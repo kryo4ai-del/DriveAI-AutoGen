@@ -1,0 +1,15 @@
+{
+  "id": "MKT-02",
+  "name": "Marketing Strategy",
+  "role": "Marketing Strategist",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "strategy",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Definiert die zentrale Factory-Narrative, leitet App-Sub-Stories ab, erstellt Marketing-Direktiven fuer alle Marketing-Agents.",
+  "py_file": "strategy.py"
+}

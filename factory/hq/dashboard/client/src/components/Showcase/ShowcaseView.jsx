@@ -21,7 +21,7 @@ export default function ShowcaseView() {
       <div className="text-center mb-12">
         <div className="flex items-center justify-center gap-3 mb-4">
           <Zap size={32} className="text-factory-accent" />
-          <h1 className="text-3xl font-bold text-factory-text">DriveAI Swarm Factory</h1>
+          <h1 className="text-3xl font-bold text-factory-text">DAI-Core</h1>
         </div>
         <p className="text-lg text-factory-text-secondary">
           Autonome App-Produktion — von der Idee bis zum Store
@@ -74,7 +74,7 @@ export default function ShowcaseView() {
       {/* Footer */}
       <div className="mt-12 text-center">
         <p className="text-sm text-factory-text-secondary">
-          DriveAI Swarm Factory — {data.factory.agents_available} AI-Agents arbeiten autonom
+          DAI-Core — {data.factory.agents_available} AI Specialists &bull; dai-core.ai
         </p>
         <p className="text-xs text-factory-text-secondary mt-1">
           Powered by Anthropic Claude, Google Gemini, OpenAI, Mistral

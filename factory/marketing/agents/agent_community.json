@@ -1,0 +1,16 @@
+{
+  "id": "MKT-11",
+  "name": "Community Agent",
+  "role": "Social Media Community Manager",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "community_management",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Zwei-Stufen-System fuer Social Media Kommentare. Stufe 1 (autonom): Positive/neutrale Kommentare beantwortet der Agent selbstaendig via LLM. Stufe 2 (CEO-Gate): Negative/kritische/kontroverse Kommentare erstellen Gate-Anfrage. Kategorisierung ist HARTE Logik, kein LLM.",
+  "py_file": "community_agent.py",
+  "_source": "factory\\marketing\\agents\\agent_community.json"
+}

@@ -3,6 +3,9 @@ from .model_registry import ModelRegistry, ModelInfo
 from .provider_router import ProviderRouter, ProviderResponse
 from .auto_splitter import AutoSplitter, SplitStrategy
 from .chain_optimizer import ChainOptimizer, ChainProfile
+from .capability_tags import ALL_TAGS, validate_tags
+from .capability_matcher import CapabilityMatcher, MatchResult
+from .capability_matcher import invalidate_cache as invalidate_capability_cache
 
 _registry = None
 _router = None

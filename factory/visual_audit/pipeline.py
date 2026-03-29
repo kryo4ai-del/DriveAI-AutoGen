@@ -55,16 +55,10 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
     run_dir = output_base / f"{run_number:03d}_{slug}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    # Propagate run mode
-    from factory.run_mode import read_mode, write_mode
-    _src_dir = k4_dir or k3_dir or phase1_dir or ""
-    _mode = read_mode(_src_dir) if _src_dir else "vision"
-    write_mode(run_dir, _mode)
-
     p1_count = sum(1 for k in ["concept_brief", "trend_report", "competitive_report", "audience_profile", "legal_report", "risk_assessment"] if data.get(k))
     k3_count = sum(1 for k in ["platform_strategy", "monetization_report", "marketing_strategy", "release_plan", "cost_calculation"] if data.get(k))
     k4_count = sum(1 for k in ["feature_list", "feature_prioritization", "screen_architecture"] if data.get(k))
-    print(f"      -> {p1_count + k3_count + k4_count} Reports geladen ({p1_count} + {k3_count} + {k4_count}) OK")
+    print(f"      -> {p1_count + k3_count + k4_count} Reports geladen ({p1_count} + {k3_count} + {k4_count}) ✓")
 
     print(f"\n  Idee:  {title}")
     print(f"  Kapitel-5 Run: #{run_number:03d}")
@@ -88,7 +82,7 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
         asset_disc = discover_run(data)
         result["asset_discovery"] = asset_disc
         (run_dir / "asset_discovery.md").write_text(asset_disc, encoding="utf-8")
-        print(f"      -> {len(asset_disc):,} Zeichen OK")
+        print(f"      -> {len(asset_disc):,} Zeichen ✓")
     except Exception as e:
         print(f"      FEHLER: {e}")
         result["status"] = "error"
@@ -103,7 +97,7 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
         asset_strat = strategy_run(data, asset_disc)
         result["asset_strategy"] = asset_strat
         (run_dir / "asset_strategy.md").write_text(asset_strat, encoding="utf-8")
-        print(f"      -> {len(asset_strat):,} Zeichen OK")
+        print(f"      -> {len(asset_strat):,} Zeichen ✓")
     except Exception as e:
         print(f"      FEHLER: {e} — fahre ohne Strategie fort")
         result["asset_strategy"] = ""
@@ -115,7 +109,7 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
         vis_report = consistency_run(data, asset_disc, result["asset_strategy"])
         result["visual_consistency"] = vis_report
         (run_dir / "visual_consistency.md").write_text(vis_report, encoding="utf-8")
-        print(f"      -> {len(vis_report):,} Zeichen OK")
+        print(f"      -> {len(vis_report):,} Zeichen ✓")
     except Exception as e:
         print(f"      FEHLER: {e}")
         result["status"] = "partial"
@@ -136,22 +130,14 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
     print(f"  Status: {result['status']}")
     print()
     print("  REVIEW-ZUSAMMENFASSUNG:")
-    print(f"  [RED] {counts.get('red', '?')} Blocker — MUESSEN vor Launch geloest werden")
-    print(f"  [WARN] {counts.get('warn', '?')} KI-Warnungen — MUESSEN vom Reviewer geprueft werden")
-    print(f"  [YELLOW] {counts.get('yellow', '?')} Schlechte UX — SOLLTEN vor Launch geloest werden")
-    print(f"  [GREEN] {counts.get('green', '?')} Nice-to-have — Nach Launch moeglich")
+    print(f"  \U0001f534 {counts.get('red', '?')} Blocker — MUESSEN vor Launch geloest werden")
+    print(f"  \u26a0\ufe0f  {counts.get('warn', '?')} KI-Warnungen — MUESSEN vom Reviewer geprueft werden")
+    print(f"  \U0001f7e1 {counts.get('yellow', '?')} Schlechte UX — SOLLTEN vor Launch geloest werden")
+    print(f"  \U0001f7e2 {counts.get('green', '?')} Nice-to-have — Nach Launch moeglich")
     print()
     print(f"  Naechster Schritt: Human Review Gate")
     print(f"  python -m factory.visual_audit.review_gate --run-dir {run_dir}")
     print("=" * 60)
-
-    try:
-        from factory.project_registry import update_project_phase
-        import re
-        _slug = re.sub(r'[^a-z0-9_]', '', result.get("idea_title", "").lower().replace(" ", "_"))[:40]
-        update_project_phase(_slug, "kapitel5", "complete" if result["status"] == "completed" else "partial", str(run_dir))
-    except Exception as e:
-        print(f"  [Registry] Warning: {e}")
 
     return result
 
@@ -190,9 +176,9 @@ def _save_summary(run_dir: Path, result: dict, date_str: str, counts: dict = Non
 ## Agent-Status
 | Agent | Status | Report-Laenge |
 |---|---|---|
-| Asset-Discovery (17) | {"OK" if disc_len > 0 else "FAIL"} | {disc_len:,} Zeichen |
-| Asset-Strategie (18) | {"OK" if strat_len > 0 else "FAIL"} | {strat_len:,} Zeichen |
-| Visual-Consistency (19) | {"OK" if vis_len > 0 else "FAIL"} | {vis_len:,} Zeichen |
+| Asset-Discovery (17) | {"✓" if disc_len > 0 else "✗"} | {disc_len:,} Zeichen |
+| Asset-Strategie (18) | {"✓" if strat_len > 0 else "✗"} | {strat_len:,} Zeichen |
+| Visual-Consistency (19) | {"✓" if vis_len > 0 else "✗"} | {vis_len:,} Zeichen |
 
 ## Review-Zusammenfassung
 | Rating | Anzahl |
@@ -233,7 +219,7 @@ def _update_memory(title: str, asset_disc: str, counts: dict):
             1,
         )
         learnings_path.write_text(content, encoding="utf-8")
-        print("      -> Memory aktualisiert OK")
+        print("      -> Memory aktualisiert ✓")
     except Exception as e:
         print(f"      WARNING: Memory-Update fehlgeschlagen: {e}")
 

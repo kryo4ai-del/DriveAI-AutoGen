@@ -18,6 +18,7 @@ _PHASE_TRANSITIONS = {
     "run_market_strategy": ProductPhase.MARKET_STRATEGY_COMPLETE,
     "run_mvp_scope": ProductPhase.MVP_SCOPE_COMPLETE,
     "generate_cd_roadbook": ProductPhase.CD_ROADBOOK_COMPLETE,
+    "run_feasibility_check": None,  # depends on result
     "start_production": ProductPhase.PRODUCTION_COMPLETE,
     "start_assembly": ProductPhase.ASSEMBLY_COMPLETE,
     "store_prep": ProductPhase.STORE_PREP_COMPLETE,
@@ -58,7 +59,9 @@ class PipelineDispatcher:
                 continue
             if product.phase in (ProductPhase.PARKED, ProductPhase.FAILED,
                                  ProductPhase.CANCELLED, ProductPhase.CEO_NOGO,
-                                 ProductPhase.STORE_LIVE):
+                                 ProductPhase.STORE_LIVE,
+                                 ProductPhase.PARKED_PARTIALLY,
+                                 ProductPhase.PARKED_BLOCKED):
                 continue
             action = self._action_for(product)
             if action:
@@ -95,8 +98,13 @@ class PipelineDispatcher:
                     "auto": True}
 
         if phase == ProductPhase.CD_ROADBOOK_COMPLETE:
+            return {**base, "action": "run_feasibility_check",
+                    "description": f"Feasibility Check for {p.title}",
+                    "auto": True}
+
+        if phase == ProductPhase.FEASIBLE:
             return {**base, "action": "production_review",
-                    "description": f"CEO Review: Roadbook ready for {p.title}. Approve production start?",
+                    "description": f"CEO Review: Feasibility passed for {p.title}. Approve production start?",
                     "auto": False}
 
         if phase == ProductPhase.PRODUCTION_REVIEW_PENDING:
@@ -210,6 +218,51 @@ class PipelineDispatcher:
                 except Exception as e:
                     print(f"  CD Roadbook: {e}")
                     return True
+
+            elif act == "run_feasibility_check":
+                from factory.hq.capabilities.feasibility_check import FeasibilityChecker
+                slug = product.title.lower().replace(" ", "").replace("-", "")
+                checker = FeasibilityChecker()
+                result = checker.check_project(slug)
+                product.feasibility_result = result
+                self._save_queue()
+
+                overall = result.get("overall_status", "not_feasible")
+                score = result.get("score", 0.0)
+                print(f"  Feasibility: {overall} (score={score})")
+
+                if overall == "feasible":
+                    self.advance_phase(product.id, ProductPhase.FEASIBLE,
+                                       f"Feasibility passed (score={score})")
+                elif overall == "partially_feasible":
+                    gaps = ", ".join(g.get("capability", "?")
+                                    for g in result.get("capability_gaps", []))
+                    self.advance_phase(product.id, ProductPhase.PARKED_PARTIALLY,
+                                       f"Partially feasible -- gaps: {gaps}")
+                    try:
+                        from factory.hq.capabilities.gate_creator import create_feasibility_gate
+                        create_feasibility_gate(slug, result)
+                    except Exception as e:
+                        print(f"  Gate creation failed: {e}")
+                else:
+                    gaps = ", ".join(g.get("capability", "?")
+                                    for g in result.get("capability_gaps", []))
+                    self.advance_phase(product.id, ProductPhase.PARKED_BLOCKED,
+                                       f"Not feasible -- gaps: {gaps}")
+                    try:
+                        from factory.hq.capabilities.gate_creator import create_feasibility_gate
+                        create_feasibility_gate(slug, result)
+                    except Exception as e:
+                        print(f"  Gate creation failed: {e}")
+
+                # Update project registry if available
+                try:
+                    from factory.shared.project_registry import update_feasibility
+                    update_feasibility(slug, result)
+                except Exception:
+                    pass
+
+                return True
 
             elif act == "start_production":
                 # Auto-create project if needed

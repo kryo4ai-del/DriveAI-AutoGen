@@ -157,8 +157,8 @@ def analyze(scan_data: dict, graph: dict, config: dict) -> dict:
     red_count = sum(1 for f in all_findings if f["severity"] == "red")
     total_files = scan_data.get("total_files", 1) or 1
 
-    # Score: 100 - penalty (green=0.5, yellow=2, red=5 per finding, scaled by file count)
-    penalty = (green_count * 0.5 + yellow_count * 2 + red_count * 5) / total_files * 100
+    # Score: 100 - penalty (green=0.1, yellow=0.5, red=2 per finding, scaled by file count)
+    penalty = (green_count * 0.1 + yellow_count * 0.5 + red_count * 2) / total_files * 100
     health_score = max(0, min(100, round(100 - penalty)))
 
     summary = {
@@ -199,10 +199,11 @@ def _is_skip_for_dead_code(path: str) -> bool:
     basename = Path(path).name
     if basename in skip_patterns:
         return True
-    # Skip template/config/data directories
+    # Skip template/config/data/project directories
     skip_dirs = ("templates/", "shader_templates/", "level_templates/", "specs/",
                  "generated/", "output/", "catalog/", "ideas/", "DeveloperReports/",
-                 "factory_knowledge/", "quarantine/", "reports/", "proposals/")
+                 "factory_knowledge/", "quarantine/", "reports/", "proposals/",
+                 "run_logs/", "_commands/", "projects/", "memory/runs/")
     return any(d in path for d in skip_dirs)
 
 

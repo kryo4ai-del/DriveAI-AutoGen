@@ -8,6 +8,7 @@ import os
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
+from config.model_router import get_fallback_model
 
 
 @dataclass
@@ -142,7 +143,7 @@ def _run_tier2(project_name: str, language: str, hygiene_report) -> tuple[int, o
     try:
         from factory.assembly.repair.llm_repair_agent import LLMRepairAgent
         # Use TheBrain to select model if available
-        model = "claude-haiku-4-5"
+        model = get_fallback_model("dev")
         try:
             from factory.brain.model_provider import get_model
             selection = get_model(

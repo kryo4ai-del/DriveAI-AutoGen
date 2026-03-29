@@ -57,8 +57,8 @@ export default function AgentMonitor() {
           {/* Summary Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <SummaryCard label="Agents aktiv" value={`${agentData.totals.agents_run} / ${agentData.totals.agents_total}`} />
-            <SummaryCard label="SerpAPI Credits" value={agentData.totals.serpapi_credits > 0 ? agentData.totals.serpapi_credits : '—'} />
-            <SummaryCard label="LLM-Kosten" value={agentData.totals.llm_cost_usd > 0 ? `$${agentData.totals.llm_cost_usd.toFixed(2)}` : '—'} />
+            <SummaryCard label="SerpAPI Credits" value={agentData.totals.serpapi_credits} />
+            <SummaryCard label="LLM-Kosten" value={`$${agentData.totals.llm_cost_usd.toFixed(2)}`} />
             <SummaryCard label="PDFs generiert" value={agentData.totals.pdf_count} />
           </div>
 

@@ -1,0 +1,15 @@
+{
+  "id": "BRN-07",
+  "name": "TheBrain Factory Memory",
+  "role": "Long-Term Memory & Pattern Recognition",
+  "department": "Brain",
+  "status": "active",
+  "task_type": "memory",
+  "model_tier": "none",
+  "default_model": "none",
+  "provider": "none",
+  "routing": "no_llm",
+  "uses_web": false,
+  "description": "Langzeit-Gedaechtnis der Factory. Speichert Events, Lessons, Patterns. Warnt bei aehnlichen Projekten vor bekannten Problemen. Append-mostly JSON Storage. 100% deterministisch, kein LLM.",
+  "py_file": "factory_memory.py"
+}

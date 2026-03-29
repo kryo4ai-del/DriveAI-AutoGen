@@ -10,10 +10,13 @@
       "strengths": [
         "code_generation",
         "architecture",
-        "review",
-        "swift",
-        "kotlin",
-        "typescript"
+        "code_review",
+        "swift_code",
+        "kotlin_code",
+        "typescript_code",
+        "reasoning",
+        "content_creation",
+        "planning"
       ],
       "weaknesses": [
         "cost_for_bulk"
@@ -32,8 +35,7 @@
         "classification",
         "summarization",
         "extraction",
-        "scoring",
-        "fast"
+        "research"
       ],
       "weaknesses": [
         "complex_code",
@@ -51,10 +53,13 @@
       "price_per_1k_input": 0.015,
       "price_per_1k_output": 0.075,
       "strengths": [
-        "complex_reasoning",
+        "reasoning",
         "architecture",
         "planning",
-        "quality"
+        "code_review",
+        "quality_assurance",
+        "code_generation",
+        "swift_code"
       ],
       "weaknesses": [
         "cost",
@@ -73,8 +78,6 @@
       "price_per_1k_input": 0.00015,
       "price_per_1k_output": 0.0006,
       "strengths": [
-        "fast",
-        "cheap",
         "classification",
         "extraction"
       ],
@@ -94,13 +97,14 @@
       "price_per_1k_output": 0.01,
       "strengths": [
         "code_generation",
-        "review",
-        "typescript",
-        "python"
+        "code_review",
+        "typescript_code",
+        "python_code",
+        "reasoning"
       ],
       "weaknesses": [
-        "swift_specific",
-        "kotlin_compose"
+        "swift_code",
+        "kotlin_code"
       ],
       "status": "active",
       "tier_equivalent": "mid"
@@ -114,7 +118,6 @@
       "price_per_1k_output": 0.0044,
       "strengths": [
         "reasoning",
-        "math",
         "code_review",
         "planning"
       ],
@@ -135,11 +138,10 @@
       "price_per_1k_input": 0.00015,
       "price_per_1k_output": 0.0006,
       "strengths": [
-        "fast",
-        "cheap",
         "large_context",
         "extraction",
-        "summarization"
+        "summarization",
+        "classification"
       ],
       "weaknesses": [
         "output_format_consistency",
@@ -159,7 +161,7 @@
         "code_generation",
         "large_context",
         "reasoning",
-        "typescript"
+        "typescript_code"
       ],
       "weaknesses": [
         "hallucinated_imports",
@@ -178,16 +180,14 @@
       "price_per_1k_input": 0.0001,
       "price_per_1k_output": 0.0003,
       "strengths": [
-        "fast",
-        "cheapest",
         "classification",
-        "simple_extraction"
+        "extraction"
       ],
       "weaknesses": [
         "code_generation",
-        "complex_reasoning",
-        "swift",
-        "kotlin"
+        "reasoning",
+        "swift_code",
+        "kotlin_code"
       ],
       "status": "active",
       "tier_equivalent": "low"

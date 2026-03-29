@@ -1,0 +1,749 @@
+"""Factory HQ Assistant — Claude-powered CEO assistant with tool use.
+
+Uses Anthropic API directly (not TheBrain) with tool_use for factory queries.
+Read-only tools in Step 1. Action tools in Step 2.
+"""
+
+import json
+import logging
+import os
+import re
+from datetime import datetime, timezone
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
+logger = logging.getLogger(__name__)
+
+ASSISTANT_MODEL = "claude-sonnet-4-6"
+MEMORY_FILE = Path(__file__).parent / "memory.json"
+MEMORY_UPDATE_INTERVAL = 5
+_message_counter = 0
+
+SYSTEM_PROMPT = """Du bist der Factory HQ Assistant der DriveAI Swarm Factory.
+Du bist die rechte Hand des CEO (Andreas). Du sprichst Deutsch, locker per Du.
+
+Deine Aufgaben:
+- Factory-Status zusammenfassen und erklären
+- Alerts und Probleme identifizieren und priorisieren
+- Auto-Repairs triggern wenn der CEO es wünscht
+- Empfehlungen geben basierend auf dem aktuellen Factory-Zustand
+- Projekte, Agents, Kosten und Pipeline-Status abfragen
+- TheBrain nutzen: Factory-Diagnose, Gap-Analyse, Roadmap, Quick-Check (brain_* Tools)
+
+Du hast Zugriff auf Tools fuer Lesen UND Handeln. Nutze Lese-Tools BEVOR du antwortest — rate nicht.
+
+SICHERHEITSREGELN (NICHT VERHANDELBAR):
+1. DESTRUKTIVE AKTIONEN (delete_projects): IMMER zuerst auflisten was geloescht wird. DANN fragen: "Bestaetige mit 'Ja, loeschen'". ERST nach Bestaetigung ausfuehren.
+2. GATE-ENTSCHEIDUNGEN: IMMER zuerst Reports zusammenfassen, DANN fragen ob CEO die Entscheidung so setzen will.
+3. PIPELINE-START: IMMER vorher Voraussetzungen pruefen. Geschaetzte Dauer und Kosten nennen.
+4. ARCHIVIEREN > LOESCHEN: Wenn CEO "loeschen" sagt, zuerst Archivierung vorschlagen.
+5. BEI UNKLAREM BEFEHL: Nachfragen statt raten.
+
+Stil:
+- Kurz und praezise, nicht ausschweifend
+- Zahlen und Fakten statt vage Aussagen
+- Bei Problemen: klare Empfehlung was als nächstes zu tun ist
+- Proaktiv: wenn du ein Problem siehst, sprich es an
+- Deutsch für Erklärungen, Englisch für technische Begriffe
+
+VOICE (ElevenLabs):
+Du kannst kurze Saetze SPRECHEN lassen. Umschliesse gesprochenen Text mit <speak>...</speak>.
+REGELN:
+- Max 1 Satz, max 250 Zeichen innerhalb von <speak>
+- NUR fuer: Begruessungen, Warnungen, Bestaetigungen, persoenliche Kommentare
+- NIEMALS fuer: Listen, Tabellen, Code, Reports, lange Erklaerungen, Zahlenreihen
+- Wenn du dir unsicher bist → NICHT sprechen
+- Der <speak>-Block kann am Anfang, in der Mitte oder am Ende der Antwort stehen
+- Der Text ausserhalb von <speak> wird normal als Markdown angezeigt
+Beispiele:
+  "Guten Morgen, Chef! <speak>Guten Morgen! Die Factory laeuft rund.</speak> Hier dein Briefing: ..."
+  "<speak>Achtung, Anthropic-Guthaben unter 10 Dollar!</speak> Details: ..."
+  "Pipeline gestartet. <speak>Laeuft, ich melde mich wenn's fertig ist.</speak>"
+  "Hier die Kostenuebersicht: ... (KEIN speak-Tag, weil nur Zahlen/Tabelle)" """
+
+
+# ---------------------------------------------------------------------------
+# Memory System
+# ---------------------------------------------------------------------------
+
+def _load_memory() -> dict:
+    """Laedt das persistente Memory aus memory.json."""
+    if MEMORY_FILE.exists():
+        try:
+            with open(MEMORY_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+
+def _save_memory(memory: dict):
+    """Schreibt Memory in memory.json."""
+    memory["last_updated"] = datetime.now(timezone.utc).isoformat()
+    with open(MEMORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(memory, f, indent=2, ensure_ascii=False)
+
+
+def _build_system_prompt() -> str:
+    """Baut den System-Prompt mit aktuellem Memory."""
+    memory = _load_memory()
+    if not memory or not memory.get("summary"):
+        return SYSTEM_PROMPT
+
+    topics = "\n".join("- " + t for t in memory.get("active_topics", []))
+    decisions = "\n".join(
+        "- " + d["date"] + ": " + d["decision"] + (" (" + d.get("project", "") + ")" if d.get("project") else "")
+        for d in memory.get("recent_decisions", [])[-10:]
+    )
+    prefs = "\n".join("- " + p for p in memory.get("ceo_preferences", []))
+    ctx = "\n".join("- " + c for c in memory.get("important_context", []))
+
+    memory_block = f"""
+
+DEIN GEDAECHTNIS -- Was du aus frueheren Gespraechen weisst:
+
+Zusammenfassung: {memory.get('summary', '')}
+
+Aktuelle Themen:
+{topics}
+
+Letzte CEO-Entscheidungen:
+{decisions}
+
+CEO-Praeferenzen:
+{prefs}
+
+Wichtiger Kontext:
+{ctx}
+
+Bisherige Interaktionen: {memory.get('interaction_count', 0)} Nachrichten in {memory.get('sessions_count', 0)} Sessions.
+
+WICHTIG: Nutze dieses Wissen natuerlich. Sage NICHT 'laut meinem Gedaechtnis' oder 'ich erinnere mich'. Sprich so als wuesstest du es einfach -- wie ein Kollege der gestern auch da war."""
+
+    return SYSTEM_PROMPT + memory_block
+
+
+def _extract_text(content) -> str:
+    """Extrahiert Text aus verschiedenen Message-Formaten."""
+    if isinstance(content, str):
+        return content[:200]
+    if isinstance(content, list):
+        texts = []
+        for block in content:
+            if hasattr(block, "text"):
+                texts.append(block.text[:200])
+            elif isinstance(block, dict) and block.get("type") == "text":
+                texts.append(block.get("text", "")[:200])
+        return " ".join(texts)
+    return str(content)[:200]
+
+
+def _update_memory(history: list):
+    """Generiert ein Memory-Update aus der Chat-History via Haiku (guenstig)."""
+    import anthropic
+
+    memory = _load_memory()
+
+    # Nur die letzten 10 Nachrichten als Kontext
+    recent = history[-10:] if len(history) > 10 else history
+    lines = []
+    for m in recent:
+        role = "CEO" if m.get("role") == "user" else "Assistant"
+        txt = _extract_text(m.get("content", ""))
+        if txt.strip():
+            lines.append(f"{role}: {txt}")
+    recent_text = "\n".join(lines)
+
+    if not recent_text.strip():
+        return
+
+    update_prompt = f"""Analysiere dieses Gespraech und aktualisiere das Memory des Assistenten.
+
+AKTUELLES MEMORY:
+{json.dumps(memory, indent=2, ensure_ascii=False)}
+
+NEUE NACHRICHTEN:
+{recent_text}
+
+Gib ein aktualisiertes Memory als JSON zurueck. Regeln:
+- summary: 1-2 Saetze, was insgesamt passiert ist (alt + neu zusammenfassen), max 500 Zeichen
+- active_topics: Max 5 aktuelle Themen (alte die erledigt sind entfernen, neue hinzufuegen)
+- recent_decisions: Neue CEO-Entscheidungen hinzufuegen (max 15 behalten, aelteste entfernen)
+- ceo_preferences: Neue Praeferenzen hinzufuegen wenn erkennbar (max 10)
+- important_context: Aktualisieren wenn sich etwas geaendert hat (max 10)
+- interaction_count: um die Anzahl neuer Nachrichten erhoehen
+- sessions_count: beibehalten (wird extern gezaehlt)
+
+NUR das JSON zurueckgeben, kein anderer Text. Kein Markdown-Fence."""
+
+    try:
+        client = anthropic.Anthropic()
+        response = client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=1024,
+            messages=[{"role": "user", "content": update_prompt}],
+        )
+
+        raw = response.content[0].text.strip()
+        # Strip markdown fence if present
+        if raw.startswith("```"):
+            raw = re.sub(r"^```\w*\n?", "", raw)
+            raw = re.sub(r"\n?```$", "", raw)
+
+        updated_memory = json.loads(raw)
+        updated_memory["last_updated"] = datetime.now(timezone.utc).isoformat()
+        updated_memory["version"] = memory.get("version", 0) + 1
+        _save_memory(updated_memory)
+        logger.info("Memory updated (v%s)", updated_memory["version"])
+    except Exception as e:
+        logger.warning("Memory update failed: %s", e)
+
+
+TOOLS = [
+    {
+        "name": "get_project_status",
+        "description": "Liest den Status eines Projekts. Nutze dies wenn nach einem bestimmten Projekt gefragt wird.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"slug": {"type": "string", "description": "Projekt-Slug (z.B. 'memerun_2026')"}},
+            "required": ["slug"],
+        },
+    },
+    {
+        "name": "list_all_projects",
+        "description": "Listet alle Projekte mit Kurzstatus. Für Übersichten oder 'Was läuft gerade?'",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "get_health_alerts",
+        "description": "Health Check: alle Alerts, Warnungen, Probleme in der Factory.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "run_auto_repair",
+        "description": "Automatische Reparaturen für alle auto-fixable Probleme. Nur wenn CEO es wünscht.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "get_factory_health",
+        "description": "Gesamtzustand: TheBrain, Provider, API Keys, Document Secretary.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "get_cost_summary",
+        "description": "Kostenübersicht: LLM, SerpAPI, pro Projekt oder gesamt.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"slug": {"type": "string", "description": "Projekt-Slug (optional, leer = gesamt)"}},
+        },
+    },
+    {
+        "name": "get_ceo_briefing",
+        "description": "Tages-Briefing: offene Gates, aktive Projekte, Alerts, Empfehlungen.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "get_welcome_briefing",
+        "description": "Kompaktes Willkommens-Briefing beim Dashboard-Login. Top-3 Punkte, offene Aktionen. Max 5-8 Zeilen.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "get_team_overview",
+        "description": "Zeigt alle Factory-Mitarbeiter: Agents mit Rolle, Modell, Provider, Status. Filterbar nach Abteilung oder Provider.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "department": {"type": "string", "description": "Optional: 'Code-Pipeline', 'Swarm Factory', 'Infrastruktur'"},
+                "provider": {"type": "string", "description": "Optional: 'anthropic', 'openai', 'google', 'mistral'"},
+            },
+        },
+    },
+    {
+        "name": "get_provider_status",
+        "description": "Zeigt Kontostand und Status aller Provider oder eines einzelnen. Nutze bei Fragen zu Guthaben, Kosten oder Provider-Status.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"provider_id": {"type": "string", "description": "Optional: anthropic, openai, google, mistral, elevenlabs, stability, serpapi"}},
+        },
+    },
+    {
+        "name": "update_provider_balance",
+        "description": "Aktualisiert manuellen Kontostand. Nutze wenn CEO sagt 'Anthropic hat noch $50' o.ae.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"provider_id": {"type": "string"}, "balance": {"type": "number"}},
+            "required": ["provider_id", "balance"],
+        },
+    },
+    {
+        "name": "get_pending_gates_list",
+        "description": "Zeigt alle offenen Gates die auf Entscheidung warten. Kann nach Projekt, Kategorie und Plattform gefiltert werden.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "project": {"type": "string", "description": "Optional: Projekt-Slug"},
+                "category": {"type": "string", "description": "Optional: Kategorie"},
+            },
+        },
+    },
+    # --- Action Tools ---
+    {
+        "name": "set_gate_decision",
+        "description": "Setzt eine Gate-Entscheidung. Kann gate_id ODER project+gate_type nutzen. IMMER zuerst Reports zusammenfassen und CEO fragen.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "gate_id": {"type": "string", "description": "Gate-ID (z.B. gate_20260324_testprojekt_qa_failed)"},
+                "slug": {"type": "string", "description": "Alternativ: Projekt-Slug (legacy)"},
+                "gate_type": {"type": "string", "description": "Alternativ: Gate-Type (legacy)"},
+                "decision": {"type": "string", "description": "Option-ID aus dem Gate"},
+                "notes": {"type": "string", "description": "Anmerkungen"},
+            },
+            "required": ["decision"],
+        },
+    },
+    {
+        "name": "start_pipeline",
+        "description": "Startet Pipeline ab einer Phase. Prueft Voraussetzungen, startet als Background-Prozess.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "slug": {"type": "string"},
+                "phase": {"type": "string", "enum": ["phase1", "kapitel3", "kapitel4", "kapitel45", "kapitel5", "kapitel6", "full", "secretary"]},
+                "mode": {"type": "string", "enum": ["vision", "factory"]},
+            },
+            "required": ["slug", "phase"],
+        },
+    },
+    {
+        "name": "get_pipeline_log",
+        "description": "Zeigt Status einer laufenden Pipeline (letzte Log-Zeilen).",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "slug": {"type": "string"}, "lines": {"type": "integer", "description": "Letzte N Zeilen (default 20)"},
+            },
+            "required": ["slug"],
+        },
+    },
+    {
+        "name": "delete_projects",
+        "description": "DESTRUKTIV: Loescht Projekte komplett. NUR mit confirmed=true nach CEO-Bestaetigung.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "slugs": {"type": "array", "items": {"type": "string"}},
+                "confirmed": {"type": "boolean", "description": "MUSS true sein nach CEO-Bestaetigung"},
+            },
+            "required": ["slugs", "confirmed"],
+        },
+    },
+    {
+        "name": "archive_project",
+        "description": "Archiviert ein Projekt (verschieben, nicht loeschen). Sicherer als delete.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"slug": {"type": "string"}, "reason": {"type": "string"}},
+            "required": ["slug"],
+        },
+    },
+    {
+        "name": "create_new_project",
+        "description": "Erstellt neues Projekt mit Idee und optional sofortigem Pipeline-Start.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "title": {"type": "string"}, "idea_text": {"type": "string"},
+                "mode": {"type": "string", "enum": ["vision", "factory"]},
+                "auto_start": {"type": "boolean"},
+            },
+            "required": ["title", "idea_text", "mode"],
+        },
+    },
+    # --- Janitor Tools ---
+    {
+        "name": "get_janitor_status",
+        "description": "Zeigt den aktuellen Factory-Hygiene-Status: Health Score, offene Findings, letzte Scans, Quarantaene. Nutze dies wenn der CEO fragt 'Wie sauber ist die Factory?' oder 'Was hat der Hausmeister gefunden?'",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "run_janitor_scan",
+        "description": "Startet einen Janitor-Scan manuell. Nutze dies wenn der CEO sagt 'Lass den Hausmeister mal durchgehen' oder 'Scanne die Factory'.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "level": {"type": "string", "enum": ["daily", "weekly", "monthly"], "description": "Scan-Level. Default: daily"},
+            },
+        },
+    },
+    # --- TheBrain Tools ---
+    {
+        "name": "brain_briefing",
+        "description": "TheBrain Factory-Briefing: Vollstaendiger Zustandsbericht der Factory mit Health, Alerts, Subsystemen, Capabilities. Nutze bei: 'Factory Briefing', 'Wie geht es der Factory?', 'TheBrain Status', 'Factory Report'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_diagnose",
+        "description": "TheBrain Diagnose: Erkennt aktive Probleme und liefert Loesungsvorschlaege mit Prioritaeten. Nutze bei: 'Diagnose', 'Was ist los?', 'Probleme?', 'Factory Check'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_gaps",
+        "description": "TheBrain Gap-Analyse: Tiefenanalyse aller fehlenden Factory-Faehigkeiten mit Self-Build Empfehlungen (DIR-001 Stufen). Nutze bei: 'Gap Analyse', 'Was fehlt?', 'Luecken?', 'Capabilities'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_roadmap",
+        "description": "TheBrain Roadmap: Erweiterungsplan mit konkreten Schritten, Timelines und Prioritaeten. Nutze bei: 'Roadmap', 'Erweiterungsplan', 'Was bauen wir als naechstes?', 'Naechste Schritte'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_quick_check",
+        "description": "TheBrain Quick-Check: Ultraknapper Factory-Status (Health + Probleme). Nutze bei: 'Quick Check', 'Alles okay?', 'Kurz-Status'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_commands",
+        "description": "Zeigt alle verfuegbaren TheBrain-Befehle. Nutze bei: 'Was kann TheBrain?', 'TheBrain Befehle', 'Brain Help'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    # --- Memory Tools ---
+    {
+        "name": "get_memory",
+        "description": "Zeigt das aktuelle Gedaechtnis des Assistenten -- was er sich aus frueheren Gespraechen gemerkt hat. Nutze dies wenn der CEO fragt 'Was weisst du noch?' oder 'Was hast du dir gemerkt?'",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "update_memory_manual",
+        "description": "Aktualisiert das Gedaechtnis manuell. Nutze dies wenn der CEO sagt 'Merk dir dass...' oder 'Vergiss nicht dass...' oder 'Ab jetzt bevorzuge ich...'",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "category": {"type": "string", "enum": ["active_topics", "ceo_preferences", "important_context"], "description": "Welche Kategorie aktualisiert werden soll"},
+                "action": {"type": "string", "enum": ["add", "remove"], "description": "Hinzufuegen oder entfernen"},
+                "content": {"type": "string", "description": "Der zu merkende/vergessende Inhalt"},
+            },
+            "required": ["category", "action", "content"],
+        },
+    },
+]
+
+
+def handle_tool_call(tool_name: str, tool_input: dict) -> str:
+    """Dispatch tool calls to factory modules."""
+    try:
+        if tool_name == "get_project_status":
+            from factory.project_registry import get_project
+            result = get_project(tool_input.get("slug", ""))
+            return json.dumps(result, indent=2, default=str) if result else '{"error": "Projekt nicht gefunden"}'
+
+        elif tool_name == "list_all_projects":
+            from factory.project_registry import list_projects
+            projects = list_projects()
+            summary = [{"id": p.get("project_id"), "title": p.get("title"), "status": p.get("status"),
+                         "phase": p.get("current_phase"), "mode": p.get("mode")} for p in projects]
+            return json.dumps(summary, indent=2, default=str)
+
+        elif tool_name == "get_health_alerts":
+            from factory.hq.health_monitor import run_health_check
+            return json.dumps(run_health_check(), indent=2, default=str)
+
+        elif tool_name == "run_auto_repair":
+            from factory.hq.auto_repair import run_auto_repair
+            return json.dumps(run_auto_repair(), indent=2, default=str)
+
+        elif tool_name == "get_factory_health":
+            from factory.hq.assistant.context_builder import read_factory_health
+            return read_factory_health()
+
+        elif tool_name == "get_cost_summary":
+            from factory.hq.assistant.context_builder import build_cost_summary
+            return build_cost_summary(tool_input.get("slug"))
+
+        elif tool_name == "get_ceo_briefing":
+            from factory.hq.assistant.context_builder import build_ceo_briefing
+            return build_ceo_briefing()
+
+        elif tool_name == "get_welcome_briefing":
+            from factory.hq.assistant.context_builder import build_welcome_briefing
+            return build_welcome_briefing()
+
+        elif tool_name == "get_team_overview":
+            from factory.agent_registry import get_all_agents, get_agents_by_department, get_agents_by_provider, get_summary
+            dept = tool_input.get("department")
+            prov = tool_input.get("provider")
+            if dept:
+                agents = get_agents_by_department(dept)
+            elif prov:
+                agents = get_agents_by_provider(prov)
+            else:
+                agents = get_all_agents()
+            return json.dumps({"summary": get_summary(), "agents": [{"id": a["id"], "name": a["name"], "role": a["role"], "department": a["department"], "model": a.get("default_model"), "provider": a.get("provider"), "status": a["status"]} for a in agents]}, indent=2, default=str)
+
+        elif tool_name == "get_provider_status":
+            from factory.hq.providers.balance_monitor import check_all_providers
+            result = check_all_providers()
+            pid = tool_input.get("provider_id")
+            if pid:
+                result["providers"] = [p for p in result["providers"] if p["id"] == pid]
+            return json.dumps(result, indent=2, default=str)
+
+        elif tool_name == "update_provider_balance":
+            from factory.hq.providers.balance_monitor import update_manual_balance
+            return json.dumps(update_manual_balance(
+                tool_input["provider_id"], tool_input["balance"]
+            ), indent=2, default=str)
+
+        elif tool_name == "get_pending_gates_list":
+            from factory.hq.gate_api import get_pending_gates
+            gates = get_pending_gates(
+                project=tool_input.get("project"),
+                category=tool_input.get("category"),
+            )
+            summary = [{"gate_id": g["gate_id"], "title": g["title"], "severity": g["severity"],
+                         "project": g["project"], "category": g["category"], "platform": g.get("platform"),
+                         "options": [o["id"] for o in g.get("options", [])],
+                         "recommendation": g.get("recommendation", {}).get("option_id")} for g in gates]
+            return json.dumps(summary, indent=2, default=str)
+
+        # --- Action Tools ---
+        elif tool_name == "set_gate_decision":
+            gate_id = tool_input.get("gate_id")
+            decision = tool_input["decision"]
+            notes = tool_input.get("notes", "")
+
+            # New system: use gate_id directly
+            if gate_id:
+                from factory.hq.gate_api import decide_gate
+                return json.dumps(decide_gate(gate_id, decision, notes), indent=2, default=str)
+
+            # Legacy: find gate by project+type
+            slug = tool_input.get("slug", "")
+            gate_type = tool_input.get("gate_type", "")
+            if slug and gate_type:
+                from factory.hq.gate_api import get_pending_gates
+                matching = [g for g in get_pending_gates(project=slug) if g["gate_type"] == gate_type]
+                if matching:
+                    from factory.hq.gate_api import decide_gate
+                    return json.dumps(decide_gate(matching[0]["gate_id"], decision, notes), indent=2, default=str)
+
+            # Fallback to old executor
+            from factory.hq.assistant.action_executor import execute_gate_decision
+            return json.dumps(execute_gate_decision(
+                slug, gate_type, decision, notes
+            ), indent=2, default=str)
+
+        elif tool_name == "start_pipeline":
+            from factory.hq.assistant.action_executor import start_pipeline_phase
+            return json.dumps(start_pipeline_phase(
+                tool_input["slug"], tool_input["phase"], tool_input.get("mode")
+            ), indent=2, default=str)
+
+        elif tool_name == "get_pipeline_log":
+            from factory.hq.assistant.action_executor import get_pipeline_log
+            return json.dumps(get_pipeline_log(
+                tool_input["slug"], tool_input.get("lines", 20)
+            ), indent=2, default=str)
+
+        elif tool_name == "delete_projects":
+            if not tool_input.get("confirmed"):
+                return json.dumps({"error": "Loeschung nicht bestaetigt. CEO muss explizit bestaetigen."})
+            from factory.hq.assistant.action_executor import delete_projects
+            return json.dumps(delete_projects(
+                tool_input["slugs"], tool_input["confirmed"]
+            ), indent=2, default=str)
+
+        elif tool_name == "archive_project":
+            from factory.hq.assistant.action_executor import archive_project
+            return json.dumps(archive_project(
+                tool_input["slug"], tool_input.get("reason", "")
+            ), indent=2, default=str)
+
+        elif tool_name == "create_new_project":
+            from factory.hq.assistant.action_executor import create_new_project
+            return json.dumps(create_new_project(
+                tool_input["title"], tool_input["idea_text"],
+                tool_input["mode"], tool_input.get("auto_start", False)
+            ), indent=2, default=str)
+
+        # --- Janitor Tools ---
+        elif tool_name == "get_janitor_status":
+            from factory.hq.janitor.janitor import get_status
+            result = get_status()
+            return json.dumps(result, indent=2, ensure_ascii=False, default=str)
+
+        elif tool_name == "run_janitor_scan":
+            level = tool_input.get("level", "daily")
+            if level == "daily":
+                from factory.hq.janitor.janitor import run_daily
+                result = run_daily()
+            elif level == "weekly":
+                from factory.hq.janitor.janitor import run_weekly
+                result = run_weekly()
+            elif level == "monthly":
+                from factory.hq.janitor.janitor import run_monthly
+                result = run_monthly()
+            else:
+                return json.dumps({"error": f"Unknown level: {level}"})
+            summary = result.get("summary", {})
+            return json.dumps({
+                "cycle": level,
+                "health_score": summary.get("health_score"),
+                "findings": summary.get("total_findings", 0),
+                "green": summary.get("green_auto_fixable", 0),
+                "yellow": summary.get("yellow_proposals", 0),
+                "red": summary.get("red_report_only", 0),
+                "auto_fixed": len(result.get("actions", {}).get("auto_fixed", [])),
+                "proposed": len(result.get("actions", {}).get("proposed", [])),
+                "cost_usd": result.get("cost_usd", 0),
+            }, indent=2, default=str)
+
+        # --- TheBrain Tools ---
+        elif tool_name == "brain_briefing":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_briefing()
+
+        elif tool_name == "brain_diagnose":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_diagnose()
+
+        elif tool_name == "brain_gaps":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_gaps()
+
+        elif tool_name == "brain_roadmap":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_roadmap()
+
+        elif tool_name == "brain_quick_check":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_quick_check()
+
+        elif tool_name == "brain_commands":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().get_available_commands()
+
+        # --- Memory Tools ---
+        elif tool_name == "get_memory":
+            memory = _load_memory()
+            return json.dumps(memory, indent=2, ensure_ascii=False, default=str)
+
+        elif tool_name == "update_memory_manual":
+            memory = _load_memory()
+            category = tool_input["category"]
+            action = tool_input["action"]
+            content = tool_input["content"]
+
+            if category in memory and isinstance(memory[category], list):
+                if action == "add":
+                    memory[category].append(content)
+                    if len(memory[category]) > 10:
+                        memory[category] = memory[category][-10:]
+                elif action == "remove":
+                    memory[category] = [
+                        item for item in memory[category]
+                        if content.lower() not in item.lower()
+                    ]
+            _save_memory(memory)
+            return json.dumps({"success": True, "action": action, "category": category, "content": content})
+
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+
+    return json.dumps({"error": f"Unknown tool: {tool_name}"})
+
+
+def chat(user_message: str, history: list = None) -> tuple:
+    """Main chat function. Returns (response_text, updated_history)."""
+    global _message_counter
+    import anthropic
+
+    client = anthropic.Anthropic()
+    messages = list(history or [])
+    messages.append({"role": "user", "content": user_message})
+
+    # Build system prompt with memory
+    system = _build_system_prompt()
+
+    # First API call
+    response = client.messages.create(
+        model=ASSISTANT_MODEL,
+        max_tokens=2048,
+        system=system,
+        tools=TOOLS,
+        messages=messages,
+    )
+
+    # Tool use loop
+    while response.stop_reason == "tool_use":
+        tool_blocks = [b for b in response.content if b.type == "tool_use"]
+        messages.append({"role": "assistant", "content": response.content})
+
+        tool_results = []
+        for tb in tool_blocks:
+            result_str = handle_tool_call(tb.name, tb.input)
+            # Truncate very long results
+            if len(result_str) > 8000:
+                result_str = result_str[:8000] + "\n... (truncated)"
+            tool_results.append({
+                "type": "tool_result",
+                "tool_use_id": tb.id,
+                "content": result_str,
+            })
+
+        messages.append({"role": "user", "content": tool_results})
+
+        response = client.messages.create(
+            model=ASSISTANT_MODEL,
+            max_tokens=2048,
+            system=system,
+            tools=TOOLS,
+            messages=messages,
+        )
+
+    # Extract final text
+    text = ""
+    for block in response.content:
+        if hasattr(block, "text"):
+            text += block.text
+
+    messages.append({"role": "assistant", "content": response.content})
+
+    # Memory auto-update every N messages
+    _message_counter += 1
+    if _message_counter % MEMORY_UPDATE_INTERVAL == 0:
+        try:
+            _update_memory(messages)
+        except Exception:
+            pass  # Non-blocking
+
+    return text, messages
+
+
+def extract_speak_text(response_text: str) -> tuple:
+    """Extract <speak>...</speak> block from response.
+
+    Returns (clean_text, speak_text) where:
+    - clean_text: response without <speak> tags
+    - speak_text: extracted spoken text (or None)
+    """
+    match = re.search(r"<speak>(.*?)</speak>", response_text, re.DOTALL)
+    if not match:
+        return response_text, None
+
+    speak_text = match.group(1).strip()
+
+    # Remove the <speak> block from the displayed text
+    clean_text = response_text[:match.start()] + response_text[match.end():]
+    # Clean up double spaces / double newlines left behind
+    clean_text = re.sub(r"  +", " ", clean_text)
+    clean_text = re.sub(r"\n{3,}", "\n\n", clean_text)
+    clean_text = clean_text.strip()
+
+    # Safety: enforce max length
+    if len(speak_text) > 300:
+        speak_text = speak_text[:300]
+
+    return clean_text, speak_text

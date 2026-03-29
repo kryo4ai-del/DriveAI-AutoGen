@@ -96,6 +96,13 @@ def _parse_args() -> dict:
         "brain_costs": False,
         "brain_costs_last": 10,
         "brain_summary": False,
+        "brain_evolution": False,
+        "brain_evolution_force": False,
+        "brain_evolution_dry": False,
+        "brain_match": None,
+        "brain_match_all": False,
+        "brain_classify": None,
+        "brain_classify_validate": False,
         "legacy_pipeline": False,
         "orchestrate": None,
         "orchestrate_dry": None,
@@ -109,26 +116,6 @@ def _parse_args() -> dict:
         "no_llm_repair": False,
         "repair_model": "claude-haiku-4-5",
         "create_handoff": None,
-        "mac_generate": None,
-        "mac_feature": None,
-        "mac_spec": None,
-        "mac_spec_file": None,
-        "mac_files": None,
-        "mac_result": None,
-        "brain_services": False,
-        "brain_services_health": False,
-        "brain_services_costs": False,
-        "brain_scout": None,
-        # QA Department
-        "qa": None,
-        "qa_status": None,
-        "qa_reset_bounces": None,
-        "platform": None,
-        # Store Prep
-        "store_prep": None,
-        "store_prep_status": None,
-        "metadata_only": False,
-        "compliance_only": False,
         # Signing & Packaging
         "sign": None,
         "check_credentials": None,
@@ -136,6 +123,11 @@ def _parse_args() -> dict:
         "bump_version": None,
         "version_type": "patch",
         "list_artifacts": None,
+        "platform": None,
+        # Feasibility Check
+        "feasibility_check": None,
+        "capability_sheet": False,
+        "recheck_parked": False,
     }
     explicit_mode = None
     explicit_approval = None
@@ -289,23 +281,34 @@ def _parse_args() -> dict:
         elif args[i] == "--last" and i + 1 < len(args):
             result["brain_costs_last"] = int(args[i + 1])
             i += 2
+        elif args[i] == "--brain-evolution":
+            result["brain_evolution"] = True
+            i += 1
+        elif args[i] == "--brain-evolution-force":
+            result["brain_evolution"] = True
+            result["brain_evolution_force"] = True
+            i += 1
+        elif args[i] == "--brain-evolution-dry":
+            result["brain_evolution"] = True
+            result["brain_evolution_dry"] = True
+            i += 1
+        elif args[i] == "--brain-match" and i + 1 < len(args):
+            result["brain_match"] = args[i + 1]
+            i += 2
+        elif args[i] == "--brain-match-all":
+            result["brain_match_all"] = True
+            i += 1
+        elif args[i] == "--brain-classify" and i + 1 < len(args):
+            result["brain_classify"] = args[i + 1]
+            i += 2
+        elif args[i] == "--brain-classify-validate":
+            result["brain_classify_validate"] = True
+            i += 1
         elif args[i] == "--brain-stats":
             result["brain_stats"] = True
             i += 1
         elif args[i] == "--agent" and i + 1 < len(args):
             result["brain_benchmark_agent"] = args[i + 1]
-            i += 2
-        elif args[i] == "--brain-services":
-            result["brain_services"] = True
-            i += 1
-        elif args[i] == "--brain-services-health":
-            result["brain_services_health"] = True
-            i += 1
-        elif args[i] == "--brain-services-costs":
-            result["brain_services_costs"] = True
-            i += 1
-        elif args[i] == "--brain-scout" and i + 1 < len(args):
-            result["brain_scout"] = args[i + 1]
             i += 2
         elif args[i] == "--hybrid-pipeline":
             result["hybrid_pipeline"] = True
@@ -355,66 +358,6 @@ def _parse_args() -> dict:
             result["create_handoff"] = args[i + 1]
             i += 2
             i += 1
-        elif args[i] == "--mac-generate" and i + 1 < len(args):
-            result["mac_generate"] = args[i + 1]
-            i += 2
-        elif args[i] == "--feature" and i + 1 < len(args):
-            result["mac_feature"] = args[i + 1]
-            i += 2
-        elif args[i] == "--spec" and i + 1 < len(args):
-            result["mac_spec"] = args[i + 1]
-            i += 2
-        elif args[i] == "--spec-file" and i + 1 < len(args):
-            result["mac_spec_file"] = args[i + 1]
-            i += 2
-        elif args[i] == "--files" and i + 1 < len(args):
-            result["mac_files"] = args[i + 1]
-            i += 2
-        elif args[i] == "--mac-result" and i + 1 < len(args):
-            result["mac_result"] = args[i + 1]
-            i += 2
-        elif args[i] == "--qa" and i + 1 < len(args):
-            result["qa"] = args[i + 1]
-            i += 2
-        elif args[i] == "--qa-status" and i + 1 < len(args):
-            result["qa_status"] = args[i + 1]
-            i += 2
-        elif args[i] == "--qa-reset-bounces" and i + 1 < len(args):
-            result["qa_reset_bounces"] = args[i + 1]
-            i += 2
-        elif args[i] == "--platform" and i + 1 < len(args):
-            result["platform"] = args[i + 1].lower()
-            i += 2
-        elif args[i] == "--store-prep" and i + 1 < len(args):
-            result["store_prep"] = args[i + 1]
-            i += 2
-        elif args[i] == "--store-prep-status" and i + 1 < len(args):
-            result["store_prep_status"] = args[i + 1]
-            i += 2
-        elif args[i] == "--metadata-only":
-            result["metadata_only"] = True
-            i += 1
-        elif args[i] == "--compliance-only":
-            result["compliance_only"] = True
-            i += 1
-        elif args[i] == "--sign" and i + 1 < len(args):
-            result["sign"] = args[i + 1]
-            i += 2
-        elif args[i] == "--check-credentials" and i + 1 < len(args):
-            result["check_credentials"] = args[i + 1]
-            i += 2
-        elif args[i] == "--show-version" and i + 1 < len(args):
-            result["show_version"] = args[i + 1]
-            i += 2
-        elif args[i] == "--bump-version" and i + 1 < len(args):
-            result["bump_version"] = args[i + 1]
-            i += 2
-        elif args[i] == "--version-type" and i + 1 < len(args):
-            result["version_type"] = args[i + 1].lower()
-            i += 2
-        elif args[i] == "--list-artifacts" and i + 1 < len(args):
-            result["list_artifacts"] = args[i + 1]
-            i += 2
         elif args[i] == "--factory-submit":
             result["factory_submit"] = True
             i += 1
@@ -439,6 +382,36 @@ def _parse_args() -> dict:
         elif args[i] == "--phase" and i + 1 < len(args):
             result["factory_advance_phase"] = args[i + 1]
             i += 2
+        elif args[i] == "--sign" and i + 1 < len(args):
+            result["sign"] = args[i + 1]
+            i += 2
+        elif args[i] == "--check-credentials" and i + 1 < len(args):
+            result["check_credentials"] = args[i + 1]
+            i += 2
+        elif args[i] == "--show-version" and i + 1 < len(args):
+            result["show_version"] = args[i + 1]
+            i += 2
+        elif args[i] == "--bump-version" and i + 1 < len(args):
+            result["bump_version"] = args[i + 1]
+            i += 2
+        elif args[i] == "--version-type" and i + 1 < len(args):
+            result["version_type"] = args[i + 1].lower()
+            i += 2
+        elif args[i] == "--list-artifacts" and i + 1 < len(args):
+            result["list_artifacts"] = args[i + 1]
+            i += 2
+        elif args[i] == "--platform" and i + 1 < len(args):
+            result["platform"] = args[i + 1]
+            i += 2
+        elif args[i] == "--feasibility-check" and i + 1 < len(args):
+            result["feasibility_check"] = args[i + 1]
+            i += 2
+        elif args[i] == "--capability-sheet":
+            result["capability_sheet"] = True
+            i += 1
+        elif args[i] == "--recheck-parked":
+            result["recheck_parked"] = True
+            i += 1
         elif not args[i].startswith("--"):
             result["task"] = args[i]
             i += 1
@@ -725,386 +698,21 @@ async def main():
             print(f"Product not found: {a['factory_advance']}")
         return
 
-    # ── Orchestrator commands (no direct pipeline run) ──────────────
-    if a["show_plan"]:
-        from factory.orchestrator import FactoryOrchestrator
-        orch = FactoryOrchestrator(a["show_plan"])
-        plan_status = orch.get_status()
-        if plan_status["plan_status"] == "no_plan":
-            print(f"No build plan found for '{a['show_plan']}'. Run --orchestrate-dry first.")
-        else:
-            import os as _os
-            plan_path = _os.path.join("projects", a["show_plan"], "specs", "build_plan.json")
-            from factory.orchestrator.build_plan import BuildPlan
-            plan = BuildPlan.load(plan_path)
-            print(plan.summary())
-        return
-
-    if a["orchestrate_dry"]:
-        from factory.orchestrator import FactoryOrchestrator
-        orch = FactoryOrchestrator(a["orchestrate_dry"])
-        plan = orch.create_build_plan()
-        if not plan.steps:
-            print(f"No build spec found for '{a['orchestrate_dry']}'. "
-                  f"Create projects/{a['orchestrate_dry']}/specs/build_spec.yaml first.")
-            return
-        orch.execute_plan(plan, dry_run=True, profile=profile or "standard",
-                          approval=approval_mode or "auto")
-        return
-
-    if a["orchestrate"]:
-        from factory.orchestrator import FactoryOrchestrator
-        orch = FactoryOrchestrator(a["orchestrate"])
-        plan = orch.create_build_plan()
-        if not plan.steps:
-            print(f"No build spec found for '{a['orchestrate']}'. "
-                  f"Create projects/{a['orchestrate']}/specs/build_spec.yaml first.")
-            return
-        orch.execute_plan(plan, dry_run=False, profile=profile or "standard",
-                          approval=approval_mode or "auto")
-        return
-
-    if a["orchestrate_layered_dry"]:
-        from factory.orchestrator import FactoryOrchestrator
-        orch = FactoryOrchestrator(a["orchestrate_layered_dry"])
-        plan = orch.create_layered_build_plan()
-        if not plan.steps:
-            print(f"No build spec found for '{a['orchestrate_layered_dry']}'. "
-                  f"Create projects/{a['orchestrate_layered_dry']}/specs/build_spec.yaml first.")
-            return
-        orch.execute_plan(plan, dry_run=True, profile=profile or "standard",
-                          approval=approval_mode or "auto")
-        return
-
-    if a["orchestrate_layered"]:
-        from factory.orchestrator import FactoryOrchestrator
-        orch = FactoryOrchestrator(a["orchestrate_layered"])
-        plan = orch.create_layered_build_plan()
-        if not plan.steps:
-            print(f"No build spec found for '{a['orchestrate_layered']}'. "
-                  f"Create projects/{a['orchestrate_layered']}/specs/build_spec.yaml first.")
-            return
-        orch.execute_plan(plan, dry_run=False, profile=profile or "standard",
-                          approval=approval_mode or "auto")
-        return
-
-    # ── Mac Generate commands ─────────────────────────────────
-    if a["mac_result"]:
-        from factory.mac_bridge.generate_command import check_result
-        result = check_result(a["mac_result"])
-        if result:
-            import json as _json
-            print(_json.dumps(result, indent=2))
-        else:
-            print(f"No result yet for {a['mac_result']}")
-        return
-
-    if a["mac_generate"]:
-        from factory.mac_bridge.generate_command import send_generate_and_build, wait_for_result
-
-        project = a["mac_generate"]
-        feature = a["mac_feature"]
-        if not feature:
-            print("Error: --feature <name> required with --mac-generate")
-            return
-
-        spec = a["mac_spec"]
-        if not spec and a["mac_spec_file"]:
-            try:
-                with open(a["mac_spec_file"], encoding="utf-8") as sf:
-                    spec = sf.read().strip()
-            except Exception as e:
-                print(f"Error reading spec file: {e}")
-                return
-        if not spec:
-            print("Error: --spec <text> or --spec-file <path> required with --mac-generate")
-            return
-
-        files_str = a["mac_files"] or ""
-        target_files = [f.strip() for f in files_str.split(",") if f.strip()]
-
-        model = a.get("model") or "claude-sonnet-4-6"
-
-        cmd_id = send_generate_and_build(
-            project=project,
-            feature_name=feature,
-            feature_spec=spec,
-            target_files=target_files,
-            model=model,
-        )
-        print(f"\nWaiting for Mac result (5 min timeout)...")
-        mac_result = wait_for_result(cmd_id, timeout_seconds=300)
-        import json as _json
-        print(_json.dumps(mac_result, indent=2))
-        return
-
-    # ── Assembly commands ───────────────────────────────────────
-    if a["create_handoff"]:
-        from factory.assembly import AssemblyManager
-        mgr = AssemblyManager()
-        handoff = mgr.create_handoff(a["create_handoff"])
-        print(handoff.summary())
-        handoff_path = os.path.join("projects", a["create_handoff"], "specs", "production_handoff.json")
-        handoff.save(handoff_path)
-        print(f"  Handoff saved to: {handoff_path}")
-        return
-
-    if a["assemble_dry"]:
-        from factory.assembly import AssemblyManager
-        mgr = AssemblyManager()
-        handoff = mgr.create_handoff(a["assemble_dry"])
-        mgr.start_assembly(handoff, dry_run=True)
-        return
-
-    if a["assemble"]:
-        from factory.assembly import AssemblyManager
-        mgr = AssemblyManager()
-        handoff = mgr.create_handoff(a["assemble"])
-        if not handoff.is_ready_for_assembly():
-            print(handoff.summary())
-            print("  Assembly blocked: production output not ready.")
-            return
-        report = mgr.start_assembly(handoff, dry_run=False)
-        print(report.summary())
-        return
-
-    # ── QA Department commands ────────────────────────────────────
-    if a["qa"]:
-        from factory.qa.qa_coordinator import QACoordinator
-        from factory.qa.config import QAConfig
-
-        project = a["qa"]
-        platform = a["platform"]
-
-        if not platform:
-            print("[QA] ERROR: --platform required (ios, android, web, unity, all)")
-            return
-
-        project_dir = os.path.join("projects", project)
-        if not os.path.isdir(project_dir):
-            if os.path.isdir(project):
-                project_dir = project
-            else:
-                print(f"[QA] ERROR: Project directory not found: {project_dir}")
-                return
-
-        platforms = ["ios", "android", "web", "unity"] if platform == "all" else [platform]
-
-        for plat in platforms:
-            print(f"\n{'='*60}")
-            print(f"[QA] Starting QA for {project} / {plat}")
-            print(f"{'='*60}")
-
-            coordinator = QACoordinator(
-                project_name=project,
-                platform=plat,
-                project_dir=project_dir,
-            )
-            result = coordinator.run_qa()
-
-            print(f"\n[QA] === Result: {result.status} ===")
-            if result.report_path:
-                print(f"[QA] Report: {result.report_path}")
-            if result.status == "BOUNCED":
-                print(f"[QA] Bounced (#{result.bounce_count}): {result.recommendation}")
-            elif result.status == "ESCALATED":
-                print(f"[QA] Escalated to CEO Gate")
-            elif result.status == "PASSED":
-                print(f"[QA] All checks passed. Ready for Store Preparation.")
-            elif result.status in ("FAILED", "ERROR"):
-                print(f"[QA] {result.recommendation}")
-        return
-
-    if a["qa_status"]:
-        from factory.qa.bounce_tracker import BounceTracker
-        import glob
-
-        project = a["qa_status"]
-        platforms = ["ios", "android", "web", "unity"]
-
-        print(f"\n[QA Status] Project: {project}")
-        print(f"{'-'*50}")
-
-        for plat in platforms:
-            tracker = BounceTracker(project, plat)
-            count = tracker.get_count()
-            status_icon = "OK" if count == 0 else f"BOUNCE x{count}"
-            print(f"  {plat:10s} -- Bounces: {count} [{status_icon}]")
-
-        report_pattern = os.path.join("factory", "qa", "reports", f"{project}_*_qa_*.json")
-        reports = sorted(glob.glob(report_pattern), reverse=True)[:5]
-        if reports:
-            print(f"\n[QA Reports] Last {len(reports)} reports:")
-            for r in reports:
-                print(f"  {r}")
-        else:
-            print(f"\n[QA Reports] No reports found.")
-        return
-
-    if a["qa_reset_bounces"]:
-        from factory.qa.bounce_tracker import BounceTracker
-
-        project = a["qa_reset_bounces"]
-        platform = a["platform"]
-
-        if not platform:
-            print("[QA] ERROR: --platform required (ios, android, web, unity, all)")
-            return
-
-        platforms = ["ios", "android", "web", "unity"] if platform == "all" else [platform]
-
-        for plat in platforms:
-            tracker = BounceTracker(project, plat)
-            old_count = tracker.get_count()
-            tracker.reset()
-            print(f"[QA] Reset bounces for {project}/{plat}: {old_count} -> 0")
-        return
-
-    # ── Store Prep commands ──────────────────────────────────────
-    if a["store_prep"]:
-        project = a["store_prep"]
-        platform = a["platform"]
-
-        if not platform:
-            print("[Store Prep] ERROR: --platform required (ios, android, web, unity, all)")
-            return
-
-        platforms = ["ios", "android", "web", "unity"] if platform == "all" else [platform]
-
-        if a["metadata_only"]:
-            # Metadata-only: generate + enrich + adapt, no assets/compliance
-            import types as _types
-            from factory.store_prep.config import StorePrepConfig
-            from factory.store_prep.metadata_enricher import MetadataEnricher
-            from factory.store_prep.platform_metadata import PlatformMetadataAdapter
-
-            config = StorePrepConfig()
-            output_base = os.path.join(config.output_base_dir, project)
-            enricher = MetadataEnricher(project)
-            enrichment = enricher.enrich()
-            adapter = PlatformMetadataAdapter(config)
-
-            for plat in platforms:
-                print(f"\n[Store Prep] Metadata-only: {project} / {plat}")
-                try:
-                    from factory.store.metadata_generator import MetadataGenerator
-                    meta = MetadataGenerator(project).generate(plat)
-                except Exception:
-                    meta = _types.SimpleNamespace(
-                        app_name=project.replace("_", " ").replace("-", " ").title(),
-                        subtitle="", description_de="", description_en="",
-                        keywords="", category_primary="", category_secondary="",
-                        age_rating="4+", privacy_url="", support_url="",
-                        whats_new="Initial release", privacy_policy="",
-                        platforms=[], version="1.0.0",
-                    )
-                platform_meta = adapter.adapt(meta, plat, enrichment)
-                errors = platform_meta.validate()
-                plat_dir = os.path.join(output_base, plat)
-                os.makedirs(plat_dir, exist_ok=True)
-                meta_path = os.path.join(plat_dir, "metadata.json")
-                platform_meta.to_json(meta_path)
-                filled = sum(1 for v in platform_meta.to_dict().values() if v and v != "N/A")
-                print(f"  Metadata saved: {meta_path} ({filled} fields, {len(errors)} errors)")
-                if errors:
-                    for err in errors:
-                        print(f"  Validation: {err}")
-            return
-
-        elif a["compliance_only"]:
-            # Compliance-only: run compliance checks, no metadata/assets
-            from factory.store.compliance_checker import ComplianceChecker
-
-            for plat in platforms:
-                print(f"\n[Store Prep] Compliance-only: {project} / {plat}")
-                report = ComplianceChecker(project).check(plat)
-                print(f"  {report.summary()}")
-                for issue in report.issues:
-                    icon = {"blocking": "BLOCK", "warning": "WARN", "info": "INFO"}[issue.severity]
-                    print(f"  [{icon}] {issue.guideline}: {issue.description}")
-                    print(f"    Fix: {issue.fix_suggestion}")
-            return
-
-        else:
-            # Full Store Prep run (all 4 phases)
-            from factory.store_prep.store_prep_coordinator import StorePrepCoordinator
-
-            coordinator = StorePrepCoordinator(
-                project_name=project,
-                platforms=platforms,
-            )
-            result = coordinator.run()
-            print(f"\n[Store Prep] === Result: {result.status} ===")
-            if result.report_path:
-                print(f"[Store Prep] Report: {result.report_path}")
-            for plat_name, plat_data in result.per_platform.items():
-                print(f"[Store Prep]   {plat_name}: {plat_data.status}")
-            return
-
-    if a["store_prep_status"]:
-        project = a["store_prep_status"]
-        from factory.store_prep.config import StorePrepConfig
-        config = StorePrepConfig()
-        report_path = os.path.join(config.output_base_dir, project, "store_prep_report.json")
-
-        if os.path.exists(report_path):
-            with open(report_path, encoding="utf-8") as f:
-                report_data = json.load(f)
-
-            print(f"\n[Store Prep Status] Project: {report_data.get('project', project)}")
-            print(f"Overall: {report_data.get('overall_status', 'UNKNOWN')}")
-            print(f"Timestamp: {report_data.get('timestamp', '?')}")
-            print(f"{'-'*50}")
-
-            for plat_name, plat_data in report_data.get("platforms", {}).items():
-                meta = plat_data.get("metadata", {})
-                assets = plat_data.get("assets", {})
-                comp = plat_data.get("compliance", {})
-                print(f"\n  {plat_name}:")
-                print(f"    Status: {plat_data.get('status', '?')}")
-                print(f"    Metadata: {meta.get('status', '?')} ({meta.get('fields_complete', 0)} fields)")
-                print(f"    Icon: {assets.get('icon_status', '?')}")
-                print(f"    Screenshots: {assets.get('screenshots_status', '?')} ({assets.get('screenshots_count', 0)})")
-                print(f"    Compliance: {comp.get('status', '?')} ({comp.get('checks_failed', 0)} blocking, {comp.get('checks_warning', 0)} warnings)")
-                print(f"    Privacy: {comp.get('privacy_label_status', '?')}")
-                missing = plat_data.get("missing_items", [])
-                if missing:
-                    for item in missing:
-                        print(f"    Missing: {item}")
-
-            warnings = report_data.get("warnings", [])
-            if warnings:
-                print(f"\n  Warnings:")
-                for w in warnings:
-                    print(f"    {w}")
-
-            gates = report_data.get("ceo_gates_triggered", [])
-            if gates:
-                print(f"\n  CEO Gates:")
-                for g in gates:
-                    print(f"    {g['gate_type']}: {g['status']}{' -> ' + g['decision'] if g.get('decision') else ''}")
-        else:
-            print(f"\n[Store Prep Status] No report found for '{project}'.")
-            print(f"  Expected: {report_path}")
-            print(f"  Run --store-prep {project} --platform <platform> first.")
-        return
-
-    # -- Signing & Packaging commands ------------------------------------
+    # ── Signing & Packaging commands ──────────────────────────────────
     if a["sign"]:
         from factory.signing.signing_coordinator import SigningCoordinator
 
         project = a["sign"]
-        platform = a["platform"]
+        platform_arg = a["platform"]
 
-        if not platform:
+        if not platform_arg:
             print("[Signing] ERROR: --platform required (android, web, ios, or comma-separated, or 'all')")
             return
 
-        if platform == "all":
-            platforms = ["android", "web"]
-            print("[Signing] Note: iOS signing excluded -- run on Mac for iOS")
+        if platform_arg == "all":
+            platforms = ["ios", "android", "web"]
         else:
-            platforms = [p.strip() for p in platform.split(",")]
+            platforms = [p.strip() for p in platform_arg.split(",")]
 
         coordinator = SigningCoordinator(project_name=project, platforms=platforms)
         result = coordinator.run()
@@ -1116,12 +724,12 @@ async def main():
         from factory.signing.credential_checker import CredentialChecker
 
         project = a["check_credentials"]
-        platform = a["platform"]
+        platform_arg = a["platform"]
 
-        if not platform or platform == "all":
+        if not platform_arg or platform_arg == "all":
             platforms = ["ios", "android", "web"]
         else:
-            platforms = [p.strip() for p in platform.split(",")]
+            platforms = [p.strip() for p in platform_arg.split(",")]
 
         checker = CredentialChecker()
         for plat in platforms:
@@ -1186,7 +794,158 @@ async def main():
         print(f"\n  Total size: {total_mb} MB")
         return
 
-    # Resolve task from file if provided (highest priority)
+    # ── Feasibility Check commands ───────────────────────────────────
+    if a.get("capability_sheet"):
+        from factory.hq.capabilities.capability_sheet import generate_capability_sheet
+        sheet = generate_capability_sheet()
+        if json_output:
+            print(json.dumps(sheet, indent=2, default=str))
+        else:
+            print("Factory Capability Sheet")
+            print("=" * 50)
+            for line_name, info in sheet.get("production_lines", {}).items():
+                status = "OK" if info.get("available") else "--"
+                print(f"  [{status}] {line_name:10s} {info.get('framework', '')} ({info.get('status', '')})")
+            print(f"\n  External Services: {sum(len(v) for v in sheet.get('external_services', {}).values())} registered")
+            print(f"  Factory Systems: {sum(1 for v in sheet.get('factory_systems', {}).values() if v)} active")
+            print(f"\n  Cannot do:")
+            for item in sheet.get("cannot_do", []):
+                print(f"    - {item}")
+        return
+
+    if a.get("feasibility_check"):
+        from factory.hq.capabilities.feasibility_check import FeasibilityChecker
+        checker = FeasibilityChecker()
+        result = checker.check_project(a["feasibility_check"])
+        if json_output:
+            print(json.dumps(result, indent=2, default=str))
+        else:
+            overall = result.get("overall_status", "unknown")
+            icon = {"feasible": "OK", "partially_feasible": "PARTIAL", "not_feasible": "BLOCKED"}.get(overall, "?")
+            print(f"Feasibility Check: {a['feasibility_check']}")
+            print("=" * 50)
+            print(f"  Status: [{icon}] {overall} (score={result.get('score', 0)})")
+            print(f"  {result.get('summary', '')}")
+            gaps = result.get("capability_gaps", [])
+            if gaps:
+                print(f"\n  Capability Gaps ({len(gaps)}):")
+                for g in gaps:
+                    print(f"    - {g.get('capability', '?')} [{g.get('severity', '?')}]")
+            for rec in result.get("recommendations", []):
+                print(f"  {rec}")
+            if result.get("report_path"):
+                print(f"\n  Report: {result['report_path']}")
+        return
+
+    if a.get("recheck_parked"):
+        from factory.hq.capabilities.capability_watcher import CapabilityWatcher
+        watcher = CapabilityWatcher()
+        changes = watcher.check_parked_projects()
+        if json_output:
+            print(json.dumps(changes, indent=2, default=str))
+        else:
+            if changes:
+                print(f"Re-Check: {len(changes)} Aenderung(en):")
+                for c in changes:
+                    print(f"  {c['slug']}: {c['old_status']} -> {c['new_status']} (score: {c.get('new_score', '?')})")
+            else:
+                print("Re-Check: Keine Aenderungen bei geparkten Projekten.")
+        return
+
+    # ── Orchestrator commands (no direct pipeline run) ──────────────
+    if a["show_plan"]:
+        from factory.orchestrator import FactoryOrchestrator
+        orch = FactoryOrchestrator(a["show_plan"])
+        plan_status = orch.get_status()
+        if plan_status["plan_status"] == "no_plan":
+            print(f"No build plan found for '{a['show_plan']}'. Run --orchestrate-dry first.")
+        else:
+            import os as _os
+            plan_path = _os.path.join("projects", a["show_plan"], "specs", "build_plan.json")
+            from factory.orchestrator.build_plan import BuildPlan
+            plan = BuildPlan.load(plan_path)
+            print(plan.summary())
+        return
+
+    if a["orchestrate_dry"]:
+        from factory.orchestrator import FactoryOrchestrator
+        orch = FactoryOrchestrator(a["orchestrate_dry"])
+        plan = orch.create_build_plan()
+        if not plan.steps:
+            print(f"No build spec found for '{a['orchestrate_dry']}'. "
+                  f"Create projects/{a['orchestrate_dry']}/specs/build_spec.yaml first.")
+            return
+        orch.execute_plan(plan, dry_run=True, profile=profile or "standard",
+                          approval=approval_mode or "auto")
+        return
+
+    if a["orchestrate"]:
+        from factory.orchestrator import FactoryOrchestrator
+        orch = FactoryOrchestrator(a["orchestrate"])
+        plan = orch.create_build_plan()
+        if not plan.steps:
+            print(f"No build spec found for '{a['orchestrate']}'. "
+                  f"Create projects/{a['orchestrate']}/specs/build_spec.yaml first.")
+            return
+        orch.execute_plan(plan, dry_run=False, profile=profile or "standard",
+                          approval=approval_mode or "auto")
+        return
+
+    if a["orchestrate_layered_dry"]:
+        from factory.orchestrator import FactoryOrchestrator
+        orch = FactoryOrchestrator(a["orchestrate_layered_dry"])
+        plan = orch.create_layered_build_plan()
+        if not plan.steps:
+            print(f"No build spec found for '{a['orchestrate_layered_dry']}'. "
+                  f"Create projects/{a['orchestrate_layered_dry']}/specs/build_spec.yaml first.")
+            return
+        orch.execute_plan(plan, dry_run=True, profile=profile or "standard",
+                          approval=approval_mode or "auto")
+        return
+
+    if a["orchestrate_layered"]:
+        from factory.orchestrator import FactoryOrchestrator
+        orch = FactoryOrchestrator(a["orchestrate_layered"])
+        plan = orch.create_layered_build_plan()
+        if not plan.steps:
+            print(f"No build spec found for '{a['orchestrate_layered']}'. "
+                  f"Create projects/{a['orchestrate_layered']}/specs/build_spec.yaml first.")
+            return
+        orch.execute_plan(plan, dry_run=False, profile=profile or "standard",
+                          approval=approval_mode or "auto")
+        return
+
+    # ── Assembly commands ───────────────────────────────────────
+    if a["create_handoff"]:
+        from factory.assembly import AssemblyManager
+        mgr = AssemblyManager()
+        handoff = mgr.create_handoff(a["create_handoff"])
+        print(handoff.summary())
+        handoff_path = os.path.join("projects", a["create_handoff"], "specs", "production_handoff.json")
+        handoff.save(handoff_path)
+        print(f"  Handoff saved to: {handoff_path}")
+        return
+
+    if a["assemble_dry"]:
+        from factory.assembly import AssemblyManager
+        mgr = AssemblyManager()
+        handoff = mgr.create_handoff(a["assemble_dry"])
+        mgr.start_assembly(handoff, dry_run=True)
+        return
+
+    if a["assemble"]:
+        from factory.assembly import AssemblyManager
+        mgr = AssemblyManager()
+        handoff = mgr.create_handoff(a["assemble"])
+        if not handoff.is_ready_for_assembly():
+            print(handoff.summary())
+            print("  Assembly blocked: production output not ready.")
+            return
+        report = mgr.start_assembly(handoff, dry_run=False)
+        print(report.summary())
+        return
+
+        # Resolve task from file if provided (highest priority)
     cli_task = a["task"]
     template_used = None
     template_name_value = None
@@ -1615,104 +1374,120 @@ async def main():
         print(f"Available: {reg.get_available_providers()}")
         return
 
-    # ── External Service commands (Phase 7) ─────────────────────────
-
-    if a.get("brain_services"):
-        try:
-            from factory.brain.service_provider.service_registry import ServiceRegistry
-            reg = ServiceRegistry()
-            categories = reg.get_categories()
-            total = 0
-            active_total = 0
-            print(f"\n{'='*58}")
-            print("THEBRAIN — External Services Overview")
-            print(f"{'='*58}")
-            for cat in categories:
-                all_in_cat = [s for s in reg.get_all_services() if s.category == cat]
-                active_in_cat = reg.get_active_services(cat)
-                total += len(all_in_cat)
-                active_total += len(active_in_cat)
-                print(f"\n{cat.upper()} ({len(all_in_cat)} registered, {len(active_in_cat)} active)")
-                print("-" * 58)
-                if not all_in_cat:
-                    print("  (no services registered)")
-                for s in all_in_cat:
-                    cost = reg.get_cost_estimate(s.service_id, {})
-                    icon = "+" if s.status == "active" else " "
-                    tag = "" if s.status == "active" else "  [inactive]"
-                    print(f"  {icon} {s.service_id:<18} {s.name:<24} ${cost:<.2f}/call  {len(s.capabilities)} caps{tag}")
-            print(f"\n{'='*58}")
-            print(f"Total: {total} services ({active_total} active, {total - active_total} inactive)")
-            print(f"{'='*58}")
-        except Exception as e:
-            print(f"Error: {e}")
+    if a.get("brain_match"):
+        from config.model_router import get_model_for_agent, _load_registry
+        from factory.brain.model_provider.capability_matcher import CapabilityMatcher
+        agent_id = a["brain_match"]
+        registry = _load_registry()
+        agent_data = None
+        for ag in registry.get("agents", []):
+            if ag.get("id") == agent_id:
+                agent_data = ag
+                break
+        if not agent_data:
+            print(f"Agent '{agent_id}' not found in registry.")
+            return
+        matcher = CapabilityMatcher()
+        print(matcher.explain_match(agent_id, agent_data))
+        final = get_model_for_agent(agent_id)
+        print(f"Final model: {final}")
         return
 
-    if a.get("brain_services_health"):
-        try:
-            from factory.brain.service_provider.service_registry import ServiceRegistry
-            from factory.brain.service_provider.service_router import ServiceRouter
-            import time as _time
-            reg = ServiceRegistry()
-            router = ServiceRouter(reg)
-            active = [s for s in reg.get_all_services() if s.status == "active"]
-            print(f"\nTHEBRAIN — Service Health Check")
-            print("-" * 42)
-            healthy = 0
-            for s in active:
-                adapter = router._create_adapter(s.service_id)
-                if adapter is None:
-                    print(f"  {s.service_id:<18} ... no API key")
-                    continue
-                t0 = _time.time()
-                ok = adapter.health_check()
-                ms = int((_time.time() - t0) * 1000)
-                icon = "OK" if ok else "FAILED"
-                print(f"  {s.service_id:<18} ... {icon} ({ms}ms)")
-                if ok:
-                    healthy += 1
-            print("-" * 42)
-            print(f"{healthy}/{len(active)} active services healthy")
-        except Exception as e:
-            print(f"Error: {e}")
+    if a.get("brain_match_all"):
+        from config.model_router import _load_registry
+        from factory.brain.model_provider.capability_matcher import CapabilityMatcher
+        registry = _load_registry()
+        matcher = CapabilityMatcher()
+        results = matcher.match_all_agents(registry)
+        print(f"\n{'ID':<8} {'Name':<28} {'Tier':<12} {'Capabilities':<42} {'Model':<24} {'Score':>5}  Reason")
+        print("-" * 135)
+        for r in results:
+            caps_str = ", ".join(r["capabilities_required"]) if r["capabilities_required"] else "(none)"
+            if len(caps_str) > 40:
+                caps_str = caps_str[:37] + "..."
+            model = r["model"] or "-"
+            score = f"{r['score']:.2f}" if r["score"] is not None else "  -"
+            print(f"{r['agent_id']:<8} {r['name']:<28} {r['tier']:<12} {caps_str:<42} {model:<24} {score:>5}  {r['reason']}")
+        # Summary
+        total = len(results)
+        matched = sum(1 for r in results if r["model"] is not None)
+        no_llm = sum(1 for r in results if r["tier"] == "none")
+        fallback = sum(1 for r in results if r["reason"] == "tier_fallback")
+        print(f"\nTotal: {total} | Capability-matched: {matched - fallback - no_llm} | Tier-fallback: {fallback} | No-LLM: {no_llm}")
         return
 
-    if a.get("brain_services_costs"):
-        try:
-            from factory.brain.service_provider.cost_tracker import ServiceCostTracker
-            tracker = ServiceCostTracker()
-            spend = tracker.get_total_spend()
-            if not spend or spend.get("grand_total", 0) == 0:
-                print("\nNo external service costs recorded yet.")
-            else:
-                print(f"\nTHEBRAIN — External Service Costs (All Time)")
-                print("-" * 42)
-                for cat, cost in sorted(spend.items()):
-                    if cat != "grand_total":
-                        print(f"  {cat:<14} ${cost:.4f}")
-                print("-" * 42)
-                print(f"  {'TOTAL':<14} ${spend.get('grand_total', 0):.4f}")
-        except Exception as e:
-            print(f"Error: {e}")
+    if a.get("brain_classify"):
+        from config.model_router import _load_registry
+        from factory.brain.model_provider.agent_classifier import AgentClassifier
+        agent_id = a["brain_classify"]
+        registry = _load_registry()
+        agent_data = None
+        for ag in registry.get("agents", []):
+            if ag.get("id") == agent_id:
+                agent_data = ag
+                break
+        if not agent_data:
+            print(f"Agent '{agent_id}' not found in registry.")
+            return
+        classifier = AgentClassifier()
+        result = classifier.classify_deterministic(agent_data)
+        print(f"Agent: {agent_id} ({agent_data.get('name', '?')})")
+        print(f"Auto-Classification:")
+        print(f"  Tier: {result.tier} (confidence: {result.confidence})")
+        print(f"  Capabilities: {result.capabilities_required}")
+        print(f"  Reasoning: {result.reasoning}")
+        print(f"  Source: {result.source}")
+        actual_tier = agent_data.get("tier")
+        actual_caps = agent_data.get("capabilities_required", [])
+        if actual_tier:
+            tier_ok = result.tier == actual_tier
+            caps_ok = sorted(result.capabilities_required) == sorted(actual_caps)
+            print(f"Actual:")
+            print(f"  Tier: {actual_tier}")
+            print(f"  Capabilities: {actual_caps}")
+            print(f"  Match: {'YES' if (tier_ok and caps_ok) else 'NO'}")
+            if not tier_ok:
+                print(f"    Tier mismatch: auto={result.tier}, actual={actual_tier}")
+            if not caps_ok:
+                print(f"    Caps mismatch: auto={sorted(result.capabilities_required)}, actual={sorted(actual_caps)}")
         return
 
-    if a.get("brain_scout"):
-        try:
-            from factory.brain.service_provider.service_registry import ServiceRegistry
-            from factory.brain.service_provider.service_scout import ServiceScout
-            reg = ServiceRegistry()
-            scout = ServiceScout(reg)
-            category = a["brain_scout"]
-            if category == "all":
-                reports = scout.scan_all_categories()
-                for r in reports:
-                    print(scout.generate_ceo_report(r))
-                    print()
-            else:
-                report = scout.scan_category(category)
-                print(scout.generate_ceo_report(report))
-        except Exception as e:
-            print(f"Error: {e}")
+    if a.get("brain_classify_validate"):
+        from config.model_router import _load_registry
+        from factory.brain.model_provider.agent_classifier import AgentClassifier
+        registry = _load_registry()
+        agents = registry.get("agents", [])
+        classifier = AgentClassifier()
+        report = classifier.validate_against_existing(agents)
+        total = report["total"]
+        print(f"\n=== Auto-Classification Validation ({total} agents) ===\n")
+        print(f"Tier accuracy:   {report['tier_match']}/{total} ({report['tier_pct']:.1f}%)")
+        print(f"Caps accuracy:   {report['caps_match']}/{total} ({report['caps_pct']:.1f}%)")
+        print(f"Full match:      {report['full_match']}/{total} ({report['full_pct']:.1f}%)")
+        if report["mismatches"]:
+            print(f"\nMismatches:")
+            for m in report["mismatches"]:
+                parts = [f"  {m['agent_id']}"]
+                if "tier" in m:
+                    parts.append(f"tier: {m['tier']}")
+                if "caps" in m:
+                    parts.append(f"caps: {m['caps']}")
+                print(" | ".join(parts))
+        target_met = report["full_pct"] >= 80
+        print(f"\nSummary: {report['full_pct']:.1f}% full match (target: >80%) {'OK' if target_met else 'MISSED'}")
+        return
+
+    if a.get("brain_evolution"):
+        from factory.brain.model_provider.model_evolution import ModelEvolution
+        evo = ModelEvolution()
+        if a.get("brain_evolution_dry"):
+            status = evo.get_status()
+            print(json.dumps(status, indent=2, ensure_ascii=False, default=str))
+        else:
+            force = a.get("brain_evolution_force", False)
+            print(f"\nRunning Model Evolution Cycle" + (" (forced)" if force else "") + "...")
+            report = evo.run_cycle(force=force)
+            print(report.summary())
         return
 
     # ── Single run ───────────────────────────────────────────────────

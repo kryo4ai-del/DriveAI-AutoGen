@@ -5,6 +5,7 @@ const SECTION_TITLES = {
   documents: 'Dokumente',
   factory: 'Factory Status',
   providers: 'Provider Balance',
+  janitor: 'Factory Janitor',
   agents: 'Agent Monitor',
   team: 'Team',
   history: 'Projekt-Historie',
@@ -22,7 +23,7 @@ export default function Header({ activeSection, onToggleChat, chatOpen }) {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-factory-success"></div>
-          <span className="text-sm text-factory-text-secondary">Factory Online</span>
+          <span className="text-sm text-factory-text-secondary">DAI-Core Online</span>
         </div>
         <button
           onClick={onToggleChat}

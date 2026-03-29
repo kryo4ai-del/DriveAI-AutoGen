@@ -1,339 +1,383 @@
 # DriveAI-AutoGen - Projektkontext
 
-## Projektuebersicht
+## Projektübersicht
 - **Name**: DriveAI-AutoGen (Multi-Platform AI App Factory + TheBrain)
-- **Typ**: Multi-Agent AI System (Python) + iOS/Android/Web/Unity App Generation
+- **Typ**: Multi-Agent AI System (Python) + iOS/Android/Web App Generation
 - **Repo**: GitHub `kryo4ai-del/DriveAI-AutoGen`
 - **Lokal Windows**: `C:\Users\Admin\.claude\current-projects\DriveAI-AutoGen\`
 - **Lokal Mac**: `/Users/andreasott/DriveAI-AutoGen/`
 - **Besitzer**: Andreas Ott
 
 ## Tech-Stack
-- **LLM Provider**: 4 Provider — Anthropic, OpenAI, Google, Mistral (9 Modelle)
-- **Routing**: TheBrain (dynamische Modellwahl pro Agent + Profil + Quality Score)
-- **Framework**: Python + AutoGen AgentChat v0.4+ + LiteLLM
-- **API Keys**: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GOOGLE_API_KEY`, `MISTRAL_API_KEY` in `.env`
+- **LLM Provider**: Anthropic Claude (100% — kein OpenAI mehr)
+- **Modelle**: claude-sonnet-4-6 (Tier 1+2), claude-haiku-4-5 (Tier 3)
+- **Premium**: claude-opus-4-6 (bei Bedarf)
+- **Framework**: Python + AutoGen AgentChat v0.4+
+- **API Key**: `ANTHROPIC_API_KEY` in `.env`
 
-## TheBrain Modell-System
-| Tier | Modelle | Aufgaben |
+## 3-Tier Modell-System
+| Tier | Modell | Aufgaben |
 |---|---|---|
-| Low (dev/fast) | mistral-small, gemini-2.5-flash, claude-haiku-4-5, gpt-4o-mini | classification, summarization, trend_analysis |
-| Mid (standard) | o3-mini, claude-sonnet-4-6, gpt-4o, gemini-2.5-pro | code_generation, architecture, planning, review |
-| High (premium) | claude-opus-4-6 | complex_reasoning, quality-critical tasks |
-
-### Quality Priority System
-- Lines mit `quality_priority` in project.yaml bekommen bessere Modelle fuer Code-Tasks
-- iOS (Quality Score 1.0) → immer claude-sonnet-4-6 statt billiges Mid-Tier
-- Quality Score beeinflusst NUR code-generierende Tasks, nicht Reviews/Summaries
-
-## 5 Production Lines
-| Line | Language | Framework | Assembly | Build |
-|---|---|---|---|---|
-| iOS | Swift | SwiftUI + MVVM | xcodegen → Xcode | Mac Bridge (Git-Queue) |
-| Android | Kotlin | Jetpack Compose + Hilt | Gradle | Windows (gradle assembleDebug) |
-| Web | TypeScript | React + Next.js | npm | Windows (npx tsc + Jest) |
-| Unity | C# | Unity Engine + URP | Unity CLI | Lokal (nicht shipped) |
-| Backend | Python | FastAPI + Pydantic | pip | Docker / Cloud Run |
+| 1 (Code) | claude-sonnet-4-6 | code_generation, architecture, code_review, bug_hunting, refactoring, test_generation |
+| 2 (Reasoning) | claude-sonnet-4-6 | planning, orchestration, content, compliance, accessibility |
+| 3 (Lightweight) | claude-haiku-4-5 | classification, summarization, trend_analysis, scoring, labeling, extraction, briefing |
 
 ## Projektstruktur
 ```
 DriveAI-AutoGen/
-├── main.py                          ← Einstiegspunkt (AutoGen Pipeline + CLI)
+├── main.py                          ← Python Einstiegspunkt (1.449 Zeilen, CLI-Parsing + Pipeline)
 ├── CLAUDE.md                        ← Diese Datei
-├── MEMORY.md                        ← Aenderungs-Log
 │
 ├── projects/                        ← Generierte Projekte
-│   ├── askfin_v1-1/                 ← AskFin Premium iOS (255 Swift Files)
-│   ├── askfin_android/              ← AskFin Android (Kotlin)
-│   ├── askfin_web/                  ← AskFin Web (TypeScript/React)
-│   ├── breathflow/...breathflow5/   ← BreathFlow Generationen
-│   ├── brainpuzzle/                 ← BrainPuzzle
-│   ├── echomatch/                   ← EchoMatch
-│   └── skillsense/                  ← SkillSense
+│   ├── askfin_v1-1/                 ← AskFin Premium iOS App (234 Swift Files)
+│   ├── askfin_android/              ← AskFin Android (204 Kotlin Files)
+│   └── askfin_web/                  ← AskFin Web (TypeScript/React, Spec ready)
 │
-├── factory/                         ← Factory Core
-│   ├── pipeline/                    ← Pipeline Runner + Operations Layer
+├── factory/                         ← Factory Core (307 .py Files, 35 Subdirectories)
+│   ├── pipeline/                    ← Extrahierter Pipeline Runner
 │   ├── orchestrator/                ← Build-Planer (flat + layered + quality gates)
-│   ├── brain/                       ← TheBrain: Modell-Provider + Service-Provider + Knowledge
-│   │   ├── model_provider/          ← 9 Modelle, 4 Provider, Registry, ChainOptimizer, AutoSplitter
-│   │   └── service_provider/        ← Image/Sound/Video Adapter (DALL-E, Stability, ElevenLabs)
-│   ├── operations/                  ← Post-Generation Validierung + Auto-Repair
-│   │   ├── compile_hygiene_validator.py  ← FK-011 bis FK-017 Checks
-│   │   ├── quality_gate_loop.py     ← Autonome 3-Iteration Repair Loop (Tier 1 deterministisch + Tier 2 LLM)
-│   │   ├── type_stub_generator.py   ← Automatische Stubs fuer FK-014
-│   │   ├── property_shape_repairer.py  ← FK-013 Struct-Reparatur
-│   │   ├── stale_artifact_guard.py  ← Quarantine alter Artefakte
-│   │   └── toplevel_sanitizer.py    ← Pseudocode-Entfernung
-│   ├── assembly/                    ← Assembly Lines + Repair
-│   │   ├── lines/                   ← ios_line.py, android_line.py, web_line.py, unity_line.py
-│   │   ├── repair/                  ← RepairEngine + 5 Fix-Strategien + LLM Repair
-│   │   └── handoff_protocol.py      ← Production Handoff
+│   ├── brain/                       ← TheBrain: Model Registry (9 Modelle, 4 Provider), AutoSplitter, Chain Optimizer, CapabilityMatcher (17 Tags, Score-Based), AgentClassifier (Auto-Tier + Auto-Caps, 94.7% Accuracy), FactoryState, CapabilityMap, StateReport, TaskRouter, Persona, ResponseCollector, ProblemDetector, SolutionProposer, GapAnalyzer, ExtensionAdvisor, FactoryMemory, ModelEvolution (Auto-Discovery + Registration + Tier Cascade), Directives (DIR-001 Self-First)
+│   ├── operations/                  ← Post-Generation: Hygiene, Stubs, Shape Repair, Sanitizer, Import Hygiene
+│   ├── status/                      ← Factory Status Dashboard
+│   ├── dispatcher/                  ← Pipeline Queue Manager + Product State Machine + Project Creator
+│   ├── shared/                      ← Project Registry, Pipeline Utils, Bootstrap
+│   ├── assembly/                    ← Assembly Lines (Android, Web, Unity, iOS via Mac Bridge)
+│   │   └── repair/                  ← RepairEngine: ErrorParser + 5 Fix-Strategies + LLM Agent + Coordinator
+│   ├── signing/                     ← Signing Pipeline: Credential Check → Version Bump → Build/Sign → Artifacts
+│   │   ├── signing_coordinator.py   ← Orchestrator (iOS + Android + Web)
+│   │   ├── android_signer.py        ← Android AAB Signing
+│   │   ├── web_builder.py           ← Web Bundle Builder
+│   │   ├── credential_checker.py    ← Platform-spezifische Credential-Pruefung
+│   │   ├── version_manager.py       ← Semantic Versioning pro Platform
+│   │   └── artifact_registry.py     ← Artifact Storage + History
+│   ├── qa/                          ← QA Department: Coordinator, Bounce Tracker, Test Runner
+│   ├── store_prep/                  ← Store Prep: Metadata Enricher, Privacy Labels, Screenshots
+│   ├── store/                       ← Store Pipeline: Metadata, Compliance, Packaging, Readiness
+│   ├── mac_bridge/                  ← Mac Build Agent Bridge (Git-Queue)
+│   ├── pre_production/              ← Swarm Factory Phase 1 (7 Agents, CEO Gate)
+│   ├── market_strategy/             ← Swarm Factory Phase 2/Kapitel 3 (5 Agents)
+│   ├── mvp_scope/                   ← Swarm Factory Kapitel 4 (3 Agents)
+│   ├── design_vision/               ← Swarm Factory Kapitel 5 (Design-System)
+│   ├── visual_audit/                ← Swarm Factory Kapitel 5 (Visual Audit)
+│   ├── roadbook_assembly/           ← Swarm Factory Kapitel 6 (CD Technical Roadbook)
+│   ├── document_secretary/          ← Agent 13: 9 PDF-Templates, Playwright Renderer
+│   ├── qa_forge/                    ← Forge-QA (Phase 13): 4 Checker + Design Compliance + Orchestrator
+│   ├── asset_forge/                 ← Asset Generation (Images, Icons)
+│   ├── motion_forge/                ← Motion/Animation Generation
+│   ├── sound_forge/                 ← Sound/Audio Generation
+│   ├── scene_forge/                 ← Scene/Level Generation
+│   ├── brand/                       ← DAI-Core Brand System: Brand Bible, Brand Summary, Brand Loader (3-Tier), CSS, Assets
+│   ├── marketing/                   ← Marketing-Abteilung: Brand Strategy (Brand Book + Compliance), Alerts, Content, Campaigns, Template Engine, Video Pipeline, Content Calendar
+│   ├── integration/                 ← Cross-Department Integration
+│   ├── lines/                       ← Production Line Definitions
 │   ├── hq/                          ← Factory HQ
-│   │   ├── assistant/               ← HQ Assistant (Agent 25, claude-sonnet-4-6, ElevenLabs Voice, Persistent Memory)
-│   │   ├── dashboard/               ← React Dashboard (Node.js Express, 12 Seiten)
-│   │   ├── janitor/                 ← Factory Janitor (INF-13, Autonome Code-Wartung)
-│   │   │   ├── janitor.py           ← Orchestrator + CLI (daily/weekly/monthly)
-│   │   │   ├── scanner.py           ← Stufe 1: File-Scanner (10 Checks)
-│   │   │   ├── graph_builder.py     ← Stufe 2: Abhaengigkeits-Graph (AST + Regex)
-│   │   │   ├── analyzer.py          ← Problem-Erkennung (5 Analysen)
-│   │   │   ├── deep_analyzer.py     ← Stufe 3: LLM-Tiefenanalyse (monatlich)
-│   │   │   ├── executor.py          ← Aktionen: Auto-Fix / Proposal / Report
-│   │   │   ├── config.json          ← Scan-Pfade, Schwellenwerte, Safety-Levels
-│   │   │   ├── quarantine/          ← Entfernte Dateien (7 Tage wiederherstellbar)
-│   │   │   ├── proposals/           ← Offene CEO-Vorschlaege
-│   │   │   └── reports/             ← Scan-Reports (daily/weekly/monthly)
-│   │   ├── gate_api.py              ← Gate-System (create/wait/decide)
-│   │   └── health_monitor.py        ← Factory Health Checks
-│   ├── pre_production/              ← Phase 1: Pre-Production (7 Agents)
-│   ├── market_strategy/             ← Kapitel 3: Market Strategy (5 Agents)
-│   ├── mvp_scope/                   ← Kapitel 4: MVP & Feature Scope (3 Agents)
-│   ├── design_vision/               ← Kapitel 4.5: Design Vision (3 Agents)
-│   ├── visual_audit/                ← Kapitel 5: Visual Audit (4 Agents)
-│   ├── roadbook_assembly/           ← Kapitel 6: CEO + CD Roadbook (2 Agents)
-│   │   └── factory_constraints.md   ← Factory Mode Constraints
-│   ├── document_secretary/          ← 15 PDF-Typen (Playwright/Chromium)
-│   ├── store/                       ← Store Pipeline (Metadata, Compliance, Submission)
-│   ├── mac_bridge/                  ← Mac Command Sender (build_ios, generate_and_build)
-│   ├── dispatcher/                  ← Product Queue Manager
-│   ├── asset_forge/                 ← Asset Generation + Varianten
-│   ├── integration/                 ← CD Forge Interface + Build Plan v2 + Full Pipeline (Phase 12)
-│   │   ├── cd_forge_interface.py    ← Maps CD Roadbook Features → Forge Requirements (LLM)
-│   │   ├── build_plan_schema.py     ← BuildPlan v2: Forge+Code Steps, Parallel Groups, Validator
-│   │   ├── forge_orchestrator.py    ← Koordiniert alle 4 Forges (Group A parallel, Group B nach A)
-│   │   ├── platform_asset_mapper.py ← Plattform-spezifische Pfade + Code-Referenzen (4 Platforms)
-│   │   ├── asset_integrator.py      ← Kopiert Forge-Outputs in Projektstruktur, erzeugt IntegrationMap
-│   │   ├── full_pipeline_orchestrator.py ← End-to-End: Roadbook → Forges → Integration → Code Ready
-│   │   ├── build_plans/             ← Gespeicherte Forge Requirements + Build Plans (JSON)
-│   │   ├── maps/                    ← Integration Maps + Pipeline Results (JSON)
-│   │   └── backend_line/            ← Line 5: Python/FastAPI Backend Generation
-│   │       ├── python_extractor.py  ← Python Code Extractor (AST-basiert, 102 Known Types)
-│   │       └── backend_assembly_line.py ← Generiert 8-File FastAPI Projekt (Firebase/JWT)
-│   ├── scene_forge/                 ← Scene/Level/Shader/Prefab Generation (Phase 11)
-│   │   ├── scene_spec_extractor.py  ← 4 Spec-Dataclasses + LLM Extraction aus Roadbook PDFs
-│   │   ├── level_generator.py       ← Match-3 Level Generation (Difficulty Curve, BFS Reachability)
-│   │   ├── unity_scene_writer.py    ← Unity .unity Scene File Generator (Custom YAML)
-│   │   ├── shader_generator.py      ← URP HLSL Shader Generator (3 Templates + Custom Fallback)
-│   │   ├── prefab_generator.py      ← Unity .prefab Generator (YAML + .meta)
-│   │   ├── scene_validator.py       ← Deterministische Validierung (4 Dateitypen, kein LLM)
-│   │   ├── scene_catalog_manager.py ← Katalog + scene_manifest.json + Dedup Guard
-│   │   ├── scene_forge_orchestrator.py ← End-to-End Pipeline (7 Steps) + CLI
-│   │   ├── utils/                   ← unity_guid, unity_fileid, yaml_serializer
-│   │   ├── level_templates/         ← 4 Level Templates (standard, obstacles, timed, cascade)
-│   │   ├── shader_templates/        ← 3 URP Shader Templates (unlit, bloom_emission, dissolve)
-│   │   ├── specs/                   ← Extracted Scene Manifests (JSON)
-│   │   ├── catalog/                 ← Organized Catalog per Project (levels/scenes/shaders/prefabs)
-│   │   └── generated/               ← Generated Scenes, Shaders, Prefabs, Levels
-│   ├── motion_forge/                ← Animation: Specs + Lottie + Platforms + Validator + Catalog + Orchestrator
-│   │   ├── anim_spec_extractor.py   ← AnimSpec + AnimManifest aus Roadbook PDFs
-│   │   ├── lottie_writer.py         ← 4 Modi: Template/Composition/Custom LLM/External
-│   │   ├── template_composer.py     ← Merges 2-3 Lottie Templates
-│   │   ├── platform_adapter.py      ← iOS/Android (Lottie copy), Web (CSS), Unity (C#)
-│   │   ├── animation_validator.py   ← Deterministic QA (5 Checks, kein LLM)
-│   │   ├── animation_catalog_manager.py ← Catalog + Manifest + Combined CSS
-│   │   ├── motion_forge_orchestrator.py ← End-to-End Pipeline CLI
-│   │   └── templates/               ← 12 Lottie JSON Templates
-│   └── project_config.py            ← LineConfig + ProjectConfig + Quality Priority
+│   │   ├── capabilities/            ← Feasibility Check: Capability Sheet + Matching + Gate + Watcher
+│   │   ├── dashboard/               ← Web Dashboard (React + Express, 19 Components + Team Redesign: 7 Sub-Components)
+│   │   │   ├── server/              ← API Routes (projects, gates, feasibility, janitor, providers, team, assistant, brain)
+│   │   │   └── client/              ← React Frontend (Pipeline, Gates, Janitor, Assistant, Provider, Team, Brain)
+│   │   ├── gates/                   ← CEO Gate Files (JSON)
+│   │   ├── janitor/                 ← Factory Janitor: Scanner, Analyzer, Consistency, Dependencies, Model Hardcode Checker, Model Evolution Check
+│   │   └── providers/               ← Service Provider Management
+│   └── reports/                     ← Factory Reports
 │
-├── agents/                          ← 22 AutoGen Agents (18 aktiv, 4 disabled)
-├── config/                          ← Konfiguration
-│   ├── platform_roles/              ← ios.json, android.json, web.json, unity.json, backend.json
-│   ├── platform_role_resolver.py    ← Compile Contract Injection fuer Code-Agents
-│   ├── model_router.py              ← Agent→Task→Tier Mapping
-│   └── agent_roles.json             ← Agent System Messages
-├── mac_agent/                       ← Mac Build Agent (xcodebuild, SwiftRepairEngine)
-├── code_generation/                 ← Code Extractors (Swift, Kotlin, TypeScript)
-│   └── code_extractor.py            ← 112 Framework-Types Blocklist
-├── factory_knowledge/               ← 26 Knowledge Entries
+├── agents/                          ← AI Agenten (Python, AutoGen)
+├── config/                          ← Konfiguration (Roles, Toggles, Profiles, Platform Roles, model_router.py mit get_model_for_agent + Tier System)
+├── factory_knowledge/               ← Factory Knowledge System (22 Entries, FK-001 bis FK-022)
+├── code_generation/                 ← Code Extractors (Swift, Kotlin, TypeScript, C#, Python)
+├── control_center/                  ← Streamlit Dashboard (Legacy, 19 Pages)
+├── briefings/                       ← Daily Briefing Agent
+├── docs/                            ← Dokumentation (42 .md Dateien)
 ├── ideas/                           ← CEO-Ideen (.md Dateien)
-├── _commands/                       ← Mac ↔ Windows Command Queue (Git-basiert)
-│   ├── pending/                     ← Wartende Commands (.json)
-│   └── completed/                   ← Erledigte Commands (.json)
-├── delivery/                        ← Sprint Reports + Run Manifests
+├── MasterPrompt/                    ← Cross-Platform Command Dispatch
+├── _commands/                       ← Mac ↔ Windows Command Queue
 ├── _logs/                           ← Shared Logs (Mac ↔ Windows via Git)
-└── venv/                            ← Python Virtual Environment
+└── DeveloperReports/                ← 131+ Development Reports
 ```
 
-## Agents (61 gesamt)
+## Agents (84 total: 77 aktiv / 4 deaktiviert / 3 planned, 14 Departments)
+> Registry: `factory/agent_registry.json` (auto-generated via `factory/agent_registry.py`)
+> Agent-Files: `agent*.json` in jeweiligem Department-Ordner
 
-### Code-Pipeline Agents (22 registriert, 18 aktiv)
-Alle nutzen `create_model_client()` → TheBrain → Fallback Anthropic Sonnet.
-
-| Agent | Task Type | Default Tier | Status |
-|---|---|---|---|
-| driveai_lead | planning | Mid (Sonnet) | aktiv |
-| ios_architect | architecture | Mid (Sonnet) | aktiv |
-| swift_developer | code_generation | Mid (Sonnet) | aktiv |
-| reviewer | code_review | Mid (Sonnet) | aktiv |
-| bug_hunter | bug_hunting | Mid (Sonnet) | aktiv |
-| refactor_agent | refactoring | Mid (Sonnet) | aktiv |
-| test_generator | test_generation | Mid (Sonnet) | aktiv |
-| creative_director | creative_direction | Mid (Sonnet) | aktiv |
-| ux_psychology | ux_psychology_review | Mid (Sonnet) | aktiv |
-| product_strategist | classification | Low (Haiku) | aktiv |
-| roadmap_agent | planning | Mid (Sonnet) | aktiv |
-| content_script_agent | content_generation | Mid (Sonnet) | aktiv |
-| change_watch_agent | trend_analysis | Low (Haiku) | aktiv |
-| accessibility_agent | accessibility_review | Mid (Sonnet) | aktiv |
-| opportunity_agent | trend_analysis | Low (Haiku) | aktiv |
-| legal_risk_agent | compliance_review | Mid (Sonnet) | aktiv |
-| project_bootstrap_agent | planning | Mid (Sonnet) | aktiv |
-| autonomous_project_orchestrator | orchestration | Mid (Sonnet) | aktiv |
-| android_architect | architecture | Mid (Sonnet) | disabled |
-| kotlin_developer | code_generation | Mid (Sonnet) | disabled |
-| web_architect | architecture | Mid (Sonnet) | disabled |
-| webapp_developer | code_generation | Mid (Sonnet) | disabled |
-
-### Swarm Factory Pipeline Agents (27 Agents in 6 Phasen)
-Alle nutzen `_call_llm()` → TheBrain → Fallback `claude-sonnet-4-6`.
-
-| Phase | Agents | Anzahl |
+### Departments
+| Department | Agents | Beschreibung |
 |---|---|---|
-| Phase 1 (Pre-Production) | TrendScout, CompetitorScan, AudienceAnalyst, ConceptAnalyst, LegalResearch, RiskAssessment, MemoryAgent | 7 |
-| Kapitel 3 (Market Strategy) | PlatformStrategy, MonetizationArchitect, MarketingStrategy, ReleasePlanner, CostCalculation | 5 |
-| Kapitel 4 (MVP Scope) | FeatureExtraction, FeaturePrioritization, ScreenArchitect | 3 |
-| Kapitel 4.5 (Design Vision) | EmotionArchitect, TrendBreaker, VisionCompiler | 3 |
-| Kapitel 5 (Visual Audit) | AssetDiscovery, AssetStrategy, VisualConsistency, ReviewAssistant | 4 |
-| Kapitel 6 (Roadbook) | CEORoadbook, CDRoadbook | 2 |
+| Code-Pipeline | 22 | Lead, Architects, Developers, Reviewers, CD, UX, Tests |
+| Swarm Factory | 27 | Pre-Production (7), Market Strategy (5), MVP Scope (3), Design Vision, Visual Audit, Roadbook, Secretary |
+| Brain | 7 | Task Router (BRN-01) + Response Collector (BRN-02) + Problem Detector (BRN-03) + Solution Proposer (BRN-04) + Gap Analyzer (BRN-05) + Extension Advisor (BRN-06) + Factory Memory (BRN-07) — Routing, Verarbeitung, Eskalation, Problemerkennung, Loesungsvorschlaege, Gap-Tiefenanalyse, Erweiterungs-Roadmaps, Langzeit-Gedaechtnis |
+| Infrastruktur | 11 | HQ Assistant (21 Tools: 14 Factory + 7 TheBrain), Orchestrator, Assembly, Repair, Status, Promotion, Mac Bridge, Janitor |
+| Asset Forge | 1 | Bild/Icon-Generierung |
+| Motion Forge | 1 | Animation/Motion-Generierung |
+| Sound Forge | 1 | Audio/Sound-Generierung |
+| Scene Forge | 1 | Level/Scene-Generierung |
+| QA Forge | 1 | Forge-Output-Validierung |
+| Store Prep | 1 | Store-Vorbereitung (Metadata, Screenshots) |
+| Store | 1 | Store Submission Pipeline |
+| Signing | 1 | Code Signing (iOS/Android/Web) |
+| Marketing | 11 + 7 Tools + 9 Adapters | Brand Guardian (MKT-01) + Strategy (MKT-02) + Copywriter (MKT-03) + Naming (MKT-04) + ASO (MKT-05) + Visual Designer (MKT-06) + Video Script (MKT-07) + Publishing Orchestrator (MKT-08) + Report Agent (MKT-09) + Review Manager (MKT-10, Zwei-Stufen) + Community Agent (MKT-11, Zwei-Stufen). Tools: Template Engine, Video Pipeline, Content Calendar, Ranking DB, Social Analytics, KPI Tracker, HQ Bridge. Adapters: 5 aktiv + 4 Stubs. Phase 4 COMPLETE (59+32 Tests, 54 .py, 12.653 LOC) |
+| Integration | 1 | Cross-Department Integration |
 
-### Infrastruktur (13)
-| Agent/Service | Modell | Typ |
-|---|---|---|
-| HQ Assistant (Agent 25) | hardcoded claude-sonnet-4-6 | Direct Anthropic API + ElevenLabs Voice |
-| LLM Repair Agent | hardcoded claude-haiku-4-5 | Assembly Repair |
-| CEO Gate | TheBrain | Entscheidungs-Agent |
-| Document Secretary | TheBrain | 15 PDF-Typen |
-| Mac Build Agent | kein LLM | Git-Queue Executor |
-| Daily Briefing | TheBrain | Report Generator |
-| Factory Janitor (INF-13) | hardcoded claude-sonnet-4-6 (nur monatlich) | Autonome Code-Wartung |
-| 4 Assembly Lines | kein LLM | Build Orchestratoren |
+### Deaktiviert (4)
+- android_architect, kotlin_developer, web_architect, webapp_developer
 
-## Swarm Factory Pipeline (Autonome Produkt-Pipeline)
+### Planned (3)
+- Android Assembly Line, Web Assembly Line, Unity Assembly Line
 
-### Ablauf
-```
-CEO-Idee → Phase 1 (Pre-Production, 7 Agents) → CEO-Gate (GO/KILL)
-  → Kapitel 3 (Market Strategy, 5 Agents)
-  → Kapitel 4 (MVP Scope, 3 Agents)
-  → Kapitel 4.5 (Design Vision, 3 Agents)
-  → Kapitel 5 (Visual Audit, 4 Agents)
-  → Kapitel 6 (Roadbook Assembly, 2 Agents) → CEO + CD Roadbook
-  → Document Secretary → 15 PDFs
-```
+## AskFin Premium iOS App (askfin_v1-1)
 
-### Pipeline Mode: Vision vs Factory
-- `--mode vision` (Default): Keine Einschraenkungen, Dream-Dokument
-- `--mode factory`: Production-Constraints (max 20 Features, max 12 Screens, realistischer Tech-Stack)
-- Mode wird automatisch durch alle Phasen durchgereicht via `run_config.json`
-- Factory Constraints: `factory/roadbook_assembly/factory_constraints.md`
+### Mac Baseline (Stand 2026-03-18)
+- **Xcode Build**: SUCCEEDED (xcodegen, iPhone 17 Pro Simulator)
+- **Golden Gates**: 15 Gates, 20+ XCUITests, 0 Failures
+- **4 Pillars**: Alle runtime-validiert + gate-geschuetzt (Training, Skill Map, Generalprobe, Readiness)
+- **Adaptive Learning**: Echte Fragen-DB (173 Fuehrerschein-Fragen), Confidence-basierte Selektion, Learning Signal Persistence
+- **Persistence**: UserDefaults (Competence + History + Learning Signals), ueberlebt Cold Restart
+- **Insight-to-Action Loop**: Generalprobe → Gap-Analyse → Drilldown → "Thema ueben" CTA → Training
+- **Schwaechen-Training CTA**: Result → "Schwaechen trainieren" → TrainingSessionView(.weaknessFocus)
+- **App Store Prep**: Metadata, Privacy Policy, Screenshots (automatisiert), Icon Spec — submission-ready (fehlt: Icon + Developer Account)
+- **Quarantine**: 7 Files FROZEN (siehe quarantine/QUARANTINE_STATUS.md)
+- **Commands**: 092 ausgefuehrt, Reports bis 131-0
+- **MasterPrompt Dispatch**: Reports ab 102-0 in `MasterPrompt/reportAgent/`
 
-### Produkte in der Pipeline
-| Produkt | Phase 1 | Gate | K3 | K4 | K4.5 | K5 | K6 | PDFs |
-|---|---|---|---|---|---|---|---|---|
-| EchoMatch | #003 | GO | #001 | #001 | — | — | #001 | 10 |
-| SkillSense | #004 | Pending | — | — | — | — | — | — |
-| MemeRun2026 | #005 (factory) | GO | #003 | #003 | #002 | #003 | #007 | 15 |
+- **Typ**: SwiftUI MVVM Coaching App (Fuehrerschein-Pruefungsvorbereitung)
+- **4 Pillars**: Training Mode, Exam Simulation, Skill Map, Readiness Score
+- **~200+ Swift Files** in `projects/askfin_v1-1/`
+- **Status**: Factory-generiert, 14 Autonomy Proof Runs, App Store Prep abgeschlossen
+- **Bearbeitung**: Mac (Xcode/Build/Runtime) + Windows (Factory/Prompts/Quality Gate)
+- **Projekt-Inferenz**: Automatisch erkannt wenn `--project` weggelassen wird
+
+## AI App Factory
+- **84 Agents** (77 aktiv, 14 Departments, Python AutoGen-basiert, 100% Anthropic Claude)
+- **Streamlit Control Center**: `streamlit run control_center/app.py`
+- **Bearbeitung**: Windows oder Server
 
 ## Operations Layer Pipeline
 ```
-Output Integrator → Completion Verifier → Import Hygiene → Pseudocode Sanitizer
-  → Compile Hygiene Validator → Stale Artifact Guard → Type Stub Generator
-  → Property Shape Repairer → Swift Compile Check → Quality Gate Loop
-  → Run Memory → Knowledge Writeback
+Output Integrator → Completion Verifier → Compile Hygiene Validator
+  → Type Stub Generator (FK-014) → Re-Hygiene
+  → Property Shape Repairer (FK-013) → Re-Hygiene
+  → Swift Compile Check → Recovery Runner → Run Memory → Knowledge Writeback
 ```
+- **Output Integrator**: 5-Layer Dedup (Filename + Type-Level + Markdown Sanitization)
+- **Compile Hygiene Validator**: 6 Checks (FK-011 bis FK-017), Column-aware, Memberwise-Init-Erkennung
+- **Type Stub Generator**: Automatische Stubs fuer FK-014 (fehlende Typ-Deklarationen)
+- **Property Shape Repairer**: Automatische Struct-Property-Reparatur bei FK-013 (0%-Match)
+- **Swift Compile Check**: swiftc -parse Validierung — nur Mac/Linux (SKIPPED auf Windows)
+- **5 Dedup-Layers**: CodeExtractor → ProjectIntegrator → OutputIntegrator Filename → OutputIntegrator Type → CompileHygiene
 
-### Quality Gate Loop (neu)
-- Sitzt nach Step 9, ersetzt den alten Recovery Loop
-- Tier 1: Deterministische Repairs (Import Hygiene, StubGen, Shape Repair — kostenlos)
-- Tier 2: LLM Repair via RepairEngine (nur wenn Tier 1 nicht reicht)
-- Max 3 Iterationen, dann CEO Escalation Report
-- 0 BLOCKING → Fast-Path (Loop ueberspringen)
-
-## Swift Compile Contract
-- Definiert in `config/platform_roles/ios.json` als `compile_contract`
-- 6 Regeln: Imports, keine Placeholder, keine Framework-Typ-Files, keine Duplikate, Entry Point, Valid Syntax
-- Wird injected in: swift_developer, ios_architect, refactor_agent, bug_hunter, test_generator
-- Code Extractor Blocklist: 112 Framework-Types (SwiftUI, Foundation, Combine, UIKit)
-
-## Mac Bridge
-- **build_ios**: xcodegen + xcodebuild + SwiftRepairEngine (5 Iterationen)
-- **generate_and_build**: LLM Code-Generierung + Compile auf Mac
-- **run_tests**: XCUITest via xcodebuild test
-- **screenshots**: Test-Suite "screenshots"
-- **archive**: xcodebuild archive (Debug)
-- Kommunikation: `_commands/pending/*.json` → Git Push → Mac pollt → `_commands/completed/*.json`
-- iOS Line auf Windows: disabled (Status in project.yaml), Mac uebernimmt
-
-## iOS auf Mac (askfin_v1-1)
-- iOS Line in project.yaml: `status: disabled` (Mac Assembly Factory uebernimmt)
-- Mac-Generate: `python main.py --mac-generate askfin_v1-1 --feature "Name" --spec "..." --files "..."`
-- Compile Contract wird automatisch aus ios.json geladen
-- StudyStreak + FocusTimer bereits via Mac generiert und gebaut (0 Compile Errors)
-
-## CLI Quick Reference
-```bash
-# Code-Pipeline
-python main.py --template feature --name FeatureName --profile standard --approval auto --project askfin_v1-1
-
-# Mac Build
-python main.py --mac-build breathflow5
-
-# Mac Generate + Build
-python main.py --mac-generate askfin_v1-1 --feature "Name" --spec "Spec text" --files "File1.swift,File2.swift"
-
-# Swarm Factory
-python -m factory.pre_production.pipeline --idea-file ideas/app.md --title "AppName" --mode factory
-python -m factory.pre_production.ceo_gate --run-dir factory/pre_production/output/005_appname --decision GO
-python -m factory.market_strategy.pipeline --run-dir factory/pre_production/output/005_appname
-python -m factory.mvp_scope.pipeline --latest
-python -m factory.design_vision.pipeline --latest
-python -m factory.visual_audit.pipeline --latest
-python -m factory.roadbook_assembly.pipeline --latest --mode factory
-
-# PDFs
-python -m factory.document_secretary.secretary --type all
-
-# Factory Janitor (Code-Hygiene)
-python -m factory.hq.janitor daily       # Taeglicher Scan ($0.00)
-python -m factory.hq.janitor weekly      # Woechentlich + Auto-Fixes ($0.00)
-python -m factory.hq.janitor monthly     # Monatliche LLM-Tiefenanalyse (~$0.50-2.00)
-python -m factory.hq.janitor status      # Letzter Report + offene Proposals
-python -m factory.hq.janitor restore <path>  # Datei aus Quarantaene wiederherstellen
-python -m factory.hq.janitor proposals   # Offene Vorschlaege anzeigen
-
-# Scene Forge (Levels/Scenes/Shaders/Prefabs)
-python -m factory.scene_forge.scene_spec_extractor --roadbook-dir <path> --project EchoMatch
-python -m factory.scene_forge.level_generator --campaign 10 --seed 42
-python -m factory.scene_forge.scene_forge_orchestrator --project echomatch --roadbook-dir <path> --budget 0.50
-python -m factory.scene_forge.scene_forge_orchestrator --project echomatch --dry-run
-python -m factory.scene_forge.scene_forge_orchestrator --project echomatch --estimate-cost
-python -m factory.scene_forge.scene_forge_orchestrator --project echomatch --only levels,shaders
-
-# Full Pipeline (Roadbook → Forges → Integration → Code Ready)
-python -m factory.integration.full_pipeline_orchestrator --project echomatch --roadbook-dir <path> --platform unity --dry-run
-python -m factory.integration.full_pipeline_orchestrator --project echomatch --roadbook-dir <path> --platform unity --budget 3.00 --forges-only
-python -m factory.integration.full_pipeline_orchestrator --project echomatch --roadbook-dir <path> --platform unity --estimate-cost
-python -m factory.integration.full_pipeline_orchestrator --project echomatch --roadbook-dir <path> --platform unity --skip asset_forge
-
-# Motion Forge (Animations)
-python -m factory.motion_forge.motion_forge_orchestrator --project echomatch --roadbook-dir <path> --budget 0.50
-python -m factory.motion_forge.motion_forge_orchestrator --project echomatch --dry-run
-python -m factory.motion_forge.motion_forge_orchestrator --project echomatch --estimate-cost
-python -m factory.motion_forge.motion_forge_orchestrator --project echomatch --anim-id MI-001
-python -m factory.motion_forge.motion_forge_orchestrator --project echomatch --category micro_interaction
-
-# Assembly
-python main.py --assemble askfin_android
-python main.py --factory-status
-python main.py --brain-models
-```
+## Factory Knowledge System
+- **22 Eintraege** (FK-001 bis FK-022)
+- FK-001 bis FK-010: Product/UX Knowledge (Premium Strategy, Psychology)
+- FK-011 bis FK-017: Error Patterns (aus Xcode Build Failures)
+- FK-018: Auto-promoted Proposal (File Duplication, 6 Beobachtungen)
+- Deterministische Selektion fuer Creative Director Review
+- **Writeback Loop**: Proposals mit 2+ Beobachtungen → auto-promoted zu `validated`
+- **Run Pattern Extraction**: Recurring failures + Recovery outcomes → Knowledge
+- **Role-Based Injection**: Bug Hunter, Refactor, Fix Executor empfangen validated+ Knowledge
 
 ## Quality Gate
-> **PFLICHT bei jedem Prompt.** Regeln: `~/.claude/docs/QUALITY-GATE.md`
-> Vor Ausfuehrung pruefen: Konzept-Konsistenz, Overengineering, Scope-Drift, Fehler, Kosten-Nutzen.
+> **PFLICHT bei jedem Prompt.** Regeln: `~/.claude/docs/QUALITY-GATE.md` (zentral, projektuebergreifend).
+> Gilt automatisch — Prompt Pilot prueft vor Ausfuehrung, Agents lesen die Datei direkt.
 
 ## Konventionen
 - Sprache mit User: Deutsch
 - Commit-Messages: Englisch
-- Keine unnuetigen Nachfragen — einfach machen
-- Alle Aenderungen in MEMORY.md dokumentieren
-- `_commands/` fuer Mac ↔ Windows Austausch via Git
+- Keine unnötigen Nachfragen – einfach machen
+- Alle Änderungen in CLAUDE.md + MEMORY.md dokumentieren
+- `_logs/` für Mac ↔ Windows Austausch via Git
+
+## Reports (Grundregel)
+> **PFLICHT bei jedem Command**: Zwei Dateien schreiben.
+
+### Aktueller Report-Pfad (ab Command 062)
+```
+MasterPrompt/reportAgent/    ← NEUER Pfad fuer alle Reports
+  102-0_Quarantine Cleanup Report.md
+  103-0_ReadinessService Rehabilitation Report.md
+  ...
+```
+
+### Alter Report-Pfad (Commands 001-061)
+```
+DeveloperReports/CodeAgent/  ← Reports 1-0 bis 101-0
+```
+
+### Bei jedem Command ausfuehren
+1. `_commands/XXX_..._result.md` — Detailliertes Ergebnis
+2. `MasterPrompt/reportAgent/NNN-0_Titel.md` — Kompakter Report
+
+## DeveloperReports (alt, bis Report 101-0)
+> **PFLICHT bei jedem Agent-Wechsel**: Jeder strukturierte Report wird als `.md` gespeichert.
+
+**Ordnerstruktur**:
+```
+DeveloperReports/
+├── CodeAgent/           ← Reports vom Code-Agent (Claude Code)
+│   ├── 1-0_Factory Core Audit Report.md
+│   ├── 2-0_Three Hotfixes Report.md
+│   └── ...
+└── Steps-MasterLead/    ← Reports vom Master Lead (Andreas)
+    └── ...
+```
+
+**Nummerierung** (pro Unterordner):
+- Neues Thema: `N-0_Titel.md` (nächste freie Nummer)
+- Folge-Report zum gleichen Thema: `N-1_Titel.md`, `N-2_Titel.md`, ...
+
+**Regel**: Vor dem Erstellen prüfen welche Nummer als nächstes dran ist. Reports sind dauerhaft und dienen als Projekthistorie. Code-Agent-Reports → `CodeAgent/`, Master-Lead-Steps → `Steps-MasterLead/`.
+
+## Swarm Factory (Autonome Produkt-Pipeline)
+
+### Phase 1: Pre-Production Pipeline (12 Steps — KOMPLETT)
+```
+CEO-Idee → Memory-Briefing → [Trend+Competitor+Audience parallel] → Concept Brief → Legal → Risk → CEO-Gate → Memory
+```
+- 7 Agents (6x Sonnet, 1x Haiku), Web-Recherche via SerpAPI + Caching
+- Runs: EchoMatch #003 (**GO**), SkillSense #004 (Gate pending)
+- Output: `factory/pre_production/output/{NNN}_{slug}/`
+
+### Kapitel 3: Market Strategy Pipeline (7 Steps — KOMPLETT)
+```
+Phase-1-Input → [Platform+Monetization] → [Marketing+Release] → Cost Calculation
+```
+- 5 Agents (alle Sonnet), Wave-basierte Ausfuehrung
+- Run: EchoMatch #001 (5 Reports)
+- Output: `factory/market_strategy/output/{NNN}_{slug}/`
+
+### Kapitel 4: MVP & Feature Scope (7 Steps — KOMPLETT)
+```
+Alle 11 Reports → Feature-Extraction (72 Features) → Priorisierung (Phase A/B/Backlog) → Screen-Architektur (22 Screens, 7 Flows)
+```
+- 3 Agents (alle Sonnet), sequentiell, kein Web-Research
+- Budget-Constraints: Phase A €252.500, Phase B €230.000
+- KPI-Targets: D1≥40%, D7≥20%, D30≥10%, Session 6-10min
+- Flow-Retry-Logik fuer robuste User-Flow-Generierung
+- Run: EchoMatch #001 (Feature-Liste + Priorisierung + Screen-Architektur)
+- Output: `factory/mvp_scope/output/{NNN}_{slug}/`
+
+### Document Secretary (Agent 13 — KOMPLETT)
+- 9 PDF-Typen: CEO Briefing P1/P2, Marketing-Konzept, Investor Summary, Tech Brief, Legal Summary, Feature-Liste, MVP Scope, Screen-Architektur
+- HTML/CSS → PDF via Playwright (Chromium)
+- CLI: `python -m factory.document_secretary.secretary --type all --p1-dir ... --p2-dir ... --k4-dir ...`
+- E-Mail-Versand via SMTP (.env Config)
+- 10 PDFs generiert fuer EchoMatch (Stand 2026-03-21)
+
+### Kapitel 5: Design Vision + Visual Audit (KOMPLETT)
+- Design-System-Generierung aus Phase 1-4 Output
+- Visual Audit Pipeline fuer UI/UX Validierung
+
+### Kapitel 6: CD Technical Roadbook (KOMPLETT)
+- CEO Roadbook + CD Technical Roadbook Assembly
+- Output: `factory/roadbook_assembly/output/{NNN}_{slug}/`
+
+### Post-Roadbook Pipeline
+```
+CD_ROADBOOK_COMPLETE → Feasibility Check → [feasible → Production Review] | [partial → CEO Gate] | [blocked → Parked]
+```
+- Feasibility Check: Capability Sheet vs Roadbook Matching (deterministisch, kein LLM)
+- CLI: `--feasibility-check <project>`, `--capability-sheet`, `--recheck-parked`
+
+### Signing Pipeline
+```
+Credential Check → Version Bump → Build/Sign → Artifact Storage
+```
+- Platforms: iOS (iOSSigner, Mac Bridge), Android (AndroidSigner), Web (WebBuilder)
+- CLI: `--sign <project> --platform <ios|android|web|all>`, `--check-credentials`, `--show-version`, `--bump-version`, `--list-artifacts`
+
+### QA Forge (Phase 13)
+- 4 Checker: visual_diff, audio_check, animation_timing, scene_integrity
+- Design Compliance: 12 Auto-Checks + 5 CEO Manual Checks
+- QA Forge Orchestrator: Alle Checker + Compliance + Verdict
+- CLI: `python -m factory.qa_forge.qa_forge_orchestrator --project X --synthetic [--save] [--only visual audio]`
+
+### Ideas Pipeline
+- `ideas/` Ordner fuer CEO-Ideen als .md Dateien
+- SkillSense.md vorhanden (Phase 1 durchgelaufen, Gate pending)
+- `--idea-file ideas/SkillSense.md` fuer Pipeline-Input
+
+## Erledigtes
+- [2026-03-29] Evolution Loop P-EVO-015: Loop-Modi Implementation. Sprint->Deep->Pivot Eskalation vollstaendig integriert. RegressionTracker: detect_loop_mode() vereinfacht (Deep->Pivot bei declining statt 3+ streak), neue Helpers (_count_iterations_in_mode, _count_recurring_gaps). LoopOrchestrator: check_stop_conditions() erweitert (Pivot->ceo_review, mode-spezifische Max-Iterations: Sprint=10, Deep=5). DecisionAgent: Deep Mode konvertiert non-critical "fix" Tasks zu "refactor". 6/6 Mode-Tests + 5/5 E2E + 7/7 Regression + 6/6 Decision bestanden.
+- [2026-03-29] Evolution Loop P-EVO-014: Simulation Agent (`factory/evolution_loop/simulation_agent.py`, 487 LOC). Statische Code-Analyse ohne LLM: `_static_analysis()` (LOC, TODOs, Stubs, Hardcoded Values, Deep Nesting, Error Handling Ratio, Dead Code), `_roadbook_coverage()` (Feature/Screen-Matching per Filename+Content), `_synthetic_flow_check()` (Navigation-Patterns). Preserviert pre-populierte Daten wenn keine Dateien existieren. 7 Sprachen erkannt. Max 1000 Dateien. Binary-Skip. Encoding-Fallback. KEIN Stub mehr im Loop Orchestrator — alle 6 Agents funktional. 6/6 Tests + 5/5 E2E.
+- [2026-03-29] Evolution Loop P-EVO-013: E2E Loop Test (`factory/evolution_loop/tests/test_evolution_loop_e2e.py`). 5 Szenarien: Happy Path (3 Iterationen, Stagnation→CEO Review), Perfect Build (1 Iteration, Targets met→CEO Review, Aggregate 99.0), Max Iterations (3/3), Score Tracking (Stagnation korrekt erkannt), Status Report (alle Felder). Bugfix: `features_implemented`→`features_covered` Key in Testdaten. 5/5 Tests, 0.09s.
+- [2026-03-29] Evolution Loop P-EVO-012: Regression Tracker (`factory/evolution_loop/regression_tracker.py`). RegressionTracker analysiert Iterations-History: Trend-Detection (improving/stagnating/declining), Score-Regressions, Loop-Mode-Detection (sprint->deep->pivot, nur Eskalation). Thresholds aus Config (stagnation=2%, regression=5%, stagnation_iterations=2). Empfehlungen: improving->continue, stagnating->ceo_review, declining->stop. Trend-Summary-Text. LoopOrchestrator.regression_step() delegiert an RegressionTracker. Nur noch 1 Stub (simulation_step). 7/7 Tests.
+- [2026-03-29] Evolution Loop P-EVO-011: Decision Agent (`factory/evolution_loop/decision_agent.py`). DecisionAgent uebersetzt Gaps in Tasks: bug->fix, feature->implement, structural/performance/ux->refactor. CEO-Feedback-Translation (blocker->critical, major->high). Eskalationslogik: >5 critical Gaps, persistente Regression (3+ Iter), >15 total Gaps. Task-IDs: TASK-{iter}-{NNN} bzw TASK-{iter}-CEO-{NNN}. LoopOrchestrator.decision_step() delegiert an DecisionAgent. 6/6 Tests.
+- [2026-03-29] Evolution Loop P-EVO-010: Gap Detector (`factory/evolution_loop/gap_detector.py`). GapDetector identifiziert Gaps zwischen Soll und Ist: Score-basiert (5 Targets), Compile Errors, Test Failures, Feature Coverage. Regression-Check via LDOStorage (vorherige Iteration). Gap-IDs: GAP-{iter}-{NNN}. Severity-Sortierung (critical>high>medium>low). LoopOrchestrator.gap_detection_step() delegiert an GapDetector. 5/5 Tests.
+- [2026-03-29] Evolution Loop P-EVO-009: Evaluation Agent (`factory/evolution_loop/evaluation_agent.py` + `scoring/soft_scores.py`). EvaluationAgent delegiert alle Score-Berechnungen: Hard Scores (Bug/Roadbook/Structural via HardScoreCalculator) + Soft Scores (Performance/UX via SoftScoreCalculator) + Plugin Scores + Aggregation. SoftScoreCalculator: Performance (4x25: Code-Size, Anti-Patterns, Stubs, Error-Handling, Confidence 50/35/15) + UX (4x25: Screen-Coverage, Flow-Completeness, Nav-Depth, Naming-Consistency, Confidence 40/30/15). LoopOrchestrator.evaluation_step() delegiert jetzt an EvaluationAgent statt inline. 6/6 Tests.
+- [2026-03-29] Evolution Loop P-EVO-008: Loop Orchestrator (`factory/evolution_loop/loop_orchestrator.py`). LoopOrchestrator mit 10 Methoden (4 Stubs: simulation/gap/regression/decision, 6 funktional: run_loop/run_single_iteration/evaluation_step/check_stop_conditions/get_status_report/init). Evaluation nutzt EvaluationAgent. Stop-Bedingungen: max_iterations->stop, budget->ceo_review, regression->stop/ceo, targets_met->ceo_review. LDO-Storage pro Iteration. 7/7 Tests.
+- [2026-03-28] Evolution Loop P-EVO-007: Hard Scores + Aggregator (`factory/evolution_loop/scoring/`). HardScoreCalculator (3 Methoden: bug=100-(failed*5)-(errors*15)-(warnings*1), roadbook_match=feat*40+screen*30+flow*30, structural_health=4x25 Punkte). ScoreAggregator (gewichteter Durchschnitt + Veto-Logik: Bug<min→cap 50, Roadbook/Structural<min→cap 60). check_targets_met() prueft alle Targets. 11/11 Tests.
+- [2026-03-28] Evolution Loop P-EVO-006: Orchestrator Handoff (`factory/evolution_loop/adapters/orchestrator_handoff.py`). OrchestratorHandoff mit 3 Methoden: receive_from_orchestrator() (Build+QA→LDO, 3 Build-Formate: BuildReport/Simple/Empty), send_tasks_to_orchestrator() (LDO Tasks→Orchestrator Format), create_handoff_report() (Log-String). Hook-Point: nach execute_plan() + QA-Run. Nutzt QAToLDOAdapter. 5/5 Tests.
+- [2026-03-28] Evolution Loop P-EVO-005: QA-to-LDO Adapter (`factory/evolution_loop/adapters/qa_to_ldo_adapter.py`). QAToLDOAdapter mit 4 Methoden: transform_qa_forge_results(), transform_qa_department_results(), merge_results(), extract_from_project(). Liest QA Forge + QA Department Output. Score-Formeln: bug=100-(failure_rate*500), structural=100-(blocking*25)-(warnings*5), ux/perf aus Forge pass-rate. 5/5 Tests.
+- [2026-03-28] Evolution Loop P-EVO-004: 6 Agents registriert (EVO-01 bis EVO-06) in agent_registry.json. 86 Agents total, 14 Departments, 9 planned.
+- [2026-03-28] Evolution Loop P-EVO-003: Default Config — 2 YAML + config_loader.py. Loop-Limits, Quality Targets, Score Weights (4 Typen), Confidence. Deep-merge fuer Projekt-Overrides.
+- [2026-03-28] Evolution Loop P-EVO-002: LDO Schema — 15 Dataclasses (schema.py), Validator (validator.py), Storage (storage.py). Round-trip + nested deserialization + validation OK. 354 LOC gesamt.
+- [2026-03-28] Evolution Loop P-EVO-001: Department-Struktur `factory/evolution_loop/` erstellt (10 Dirs, 9 __init__.py). Referenz: ROADBOOK_EVOLUTION_LOOP.md.
+- [2026-03-28] Cascade Delete: DELETE /api/projects/:id von 8 auf 17 Locations erweitert (store_prep, asset_forge, forges, integration, qa_forge, marketing, ideas, capabilities, dispatcher). Test-Projekte (BrainPuzzle, MemeRun2026, SkillSense) komplett entfernt. Server-Banner auf DAI-Core.
+- [2026-03-27] CEO Cockpit Dashboard Rebranding: Komplett auf DAI-Core Brand umgestellt. Farbschema (Magenta/Cyan/Void/Midnight), 5 Text-Referenzen in 4 Dateien, Logo + Favicon in public/. Build OK.
+- [2026-03-27] Marketing Phase 4 COMPLETE: Integration-Test (10/10, E2E Store->DB->KPI->Alert->Report->HQ), Phase-4-Report. Gesamt: 32/32 Phase-4-Tests, 54 .py, 12.653 LOC, 11 Agents, 7 Tools, 9 Adapters. Zwei-Stufen-System: 0 auto-responses auf negative Inhalte.
+- [2026-03-27] Marketing Phase 4 Block B: Report Agent (MKT-09, Daily/Weekly/Monthly Reports via LLM), Review Manager (MKT-10, Zwei-Stufen-System: HARD Logik → Tier 1 autonom, Tier 2 CEO-Gate), Community Agent (MKT-11, Zwei-Stufen-System fuer Social Media Kommentare), HQ Bridge (JSON-Export fuer Dashboard). Registry: 80 aktiv, Marketing=11. 12/12 Tests.
+- [2026-03-27] Marketing Phase 4 Block A: App Store + Google Play Adapters, Ranking-DB (SQLite 5 Tabellen), Social Analytics Collector, KPI Tracker (7 KPIs aus EchoMatch Roadbook). 9 Adapters total. 10/10 Tests.
+- [2026-03-27] Marketing Phase 3 Block B: 3 Plattform-Adapter (YouTube, TikTok, X) + 4 Stub-Adapter (Instagram, LinkedIn, Reddit, Twitch). Publishing Orchestrator (MKT-08, deterministisch). `get_adapter()` Factory. Cross-Post mit gestaffeltem Kalender. Alles Dry-Run, kein Live-Publishing. Registry: 77 aktiv, Marketing=8. 9/9 Tests.
+- [2026-03-27] Marketing Phase 3 Block A: expected_output_tokens Fix (9 Werte in 4 Agents korrigiert, 2 Workarounds entfernt). Brand Guardian aktiviert (Brand Book MD+JSON, App Style Sheet, Compliance Check). Content Calendar (`content_calendar.py`, deterministisch, 8 Methoden, Launch-Kampagne). Template Engine liest Brand-Farben aus brand_book.json. 7/8 Tests (1 pre-existing o3-mini Compat-Issue).
+- [2026-03-27] Team Dashboard Redesign: `team_enrichment.py` (Python-Enrichment fuer 76 Agents), 7 Sub-Components (team-utils, TeamSummary, TeamFilters, TeamTable, TeamDetailPanel, TeamDistribution, TeamView als Orchestrator). `/api/team/enriched` Endpoint mit 5-Min Cache. Dynamische Departments (13), Tier/Provider-Filter, Score-Bars, Capability-Chips, 3 Verteilungs-Panels. Vite Build OK.
+- [2026-03-27] Agent Auto-Classification: `agent_classifier.py` (deterministisch + Haiku-Fallback). Auto-Tier + Auto-Caps bei Registration. `validate_agent_tier()` classifiziert statt ValueError. 94.7% Tier-Accuracy (75 Agents). CLI: `--brain-classify <id>|--brain-classify-validate`.
+- [2026-03-27] Agent Capability Matching: `capability_tags.py` (17 Tags), `capability_matcher.py` (Score-Based Matching + Tier-Escalation). `get_model_for_agent()` nutzt jetzt Capability->Modell statt nur Tier->Modell. 83 Agents mit `capabilities_required` backfilled. Ergebnis: Swift Dev->Sonnet (swift_code), Roadbook->Gemini Pro (large_context), Lightweight->Flash/Haiku. CLI: `--brain-match <id>|--brain-match-all`.
+- [2026-03-26] TheBrain Auto-Evolution Loop + Tier Cascade: `model_evolution.py` (autonomous 6-step pipeline mit Cascade Step 4.5), `known_prices.py` (static fallback prices + aggressive filters 86→22). Tier Cascade: Wenn neues High-Tier-Modell → gesamte Hierarchie verschiebt (Premium→Standard→Lightweight→Deprecated). Atomar mit Backup+Rollback (tier_config.json + llm_profiles.json + models_registry.json). Quick Benchmark vor Premium. `config/model_router.py` lädt tier_config.json als Override. Janitor/brain_tools/main.py Integration. CLI: `--brain-evolution-dry|force`. 24h Cooldown, Registry-Backup+Rollback, FactoryMemory-Logging.
+- [2026-03-26] Hardcoded Model Migration COMPLETE (Batch 1+2): 78→0 Findings. Batch 1: 3 Depts (35 Findings). Batch 2: 33 Dateien in 15 Depts/Modulen (43 Findings). get_fallback_model(profile) in config/model_router.py + 8 Department-Configs. Agent Tier System: tier in 83 Agents, get_model_for_agent(). Whitelist: 19 Einträge. Backups in _backups/.
+- [2026-03-26] Janitor Model Hardcode Checker: model_hardcode_checker.py scannt 363 .py-Dateien, Severity RED/YELLOW, Whitelist-System. Standalone: `python -m factory.hq.janitor.model_hardcode_checker`. Status: 0 Findings (clean).
+- [2026-03-26] Marketing Phase 2 COMPLETE (Steps 2.1-2.13): 5 neue Agents (MKT-03 bis MKT-07) + 2 Tools (Template-Engine, Video-Pipeline). 29 Python-Dateien, 5.639 LOC, 24/24 Tests. Integration-Test 6/6. Content: 23 Dateien in output/ (2 MB), 14 in brand/ (48 KB). 3 Projekte mit Story Briefs (echomatch, memerun2026, skillsense). Phase-2-Report in reports/. ASO max_tokens Fix.
+- [2026-03-26] Marketing Phase 2 Block C (Steps 2.8-2.10): 2 neue Agents. MKT-06 Visual Designer (Creative Briefs via LLM + Template-Engine fuer Social Media, Screenshots, Thumbnails, Ads. A/B-Varianten. AI-Background Stub). MKT-07 Video Script (Skripte fuer TikTok/Shorts/YouTube/Reels + Video-Erstellung aus Skripten via Template-Engine + Video-Pipeline. Szenen-Parser). Registry: 83 Agents, Marketing=7. 5/5 Tests. Echte PNGs + MP4 (68s TikTok-Video).
+- [2026-03-26] Marketing Phase 2 Block B (Steps 2.6-2.7): 2 neue Tools. Template Engine (Pillow, 11 Formate, 7 Methoden) + Video Pipeline (FFmpeg 8.1, 5 Formate, 7 Methoden). Kein LLM. 8/8 Tests. Bugfixes: drawtext Font-Escaping, ffprobe Pfad.
+- [2026-03-26] Marketing Phase 2 Block A (Steps 2.1-2.5): 3 neue Text-Agents. MKT-03 Copywriter (Social Media Packs, Store Listings, Blog, Ad Copy, A/B-Varianten, mehrsprachig). MKT-04 Naming (Namensgenerierung via LLM, Domain/Social/Store Verfuegbarkeitspruefung, CEO-Gate). MKT-05 ASO (Keyword Research, lokalisierte Store Listings, Competitor Analysis, SerpAPI-Integration). Registry: 81 Agents, Marketing=5. 5/5 Tests bestanden. Bugfixes: o3-mini max_tokens fuer Store Listings (16384), JSON-Parse robust gegen Markdown-Fencing, Gate options als dicts.
+- [2026-03-26] Marketing Phase 1 COMPLETE: Steps 1.8-1.11 — Strategy Agent erste LLM-Outputs. Factory-Narrative (4 Versionen), EchoMatch Story Brief (6KB, 5 Quellen), EchoMatch Marketing-Direktive (8.7KB). Phase-1-Report in reports/. Bugfix: _call_llm temperature=1.0 (o3-mini) + error check in strategy.py + brand_guardian.py. dotenv in Run-Scripts.
+- [2026-03-26] Marketing-Abteilung Phase 1 Steps 1.4-1.6: Agent Personas + Registry. MKT-01 Brand Guardian (Brand Book, Style Sheets, Compliance) + MKT-02 Marketing Strategy (Factory-Narrative, App Stories, Direktiven). Persona JSONs im Factory-Format, Python-Stubs mit System Messages + _call_llm (TheBrain + Anthropic-Fallback). Registry: 78 Agents, 14 Departments. Backup vorhanden.
+- [2026-03-26] Marketing-Abteilung Phase 1 Infrastruktur (`factory/marketing/`). 14. Department. Verzeichnisstruktur (agents/, alerts/, brand/, reports/, output/, shared/). Alert-System mit Lifecycle (open→acknowledged→resolved) + CEO-Gates (pending→decided). JSON-Schema-Validierung. Config als Python-Modul. Input Loader liest Pipeline-Outputs aller Departments. Shared Utilities. Alle Import-Tests + Lifecycle-Tests bestanden. Keine bestehenden Dateien geaendert.
+- [2026-03-26] HQ Assistant TheBrain-Integration (`factory/hq/assistant/`). 6 neue brain_* Tools: brain_briefing, brain_diagnose, brain_gaps, brain_roadmap, brain_quick_check, brain_commands. BrainTools-Klasse in brain_tools.py kapselt alle TheBrain-Interaktionen. Graceful Degradation wenn TheBrain nicht verfuegbar. Auto-Briefing erweitert (TheBrain Quick-Check im CEO Briefing). 28 Tools total (22 bestehende + 6 TheBrain). Ansatz A+C: Tool-Definitions + elif-Branches. 6/6 Tests. Bestehende Tools unveraendert.
+- [2026-03-26] TheBrain Dashboard Page (`factory/hq/dashboard/`). Neue Seite im CEO Cockpit: TheBrain COO-Level Awareness. Backend: brain-scanner.js liest State Reports, Directives, Brain Agents, Memory Events. API: GET /api/brain. Frontend: BrainView.jsx mit 6 Tabs (Alerts, Subsysteme, Gaps, Direktiven, Brain Agents, Memory). Navigation: nach "Factory Status", Brain-Icon. Build OK. Bestehende Seiten unveraendert. Backups in _backups/.
+- [2026-03-26] TheBrain Phase 4.5: Factory Memory (`factory/brain/memory/`). BRN-07 Agent. Langzeit-Gedaechtnis: Event Log (15 Typen), Knowledge Base (Lessons), Pattern Store. Kernmethode: check_similar_project_warnings() warnt proaktiv. MemoryWriter fuer einfaches Logging. State Snapshots + Vergleiche. ProblemDetector-Integration. JSON-Storage, append-mostly. 7/7 Tests. Registry auf 76 Agents, Brain=7.
+- [2026-03-26] TheBrain Phase 4 Step 2: Extension Advisor (`factory/brain/extension_advisor.py`). BRN-06 Agent. Gap-Analysen → ausfuehrbare Roadmaps. Category-Planner (image, sound, voice, video, animation, production_lines). Production Line Sub-Planner (Android 7.5w, Web 6.5w, Unity 13.5w). Agent-Skill-Matching, Dependency-Wave-Timeline. 5/5 Tests. 21 Plaene (11 immediate, 9 short, 1 mid), 66.5w Gesamt. Sub-Routing in TaskRouter (_route_capabilities). Registry auf 75 Agents, Brain=6.
+- [2026-03-26] TheBrain Phase 4 Step 1: Gap Analyzer (`factory/brain/gap_analyzer.py`). BRN-05 Agent. Tiefenanalyse aller Gaps mit DIR-001 4-Stufe-Logik. SELF_BUILD_KNOWLEDGE fuer 6 Kategorien (image, sound, voice_tts, video, animation, production_lines). 7 Stufe-2 + 9 Stufe-3 Optionen. Proxmox-Kompatibilitaetspruefung. `analyze_gaps()` im TaskRouter. 4/4 Tests. 21 Gaps, 21 self-solvable, 0 external-only. Registry auf 74 Agents, Brain=5.
+- [2026-03-25] Factory Direktive DIR-001 Self-First (`factory/brain/directives/`). CEO-Direktive: Alles selbst entwickeln, 4-Stufen-Reihenfolge (Eigene Mittel → Self-Build → Self-Host → Extern nur Notfall). DirectiveEngine prueft Capability-Entscheidungen, Pause-Empfehlung, Prompt-Injection (68w). SolutionProposer nutzt DIR-001 Stufenlogik bei Gaps. 5/5 Tests.
+- [2026-03-25] TheBrain Phase 3 Step 2: Solution Proposer (`factory/brain/solution_proposer.py`). BRN-04 Agent. 10 Solution Generators, 100% deterministisch (kein LLM). 3 Approval-Levels (auto/ceo_required/info_only). Execution Plan (immediate/needs_approval/long_term). `_find_alternative_services()` liest echte Service Registry + Draft-Adapter. `diagnose_and_propose()` im TaskRouter. 3/3 Tests. Registry auf 73 Agents, Brain=4.
+- [2026-03-25] TheBrain Phase 3 Step 1: Problem Detector (`factory/brain/problem_detector.py`). BRN-03 Agent. 10 Detection Rules, 100% deterministisch (kein LLM). Thresholds als Class Constants. Erkennt: Queue-Backlog, stuck Projects, Service-Outages, RED Gaps, Health-Failures, Janitor-Backlog, Auto-Repair-Anomalien, Subsystem-Ausfaelle, Model-Issues, Line-Limits. 3/3 Tests. Registry auf 72 Agents, Brain=3.
+- [2026-03-25] TheBrain Phase 2 Step 2: Response Collector (`factory/brain/response_collector.py`). BRN-02 Agent. 9 deterministische Prozessoren, LLM nur fuer process_multi(). Eskalations-Logik (RED Gaps, stuck Projects, Critical Alerts). Brain-Style-Filter. route_and_collect() im TaskRouter. 5/5 Tests.
+- [2026-03-25] TheBrain Phase 2 Step 1.5: Brain Persona (`factory/brain/persona/`). brain_persona.md (Charakter-Sheet) + brain_system_prompt.py (System-Prompt Generator, 220 Woerter). Classification-Prompt fuer TaskRouter LLM-Fallback. Live-State-Injection aus FactoryStateCollector.
+- [2026-03-25] TheBrain Phase 2 Step 1: Task Router (`factory/brain/task_router.py`). BRN-01 Agent. 2-stufige Klassifikation (Keyword+LLM-Fallback), 8 Routen-Kategorien, Department-Guessing. 6/6 Smoke-Tests bestanden. Agent-Registry auf 70 Agents, 13 Departments.
+- [2026-03-25] TheBrain Phase 2 Step 0: Tier Lock (`config/model_router.py`). `tier_lock` Parameter in route()/route_for_agent()/get_model()/get_model_for_agent(). 3-Level Hierarchie (dev=0, standard=1, premium=2), 9 Modelle gemappt. Upgrade-Logging. 100% abwaertskompatibel, keine neuen Dateien.
+- [2026-03-25] TheBrain Phase 1 Step 3: State Report Generator (`factory/brain/state_report.py`). Kompakt-Report (lesbar, ~40 Zeilen) + Full Report (Dict). Health=YELLOW, 4 Alerts, 21 Gaps. `save_report()` in `factory/brain/reports/`. `__init__.py` exportiert alle 3 Phase-1-Module.
+- [2026-03-25] TheBrain Phase 1 Step 2: Capability Map (`factory/brain/capability_map.py`). `CapabilityMap` aggregiert Capabilities aus Agent/Service/Model Registry + Filesystem (Lines, Forges, Adapters). 69 Agents, 6 Services, 9 Modelle, 5 Forges, 4 Lines, 7 Draft-Adapter. `get_gaps()` findet 21 Gaps (1 red, 10 yellow, 10 green).
+- [2026-03-25] TheBrain Phase 1 Step 1: Factory State Collector (`factory/brain/factory_state.py`). `FactoryStateCollector` sammelt Zustand aus 8 Subsystemen (Health Monitor, Janitor, Pipeline Queue, Project Registry, Service/Model Provider, Command Queue, Auto-Repair). 8/8 verfuegbar, read-only, kein LLM.
+- [2026-03-25] Signing Coordinator: iOS Patch (SKIPPED→iOSSigner), 9 .py Files restored aus git, CLI-Flags wiederhergestellt, `--platform all` inkl. iOS
+- [2026-03-25] QA Department: qa_coordinator, bounce_tracker, quality_criteria, test_runner (factory/qa/)
+- [2026-03-25] Store Prep Layer: metadata_enricher, privacy_labels, screenshot_coordinator, store_prep_coordinator (factory/store_prep/)
+- [2026-03-25] Phase 13 Steps 5+6: Design Compliance (12 Auto-Checks DC-001..012 + 5 CEO Manual) + QA Forge Orchestrator (5 Checker, Synthetic Proof Run 91.7%)
+- [2026-03-25] Phase 13 Steps 1-4: QA Forge Checkers (visual_diff, audio_check, animation_timing, scene_integrity) mit 21 Self-Tests
+- [2026-03-25] Janitor Phase 2: Protected Paths erweitert, Growth Alert, Config Consistency Check, Dependency Health Check. Dashboard: 2 neue Tabs.
+- [2026-03-25] Janitor Fine-Tuning: 18.614→619 Dateien, node_modules-Bug, Health-Score rekalibriert
+- [2026-03-25] Dashboard: Project Delete, Feasibility UI (4 Status-Farben, Gap-Chips, Re-Check), Gate Inbox (Feasibility-spezifische Buttons)
+- [2026-03-25] Dashboard Regression Fix: 736 gelöschte Dateien wiederhergestellt, 4 UI-Files repariert
+- [2026-03-25] Agent Registry: 69 Agents (62 aktiv, 12 Departments)
+- [2026-03-25] Production Feasibility Check: Capability Sheet + Roadbook Matching + Parking + Gate Integration + Dashboard Frontend
+- [2026-03-21] Kapitel 4 (MVP & Feature Scope) komplett: 3 Agents, EchoMatch E2E Run, 3 neue PDF-Templates
+- [2026-03-21] Document Secretary: 9 PDF-Typen (3 neue: Feature-Liste, MVP Scope, Screen-Architektur)
+- [2026-03-21] Screen-Architektur PDF Fix: Markdown-Fallback-Rendering bei JSON-Parse-Fehler
+- [2026-03-21] Feature-Priorisierung: Haertere Phase-A/B-Trennung (MINIMUM statt alles-ins-Budget)
+- [2026-03-21] SkillSense: Phase 1 Pre-Production Run #004 komplett (Gate pending)
+- [2026-03-20] Swarm Factory Phase 1 + Phase 2 (Kapitel 3) + Document Secretary komplett implementiert und getestet
+- [2026-03-15] Property Shape Repairer: FK-013 Struct-Property-Reparatur (0-Property-Structs)
+- [2026-03-15] OutputIntegrator Semantic Dedup: Type-Level Dedup + Markdown Sanitization
+- [2026-03-15] Compile Hygiene Truthfulness: Column-aware FK-012, Memberwise-Init FK-013
+- [2026-03-15] Type Stub Generator: Automatische FK-014 Stub-Generierung
+- [2026-03-15] Project Context Hardening: Auto-Inferenz aus projects/ Verzeichnis
+- [2026-03-15] CD Gate Profile-Awareness: dev-profile = advisory (fail nicht blockierend)
+- [2026-03-15] CD Rating Parser Fix: Agent-spezifische Extraktion statt letzter Match
+- [2026-03-15] 8 Autonomy Proof Runs (Run 3-8) mit progressiver Verbesserung
+- [2026-03-14] Swift Compile Check: swiftc-basierte Syntax-Validierung + Pipeline-Integration
+- [2026-03-14] Compile Hygiene Validator Round 3: FK-013, FK-014, FK-017 (6 Checks total)
+- [2026-03-14] Compile Hygiene Validator Round 2: FK-011, FK-012, FK-015
+- [2026-03-14] Factory Knowledge Error Patterns: FK-011 bis FK-017 aus Xcode Fix Report
+- [2026-03-14] Repo bereinigt: DriveAI/, DriveAi-AutoGen/ geloescht, AskFin Premium nach projects/askfin_v1-1/
+- [2026-03-13] UX Psychology Review Layer + UX Knowledge Seed (FK-007 bis FK-010)
+- [2026-03-13] Creative Director Soft Gate + Advisory Pass
+- [2026-03-13] Commercial Strategy Generator + AskFin Premium Projekt
+- [2026-03-12] Premium Product Strategy: 5 strategische Docs
+- [2026-03-12] Komplette Migration OpenAI GPT → Anthropic Claude (3-Tier System)
+- [2026-03-12] Factory erweitert: AutoResearchAgent, ResearchMemoryGraph, StrategyReportAgent
+- [2026-03-12] Pipeline Reliability: team.reset(), _run_with_retry(), Implementation Summary

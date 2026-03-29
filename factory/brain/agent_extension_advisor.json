@@ -1,0 +1,15 @@
+{
+  "id": "BRN-06",
+  "name": "TheBrain Extension Advisor",
+  "role": "Extension Roadmap Planning & Capability Growth",
+  "department": "Brain",
+  "status": "active",
+  "task_type": "planning",
+  "model_tier": "none",
+  "default_model": "none",
+  "provider": "none",
+  "routing": "no_llm",
+  "uses_web": false,
+  "description": "Erstellt konkrete Erweiterungsplaene fuer die Factory. Wandelt Gap-Analysen in ausfuehrbare Roadmaps um mit Agents, Timelines, Infrastruktur-Anforderungen und Abhaengigkeiten. DIR-001 compliant. 100% deterministisch, kein LLM.",
+  "py_file": "extension_advisor.py"
+}

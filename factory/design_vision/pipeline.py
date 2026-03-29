@@ -43,13 +43,7 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
     run_dir = output_base / f"{run_number:03d}_{slug}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    # Propagate run mode
-    from factory.run_mode import read_mode, write_mode
-    _src_dir = k4_dir or k3_dir or phase1_dir or ""
-    _mode = read_mode(_src_dir) if _src_dir else "vision"
-    write_mode(run_dir, _mode)
-
-    print(f"      -> 14 Reports geladen OK")
+    print(f"      -> 14 Reports geladen ✓")
     print(f"\n  Idee:  {title}")
     print(f"  Kapitel-4.5 Run: #{run_number:03d}")
     print(f"  Datum: {date_str}")
@@ -72,7 +66,7 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
         tb = tb_run(data)
         result["trend_breaker_report"] = tb
         (run_dir / "trend_breaker_report.md").write_text(tb, encoding="utf-8")
-        print(f"      -> {len(tb):,} Zeichen OK")
+        print(f"      -> {len(tb):,} Zeichen ✓")
     except Exception as e:
         print(f"      FEHLER: {e}")
         result["status"] = "error"
@@ -87,7 +81,7 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
         ea = ea_run(data, tb)
         result["emotion_architect_report"] = ea
         (run_dir / "emotion_architect_report.md").write_text(ea, encoding="utf-8")
-        print(f"      -> {len(ea):,} Zeichen OK")
+        print(f"      -> {len(ea):,} Zeichen ✓")
     except Exception as e:
         print(f"      FEHLER: {e}")
         result["status"] = "error"
@@ -102,7 +96,7 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
         dv = vc_run(data, tb, ea)
         result["design_vision_document"] = dv
         (run_dir / "design_vision_document.md").write_text(dv, encoding="utf-8")
-        print(f"      -> {len(dv):,} Zeichen OK")
+        print(f"      -> {len(dv):,} Zeichen ✓")
     except Exception as e:
         print(f"      FEHLER: {e}")
         result["status"] = "partial"
@@ -130,14 +124,6 @@ def run_pipeline(phase1_dir: str = None, k3_dir: str = None, k4_dir: str = None)
     print(f"\n  Naechster Schritt: Kapitel 5 (Visual & Asset Audit)")
     print("=" * 60)
 
-    try:
-        from factory.project_registry import update_project_phase
-        import re
-        _slug = re.sub(r'[^a-z0-9_]', '', result.get("idea_title", "").lower().replace(" ", "_"))[:40]
-        update_project_phase(_slug, "kapitel45", "complete" if result["status"] == "completed" else "partial", str(run_dir))
-    except Exception as e:
-        print(f"  [Registry] Warning: {e}")
-
     return result
 
 
@@ -158,9 +144,9 @@ def _save_summary(run_dir: Path, result: dict, date_str: str):
 ## Agent-Status
 | Agent | Status | Report-Laenge |
 |---|---|---|
-| Trend-Breaker (17a) | {"OK" if tb_len > 0 else "FAIL"} | {tb_len:,} Zeichen |
-| Emotion-Architect (17b) | {"OK" if ea_len > 0 else "FAIL"} | {ea_len:,} Zeichen |
-| Vision-Compiler (17c) | {"OK" if dv_len > 0 else "FAIL"} | {dv_len:,} Zeichen |
+| Trend-Breaker (17a) | {"✓" if tb_len > 0 else "✗"} | {tb_len:,} Zeichen |
+| Emotion-Architect (17b) | {"✓" if ea_len > 0 else "✗"} | {ea_len:,} Zeichen |
+| Vision-Compiler (17c) | {"✓" if dv_len > 0 else "✗"} | {dv_len:,} Zeichen |
 """
     (run_dir / "pipeline_summary.md").write_text(summary, encoding="utf-8")
 
@@ -191,7 +177,7 @@ def _update_memory(title: str, design_vision: str):
             content = content.replace("## Design Vision\n", f"## Design Vision\n{insight}", 1)
 
         learnings_path.write_text(content, encoding="utf-8")
-        print("      -> Memory aktualisiert OK")
+        print("      -> Memory aktualisiert ✓")
     except Exception as e:
         print(f"      WARNING: Memory-Update fehlgeschlagen: {e}")
 

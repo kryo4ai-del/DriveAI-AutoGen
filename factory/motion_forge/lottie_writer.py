@@ -11,6 +11,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
+from config.model_router import get_fallback_model
 
 logger = logging.getLogger(__name__)
 
@@ -267,7 +268,7 @@ class LottieWriter:
             try:
                 import anthropic
                 client = anthropic.Anthropic()
-                resp = client.messages.create(model="claude-sonnet-4-6", max_tokens=max_tokens,
+                resp = client.messages.create(model=get_fallback_model(), max_tokens=max_tokens,
                                               messages=[{"role": "user", "content": f"{system}\n\n{user}"}])
                 return resp.content[0].text
             except Exception:

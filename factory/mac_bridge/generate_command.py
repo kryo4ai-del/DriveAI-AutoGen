@@ -9,6 +9,7 @@ import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
+from config.model_router import get_fallback_model
 
 _ROOT = Path(__file__).resolve().parent.parent.parent
 _PENDING = _ROOT / "_commands" / "pending"
@@ -41,13 +42,14 @@ def send_generate_and_build(
     feature_name: str,
     feature_spec: str,
     target_files: list[str],
-    model: str = "claude-sonnet-4-6",
+    model: str = None,
     compile_contract: str | None = None,
 ) -> str:
     """Create and send a generate_and_build command to Mac.
 
     Returns: command_id
     """
+    model = model or get_fallback_model()
     if compile_contract is None:
         compile_contract = _get_default_compile_contract()
 

@@ -1,15 +1,10 @@
 {
   "id": "CPL-05",
   "name": "Bug Hunter",
-  "role": "Bug Detection & Fix",
-  "department": "Code-Pipeline",
-  "status": "active",
-  "task_type": "debugging",
+  "role": "Bug Detection & Analysis",
+  "task_type": "bug_hunting",
   "model_tier": "standard",
-  "default_model": "claude-sonnet-4-6",
-  "provider": "anthropic",
-  "routing": "TheBrain",
-  "uses_web": false,
-  "description": "Findet und fixt Bugs im generierten Code",
-  "py_file": "bug_hunter.py"
+  "default_model": "claude-sonnet-4-20250514",
+  "status": "active",
+  "department": "Code-Pipeline"
 }

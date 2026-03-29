@@ -1,0 +1,25 @@
+{
+  "directives": [
+    {
+      "id": "DIR-001",
+      "name": "Self-First Prinzip",
+      "priority": "highest",
+      "file": "directive_001_self_first.md",
+      "issued_by": "ceo",
+      "issued_at": "2026-03-25",
+      "status": "active",
+      "summary": "Alles selbst entwickeln. Externe Services nur als letzte temporaere Option. Produktion pausieren statt Qualitaet durch Auslagerung kompromittieren.",
+      "affects": [
+        "capability_decisions",
+        "service_integration",
+        "gap_analysis",
+        "extension_planning"
+      ],
+      "enforcement": "mandatory"
+    }
+  ],
+  "meta": {
+    "total_directives": 1,
+    "last_updated": "2026-03-25"
+  }
+}

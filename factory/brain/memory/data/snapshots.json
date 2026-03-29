@@ -1,0 +1,244 @@
+[
+  {
+    "event_id": "EVT-20260326-001",
+    "timestamp": "2026-03-26T02:48:27.284340+00:00",
+    "summary": {
+      "overall_status": "warning",
+      "subsystems_available": 8,
+      "subsystems_total": 8,
+      "health_status": "warning",
+      "health_alerts": 10,
+      "total_projects": 6,
+      "stuck_projects": 0,
+      "active_services": 3,
+      "registered_models": 9,
+      "janitor_health": 64
+    },
+    "full_state": {
+      "collected_at": "2026-03-26T02:48:24.864484+00:00",
+      "factory_root": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen",
+      "health_monitor": {
+        "status": "warning",
+        "overall": "warnings",
+        "total_projects": 5,
+        "healthy_projects": 2,
+        "projects_with_issues": 3,
+        "total_alerts": 10,
+        "critical": 0,
+        "warnings": 4,
+        "info": 6,
+        "alerts": [
+          {
+            "severity": "warning",
+            "category": "stale_gate",
+            "project": "brainpuzzle",
+            "message": "ceo_gate wartet seit 4 Tagen auf Entscheidung",
+            "auto_fixable": false
+          },
+          {
+            "severity": "warning",
+            "category": "stale_gate",
+            "project": "echomatch",
+            "message": "visual_review wartet seit 4 Tagen auf Entscheidung",
+            "auto_fixable": false
+          },
+          {
+            "severity": "warning",
+            "category": "stale_gate",
+            "project": "memerun2026",
+            "message": "ceo_gate wartet seit 2 Tagen auf Entscheidung",
+            "auto_fixable": false
+          },
+          {
+            "severity": "warning",
+            "category": "stale_gate",
+            "project": "memerun2026",
+            "message": "visual_review wartet seit 2 Tagen auf Entscheidung",
+            "auto_fixable": false
+          },
+          {
+            "severity": "info",
+            "category": "missing_field",
+            "project": "brainpuzzle",
+            "message": "Feld 'mode' fehlt in project.json",
+            "auto_fixable": true
+          },
+          {
+            "severity": "info",
+            "category": "missing_field",
+            "project": "brainpuzzle",
+            "message": "Feld 'created_at' fehlt in project.json",
+            "auto_fixable": true
+          },
+          {
+            "severity": "info",
+            "category": "missing_field",
+            "project": "echomatch",
+            "message": "Feld 'mode' fehlt in project.json",
+            "auto_fixable": true
+          },
+          {
+            "severity": "info",
+            "category": "missing_field",
+            "project": "echomatch",
+            "message": "Feld 'created_at' fehlt in project.json",
+            "auto_fixable": true
+          },
+          {
+            "severity": "info",
+            "category": "missing_field",
+            "project": "skillsense",
+            "message": "Feld 'mode' fehlt in project.json",
+            "auto_fixable": true
+          },
+          {
+            "severity": "info",
+            "category": "missing_field",
+            "project": "skillsense",
+            "message": "Feld 'created_at' fehlt in project.json",
+            "auto_fixable": true
+          }
+        ]
+      },
+      "janitor": {
+        "status": "ok",
+        "last_scan": "2026-03-25T11:17:34.000753+00:00",
+        "cycle": "daily",
+        "issues_found": 316,
+        "health_score": 64,
+        "green": 48,
+        "yellow": 213,
+        "red": 55,
+        "growth_alerts": 0,
+        "scanned_files": 619
+      },
+      "pipeline_queue": {
+        "status": "ok",
+        "total_projects": 6,
+        "projects": [
+          {
+            "id": "001_brainpuzzle",
+            "name": "BrainPuzzle",
+            "phase": "pre_production_complete",
+            "priority": 5,
+            "updated_at": "2026-03-22T07:07:58.403593"
+          },
+          {
+            "id": "002_breathflow",
+            "name": "BreathFlow",
+            "phase": "failed",
+            "priority": 5,
+            "updated_at": "2026-03-22T01:50:49.538314"
+          },
+          {
+            "id": "003_breathflow2",
+            "name": "BreathFlow2",
+            "phase": "failed",
+            "priority": 5,
+            "updated_at": "2026-03-22T07:09:01.056032"
+          },
+          {
+            "id": "004_breathflow3",
+            "name": "BreathFlow3",
+            "phase": "failed",
+            "priority": 5,
+            "updated_at": "2026-03-22T08:21:02.588158"
+          },
+          {
+            "id": "005_breathflow4",
+            "name": "BreathFlow4",
+            "phase": "failed",
+            "priority": 5,
+            "updated_at": "2026-03-22T16:26:32.481131"
+          },
+          {
+            "id": "006_breathflow5",
+            "name": "BreathFlow5",
+            "phase": "failed",
+            "priority": 5,
+            "updated_at": "2026-03-22T20:14:01.665217"
+          }
+        ],
+        "stuck_projects": [],
+        "queue_updated": "2026-03-22T20:14:01.665355"
+      },
+      "project_registry": {
+        "status": "ok",
+        "total": 5,
+        "active": 5,
+        "completed": 0,
+        "archived": 0,
+        "by_status": {
+          "ceo_gate_pending": 1,
+          "preproduction_done": 2,
+          "idea_created": 1,
+          "features_complete": 1
+        }
+      },
+      "service_provider": {
+        "status": "ok",
+        "total_services": 6,
+        "active_services": [
+          "DALL-E 3",
+          "Stability AI SDXL",
+          "ElevenLabs Sound Effects"
+        ],
+        "inactive_services": [
+          "Recraft v3",
+          "Suno AI",
+          "Runway ML Gen-3"
+        ],
+        "draft_adapters": [],
+        "categories": [
+          "image",
+          "sound",
+          "animation",
+          "video"
+        ]
+      },
+      "model_provider": {
+        "status": "ok",
+        "registered_models": 9,
+        "available_models": 9,
+        "by_provider": {
+          "anthropic": 3,
+          "openai": 3,
+          "google": 2,
+          "mistral": 1
+        },
+        "by_tier": {
+          "mid": 4,
+          "low": 4,
+          "high": 1
+        },
+        "available_providers": [
+          "anthropic",
+          "openai",
+          "google",
+          "mistral"
+        ],
+        "latest_health_report": {
+          "file": "health_20260321_114219.json"
+        }
+      },
+      "command_queue": {
+        "status": "warning",
+        "total_commands": 183,
+        "oldest": "2026-03-15",
+        "oldest_file": "README.md",
+        "newest": "2026-03-18",
+        "newest_file": "092_ml128_launch_strategy_result.md",
+        "oldest_age_days": 10
+      },
+      "auto_repair": {
+        "status": "ok",
+        "module_available": true,
+        "active_repairs": 0,
+        "recent_repairs": []
+      },
+      "overall_status": "warning",
+      "subsystems_available": 8,
+      "subsystems_total": 8
+    }
+  }
+]

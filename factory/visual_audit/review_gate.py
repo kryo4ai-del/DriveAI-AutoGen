@@ -177,15 +177,6 @@ def run_review_gate(result: dict, decision: str = None, reasoning: str = None) -
     elif decision == "GO_MIT_NOTES":
         print("[ReviewGate] -> Weiter mit Anmerkungen. Naechster Schritt: Kapitel 6")
 
-    # Update project registry
-    try:
-        from factory.project_registry import update_project_gate
-        import re
-        _slug = re.sub(r'[^a-z0-9_]', '', result.get("idea_title", "unknown").lower().replace(" ", "_"))[:40]
-        update_project_gate(_slug, "visual_review", decision, reasoning or "")
-    except Exception as e:
-        print(f"[ReviewGate] Registry warning: {e}")
-
     return result
 
 
@@ -212,4 +203,4 @@ if __name__ == "__main__":
 
     final = run_review_gate(result, decision=args.decision, reasoning=args.reasoning)
 
-    print(f"\nOK Entscheidung: {final['review_decision']}")
+    print(f"\n✓ Entscheidung: {final['review_decision']}")

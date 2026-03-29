@@ -7,6 +7,8 @@ Output: Concept Brief (Markdown).
 
 from dotenv import load_dotenv
 
+from factory.pre_production.config import get_fallback_model
+
 load_dotenv()
 
 AGENT_NAME = "ConceptAnalyst"
@@ -43,7 +45,7 @@ def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name:
         import anthropic
         client = anthropic.Anthropic()
         resp = client.messages.create(
-            model="claude-sonnet-4-6",
+            model=get_fallback_model(),
             max_tokens=max_tokens,
             messages=[{"role": "user", "content": prompt}]
         )

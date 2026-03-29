@@ -16,6 +16,7 @@ Usage:
 from datetime import date
 from pathlib import Path
 
+from factory.brand.brand_loader import load_brand_context, get_logo_path, get_brand_info
 from factory.document_secretary.pdf_builder import PdfBuilder
 from factory.document_secretary.email_service import send_document
 from factory.document_secretary.templates import (

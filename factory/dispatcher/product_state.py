@@ -31,6 +31,10 @@ class ProductPhase(Enum):
     STORE_PREP_COMPLETE = "store_prep_complete"
     STORE_SUBMITTED = "store_submitted"
     STORE_LIVE = "store_live"
+    FEASIBILITY_CHECKING = "feasibility_checking"
+    FEASIBLE = "feasible"
+    PARKED_PARTIALLY = "parked_partially"
+    PARKED_BLOCKED = "parked_blocked"
     PARKED = "parked"
     FAILED = "failed"
     CANCELLED = "cancelled"
@@ -59,6 +63,7 @@ class ProductEntry:
     production_files: int = 0
     compile_errors: int = 0
     store_readiness: float = 0.0
+    feasibility_result: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         d = {
@@ -76,6 +81,7 @@ class ProductEntry:
             "production_files": self.production_files,
             "compile_errors": self.compile_errors,
             "store_readiness": self.store_readiness,
+            "feasibility_result": self.feasibility_result,
         }
         return d
 

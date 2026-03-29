@@ -5,6 +5,8 @@ import json
 import anthropic
 from dotenv import load_dotenv
 
+from factory.document_secretary.config import get_fallback_model
+
 load_dotenv()
 
 
@@ -101,7 +103,7 @@ Die 8 Sections:
     print("[DocumentSecretary] Extracting Investor Summary content via Claude...")
     client = anthropic.Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-4-6",
+        model=get_fallback_model(),
         max_tokens=8000,
         messages=[{"role": "user", "content": prompt}],
     )

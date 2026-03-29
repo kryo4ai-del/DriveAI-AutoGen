@@ -18,6 +18,7 @@ import base64
 import requests
 
 from pydantic import BaseModel
+from config.model_router import get_fallback_model
 from typing import Optional
 
 app = FastAPI(title="DriveAI Factory HQ Assistant")
@@ -58,7 +59,7 @@ class SpeakResponse(BaseModel):
 @app.get("/health")
 def health():
     voice_ok = bool(ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID)
-    return {"status": "ok", "model": "claude-sonnet-4-6", "voice_enabled": voice_ok}
+    return {"status": "ok", "model": get_fallback_model(), "voice_enabled": voice_ok}
 
 
 @app.post("/chat", response_model=ChatResponse)

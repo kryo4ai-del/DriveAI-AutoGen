@@ -3,8 +3,7 @@
 Main orchestrator for the Signing & Packaging pipeline.
 Runs per-platform: credential check -> version bump -> build/sign -> artifact storage.
 
-iOS signing is deferred to the Mac session -- this coordinator handles it gracefully
-by returning SKIPPED with instructions to run on Mac.
+iOS signing uses iOSSigner (requires Mac Bridge or Mac session for actual builds).
 
 No external dependencies -- only stdlib + factory.signing.* imports.
 External factory modules (gate_api, project_registry) are lazy-imported.
@@ -160,20 +159,6 @@ class SigningCoordinator:
         """Inner processing logic (called from _process_platform with try/except)."""
         artifact_type = self._default_artifact_type(platform)
 
-        # -- iOS: deferred to Mac session -----------------------------------
-        if platform == "ios":
-            print(
-                "[Signing] iOS signing requires Mac session. "
-                "Run signing on Mac with --sign <project> --platform ios"
-            )
-            return SigningResult(
-                status="SKIPPED",
-                phase="deferred",
-                artifact_type="ipa",
-                error="iOS signing requires Mac session",
-                duration_seconds=round(time.time() - start, 1),
-            )
-
         # -- Unity: not implemented -----------------------------------------
         if platform == "unity":
             print("[Signing] Unity signing not yet implemented")
@@ -224,7 +209,15 @@ class SigningCoordinator:
                 duration_seconds=round(time.time() - start, 1),
             )
 
-        if platform == "android":
+        if platform == "ios":
+            from factory.signing.ios_signer import iOSSigner
+
+            signer = iOSSigner(
+                self.project_name, project_dir, version, self.config
+            )
+            return signer.build_and_sign()
+
+        elif platform == "android":
             from factory.signing.android_signer import AndroidSigner
 
             signer = AndroidSigner(

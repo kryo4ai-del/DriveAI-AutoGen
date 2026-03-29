@@ -38,6 +38,7 @@ from factory.store_prep.screenshot_coordinator import (
     ScreenshotResult,
 )
 from factory.store_prep.store_prep_report import PlatformPrepStatus, StorePrepReport
+from factory.brand.brand_loader import load_brand_context, get_brand_info, get_logo_path
 
 _ROOT = Path(__file__).resolve().parent.parent.parent
 

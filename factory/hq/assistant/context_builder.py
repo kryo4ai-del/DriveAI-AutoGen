@@ -153,6 +153,20 @@ def build_ceo_briefing() -> str:
                         "since": prereq_ch.get("date", "unbekannt"),
                     })
 
+    # TheBrain Quick-Check (optional, graceful)
+    try:
+        from factory.hq.assistant.brain_tools import get_brain_tools
+        bt = get_brain_tools()
+        if bt.is_available():
+            quick = json.loads(bt.factory_quick_check())
+            briefing["brain_status"] = {
+                "health": quick.get("health"),
+                "critical": quick.get("critical", 0),
+                "warnings": quick.get("warnings", 0),
+            }
+    except Exception:
+        pass  # TheBrain nicht verfuegbar, kein Problem
+
     return json.dumps(briefing, indent=2, default=str)
 
 

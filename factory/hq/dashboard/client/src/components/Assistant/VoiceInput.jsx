@@ -167,7 +167,7 @@ export default function VoiceInput({ onTranscript, onSend, disabled }) {
       {/* Privacy notice */}
       {showPrivacy && (
         <div className="absolute bottom-full right-0 mb-2 w-64 p-2 bg-factory-bg border border-factory-border rounded-lg text-[10px] text-factory-text-secondary z-10">
-          Spracheingabe nutzt die Browser-Spracherkennung. Audio wird nicht von DriveAI gespeichert.
+          Spracheingabe nutzt die Browser-Spracherkennung. Audio wird nicht von DAI-Core gespeichert.
         </div>
       )}
 

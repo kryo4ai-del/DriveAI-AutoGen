@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from factory.assembly.repair.repair_engine import RepairEngine
 from factory.assembly.repair.llm_repair_agent import LLMRepairAgent, BatchRepairResult
 from factory.assembly.repair.error_parser import ErrorParser
+from config.model_router import get_fallback_model
 
 
 @dataclass
@@ -42,7 +43,7 @@ class RepairCoordinator:
     """Coordinates 3-tier repair strategy."""
 
     def __init__(self, project_dir: str, language: str,
-                 llm_model: str = "claude-haiku-4-5",
+                 llm_model: str = None,
                  enable_llm: bool = True,
                  max_llm_files: int = 20,
                  max_deterministic_cycles: int = 10):
@@ -51,7 +52,7 @@ class RepairCoordinator:
         self.engine = RepairEngine(project_dir, language)
         self.parser = ErrorParser()
         self.enable_llm = enable_llm and bool(os.environ.get("ANTHROPIC_API_KEY", ""))
-        self.llm_agent = LLMRepairAgent(model=llm_model) if self.enable_llm else None
+        self.llm_agent = LLMRepairAgent(model=llm_model or get_fallback_model("dev")) if self.enable_llm else None
         self.max_llm_files = max_llm_files
         self.max_det_cycles = max_deterministic_cycles
 

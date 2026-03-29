@@ -17,6 +17,7 @@ import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+from config.model_router import get_fallback_model
 
 logger = logging.getLogger(__name__)
 
@@ -583,7 +584,7 @@ Keep it concise: max 10 endpoints, max 8 models. Focus on the core API."""
         import anthropic
         client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
         resp = client.messages.create(
-            model="claude-sonnet-4-6",
+            model=get_fallback_model(),
             max_tokens=max_tokens,
             system=system,
             messages=[{"role": "user", "content": user}],

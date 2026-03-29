@@ -13,6 +13,7 @@ from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+from config.model_router import get_fallback_model
 
 logger = logging.getLogger(__name__)
 
@@ -279,7 +280,7 @@ Keep descriptions SHORT (max 15 words each). Extract 5-15 features. For items ar
         import anthropic
         client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
         resp = client.messages.create(
-            model="claude-sonnet-4-6",
+            model=get_fallback_model(),
             max_tokens=max_tokens,
             system=system,
             messages=[{"role": "user", "content": user}],

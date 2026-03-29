@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from factory.visual_audit.config import get_fallback_model
+
 AGENT_NAME = "VisualConsistency"
 
 
@@ -43,7 +45,7 @@ def _call_llm(prompt: str, system: str = "", max_tokens: int = 8000, agent_name:
         import anthropic
         client = anthropic.Anthropic()
         resp = client.messages.create(
-            model="claude-sonnet-4-6",
+            model=get_fallback_model(),
             max_tokens=max_tokens,
             messages=[{"role": "user", "content": prompt}]
         )
@@ -78,7 +80,7 @@ def _log_counts(text: str, label: str):
     yellow = text.count("\U0001f7e1")
     green = text.count("\U0001f7e2")
     warn = text.count("\u26a0\ufe0f")
-    print(f"[{AGENT_NAME}] -> {label}: {red} RED, {yellow} YELLOW, {green} GREEN, {warn} WARN")
+    print(f"[{AGENT_NAME}] -> {label}: {red} \U0001f534, {yellow} \U0001f7e1, {green} \U0001f7e2, {warn} \u26a0\ufe0f")
 
 
 def _check_flows_1_4(screen_arch, asset_discovery) -> str:

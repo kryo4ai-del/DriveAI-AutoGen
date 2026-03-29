@@ -8,7 +8,7 @@ export default function ChatPanel({ isOpen, onClose }) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [online, setOnline] = useState(null);
-  const [autoSpeak, setAutoSpeak] = useState(false);
+  const [autoSpeak, setAutoSpeak] = useState(true);
   const [lastWasVoice, setLastWasVoice] = useState(false);
   const [isVoiceListening, setIsVoiceListening] = useState(false);
   const messagesEndRef = useRef(null);

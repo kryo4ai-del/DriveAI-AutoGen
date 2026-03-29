@@ -4,17 +4,39 @@ Reuses existing DriveAI LLM infrastructure.
 Defines agent-to-model mapping and pipeline settings.
 """
 
+import os
+
+
+def get_fallback_model(profile: str = "standard") -> str:
+    """Dynamische Modellwahl: TheBrain -> .env -> hartcodierter Default.
+
+    profile: "standard" (Sonnet-Klasse) oder "dev"/"lightweight" (Haiku-Klasse).
+    Einzige Stelle mit hardcodiertem Modellnamen im gesamten Department.
+    """
+    try:
+        from factory.brain.model_provider import get_model
+        selection = get_model(profile=profile)
+        if selection and selection.get("model"):
+            return selection["model"]
+    except Exception:
+        pass
+
+    if profile in ("dev", "lightweight"):
+        return os.environ.get("ANTHROPIC_FALLBACK_MODEL_LIGHTWEIGHT", "claude-haiku-4-5")
+    return os.environ.get("ANTHROPIC_FALLBACK_MODEL", "claude-sonnet-4-6")
+
+
 # Agent LLM Tier Assignments
 # Tier 2 (Reasoning/Sonnet) for research + analysis agents
 # Tier 3 (Lightweight/Haiku) for memory agent
 AGENT_MODEL_MAP = {
-    "trend_scout": "claude-sonnet-4-6",
-    "competitor_scan": "claude-sonnet-4-6",
-    "audience_analyst": "claude-sonnet-4-6",
-    "concept_analyst": "claude-sonnet-4-6",
-    "legal_research": "claude-sonnet-4-6",
-    "risk_assessment": "claude-sonnet-4-6",
-    "memory_agent": "claude-haiku-4-5",
+    "trend_scout": get_fallback_model(),
+    "competitor_scan": get_fallback_model(),
+    "audience_analyst": get_fallback_model(),
+    "concept_analyst": get_fallback_model(),
+    "legal_research": get_fallback_model(),
+    "risk_assessment": get_fallback_model(),
+    "memory_agent": get_fallback_model("dev"),
 }
 
 # Pipeline flow definition

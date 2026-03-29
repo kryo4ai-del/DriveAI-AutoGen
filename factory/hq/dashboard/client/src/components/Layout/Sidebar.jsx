@@ -1,15 +1,18 @@
-import { Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye } from 'lucide-react';
+import { Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye, Brain } from 'lucide-react';
 
 const ICON_MAP = {
-  Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye
+  Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye, Brain
 };
 
 export default function Sidebar({ sections, active, onSelect }) {
   return (
     <aside className="w-64 bg-factory-surface border-r border-factory-border flex flex-col">
       <div className="p-6 border-b border-factory-border">
-        <h1 className="text-xl font-bold text-factory-accent">DriveAI</h1>
-        <p className="text-sm text-factory-text-secondary mt-1">Swarm Factory — CEO Cockpit</p>
+        <div className="flex items-center gap-3">
+          <img src="/dai-core-logo.png" alt="DAI-Core" className="w-8 h-8" />
+          <h1 className="text-xl font-bold text-white">DAI-Core</h1>
+        </div>
+        <p className="text-sm text-factory-text-secondary mt-1">CEO Cockpit</p>
       </div>
 
       <nav className="flex-1 py-4">
@@ -40,8 +43,8 @@ export default function Sidebar({ sections, active, onSelect }) {
       </nav>
 
       <div className="p-4 border-t border-factory-border">
-        <p className="text-xs text-factory-text-secondary">Factory v1.0</p>
-        <p className="text-xs text-factory-text-secondary">24 Agents &bull; 15 PDFs</p>
+        <p className="text-xs text-factory-text-secondary">DAI-Core v1.0</p>
+        <p className="text-xs text-factory-text-secondary">100+ Agents &bull; 14 Departments</p>
       </div>
     </aside>
   );

@@ -11,6 +11,7 @@ Total: up to 20 reports + 2 decisions.
 """
 
 from pathlib import Path
+from factory.roadbook_assembly.config import get_fallback_model
 
 # Report files per chapter
 PHASE1_FILES = {
@@ -203,7 +204,7 @@ def get_split_strategy(agent_name: str) -> dict:
     except Exception as e:
         print(f"[Kapitel6] AutoSplitter not available ({e}), defaulting to split_3")
         return {
-            "recommended_model": "claude-sonnet-4-6",
+            "recommended_model": get_fallback_model(),
             "recommended_provider": "anthropic",
             "strategy": "split_3",
             "num_calls": 3,

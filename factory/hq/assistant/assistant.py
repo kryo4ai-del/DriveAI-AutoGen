@@ -14,9 +14,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+
+from config.model_router import get_fallback_model
 logger = logging.getLogger(__name__)
 
-ASSISTANT_MODEL = "claude-sonnet-4-6"
+ASSISTANT_MODEL = get_fallback_model()
 MEMORY_FILE = Path(__file__).parent / "memory.json"
 MEMORY_UPDATE_INTERVAL = 5
 _message_counter = 0
@@ -30,6 +32,7 @@ Deine Aufgaben:
 - Auto-Repairs triggern wenn der CEO es wünscht
 - Empfehlungen geben basierend auf dem aktuellen Factory-Zustand
 - Projekte, Agents, Kosten und Pipeline-Status abfragen
+- TheBrain nutzen: Factory-Diagnose, Gap-Analyse, Roadmap, Quick-Check (brain_* Tools)
 
 Du hast Zugriff auf Tools fuer Lesen UND Handeln. Nutze Lese-Tools BEVOR du antwortest — rate nicht.
 
@@ -180,7 +183,7 @@ NUR das JSON zurueckgeben, kein anderer Text. Kein Markdown-Fence."""
     try:
         client = anthropic.Anthropic()
         response = client.messages.create(
-            model="claude-haiku-4-5",
+            model=get_fallback_model("dev"),
             max_tokens=1024,
             messages=[{"role": "user", "content": update_prompt}],
         )
@@ -377,6 +380,37 @@ TOOLS = [
             },
         },
     },
+    # --- TheBrain Tools ---
+    {
+        "name": "brain_briefing",
+        "description": "TheBrain Factory-Briefing: Vollstaendiger Zustandsbericht der Factory mit Health, Alerts, Subsystemen, Capabilities. Nutze bei: 'Factory Briefing', 'Wie geht es der Factory?', 'TheBrain Status', 'Factory Report'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_diagnose",
+        "description": "TheBrain Diagnose: Erkennt aktive Probleme und liefert Loesungsvorschlaege mit Prioritaeten. Nutze bei: 'Diagnose', 'Was ist los?', 'Probleme?', 'Factory Check'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_gaps",
+        "description": "TheBrain Gap-Analyse: Tiefenanalyse aller fehlenden Factory-Faehigkeiten mit Self-Build Empfehlungen (DIR-001 Stufen). Nutze bei: 'Gap Analyse', 'Was fehlt?', 'Luecken?', 'Capabilities'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_roadmap",
+        "description": "TheBrain Roadmap: Erweiterungsplan mit konkreten Schritten, Timelines und Prioritaeten. Nutze bei: 'Roadmap', 'Erweiterungsplan', 'Was bauen wir als naechstes?', 'Naechste Schritte'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_quick_check",
+        "description": "TheBrain Quick-Check: Ultraknapper Factory-Status (Health + Probleme). Nutze bei: 'Quick Check', 'Alles okay?', 'Kurz-Status'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "brain_commands",
+        "description": "Zeigt alle verfuegbaren TheBrain-Befehle. Nutze bei: 'Was kann TheBrain?', 'TheBrain Befehle', 'Brain Help'.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
     # --- Memory Tools ---
     {
         "name": "get_memory",
@@ -567,6 +601,31 @@ def handle_tool_call(tool_name: str, tool_input: dict) -> str:
                 "proposed": len(result.get("actions", {}).get("proposed", [])),
                 "cost_usd": result.get("cost_usd", 0),
             }, indent=2, default=str)
+
+        # --- TheBrain Tools ---
+        elif tool_name == "brain_briefing":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_briefing()
+
+        elif tool_name == "brain_diagnose":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_diagnose()
+
+        elif tool_name == "brain_gaps":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_gaps()
+
+        elif tool_name == "brain_roadmap":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_roadmap()
+
+        elif tool_name == "brain_quick_check":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().factory_quick_check()
+
+        elif tool_name == "brain_commands":
+            from factory.hq.assistant.brain_tools import get_brain_tools
+            return get_brain_tools().get_available_commands()
 
         # --- Memory Tools ---
         elif tool_name == "get_memory":

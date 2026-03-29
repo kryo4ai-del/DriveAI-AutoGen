@@ -26,6 +26,9 @@ app.use('/api/showcase', showcaseApi);
 const startApi = require('./api/start');
 app.use('/api/start', startApi);
 
+const feasibilityApi = require('./api/feasibility');
+app.use('/api/feasibility', feasibilityApi);
+
 const assistantApi = require('./api/assistant');
 app.use('/api/assistant', assistantApi);
 
@@ -37,6 +40,9 @@ app.use('/api/providers', providersApi);
 
 const janitorApi = require('./api/janitor');
 app.use('/api/janitor', janitorApi);
+
+const brainApi = require('./api/brain');
+app.use('/api/brain', brainApi);
 
 app.get('/api/health-check', (req, res) => {
   res.json({
@@ -50,7 +56,7 @@ app.get('/api/health-check', (req, res) => {
 app.listen(config.PORT, () => {
   console.log(`
 ══════════════════════════════════════════════════════════════
-  DriveAI CEO Cockpit Dashboard
+  DAI-Core CEO Cockpit
   Running on http://localhost:${config.PORT}
   Factory Base: ${config.FACTORY_BASE}
 ══════════════════════════════════════════════════════════════

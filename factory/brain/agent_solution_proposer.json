@@ -1,0 +1,17 @@
+{
+  "id": "BRN-04",
+  "name": "TheBrain Solution Proposer",
+  "department": "Brain",
+  "task_type": "planning",
+  "status": "active",
+  "description": "Wandelt erkannte Probleme in priorisierte Loesungsvorschlaege um. Gruppiert nach Dringlichkeit und Approval-Level. 100% deterministisch, kein LLM.",
+  "model_tier": "none",
+  "routing": {
+    "tier_lock": null
+  },
+  "module": "factory.brain.solution_proposer",
+  "class": "SolutionProposer",
+  "created": "2026-03-25",
+  "version": "1.0.0",
+  "note": "Kein LLM — rein deterministisch. Kein tier_lock noetig."
+}

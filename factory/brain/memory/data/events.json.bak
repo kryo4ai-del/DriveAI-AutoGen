@@ -1,0 +1,62 @@
+[
+  {
+    "event_id": "EVT-20260326-001",
+    "type": "factory_state_snapshot",
+    "timestamp": "2026-03-26T02:48:27.283844+00:00",
+    "project": null,
+    "source": "FactoryMemory.take_state_snapshot",
+    "severity": "info",
+    "title": "Factory State Snapshot — warning",
+    "detail": {
+      "overall_status": "warning",
+      "subsystems_available": 8,
+      "subsystems_total": 8,
+      "health_status": "warning",
+      "health_alerts": 10,
+      "total_projects": 6,
+      "stuck_projects": 0,
+      "active_services": 3,
+      "registered_models": 9,
+      "janitor_health": 64
+    },
+    "tags": [
+      "snapshot",
+      "state",
+      "warning"
+    ]
+  },
+  {
+    "event_id": "EVT-20260326-002",
+    "type": "detection_run",
+    "timestamp": "2026-03-26T07:29:55.396250+00:00",
+    "project": null,
+    "source": "ProblemDetector",
+    "severity": "info",
+    "title": "Detection: 5 Probleme, 0 Loesungen",
+    "detail": {
+      "problems_found": 5,
+      "solutions_proposed": 0
+    },
+    "tags": [
+      "detection",
+      "monitoring"
+    ]
+  },
+  {
+    "event_id": "EVT-20260326-003",
+    "type": "detection_run",
+    "timestamp": "2026-03-26T07:29:55.420245+00:00",
+    "project": null,
+    "source": "ProblemDetector",
+    "severity": "info",
+    "title": "Detection: 5 Probleme, 0 Loesungen",
+    "detail": {
+      "problems_found": 5,
+      "solutions_proposed": 0
+    },
+    "tags": [
+      "detection",
+      "monitoring"
+    ]
+  }
+]

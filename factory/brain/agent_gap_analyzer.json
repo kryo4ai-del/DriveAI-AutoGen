@@ -1,0 +1,15 @@
+{
+  "id": "BRN-05",
+  "name": "Gap Analyzer",
+  "role": "Deep Capability Gap Analysis with DIR-001 Compliance",
+  "department": "Brain",
+  "status": "active",
+  "task_type": "analysis",
+  "model_tier": "none",
+  "default_model": "none",
+  "provider": "none",
+  "routing": "no_llm",
+  "uses_web": false,
+  "description": "Tiefenanalyse aller Capability-Gaps mit DIR-001 4-Stufe-Logik. Self-Build Knowledge Base fuer 6 Kategorien (image, sound, voice_tts, video, animation, production_lines). Proxmox-Kompatibilitaetspruefung. 100% deterministisch, kein LLM.",
+  "py_file": "gap_analyzer.py"
+}

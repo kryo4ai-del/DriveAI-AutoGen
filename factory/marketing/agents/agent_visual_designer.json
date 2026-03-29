@@ -1,0 +1,16 @@
+{
+  "id": "MKT-06",
+  "name": "Visual Designer",
+  "role": "Marketing Visual Designer",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "content_creation",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Erstellt Marketing-Grafiken fuer alle Kanaele. Nutzt Template-Engine fuer formatierte Grafiken, optional DALL-E/Stability fuer Hintergrundbilder.",
+  "py_file": "visual_designer.py",
+  "_source": "factory\\marketing\\agents\\agent_visual_designer.json"
+}

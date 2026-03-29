@@ -1,0 +1,36 @@
+/* DAI-Core Brand Variables v1.0 */
+
+:root {
+  /* Primary Colors */
+  --dai-magenta: #D660D7;
+  --dai-cyan: #6BD2F2;
+  --dai-void: #1E1D25;
+
+  /* Secondary Colors */
+  --dai-magenta-glow: #F09CF8;
+  --dai-purple-deep: #7A3C9F;
+  --dai-cyan-steel: #4B9BB4;
+  --dai-midnight: #13121A;
+  --dai-white: #FFFFFF;
+  --dai-gray-light: #B0B0C0;
+  --dai-gray-mid: #4A4A5A;
+
+  /* Gradients */
+  --dai-gradient-primary: linear-gradient(135deg, #D660D7, #7A3C9F);
+  --dai-gradient-accent: linear-gradient(135deg, #6BD2F2, #4B9BB4);
+  --dai-gradient-glow: linear-gradient(135deg, #F09CF8, #D660D7);
+  --dai-gradient-bg: linear-gradient(180deg, #13121A, #1E1D25);
+
+  /* Typography */
+  --dai-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --dai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing */
+  --dai-radius-sm: 6px;
+  --dai-radius-md: 12px;
+  --dai-radius-lg: 20px;
+
+  /* Shadows */
+  --dai-shadow-glow-magenta: 0 0 20px rgba(214, 96, 215, 0.3);
+  --dai-shadow-glow-cyan: 0 0 20px rgba(107, 210, 242, 0.3);
+}

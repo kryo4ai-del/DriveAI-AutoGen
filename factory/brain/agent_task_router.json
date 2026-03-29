@@ -1,0 +1,25 @@
+{
+  "id": "BRN-01",
+  "name": "Task Router",
+  "role": "Central Request Classifier & Router",
+  "department": "Brain",
+  "status": "active",
+  "task_type": "routing",
+  "model_tier": "premium",
+  "default_model": "claude-opus-4-6",
+  "provider": "anthropic",
+  "routing": "tier_lock=premium",
+  "uses_web": false,
+  "description": "Zentraler Eingangstor fuer Factory-Operationen. Deterministisch keyword-basierte Klassifikation, LLM-Fallback fuer unbekannte Anfragen. 8 Routen-Kategorien.",
+  "py_file": "task_router.py",
+  "capabilities": [
+    "factory_status",
+    "capabilities",
+    "project_status",
+    "maintenance",
+    "health_check",
+    "repair",
+    "service_status",
+    "department_task"
+  ]
+}

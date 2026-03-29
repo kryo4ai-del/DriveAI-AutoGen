@@ -8,6 +8,7 @@ import json
 import logging
 import os
 from pathlib import Path
+from config.model_router import get_fallback_model
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +61,7 @@ def deep_analyze(graph: dict, findings: list, config: dict) -> dict:
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-6",
+            model=get_fallback_model(),
             max_tokens=4096,
             system="""Du bist der Factory Janitor der DriveAI Swarm Factory.
 Deine Aufgabe: Code-Hygiene-Probleme analysieren und konkrete, sichere Loesungsvorschlaege machen.

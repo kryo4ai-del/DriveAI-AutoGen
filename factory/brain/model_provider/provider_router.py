@@ -49,11 +49,6 @@ class ProviderRouter:
         if not model_info:
             return ProviderResponse(error=f"Unknown model: {model_id}")
 
-        # O-series models (o1, o3, etc.) only support temperature=1.0
-        _model_lower = model_id.lower()
-        if _model_lower.startswith(("o1", "o3")) and temperature != 1.0:
-            temperature = 1.0
-
         start = time.time()
         try:
             response = litellm.completion(

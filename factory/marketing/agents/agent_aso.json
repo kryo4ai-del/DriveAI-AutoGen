@@ -1,0 +1,16 @@
+{
+  "id": "MKT-05",
+  "name": "ASO Content",
+  "role": "App Store Optimization Specialist",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "content_creation",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": true,
+  "description": "Spezialist fuer App Store Optimization. Keyword-Research, lokalisierte Store-Listings, Wettbewerber-Keyword-Analyse. iOS und Android.",
+  "py_file": "aso_agent.py",
+  "_source": "factory\\marketing\\agents\\agent_aso.json"
+}

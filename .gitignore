@@ -6,9 +6,6 @@ __pycache__/
 *.pyd
 .env
 
-# Assistant memory (personal data)
-factory/hq/assistant/memory.json
-
 # Runtime / generated artifacts
 logs/
 delivery/exports/
@@ -26,4 +23,4 @@ build/
 
 # Generated code cache
 generated_code/
-node_modules/
+projects/askfin_web/node_modules/

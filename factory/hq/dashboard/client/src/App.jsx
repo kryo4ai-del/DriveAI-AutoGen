@@ -14,6 +14,7 @@ import ChatPanel from './components/Assistant/ChatPanel';
 import TeamView from './components/Team/TeamView';
 import ProviderView from './components/Provider/ProviderView';
 import JanitorView from './components/Janitor/JanitorView';
+import BrainView from './components/Brain/BrainView';
 
 const BASE_SECTIONS = [
   { id: 'start', label: 'Start', icon: 'Rocket' },
@@ -21,6 +22,7 @@ const BASE_SECTIONS = [
   { id: 'gates', label: 'Gates', icon: 'ShieldCheck', badge: 0 },
   { id: 'documents', label: 'Dokumente', icon: 'FileText' },
   { id: 'factory', label: 'Factory Status', icon: 'Activity' },
+  { id: 'brain', label: 'TheBrain', icon: 'Brain' },
   { id: 'providers', label: 'Provider', icon: 'Wallet' },
   { id: 'janitor', label: 'Janitor', icon: 'Wrench', badge: 0 },
   { id: 'agents', label: 'Agent Monitor', icon: 'Bot' },
@@ -102,13 +104,14 @@ export default function App() {
           {activeSection === 'gates' && <GateInbox />}
           {activeSection === 'documents' && <DocumentLibrary />}
           {activeSection === 'factory' && <HealthOverview />}
+          {activeSection === 'brain' && <BrainView />}
           {activeSection === 'providers' && <ProviderView />}
           {activeSection === 'janitor' && <JanitorView />}
           {activeSection === 'agents' && <AgentMonitor />}
           {activeSection === 'team' && <TeamView />}
           {activeSection === 'history' && <ProjectHistory />}
           {activeSection === 'showcase' && <ShowcaseView />}
-          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase'].includes(activeSection) && (
+          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'brain', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase'].includes(activeSection) && (
             <PlaceholderView
               title={sections.find(s => s.id === activeSection)?.label || ''}
               description="Wird in einem zukuenftigen Step implementiert"

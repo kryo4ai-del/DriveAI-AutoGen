@@ -1,0 +1,1310 @@
+{
+  "generated_at": "2026-03-25T17:41:46.292588+00:00",
+  "overall_health": "yellow",
+  "alert_count": 4,
+  "alerts": [
+    {
+      "level": "warning",
+      "source": "health_monitor",
+      "message": "Health Monitor: 2 Warnungen"
+    },
+    {
+      "level": "warning",
+      "source": "command_queue",
+      "message": "Command Queue: 183 Commands, älteste 9 Tage"
+    },
+    {
+      "level": "warning",
+      "source": "janitor",
+      "message": "Janitor: 316 Issues beim letzten Scan, Health Score 64/100"
+    },
+    {
+      "level": "warning",
+      "source": "capabilities",
+      "message": "Service-Kategorie 'video' hat 1 Services aber keinen aktiven"
+    }
+  ],
+  "factory_state": {
+    "collected_at": "2026-03-25T17:41:46.277373+00:00",
+    "factory_root": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen",
+    "health_monitor": {
+      "status": "warning",
+      "overall": "warnings",
+      "total_projects": 5,
+      "healthy_projects": 3,
+      "projects_with_issues": 2,
+      "total_alerts": 8,
+      "critical": 0,
+      "warnings": 2,
+      "info": 6,
+      "alerts": [
+        {
+          "severity": "warning",
+          "category": "stale_gate",
+          "project": "brainpuzzle",
+          "message": "ceo_gate wartet seit 3 Tagen auf Entscheidung",
+          "auto_fixable": false
+        },
+        {
+          "severity": "warning",
+          "category": "stale_gate",
+          "project": "echomatch",
+          "message": "visual_review wartet seit 3 Tagen auf Entscheidung",
+          "auto_fixable": false
+        },
+        {
+          "severity": "info",
+          "category": "missing_field",
+          "project": "brainpuzzle",
+          "message": "Feld 'mode' fehlt in project.json",
+          "auto_fixable": true
+        },
+        {
+          "severity": "info",
+          "category": "missing_field",
+          "project": "brainpuzzle",
+          "message": "Feld 'created_at' fehlt in project.json",
+          "auto_fixable": true
+        },
+        {
+          "severity": "info",
+          "category": "missing_field",
+          "project": "echomatch",
+          "message": "Feld 'mode' fehlt in project.json",
+          "auto_fixable": true
+        },
+        {
+          "severity": "info",
+          "category": "missing_field",
+          "project": "echomatch",
+          "message": "Feld 'created_at' fehlt in project.json",
+          "auto_fixable": true
+        },
+        {
+          "severity": "info",
+          "category": "missing_field",
+          "project": "skillsense",
+          "message": "Feld 'mode' fehlt in project.json",
+          "auto_fixable": true
+        },
+        {
+          "severity": "info",
+          "category": "missing_field",
+          "project": "skillsense",
+          "message": "Feld 'created_at' fehlt in project.json",
+          "auto_fixable": true
+        }
+      ]
+    },
+    "janitor": {
+      "status": "ok",
+      "last_scan": "2026-03-25T11:17:34.000753+00:00",
+      "cycle": "daily",
+      "issues_found": 316,
+      "health_score": 64,
+      "green": 48,
+      "yellow": 213,
+      "red": 55,
+      "growth_alerts": 0,
+      "scanned_files": 619
+    },
+    "pipeline_queue": {
+      "status": "ok",
+      "total_projects": 6,
+      "projects": [
+        {
+          "id": "001_brainpuzzle",
+          "name": "BrainPuzzle",
+          "phase": "pre_production_complete",
+          "priority": 5,
+          "updated_at": "2026-03-22T07:07:58.403593"
+        },
+        {
+          "id": "002_breathflow",
+          "name": "BreathFlow",
+          "phase": "failed",
+          "priority": 5,
+          "updated_at": "2026-03-22T01:50:49.538314"
+        },
+        {
+          "id": "003_breathflow2",
+          "name": "BreathFlow2",
+          "phase": "failed",
+          "priority": 5,
+          "updated_at": "2026-03-22T07:09:01.056032"
+        },
+        {
+          "id": "004_breathflow3",
+          "name": "BreathFlow3",
+          "phase": "failed",
+          "priority": 5,
+          "updated_at": "2026-03-22T08:21:02.588158"
+        },
+        {
+          "id": "005_breathflow4",
+          "name": "BreathFlow4",
+          "phase": "failed",
+          "priority": 5,
+          "updated_at": "2026-03-22T16:26:32.481131"
+        },
+        {
+          "id": "006_breathflow5",
+          "name": "BreathFlow5",
+          "phase": "failed",
+          "priority": 5,
+          "updated_at": "2026-03-22T20:14:01.665217"
+        }
+      ],
+      "stuck_projects": [],
+      "queue_updated": "2026-03-22T20:14:01.665355"
+    },
+    "project_registry": {
+      "status": "ok",
+      "total": 5,
+      "active": 5,
+      "completed": 0,
+      "archived": 0,
+      "by_status": {
+        "ceo_gate_pending": 1,
+        "preproduction_done": 2,
+        "idea_created": 1,
+        "features_complete": 1
+      }
+    },
+    "service_provider": {
+      "status": "ok",
+      "total_services": 6,
+      "active_services": [
+        "DALL-E 3",
+        "Stability AI SDXL",
+        "ElevenLabs Sound Effects"
+      ],
+      "inactive_services": [
+        "Recraft v3",
+        "Suno AI",
+        "Runway ML Gen-3"
+      ],
+      "draft_adapters": [],
+      "categories": [
+        "image",
+        "sound",
+        "animation",
+        "video"
+      ]
+    },
+    "model_provider": {
+      "status": "ok",
+      "registered_models": 9,
+      "available_models": 9,
+      "by_provider": {
+        "anthropic": 3,
+        "openai": 3,
+        "google": 2,
+        "mistral": 1
+      },
+      "by_tier": {
+        "mid": 4,
+        "low": 4,
+        "high": 1
+      },
+      "available_providers": [
+        "anthropic",
+        "openai",
+        "google",
+        "mistral"
+      ],
+      "latest_health_report": {
+        "file": "health_20260321_114219.json"
+      }
+    },
+    "command_queue": {
+      "status": "warning",
+      "total_commands": 183,
+      "oldest": "2026-03-15",
+      "oldest_file": "README.md",
+      "newest": "2026-03-18",
+      "newest_file": "092_ml128_launch_strategy_result.md",
+      "oldest_age_days": 9
+    },
+    "auto_repair": {
+      "status": "ok",
+      "module_available": true,
+      "active_repairs": 0,
+      "recent_repairs": []
+    },
+    "overall_status": "warning",
+    "subsystems_available": 8,
+    "subsystems_total": 8
+  },
+  "capabilities": {
+    "production_lines": {
+      "total": 4,
+      "active": 1,
+      "lines": [
+        {
+          "id": "android",
+          "name": "Android Assembly Line",
+          "status": "planned",
+          "has_code": true,
+          "operational": false
+        },
+        {
+          "id": "ios",
+          "name": "iOS Assembly Line",
+          "status": "active",
+          "has_code": true,
+          "operational": true
+        },
+        {
+          "id": "unity",
+          "name": "Unity Assembly Line",
+          "status": "planned",
+          "has_code": true,
+          "operational": false
+        },
+        {
+          "id": "web",
+          "name": "Web Assembly Line",
+          "status": "planned",
+          "has_code": true,
+          "operational": false
+        }
+      ]
+    },
+    "agents": {
+      "total": 69,
+      "active": 62,
+      "disabled": 4,
+      "planned": 3,
+      "by_department": {
+        "Asset Forge": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "ASF-01",
+              "name": "Asset Forge",
+              "status": "active",
+              "task_type": "asset_generation",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Code-Pipeline": {
+          "count": 22,
+          "active": 18,
+          "agents": [
+            {
+              "id": "CPL-01",
+              "name": "DriveAI Lead",
+              "status": "active",
+              "task_type": "planning",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-02",
+              "name": "iOS Architect",
+              "status": "active",
+              "task_type": "architecture",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-03",
+              "name": "Swift Developer",
+              "status": "active",
+              "task_type": "code_generation",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-04",
+              "name": "Code Reviewer",
+              "status": "active",
+              "task_type": "code_review",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-05",
+              "name": "Bug Hunter",
+              "status": "active",
+              "task_type": "bug_hunting",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-06",
+              "name": "Refactor Agent",
+              "status": "active",
+              "task_type": "refactoring",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-07",
+              "name": "Test Generator",
+              "status": "active",
+              "task_type": "test_generation",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-08",
+              "name": "Creative Director",
+              "status": "active",
+              "task_type": "advisory_review",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-09",
+              "name": "UX Psychology",
+              "status": "active",
+              "task_type": "advisory_review",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-10",
+              "name": "Product Strategist",
+              "status": "active",
+              "task_type": "classification",
+              "model_tier": "fast"
+            },
+            {
+              "id": "CPL-11",
+              "name": "Roadmap Agent",
+              "status": "active",
+              "task_type": "planning",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-12",
+              "name": "Content Script Agent",
+              "status": "active",
+              "task_type": "content_generation",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-13",
+              "name": "Change Watch Agent",
+              "status": "active",
+              "task_type": "trend_analysis",
+              "model_tier": "fast"
+            },
+            {
+              "id": "CPL-14",
+              "name": "Accessibility Agent",
+              "status": "active",
+              "task_type": "accessibility_review",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-15",
+              "name": "Opportunity Agent",
+              "status": "active",
+              "task_type": "trend_analysis",
+              "model_tier": "fast"
+            },
+            {
+              "id": "CPL-16",
+              "name": "Legal Risk Agent",
+              "status": "active",
+              "task_type": "compliance_review",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-17",
+              "name": "Project Bootstrap",
+              "status": "active",
+              "task_type": "planning",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-18",
+              "name": "Project Orchestrator",
+              "status": "active",
+              "task_type": "orchestration",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-19",
+              "name": "Android Architect",
+              "status": "disabled",
+              "task_type": "architecture",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-20",
+              "name": "Kotlin Developer",
+              "status": "disabled",
+              "task_type": "code_generation",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-21",
+              "name": "Web Architect",
+              "status": "disabled",
+              "task_type": "architecture",
+              "model_tier": "standard"
+            },
+            {
+              "id": "CPL-22",
+              "name": "Web App Developer",
+              "status": "disabled",
+              "task_type": "code_generation",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Infrastruktur": {
+          "count": 11,
+          "active": 8,
+          "agents": [
+            {
+              "id": "INF-01",
+              "name": "HQ Assistant",
+              "status": "active",
+              "task_type": "assistant",
+              "model_tier": "premium"
+            },
+            {
+              "id": "INF-04",
+              "name": "Mac Bridge",
+              "status": "active",
+              "task_type": "infrastructure",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-05",
+              "name": "Dispatcher",
+              "status": "active",
+              "task_type": "orchestration",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-06",
+              "name": "iOS Assembly Line",
+              "status": "active",
+              "task_type": "production",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-07",
+              "name": "Android Assembly Line",
+              "status": "planned",
+              "task_type": "production",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-08",
+              "name": "Web Assembly Line",
+              "status": "planned",
+              "task_type": "production",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-09",
+              "name": "Unity Assembly Line",
+              "status": "planned",
+              "task_type": "production",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-10",
+              "name": "Health Monitor",
+              "status": "active",
+              "task_type": "monitoring",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-11",
+              "name": "Auto-Repair",
+              "status": "active",
+              "task_type": "repair",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-12",
+              "name": "Project Registry",
+              "status": "active",
+              "task_type": "registry",
+              "model_tier": "none"
+            },
+            {
+              "id": "INF-13",
+              "name": "Factory Janitor",
+              "status": "active",
+              "task_type": "unknown",
+              "model_tier": "unknown"
+            }
+          ]
+        },
+        "Integration": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "INT-01",
+              "name": "Integration Orchestrator",
+              "status": "active",
+              "task_type": "integration",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Motion Forge": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "MOF-01",
+              "name": "Motion Forge",
+              "status": "active",
+              "task_type": "animation_generation",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "QA Forge": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "QAF-01",
+              "name": "QA Forge",
+              "status": "active",
+              "task_type": "quality_assurance",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Scene Forge": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "SCF-01",
+              "name": "Scene Forge",
+              "status": "active",
+              "task_type": "scene_generation",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Signing": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "SGN-01",
+              "name": "Signing Coordinator",
+              "status": "active",
+              "task_type": "signing",
+              "model_tier": "fast"
+            }
+          ]
+        },
+        "Sound Forge": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "SOF-01",
+              "name": "Sound Forge",
+              "status": "active",
+              "task_type": "audio_generation",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Store": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "STR-01",
+              "name": "Store Pipeline",
+              "status": "active",
+              "task_type": "store_submission",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Store Prep": {
+          "count": 1,
+          "active": 1,
+          "agents": [
+            {
+              "id": "STP-01",
+              "name": "Store Prep",
+              "status": "active",
+              "task_type": "store_preparation",
+              "model_tier": "standard"
+            }
+          ]
+        },
+        "Swarm Factory": {
+          "count": 27,
+          "active": 27,
+          "agents": [
+            {
+              "id": "SWF-01",
+              "name": "Trend-Scout",
+              "status": "active",
+              "task_type": "research",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-02",
+              "name": "Competitor-Scan",
+              "status": "active",
+              "task_type": "research",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-03",
+              "name": "Zielgruppen-Analyst",
+              "status": "active",
+              "task_type": "research",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-04",
+              "name": "Concept-Analyst",
+              "status": "active",
+              "task_type": "synthesis",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-05",
+              "name": "Legal-Research",
+              "status": "active",
+              "task_type": "research",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-06",
+              "name": "Risk-Assessment",
+              "status": "active",
+              "task_type": "analysis",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-07",
+              "name": "Memory-Agent",
+              "status": "active",
+              "task_type": "memory",
+              "model_tier": "none"
+            },
+            {
+              "id": "SWF-08",
+              "name": "Plattform-Strategie",
+              "status": "active",
+              "task_type": "strategy",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-09",
+              "name": "Monetarisierungs-Architekt",
+              "status": "active",
+              "task_type": "design",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-10",
+              "name": "Marketing-Strategie",
+              "status": "active",
+              "task_type": "strategy",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-11",
+              "name": "Release-Planer",
+              "status": "active",
+              "task_type": "planning",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-12",
+              "name": "Kosten-Kalkulation",
+              "status": "active",
+              "task_type": "calculation",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-13",
+              "name": "Feature-Extraction",
+              "status": "active",
+              "task_type": "extraction",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-14",
+              "name": "Feature-Priorisierung",
+              "status": "active",
+              "task_type": "prioritization",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-15",
+              "name": "Screen-Architect",
+              "status": "active",
+              "task_type": "design",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-16",
+              "name": "Design-Trend-Breaker",
+              "status": "active",
+              "task_type": "creative",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-17",
+              "name": "UX-Emotion-Architect",
+              "status": "active",
+              "task_type": "creative",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-18",
+              "name": "Design-Vision-Compiler",
+              "status": "active",
+              "task_type": "synthesis",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-19",
+              "name": "Asset-Discovery",
+              "status": "active",
+              "task_type": "extraction",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-20",
+              "name": "Asset-Strategie",
+              "status": "active",
+              "task_type": "strategy",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-21",
+              "name": "Visual-Consistency",
+              "status": "active",
+              "task_type": "audit",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-22",
+              "name": "Review-Assistant",
+              "status": "active",
+              "task_type": "review",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-23",
+              "name": "CEO-Roadbook",
+              "status": "active",
+              "task_type": "compilation",
+              "model_tier": "large_context"
+            },
+            {
+              "id": "SWF-24",
+              "name": "CD-Roadbook",
+              "status": "active",
+              "task_type": "compilation",
+              "model_tier": "large_context"
+            },
+            {
+              "id": "SWF-25",
+              "name": "Document Secretary",
+              "status": "active",
+              "task_type": "document_generation",
+              "model_tier": "mid"
+            },
+            {
+              "id": "SWF-26",
+              "name": "CEO-Gate",
+              "status": "active",
+              "task_type": "gate",
+              "model_tier": "none"
+            },
+            {
+              "id": "SWF-27",
+              "name": "Daily Briefing",
+              "status": "active",
+              "task_type": "briefing",
+              "model_tier": "none"
+            }
+          ]
+        }
+      },
+      "by_status": {
+        "active": 62,
+        "disabled": 4,
+        "planned": 3
+      },
+      "by_task_type": {
+        "asset_generation": 1,
+        "planning": 4,
+        "architecture": 3,
+        "code_generation": 3,
+        "code_review": 1,
+        "bug_hunting": 1,
+        "refactoring": 1,
+        "test_generation": 1,
+        "advisory_review": 2,
+        "classification": 1,
+        "content_generation": 1,
+        "trend_analysis": 2,
+        "accessibility_review": 1,
+        "compliance_review": 1,
+        "orchestration": 2,
+        "assistant": 1,
+        "infrastructure": 1,
+        "production": 4,
+        "monitoring": 1,
+        "repair": 1,
+        "registry": 1,
+        "unknown": 1,
+        "integration": 1,
+        "animation_generation": 1,
+        "quality_assurance": 1,
+        "scene_generation": 1,
+        "signing": 1,
+        "audio_generation": 1,
+        "store_submission": 1,
+        "store_preparation": 1,
+        "research": 4,
+        "synthesis": 2,
+        "analysis": 1,
+        "memory": 1,
+        "strategy": 3,
+        "design": 2,
+        "calculation": 1,
+        "extraction": 2,
+        "prioritization": 1,
+        "creative": 2,
+        "audit": 1,
+        "review": 1,
+        "compilation": 2,
+        "document_generation": 1,
+        "gate": 1,
+        "briefing": 1
+      },
+      "departments": [
+        "Asset Forge",
+        "Code-Pipeline",
+        "Infrastruktur",
+        "Integration",
+        "Motion Forge",
+        "QA Forge",
+        "Scene Forge",
+        "Signing",
+        "Sound Forge",
+        "Store",
+        "Store Prep",
+        "Swarm Factory"
+      ]
+    },
+    "services": {
+      "total": 6,
+      "active_count": 3,
+      "inactive_count": 3,
+      "active_services": [
+        "DALL-E 3",
+        "Stability AI SDXL",
+        "ElevenLabs Sound Effects"
+      ],
+      "inactive_services": [
+        "Recraft v3",
+        "Suno AI",
+        "Runway ML Gen-3"
+      ],
+      "by_category": {
+        "image": {
+          "count": 3,
+          "active": 2,
+          "services": [
+            {
+              "id": "dalle3",
+              "name": "DALL-E 3",
+              "status": "active",
+              "capabilities": [
+                "text_to_image",
+                "png_output",
+                "transparent_bg",
+                "max_1024x1024",
+                "text_in_image"
+              ],
+              "cost_per_call": {
+                "1024x1024": 0.04,
+                "512x512": 0.02
+              },
+              "provider": "openai"
+            },
+            {
+              "id": "stability_sdxl",
+              "name": "Stability AI SDXL",
+              "status": "active",
+              "capabilities": [
+                "text_to_image",
+                "png_output",
+                "transparent_bg",
+                "max_2048x2048",
+                "style_control",
+                "negative_prompt"
+              ],
+              "cost_per_call": {
+                "1024x1024": 0.03,
+                "512x512": 0.016
+              },
+              "provider": "stability"
+            },
+            {
+              "id": "recraft_v3",
+              "name": "Recraft v3",
+              "status": "inactive",
+              "capabilities": [
+                "text_to_image",
+                "svg_output",
+                "png_output",
+                "vector_icons",
+                "style_control"
+              ],
+              "cost_per_call": {
+                "1024x1024": 0.02,
+                "svg": 0.02
+              },
+              "provider": "recraft"
+            }
+          ]
+        },
+        "sound": {
+          "count": 2,
+          "active": 1,
+          "services": [
+            {
+              "id": "elevenlabs_sfx",
+              "name": "ElevenLabs Sound Effects",
+              "status": "active",
+              "capabilities": [
+                "text_to_sfx",
+                "mp3_output",
+                "wav_output",
+                "max_22s"
+              ],
+              "cost_per_call": {
+                "per_generation": 0.01
+              },
+              "provider": "elevenlabs"
+            },
+            {
+              "id": "suno_ai",
+              "name": "Suno AI",
+              "status": "inactive",
+              "capabilities": [
+                "text_to_music",
+                "ambient_generation",
+                "mp3_output",
+                "max_240s",
+                "genre_control"
+              ],
+              "cost_per_call": {
+                "per_track": 0.05
+              },
+              "provider": "suno"
+            }
+          ]
+        },
+        "video": {
+          "count": 1,
+          "active": 0,
+          "services": [
+            {
+              "id": "runway_ml",
+              "name": "Runway ML Gen-3",
+              "status": "inactive",
+              "capabilities": [
+                "image_to_video",
+                "text_to_video",
+                "mp4_output",
+                "max_10s"
+              ],
+              "cost_per_call": {
+                "5s_video": 0.1,
+                "10s_video": 0.2
+              },
+              "provider": "runway"
+            }
+          ]
+        }
+      },
+      "categories": [
+        "image",
+        "sound",
+        "animation",
+        "video"
+      ],
+      "draft_adapters": [
+        {
+          "name": "black_forest_labs",
+          "file": "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py"
+        },
+        {
+          "name": "kling",
+          "file": "factory/brain/service_provider/adapters/drafts/kling_adapter.py"
+        },
+        {
+          "name": "leonardo",
+          "file": "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py"
+        },
+        {
+          "name": "luma",
+          "file": "factory/brain/service_provider/adapters/drafts/luma_adapter.py"
+        },
+        {
+          "name": "meta_audiocraft",
+          "file": "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py"
+        },
+        {
+          "name": "rive",
+          "file": "factory/brain/service_provider/adapters/drafts/rive_adapter.py"
+        },
+        {
+          "name": "stability_audio",
+          "file": "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py"
+        }
+      ]
+    },
+    "models": {
+      "total": 9,
+      "available": 9,
+      "by_provider": {
+        "anthropic": 3,
+        "openai": 3,
+        "google": 2,
+        "mistral": 1
+      },
+      "by_tier": {
+        "mid": 4,
+        "low": 4,
+        "high": 1
+      },
+      "available_providers": [
+        "anthropic",
+        "openai",
+        "google",
+        "mistral"
+      ]
+    },
+    "forges": {
+      "total": 5,
+      "operational": 5,
+      "forges": [
+        {
+          "id": "asset_forge",
+          "name": "Asset Forge",
+          "status": "active",
+          "has_orchestrator": true,
+          "py_files": 10,
+          "operational": true
+        },
+        {
+          "id": "motion_forge",
+          "name": "Motion Forge",
+          "status": "active",
+          "has_orchestrator": true,
+          "py_files": 7,
+          "operational": true
+        },
+        {
+          "id": "qa_forge",
+          "name": "Qa Forge",
+          "status": "active",
+          "has_orchestrator": true,
+          "py_files": 7,
+          "operational": true
+        },
+        {
+          "id": "scene_forge",
+          "name": "Scene Forge",
+          "status": "active",
+          "has_orchestrator": true,
+          "py_files": 8,
+          "operational": true
+        },
+        {
+          "id": "sound_forge",
+          "name": "Sound Forge",
+          "status": "active",
+          "has_orchestrator": true,
+          "py_files": 7,
+          "operational": true
+        }
+      ]
+    },
+    "totals": {
+      "agents": 69,
+      "agents_active": 62,
+      "services": 6,
+      "services_active": 3,
+      "models": 9,
+      "models_available": 9,
+      "forges": 5,
+      "forges_operational": 5,
+      "production_lines": 4,
+      "production_lines_active": 1
+    }
+  },
+  "gaps": [
+    {
+      "type": "category_no_active_service",
+      "severity": "red",
+      "area": "services",
+      "name": "video",
+      "message": "Service-Kategorie 'video' hat 1 Services aber keinen aktiven"
+    },
+    {
+      "type": "line_inactive",
+      "severity": "yellow",
+      "area": "production_lines",
+      "name": "Android Assembly Line",
+      "message": "Production Line 'Android Assembly Line' hat Code aber Status 'planned'"
+    },
+    {
+      "type": "line_inactive",
+      "severity": "yellow",
+      "area": "production_lines",
+      "name": "Unity Assembly Line",
+      "message": "Production Line 'Unity Assembly Line' hat Code aber Status 'planned'"
+    },
+    {
+      "type": "line_inactive",
+      "severity": "yellow",
+      "area": "production_lines",
+      "name": "Web Assembly Line",
+      "message": "Production Line 'Web Assembly Line' hat Code aber Status 'planned'"
+    },
+    {
+      "type": "agent_disabled",
+      "severity": "yellow",
+      "area": "agents",
+      "name": "Android Architect",
+      "message": "Agent 'Android Architect' (Code-Pipeline) ist deaktiviert"
+    },
+    {
+      "type": "agent_disabled",
+      "severity": "yellow",
+      "area": "agents",
+      "name": "Kotlin Developer",
+      "message": "Agent 'Kotlin Developer' (Code-Pipeline) ist deaktiviert"
+    },
+    {
+      "type": "agent_disabled",
+      "severity": "yellow",
+      "area": "agents",
+      "name": "Web Architect",
+      "message": "Agent 'Web Architect' (Code-Pipeline) ist deaktiviert"
+    },
+    {
+      "type": "agent_disabled",
+      "severity": "yellow",
+      "area": "agents",
+      "name": "Web App Developer",
+      "message": "Agent 'Web App Developer' (Code-Pipeline) ist deaktiviert"
+    },
+    {
+      "type": "service_inactive",
+      "severity": "yellow",
+      "area": "services",
+      "name": "Recraft v3",
+      "message": "Service 'Recraft v3' ist registriert aber inaktiv"
+    },
+    {
+      "type": "service_inactive",
+      "severity": "yellow",
+      "area": "services",
+      "name": "Suno AI",
+      "message": "Service 'Suno AI' ist registriert aber inaktiv"
+    },
+    {
+      "type": "service_inactive",
+      "severity": "yellow",
+      "area": "services",
+      "name": "Runway ML Gen-3",
+      "message": "Service 'Runway ML Gen-3' ist registriert aber inaktiv"
+    },
+    {
+      "type": "agent_planned",
+      "severity": "green",
+      "area": "agents",
+      "name": "Android Assembly Line",
+      "message": "Agent 'Android Assembly Line' (Infrastruktur) ist geplant aber nicht implementiert"
+    },
+    {
+      "type": "agent_planned",
+      "severity": "green",
+      "area": "agents",
+      "name": "Web Assembly Line",
+      "message": "Agent 'Web Assembly Line' (Infrastruktur) ist geplant aber nicht implementiert"
+    },
+    {
+      "type": "agent_planned",
+      "severity": "green",
+      "area": "agents",
+      "name": "Unity Assembly Line",
+      "message": "Agent 'Unity Assembly Line' (Infrastruktur) ist geplant aber nicht implementiert"
+    },
+    {
+      "type": "draft_adapter",
+      "severity": "green",
+      "area": "services",
+      "name": "black_forest_labs",
+      "message": "Draft-Adapter 'black_forest_labs' existiert aber ist nicht als Service registriert",
+      "file": "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py"
+    },
+    {
+      "type": "draft_adapter",
+      "severity": "green",
+      "area": "services",
+      "name": "kling",
+      "message": "Draft-Adapter 'kling' existiert aber ist nicht als Service registriert",
+      "file": "factory/brain/service_provider/adapters/drafts/kling_adapter.py"
+    },
+    {
+      "type": "draft_adapter",
+      "severity": "green",
+      "area": "services",
+      "name": "leonardo",
+      "message": "Draft-Adapter 'leonardo' existiert aber ist nicht als Service registriert",
+      "file": "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py"
+    },
+    {
+      "type": "draft_adapter",
+      "severity": "green",
+      "area": "services",
+      "name": "luma",
+      "message": "Draft-Adapter 'luma' existiert aber ist nicht als Service registriert",
+      "file": "factory/brain/service_provider/adapters/drafts/luma_adapter.py"
+    },
+    {
+      "type": "draft_adapter",
+      "severity": "green",
+      "area": "services",
+      "name": "meta_audiocraft",
+      "message": "Draft-Adapter 'meta_audiocraft' existiert aber ist nicht als Service registriert",
+      "file": "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py"
+    },
+    {
+      "type": "draft_adapter",
+      "severity": "green",
+      "area": "services",
+      "name": "rive",
+      "message": "Draft-Adapter 'rive' existiert aber ist nicht als Service registriert",
+      "file": "factory/brain/service_provider/adapters/drafts/rive_adapter.py"
+    },
+    {
+      "type": "draft_adapter",
+      "severity": "green",
+      "area": "services",
+      "name": "stability_audio",
+      "message": "Draft-Adapter 'stability_audio' existiert aber ist nicht als Service registriert",
+      "file": "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py"
+    }
+  ]
+}

@@ -16,6 +16,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from factory.store_prep.config import StorePrepConfig
+from config.model_router import get_fallback_model
 
 
 # ---------------------------------------------------------------------------
@@ -557,7 +558,7 @@ class PlatformMetadataAdapter:
         # Fallback to direct LiteLLM
         try:
             from litellm import completion
-            model = "claude-sonnet-4-20250514"
+            model = get_fallback_model()
             print(f"[Store Prep] Using direct LiteLLM: {model}")
             return model, completion
         except ImportError:

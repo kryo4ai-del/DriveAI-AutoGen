@@ -9,6 +9,8 @@ import re
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
+from config.model_router import get_fallback_model
+from config.model_router import MODEL_COSTS
 
 try:
     from factory.brain.model_provider import get_model, get_router
@@ -179,8 +181,8 @@ async def _fallback_anthropic_call(agent_name, pass_name, system_msg, user_msg, 
     """Fallback: call Anthropic directly via urllib."""
     import urllib.request
 
-    model_map = {"dev": "claude-haiku-4-5", "standard": "claude-sonnet-4-6", "premium": "claude-opus-4-6"}
-    model = model_map.get(profile, "claude-haiku-4-5")
+    model_map = {"dev": get_fallback_model("dev"), "standard": get_fallback_model("standard"), "premium": get_fallback_model("premium")}
+    model = model_map.get(profile, get_fallback_model("dev"))
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
 
     if not api_key:
@@ -213,7 +215,7 @@ async def _fallback_anthropic_call(agent_name, pass_name, system_msg, user_msg, 
             if block.get("type") == "text":
                 content += block["text"]
         # Estimate cost
-        prices = {"claude-haiku-4-5": (0.0008, 0.004), "claude-sonnet-4-6": (0.003, 0.015), "claude-opus-4-6": (0.015, 0.075)}
+        prices = {m: (v["cost_per_1k_input"], v["cost_per_1k_output"]) for m, v in MODEL_COSTS.items() if "cost_per_1k_input" in v}
         pin, pout = prices.get(model, (0.001, 0.005))
         cost = (in_tok * pin + out_tok * pout) / 1000
 

@@ -1,0 +1,4684 @@
+{
+  "cycle": "daily",
+  "timestamp": "2026-03-25T11:17:34.000753+00:00",
+  "duration_sec": 1.8,
+  "cost_usd": 0.0,
+  "scan": {
+    "total_files": 619,
+    "skipped_project_files": 643,
+    "total_lines": 90070,
+    "total_size_mb": 3.34,
+    "by_type": {
+      ".py": 355,
+      ".json": 177,
+      ".js": 23,
+      ".jsx": 19,
+      ".md": 17,
+      "": 13,
+      ".txt": 6,
+      ".shader": 3,
+      ".html": 2,
+      ".sh": 2,
+      ".css": 1,
+      ".example": 1
+    }
+  },
+  "graph": {
+    "total_nodes": 394,
+    "total_edges": 507,
+    "orphan_nodes": 9,
+    "circular_dependencies": 2,
+    "max_depth": 6
+  },
+  "findings": [
+    {
+      "id": "F001",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/assembly/repair/language_profiles/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/assembly/repair/language_profiles/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F002",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/asset_forge/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/asset_forge/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F003",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/model_provider/chain_runs/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/model_provider/chain_runs/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F004",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_costs/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_costs/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F005",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/service_scout.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/service_scout.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F006",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F007",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/adapters/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F008",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/adapters/drafts/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F009",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F010",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/adapters/drafts/kling_adapter.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/kling_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F011",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F012",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/adapters/drafts/luma_adapter.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/luma_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F013",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F014",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/adapters/drafts/rive_adapter.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/rive_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F015",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F016",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/adapters/drafts/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F017",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/adapters/image/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/image/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F018",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/adapters/sound/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/sound/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F019",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/adapters/video/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/adapters/video/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F020",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/brain/service_provider/scout_reports/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/brain/service_provider/scout_reports/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F021",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/design_vision/agents/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/design_vision/agents/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F022",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/document_secretary/docx_builder_v1.py",
+      "details": "Name enthaelt Backup/Old-Marker: docx_builder_v1.py",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/document_secretary/docx_builder_v1.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F023",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/hq/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/hq/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F024",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/hq/assistant/assistant.py",
+      "details": "692 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/hq/assistant/assistant.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F025",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/hq/assistant/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/hq/assistant/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F026",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/hq/capabilities/feasibility_check.py",
+      "details": "512 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/hq/capabilities/feasibility_check.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F027",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/hq/providers/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/hq/providers/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F028",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/integration/full_pipeline_orchestrator.py",
+      "details": "624 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/integration/full_pipeline_orchestrator.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F029",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/integration/backend_line/backend_assembly_line.py",
+      "details": "624 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/integration/backend_line/backend_assembly_line.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F030",
+      "type": "tech_debt_comments",
+      "severity": "red",
+      "path": "factory/integration/backend_line/backend_assembly_line.py",
+      "details": "1 TODO/FIXME/HACK Kommentare",
+      "action": "report_only",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/integration/backend_line/backend_assembly_line.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F031",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/integration/build_plans/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/integration/build_plans/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F032",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/integration/maps/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/integration/maps/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F033",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/motion_forge/platform_adapter.py",
+      "details": "718 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/motion_forge/platform_adapter.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F034",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/motion_forge/specs/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/motion_forge/specs/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F035",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/operations/compile_hygiene_validator.py",
+      "details": "1309 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/operations/compile_hygiene_validator.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F036",
+      "type": "commented_code_block",
+      "severity": "yellow",
+      "path": "factory/operations/compile_hygiene_validator.py",
+      "details": "11 aufeinanderfolgende Kommentarzeilen",
+      "action": "review_for_cleanup",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/operations/compile_hygiene_validator.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F037",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/operations/completion_verifier.py",
+      "details": "740 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/operations/completion_verifier.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F038",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/operations/output_integrator.py",
+      "details": "911 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/operations/output_integrator.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F039",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/operations/recovery_runner.py",
+      "details": "792 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/operations/recovery_runner.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F040",
+      "type": "commented_code_block",
+      "severity": "yellow",
+      "path": "factory/operations/stale_artifact_guard.py",
+      "details": "11 aufeinanderfolgende Kommentarzeilen",
+      "action": "review_for_cleanup",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/operations/stale_artifact_guard.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F041",
+      "type": "commented_code_block",
+      "severity": "yellow",
+      "path": "factory/operations/toplevel_sanitizer.py",
+      "details": "10 aufeinanderfolgende Kommentarzeilen",
+      "action": "review_for_cleanup",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/operations/toplevel_sanitizer.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F042",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/pipeline/pipeline_runner.py",
+      "details": "1144 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/pipeline/pipeline_runner.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F043",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/pre_production/tools/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/pre_production/tools/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F044",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/qa/bounce_state.json",
+      "details": "2 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/qa/bounce_state.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F045",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/qa/test_runner.py",
+      "details": "587 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/qa/test_runner.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F046",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/qa/reports/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/qa/reports/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F047",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/qa/reports/askfin_v1-1_web_qa_20260324_161251.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_web_qa_20260324_161251.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/qa/reports/askfin_v1-1_web_qa_20260324_161251.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F048",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/qa_forge/scene_integrity.py",
+      "details": "560 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/qa_forge/scene_integrity.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F049",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/reports/compile/askfin_v1-1_swift_compile.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_swift_compile.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/reports/compile/askfin_v1-1_swift_compile.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F050",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/reports/completion/askfin_v1-1_completion.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_completion.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/reports/completion/askfin_v1-1_completion.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F051",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/reports/hygiene/askfin_v1-1_compile_hygiene.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_compile_hygiene.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/reports/hygiene/askfin_v1-1_compile_hygiene.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F052",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/reports/lifecycle/askfin_v1-1_lifecycle.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_lifecycle.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/reports/lifecycle/askfin_v1-1_lifecycle.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F053",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/reports/recovery/askfin_v1-1_recovery_summary.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_recovery_summary.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/reports/recovery/askfin_v1-1_recovery_summary.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F054",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/reports/shape_repairs/askfin_v1-1_shape_repairs.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_shape_repairs.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/reports/shape_repairs/askfin_v1-1_shape_repairs.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F055",
+      "type": "backup_file",
+      "severity": "yellow",
+      "path": "factory/reports/stubs/askfin_v1-1_stubs.json",
+      "details": "Name enthaelt Backup/Old-Marker: askfin_v1-1_stubs.json",
+      "action": "quarantine",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/reports/stubs/askfin_v1-1_stubs.json"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F056",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/roadbook_assembly/agents/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/roadbook_assembly/agents/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F057",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/scene_forge/unity_scene_writer.py",
+      "details": "926 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/scene_forge/unity_scene_writer.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F058",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/signing/android_signer.py",
+      "details": "605 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/signing/android_signer.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F059",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/signing/artifacts/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/signing/artifacts/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F060",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/signing/keystores/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/signing/keystores/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F061",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/signing/templates/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/signing/templates/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F062",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/sound_forge/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/sound_forge/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F063",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/sound_forge/specs/.gitkeep",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/sound_forge/specs/.gitkeep"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F064",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/sound_forge/tests/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/sound_forge/tests/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F065",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/store_prep/platform_metadata.py",
+      "details": "617 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/store_prep/platform_metadata.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F066",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/store_prep/privacy_labels.py",
+      "details": "625 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/store_prep/privacy_labels.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F067",
+      "type": "large_file",
+      "severity": "red",
+      "path": "factory/store_prep/store_prep_coordinator.py",
+      "details": "766 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/store_prep/store_prep_coordinator.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F068",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "factory/visual_audit/agents/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/visual_audit/agents/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F069",
+      "type": "large_file",
+      "severity": "red",
+      "path": "code_generation/code_extractor.py",
+      "details": "613 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "code_generation/code_extractor.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F070",
+      "type": "large_file",
+      "severity": "red",
+      "path": "code_generation/extractors/typescript_extractor.py",
+      "details": "553 Zeilen -- ueber Schwellenwert von 500",
+      "action": "review_for_splitting",
+      "auto_fixable": false,
+      "affected_files": [
+        "code_generation/extractors/typescript_extractor.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F071",
+      "type": "empty_file",
+      "severity": "green",
+      "path": "briefings/__init__.py",
+      "details": "0 Bytes, vermutlich ueberfluessig",
+      "action": "quarantine",
+      "auto_fixable": true,
+      "affected_files": [
+        "briefings/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F072",
+      "type": "duplicate_filename",
+      "severity": "yellow",
+      "path": "factory/project_registry.py",
+      "details": "Dateiname 'project_registry.py' existiert in 2 Ordnern: factory/project_registry.py, factory/shared/project_registry.py",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/project_registry.py",
+        "factory/shared/project_registry.py"
+      ],
+      "affected_count": 2
+    },
+    {
+      "id": "F073",
+      "type": "duplicate_filename",
+      "severity": "red",
+      "path": "factory/asset_forge/agent.json",
+      "details": "Dateiname 'agent.json' existiert in 26 Ordnern: factory/asset_forge/agent.json, factory/design_vision/agents/agent.json, factory/document_secretary/agent.json, factory/hq/agent.json, factory/hq/assistant/agent.json",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/asset_forge/agent.json",
+        "factory/design_vision/agents/agent.json",
+        "factory/document_secretary/agent.json",
+        "factory/hq/agent.json",
+        "factory/hq/assistant/agent.json",
+        "factory/hq/janitor/agent.json",
+        "factory/integration/agent.json",
+        "factory/lines/android/agent.json",
+        "factory/lines/ios/agent.json",
+        "factory/lines/unity/agent.json",
+        "factory/lines/web/agent.json",
+        "factory/mac_bridge/agent.json",
+        "factory/market_strategy/agents/agent.json",
+        "factory/motion_forge/agent.json",
+        "factory/mvp_scope/agents/agent.json",
+        "factory/pipeline/agent.json",
+        "factory/pre_production/agent.json",
+        "factory/pre_production/agents/agent.json",
+        "factory/qa_forge/agent.json",
+        "factory/roadbook_assembly/agents/agent.json",
+        "factory/scene_forge/agent.json",
+        "factory/signing/agent.json",
+        "factory/sound_forge/agent.json",
+        "factory/store/agent.json",
+        "factory/store_prep/agent.json",
+        "factory/visual_audit/agents/agent.json"
+      ],
+      "affected_count": 26
+    },
+    {
+      "id": "F074",
+      "type": "duplicate_filename",
+      "severity": "red",
+      "path": "factory/asset_forge/config.py",
+      "details": "Dateiname 'config.py' existiert in 11 Ordnern: factory/asset_forge/config.py, factory/design_vision/config.py, factory/market_strategy/config.py, factory/mvp_scope/config.py, factory/pre_production/config.py",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/asset_forge/config.py",
+        "factory/design_vision/config.py",
+        "factory/market_strategy/config.py",
+        "factory/mvp_scope/config.py",
+        "factory/pre_production/config.py",
+        "factory/qa/config.py",
+        "factory/qa_forge/config.py",
+        "factory/roadbook_assembly/config.py",
+        "factory/signing/config.py",
+        "factory/store_prep/config.py",
+        "factory/visual_audit/config.py"
+      ],
+      "affected_count": 11
+    },
+    {
+      "id": "F075",
+      "type": "duplicate_filename",
+      "severity": "red",
+      "path": "factory/asset_forge/pipeline.py",
+      "details": "Dateiname 'pipeline.py' existiert in 7 Ordnern: factory/asset_forge/pipeline.py, factory/design_vision/pipeline.py, factory/market_strategy/pipeline.py, factory/mvp_scope/pipeline.py, factory/pre_production/pipeline.py",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/asset_forge/pipeline.py",
+        "factory/design_vision/pipeline.py",
+        "factory/market_strategy/pipeline.py",
+        "factory/mvp_scope/pipeline.py",
+        "factory/pre_production/pipeline.py",
+        "factory/roadbook_assembly/pipeline.py",
+        "factory/visual_audit/pipeline.py"
+      ],
+      "affected_count": 7
+    },
+    {
+      "id": "F076",
+      "type": "duplicate_filename",
+      "severity": "yellow",
+      "path": "factory/design_vision/input_loader.py",
+      "details": "Dateiname 'input_loader.py' existiert in 5 Ordnern: factory/design_vision/input_loader.py, factory/market_strategy/input_loader.py, factory/mvp_scope/input_loader.py, factory/roadbook_assembly/input_loader.py, factory/visual_audit/input_loader.py",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/design_vision/input_loader.py",
+        "factory/market_strategy/input_loader.py",
+        "factory/mvp_scope/input_loader.py",
+        "factory/roadbook_assembly/input_loader.py",
+        "factory/visual_audit/input_loader.py"
+      ],
+      "affected_count": 5
+    },
+    {
+      "id": "F077",
+      "type": "duplicate_filename",
+      "severity": "yellow",
+      "path": "factory/hq/dashboard/package-lock.json",
+      "details": "Dateiname 'package-lock.json' existiert in 2 Ordnern: factory/hq/dashboard/package-lock.json, factory/hq/dashboard/client/package-lock.json",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/hq/dashboard/package-lock.json",
+        "factory/hq/dashboard/client/package-lock.json"
+      ],
+      "affected_count": 2
+    },
+    {
+      "id": "F078",
+      "type": "duplicate_filename",
+      "severity": "yellow",
+      "path": "factory/hq/dashboard/package.json",
+      "details": "Dateiname 'package.json' existiert in 2 Ordnern: factory/hq/dashboard/package.json, factory/hq/dashboard/client/package.json",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/hq/dashboard/package.json",
+        "factory/hq/dashboard/client/package.json"
+      ],
+      "affected_count": 2
+    },
+    {
+      "id": "F079",
+      "type": "duplicate_filename",
+      "severity": "yellow",
+      "path": "factory/integration/backend_line/python_extractor.py",
+      "details": "Dateiname 'python_extractor.py' existiert in 2 Ordnern: factory/integration/backend_line/python_extractor.py, code_generation/extractors/python_extractor.py",
+      "action": "check_if_duplicate",
+      "auto_fixable": false,
+      "affected_files": [
+        "factory/integration/backend_line/python_extractor.py",
+        "code_generation/extractors/python_extractor.py"
+      ],
+      "affected_count": 2
+    },
+    {
+      "id": "F080",
+      "type": "empty_dir",
+      "severity": "green",
+      "path": "factory/assembly/reports",
+      "details": "Leerer Ordner",
+      "action": "remove_empty_dir",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/assembly/reports"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F081",
+      "type": "empty_dir",
+      "severity": "green",
+      "path": "factory/hq/dashboard/client/public",
+      "details": "Leerer Ordner",
+      "action": "remove_empty_dir",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/hq/dashboard/client/public"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F082",
+      "type": "empty_dir",
+      "severity": "green",
+      "path": "factory/hq/gates/decided",
+      "details": "Leerer Ordner",
+      "action": "remove_empty_dir",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/hq/gates/decided"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F083",
+      "type": "empty_dir",
+      "severity": "green",
+      "path": "factory/hq/logs",
+      "details": "Leerer Ordner",
+      "action": "remove_empty_dir",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/hq/logs"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F084",
+      "type": "empty_dir",
+      "severity": "green",
+      "path": "factory/hq/gates/decided",
+      "details": "Leerer Ordner",
+      "action": "remove_empty_dir",
+      "auto_fixable": true,
+      "affected_files": [
+        "factory/hq/gates/decided"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F085",
+      "type": "missing_init",
+      "severity": "green",
+      "path": "agents",
+      "details": "Python-Package ohne __init__.py (22 .py Dateien)",
+      "action": "create_init",
+      "auto_fixable": true,
+      "affected_files": [
+        "agents/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F086",
+      "type": "missing_init",
+      "severity": "green",
+      "path": "config",
+      "details": "Python-Package ohne __init__.py (6 .py Dateien)",
+      "action": "create_init",
+      "auto_fixable": true,
+      "affected_files": [
+        "config/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F087",
+      "type": "missing_init",
+      "severity": "green",
+      "path": "code_generation",
+      "details": "Python-Package ohne __init__.py (2 .py Dateien)",
+      "action": "create_init",
+      "auto_fixable": true,
+      "affected_files": [
+        "code_generation/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F088",
+      "type": "missing_init",
+      "severity": "green",
+      "path": "mac_agent",
+      "details": "Python-Package ohne __init__.py (2 .py Dateien)",
+      "action": "create_init",
+      "auto_fixable": true,
+      "affected_files": [
+        "mac_agent/__init__.py"
+      ],
+      "affected_count": 1
+    },
+    {
+      "id": "F089",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: factory/assembly/repair/language_profiles/kotlin_profile.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 1 Zeilen.",
+      "affected_files": [
+        "factory/assembly/repair/language_profiles/kotlin_profile.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F090",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: factory/assembly/repair/language_profiles/swift_profile.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 1 Zeilen.",
+      "affected_files": [
+        "factory/assembly/repair/language_profiles/swift_profile.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F091",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: factory/assembly/repair/language_profiles/typescript_profile.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 1 Zeilen.",
+      "affected_files": [
+        "factory/assembly/repair/language_profiles/typescript_profile.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F092",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: factory/design_vision/config.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 24 Zeilen.",
+      "affected_files": [
+        "factory/design_vision/config.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F093",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: factory/market_strategy/config.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 17 Zeilen.",
+      "affected_files": [
+        "factory/market_strategy/config.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F094",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: factory/pre_production/config.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 36 Zeilen.",
+      "affected_files": [
+        "factory/pre_production/config.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F095",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: factory/qa_forge/config.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 48 Zeilen.",
+      "affected_files": [
+        "factory/qa_forge/config.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F096",
+      "type": "dead_code",
+      "severity": "yellow",
+      "title": "Tote Datei: factory/visual_audit/config.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 58 Zeilen.",
+      "affected_files": [
+        "factory/visual_audit/config.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": false,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F097",
+      "type": "dead_code",
+      "severity": "green",
+      "title": "Tote Datei: mac_agent/xcode_builder.py",
+      "description": "Wird von keiner Datei importiert und ist kein Entry-Point. 5 Zeilen.",
+      "affected_files": [
+        "mac_agent/xcode_builder.py"
+      ],
+      "affected_count": 1,
+      "action": "quarantine",
+      "auto_fixable": true,
+      "impact_analysis": "Keine anderen Dateien betroffen. Sicheres Entfernen."
+    },
+    {
+      "id": "F098",
+      "type": "circular_dependency",
+      "severity": "red",
+      "title": "Zirkulaere Abhaengigkeit: 3 Dateien",
+      "description": "factory/motion_forge/lottie_writer.py -> factory/motion_forge/template_composer.py -> factory/motion_forge/lottie_writer.py",
+      "affected_files": [
+        "factory/motion_forge/lottie_writer.py",
+        "factory/motion_forge/template_composer.py",
+        "factory/motion_forge/lottie_writer.py"
+      ],
+      "affected_count": 3,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "Zirkulaere Imports koennen zu Laufzeitfehlern fuehren."
+    },
+    {
+      "id": "F099",
+      "type": "circular_dependency",
+      "severity": "red",
+      "title": "Zirkulaere Abhaengigkeit: 3 Dateien",
+      "description": "factory/motion_forge/lottie_writer.py -> factory/motion_forge/template_composer.py -> factory/motion_forge/lottie_writer.py",
+      "affected_files": [
+        "factory/motion_forge/lottie_writer.py",
+        "factory/motion_forge/template_composer.py",
+        "factory/motion_forge/lottie_writer.py"
+      ],
+      "affected_count": 3,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "Zirkulaere Imports koennen zu Laufzeitfehlern fuehren."
+    },
+    {
+      "id": "F100",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: get_summary() in 8 Dateien",
+      "description": "Die Funktion get_summary() existiert in 8 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/agent_registry.py",
+        "factory/idea_manager.py",
+        "factory/idea_manager.py",
+        "factory/spec_manager.py",
+        "factory/asset_forge/catalog_manager.py",
+        "factory/brain/service_provider/cost_tracker.py",
+        "factory/brain/service_provider/quality_scorer.py",
+        "config/model_router.py"
+      ],
+      "affected_count": 8,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "8 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F101",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: summary() in 55 Dateien",
+      "description": "Die Funktion summary() existiert in 55 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/capability_registry.py",
+        "factory/assembly/handoff_protocol.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/repair/llm_repair_agent.py",
+        "factory/assembly/repair/repair_coordinator.py",
+        "factory/assembly/repair/repair_engine.py",
+        "factory/asset_forge/catalog_manager.py",
+        "factory/asset_forge/pdf_reader.py",
+        "factory/asset_forge/pipeline.py",
+        "factory/asset_forge/prompt_builder.py"
+      ],
+      "affected_count": 55,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "55 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F102",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: save() in 16 Dateien",
+      "description": "Die Funktion save() existiert in 16 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/idea_manager.py",
+        "factory/idea_manager.py",
+        "factory/spec_manager.py",
+        "factory/assembly/handoff_protocol.py",
+        "factory/brain/model_provider/benchmark_runner.py",
+        "factory/brain/model_provider/chain_optimizer.py",
+        "factory/document_secretary/docx_builder.py",
+        "factory/document_secretary/docx_builder_v1.py",
+        "factory/integration/cd_forge_interface.py",
+        "factory/orchestrator/build_plan.py"
+      ],
+      "affected_count": 16,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "16 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F103",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: transition() in 3 Dateien",
+      "description": "Die Funktion transition() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/idea_manager.py",
+        "factory/spec_manager.py",
+        "briefings/briefing_manager.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F104",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: list_projects() in 3 Dateien",
+      "description": "Die Funktion list_projects() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/project_registry.py",
+        "factory/signing/artifact_registry.py",
+        "factory/sound_forge/sound_catalog_manager.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F105",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: load() in 5 Dateien",
+      "description": "Die Funktion load() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/handoff_protocol.py",
+        "factory/brain/model_provider/benchmark_runner.py",
+        "factory/brain/model_provider/chain_optimizer.py",
+        "factory/integration/cd_forge_interface.py",
+        "factory/orchestrator/build_plan.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F106",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: to_dict() in 24 Dateien",
+      "description": "Die Funktion to_dict() existiert in 24 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/handoff_protocol.py",
+        "factory/dispatcher/product_state.py",
+        "factory/motion_forge/animation_validator.py",
+        "factory/operations/compile_hygiene_validator.py",
+        "factory/operations/compile_hygiene_validator.py",
+        "factory/operations/completion_verifier.py",
+        "factory/operations/completion_verifier.py",
+        "factory/operations/output_integrator.py",
+        "factory/operations/recovery_runner.py",
+        "factory/operations/recovery_runner.py"
+      ],
+      "affected_count": 24,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "24 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F107",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: receive_handoff() in 5 Dateien",
+      "description": "Die Funktion receive_handoff() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F108",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: create_build_system() in 5 Dateien",
+      "description": "Die Funktion create_build_system() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F109",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: organize_files() in 5 Dateien",
+      "description": "Die Funktion organize_files() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F110",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: wire_app() in 5 Dateien",
+      "description": "Die Funktion wire_app() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F111",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: compile() in 5 Dateien",
+      "description": "Die Funktion compile() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F112",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: diagnose_errors() in 5 Dateien",
+      "description": "Die Funktion diagnose_errors() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F113",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: apply_fixes() in 5 Dateien",
+      "description": "Die Funktion apply_fixes() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F114",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: run_tests() in 6 Dateien",
+      "description": "Die Funktion run_tests() existiert in 6 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py",
+        "factory/assembly/lines/base_line.py",
+        "factory/assembly/lines/ios_line.py",
+        "factory/assembly/lines/unity_line.py",
+        "factory/assembly/lines/web_line.py",
+        "factory/mac_bridge/mac_bridge.py"
+      ],
+      "affected_count": 6,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "6 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F115",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: can_fix() in 6 Dateien",
+      "description": "Die Funktion can_fix() existiert in 6 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/base_strategy.py",
+        "factory/assembly/repair/fix_strategies/duplicate_type.py",
+        "factory/assembly/repair/fix_strategies/missing_import.py",
+        "factory/assembly/repair/fix_strategies/missing_type.py",
+        "factory/assembly/repair/fix_strategies/module_path.py",
+        "factory/assembly/repair/fix_strategies/type_annotation.py"
+      ],
+      "affected_count": 6,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "6 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F116",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: apply() in 6 Dateien",
+      "description": "Die Funktion apply() existiert in 6 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/base_strategy.py",
+        "factory/assembly/repair/fix_strategies/duplicate_type.py",
+        "factory/assembly/repair/fix_strategies/missing_import.py",
+        "factory/assembly/repair/fix_strategies/missing_type.py",
+        "factory/assembly/repair/fix_strategies/module_path.py",
+        "factory/assembly/repair/fix_strategies/type_annotation.py"
+      ],
+      "affected_count": 6,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "6 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F117",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: to_json() in 17 Dateien",
+      "description": "Die Funktion to_json() existiert in 17 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/catalog_manager.py",
+        "factory/asset_forge/spec_extractor.py",
+        "factory/integration/asset_integrator.py",
+        "factory/integration/build_plan_schema.py",
+        "factory/integration/cd_forge_interface.py",
+        "factory/integration/full_pipeline_orchestrator.py",
+        "factory/motion_forge/animation_catalog_manager.py",
+        "factory/motion_forge/anim_spec_extractor.py",
+        "factory/scene_forge/level_generator.py",
+        "factory/scene_forge/scene_catalog_manager.py"
+      ],
+      "affected_count": 17,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "17 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F118",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: from_json() in 11 Dateien",
+      "description": "Die Funktion from_json() existiert in 11 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/catalog_manager.py",
+        "factory/asset_forge/spec_extractor.py",
+        "factory/integration/asset_integrator.py",
+        "factory/integration/build_plan_schema.py",
+        "factory/integration/cd_forge_interface.py",
+        "factory/motion_forge/animation_catalog_manager.py",
+        "factory/motion_forge/anim_spec_extractor.py",
+        "factory/scene_forge/scene_catalog_manager.py",
+        "factory/scene_forge/scene_spec_extractor.py",
+        "factory/sound_forge/sound_catalog_manager.py"
+      ],
+      "affected_count": 11,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "11 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F119",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: build_catalog() in 4 Dateien",
+      "description": "Die Funktion build_catalog() existiert in 4 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/catalog_manager.py",
+        "factory/motion_forge/animation_catalog_manager.py",
+        "factory/scene_forge/scene_catalog_manager.py",
+        "factory/sound_forge/sound_catalog_manager.py"
+      ],
+      "affected_count": 4,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "4 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F120",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: save_catalog() in 4 Dateien",
+      "description": "Die Funktion save_catalog() existiert in 4 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/catalog_manager.py",
+        "factory/motion_forge/animation_catalog_manager.py",
+        "factory/scene_forge/scene_catalog_manager.py",
+        "factory/sound_forge/sound_catalog_manager.py"
+      ],
+      "affected_count": 4,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "4 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F121",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: load_catalog() in 4 Dateien",
+      "description": "Die Funktion load_catalog() existiert in 4 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/catalog_manager.py",
+        "factory/motion_forge/animation_catalog_manager.py",
+        "factory/scene_forge/scene_catalog_manager.py",
+        "factory/sound_forge/sound_catalog_manager.py"
+      ],
+      "affected_count": 4,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "4 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F122",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: dry_run() in 7 Dateien",
+      "description": "Die Funktion dry_run() existiert in 7 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/pipeline.py",
+        "factory/asset_forge/prompt_builder.py",
+        "factory/integration/forge_orchestrator.py",
+        "factory/integration/full_pipeline_orchestrator.py",
+        "factory/motion_forge/motion_forge_orchestrator.py",
+        "factory/sound_forge/sound_forge_orchestrator.py",
+        "factory/sound_forge/sound_prompt_builder.py"
+      ],
+      "affected_count": 7,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "7 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F123",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: estimate_cost() in 6 Dateien",
+      "description": "Die Funktion estimate_cost() existiert in 6 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/pipeline.py",
+        "factory/integration/full_pipeline_orchestrator.py",
+        "factory/motion_forge/motion_forge_orchestrator.py",
+        "factory/scene_forge/scene_forge_orchestrator.py",
+        "factory/sound_forge/sound_forge_orchestrator.py",
+        "config/model_router.py"
+      ],
+      "affected_count": 6,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "6 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F124",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: get_by_priority() in 3 Dateien",
+      "description": "Die Funktion get_by_priority() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/spec_extractor.py",
+        "factory/motion_forge/anim_spec_extractor.py",
+        "factory/sound_forge/sound_spec_extractor.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F125",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: extract() in 4 Dateien",
+      "description": "Die Funktion extract() existiert in 4 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/spec_extractor.py",
+        "factory/motion_forge/anim_spec_extractor.py",
+        "factory/scene_forge/scene_spec_extractor.py",
+        "factory/sound_forge/sound_spec_extractor.py"
+      ],
+      "affected_count": 4,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "4 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F126",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: save_manifest() in 4 Dateien",
+      "description": "Die Funktion save_manifest() existiert in 4 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/spec_extractor.py",
+        "factory/motion_forge/anim_spec_extractor.py",
+        "factory/scene_forge/scene_spec_extractor.py",
+        "factory/sound_forge/sound_spec_extractor.py"
+      ],
+      "affected_count": 4,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "4 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F127",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: load_manifest() in 4 Dateien",
+      "description": "Die Funktion load_manifest() existiert in 4 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/spec_extractor.py",
+        "factory/motion_forge/anim_spec_extractor.py",
+        "factory/scene_forge/scene_spec_extractor.py",
+        "factory/sound_forge/sound_spec_extractor.py"
+      ],
+      "affected_count": 4,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "4 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F128",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: check() in 4 Dateien",
+      "description": "Die Funktion check() existiert in 4 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/style_checker.py",
+        "factory/operations/swift_compile_check.py",
+        "factory/signing/credential_checker.py",
+        "factory/store/compliance_checker.py"
+      ],
+      "affected_count": 4,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "4 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F129",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: check_batch() in 5 Dateien",
+      "description": "Die Funktion check_batch() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/asset_forge/style_checker.py",
+        "factory/qa_forge/animation_timing.py",
+        "factory/qa_forge/audio_check.py",
+        "factory/qa_forge/scene_integrity.py",
+        "factory/qa_forge/visual_diff.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F130",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: analyze() in 3 Dateien",
+      "description": "Die Funktion analyze() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/brain/model_provider/auto_splitter.py",
+        "factory/hq/janitor/analyzer.py",
+        "factory/integration/cd_forge_interface.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F131",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: get_model() in 3 Dateien",
+      "description": "Die Funktion get_model() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/brain/model_provider/model_registry.py",
+        "factory/brain/model_provider/__init__.py",
+        "config/model_router.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F132",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: health_check() in 15 Dateien",
+      "description": "Die Funktion health_check() existiert in 15 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/brain/model_provider/provider_router.py",
+        "factory/brain/service_provider/adapters/base_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/kling_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/luma_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/rive_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py",
+        "factory/brain/service_provider/adapters/image/dalle_adapter.py"
+      ],
+      "affected_count": 15,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "15 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F133",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: get_capabilities() in 15 Dateien",
+      "description": "Die Funktion get_capabilities() existiert in 15 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/brain/service_provider/service_registry.py",
+        "factory/brain/service_provider/adapters/base_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/kling_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/luma_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/rive_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py",
+        "factory/brain/service_provider/adapters/image/dalle_adapter.py"
+      ],
+      "affected_count": 15,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "15 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F134",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: get_cost_estimate() in 15 Dateien",
+      "description": "Die Funktion get_cost_estimate() existiert in 15 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/brain/service_provider/service_registry.py",
+        "factory/brain/service_provider/adapters/base_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/kling_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/luma_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/rive_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py",
+        "factory/brain/service_provider/adapters/image/dalle_adapter.py"
+      ],
+      "affected_count": 15,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "15 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F135",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: generate() in 38 Dateien",
+      "description": "Die Funktion generate() existiert in 38 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/base_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/kling_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/luma_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/rive_adapter.py",
+        "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py",
+        "factory/brain/service_provider/adapters/image/dalle_adapter.py",
+        "factory/brain/service_provider/adapters/image/recraft_adapter.py"
+      ],
+      "affected_count": 38,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "38 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F136",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: run_pipeline() in 7 Dateien",
+      "description": "Die Funktion run_pipeline() existiert in 7 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/design_vision/pipeline.py",
+        "factory/market_strategy/pipeline.py",
+        "factory/mvp_scope/pipeline.py",
+        "factory/pipeline/pipeline_runner.py",
+        "factory/pre_production/pipeline.py",
+        "factory/roadbook_assembly/pipeline.py",
+        "factory/visual_audit/pipeline.py"
+      ],
+      "affected_count": 7,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "7 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F137",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: from_dict() in 3 Dateien",
+      "description": "Die Funktion from_dict() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/dispatcher/product_state.py",
+        "factory/operations/recovery_runner.py",
+        "factory/orchestrator/build_plan.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F138",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: add_heading() in 3 Dateien",
+      "description": "Die Funktion add_heading() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/document_secretary/docx_builder.py",
+        "factory/document_secretary/docx_builder_v1.py",
+        "factory/document_secretary/pdf_builder.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F139",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: add_paragraph() in 3 Dateien",
+      "description": "Die Funktion add_paragraph() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/document_secretary/docx_builder.py",
+        "factory/document_secretary/docx_builder_v1.py",
+        "factory/document_secretary/pdf_builder.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F140",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: add_key_value() in 3 Dateien",
+      "description": "Die Funktion add_key_value() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/document_secretary/docx_builder.py",
+        "factory/document_secretary/docx_builder_v1.py",
+        "factory/document_secretary/pdf_builder.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F141",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: add_table() in 3 Dateien",
+      "description": "Die Funktion add_table() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/document_secretary/docx_builder.py",
+        "factory/document_secretary/docx_builder_v1.py",
+        "factory/document_secretary/pdf_builder.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F142",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: add_page_break() in 3 Dateien",
+      "description": "Die Funktion add_page_break() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/document_secretary/docx_builder.py",
+        "factory/document_secretary/docx_builder_v1.py",
+        "factory/document_secretary/pdf_builder.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F143",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: add_section_separator() in 3 Dateien",
+      "description": "Die Funktion add_section_separator() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/document_secretary/docx_builder.py",
+        "factory/document_secretary/docx_builder_v1.py",
+        "factory/document_secretary/pdf_builder.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F144",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: validate() in 5 Dateien",
+      "description": "Die Funktion validate() existiert in 5 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/motion_forge/animation_validator.py",
+        "factory/operations/compile_hygiene_validator.py",
+        "factory/store_prep/platform_metadata.py",
+        "factory/store_prep/platform_metadata.py",
+        "factory/store_prep/platform_metadata.py"
+      ],
+      "affected_count": 5,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "5 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F145",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: generate_batch() in 7 Dateien",
+      "description": "Die Funktion generate_batch() existiert in 7 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/motion_forge/lottie_writer.py",
+        "factory/scene_forge/level_generator.py",
+        "factory/scene_forge/prefab_generator.py",
+        "factory/scene_forge/shader_generator.py",
+        "factory/scene_forge/unity_scene_writer.py",
+        "factory/sound_forge/music_generator.py",
+        "factory/sound_forge/sfx_generator.py"
+      ],
+      "affected_count": 7,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "7 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F146",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: load_all_reports() in 3 Dateien",
+      "description": "Die Funktion load_all_reports() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/mvp_scope/input_loader.py",
+        "factory/roadbook_assembly/input_loader.py",
+        "factory/visual_audit/input_loader.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F147",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: find_latest_runs() in 3 Dateien",
+      "description": "Die Funktion find_latest_runs() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/mvp_scope/input_loader.py",
+        "factory/roadbook_assembly/input_loader.py",
+        "factory/visual_audit/input_loader.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F148",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: print_summary() in 11 Dateien",
+      "description": "Die Funktion print_summary() existiert in 11 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/operations/compile_hygiene_validator.py",
+        "factory/operations/completion_verifier.py",
+        "factory/operations/output_integrator.py",
+        "factory/operations/property_shape_repairer.py",
+        "factory/operations/recovery_runner.py",
+        "factory/operations/run_memory.py",
+        "factory/operations/stale_artifact_guard.py",
+        "factory/operations/swift_compile_check.py",
+        "factory/operations/toplevel_sanitizer.py",
+        "factory/operations/type_stub_generator.py"
+      ],
+      "affected_count": 11,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "11 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F149",
+      "type": "duplicate_logic",
+      "severity": "yellow",
+      "title": "Doppelte Funktion: add_warning() in 3 Dateien",
+      "description": "Die Funktion add_warning() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "factory/qa/qa_report.py",
+        "factory/scene_forge/scene_validator.py",
+        "factory/store_prep/store_prep_report.py"
+      ],
+      "affected_count": 3,
+      "action": "refactor_proposal",
+      "auto_fixable": false,
+      "impact_analysis": "3 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F150",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: language() in 7 Dateien",
+      "description": "Die Funktion language() existiert in 7 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "config/platform_role_resolver.py",
+        "code_generation/extractors/base.py",
+        "code_generation/extractors/csharp_extractor.py",
+        "code_generation/extractors/kotlin_extractor.py",
+        "code_generation/extractors/python_extractor.py",
+        "code_generation/extractors/swift_extractor.py",
+        "code_generation/extractors/typescript_extractor.py"
+      ],
+      "affected_count": 7,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "7 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F151",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: build_implementation_summary() in 7 Dateien",
+      "description": "Die Funktion build_implementation_summary() existiert in 7 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "code_generation/code_extractor.py",
+        "code_generation/extractors/base.py",
+        "code_generation/extractors/csharp_extractor.py",
+        "code_generation/extractors/kotlin_extractor.py",
+        "code_generation/extractors/python_extractor.py",
+        "code_generation/extractors/swift_extractor.py",
+        "code_generation/extractors/typescript_extractor.py"
+      ],
+      "affected_count": 7,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "7 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F152",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: extract_code() in 6 Dateien",
+      "description": "Die Funktion extract_code() existiert in 6 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "code_generation/extractors/base.py",
+        "code_generation/extractors/csharp_extractor.py",
+        "code_generation/extractors/kotlin_extractor.py",
+        "code_generation/extractors/python_extractor.py",
+        "code_generation/extractors/swift_extractor.py",
+        "code_generation/extractors/typescript_extractor.py"
+      ],
+      "affected_count": 6,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "6 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F153",
+      "type": "duplicate_logic",
+      "severity": "red",
+      "title": "Doppelte Funktion: file_extension() in 6 Dateien",
+      "description": "Die Funktion file_extension() existiert in 6 Dateien. Koennte in ein shared Modul extrahiert werden.",
+      "affected_files": [
+        "code_generation/extractors/base.py",
+        "code_generation/extractors/csharp_extractor.py",
+        "code_generation/extractors/kotlin_extractor.py",
+        "code_generation/extractors/python_extractor.py",
+        "code_generation/extractors/swift_extractor.py",
+        "code_generation/extractors/typescript_extractor.py"
+      ],
+      "affected_count": 6,
+      "action": "report_only",
+      "auto_fixable": false,
+      "impact_analysis": "6 Dateien muessten geaendert werden."
+    },
+    {
+      "id": "F154",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/accessibility_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/accessibility_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F155",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/android_architect_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/android_architect_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F156",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/autonomous_project_orchestrator.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/autonomous_project_orchestrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F157",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/bug_hunter.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/bug_hunter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F158",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/change_watch_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/change_watch_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F159",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/content_script_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/content_script_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F160",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/creative_director.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/creative_director.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F161",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/ios_architect.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/ios_architect.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F162",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/kotlin_developer_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/kotlin_developer_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F163",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/lead_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/lead_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F164",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/legal_risk_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/legal_risk_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F165",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/opportunity_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/opportunity_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F166",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/product_strategist.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/product_strategist.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F167",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/project_bootstrap_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/project_bootstrap_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F168",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/refactor_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/refactor_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F169",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/reviewer.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/reviewer.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F170",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/roadmap_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/roadmap_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F171",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/swift_developer.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/swift_developer.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F172",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/test_generator.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/test_generator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F173",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/ux_psychology.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/ux_psychology.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F174",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/webapp_developer_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/webapp_developer_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F175",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in agents/web_architect_agent.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: config.llm_config, config.role_config",
+      "affected_files": [
+        "agents/web_architect_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F176",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/migrate_agent_identities.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.agent_registry",
+      "affected_files": [
+        "factory/migrate_agent_identities.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F177",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/assembly_manager.py",
+      "description": "6 Imports die zu keinem existierenden Modul fuehren: factory.assembly.handoff_protocol, factory.assembly.lines.base_line, factory.assembly.lines.android_line, factory.assembly.lines.ios_line, factory.assembly.lines.web_line",
+      "affected_files": [
+        "factory/assembly/assembly_manager.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F178",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/handoff_protocol.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.project_config",
+      "affected_files": [
+        "factory/assembly/handoff_protocol.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F179",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/lines/android_line.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.assembly.handoff_protocol, factory.assembly.lines.base_line",
+      "affected_files": [
+        "factory/assembly/lines/android_line.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F180",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/lines/base_line.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.assembly.handoff_protocol",
+      "affected_files": [
+        "factory/assembly/lines/base_line.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F181",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/lines/ios_line.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.assembly.handoff_protocol, factory.assembly.lines.base_line",
+      "affected_files": [
+        "factory/assembly/lines/ios_line.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F182",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/lines/web_line.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.assembly.handoff_protocol, factory.assembly.repair.repair_coordinator, factory.assembly.lines.base_line",
+      "affected_files": [
+        "factory/assembly/lines/web_line.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F183",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/llm_repair_agent.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser",
+      "affected_files": [
+        "factory/assembly/repair/llm_repair_agent.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F184",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/repair_coordinator.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.repair_engine, factory.assembly.repair.llm_repair_agent, factory.assembly.repair.error_parser",
+      "affected_files": [
+        "factory/assembly/repair/repair_coordinator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F185",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/repair_engine.py",
+      "description": "6 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser, factory.assembly.repair.fix_strategies.missing_import, factory.assembly.repair.fix_strategies.missing_type, factory.assembly.repair.fix_strategies.type_annotation, factory.assembly.repair.fix_strategies.duplicate_type",
+      "affected_files": [
+        "factory/assembly/repair/repair_engine.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F186",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/fix_strategies/base_strategy.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/base_strategy.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F187",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/fix_strategies/duplicate_type.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser, factory.assembly.repair.fix_strategies.base_strategy",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/duplicate_type.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F188",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/fix_strategies/missing_import.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser, factory.assembly.repair.fix_strategies.base_strategy",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/missing_import.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F189",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/fix_strategies/missing_type.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser, factory.assembly.repair.fix_strategies.base_strategy",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/missing_type.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F190",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/fix_strategies/module_path.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser, factory.assembly.repair.fix_strategies.base_strategy",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/module_path.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F191",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/assembly/repair/fix_strategies/type_annotation.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.assembly.repair.error_parser, factory.assembly.repair.fix_strategies.base_strategy",
+      "affected_files": [
+        "factory/assembly/repair/fix_strategies/type_annotation.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F192",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/asset_forge/pdf_reader.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.section_patterns",
+      "affected_files": [
+        "factory/asset_forge/pdf_reader.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F193",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/asset_forge/pipeline.py",
+      "description": "11 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.config, factory.asset_forge.config, factory.asset_forge.pdf_reader, factory.asset_forge.spec_extractor, factory.asset_forge.prompt_builder",
+      "affected_files": [
+        "factory/asset_forge/pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F194",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/asset_forge/spec_extractor.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.config, factory.asset_forge.pdf_reader, factory.brain.model_provider",
+      "affected_files": [
+        "factory/asset_forge/spec_extractor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F195",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/asset_forge/variant_generator.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.format_converter",
+      "affected_files": [
+        "factory/asset_forge/variant_generator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F196",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/brain.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.project_config",
+      "affected_files": [
+        "factory/brain/brain.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F197",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/__init__.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.brain",
+      "affected_files": [
+        "factory/brain/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F198",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/model_provider/__init__.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.project_config",
+      "affected_files": [
+        "factory/brain/model_provider/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F199",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/service_router.py",
+      "description": "8 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter, factory.brain.service_provider.service_registry, factory.brain.service_provider.adapters.image.dalle_adapter, factory.brain.service_provider.adapters.image.stability_adapter, factory.brain.service_provider.adapters.sound.elevenlabs_sfx_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/service_router.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F200",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/black_forest_labs_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F201",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/drafts/kling_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/kling_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F202",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/drafts/leonardo_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/leonardo_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F203",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/drafts/luma_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/luma_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F204",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/meta_audiocraft_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F205",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/drafts/rive_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/rive_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F206",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/drafts/stability_audio_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F207",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/image/dalle_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/image/dalle_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F208",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/image/recraft_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/image/recraft_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F209",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/image/stability_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/image/stability_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F210",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/sound/elevenlabs_sfx_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/sound/elevenlabs_sfx_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F211",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/sound/suno_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/sound/suno_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F212",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/brain/service_provider/adapters/video/runway_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.adapters.base_adapter",
+      "affected_files": [
+        "factory/brain/service_provider/adapters/video/runway_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F213",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/design_vision/input_loader.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.visual_audit.input_loader",
+      "affected_files": [
+        "factory/design_vision/input_loader.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F214",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/design_vision/pipeline.py",
+      "description": "4 Imports die zu keinem existierenden Modul fuehren: factory.design_vision.input_loader, factory.design_vision.agents.trend_breaker, factory.design_vision.agents.emotion_architect, factory.design_vision.agents.vision_compiler",
+      "affected_files": [
+        "factory/design_vision/pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F215",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/design_vision/agents/emotion_architect.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/design_vision/agents/emotion_architect.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F216",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/design_vision/agents/trend_breaker.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/design_vision/agents/trend_breaker.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F217",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/design_vision/agents/vision_compiler.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/design_vision/agents/vision_compiler.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F218",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/dispatcher/dispatcher.py",
+      "description": "12 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.pipeline, factory.market_strategy.pipeline, factory.mvp_scope.pipeline, factory.roadbook_assembly.pipeline, factory.hq.capabilities.feasibility_check",
+      "affected_files": [
+        "factory/dispatcher/dispatcher.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F219",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/document_secretary/secretary.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.document_secretary.pdf_builder, factory.document_secretary.email_service, factory.document_secretary.templates",
+      "affected_files": [
+        "factory/document_secretary/secretary.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F220",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/auto_repair.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.hq.health_monitor, factory.project_registry, factory.project_registry",
+      "affected_files": [
+        "factory/hq/auto_repair.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F221",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/gate_api.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.project_registry",
+      "affected_files": [
+        "factory/hq/gate_api.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F222",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/assistant/action_executor.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.project_registry, factory.project_registry, factory.project_registry",
+      "affected_files": [
+        "factory/hq/assistant/action_executor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F223",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/assistant/assistant.py",
+      "description": "25 Imports die zu keinem existierenden Modul fuehren: factory.project_registry, factory.project_registry, factory.hq.health_monitor, factory.hq.auto_repair, factory.hq.assistant.context_builder",
+      "affected_files": [
+        "factory/hq/assistant/assistant.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F224",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/assistant/context_builder.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.hq.health_monitor, factory.hq.health_monitor",
+      "affected_files": [
+        "factory/hq/assistant/context_builder.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F225",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/assistant/server.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.hq.assistant.assistant, factory.hq.providers.balance_monitor, factory.hq.assistant.assistant",
+      "affected_files": [
+        "factory/hq/assistant/server.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F226",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/capabilities/capability_sheet.py",
+      "description": "4 Imports die zu keinem existierenden Modul fuehren: factory.capability_registry, factory.capability_registry, factory.capability_registry, factory.brain.service_provider.service_registry",
+      "affected_files": [
+        "factory/hq/capabilities/capability_sheet.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F227",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/capabilities/capability_watcher.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.shared.project_registry, factory.hq.capabilities.feasibility_check, factory.shared.project_registry",
+      "affected_files": [
+        "factory/hq/capabilities/capability_watcher.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F228",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/capabilities/feasibility_check.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.hq.capabilities.capability_sheet",
+      "affected_files": [
+        "factory/hq/capabilities/feasibility_check.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F229",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/capabilities/gate_creator.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.shared.project_registry",
+      "affected_files": [
+        "factory/hq/capabilities/gate_creator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F230",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/janitor/executor.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.hq.gate_api",
+      "affected_files": [
+        "factory/hq/janitor/executor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F231",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/janitor/janitor.py",
+      "description": "15 Imports die zu keinem existierenden Modul fuehren: factory.hq.janitor.scanner, factory.hq.janitor.graph_builder, factory.hq.janitor.analyzer, factory.hq.janitor.scanner, factory.hq.janitor.graph_builder",
+      "affected_files": [
+        "factory/hq/janitor/janitor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F232",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/janitor/__init__.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.hq.janitor.janitor",
+      "affected_files": [
+        "factory/hq/janitor/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F233",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/janitor/__main__.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.hq.janitor.janitor",
+      "affected_files": [
+        "factory/hq/janitor/__main__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F234",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/hq/providers/balance_monitor.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.agent_registry",
+      "affected_files": [
+        "factory/hq/providers/balance_monitor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F235",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/integration/asset_integrator.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.integration.platform_asset_mapper",
+      "affected_files": [
+        "factory/integration/asset_integrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F236",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/integration/cd_forge_interface.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.pdf_reader, factory.the_brain.brain",
+      "affected_files": [
+        "factory/integration/cd_forge_interface.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F237",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/integration/forge_orchestrator.py",
+      "description": "8 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.pipeline, factory.sound_forge.sound_forge_orchestrator, factory.motion_forge.motion_forge_orchestrator, factory.scene_forge.scene_forge_orchestrator, factory.asset_forge.pipeline",
+      "affected_files": [
+        "factory/integration/forge_orchestrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F238",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/integration/full_pipeline_orchestrator.py",
+      "description": "6 Imports die zu keinem existierenden Modul fuehren: factory.integration.cd_forge_interface, factory.integration.build_plan_schema, factory.integration.asset_integrator, factory.integration.cd_forge_interface, factory.integration.forge_orchestrator",
+      "affected_files": [
+        "factory/integration/full_pipeline_orchestrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F239",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/integration/__init__.py",
+      "description": "5 Imports die zu keinem existierenden Modul fuehren: factory.integration.cd_forge_interface, factory.integration.build_plan_schema, factory.integration.platform_asset_mapper, factory.integration.forge_orchestrator, factory.integration.asset_integrator",
+      "affected_files": [
+        "factory/integration/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F240",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/integration/backend_line/backend_assembly_line.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.pdf_reader, factory.the_brain.brain",
+      "affected_files": [
+        "factory/integration/backend_line/backend_assembly_line.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F241",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/market_strategy/pipeline.py",
+      "description": "7 Imports die zu keinem existierenden Modul fuehren: factory.market_strategy.input_loader, factory.market_strategy.agents, factory.market_strategy.agents, factory.market_strategy.agents, factory.market_strategy.agents",
+      "affected_files": [
+        "factory/market_strategy/pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F242",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/market_strategy/agents/cost_calculation.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/market_strategy/agents/cost_calculation.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F243",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/market_strategy/agents/marketing_strategy.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/market_strategy/agents/marketing_strategy.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F244",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/market_strategy/agents/monetization_architect.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/market_strategy/agents/monetization_architect.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F245",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/market_strategy/agents/platform_strategy.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/market_strategy/agents/platform_strategy.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F246",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/market_strategy/agents/release_planner.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/market_strategy/agents/release_planner.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F247",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/motion_forge/anim_spec_extractor.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.pdf_reader, factory.brain.model_provider",
+      "affected_files": [
+        "factory/motion_forge/anim_spec_extractor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F248",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/motion_forge/lottie_writer.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.motion_forge.template_composer, factory.brain.model_provider",
+      "affected_files": [
+        "factory/motion_forge/lottie_writer.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F249",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/motion_forge/motion_forge_orchestrator.py",
+      "description": "6 Imports die zu keinem existierenden Modul fuehren: factory.motion_forge.anim_spec_extractor, factory.motion_forge.lottie_writer, factory.motion_forge.platform_adapter, factory.motion_forge.animation_validator, factory.motion_forge.animation_catalog_manager",
+      "affected_files": [
+        "factory/motion_forge/motion_forge_orchestrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F250",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/motion_forge/platform_adapter.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.motion_forge.anim_spec_extractor",
+      "affected_files": [
+        "factory/motion_forge/platform_adapter.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F251",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/motion_forge/template_composer.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.motion_forge.lottie_writer, factory.motion_forge.lottie_writer",
+      "affected_files": [
+        "factory/motion_forge/template_composer.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F252",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/motion_forge/__init__.py",
+      "description": "7 Imports die zu keinem existierenden Modul fuehren: factory.motion_forge.anim_spec_extractor, factory.motion_forge.lottie_writer, factory.motion_forge.template_composer, factory.motion_forge.platform_adapter, factory.motion_forge.animation_validator",
+      "affected_files": [
+        "factory/motion_forge/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F253",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/mvp_scope/pipeline.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.mvp_scope.input_loader, factory.mvp_scope.agents, factory.mvp_scope.config",
+      "affected_files": [
+        "factory/mvp_scope/pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F254",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/mvp_scope/agents/feature_extraction.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/mvp_scope/agents/feature_extraction.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F255",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/mvp_scope/agents/feature_prioritization.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.mvp_scope.config, factory.brain.model_provider",
+      "affected_files": [
+        "factory/mvp_scope/agents/feature_prioritization.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F256",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/mvp_scope/agents/screen_architect.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/mvp_scope/agents/screen_architect.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F257",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/operations/quality_gate_loop.py",
+      "description": "14 Imports die zu keinem existierenden Modul fuehren: factory.operations.compile_hygiene_validator, factory.operations.import_hygiene, factory.operations.toplevel_sanitizer, factory.operations.stale_artifact_guard, factory.operations.type_stub_generator",
+      "affected_files": [
+        "factory/operations/quality_gate_loop.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F258",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/operations/recovery_runner.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.operations.output_integrator",
+      "affected_files": [
+        "factory/operations/recovery_runner.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F259",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/operations/type_stub_generator.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.operations.compile_hygiene_validator",
+      "affected_files": [
+        "factory/operations/type_stub_generator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F260",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/orchestrator/layer_context.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.orchestrator.build_layers",
+      "affected_files": [
+        "factory/orchestrator/layer_context.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F261",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/orchestrator/layer_decomposer.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.orchestrator.build_layers",
+      "affected_files": [
+        "factory/orchestrator/layer_decomposer.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F262",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/orchestrator/layer_gates.py",
+      "description": "6 Imports die zu keinem existierenden Modul fuehren: factory.orchestrator.import_boundary_checker, factory.operations.compile_hygiene_validator, factory.operations.compile_hygiene_validator, factory.operations.type_stub_generator, factory.operations.property_shape_repairer",
+      "affected_files": [
+        "factory/orchestrator/layer_gates.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F263",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/orchestrator/orchestrator.py",
+      "description": "10 Imports die zu keinem existierenden Modul fuehren: factory.pipeline.pipeline_runner, factory.project_config, factory.brain, factory.orchestrator.build_plan, factory.orchestrator.spec_parser",
+      "affected_files": [
+        "factory/orchestrator/orchestrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F264",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/orchestrator/spec_parser.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.orchestrator.build_plan",
+      "affected_files": [
+        "factory/orchestrator/spec_parser.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F265",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/orchestrator/__init__.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.orchestrator.orchestrator, factory.orchestrator.build_plan, factory.orchestrator.build_layers",
+      "affected_files": [
+        "factory/orchestrator/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F266",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pipeline/pipeline_runner.py",
+      "description": "17 Imports die zu keinem existierenden Modul fuehren: factory.pipeline.review_pass, factory.project_config, factory.brain, factory.operations.output_integrator, factory.operations.completion_verifier",
+      "affected_files": [
+        "factory/pipeline/pipeline_runner.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F267",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pipeline/review_pass.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider, config.platform_role_resolver",
+      "affected_files": [
+        "factory/pipeline/review_pass.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F268",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pipeline/__init__.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.pipeline.pipeline_runner",
+      "affected_files": [
+        "factory/pipeline/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F269",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/ambition_controller.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.capability_registry",
+      "affected_files": [
+        "factory/pre_production/ambition_controller.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F270",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/ceo_gate.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.agents",
+      "affected_files": [
+        "factory/pre_production/ceo_gate.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F271",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/pipeline.py",
+      "description": "9 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.agents, factory.pre_production.agents, factory.pre_production.agents, factory.pre_production.agents, factory.pre_production.agents",
+      "affected_files": [
+        "factory/pre_production/pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F272",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/agents/audience_analyst.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.agents._keywords, factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/pre_production/agents/audience_analyst.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F273",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/agents/competitor_scan.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.agents._keywords, factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/pre_production/agents/competitor_scan.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F274",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/agents/concept_analyst.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/pre_production/agents/concept_analyst.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F275",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/agents/legal_research.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/pre_production/agents/legal_research.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F276",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/agents/risk_assessment.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/pre_production/agents/risk_assessment.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F277",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/agents/trend_scout.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.agents._keywords, factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/pre_production/agents/trend_scout.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F278",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/pre_production/agents/__init__.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.agents._keywords",
+      "affected_files": [
+        "factory/pre_production/agents/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F279",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/qa/qa_coordinator.py",
+      "description": "9 Imports die zu keinem existierenden Modul fuehren: factory.qa.config, factory.qa.bounce_tracker, factory.qa.qa_report, factory.qa.test_runner, factory.qa.quality_criteria",
+      "affected_files": [
+        "factory/qa/qa_coordinator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F280",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/qa/qa_report.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.qa.config",
+      "affected_files": [
+        "factory/qa/qa_report.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F281",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/qa/test_runner.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.qa.config",
+      "affected_files": [
+        "factory/qa/test_runner.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F282",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/roadbook_assembly/config.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/roadbook_assembly/config.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F283",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/roadbook_assembly/input_loader.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider.auto_splitter, factory.brain.model_provider, factory.roadbook_assembly.config",
+      "affected_files": [
+        "factory/roadbook_assembly/input_loader.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F284",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/roadbook_assembly/pipeline.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.roadbook_assembly.input_loader, factory.roadbook_assembly.agents.ceo_roadbook, factory.roadbook_assembly.agents.cd_roadbook",
+      "affected_files": [
+        "factory/roadbook_assembly/pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F285",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/roadbook_assembly/agents/cd_roadbook.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.roadbook_assembly.config, factory.brain.model_provider, factory.brain.model_provider",
+      "affected_files": [
+        "factory/roadbook_assembly/agents/cd_roadbook.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F286",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/roadbook_assembly/agents/ceo_roadbook.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.roadbook_assembly.config, factory.brain.model_provider, factory.brain.model_provider",
+      "affected_files": [
+        "factory/roadbook_assembly/agents/ceo_roadbook.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F287",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/scene_forge/prefab_generator.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.scene_forge.utils.unity_guid, factory.scene_forge.utils.unity_fileid, factory.scene_forge.utils.yaml_serializer",
+      "affected_files": [
+        "factory/scene_forge/prefab_generator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F288",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/scene_forge/scene_forge_orchestrator.py",
+      "description": "7 Imports die zu keinem existierenden Modul fuehren: factory.scene_forge.scene_spec_extractor, factory.scene_forge.level_generator, factory.scene_forge.unity_scene_writer, factory.scene_forge.shader_generator, factory.scene_forge.prefab_generator",
+      "affected_files": [
+        "factory/scene_forge/scene_forge_orchestrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F289",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/scene_forge/scene_spec_extractor.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.pdf_reader, factory.the_brain.brain",
+      "affected_files": [
+        "factory/scene_forge/scene_spec_extractor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F290",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/scene_forge/unity_scene_writer.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.scene_forge.utils.unity_guid, factory.scene_forge.utils.unity_fileid, factory.scene_forge.utils.yaml_serializer",
+      "affected_files": [
+        "factory/scene_forge/unity_scene_writer.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F291",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/scene_forge/__init__.py",
+      "description": "8 Imports die zu keinem existierenden Modul fuehren: factory.scene_forge.scene_spec_extractor, factory.scene_forge.level_generator, factory.scene_forge.unity_scene_writer, factory.scene_forge.shader_generator, factory.scene_forge.prefab_generator",
+      "affected_files": [
+        "factory/scene_forge/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F292",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/scene_forge/utils/__init__.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.scene_forge.utils.unity_guid, factory.scene_forge.utils.unity_fileid, factory.scene_forge.utils.yaml_serializer",
+      "affected_files": [
+        "factory/scene_forge/utils/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F293",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/shared/bootstrap_projects.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.shared.project_registry",
+      "affected_files": [
+        "factory/shared/bootstrap_projects.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F294",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/signing/android_signer.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.signing.config, factory.signing.signing_result",
+      "affected_files": [
+        "factory/signing/android_signer.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F295",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/signing/artifact_registry.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.signing.config",
+      "affected_files": [
+        "factory/signing/artifact_registry.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F296",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/signing/credential_checker.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.signing.config",
+      "affected_files": [
+        "factory/signing/credential_checker.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F297",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/signing/signing_coordinator.py",
+      "description": "10 Imports die zu keinem existierenden Modul fuehren: factory.signing.artifact_registry, factory.signing.config, factory.signing.credential_checker, factory.signing.signing_result, factory.signing.version_manager",
+      "affected_files": [
+        "factory/signing/signing_coordinator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F298",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/signing/web_builder.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.signing.config, factory.signing.signing_result",
+      "affected_files": [
+        "factory/signing/web_builder.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F299",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/sound_forge/music_generator.py",
+      "description": "6 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.service_registry, factory.brain.service_provider.service_registry, factory.brain.service_provider.service_router, factory.brain.service_provider.service_router, factory.brain.service_provider.quality_scorer",
+      "affected_files": [
+        "factory/sound_forge/music_generator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F300",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/sound_forge/sfx_generator.py",
+      "description": "5 Imports die zu keinem existierenden Modul fuehren: factory.brain.service_provider.service_registry, factory.brain.service_provider.service_router, factory.brain.service_provider.service_router, factory.brain.service_provider.quality_scorer, factory.brain.service_provider.cost_tracker",
+      "affected_files": [
+        "factory/sound_forge/sfx_generator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F301",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/sound_forge/sound_forge_orchestrator.py",
+      "description": "8 Imports die zu keinem existierenden Modul fuehren: factory.sound_forge.sound_spec_extractor, factory.sound_forge.sound_prompt_builder, factory.sound_forge.sfx_generator, factory.sound_forge.music_generator, factory.sound_forge.audio_format_pipeline",
+      "affected_files": [
+        "factory/sound_forge/sound_forge_orchestrator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F302",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/sound_forge/sound_spec_extractor.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.asset_forge.pdf_reader, factory.brain.model_provider",
+      "affected_files": [
+        "factory/sound_forge/sound_spec_extractor.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F303",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/status/factory_status.py",
+      "description": "3 Imports die zu keinem existierenden Modul fuehren: factory.brain, factory.project_config, factory.capability_registry",
+      "affected_files": [
+        "factory/status/factory_status.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F304",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/status/__init__.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.status.factory_status",
+      "affected_files": [
+        "factory/status/__init__.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F305",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/store/build_packager.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.mac_bridge",
+      "affected_files": [
+        "factory/store/build_packager.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F306",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/store/store_pipeline.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.project_config",
+      "affected_files": [
+        "factory/store/store_pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F307",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/store_prep/metadata_enricher.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.project_registry",
+      "affected_files": [
+        "factory/store_prep/metadata_enricher.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F308",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/store_prep/platform_metadata.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.store_prep.config, factory.brain.brain",
+      "affected_files": [
+        "factory/store_prep/platform_metadata.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F309",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/store_prep/store_prep_coordinator.py",
+      "description": "14 Imports die zu keinem existierenden Modul fuehren: factory.store_prep.config, factory.store_prep.metadata_enricher, factory.store_prep.platform_metadata, factory.store_prep.privacy_labels, factory.store_prep.screenshot_coordinator",
+      "affected_files": [
+        "factory/store_prep/store_prep_coordinator.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F310",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/visual_audit/pipeline.py",
+      "description": "4 Imports die zu keinem existierenden Modul fuehren: factory.visual_audit.input_loader, factory.visual_audit.agents.asset_discovery, factory.visual_audit.agents.asset_strategy, factory.visual_audit.agents.visual_consistency",
+      "affected_files": [
+        "factory/visual_audit/pipeline.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F311",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/visual_audit/agents/asset_discovery.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/visual_audit/agents/asset_discovery.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F312",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/visual_audit/agents/asset_strategy.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.pre_production.tools.web_research, factory.brain.model_provider",
+      "affected_files": [
+        "factory/visual_audit/agents/asset_strategy.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F313",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/visual_audit/agents/review_assistant.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/visual_audit/agents/review_assistant.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F314",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in factory/visual_audit/agents/visual_consistency.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "factory/visual_audit/agents/visual_consistency.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F315",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in config/llm_config.py",
+      "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider, factory.brain.model_provider",
+      "affected_files": [
+        "config/llm_config.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    },
+    {
+      "id": "F316",
+      "type": "stale_import",
+      "severity": "yellow",
+      "title": "Tote Imports in mac_agent/repair/llm_repair.py",
+      "description": "1 Imports die zu keinem existierenden Modul fuehren: factory.brain.model_provider",
+      "affected_files": [
+        "mac_agent/repair/llm_repair.py"
+      ],
+      "affected_count": 1,
+      "action": "fix_imports",
+      "auto_fixable": false,
+      "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+    }
+  ],
+  "summary": {
+    "total_findings": 316,
+    "green_auto_fixable": 48,
+    "yellow_proposals": 213,
+    "red_report_only": 55,
+    "health_score": 64
+  },
+  "actions": {
+    "auto_fixed": [],
+    "proposed": [],
+    "reported": []
+  }
+}

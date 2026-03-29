@@ -13,6 +13,10 @@ const STATUS_COLORS = {
   review_go: 'border-factory-success',
   preproduction_done: 'border-factory-accent',
   in_production: 'border-factory-warning animate-pulse-gold',
+  feasibility_checking: 'border-factory-accent animate-pulse-gold',
+  feasible: 'border-factory-success',
+  parked_partially: 'border-orange-500',
+  parked_blocked: 'border-factory-error',
 };
 
 const STATUS_LABELS = {
@@ -28,6 +32,10 @@ const STATUS_LABELS = {
   review_go: 'Review: GO',
   preproduction_done: 'Pre-Prod fertig',
   in_production: 'In Produktion',
+  feasibility_checking: 'Feasibility-Check',
+  feasible: 'Produktionsbereit',
+  parked_partially: 'Geparkt (teilweise)',
+  parked_blocked: 'Geparkt (blockiert)',
 };
 
 export default function ProjectGrid({ onSelectProject }) {
@@ -72,6 +80,21 @@ export default function ProjectGrid({ onSelectProject }) {
     fetchProjects();
   }
 
+  async function handleDelete(projectId) {
+    if (!window.confirm(`Projekt "${projectId}" endgültig löschen?\n\nAlle Dateien, Reports, Outputs und Code werden unwiderruflich gelöscht.`)) return;
+    try {
+      const res = await fetch(`/api/projects/${projectId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        fetchProjects();
+      } else {
+        alert('Fehler: ' + (data.error || 'Unbekannt'));
+      }
+    } catch (err) {
+      alert('Fehler beim Löschen: ' + err.message);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -106,6 +129,7 @@ export default function ProjectGrid({ onSelectProject }) {
             project={project}
             onArchive={handleArchive}
             onSetType={handleSetType}
+            onDelete={handleDelete}
             onSelect={() => onSelectProject && onSelectProject(project.project_id)}
           />
         ))}
@@ -114,11 +138,12 @@ export default function ProjectGrid({ onSelectProject }) {
   );
 }
 
-function ProjectCard({ project, onArchive, onSetType, onSelect }) {
+function ProjectCard({ project, onArchive, onSetType, onDelete, onSelect }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const statusColor = STATUS_COLORS[project.status] || 'border-factory-border';
   const statusLabel = STATUS_LABELS[project.status] || project.status;
   const isGateWaiting = project.status?.includes('pending');
+  const isParked = project.status === 'parked_partially' || project.status === 'parked_blocked';
   const isIteration = project.project_type === 'iteration';
   const isTest = project.project_type === 'test';
 
@@ -128,8 +153,6 @@ function ProjectCard({ project, onArchive, onSetType, onSelect }) {
         <div>
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-bold text-factory-text">{project.title}</h3>
-            {project.mode === 'factory' && <span className="text-[10px] px-1.5 py-0.5 bg-factory-accent/20 rounded text-factory-accent font-medium">Factory</span>}
-            {project.mode === 'vision' && <span className="text-[10px] px-1.5 py-0.5 bg-factory-accent-blue/20 rounded text-factory-accent-blue font-medium">Vision</span>}
             {isIteration && <span className="text-[10px] px-1.5 py-0.5 bg-factory-border rounded text-factory-text-secondary">Iteration</span>}
             {isTest && <span className="text-[10px] px-1.5 py-0.5 bg-factory-warning/20 rounded text-factory-warning">Test</span>}
             {project.archived && <span className="text-[10px] px-1.5 py-0.5 bg-factory-border rounded text-factory-text-secondary">Archiv</span>}
@@ -165,15 +188,43 @@ function ProjectCard({ project, onArchive, onSetType, onSelect }) {
             className="w-full text-left px-4 py-2 text-sm text-factory-text-secondary hover:text-factory-text hover:bg-factory-surface-hover">
             Als Test markieren
           </button>
+          <div className="border-t border-factory-border my-1" />
+          <button onClick={(e) => { e.stopPropagation(); onDelete(project.project_id); setMenuOpen(false); }}
+            className="w-full text-left px-4 py-2 text-sm text-factory-error hover:bg-factory-error/10">
+            Projekt löschen
+          </button>
         </div>
       )}
 
       <ProgressBar status={project.status} />
 
+      {isParked && project.feasibility?.gaps?.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {project.feasibility.gaps.slice(0, 3).map((gap, i) => (
+            <span key={i} className="text-[10px] px-1.5 py-0.5 bg-factory-error/10 text-factory-error rounded border border-factory-error/20">
+              {gap.capability || gap}
+            </span>
+          ))}
+          {project.feasibility.gaps.length > 3 && (
+            <span className="text-[10px] px-1.5 py-0.5 text-factory-text-secondary">
+              +{project.feasibility.gaps.length - 3} mehr
+            </span>
+          )}
+          {project.feasibility?.score != null && (
+            <span className="text-[10px] px-1.5 py-0.5 bg-factory-warning/10 text-factory-warning rounded border border-factory-warning/20 ml-auto">
+              Score: {(project.feasibility.score * 100).toFixed(0)}%
+            </span>
+          )}
+        </div>
+      )}
+
       <div className="mt-4 flex items-center justify-between text-sm">
         <span className={`px-2 py-1 rounded text-xs font-medium ${
           project.status === 'killed' ? 'bg-factory-error/20 text-factory-error' :
+          project.status === 'parked_blocked' ? 'bg-factory-error/20 text-factory-error' :
+          project.status === 'parked_partially' ? 'bg-orange-500/20 text-orange-400' :
           project.status === 'preproduction_done' ? 'bg-factory-accent/20 text-factory-accent' :
+          project.status === 'feasible' ? 'bg-factory-success/20 text-factory-success' :
           project.status?.includes('pending') ? 'bg-factory-warning/20 text-factory-warning' :
           'bg-factory-success/20 text-factory-success'
         }`}>
@@ -196,7 +247,8 @@ function getPhaseIndex(status) {
   if (status === 'killed') return -1;
   if (['phase1_running', 'ceo_gate_pending', 'ceo_gate_go', 'strategy_complete',
        'features_complete', 'design_complete', 'review_pending', 'review_go',
-       'preproduction_done'].includes(status)) return 1;
+       'preproduction_done', 'feasibility_checking', 'feasible',
+       'parked_partially', 'parked_blocked'].includes(status)) return 1;
   if (status.includes('production')) return 2;
   return 0;
 }

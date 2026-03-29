@@ -1,0 +1,16 @@
+{
+  "id": "BRN-03",
+  "name": "Problem Detector",
+  "department": "Brain",
+  "task_type": "detection",
+  "status": "active",
+  "description": "Proaktive Problemerkennung aus Factory State + Capability Gaps. 10 Detection Rules, 100% deterministisch, kein LLM.",
+  "model_tier": "none",
+  "routing": {
+    "tier_lock": null
+  },
+  "module": "factory.brain.problem_detector",
+  "class": "ProblemDetector",
+  "created": "2026-03-25",
+  "version": "1.0.0"
+}

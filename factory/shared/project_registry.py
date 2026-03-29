@@ -89,6 +89,13 @@ def _create_new_project(slug: str, project_type: str = "production",
             "web": {"status": "not_started"},
             "assembly": {"status": "not_started"},
         },
+        "feasibility": {
+            "status": "not_checked",
+            "check_date": None,
+            "score": None,
+            "gaps": [],
+            "report": None,
+        },
         "documents": {},
         "costs": {
             "serpapi_credits_total": 0,
@@ -107,7 +114,16 @@ def _derive_status(project: dict) -> str:
     gates = project["gates"]
     production = project.get("production", {})
 
+    # Feasibility-based parking (after roadbook, before production)
+    feasibility = project.get("feasibility", {})
+    if feasibility.get("status") == "parked_blocked":
+        return "parked_blocked"
+    if feasibility.get("status") == "parked_partially":
+        return "parked_partially"
+
     if chapters.get("kapitel6", {}).get("status") == "complete":
+        if feasibility.get("status") == "feasible":
+            return "feasible"
         if any(p.get("status") not in ("not_started", None) for p in production.values()):
             return "in_production"
         return "preproduction_done"
@@ -145,7 +161,11 @@ def _derive_current_phase(project: dict) -> str:
         "design_complete": "Pre-Production: Kapitel 4.5 fertig",
         "review_pending": "Pre-Production: Human Review wartet",
         "review_go": "Pre-Production: Review bestanden",
-        "preproduction_done": "Pre-Production abgeschlossen — bereit fuer Production",
+        "preproduction_done": "Pre-Production abgeschlossen -- bereit fuer Production",
+        "feasibility_checking": "Feasibility-Check laeuft",
+        "feasible": "Feasibility: Produktionsbereit",
+        "parked_partially": "Geparkt: Teilweise machbar",
+        "parked_blocked": "Geparkt: Blockiert",
         "in_production": "Production laeuft",
     }
     return mapping.get(status, status)
@@ -176,6 +196,37 @@ def update_gate(slug: str, gate_name: str, decision: str, notes: str = None):
         encoding="utf-8"
     )
     print(f"[ProjectRegistry] Gate {gate_name}={decision} for {slug}")
+
+
+def update_feasibility(slug: str, result: dict):
+    """Update feasibility data in project.json."""
+    project_file = PROJECTS_DIR / slug / "project.json"
+    if not project_file.exists():
+        return
+    project = json.loads(project_file.read_text(encoding="utf-8"))
+
+    overall = result.get("overall_status", "not_checked")
+    status_map = {
+        "feasible": "feasible",
+        "partially_feasible": "parked_partially",
+        "not_feasible": "parked_blocked",
+    }
+    project["feasibility"] = {
+        "status": status_map.get(overall, "not_checked"),
+        "check_date": result.get("check_date"),
+        "score": result.get("score"),
+        "gaps": [g.get("capability", "") for g in result.get("capability_gaps", [])],
+        "report": result.get("report_path"),
+    }
+    project["updated"] = datetime.now().strftime("%Y-%m-%d")
+    project["status"] = _derive_status(project)
+    project["current_phase"] = _derive_current_phase(project)
+
+    project_file.write_text(
+        json.dumps(project, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    print(f"[ProjectRegistry] Feasibility {slug}: {overall} (score={result.get('score')})")
 
 
 def archive_project(slug: str, archived: bool = True):

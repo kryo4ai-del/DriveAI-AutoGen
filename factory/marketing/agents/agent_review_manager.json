@@ -1,0 +1,16 @@
+{
+  "id": "MKT-10",
+  "name": "Review Manager",
+  "role": "App Store Review Handler",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "community_management",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Zwei-Stufen-System fuer App Store Reviews. Stufe 1 (autonom): Positive/neutrale Reviews beantwortet der Agent selbstaendig via LLM. Stufe 2 (CEO-Gate): Negative/kritische Reviews erstellen Gate-Anfrage. Kategorisierung ist HARTE Logik, kein LLM.",
+  "py_file": "review_manager.py",
+  "_source": "factory\\marketing\\agents\\agent_review_manager.json"
+}

@@ -17,8 +17,11 @@
       "config/",
       "factory/hq/providers/",
       "factory/hq/gates/"
-    ],
-    "data_dirs": [
+    ]
+  },
+  "project_exclusions": {
+    "slug_source": "factory/projects/",
+    "output_dirs": [
       "factory/pre_production/output/",
       "factory/market_strategy/output/",
       "factory/mvp_scope/output/",
@@ -26,8 +29,27 @@
       "factory/visual_audit/output/",
       "factory/roadbook_assembly/output/",
       "factory/document_secretary/output/",
+      "factory/pre_production/memory/runs/",
+      "factory/asset_forge/output/",
+      "factory/store_prep/output/",
+      "factory/qa_forge/reports/"
+    ],
+    "additional_skip_dirs": [
       "ideas/",
-      "DeveloperReports/"
+      "DeveloperReports/",
+      "projects/",
+      "run_logs/",
+      "_commands/",
+      "factory/motion_forge/catalog/",
+      "factory/motion_forge/generated/",
+      "factory/motion_forge/platform_output/",
+      "factory/motion_forge/adapted/",
+      "factory/sound_forge/catalog/",
+      "factory/sound_forge/processed/",
+      "factory/sound_forge/raw/",
+      "factory/scene_forge/catalog/",
+      "factory/scene_forge/generated/",
+      "factory/scene_forge/specs/"
     ]
   },
   "exclude_paths": [
@@ -47,6 +69,11 @@
     "max_import_depth": 8,
     "quarantine_days_before_delete": 7
   },
+  "growth_alert": {
+    "file_change_threshold_pct": 15,
+    "line_change_threshold_pct": 20,
+    "size_change_threshold_pct": 25
+  },
   "schedules": {
     "daily": "06:00",
     "weekly": "sunday_06:00",
@@ -61,13 +88,21 @@
       "factory/hq/assistant/memory.json",
       "factory/projects/",
       "factory/hq/gates/decided/",
-      "factory/hq/providers/provider_registry.json"
+      "factory/hq/providers/provider_registry.json",
+      "factory/brain/",
+      "config/",
+      "factory_knowledge/knowledge.json",
+      "factory/document_secretary/templates/",
+      "factory/signing/",
+      "factory/agent_registry.json"
     ],
     "protected_patterns": [
       "project.yaml",
       "CLAUDE.md",
       "MEMORY.md",
-      "README.md"
+      "README.md",
+      "agent.json",
+      "agent_*.json"
     ]
   }
 }

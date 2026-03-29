@@ -1,15 +1,10 @@
 {
   "id": "CPL-08",
   "name": "Creative Director",
-  "role": "Visual & UX Direction",
-  "department": "Code-Pipeline",
+  "role": "Product Quality Review",
+  "task_type": "advisory_review",
+  "model_tier": "standard",
+  "default_model": "claude-sonnet-4-20250514",
   "status": "active",
-  "task_type": "creative",
-  "model_tier": "premium",
-  "default_model": "claude-sonnet-4-6",
-  "provider": "anthropic",
-  "routing": "TheBrain",
-  "uses_web": false,
-  "description": "Visuelle Richtung und UX-Entscheidungen",
-  "py_file": "creative_director.py"
+  "department": "Code-Pipeline"
 }

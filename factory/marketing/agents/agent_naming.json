@@ -1,0 +1,16 @@
+{
+  "id": "MKT-04",
+  "name": "Naming & Identity",
+  "role": "App Naming Specialist",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "research",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": true,
+  "description": "Kreiert App-Namen, prueft Verfuegbarkeit (Store, Domain, Social Handles), erstellt Naming Reports mit CEO-Gate fuer finale Namenswahl.",
+  "py_file": "naming_agent.py",
+  "_source": "factory\\marketing\\agents\\agent_naming.json"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "MKT-09",
+  "name": "Report Agent",
+  "role": "Marketing Analytics Reporter",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "analytics",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Erstellt taegliche Briefings, Wochen- und Monatsberichte aus Analytics-Daten. LLM formatiert und interpretiert, Daten kommen deterministisch aus RankingDB und KPI-Tracker.",
+  "py_file": "report_agent.py",
+  "_source": "factory\\marketing\\agents\\agent_report.json"
+}

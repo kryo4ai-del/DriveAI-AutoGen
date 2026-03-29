@@ -6,11 +6,17 @@ Uses TheBrain model_provider for optimal model selection.
 
 from dotenv import load_dotenv
 
+from factory.brand.brand_loader import load_brand_context
+from factory.roadbook_assembly.config import get_fallback_model
+
 load_dotenv()
 
 AGENT_NAME = "CDRoadbook"
 
-CD_SYSTEM = "Du bist der Technical Roadbook-Autor der DriveAI Swarm Factory. Schreibe praezise, technisch, actionable. Jede Anweisung muss so klar sein dass die Produktionslinie ohne Rueckfragen bauen kann. VERBINDLICHE Vorgaben klar von Empfehlungen trennen."
+# Inject full brand identity for roadbook creation
+_BRAND_CONTEXT = load_brand_context(department="roadbook_assembly")
+
+CD_SYSTEM = "Du bist der Technical Roadbook-Autor der DAI-Core Swarm Factory. Schreibe praezise, technisch, actionable. Jede Anweisung muss so klar sein dass die Produktionslinie ohne Rueckfragen bauen kann. VERBINDLICHE Vorgaben klar von Empfehlungen trennen." + _BRAND_CONTEXT
 
 CD_STRUCTURE = """Erstelle das Creative Director Technical Roadbook mit diesen 14 Sektionen.
 Das Dokument muss 30-50 Seiten lang sein — ALLES muss drin sein, nichts auslassen.
@@ -120,42 +126,7 @@ REGELN:
 - Dieses Dokument muss so detailliert sein dass die Produktionslinie OHNE RUECKFRAGEN bauen kann"""
 
 
-def _load_factory_constraints() -> str:
-    """Load factory_constraints.md content."""
-    from pathlib import Path
-    p = Path(__file__).resolve().parent.parent / "factory_constraints.md"
-    if p.exists():
-        return p.read_text(encoding="utf-8")
-    return ""
-
-
-def _build_factory_injection() -> str:
-    """Build the factory mode injection block for the CD prompt."""
-    constraints = _load_factory_constraints()
-    if not constraints:
-        return ""
-    return f"""## FACTORY MODE ACTIVE — PRODUCTION LINE CONSTRAINTS
-
-This technical roadbook must be DIRECTLY BUILDABLE by the DriveAI Factory.
-Every feature, every screen, every technical decision must be achievable with
-the factory's existing production lines and tooling.
-
-{constraints}
-
-HARD LIMITS:
-- Maximum 20 features in Phase A
-- Maximum 12 screens total
-- Tech stack: ONLY what the factory production lines support (see above)
-- No custom backends, no ML model deployment, no custom game engines
-- Every feature must map to: factory template (screen/feature/service) → layered build → assembly → test
-- If a feature cannot be built this way, it does NOT go into this roadbook
-
-Include a "Factory Build Sequence" section that maps each feature to the
-factory pipeline command that would build it (e.g. "F001 → --template feature --name CoreGameLoop").
-"""
-
-
-def run(all_reports: dict, mode: str = "vision") -> str:
+def run(all_reports: dict) -> str:
     """Generate the Creative Director Technical Roadbook."""
     from factory.roadbook_assembly.config import get_agent_model
 
@@ -164,17 +135,10 @@ def run(all_reports: dict, mode: str = "vision") -> str:
     provider = selection.get("provider", "")
 
     all_input = _build_input(all_reports)
-
-    # Factory mode: inject constraints
-    _factory_block = ""
-    if mode == "factory":
-        _factory_block = _build_factory_injection()
-        print(f"[{AGENT_NAME}] MODE: FACTORY — constraints injected ({len(_factory_block)} chars)")
-
     print(f"[{AGENT_NAME}] Model: {model} ({provider}) via TheBrain")
     print(f"[{AGENT_NAME}] Input: {len(all_input) // 1000}k chars (all reports)")
 
-    report = _call_via_router(model, provider, all_input, selection, _factory_block)
+    report = _call_via_router(model, provider, all_input, selection)
     if report:
         return report
 
@@ -197,7 +161,7 @@ def _build_input(data: dict) -> str:
     return "\n\n".join(parts)
 
 
-def _call_via_router(model: str, provider: str, all_input: str, selection: dict, factory_block: str = "") -> str | None:
+def _call_via_router(model: str, provider: str, all_input: str, selection: dict) -> str | None:
     try:
         from factory.brain.model_provider import get_router
 
@@ -218,11 +182,13 @@ def _call_via_router(model: str, provider: str, all_input: str, selection: dict,
 
         print(f"[{AGENT_NAME}] Generating CD Technical Roadbook via {litellm_name}...")
 
-        _factory_section = f"\n\n{factory_block}\n\n---\n\n" if factory_block else "\n\n---\n\n"
         prompt = f"""## Alle Reports aus 5 Kapiteln (Rohdaten — 20 Reports)
 
 {all_input}
-{_factory_section}{CD_STRUCTURE}"""
+
+---
+
+{CD_STRUCTURE}"""
 
         response = router.call(
             model_id=model,
@@ -249,7 +215,7 @@ def _call_fallback(data: dict) -> str:
     import anthropic
 
     client = anthropic.Anthropic()
-    model = "claude-sonnet-4-6"
+    model = get_fallback_model()
     parts = []
 
     # Call 1: Sections 1-3 (Produkt + Design-Vision + Stil-Guide)

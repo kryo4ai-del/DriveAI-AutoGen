@@ -29,6 +29,34 @@ function StatCard({ label, value, sub }) {
   );
 }
 
+function GrowthAlertsBanner({ alerts }) {
+  if (!alerts?.length) return null;
+  return (
+    <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-orange-400 text-sm font-bold">GROWTH ALERTS</span>
+        <span className="bg-orange-500/20 text-orange-400 text-xs px-2 py-0.5 rounded-full">{alerts.length}</span>
+      </div>
+      <div className="space-y-1">
+        {alerts.map((a, i) => {
+          const sev = SEVERITY_COLORS[a.severity] || SEVERITY_COLORS.yellow;
+          return (
+            <div key={i} className="flex items-center gap-2 text-sm">
+              <span className={`inline-block w-2 h-2 rounded-full ${sev.dot}`} />
+              <span className="text-factory-text">{a.message}</span>
+              {a.delta_pct != null && (
+                <span className={`text-xs px-1.5 py-0.5 rounded ${sev.bg} ${sev.text}`}>
+                  {a.delta_pct > 0 ? '+' : ''}{a.delta_pct}%
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function FindingsTable({ findings, filter }) {
   const filtered = filter === 'all' ? findings : findings.filter(f => f.severity === filter);
   if (!filtered.length) return <p className="text-factory-text-secondary text-sm py-4">Keine Findings.</p>;
@@ -61,6 +89,72 @@ function FindingsTable({ findings, filter }) {
         </tbody>
       </table>
       {filtered.length > 50 && <p className="text-xs text-factory-text-secondary py-2">... und {filtered.length - 50} weitere</p>}
+    </div>
+  );
+}
+
+function ConsistencyPanel({ data }) {
+  if (!data) return <p className="text-factory-text-secondary text-sm py-4">Kein Consistency-Check vorhanden.</p>;
+  const { findings = [], stats = {} } = data;
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <StatCard label="Rollen" value={stats.total_roles || 0} />
+        <StatCard label="Toggles" value={stats.total_toggles || 0} />
+        <StatCard label="Agent-Dateien" value={stats.total_agent_files || 0} />
+        <StatCard label="Registry" value={stats.total_registry_entries || 0} />
+      </div>
+      {!findings.length
+        ? <p className="text-green-400 text-sm py-2">Alles konsistent.</p>
+        : (
+          <div className="space-y-2">
+            {findings.map((f, i) => {
+              const sev = SEVERITY_COLORS[f.severity] || SEVERITY_COLORS.yellow;
+              return (
+                <div key={i} className={`flex items-start gap-2 p-3 rounded-lg ${sev.bg} border ${sev.border}`}>
+                  <span className={`inline-block w-2 h-2 mt-1.5 rounded-full ${sev.dot}`} />
+                  <div>
+                    <span className={`text-xs font-mono ${sev.text}`}>{f.type}</span>
+                    <p className="text-sm text-factory-text mt-0.5">{f.message}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )
+      }
+    </div>
+  );
+}
+
+function DependencyPanel({ data }) {
+  if (!data) return <p className="text-factory-text-secondary text-sm py-4">Kein Dependency-Check vorhanden.</p>;
+  const { findings = [], stats = {} } = data;
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3">
+        <StatCard label="Python (requirements.txt)" value={stats.python_files || 0} />
+        <StatCard label="JavaScript (package.json)" value={stats.javascript_files || 0} />
+      </div>
+      {!findings.length
+        ? <p className="text-green-400 text-sm py-2">Dependencies OK.</p>
+        : (
+          <div className="space-y-2">
+            {findings.map((f, i) => {
+              const sev = SEVERITY_COLORS[f.severity] || SEVERITY_COLORS.yellow;
+              return (
+                <div key={i} className={`flex items-start gap-2 p-3 rounded-lg ${sev.bg} border ${sev.border}`}>
+                  <span className={`inline-block w-2 h-2 mt-1.5 rounded-full ${sev.dot}`} />
+                  <div>
+                    <span className={`text-xs font-mono ${sev.text}`}>{f.type}</span>
+                    <p className="text-sm text-factory-text mt-0.5">{f.message}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )
+      }
     </div>
   );
 }
@@ -243,16 +337,41 @@ export default function JanitorView() {
   }
 
   if (loading) return <p className="text-factory-text-secondary p-6">Janitor wird geladen...</p>;
-  if (!data) return <p className="text-factory-text-secondary p-6">Keine Daten. Starte einen Scan.</p>;
+  if (!data) return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-factory-text">Factory Janitor</h2>
+          <p className="text-sm text-factory-text-secondary mt-1">Autonome Code-Hygiene</p>
+        </div>
+        <div className="flex gap-2">
+          <button onClick={() => handleScan('daily')} disabled={scanning}
+            className="text-xs px-3 py-1.5 rounded bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 disabled:opacity-50">
+            {scanning ? 'Scannt...' : 'Daily Scan'}
+          </button>
+          <button onClick={() => handleScan('weekly')} disabled={scanning}
+            className="text-xs px-3 py-1.5 rounded bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 disabled:opacity-50">
+            Weekly
+          </button>
+        </div>
+      </div>
+      <p className="text-factory-text-secondary">Noch keine Scan-Daten. Starte einen Scan mit den Buttons oben.</p>
+    </div>
+  );
 
   const summary = data.latest_summary || {};
   const findings = data.findings || [];
   const greenCount = summary.green_auto_fixable || 0;
   const yellowCount = summary.yellow_proposals || 0;
   const redCount = summary.red_report_only || 0;
+  const growthAlerts = data.growth_alerts || [];
+  const consistencyCount = data.consistency?.findings?.length || 0;
+  const dependencyCount = data.dependencies?.findings?.length || 0;
 
   const TABS = [
     { id: 'findings', label: 'Findings' },
+    { id: 'consistency', label: 'Konsistenz', badge: consistencyCount },
+    { id: 'dependencies', label: 'Dependencies', badge: dependencyCount },
     { id: 'history', label: 'Aktions-Log' },
     { id: 'quarantine', label: 'Quarantaene' },
     { id: 'proposals', label: 'Vorschlaege', badge: data.proposals?.total || 0 },
@@ -278,6 +397,9 @@ export default function JanitorView() {
         </div>
       </div>
 
+      {/* Growth Alerts Banner */}
+      <GrowthAlertsBanner alerts={growthAlerts} />
+
       {/* Health Score */}
       <div className="bg-factory-surface border border-factory-border rounded-lg p-5">
         <p className="text-xs text-factory-text-secondary uppercase mb-2">Factory Health Score</p>
@@ -290,8 +412,9 @@ export default function JanitorView() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard label="Dateien" value={data.latest_scan?.total_files || 0} sub={`${data.latest_scan?.total_size_mb || 0} MB`} />
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <StatCard label="Infrastruktur" value={data.latest_scan?.total_files || 0} sub={`${data.latest_scan?.total_size_mb || 0} MB`} />
+        <StatCard label="Projekt-Dateien" value={data.latest_scan?.skipped_project_files || 0} sub="uebersprungen" />
         <StatCard label="Code-Zeilen" value={(data.latest_scan?.total_lines || 0).toLocaleString('de-DE')} />
         <StatCard label="Graph Nodes" value={data.latest_graph?.total_nodes || 0} sub={`${data.latest_graph?.total_edges || 0} Edges`} />
         <StatCard label="Findings" value={summary.total_findings || 0}
@@ -299,10 +422,10 @@ export default function JanitorView() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-factory-border flex gap-1">
+      <div className="border-b border-factory-border flex gap-1 overflow-x-auto">
         {TABS.map(tab => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
               activeTab === tab.id
                 ? 'border-factory-accent text-factory-accent'
                 : 'border-transparent text-factory-text-secondary hover:text-factory-text'
@@ -339,6 +462,8 @@ export default function JanitorView() {
             <FindingsTable findings={findings} filter={findingFilter} />
           </>
         )}
+        {activeTab === 'consistency' && <ConsistencyPanel data={data.consistency} />}
+        {activeTab === 'dependencies' && <DependencyPanel data={data.dependencies} />}
         {activeTab === 'history' && <HistoryTable entries={history} />}
         {activeTab === 'quarantine' && (
           <QuarantineTable items={data.quarantine?.items || []} onRestore={handleRestore} />

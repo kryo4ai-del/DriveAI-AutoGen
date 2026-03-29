@@ -1,0 +1,285 @@
+{
+  "project_slug": "001_echomatch",
+  "overall_status": "partially_feasible",
+  "score": 0.91,
+  "summary": "24 von 27 Requirements erfuellt. 1 Warnungen, 2 nicht machbar.",
+  "requirements": [
+    {
+      "name": "Platform: iOS",
+      "category": "platform",
+      "status": "met",
+      "matched_by": "ios line: active",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Platform: Android",
+      "category": "platform",
+      "status": "met",
+      "matched_by": "android line: active",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Platform: Web",
+      "category": "platform",
+      "status": "met",
+      "matched_by": "web line: active",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Platform: Unity",
+      "category": "platform",
+      "status": "warning",
+      "matched_by": "unity line: planned",
+      "gap": "unity_not_proven",
+      "alternatives": [
+        "unity Line existiert, aber noch kein shipped Product"
+      ]
+    },
+    {
+      "name": "Backend/Server API",
+      "category": "backend",
+      "status": "not_met",
+      "matched_by": "In cannot_do list: custom backend apis (no cloud run, no custom rest servers)",
+      "gap": "Backend/Server API",
+      "alternatives": [
+        "Offline-First mit lokalem Storage (UserDefaults/Room/localStorage)",
+        "Firebase als BaaS nutzen (wenn in Capability Sheet)",
+        "Feature streichen"
+      ]
+    },
+    {
+      "name": "Cloud Database (Firebase)",
+      "category": "backend",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Realtime/WebSocket",
+      "category": "backend",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "AR/VR Features",
+      "category": "infrastructure",
+      "status": "not_met",
+      "matched_by": "In cannot_do list: ar/vr features (no arkit/arcore agents)",
+      "gap": "AR/VR Features",
+      "alternatives": [
+        "Feature streichen",
+        "Alternative mit verfuegbaren Capabilities suchen"
+      ]
+    },
+    {
+      "name": "Blockchain/Web3",
+      "category": "infrastructure",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Native Hardware (BLE/NFC)",
+      "category": "infrastructure",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Tab-Bar Navigation (Minimal-Set für iOS HIG Compliance):",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Home (S005)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: S013 (Tägliche Quests Screen)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: S017 (Profil / Spieler-Account)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: S018 (Einstellungen)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Puzzle (S008)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: S006 (Puzzle / Match-3 Spielfeld)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: S007 (Level-Ergebnis / Post-Session)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Story (S009)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Social (S010)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: S015 (Social Share Sheet)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Shop (S011)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: S012 (Battle-Pass Screen)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Modals: S002 (DSGVO / ATT Consent Onboarding), S014 (Push Notification Opt-In), S019 (Beta Feedback Screen)",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: VERBINDLICH: S002 muss als Rising Card Modal von unten erscheinen, mit dem Spielfeld (S003) unscharf im Hintergrund.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: VERBINDLICH: A_ConsentToggleSet und A_ConsentButtonPair müssen als gebrandete Assets implementiert werden.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: VERBINDLICH: Ein A_PrivacyTrustBadge muss im Footer des Consent-Modals platziert werden.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    }
+  ],
+  "capability_gaps": [
+    {
+      "capability": "Backend/Server API",
+      "required_by": [
+        "Backend/Server API"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "capability": "AR/VR Features",
+      "required_by": [
+        "AR/VR Features"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "capability": "unity_not_proven",
+      "required_by": [
+        "Platform: Unity"
+      ],
+      "severity": "warning"
+    }
+  ],
+  "line_assignments": {
+    "ios": {
+      "assigned": true,
+      "line_status": "active",
+      "available": true
+    },
+    "android": {
+      "assigned": true,
+      "line_status": "active",
+      "available": true
+    },
+    "web": {
+      "assigned": true,
+      "line_status": "active",
+      "available": true
+    },
+    "unity": {
+      "assigned": true,
+      "line_status": "planned",
+      "available": true
+    }
+  },
+  "recommendations": [
+    "2 blockierende Luecke(n). Optionen: Features streichen, Alternative implementieren, oder parken.",
+    "  Fehlend: Backend/Server API (benoetigt von: Backend/Server API)",
+    "  Fehlend: AR/VR Features (benoetigt von: AR/VR Features)"
+  ],
+  "check_date": "2026-03-25T10:15:33.015830",
+  "report_path": null
+}

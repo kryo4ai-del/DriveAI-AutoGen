@@ -31,6 +31,25 @@ function executeGateDecision(projectId, gateType, decision, reasoning, autoTrigg
     if (decision === 'GO' || decision === 'GO_MIT_NOTES') {
       nextCommand = `python -m factory.roadbook_assembly.pipeline --latest`;
     }
+  } else if (gateType === 'feasibility_gate') {
+    // Feasibility gate — decision file goes into capabilities/reports
+    const reportsDir = path.join(config.FACTORY_BASE, 'factory', 'hq', 'capabilities', 'reports');
+    if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
+    decisionDir = reportsDir;
+    decisionFilename = `${projectId}_feasibility_decision.md`;
+
+    // Update feasibility status based on decision
+    if (!project.feasibility) project.feasibility = {};
+
+    if (decision === 'GO' || decision === 'proceed_reduced') {
+      project.feasibility.status = 'feasible';
+    } else if (decision === 'park') {
+      // Keep current parked status
+    } else if (decision === 'adjust_roadbook' || decision === 'redesign') {
+      project.feasibility.status = 'not_checked';
+    } else if (decision === 'KILL' || decision === 'kill') {
+      project.feasibility.status = 'not_checked';
+    }
   }
 
   if (!decisionDir || !fs.existsSync(decisionDir)) {
@@ -47,26 +66,11 @@ function executeGateDecision(projectId, gateType, decision, reasoning, autoTrigg
     date: now,
     notes: reasoning || null,
   };
-  // Also update chapters gate entry
-  if (!project.chapters) project.chapters = {};
-  project.chapters[gateType] = {
-    status: 'complete',
-    decision: decision,
-    date: now,
-    notes: reasoning || '',
-  };
-  project.updated_at = now;
   project.updated = now;
   project.status = deriveStatus(project);
   project.current_phase = deriveCurrentPhase(project);
 
   fs.writeFileSync(projectFile, JSON.stringify(project, null, 2), 'utf-8');
-
-  // Also call Python project_registry for consistency
-  const registryCmd = `python -c "from factory.project_registry import update_project_gate; update_project_gate('${projectId}', '${gateType}', '${decision}', '${(reasoning || '').replace(/'/g, '')}')"`;
-  exec(registryCmd, { cwd: config.FACTORY_BASE, timeout: 15000 }, (err) => {
-    if (err) console.error(`[GateExecutor] Registry update warning: ${err.message}`);
-  });
 
   let triggerResult = null;
   if (autoTrigger && nextCommand && (decision === 'GO' || decision === 'GO_MIT_NOTES')) {
@@ -119,7 +123,13 @@ function deriveStatus(project) {
   const gates = project.gates || {};
   const prod = project.production || {};
 
+  // Feasibility-based parking
+  const feas = project.feasibility || {};
+  if (feas.status === 'parked_blocked') return 'parked_blocked';
+  if (feas.status === 'parked_partially') return 'parked_partially';
+
   if (ch.kapitel6?.status === 'complete') {
+    if (feas.status === 'feasible') return 'feasible';
     if (Object.values(prod).some(p => p.status && p.status !== 'not_started')) return 'in_production';
     return 'preproduction_done';
   }
@@ -149,6 +159,10 @@ function deriveCurrentPhase(project) {
     'review_pending': 'Pre-Production: Human Review wartet',
     'review_go': 'Pre-Production: Review bestanden',
     'preproduction_done': 'Pre-Production abgeschlossen — bereit fuer Production',
+    'feasibility_checking': 'Feasibility-Check laeuft',
+    'feasible': 'Feasibility: Produktionsbereit',
+    'parked_partially': 'Geparkt: Teilweise machbar',
+    'parked_blocked': 'Geparkt: Blockiert',
     'in_production': 'Production laeuft',
   };
   return mapping[project.status] || project.status;
