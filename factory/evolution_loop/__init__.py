@@ -8,16 +8,19 @@ from .regression_tracker import RegressionTracker
 from .simulation_agent import SimulationAgent
 from .tracking import CostTracker, GitTagger
 from .gates import CEOReviewGate, HumanReviewProvider, ReviewProvider, ReviewResult
+from .plugins import EvaluationPlugin, PluginLoader
 
 __all__ = [
     "CEOReviewGate",
     "CostTracker",
     "DecisionAgent",
     "EvaluationAgent",
+    "EvaluationPlugin",
     "GapDetector",
     "GitTagger",
     "HumanReviewProvider",
     "LoopOrchestrator",
+    "PluginLoader",
     "RegressionTracker",
     "ReviewProvider",
     "ReviewResult",

@@ -13,6 +13,7 @@ import re
 from pathlib import Path
 
 from factory.evolution_loop.ldo.schema import LoopDataObject
+from factory.evolution_loop.plugins.plugin_loader import PluginLoader
 
 _PREFIX = "[EVO-SIM]"
 
@@ -138,7 +139,7 @@ class SimulationAgent:
     AGENT_ID = "evo_simulation"
 
     def __init__(self) -> None:
-        pass
+        self._plugin_loader = PluginLoader()
 
     # ------------------------------------------------------------------
     # Main entry point
@@ -170,6 +171,9 @@ class SimulationAgent:
 
         # 3. Synthetic flow check
         ldo.simulation_results.synthetic_flows = self._synthetic_flow_check(ldo)
+
+        # 4. Evaluation Plugins (per project_type)
+        ldo = self._run_plugins(ldo)
 
         coverage_pct = ldo.simulation_results.roadbook_coverage.get("coverage_percent", 0)
         print(
@@ -442,6 +446,40 @@ class SimulationAgent:
             })
 
         return results
+
+    # ------------------------------------------------------------------
+    # Evaluation Plugins
+    # ------------------------------------------------------------------
+
+    def _run_plugins(self, ldo: LoopDataObject) -> LoopDataObject:
+        """Load and run evaluation plugins for the project type."""
+        project_type = ldo.meta.project_type or ""
+        plugins = self._plugin_loader.load_plugins(project_type)
+
+        if not plugins:
+            return ldo
+
+        for plugin in plugins:
+            try:
+                result = plugin.evaluate(ldo)
+                score_entry = result.get("score")
+                issues = result.get("issues", [])
+
+                # Store as dict for EvaluationAgent compatibility
+                ldo.simulation_results.plugin_results[plugin.name] = {
+                    "value": score_entry.value if score_entry else 0,
+                    "confidence": score_entry.confidence if score_entry else 10,
+                    "issues": issues,
+                }
+            except Exception as e:
+                print(f"{_PREFIX} Plugin '{plugin.name}' failed: {e}")
+                ldo.simulation_results.plugin_results[plugin.name] = {
+                    "value": 0,
+                    "confidence": 0,
+                    "issues": [f"Plugin error: {e}"],
+                }
+
+        return ldo
 
     # ------------------------------------------------------------------
     # Helpers

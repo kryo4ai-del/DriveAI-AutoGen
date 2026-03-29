@@ -68,6 +68,10 @@ DriveAI-AutoGen/
 │   ├── scene_forge/                 ← Scene/Level Generation
 │   ├── brand/                       ← DAI-Core Brand System: Brand Bible, Brand Summary, Brand Loader (3-Tier), CSS, Assets
 │   ├── marketing/                   ← Marketing-Abteilung: Brand Strategy (Brand Book + Compliance), Alerts, Content, Campaigns, Template Engine, Video Pipeline, Content Calendar
+│   ├── live_operations/              ← Live Operations Layer (NEU - Phase 1)
+│   │   ├── app_registry/            ← App Registry (SQLite): database.py, migrator.py, cli.py
+│   │   ├── agents/                  ← Live Ops Agents (metrics_collector, health_scorer, ...)
+│   │   └── data/                    ← Gesammelte Metriken (JSON pro Collection-Run)
 │   ├── integration/                 ← Cross-Department Integration
 │   ├── lines/                       ← Production Line Definitions
 │   ├── hq/                          ← Factory HQ
@@ -294,6 +298,7 @@ Credential Check → Version Bump → Build/Sign → Artifact Storage
 - `--idea-file ideas/SkillSense.md` fuer Pipeline-Input
 
 ## Erledigtes
+- [2026-03-29] Evolution Loop P-EVO-018: CLI Integration in main.py (+134 LOC). 4 neue Flags: `--evolution-loop PROJECT_ID` (+ `--project-type`, `--production-line`), `--evolution-status PROJECT_ID`, `--evolution-history PROJECT_ID`, `--evolution-ceo-review PROJECT_ID`. Backup: `_backups/main.py.bak_evolution_loop`. Lazy Imports (innerhalb if-Bloecke). Bestehende Flags unberuehrt. Syntax OK, 5/5 E2E + 6/6 CEO Gate bestanden.
 - [2026-03-29] Evolution Loop P-EVO-017: CEO Review Gate (`factory/evolution_loop/gates/`). ReviewProvider (ABC) + ReviewResult (dataclass). HumanReviewProvider: file-basiert, generiert `ceo_review_brief.md` (Markdown mit Scores/Gaps/Kosten/Feedback-Template), liest `ceo_feedback.json` (go/no_go + Issues), validiert JSON-Format. CEOReviewGate: execute() ruft Provider, bei no_go -> DecisionAgent.translate_ceo_feedback() generiert Tasks. Provider austauschbar (Human -> AI). 6/6 Tests + 5/5 E2E + 8/8 Tracking bestanden.
 - [2026-03-29] Evolution Loop P-EVO-016: Git Rollback System + Cost Tracker (`factory/evolution_loop/tracking/`). GitTagger: `tag_iteration()` (annotated tags per Iteration), `rollback_to()` (neuer Branch, kein Force-Push), `list_tags()`, `get_last_stable_iteration()` (Bug>=90, Roadbook>=95, Structural>=85). CostTracker: `add_cost(agent_id, cost, iteration)`, `get_total()`, `get_cost_per_iteration()`, `check_budget(threshold)`, `get_cost_report()`, `reset()`. LoopOrchestrator: `accumulated_cost` jetzt Property via CostTracker, Git-Tag nach LDO-Save, Budget-Check via CostTracker. 8/8 Tests + 5/5 E2E + alle bisherigen Tests bestanden.
 - [2026-03-29] Evolution Loop P-EVO-015: Loop-Modi Implementation. Sprint->Deep->Pivot Eskalation vollstaendig integriert. RegressionTracker: detect_loop_mode() vereinfacht (Deep->Pivot bei declining statt 3+ streak), neue Helpers (_count_iterations_in_mode, _count_recurring_gaps). LoopOrchestrator: check_stop_conditions() erweitert (Pivot->ceo_review, mode-spezifische Max-Iterations: Sprint=10, Deep=5). DecisionAgent: Deep Mode konvertiert non-critical "fix" Tasks zu "refactor". 6/6 Mode-Tests + 5/5 E2E + 7/7 Regression + 6/6 Decision bestanden.

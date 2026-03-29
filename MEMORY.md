@@ -88,6 +88,29 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 
 ## Changelog
 
+### 2026-03-29 -- Live Operations Phase 1: App Registry (Task 1.1 + 1.2)
+- **Neues Department**: `factory/live_operations/` -- Autonomer Betriebs-Layer ueber der Factory
+- **App Registry** (`factory/live_operations/app_registry/`):
+  - `database.py` (~390 LOC): `AppRegistryDB` -- SQLite-Manager mit 4 Tabellen (apps, release_history, action_queue, health_score_history)
+  - `migrator.py` (~110 LOC): `RegistryMigrator` -- JSON -> SQLite Migration (sucht in store_pipeline/, store/, store_prep/)
+  - `cli.py` (~150 LOC): CLI mit --list, --show, --migrate, --health, --zones
+  - `__main__.py`: Ermoeglicht `python -m factory.live_operations.app_registry.cli`
+- **DB-Schema**: Exakt wie Roadbook Kap. 9 -- apps (22 Felder), release_history (10), action_queue (9), health_score_history (9)
+- **Features**: CRUD, Cooling Period (auto-expire), Health Zone Filter, Action Queue mit Status-Tracking
+- **Tests**: 8/8 bestanden (Import, CRUD, Health Record, Action Queue, Release History, Cooling, Zones, Migration)
+- **Hinweis**: Keine app_registry.json vorhanden (store_pipeline/ existiert noch nicht) -- Migrator handelt das graceful
+
+### 2026-03-29 -- Evolution Loop: CLI Integration (P-EVO-018)
+- **main.py**: +134 LOC, 4 neue CLI-Flags fuer Evolution Loop
+  - `--evolution-loop PROJECT_ID`: Startet Evolution Loop (+ `--project-type`, `--production-line`)
+  - `--evolution-status PROJECT_ID`: Zeigt aktuellen Status (Scores, Trend, Gaps, Tasks)
+  - `--evolution-history PROJECT_ID`: Tabellarische History aller Iterationen + Trend-Summary
+  - `--evolution-ceo-review PROJECT_ID`: Generiert CEO Review Brief + zeigt Feedback-Pfad
+- Backup: `_backups/main.py.bak_evolution_loop`
+- Pattern: Manueller sys.argv-Parser (kein argparse), result-Dict, Lazy Imports in if-Bloecken
+- Hinzugefuegt nach Feasibility/recheck_parked, vor Orchestrator-Kommandos
+- Validierung: Syntax OK, --factory-status unberuehrt, 5/5 E2E + 6/6 CEO Gate bestanden
+
 ### 2026-03-29 -- Evolution Loop: CEO Review Gate (P-EVO-017)
 - **gates/review_provider.py** (~35 LOC): `ReviewProvider` (ABC) + `ReviewResult` (dataclass)
   - `ReviewResult`: status ("go"/"no_go"/"pending") + issues (list[CEOIssue])
