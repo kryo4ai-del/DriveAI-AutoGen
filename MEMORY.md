@@ -88,6 +88,26 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 
 ## Changelog
 
+### 2026-03-29 — Evolution Loop: Git Rollback + Cost Tracker (P-EVO-016)
+- **tracking/git_tagger.py** (~150 LOC): `GitTagger` — Git-basiertes Tagging + Rollback
+  - `tag_iteration(iteration, message)`: `git add -A`, `commit --allow-empty`, `tag -a evolution/{project_id}/iteration-{N}`
+  - `rollback_to(iteration)`: Erstellt neuen Branch `evolution/{project_id}/rollback-to-{N}` — kein Force-Push
+  - `list_tags()`: Filtert nach Projekt-Prefix
+  - `get_last_stable_iteration(storage)`: Letzte Iteration wo Bug>=90, Roadbook>=95, Structural>=85
+  - Graceful Fallback: `git_available=False` → alle Methoden returnen False/[]
+  - subprocess mit 30s Timeout, fängt FileNotFoundError + TimeoutExpired
+- **tracking/cost_tracker.py** (~90 LOC): `CostTracker` — In-Memory Kostentracking
+  - `add_cost(agent_id, cost, iteration)`: Akkumuliert + loggt mit Timestamp
+  - `get_total()`, `get_cost_per_iteration()`, `check_budget(threshold)`, `get_cost_report()`, `reset()`
+- **loop_orchestrator.py** Updates:
+  - `self._cost_tracker = CostTracker()`, `self._git_tagger = GitTagger(project_id)`
+  - `accumulated_cost` jetzt `@property` via `self._cost_tracker.get_total()`
+  - Git-Tag nach jedem LDO-Save: `self._git_tagger.tag_iteration(iteration, message)`
+  - Budget-Check via `self._cost_tracker.get_total() >= budget`
+- **tracking/__init__.py**: Exportiert CostTracker, GitTagger
+- **evolution_loop/__init__.py**: Exportiert CostTracker, GitTagger
+- Test-Ergebnis: 8/8 Tracking + 5/5 E2E + 6/6 Modes + 7/7 Regression + 6/6 Decision + 6/6 Simulation — alle bestanden
+
 ### 2026-03-29 — Evolution Loop: Loop-Modi Implementation (P-EVO-015)
 - **regression_tracker.py**: `detect_loop_mode()` vereinfacht
   - Deep->Pivot: Jetzt bei einfachem `declining` (vorher: 3+ declining streak noetig)

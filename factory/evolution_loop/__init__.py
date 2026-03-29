@@ -7,14 +7,19 @@ from .loop_orchestrator import LoopOrchestrator
 from .regression_tracker import RegressionTracker
 from .simulation_agent import SimulationAgent
 from .tracking import CostTracker, GitTagger
+from .gates import CEOReviewGate, HumanReviewProvider, ReviewProvider, ReviewResult
 
 __all__ = [
+    "CEOReviewGate",
     "CostTracker",
     "DecisionAgent",
     "EvaluationAgent",
     "GapDetector",
     "GitTagger",
+    "HumanReviewProvider",
     "LoopOrchestrator",
     "RegressionTracker",
+    "ReviewProvider",
+    "ReviewResult",
     "SimulationAgent",
 ]
