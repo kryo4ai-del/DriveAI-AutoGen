@@ -1,13 +1,13 @@
 {
   "meta": {
-    "project_id": "e2e_test_maxiter",
+    "project_id": "e2e_test_tracking",
     "project_type": "game",
     "production_line": "unity",
-    "iteration": 3,
-    "loop_mode": "deep",
-    "timestamp": "2026-03-29T09:39:57Z",
+    "iteration": 1,
+    "loop_mode": "sprint",
+    "timestamp": "2026-03-29T09:39:58Z",
     "accumulated_cost": 0.0,
-    "git_tag": "evolution/e2e_test_maxiter/iteration-3"
+    "git_tag": "evolution/e2e_test_tracking/iteration-1"
   },
   "roadbook_targets": {
     "features": [
@@ -154,172 +154,165 @@
   },
   "gaps": [
     {
-      "id": "GAP-3-001",
+      "id": "GAP-1-001",
       "category": "bug",
       "severity": "critical",
       "description": "bug_score (74) below target (90)",
       "affected_component": "bug_score",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-002",
+      "id": "GAP-1-002",
       "category": "bug",
       "severity": "critical",
       "description": "Compile error: Error: undefined variable 'x'",
       "affected_component": "build",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-003",
+      "id": "GAP-1-003",
       "category": "feature",
       "severity": "high",
       "description": "roadbook_match_score (56) below target (95)",
       "affected_component": "roadbook_match_score",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-004",
+      "id": "GAP-1-004",
       "category": "structural",
       "severity": "high",
       "description": "structural_health_score (66) below target (85)",
       "affected_component": "structural_health_score",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-005",
+      "id": "GAP-1-005",
       "category": "bug",
       "severity": "high",
       "description": "2 tests failed",
       "affected_component": "tests",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-006",
+      "id": "GAP-1-006",
       "category": "feature",
       "severity": "high",
       "description": "Feature not implemented: crafting",
       "affected_component": "crafting",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-007",
+      "id": "GAP-1-007",
       "category": "feature",
       "severity": "high",
       "description": "Feature not implemented: leaderboard",
       "affected_component": "leaderboard",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-008",
+      "id": "GAP-1-008",
       "category": "feature",
       "severity": "high",
       "description": "Feature not implemented: achievements",
       "affected_component": "achievements",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     },
     {
-      "id": "GAP-3-009",
+      "id": "GAP-1-009",
       "category": "performance",
       "severity": "medium",
       "description": "performance_score (68) below target (70)",
       "affected_component": "performance_score",
-      "is_regression": true,
+      "is_regression": false,
       "first_seen_iteration": 1
     }
   ],
   "regression_data": {
-    "trend": "stagnating",
-    "iterations_without_improvement": 2,
+    "trend": "improving",
+    "iterations_without_improvement": 0,
     "regressions_detected": [],
-    "recommendation": "ceo_review",
-    "comparison_to_previous": {
-      "bug_score": 0.0,
-      "roadbook_match_score": 0.0,
-      "structural_health_score": 0.0,
-      "performance_score": 0.0,
-      "ux_score": 0.0,
-      "quality_score_aggregate": 0.0
-    }
+    "recommendation": "continue",
+    "comparison_to_previous": {}
   },
   "tasks": [
     {
-      "id": "TASK-3-001",
+      "id": "TASK-1-001",
       "type": "fix",
       "description": "Fix: bug_score (74) below target (90)",
       "target_component": "bug_score",
-      "originated_from": "GAP-3-001",
+      "originated_from": "GAP-1-001",
       "priority": "critical"
     },
     {
-      "id": "TASK-3-002",
+      "id": "TASK-1-002",
       "type": "fix",
       "description": "Fix: Compile error: Error: undefined variable 'x'",
       "target_component": "build",
-      "originated_from": "GAP-3-002",
+      "originated_from": "GAP-1-002",
       "priority": "critical"
     },
     {
-      "id": "TASK-3-003",
+      "id": "TASK-1-003",
       "type": "implement",
       "description": "Implement: roadbook_match_score (56) below target (95)",
       "target_component": "roadbook_match_score",
-      "originated_from": "GAP-3-003",
+      "originated_from": "GAP-1-003",
       "priority": "high"
     },
     {
-      "id": "TASK-3-004",
+      "id": "TASK-1-004",
       "type": "refactor",
       "description": "Refactor: structural_health_score (66) below target (85)",
       "target_component": "structural_health_score",
-      "originated_from": "GAP-3-004",
+      "originated_from": "GAP-1-004",
       "priority": "high"
     },
     {
-      "id": "TASK-3-005",
-      "type": "refactor",
-      "description": "Refactor: 2 tests failed",
+      "id": "TASK-1-005",
+      "type": "fix",
+      "description": "Fix: 2 tests failed",
       "target_component": "tests",
-      "originated_from": "GAP-3-005",
+      "originated_from": "GAP-1-005",
       "priority": "high"
     },
     {
-      "id": "TASK-3-006",
+      "id": "TASK-1-006",
       "type": "implement",
       "description": "Implement: Feature not implemented: crafting",
       "target_component": "crafting",
-      "originated_from": "GAP-3-006",
+      "originated_from": "GAP-1-006",
       "priority": "high"
     },
     {
-      "id": "TASK-3-007",
+      "id": "TASK-1-007",
       "type": "implement",
       "description": "Implement: Feature not implemented: leaderboard",
       "target_component": "leaderboard",
-      "originated_from": "GAP-3-007",
+      "originated_from": "GAP-1-007",
       "priority": "high"
     },
     {
-      "id": "TASK-3-008",
+      "id": "TASK-1-008",
       "type": "implement",
       "description": "Implement: Feature not implemented: achievements",
       "target_component": "achievements",
-      "originated_from": "GAP-3-008",
+      "originated_from": "GAP-1-008",
       "priority": "high"
     },
     {
-      "id": "TASK-3-009",
+      "id": "TASK-1-009",
       "type": "refactor",
       "description": "Refactor: performance_score (68) below target (70)",
       "target_component": "performance_score",
-      "originated_from": "GAP-3-009",
+      "originated_from": "GAP-1-009",
       "priority": "medium"
     }
   ],
