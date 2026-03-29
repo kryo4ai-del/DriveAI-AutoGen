@@ -9,6 +9,7 @@ from .simulation_agent import SimulationAgent
 from .tracking import CostTracker, GitTagger
 from .gates import CEOReviewGate, HumanReviewProvider, ReviewProvider, ReviewResult
 from .plugins import EvaluationPlugin, PluginLoader
+from .factory_learner import FactoryLearner
 
 __all__ = [
     "CEOReviewGate",
@@ -16,6 +17,7 @@ __all__ = [
     "DecisionAgent",
     "EvaluationAgent",
     "EvaluationPlugin",
+    "FactoryLearner",
     "GapDetector",
     "GitTagger",
     "HumanReviewProvider",

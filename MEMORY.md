@@ -100,6 +100,21 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **Tests**: 8/8 bestanden (Import, CRUD, Health Record, Action Queue, Release History, Cooling, Zones, Migration)
 - **Hinweis**: Keine app_registry.json vorhanden (store_pipeline/ existiert noch nicht) -- Migrator handelt das graceful
 
+### 2026-03-29 -- Evolution Loop: Plugin-System (P-EVO-021)
+- **Neue Dateien** (6):
+  - `factory/evolution_loop/plugins/base_plugin.py` -- EvaluationPlugin ABC (name + evaluate())
+  - `factory/evolution_loop/plugins/plugin_loader.py` -- PluginLoader (importlib dynamic loading, _TYPE_TO_DIR mapping)
+  - `factory/evolution_loop/plugins/game/game_systems_validator.py` -- 5 Game Systems (Game Loop, State, Save/Load, Level/Scene, Input), 20 Punkte je
+  - `factory/evolution_loop/plugins/game/mechanics_consistency_checker.py` -- Numerische Konstanten-Validierung (health/damage<=0, overflow>999999)
+  - `factory/evolution_loop/plugins/business/data_flow_validator.py` -- 3 Kategorien (API Error Handling 40pts, Input Validation 30pts, Data Sanitization 30pts)
+  - `factory/evolution_loop/tests/test_plugins.py` -- 6/6 Tests bestanden
+- **Geaenderte Dateien** (3):
+  - `simulation_agent.py` -- PluginLoader Import, _run_plugins() nach synthetic_flow_check, Ergebnisse als dict fuer EvaluationAgent-Kompatibilitaet
+  - `plugins/__init__.py` -- Exportiert EvaluationPlugin + PluginLoader
+  - `evolution_loop/__init__.py` -- Exportiert EvaluationPlugin + PluginLoader
+- **Architektur**: Plugins pro project_type in Unterverzeichnis (game/, business/). PluginLoader scannt *.py, findet EvaluationPlugin-Subklassen via inspect. SimulationAgent ruft _run_plugins() auf, konvertiert ScoreEntry -> dict {"value", "confidence", "issues"} fuer bestehende EvaluationAgent-Integration (Zeilen 68-76). Graceful bei missing files (Score=50, Confidence=10).
+- **Alle bestehenden Tests gruen**: 5/5 E2E, 6/6 SimAgent, 8/8 Tracking
+
 ### 2026-03-29 -- Evolution Loop: CLI Integration (P-EVO-018)
 - **main.py**: +134 LOC, 4 neue CLI-Flags fuer Evolution Loop
   - `--evolution-loop PROJECT_ID`: Startet Evolution Loop (+ `--project-type`, `--production-line`)
