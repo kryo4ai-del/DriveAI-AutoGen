@@ -11,7 +11,8 @@
 - **LLM Provider**: Anthropic Claude (100% — kein OpenAI)
 - **Modelle**: claude-sonnet-4-6 (Tier 1+2), claude-haiku-4-5 (Tier 3), claude-opus-4-6 (Premium)
 - **API Key**: `ANTHROPIC_API_KEY` in `.env`
-- 87 Agents (80 aktiv, 4 deaktiviert, 3 planned), 14 Departments
+- 93 Agents (86 aktiv, 4 deaktiviert, 3 planned), 16 Departments
+- 444 Python-Dateien, 95.506 LOC in factory/
 
 ## 3-Tier Modell-System
 | Tier | Modell | Tasks |
@@ -99,6 +100,21 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **Features**: CRUD, Cooling Period (auto-expire), Health Zone Filter, Action Queue mit Status-Tracking
 - **Tests**: 8/8 bestanden (Import, CRUD, Health Record, Action Queue, Release History, Cooling, Zones, Migration)
 - **Hinweis**: Keine app_registry.json vorhanden (store_pipeline/ existiert noch nicht) -- Migrator handelt das graceful
+
+### 2026-03-29 -- Evolution Loop: Factory Learner (P-EVO-023)
+- **Neue Dateien** (2):
+  - `factory/evolution_loop/factory_learner.py` -- FactoryLearner (405 LOC, 5 Methoden)
+  - `factory/evolution_loop/tests/test_factory_learner.py` -- 7/7 Tests
+- **Geaenderte Dateien** (1):
+  - `evolution_loop/__init__.py` -- Exportiert FactoryLearner
+- **5 Methoden**:
+  - `list_projects()` -- Alle Projekte mit Iterations/Scores/Trends
+  - `get_project_summary(pid)` -- Vollstaendige Zusammenfassung (Scores, Improvement, Gaps, Tasks, Modes, Cost)
+  - `search_similar_issues(query)` -- Substring-Match mit Relevanz-Scoring (100=exakt, 80=substring, 40=category, 30=component), Resolution-Tracking
+  - `get_cross_project_stats()` -- Aggregiert: Avg Iterations/Scores/Costs, Gap-Verteilung, Type-Distribution
+  - `get_lessons_for_project_type(type)` -- Erkenntnisse pro Typ: typische Mode-Progression, haeufige Gaps
+- **Architektur**: Read-only, 100% deterministisch, cached (_cache dict), nutzt LDOStorage intern, Basis-Pfad `factory/evolution_loop/data/`
+- **Alle bestehenden Tests gruen**: 5/5 E2E, 6/6 SimAgent, 6/6 Plugins
 
 ### 2026-03-29 -- Evolution Loop: Plugin-System (P-EVO-021)
 - **Neue Dateien** (6):

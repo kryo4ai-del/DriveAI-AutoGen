@@ -25,7 +25,7 @@
 ## Projektstruktur
 ```
 DriveAI-AutoGen/
-├── main.py                          ← Python Einstiegspunkt (1.449 Zeilen, CLI-Parsing + Pipeline)
+├── main.py                          ← Python Einstiegspunkt (1.729 Zeilen, CLI-Parsing + Pipeline)
 ├── CLAUDE.md                        ← Diese Datei
 │
 ├── projects/                        ← Generierte Projekte
@@ -33,7 +33,7 @@ DriveAI-AutoGen/
 │   ├── askfin_android/              ← AskFin Android (204 Kotlin Files)
 │   └── askfin_web/                  ← AskFin Web (TypeScript/React, Spec ready)
 │
-├── factory/                         ← Factory Core (307 .py Files, 35 Subdirectories)
+├── factory/                         ← Factory Core (444 .py Files, 95.506 LOC)
 │   ├── pipeline/                    ← Extrahierter Pipeline Runner
 │   ├── orchestrator/                ← Build-Planer (flat + layered + quality gates)
 │   ├── brain/                       ← TheBrain: Model Registry (9 Modelle, 4 Provider), AutoSplitter, Chain Optimizer, CapabilityMatcher (17 Tags, Score-Based), AgentClassifier (Auto-Tier + Auto-Caps, 94.7% Accuracy), FactoryState, CapabilityMap, StateReport, TaskRouter, Persona, ResponseCollector, ProblemDetector, SolutionProposer, GapAnalyzer, ExtensionAdvisor, FactoryMemory, ModelEvolution (Auto-Discovery + Registration + Tier Cascade), Directives (DIR-001 Self-First)
@@ -67,8 +67,17 @@ DriveAI-AutoGen/
 │   ├── sound_forge/                 ← Sound/Audio Generation
 │   ├── scene_forge/                 ← Scene/Level Generation
 │   ├── brand/                       ← DAI-Core Brand System: Brand Bible, Brand Summary, Brand Loader (3-Tier), CSS, Assets
-│   ├── marketing/                   ← Marketing-Abteilung: Brand Strategy (Brand Book + Compliance), Alerts, Content, Campaigns, Template Engine, Video Pipeline, Content Calendar
-│   ├── live_operations/              ← Live Operations Layer (NEU - Phase 1)
+│   ├── marketing/                   ← Marketing (54 .py, 12.653 LOC): 11 Agents + 7 Tools + 9 Adapters, E2E Pipeline
+│   ├── evolution_loop/              ← Evolution Loop (50 .py, 9.042 LOC): 6 Agents, iterative Quality-Verbesserung
+│   │   ├── ldo/                     ← LDO Schema + Storage + Validator
+│   │   ├── scoring/                 ← Hard Scores + Soft Scores + Aggregator
+│   │   ├── adapters/                ← QA-to-LDO + Orchestrator Handoff
+│   │   ├── gates/                   ← CEO Review Gate (Human + AI Provider)
+│   │   ├── tracking/               ← Git Tagger + Cost Tracker
+│   │   ├── plugins/                ← Plugin-System (Game + Business Plugins)
+│   │   ├── config/                 ← Loop Config + Defaults (YAML)
+│   │   └── tests/                  ← 15 Test-Dateien
+│   ├── live_operations/              ← Live Operations Layer
 │   │   ├── app_registry/            ← App Registry (SQLite): database.py, migrator.py, cli.py
 │   │   ├── agents/                  ← Live Ops Agents (metrics_collector, health_scorer, ...)
 │   │   └── data/                    ← Gesammelte Metriken (JSON pro Collection-Run)
@@ -90,7 +99,7 @@ DriveAI-AutoGen/
 ├── code_generation/                 ← Code Extractors (Swift, Kotlin, TypeScript, C#, Python)
 ├── control_center/                  ← Streamlit Dashboard (Legacy, 19 Pages)
 ├── briefings/                       ← Daily Briefing Agent
-├── docs/                            ← Dokumentation (42 .md Dateien)
+├── docs/                            ← Dokumentation (46 .md Dateien)
 ├── ideas/                           ← CEO-Ideen (.md Dateien)
 ├── MasterPrompt/                    ← Cross-Platform Command Dispatch
 ├── _commands/                       ← Mac ↔ Windows Command Queue
@@ -98,7 +107,7 @@ DriveAI-AutoGen/
 └── DeveloperReports/                ← 131+ Development Reports
 ```
 
-## Agents (84 total: 77 aktiv / 4 deaktiviert / 3 planned, 14 Departments)
+## Agents (93 total: 86 aktiv / 4 deaktiviert / 3 planned, 16 Departments)
 > Registry: `factory/agent_registry.json` (auto-generated via `factory/agent_registry.py`)
 > Agent-Files: `agent*.json` in jeweiligem Department-Ordner
 
@@ -118,6 +127,8 @@ DriveAI-AutoGen/
 | Store | 1 | Store Submission Pipeline |
 | Signing | 1 | Code Signing (iOS/Android/Web) |
 | Marketing | 11 + 7 Tools + 9 Adapters | Brand Guardian (MKT-01) + Strategy (MKT-02) + Copywriter (MKT-03) + Naming (MKT-04) + ASO (MKT-05) + Visual Designer (MKT-06) + Video Script (MKT-07) + Publishing Orchestrator (MKT-08) + Report Agent (MKT-09) + Review Manager (MKT-10, Zwei-Stufen) + Community Agent (MKT-11, Zwei-Stufen). Tools: Template Engine, Video Pipeline, Content Calendar, Ranking DB, Social Analytics, KPI Tracker, HQ Bridge. Adapters: 5 aktiv + 4 Stubs. Phase 4 COMPLETE (59+32 Tests, 54 .py, 12.653 LOC) |
+| Evolution Loop | 6 + FactoryLearner | EVO-01 SimulationAgent + EVO-02 EvaluationAgent + EVO-03 GapDetector + EVO-04 DecisionAgent + EVO-05 RegressionTracker + EVO-06 LoopOrchestrator. Subsysteme: LDO Schema/Storage, Hard+Soft Scoring, Plugin-System (Game+Business), CEO Review Gate, Git Tagger, Cost Tracker, Factory Learner. 50 .py, 9.042 LOC, 15 Tests |
+| Live Operations | - | App Registry (SQLite), Metrics Collector, Health Scorer |
 | Integration | 1 | Cross-Department Integration |
 
 ### Deaktiviert (4)
@@ -149,7 +160,8 @@ DriveAI-AutoGen/
 - **Projekt-Inferenz**: Automatisch erkannt wenn `--project` weggelassen wird
 
 ## AI App Factory
-- **84 Agents** (77 aktiv, 14 Departments, Python AutoGen-basiert, 100% Anthropic Claude)
+- **93 Agents** (86 aktiv, 16 Departments, Python AutoGen-basiert, 100% Anthropic Claude)
+- **444 Python-Dateien**, 95.506 LOC in factory/
 - **Streamlit Control Center**: `streamlit run control_center/app.py`
 - **Bearbeitung**: Windows oder Server
 
@@ -297,7 +309,30 @@ Credential Check → Version Bump → Build/Sign → Artifact Storage
 - SkillSense.md vorhanden (Phase 1 durchgelaufen, Gate pending)
 - `--idea-file ideas/SkillSense.md` fuer Pipeline-Input
 
+### Evolution Loop (50 .py, 9.042 LOC — P-EVO-001 bis P-EVO-023)
+```
+Build + QA → OrchestratorHandoff → LDO
+  → SimulationAgent (Static Analysis + Plugins)
+  → EvaluationAgent (Hard + Soft + Plugin Scores)
+  → GapDetector (Score-based + Regression Gaps)
+  → DecisionAgent (Gaps → Tasks, CEO Feedback → Tasks)
+  → RegressionTracker (Trend + Mode Escalation: Sprint → Deep → Pivot)
+  → LoopOrchestrator (Stop Conditions, Budget, Git Tags)
+  → CEO Review Gate (Human/AI Provider, Review Brief)
+  → Factory Learner (Cross-Project Analysis, Similar Issues)
+```
+- **LDO (Loop Data Object)**: 15 Dataclasses, JSON-serialisierbar, alleiniges Kommunikationsmedium
+- **Scoring**: Bug (100-failed*5), Roadbook (feat*40+screen*30+flow*30), Structural (4x25), Performance (4x25), UX (4x25), Plugin Scores
+- **Plugin-System**: EvaluationPlugin ABC + PluginLoader (importlib), 3 Plugins (GameSystems, MechanicsConsistency, DataFlow)
+- **CEO Review Gate**: ReviewProvider (ABC), HumanReviewProvider (file-basiert), austauschbar gegen AI
+- **Tracking**: GitTagger (annotated tags, rollback), CostTracker (per-agent, per-iteration)
+- **Factory Learner**: Cross-Project Queries, Similar Issues, Lessons per Type, Cross-Stats
+- **CLI**: `--evolution-loop`, `--evolution-status`, `--evolution-history`, `--evolution-ceo-review`
+- **Tests**: 15 Test-Dateien, ~80 Tests total
+- **Referenz**: `docs/ROADBOOK_EVOLUTION_LOOP.md`
+
 ## Erledigtes
+- [2026-03-29] Evolution Loop P-EVO-023: Factory Learner (`factory/evolution_loop/factory_learner.py`, 405 LOC). Query-Schicht ueber LDO-History: list_projects() (alle Projekte mit Iterationen/Scores/Trends), get_project_summary() (vollstaendige Zusammenfassung inkl. Score-Improvement/Gaps/Tasks/Mode-History), search_similar_issues() (Substring-Match mit Relevanz-Scoring, Resolution-Tracking), get_cross_project_stats() (aggregierte Statistiken: Avg Iterations/Scores/Costs, Gap-Verteilung, Type-Distribution), get_lessons_for_project_type() (Erkenntnisse pro Typ: typische Mode-Progression, haeufige Gaps). 100% deterministisch, read-only, cached. 7/7 Tests + alle bestehenden Tests gruen.
 - [2026-03-29] Evolution Loop P-EVO-021: Plugin-System (`factory/evolution_loop/plugins/`). EvaluationPlugin ABC + PluginLoader (importlib dynamic loading, _TYPE_TO_DIR mapping). 3 Plugins: GameSystemsValidator (5 Systems je 20pts), MechanicsConsistencyChecker (Konstanten-Validierung), DataFlowValidator (API/Validation/Sanitization 40+30+30pts). SimulationAgent integriert: _run_plugins() nach synthetic_flow_check, Ergebnisse als dict fuer EvaluationAgent-Kompatibilitaet. Graceful bei missing files (Score=50, Confidence=10). 6/6 Tests + alle bestehenden Tests gruen.
 - [2026-03-29] Evolution Loop P-EVO-018: CLI Integration in main.py (+134 LOC). 4 neue Flags: `--evolution-loop PROJECT_ID` (+ `--project-type`, `--production-line`), `--evolution-status PROJECT_ID`, `--evolution-history PROJECT_ID`, `--evolution-ceo-review PROJECT_ID`. Backup: `_backups/main.py.bak_evolution_loop`. Lazy Imports (innerhalb if-Bloecke). Bestehende Flags unberuehrt. Syntax OK, 5/5 E2E + 6/6 CEO Gate bestanden.
 - [2026-03-29] Evolution Loop P-EVO-017: CEO Review Gate (`factory/evolution_loop/gates/`). ReviewProvider (ABC) + ReviewResult (dataclass). HumanReviewProvider: file-basiert, generiert `ceo_review_brief.md` (Markdown mit Scores/Gaps/Kosten/Feedback-Template), liest `ceo_feedback.json` (go/no_go + Issues), validiert JSON-Format. CEOReviewGate: execute() ruft Provider, bei no_go -> DecisionAgent.translate_ceo_feedback() generiert Tasks. Provider austauschbar (Human -> AI). 6/6 Tests + 5/5 E2E + 8/8 Tracking bestanden.
