@@ -4,8 +4,8 @@
     "project_type": "game",
     "production_line": "unity",
     "iteration": 1,
-    "loop_mode": "sprint",
-    "timestamp": "2026-03-30T16:46:35Z",
+    "loop_mode": "deep",
+    "timestamp": "2026-03-30T16:46:36Z",
     "accumulated_cost": 0.0,
     "git_tag": "evolution/test_game/iteration-1"
   },
@@ -204,10 +204,17 @@
   ],
   "regression_data": {
     "trend": "improving",
-    "iterations_without_improvement": 0,
+    "iterations_without_improvement": 1,
     "regressions_detected": [],
     "recommendation": "continue",
-    "comparison_to_previous": {}
+    "comparison_to_previous": {
+      "bug_score": 0.0,
+      "roadbook_match_score": 0.0,
+      "structural_health_score": 0.0,
+      "performance_score": 0.0,
+      "ux_score": 0.0,
+      "quality_score_aggregate": 0.0
+    }
   },
   "tasks": [
     {
@@ -244,8 +251,8 @@
     },
     {
       "id": "TASK-1-005",
-      "type": "fix",
-      "description": "Fix: 2 tests failed",
+      "type": "refactor",
+      "description": "Refactor: 2 tests failed",
       "target_component": "tests",
       "originated_from": "GAP-1-005",
       "priority": "high"
