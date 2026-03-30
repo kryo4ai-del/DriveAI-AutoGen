@@ -1,0 +1,245 @@
+{
+  "meta": {
+    "project_id": "test_game_stop",
+    "project_type": "game",
+    "production_line": "unity",
+    "iteration": 1,
+    "loop_mode": "sprint",
+    "timestamp": "2026-03-30T16:52:28Z",
+    "accumulated_cost": 0.0,
+    "git_tag": "evolution/test_game_stop/iteration-1"
+  },
+  "roadbook_targets": {
+    "features": [
+      "f1",
+      "f2"
+    ],
+    "screens": [],
+    "user_flows": [],
+    "quality_thresholds": {},
+    "score_weights": {}
+  },
+  "build_artifacts": {
+    "paths": [],
+    "compile_status": "not_built",
+    "platform_details": {}
+  },
+  "qa_results": {
+    "tests_passed": 18,
+    "tests_failed": 2,
+    "test_details": [],
+    "compile_errors": [
+      "Error"
+    ],
+    "warnings": [
+      "Warning"
+    ]
+  },
+  "simulation_results": {
+    "static_analysis": {
+      "total_files": 0,
+      "total_loc": 0,
+      "language_distribution": {},
+      "todos": 0,
+      "fixmes": 0,
+      "stubs": 0,
+      "hardcoded_values": 0,
+      "deep_nesting": 0,
+      "error_handling_ratio": 0.0,
+      "dead_code_indicators": 0,
+      "dead_code_ratio": 0.0,
+      "files_analyzed": 0,
+      "files_skipped": 0
+    },
+    "roadbook_coverage": {
+      "features_covered": [],
+      "features_missing": [],
+      "screens_covered": [],
+      "screens_missing": [],
+      "flows_covered": [],
+      "coverage_percent": 0.0
+    },
+    "synthetic_flows": [],
+    "plugin_results": {}
+  },
+  "scores": {
+    "bug_score": {
+      "value": 74.0,
+      "confidence": 95.0
+    },
+    "roadbook_match_score": {
+      "value": 0.0,
+      "confidence": 90.0
+    },
+    "structural_health_score": {
+      "value": 75.0,
+      "confidence": 85.0
+    },
+    "performance_score": {
+      "value": 85.0,
+      "confidence": 55.0
+    },
+    "ux_score": {
+      "value": 50.0,
+      "confidence": 45.0
+    },
+    "plugin_scores": {
+      "maintainability": {
+        "value": 50.0,
+        "confidence": 40.0
+      }
+    },
+    "quality_score_aggregate": 50.0
+  },
+  "gaps": [
+    {
+      "id": "GAP-1-001",
+      "category": "bug",
+      "severity": "critical",
+      "description": "bug_score (74) below target (90)",
+      "affected_component": "bug_score",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-002",
+      "category": "bug",
+      "severity": "critical",
+      "description": "Compile error: Error",
+      "affected_component": "build",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-003",
+      "category": "feature",
+      "severity": "high",
+      "description": "roadbook_match_score (0) below target (95)",
+      "affected_component": "roadbook_match_score",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-004",
+      "category": "structural",
+      "severity": "high",
+      "description": "structural_health_score (75) below target (85)",
+      "affected_component": "structural_health_score",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-005",
+      "category": "bug",
+      "severity": "high",
+      "description": "2 tests failed",
+      "affected_component": "tests",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-006",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f1",
+      "affected_component": "f1",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-007",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f2",
+      "affected_component": "f2",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-008",
+      "category": "ux",
+      "severity": "medium",
+      "description": "ux_score (50) below target (70)",
+      "affected_component": "ux_score",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    }
+  ],
+  "regression_data": {
+    "trend": "improving",
+    "iterations_without_improvement": 0,
+    "regressions_detected": [],
+    "recommendation": "continue",
+    "comparison_to_previous": {}
+  },
+  "tasks": [
+    {
+      "id": "TASK-1-001",
+      "type": "fix",
+      "description": "Fix: bug_score (74) below target (90)",
+      "target_component": "bug_score",
+      "originated_from": "GAP-1-001",
+      "priority": "critical"
+    },
+    {
+      "id": "TASK-1-002",
+      "type": "fix",
+      "description": "Fix: Compile error: Error",
+      "target_component": "build",
+      "originated_from": "GAP-1-002",
+      "priority": "critical"
+    },
+    {
+      "id": "TASK-1-003",
+      "type": "implement",
+      "description": "Implement: roadbook_match_score (0) below target (95)",
+      "target_component": "roadbook_match_score",
+      "originated_from": "GAP-1-003",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-1-004",
+      "type": "refactor",
+      "description": "Refactor: structural_health_score (75) below target (85)",
+      "target_component": "structural_health_score",
+      "originated_from": "GAP-1-004",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-1-005",
+      "type": "fix",
+      "description": "Fix: 2 tests failed",
+      "target_component": "tests",
+      "originated_from": "GAP-1-005",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-1-006",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f1",
+      "target_component": "f1",
+      "originated_from": "GAP-1-006",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-1-007",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f2",
+      "target_component": "f2",
+      "originated_from": "GAP-1-007",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-1-008",
+      "type": "refactor",
+      "description": "Refactor: ux_score (50) below target (70)",
+      "target_component": "ux_score",
+      "originated_from": "GAP-1-008",
+      "priority": "medium"
+    }
+  ],
+  "ceo_feedback": {
+    "status": "pending",
+    "issues": []
+  }
+}
