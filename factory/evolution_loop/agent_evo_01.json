@@ -1,0 +1,15 @@
+{
+  "id": "EVO-01",
+  "name": "Simulation Agent",
+  "role": "Simulates code changes and predicts quality outcomes via static analysis + LLM",
+  "department": "Evolution Loop",
+  "task_type": "analysis",
+  "status": "active",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "description": "Statische Code-Analyse + LLM-erweiterte Deep-Flow-Analyse und Code-Quality-Bewertung. Max 8 LLM-Calls pro Durchlauf (3 Flow + 5 Quality). TheBrain Primary, Anthropic Fallback.",
+  "py_file": "simulation_agent.py",
+  "capabilities": ["static_analysis", "flow_analysis", "code_quality", "roadbook_coverage"]
+}

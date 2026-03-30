@@ -1,0 +1,50 @@
+{
+  "gate_id": "gate_20260330_135826__factory_janitor_proposal",
+  "project": "_factory",
+  "platform": null,
+  "gate_type": "janitor_proposal",
+  "category": "maintenance",
+  "title": "Janitor: Tote Imports in factory/evolution_loop/factory_learner.py",
+  "description": "2 Imports die zu keinem existierenden Modul fuehren: factory.evolution_loop.ldo.schema, factory.evolution_loop.ldo.storage",
+  "severity": "info",
+  "created_at": "2026-03-30T13:58:26.994950+00:00",
+  "source_department": "factory/hq/janitor",
+  "source_agent": "factory_janitor",
+  "context": {
+    "proposal_id": "JP-167",
+    "affected_files": [
+      "factory/evolution_loop/factory_learner.py"
+    ],
+    "impact_analysis": "Import-Fehler koennen Laufzeitfehler verursachen."
+  },
+  "options": [
+    {
+      "id": "approve",
+      "label": "Genehmigen",
+      "color": "green",
+      "description": "Janitor darf die Aenderung durchfuehren"
+    },
+    {
+      "id": "reject",
+      "label": "Ablehnen",
+      "color": "red",
+      "description": "Nicht anfassen"
+    },
+    {
+      "id": "later",
+      "label": "Spaeter",
+      "color": "yellow",
+      "description": "Vorschlag merken, jetzt nicht umsetzen"
+    }
+  ],
+  "notes_field": true,
+  "notes_placeholder": "Anmerkungen oder Auflagen (optional)...",
+  "recommendation": {
+    "option_id": "approve",
+    "reasoning": "Import-Fehler koennen Laufzeitfehler verursachen."
+  },
+  "status": "pending",
+  "decided_at": null,
+  "decision": null,
+  "decision_notes": null
+}

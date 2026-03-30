@@ -117,7 +117,8 @@ class AgentClassifier:
         task_type = agent_entry.get("task_type", "").lower()
         description = agent_entry.get("description", "").lower()
         model_tier = agent_entry.get("model_tier", "").lower()
-        routing = agent_entry.get("routing", "").lower()
+        raw_routing = agent_entry.get("routing", "")
+        routing = raw_routing.lower() if isinstance(raw_routing, str) else str(raw_routing).lower()
 
         # Searchable text blob
         text = f"{name} {role} {task_type} {description}"

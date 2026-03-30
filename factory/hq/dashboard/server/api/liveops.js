@@ -199,4 +199,80 @@ router.get('/app/:appId/health-history', (req, res) => {
   }
 });
 
+// ------------------------------------------------------------------
+// GET /api/liveops/app/:appId/analytics — Full analytics insights
+// ------------------------------------------------------------------
+
+function readInsightFile(appId) {
+  const fs = require('fs');
+  const insightsDir = config.PATHS.liveOpsInsights;
+  if (!insightsDir) return null;
+
+  const filePath = path.join(insightsDir, `${appId}_latest.json`);
+  if (!fs.existsSync(filePath)) return null;
+
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  } catch (err) {
+    console.error(`[LiveOps API] Failed to read insights for ${appId}:`, err.message);
+    return null;
+  }
+}
+
+router.get('/app/:appId/analytics', (req, res) => {
+  const insights = readInsightFile(req.params.appId);
+  if (!insights) {
+    return res.json({ available: false, message: 'No analytics data yet. Run analytics agent first.' });
+  }
+  res.json({ available: true, ...insights });
+});
+
+// ------------------------------------------------------------------
+// GET /api/liveops/app/:appId/trends — Trend data only
+// ------------------------------------------------------------------
+
+router.get('/app/:appId/trends', (req, res) => {
+  const insights = readInsightFile(req.params.appId);
+  if (!insights || !insights.trends) {
+    return res.json({ available: false, trends: [] });
+  }
+  res.json({ available: true, trends: insights.trends });
+});
+
+// ------------------------------------------------------------------
+// GET /api/liveops/app/:appId/funnels — Funnel data only
+// ------------------------------------------------------------------
+
+router.get('/app/:appId/funnels', (req, res) => {
+  const insights = readInsightFile(req.params.appId);
+  if (!insights || !insights.funnels) {
+    return res.json({ available: false, funnels: [] });
+  }
+  res.json({ available: true, funnels: insights.funnels });
+});
+
+// ------------------------------------------------------------------
+// GET /api/liveops/app/:appId/reviews-analysis — Review analysis
+// ------------------------------------------------------------------
+
+router.get('/app/:appId/reviews-analysis', (req, res) => {
+  const insights = readInsightFile(req.params.appId);
+  if (!insights || !insights.reviews) {
+    return res.json({ available: false, reviews: null });
+  }
+  res.json({ available: true, reviews: insights.reviews });
+});
+
+// ------------------------------------------------------------------
+// GET /api/liveops/app/:appId/support-analysis — Support analysis
+// ------------------------------------------------------------------
+
+router.get('/app/:appId/support-analysis', (req, res) => {
+  const insights = readInsightFile(req.params.appId);
+  if (!insights || !insights.support) {
+    return res.json({ available: false, support: null });
+  }
+  res.json({ available: true, support: insights.support });
+});
+
 module.exports = router;

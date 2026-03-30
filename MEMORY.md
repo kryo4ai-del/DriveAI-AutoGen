@@ -120,9 +120,60 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 dai_app_open, dai_app_background, dai_onboarding_start, dai_onboarding_step, dai_onboarding_complete, dai_onboarding_skip, dai_feature_used, dai_feature_discovered, dai_session_active, dai_content_viewed, dai_purchase_start, dai_purchase_complete, dai_subscription_start, dai_ad_impression, dai_error_occurred
 
 #### Naechste Schritte:
-- Phase 2: Analytics -- analytics_agent, review_manager, support_agent
+- Phase 3: Decision Engine -- Automatische Aktions-Ableitung aus Insights
 - Store APIs: Echte Credentials konfigurieren (Apple App Store Connect, Google Play Console)
 - Firebase: Admin SDK Credentials konfigurieren
+
+### 2026-03-30 -- Live Operations Phase 2: COMPLETE (6 Prompts: 9-14)
+
+#### Prompt 9: Analytics Core + Trend Detection
+- `factory/live_operations/agents/analytics/` (6 Dateien)
+- `trend_detector.py` (~230 LOC): Lineare Regression, Moving Averages, Anomaly Detection (>2 sigma), Seasonality (Autocorrelation)
+- `analyzer.py` (~200 LOC): AnalyticsAgent orchestriert alle Sub-Analyzer, speichert Insights als JSON
+- `config.py`: TREND_WINDOW_SHORT=7, ANOMALY_THRESHOLD_SIGMA=2.0
+- `cli.py` + `__main__.py`: --simulate mit synthetischen Daten
+
+#### Prompt 10: Funnel Analysis
+- `funnel_analyzer.py` (~250 LOC): 3 Standard-Funnels (onboarding, conversion, retention)
+- Weakest-point Detection, kritische Findings (>40% Drop = high, >25% = medium)
+
+#### Prompt 11: Cohort Analysis + Feature Usage
+- `cohort_analyzer.py` (~170 LOC): Wochenweise Kohorten, Update-Impact-Vergleich
+- `feature_tracker.py` (~180 LOC): Star (>50%), Unused (<5%), Rising/Declining Trends
+
+#### Prompt 13: Review Manager
+- `factory/live_operations/agents/review_manager/` (3 Dateien)
+- `ReviewAnalyzer` (NICHT ReviewManager -- Abgrenzung zu MKT-10)
+- Keyword-Kategorisierung (EN+DE): bug_report, feature_request, praise, complaint, question
+- Pattern Detection (>=3 Mentions), Rating Health (Trend + Target), Sentiment (pos/neg/neutral/mixed)
+
+#### Prompt 14: Support Agent
+- `factory/live_operations/agents/support_agent/` (4 Dateien)
+- `SupportAnalyzer`: Ticket-Kategorisierung, Urgency (critical/high/medium/low)
+- `TicketStore`: JSON-basiert, generate_mock_tickets() fuer 30 realistische Tickets
+- Recurring Issue Detection: Gruppierung nach category+platform+version
+
+#### Prompt 12: Dashboard Analytics (chirurgisch)
+- Backend: 5 neue GET Endpoints in `liveops.js` (analytics, trends, funnels, reviews-analysis, support-analysis)
+  - Liest JSON-Insights aus `factory/live_operations/data/insights/` (kein Python-Subprocess)
+  - Config: `liveOpsInsights` Pfad hinzugefuegt
+- Frontend: `AnalyticsTab.jsx` (446 LOC, neue Datei)
+  - TrendsPanel mit SparkLine SVG, FunnelsPanel mit Bars, CohortsPanel mit Tabelle, FeatureUsagePanel mit Chips
+  - Empfehlungen-Panel (Severity-basiert)
+- `AppDetailView.jsx`: +31 Zeilen -- Tab-System (Overview | Analytics) chirurgisch eingefuegt
+  - Import AnalyticsTab + BarChart3 Icon
+  - activeTab State, Tab-Buttons, bedingtes Rendering
+- Keine bestehenden Dateien ueberschrieben, keine Dependencies geaendert
+
+#### Alle Agents deterministisch (kein LLM):
+- Trend Detection: Lineare Regression (Least Squares), keine numpy
+- Anomaly: Standard-Deviation-basiert (>2 sigma)
+- Kategorisierung: Keyword-Matching (EN+DE)
+- Sentiment: Keyword-Counts + Rating-Signal
+
+#### Windows cp1252 Fix:
+- Unicode-Pfeile (arrow) und Umlaute in print()-Statements durch ASCII ersetzt
+- Betrifft: database.py, migrator.py, cli.py, alle agents
 
 ### 2026-03-29 -- Android Analytics Templates (Firebase)
 - **Neue Dateien** (4) in `factory/production_lines/android/templates/analytics/`:
@@ -156,6 +207,37 @@ dai_app_open, dai_app_background, dai_onboarding_start, dai_onboarding_step, dai
 - **Features**: CRUD, Cooling Period (auto-expire), Health Zone Filter, Action Queue mit Status-Tracking
 - **Tests**: 8/8 bestanden (Import, CRUD, Health Record, Action Queue, Release History, Cooling, Zones, Migration)
 - **Hinweis**: Keine app_registry.json vorhanden (store_pipeline/ existiert noch nicht) -- Migrator handelt das graceful
+
+### 2026-03-30 -- P-EVO-019: Simulation Agent LLM Extension
+- **Geaenderte Datei**: `factory/evolution_loop/simulation_agent.py`
+- **3 neue Methoden**:
+  - `_call_llm(prompt, system_msg, max_tokens)` — TheBrain + ProviderRouter Primary, Anthropic SDK Fallback
+  - `_deep_flow_analysis(ldo)` — Max 3 LLM-Calls: Flow-Completeness, Dead-End-Detection, Empfehlungen
+  - `_code_quality_analysis(file_paths)` — Max 5 LLM-Calls (1 pro Datei): Readability, Structure, Error-Handling, Maintainability (je 1-10)
+- **simulate() erweitert**: Ruft beide LLM-Methoden nach deterministischer Analyse auf (try/except, non-critical)
+- **O-series Fix**: `max_tokens` Floor auf 1024 — o3-mini verbraucht Reasoning-Tokens im Output-Budget, bei <512 bleibt kein sichtbarer Content
+- **Kosten-Tracking**: `self._llm_cost` summiert alle Calls, wird in `static_analysis["llm_cost_usd"]` gespeichert
+- **Test-Ergebnis**: 5 Dateien analysiert, Overall Quality 7.1/10, $0.014 (5 LLM-Calls via o3-mini)
+- **Erkenntnis**: O-series Modelle (o3-mini) brauchen temperature=1.0 (nicht 0.0) und hohe max_tokens wegen Reasoning-Token-Overhead
+- **Agent-JSONs updated**: Alle 6 `agent_evo_XX.json` von `model_tier: "none"` auf `model_tier: "mid"`, `provider: "dynamic"`, `routing: "TheBrain"`, + `capabilities` + `description`. Dashboard zeigt jetzt korrekte LLM-Zuweisung statt "Kein LLM".
+- **Dashboard Fix**: `client/src/components/Team/team-utils.js` fehlte → alle Team-Komponenten crashten → weisse Seite. Datei mit STATUS_ICONS, TIER_STYLES, QUALITY_STYLES, PROVIDER_STYLES, CAP_LABELS, TIER_OPTIONS neu erstellt.
+
+### 2026-03-29 -- Bugfix: Agents nicht im Dashboard (EVO + Brain)
+- **Root Cause**: `factory/agent_registry.py` scannt `agent*.json` Dateien und regeneriert `agent_registry.json` bei jedem Dashboard-Refresh. Manuelle JSON-Edits werden ueberschrieben.
+- **Fix 1**: `factory/evolution_loop` zu `SCAN_ROOTS` hinzugefuegt + 6 `agent_evo_XX.json` Dateien erstellt
+- **Fix 2**: `factory/brain` + `factory/brain/memory` zu `SCAN_ROOTS` hinzugefuegt → 7 Brain Agents jetzt sichtbar
+- **Fix 3**: `role` Feld in `agent_problem_detector.json` (BRN-03) und `agent_solution_proposer.json` (BRN-04) ergaenzt — Scanner braucht (id, name, role, department, status)
+- **Ergebnis**: 93 Agents total (86 aktiv, 4 disabled, 3 planned), 15 Departments
+- **Fix 4**: `agent_classifier.py:120` — `routing` Feld kann Dict sein (Brain Agents: `{"tier_lock": null}`), nicht nur String. `.lower()` crashte → gesamte Enrichment-Pipeline tot → Dashboard Fallback auf Basis-Daten ohne Capabilities/Scores/Provider. Fix: `isinstance(raw_routing, str)` Check.
+- **Merke**: Neue Agents IMMER als `agent*.json` Datei im Verzeichnis anlegen + Pfad in SCAN_ROOTS. Jedes agent*.json MUSS die 5 Pflichtfelder haben: id, name, role, department, status. `routing` Feld muss String sein (nicht Dict). Die JSON-Registry ist NUR ein generierter Cache.
+
+### 2026-03-29 -- Evolution Loop: Dokumentation & Final Report (P-EVO-025)
+- **Neue Dateien** (2):
+  - `docs/evolution_loop.md` -- Referenz-Dokumentation (385 Zeilen, 12 Kapitel): Architektur, Agents, LDO, Scoring, Loop-Modi, CEO Gate, CLI, Plugins, Config, Factory Learner, Dateistruktur, Troubleshooting
+  - `DeveloperReports/EVO-FINAL-REPORT.md` -- Finaler Report (245 Zeilen): 22/25 Prompts, 50 .py (9.079 LOC), 96 Tests (86 passed, 5 failed, 5 errors), Factory-Metriken, Architektur-Entscheidungen, Limitierungen
+- **Echte Metriken**: 470 Factory .py total, 14 Departments, 86 Registry Agents (79 active)
+- **Test-Issues dokumentiert**: 5 failed (FactoryLearner: fehlende Testdaten), 5 errors (Decision/Gap: fehlende ldo-Fixture)
+- **Validierung**: Alle Dateipfade in Doku verifiziert, Zeilenanzahl-Checks bestanden
 
 ### 2026-03-29 -- Evolution Loop: Agent Activation & Registry (P-EVO-024)
 - **Geaenderte Dateien** (2):

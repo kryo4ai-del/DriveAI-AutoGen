@@ -10,7 +10,7 @@
 - **50 neue Python-Dateien**, 9.079 LOC gesamt
 - **2 YAML-Konfigurationsdateien**
 - **15 Test-Dateien** mit 96 Tests (86 passed, 5 failed, 5 errors)
-- **Factory gesamt**: 456 Python-Dateien (vorher ~406)
+- **Factory gesamt**: 470 Python-Dateien (vorher ~420)
 
 ## Implementierungs-Status
 
@@ -196,7 +196,7 @@ Ausgefuehrt am 2026-03-29 mit `pytest factory/evolution_loop/tests/ -v`:
 | Agents total (Registry) | 80 | 86 | +6 |
 | Agents active | 73 | 79 | +6 |
 | Departments | 13 | 14 | +1 (Evolution Loop) |
-| Python Files (factory/) | ~406 | 456 | +50 |
+| Python Files (factory/) | ~420 | 470 | +50 |
 | LOC (evolution_loop/) | 0 | 9.079 | +9.079 |
 | Test Files (evolution_loop/) | 0 | 15 | +15 |
 | Tests (evolution_loop/) | 0 | 96 | +96 |

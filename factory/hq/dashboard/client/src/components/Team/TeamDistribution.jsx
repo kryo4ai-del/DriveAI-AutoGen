@@ -18,7 +18,7 @@ export default function TeamDistribution({ enrichmentStats }) {
         data={enrichmentStats.by_tier || {}}
         total={enrichmentStats.total}
         styler={key => TIER_STYLES[key] || TIER_STYLES.standard}
-        barKey="bg"
+        barKey="bar"
         labelFn={(key, s) => s.label || key}
       />
       <DistPanel

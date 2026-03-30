@@ -1,0 +1,15 @@
+{
+  "id": "EVO-06",
+  "name": "Loop Orchestrator",
+  "role": "Orchestrates the full evolution loop cycle (evaluate-gap-decide-simulate-build-regress)",
+  "department": "Evolution Loop",
+  "task_type": "orchestration",
+  "status": "active",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "description": "Steuert den gesamten Evolution-Zyklus: Iteration, Stop-Conditions, Budget-Check, Git-Tags, CEO-Review-Gate. Modi: Sprint/Deep/Pivot.",
+  "py_file": "loop_orchestrator.py",
+  "capabilities": ["orchestration", "iteration_control", "budget_management", "ceo_review"]
+}

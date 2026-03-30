@@ -6,8 +6,9 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, BarChart3 } from 'lucide-react';
 import HealthScoreCircle, { getColor, getZone } from './HealthScoreCircle';
+import AnalyticsTab from './AnalyticsTab';
 
 const ZONE_ICONS = { green: '🟢', yellow: '🟡', red: '🔴' };
 const PROFILE_COLORS = {
@@ -29,6 +30,7 @@ export default function AppDetailView({ appId, onBack }) {
   const [app, setApp] = useState(null);
   const [healthHistory, setHealthHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('overview');
 
   const fetchData = useCallback(async () => {
     try {
@@ -99,6 +101,32 @@ export default function AppDetailView({ appId, onBack }) {
         <HealthScoreCircle score={app.health_score || 0} size="lg" />
       </div>
 
+      {/* Tab Navigation */}
+      <div className="flex gap-1 mb-6 border-b border-factory-border">
+        <button
+          onClick={() => setActiveTab('overview')}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === 'overview'
+              ? 'border-factory-accent text-factory-accent'
+              : 'border-transparent text-factory-text-secondary hover:text-white'
+          }`}
+        >
+          Overview
+        </button>
+        <button
+          onClick={() => setActiveTab('analytics')}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
+            activeTab === 'analytics'
+              ? 'border-factory-accent text-factory-accent'
+              : 'border-transparent text-factory-text-secondary hover:text-white'
+          }`}
+        >
+          <BarChart3 size={14} /> Analytics
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'overview' ? (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column */}
         <div className="space-y-6">
@@ -128,6 +156,9 @@ export default function AppDetailView({ appId, onBack }) {
           <ActionQueue actions={app.actions || []} />
         </div>
       </div>
+      ) : (
+        <AnalyticsTab appId={appId} />
+      )}
     </div>
   );
 }

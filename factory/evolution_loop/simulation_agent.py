@@ -1,19 +1,24 @@
-"""Simulation Agent — Static code analysis without execution.
+"""Simulation Agent — Static code analysis + optional LLM-powered deep analysis.
 
 Analyzes build artifacts deterministically: static analysis, roadbook coverage
-matching, and synthetic user flow checks.  No LLM calls — pure Python.
+matching, and synthetic user flow checks.  Optionally enriches results with
+LLM-powered deep flow analysis and code quality assessment.
 
 This replaces the last stub in the Loop Orchestrator (P-EVO-014).
+LLM extension added in P-EVO-019.
 """
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 from pathlib import Path
 
 from factory.evolution_loop.ldo.schema import LoopDataObject
 from factory.evolution_loop.plugins.plugin_loader import PluginLoader
+
+logger = logging.getLogger(__name__)
 
 _PREFIX = "[EVO-SIM]"
 
@@ -134,12 +139,13 @@ def _empty_coverage() -> dict:
 
 
 class SimulationAgent:
-    """Analyzes build artifacts through static code analysis."""
+    """Analyzes build artifacts through static + optional LLM-powered analysis."""
 
     AGENT_ID = "evo_simulation"
 
     def __init__(self) -> None:
         self._plugin_loader = PluginLoader()
+        self._llm_cost: float = 0.0
 
     # ------------------------------------------------------------------
     # Main entry point
@@ -175,10 +181,30 @@ class SimulationAgent:
         # 4. Evaluation Plugins (per project_type)
         ldo = self._run_plugins(ldo)
 
+        # 5. LLM-powered deep analysis (optional, non-critical)
+        self._llm_cost = 0.0
+        try:
+            deep_flow = self._deep_flow_analysis(ldo)
+            if deep_flow:
+                ldo.simulation_results.static_analysis["deep_flow_analysis"] = deep_flow
+        except Exception as e:
+            logger.warning("%s Deep flow analysis failed (non-critical): %s", _PREFIX, e)
+
+        try:
+            code_quality = self._code_quality_analysis(existing[:5])
+            if code_quality:
+                ldo.simulation_results.static_analysis["code_quality_analysis"] = code_quality
+        except Exception as e:
+            logger.warning("%s Code quality analysis failed (non-critical): %s", _PREFIX, e)
+
+        if self._llm_cost > 0:
+            ldo.simulation_results.static_analysis["llm_cost_usd"] = round(self._llm_cost, 6)
+
         coverage_pct = ldo.simulation_results.roadbook_coverage.get("coverage_percent", 0)
+        cost_str = f", LLM cost: ${self._llm_cost:.4f}" if self._llm_cost > 0 else ""
         print(
             f"{_PREFIX} Analysis complete: {len(existing)} files, "
-            f"{coverage_pct:.0f}% roadbook coverage"
+            f"{coverage_pct:.0f}% roadbook coverage{cost_str}"
         )
 
         return ldo
@@ -480,6 +506,257 @@ class SimulationAgent:
                 }
 
         return ldo
+
+    # ------------------------------------------------------------------
+    # LLM helper (P-EVO-019)
+    # ------------------------------------------------------------------
+
+    def _call_llm(self, prompt: str, system_msg: str | None = None, max_tokens: int = 2048) -> str:
+        """LLM call via TheBrain ProviderRouter with Anthropic fallback.
+
+        Returns the response text, or empty string on failure.
+        Tracks cost in self._llm_cost.
+
+        Note: O-series models consume reasoning tokens from max_tokens budget.
+        A floor of 1024 is enforced to ensure visible output.
+        """
+        # O-series models (o3-mini) need headroom for reasoning tokens
+        max_tokens = max(max_tokens, 1024)
+
+        if system_msg is None:
+            system_msg = (
+                "Du bist der Simulation Agent der DriveAI Factory. "
+                "Analysiere Code-Artefakte praezise und sachlich. "
+                "Antworte immer auf Deutsch."
+            )
+
+        messages = [
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": prompt},
+        ]
+
+        # --- Primary path: TheBrain + ProviderRouter ---
+        try:
+            from factory.brain.model_provider import get_model, get_router
+
+            selection = get_model(
+                agent_name="SimulationAgent",
+                task_type="analysis",
+                profile="standard",
+                expected_output_tokens=max_tokens,
+            )
+            router = get_router()
+            response = router.call(
+                model_id=selection["model"],
+                provider=selection["provider"],
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=1.0,  # O-series models only support 1.0
+            )
+            if response.error:
+                raise RuntimeError(response.error)
+
+            self._llm_cost += response.cost_usd or 0.0
+            cost_str = f", ${response.cost_usd:.4f}" if response.cost_usd else ""
+            logger.info(
+                "%s LLM: %s (%s)%s",
+                _PREFIX, selection["model"], selection["provider"], cost_str,
+            )
+            return response.content
+
+        except Exception as primary_err:
+            logger.warning("%s Primary LLM failed: %s — trying fallback", _PREFIX, primary_err)
+
+        # --- Fallback: Direct Anthropic SDK ---
+        try:
+            import anthropic
+
+            client = anthropic.Anthropic()
+            resp = client.messages.create(
+                model="claude-sonnet-4-6",
+                max_tokens=max_tokens,
+                system=system_msg,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            text = resp.content[0].text if resp.content else ""
+            # Estimate cost (Sonnet input ~$3/M, output ~$15/M)
+            in_tok = getattr(resp.usage, "input_tokens", 0)
+            out_tok = getattr(resp.usage, "output_tokens", 0)
+            est_cost = (in_tok * 3.0 + out_tok * 15.0) / 1_000_000
+            self._llm_cost += est_cost
+            logger.info("%s LLM fallback: claude-sonnet-4-6, ~$%.4f", _PREFIX, est_cost)
+            return text
+
+        except Exception as fallback_err:
+            logger.error("%s LLM fallback also failed: %s", _PREFIX, fallback_err)
+            return ""
+
+    # ------------------------------------------------------------------
+    # Deep flow analysis (LLM) — max 3 calls
+    # ------------------------------------------------------------------
+
+    def _deep_flow_analysis(self, ldo: LoopDataObject) -> dict | None:
+        """Analyze user flows for missing connections, dead ends, error states.
+
+        Makes at most 3 LLM calls. Returns analysis dict or None.
+        """
+        flows = ldo.roadbook_targets.user_flows or []
+        paths = ldo.build_artifacts.paths or []
+
+        if not flows:
+            return None
+
+        # Collect navigation-relevant code snippets (max 8000 chars)
+        nav_snippets: list[str] = []
+        total_chars = 0
+        for p in paths[:_MAX_FILES]:
+            if total_chars > 8000:
+                break
+            if not os.path.isfile(p) or not self._is_text_file(p):
+                continue
+            content = self._read_file(p)
+            if not content:
+                continue
+            # Only include files with navigation patterns
+            has_nav = any(pat.search(content) for pat in _NAV_PATTERNS)
+            if has_nav:
+                basename = os.path.basename(p)
+                snippet = f"--- {basename} ---\n{content[:2000]}"
+                nav_snippets.append(snippet)
+                total_chars += len(snippet)
+
+        if not nav_snippets:
+            return None
+
+        code_context = "\n".join(nav_snippets[:10])
+
+        # --- LLM Call 1: Flow completeness ---
+        flow_list = ", ".join(flows[:10])
+        prompt_1 = (
+            f"Analysiere diese Code-Snippets auf User-Flow-Vollstaendigkeit.\n\n"
+            f"Erwartete Flows: {flow_list}\n\n"
+            f"Code:\n```\n{code_context}\n```\n\n"
+            f"Pruefe fuer jeden Flow:\n"
+            f"1. Ist der Flow im Code referenziert?\n"
+            f"2. Gibt es Sackgassen (Screens ohne Weiter-Navigation)?\n"
+            f"3. Fehlen Error-States oder Loading-States?\n\n"
+            f"Antworte strukturiert: pro Flow eine Zeile mit "
+            f"'FLOW: <name> | STATUS: complete/incomplete/missing | ISSUES: <kurz>'"
+        )
+        result_1 = self._call_llm(prompt_1, max_tokens=2048)
+
+        # --- LLM Call 2: Dead-end detection ---
+        prompt_2 = (
+            f"Finde Sackgassen und fehlende Verbindungen in diesen Navigations-Snippets.\n\n"
+            f"Code:\n```\n{code_context}\n```\n\n"
+            f"Liste alle Screens/Views die:\n"
+            f"- Keine ausgehende Navigation haben (Sackgassen)\n"
+            f"- Nur eingehende aber keine ausgehende Navigation haben\n"
+            f"- Error-Handling fehlt (kein catch/guard nach Navigation)\n\n"
+            f"Format: 'DEADEND: <screen> | REASON: <grund>'"
+        )
+        result_2 = self._call_llm(prompt_2, max_tokens=1024)
+
+        # --- LLM Call 3: Recommendations ---
+        prompt_3 = (
+            f"Basierend auf dieser Analyse:\n\n"
+            f"Flow-Check:\n{result_1[:1500]}\n\n"
+            f"Sackgassen:\n{result_2[:1000]}\n\n"
+            f"Gib max 5 konkrete Empfehlungen zur Verbesserung der User-Flows. "
+            f"Format: nummerierte Liste, jeweils eine Zeile."
+        )
+        result_3 = self._call_llm(prompt_3, max_tokens=1024)
+
+        return {
+            "flow_completeness": result_1,
+            "dead_ends": result_2,
+            "recommendations": result_3,
+            "flows_analyzed": len(flows),
+            "nav_files_found": len(nav_snippets),
+            "llm_calls": 3,
+        }
+
+    # ------------------------------------------------------------------
+    # Code quality analysis (LLM) — max 5 calls
+    # ------------------------------------------------------------------
+
+    def _code_quality_analysis(self, file_paths: list[str]) -> dict | None:
+        """Evaluate code quality per file via LLM. Max 5 files, 1 call each.
+
+        Returns quality analysis dict or None.
+        """
+        if not file_paths:
+            return None
+
+        # Pick up to 5 largest text files
+        candidates = []
+        for p in file_paths:
+            if not os.path.isfile(p) or not self._is_text_file(p):
+                continue
+            content = self._read_file(p)
+            if content and len(content) > 50:
+                candidates.append((p, content))
+        candidates.sort(key=lambda x: len(x[1]), reverse=True)
+        candidates = candidates[:5]
+
+        if not candidates:
+            return None
+
+        file_results = []
+        for fpath, content in candidates:
+            basename = os.path.basename(fpath)
+            lang = self._detect_language(fpath)
+            # Truncate to 4000 chars for prompt budget
+            code_snippet = content[:4000]
+
+            prompt = (
+                f"Bewerte die Code-Qualitaet dieser Datei ({lang}):\n\n"
+                f"Datei: {basename}\n"
+                f"```{lang}\n{code_snippet}\n```\n\n"
+                f"Bewerte auf einer Skala 1-10 in diesen Kategorien:\n"
+                f"- readability: Lesbarkeit und Benennung\n"
+                f"- structure: Modularitaet und Aufbau\n"
+                f"- error_handling: Fehlerbehandlung\n"
+                f"- maintainability: Wartbarkeit\n\n"
+                f"Format (exakt eine Zeile pro Kategorie):\n"
+                f"readability: <1-10>\n"
+                f"structure: <1-10>\n"
+                f"error_handling: <1-10>\n"
+                f"maintainability: <1-10>\n"
+                f"summary: <ein Satz Zusammenfassung>"
+            )
+            result = self._call_llm(prompt, max_tokens=512)
+
+            # Parse scores from response
+            scores = {}
+            for category in ("readability", "structure", "error_handling", "maintainability"):
+                match = re.search(rf"{category}\s*:\s*(\d+)", result, re.IGNORECASE)
+                if match:
+                    scores[category] = min(int(match.group(1)), 10)
+
+            summary_match = re.search(r"summary\s*:\s*(.+)", result, re.IGNORECASE)
+            summary = summary_match.group(1).strip() if summary_match else ""
+
+            avg_score = round(sum(scores.values()) / max(len(scores), 1), 1)
+
+            file_results.append({
+                "file": basename,
+                "language": lang,
+                "scores": scores,
+                "average": avg_score,
+                "summary": summary,
+            })
+
+        # Aggregate
+        all_avgs = [r["average"] for r in file_results if r["average"] > 0]
+        overall = round(sum(all_avgs) / max(len(all_avgs), 1), 1) if all_avgs else 0.0
+
+        return {
+            "files": file_results,
+            "overall_quality": overall,
+            "files_analyzed": len(file_results),
+            "llm_calls": len(file_results),
+        }
 
     # ------------------------------------------------------------------
     # Helpers

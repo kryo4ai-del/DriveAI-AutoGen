@@ -1,0 +1,52 @@
+{
+  "gate_id": "gate_20260330_135825__factory_janitor_proposal",
+  "project": "_factory",
+  "platform": null,
+  "gate_type": "janitor_proposal",
+  "category": "maintenance",
+  "title": "Janitor: Doppelte Funktion: get_post_analytics() in 3 Dateien",
+  "description": "Die Funktion get_post_analytics() existiert in 3 Dateien. Koennte in ein shared Modul extrahiert werden.",
+  "severity": "info",
+  "created_at": "2026-03-30T13:58:25.992209+00:00",
+  "source_department": "factory/hq/janitor",
+  "source_agent": "factory_janitor",
+  "context": {
+    "proposal_id": "JP-063",
+    "affected_files": [
+      "factory/marketing/adapters/instagram_adapter.py",
+      "factory/marketing/adapters/linkedin_adapter.py",
+      "factory/marketing/adapters/reddit_adapter.py"
+    ],
+    "impact_analysis": "3 Dateien muessten geaendert werden."
+  },
+  "options": [
+    {
+      "id": "approve",
+      "label": "Genehmigen",
+      "color": "green",
+      "description": "Janitor darf die Aenderung durchfuehren"
+    },
+    {
+      "id": "reject",
+      "label": "Ablehnen",
+      "color": "red",
+      "description": "Nicht anfassen"
+    },
+    {
+      "id": "later",
+      "label": "Spaeter",
+      "color": "yellow",
+      "description": "Vorschlag merken, jetzt nicht umsetzen"
+    }
+  ],
+  "notes_field": true,
+  "notes_placeholder": "Anmerkungen oder Auflagen (optional)...",
+  "recommendation": {
+    "option_id": "approve",
+    "reasoning": "3 Dateien muessten geaendert werden."
+  },
+  "status": "pending",
+  "decided_at": null,
+  "decision": null,
+  "decision_notes": null
+}

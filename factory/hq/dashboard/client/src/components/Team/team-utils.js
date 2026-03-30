@@ -1,49 +1,98 @@
-// Tier badge styles
+// Team page constants — shared across TeamTable, TeamFilters, TeamSummary, etc.
+// Colors are safelisted in tailwind.config.js to prevent purge.
+
+export const STATUS_ICONS = {
+  active: '\u{1F7E2}',    // green circle
+  disabled: '\u{1F534}',  // red circle
+  planned: '\u{1F7E1}',   // yellow circle
+};
+
 export const TIER_STYLES = {
-  premium:     { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/30', label: 'Premium' },
-  standard:    { bg: 'bg-factory-accent/20', text: 'text-factory-accent', border: 'border-factory-accent/30', label: 'Standard' },
-  lightweight: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/30', label: 'Lightweight' },
-  none:        { bg: 'bg-factory-border/50', text: 'text-factory-text-secondary', border: 'border-factory-border', label: 'Kein LLM' },
+  standard: {
+    bg: 'bg-blue-500/15',
+    text: 'text-blue-400',
+    bar: 'bg-blue-500',
+    label: 'Standard',
+  },
+  lightweight: {
+    bg: 'bg-teal-500/15',
+    text: 'text-teal-400',
+    bar: 'bg-teal-500',
+    label: 'Lightweight',
+  },
+  premium: {
+    bg: 'bg-purple-500/15',
+    text: 'text-purple-400',
+    bar: 'bg-purple-500',
+    label: 'Premium',
+  },
+  none: {
+    bg: 'bg-gray-500/15',
+    text: 'text-gray-400',
+    bar: 'bg-gray-500',
+    label: 'Kein LLM',
+  },
 };
 
-// Match quality styles
+export const TIER_OPTIONS = ['Alle', 'standard', 'lightweight', 'premium', 'none'];
+
 export const QUALITY_STYLES = {
-  perfect: { bg: 'bg-factory-success/20', text: 'text-factory-success', bar: 'bg-factory-success', label: 'Perfekt' },
-  good:    { bg: 'bg-factory-accent/20', text: 'text-factory-accent', bar: 'bg-factory-accent', label: 'Gut' },
-  partial: { bg: 'bg-factory-warning/20', text: 'text-factory-warning', bar: 'bg-factory-warning', label: 'Teilweise' },
-  none:    { bg: 'bg-factory-error/20', text: 'text-factory-error', bar: 'bg-factory-error', label: 'Kein Match' },
-  no_llm:  { bg: 'bg-factory-border/50', text: 'text-factory-text-secondary', bar: 'bg-factory-border', label: 'Kein LLM' },
+  perfect: {
+    bg: 'bg-emerald-500/10',
+    text: 'text-emerald-400',
+    bar: 'bg-emerald-500',
+    label: 'Perfect',
+  },
+  good: {
+    bg: 'bg-blue-500/10',
+    text: 'text-blue-400',
+    bar: 'bg-blue-500',
+    label: 'Good',
+  },
+  partial: {
+    bg: 'bg-amber-500/10',
+    text: 'text-amber-400',
+    bar: 'bg-amber-500',
+    label: 'Partial',
+  },
+  none: {
+    bg: 'bg-factory-error/10',
+    text: 'text-factory-error',
+    bar: 'bg-factory-error',
+    label: 'No Match',
+  },
+  no_llm: {
+    bg: 'bg-gray-500/10',
+    text: 'text-gray-400',
+    bar: 'bg-gray-500',
+    label: 'Kein LLM',
+  },
 };
 
-// Provider colors
 export const PROVIDER_STYLES = {
-  anthropic: { color: 'text-orange-400', bar: 'bg-orange-400', label: 'Anthropic' },
-  openai:    { color: 'text-green-400', bar: 'bg-green-400', label: 'OpenAI' },
-  google:    { color: 'text-blue-400', bar: 'bg-blue-400', label: 'Google' },
-  mistral:   { color: 'text-yellow-400', bar: 'bg-yellow-400', label: 'Mistral' },
+  anthropic: { color: 'text-amber-400',  label: 'Anthropic', bar: 'bg-amber-500' },
+  openai:    { color: 'text-factory-success', label: 'OpenAI', bar: 'bg-factory-success' },
+  mistral:   { color: 'text-orange-400', label: 'Mistral',   bar: 'bg-orange-500' },
+  google:    { color: 'text-blue-400',   label: 'Google',    bar: 'bg-blue-500' },
 };
 
-export const STATUS_ICONS = { active: '\u{1F7E2}', disabled: '\u{1F534}', planned: '\u26AB' };
-
-// Capability tag short labels (German)
 export const CAP_LABELS = {
   code_generation: 'Code Gen',
-  code_review: 'Review',
-  swift_code: 'Swift',
-  kotlin_code: 'Kotlin',
-  typescript_code: 'TypeScript',
-  python_code: 'Python',
-  csharp_code: 'C#',
+  code_review: 'Code Review',
   architecture: 'Architektur',
+  bug_hunting: 'Bug Hunting',
+  refactoring: 'Refactoring',
+  test_generation: 'Test Gen',
   planning: 'Planung',
-  reasoning: 'Reasoning',
-  content_creation: 'Content',
-  research: 'Research',
+  orchestration: 'Orchestrierung',
+  content: 'Content',
+  compliance: 'Compliance',
+  accessibility: 'Accessibility',
   classification: 'Klassifikation',
-  summarization: 'Summary',
+  summarization: 'Zusammenfassung',
+  trend_analysis: 'Trend-Analyse',
+  scoring: 'Scoring',
+  labeling: 'Labeling',
   extraction: 'Extraktion',
-  large_context: 'Large Ctx',
-  quality_assurance: 'QA',
+  briefing: 'Briefing',
 };
-
-export const TIER_OPTIONS = ['Alle', 'premium', 'standard', 'lightweight', 'none'];

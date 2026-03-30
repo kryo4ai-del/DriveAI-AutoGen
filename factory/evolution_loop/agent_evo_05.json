@@ -1,0 +1,15 @@
+{
+  "id": "EVO-05",
+  "name": "Regression Tracker",
+  "role": "Tracks score regressions across evolution iterations",
+  "department": "Evolution Loop",
+  "task_type": "tracking",
+  "status": "active",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "description": "Analysiert Score-Trends ueber Iterationen: improving/stagnating/declining. Loop-Mode-Eskalation Sprint->Deep->Pivot. Empfehlungen basierend auf Trend.",
+  "py_file": "regression_tracker.py",
+  "capabilities": ["trend_detection", "regression_analysis", "mode_escalation"]
+}

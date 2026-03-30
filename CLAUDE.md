@@ -68,7 +68,7 @@ DriveAI-AutoGen/
 │   ├── scene_forge/                 ← Scene/Level Generation
 │   ├── brand/                       ← DAI-Core Brand System: Brand Bible, Brand Summary, Brand Loader (3-Tier), CSS, Assets
 │   ├── marketing/                   ← Marketing (54 .py, 12.653 LOC): 11 Agents + 7 Tools + 9 Adapters, E2E Pipeline
-│   ├── evolution_loop/              ← Evolution Loop (50 .py, 9.042 LOC): 6 Agents, iterative Quality-Verbesserung
+│   ├── evolution_loop/              ← Evolution Loop (50 .py, 9.079 LOC): 6 Agents, iterative Quality-Verbesserung
 │   │   ├── ldo/                     ← LDO Schema + Storage + Validator
 │   │   ├── scoring/                 ← Hard Scores + Soft Scores + Aggregator
 │   │   ├── adapters/                ← QA-to-LDO + Orchestrator Handoff
@@ -77,12 +77,15 @@ DriveAI-AutoGen/
 │   │   ├── plugins/                ← Plugin-System (Game + Business Plugins)
 │   │   ├── config/                 ← Loop Config + Defaults (YAML)
 │   │   └── tests/                  ← 15 Test-Dateien
-│   ├── live_operations/              ← Live Operations Layer (Phase 1 COMPLETE)
+│   ├── live_operations/              ← Live Operations Layer (Phase 1+2 COMPLETE)
 │   │   ├── app_registry/            ← App Registry (SQLite): database.py, migrator.py, cli.py
 │   │   ├── agents/
 │   │   │   ├── metrics_collector/   ← MetricsCollector: Store API + Firebase API Adapter (STUB), Normalisierung
-│   │   │   └── health_scorer/       ← AppHealthScorer: 5 Kategorien, 5 Profile, Zonen (green/yellow/red)
-│   │   └── data/                    ← Gesammelte Metriken (JSON pro Collection-Run)
+│   │   │   ├── health_scorer/       ← AppHealthScorer: 5 Kategorien, 5 Profile, Zonen (green/yellow/red)
+│   │   │   ├── analytics/           ← AnalyticsAgent: Trends, Funnels, Cohorts, Feature Usage (deterministisch)
+│   │   │   ├── review_manager/      ← ReviewAnalyzer: Keyword-Kategorisierung (EN+DE), Pattern Detection, Rating Health
+│   │   │   └── support_agent/       ← SupportAnalyzer: Ticket-Kategorisierung, Urgency, Recurring Issues
+│   │   └── data/                    ← Gesammelte Metriken + Insights (JSON pro Collection-Run)
 │   ├── integration/                 ← Cross-Department Integration
 │   ├── lines/                       ← Production Line Definitions
 │   ├── production_lines/            ← Platform-specific Templates
@@ -135,7 +138,7 @@ DriveAI-AutoGen/
 | Signing | 1 | Code Signing (iOS/Android/Web) |
 | Marketing | 11 + 7 Tools + 9 Adapters | Brand Guardian (MKT-01) + Strategy (MKT-02) + Copywriter (MKT-03) + Naming (MKT-04) + ASO (MKT-05) + Visual Designer (MKT-06) + Video Script (MKT-07) + Publishing Orchestrator (MKT-08) + Report Agent (MKT-09) + Review Manager (MKT-10, Zwei-Stufen) + Community Agent (MKT-11, Zwei-Stufen). Tools: Template Engine, Video Pipeline, Content Calendar, Ranking DB, Social Analytics, KPI Tracker, HQ Bridge. Adapters: 5 aktiv + 4 Stubs. Phase 4 COMPLETE (59+32 Tests, 54 .py, 12.653 LOC) |
 | Evolution Loop | 6 + FactoryLearner | EVO-01 SimulationAgent + EVO-02 EvaluationAgent + EVO-03 GapDetector + EVO-04 DecisionAgent + EVO-05 RegressionTracker + EVO-06 LoopOrchestrator. Subsysteme: LDO Schema/Storage, Hard+Soft Scoring, Plugin-System (Game+Business), CEO Review Gate, Git Tagger, Cost Tracker, Factory Learner. 50 .py, 9.042 LOC, 15 Tests |
-| Live Operations | 2 + App Registry | MetricsCollector (Store+Firebase STUB), AppHealthScorer (5-Kat, 5-Profile, 3-Zonen). App Registry (SQLite), Dashboard Integration (Health Score Fleet View). Phase 1 COMPLETE |
+| Live Operations | 5 + App Registry | MetricsCollector (Store+Firebase STUB), AppHealthScorer (5-Kat, 5-Profile, 3-Zonen), AnalyticsAgent (Trends+Funnels+Cohorts+FeatureUsage), ReviewAnalyzer (EN+DE Keywords, Pattern Detection), SupportAnalyzer (Tickets, Urgency, Recurring). App Registry (SQLite), Dashboard Integration (Fleet View + Analytics Tab). Phase 1+2 COMPLETE |
 | Integration | 1 | Cross-Department Integration |
 
 ### Deaktiviert (4)
@@ -319,7 +322,7 @@ Credential Check → Version Bump → Build/Sign → Artifact Storage
 ### Evolution Loop (50 .py, 9.042 LOC — P-EVO-001 bis P-EVO-023)
 ```
 Build + QA → OrchestratorHandoff → LDO
-  → SimulationAgent (Static Analysis + Plugins)
+  → SimulationAgent (Static Analysis + Plugins + LLM Deep Flow + Code Quality)
   → EvaluationAgent (Hard + Soft + Plugin Scores)
   → GapDetector (Score-based + Regression Gaps)
   → DecisionAgent (Gaps → Tasks, CEO Feedback → Tasks)
@@ -335,10 +338,12 @@ Build + QA → OrchestratorHandoff → LDO
 - **Tracking**: GitTagger (annotated tags, rollback), CostTracker (per-agent, per-iteration)
 - **Factory Learner**: Cross-Project Queries, Similar Issues, Lessons per Type, Cross-Stats
 - **CLI**: `--evolution-loop`, `--evolution-status`, `--evolution-history`, `--evolution-ceo-review`
-- **Tests**: 15 Test-Dateien, ~80 Tests total
-- **Referenz**: `docs/ROADBOOK_EVOLUTION_LOOP.md`
+- **Tests**: 15 Test-Dateien, 96 Tests total (86 passed, 5 failed, 5 errors)
+- **Referenz**: `docs/ROADBOOK_EVOLUTION_LOOP.md`, `docs/evolution_loop.md` (Agent-Referenz)
 
 ## Erledigtes
+- [2026-03-30] Evolution Loop P-EVO-019: Simulation Agent LLM Extension (`factory/evolution_loop/simulation_agent.py`). 3 neue Methoden: `_call_llm()` (TheBrain+ProviderRouter Primary, Anthropic SDK Fallback, Cost-Tracking), `_deep_flow_analysis()` (max 3 LLM-Calls: Flow-Completeness, Dead-Ends, Empfehlungen), `_code_quality_analysis()` (max 5 LLM-Calls: Readability/Structure/ErrorHandling/Maintainability je 1-10). `simulate()` erweitert: LLM-Analyse nach deterministischer Phase (try/except, non-critical). O-series Fix: max_tokens Floor=1024 (Reasoning-Token-Overhead), temperature=1.0. Test: 5 Dateien, Quality 7.1/10, $0.014.
+- [2026-03-29] Evolution Loop P-EVO-025: Dokumentation & Final Report. `docs/evolution_loop.md` (385 Zeilen) — Referenz-Doku fuer Claude Code Agent: Architektur-Diagramm, 6 Agents, LDO-Schema, Scoring, Loop-Modi, CEO Review Gate, CLI-Befehle, Plugin-Anleitung, Config, Factory Learner, Troubleshooting. `DeveloperReports/EVO-FINAL-REPORT.md` (245 Zeilen) — Finaler Report: 22/25 Prompts implementiert, 50 .py (9.079 LOC), 96 Tests (86 passed), Factory-Metriken, Architektur-Entscheidungen, Limitierungen, naechste Schritte. Echte Zahlen: 470 Factory .py total.
 - [2026-03-29] Evolution Loop P-EVO-024: Agent Activation & Registry Finalisierung. 6 EVO Agents (EVO-01 bis EVO-06) in agent_registry.json eingetragen mit status=active, department=Evolution Loop. `factory/evolution_loop/__init__.py` vervollstaendigt: 37 Exports (6 Agents, 15 LDO-Typen, EvolutionConfig, 3 Scoring, 4 Gates, 2 Plugins, 2 Adapters, 2 Tracking, FactoryLearner). Alle 7 Sub-Package __init__.py verifiziert (ldo, scoring, gates, plugins, adapters, tracking, config). Registry Summary: 86 total, 79 active, 14 Departments. Backup: `_backups/agent_registry.json.bak_evolution_loop_activation`. 6/6 Validierungstests bestanden.
 - [2026-03-29] Evolution Loop P-EVO-023: Factory Learner (`factory/evolution_loop/factory_learner.py`, 405 LOC). Query-Schicht ueber LDO-History: list_projects() (alle Projekte mit Iterationen/Scores/Trends), get_project_summary() (vollstaendige Zusammenfassung inkl. Score-Improvement/Gaps/Tasks/Mode-History), search_similar_issues() (Substring-Match mit Relevanz-Scoring, Resolution-Tracking), get_cross_project_stats() (aggregierte Statistiken: Avg Iterations/Scores/Costs, Gap-Verteilung, Type-Distribution), get_lessons_for_project_type() (Erkenntnisse pro Typ: typische Mode-Progression, haeufige Gaps). 100% deterministisch, read-only, cached. 7/7 Tests + alle bestehenden Tests gruen.
 - [2026-03-29] Evolution Loop P-EVO-021: Plugin-System (`factory/evolution_loop/plugins/`). EvaluationPlugin ABC + PluginLoader (importlib dynamic loading, _TYPE_TO_DIR mapping). 3 Plugins: GameSystemsValidator (5 Systems je 20pts), MechanicsConsistencyChecker (Konstanten-Validierung), DataFlowValidator (API/Validation/Sanitization 40+30+30pts). SimulationAgent integriert: _run_plugins() nach synthetic_flow_check, Ergebnisse als dict fuer EvaluationAgent-Kompatibilitaet. Graceful bei missing files (Score=50, Confidence=10). 6/6 Tests + alle bestehenden Tests gruen.

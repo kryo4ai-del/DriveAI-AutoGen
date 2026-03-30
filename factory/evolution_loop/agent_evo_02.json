@@ -1,0 +1,15 @@
+{
+  "id": "EVO-02",
+  "name": "Evaluation Agent",
+  "role": "Evaluates project build quality (hard + soft scores)",
+  "department": "Evolution Loop",
+  "task_type": "evaluation",
+  "status": "active",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "description": "Bewertet Build-Qualitaet ueber Hard Scores (Bug, Roadbook, Structural) + Soft Scores (Performance, UX) + Plugin-Scores. Aggregation mit Veto-Logik.",
+  "py_file": "evaluation_agent.py",
+  "capabilities": ["scoring", "evaluation", "quality_assessment"]
+}

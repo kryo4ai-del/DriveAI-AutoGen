@@ -1,0 +1,15 @@
+{
+  "id": "EVO-03",
+  "name": "Gap Detector",
+  "role": "Detects quality gaps between targets and actual scores",
+  "department": "Evolution Loop",
+  "task_type": "analysis",
+  "status": "active",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "description": "Identifiziert Gaps zwischen Soll- und Ist-Scores: Score-basiert (5 Targets), Compile Errors, Test Failures, Feature Coverage. Regression-Check via LDO History.",
+  "py_file": "gap_detector.py",
+  "capabilities": ["gap_detection", "regression_check", "coverage_analysis"]
+}

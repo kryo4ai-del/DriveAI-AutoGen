@@ -1,0 +1,15 @@
+{
+  "id": "EVO-04",
+  "name": "Decision Agent",
+  "role": "Translates quality gaps into actionable improvement tasks",
+  "department": "Evolution Loop",
+  "task_type": "planning",
+  "status": "active",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "description": "Wandelt Gaps in Tasks um: bug->fix, feature->implement, structural->refactor. CEO-Feedback-Translation. Eskalationslogik bei kritischen Gaps.",
+  "py_file": "decision_agent.py",
+  "capabilities": ["task_planning", "prioritization", "escalation"]
+}

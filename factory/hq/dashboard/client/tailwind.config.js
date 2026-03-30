@@ -1,5 +1,9 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx}'],
+  safelist: [
+    { pattern: /^bg-(blue|teal|purple|gray|emerald|amber|orange)-500/ },
+    { pattern: /^text-(blue|teal|purple|gray|emerald|amber|orange)-400/ },
+  ],
   theme: {
     extend: {
       colors: {

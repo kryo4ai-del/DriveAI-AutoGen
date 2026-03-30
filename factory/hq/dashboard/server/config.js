@@ -28,6 +28,7 @@ module.exports = {
     dispatcher: path.join(FACTORY_BASE, 'factory', 'dispatcher'),
     capabilities: path.join(FACTORY_BASE, 'factory', 'hq', 'capabilities', 'reports'),
     liveOpsRegistryDb: path.join(FACTORY_BASE, 'factory', 'live_operations', 'app_registry', 'registry.db'),
+    liveOpsInsights: path.join(FACTORY_BASE, 'factory', 'live_operations', 'data', 'insights'),
   },
   SCAN_INTERVAL: 15000,
   PORT: process.env.DASHBOARD_PORT || 3001,
