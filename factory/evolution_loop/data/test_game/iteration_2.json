@@ -1,0 +1,313 @@
+{
+  "meta": {
+    "project_id": "test_game",
+    "project_type": "game",
+    "production_line": "unity",
+    "iteration": 2,
+    "loop_mode": "sprint",
+    "timestamp": "2026-03-30T16:46:36Z",
+    "accumulated_cost": 0.0,
+    "git_tag": "evolution/test_game/iteration-2"
+  },
+  "roadbook_targets": {
+    "features": [
+      "f1",
+      "f2",
+      "f3",
+      "f4",
+      "f5"
+    ],
+    "screens": [
+      "s1",
+      "s2",
+      "s3"
+    ],
+    "user_flows": [
+      "flow1",
+      "flow2"
+    ],
+    "quality_thresholds": {},
+    "score_weights": {}
+  },
+  "build_artifacts": {
+    "paths": [],
+    "compile_status": "not_built",
+    "platform_details": {}
+  },
+  "qa_results": {
+    "tests_passed": 18,
+    "tests_failed": 2,
+    "test_details": [],
+    "compile_errors": [
+      "Error in GameView.swift"
+    ],
+    "warnings": [
+      "Deprecated API"
+    ]
+  },
+  "simulation_results": {
+    "static_analysis": {
+      "total_files": 0,
+      "total_loc": 0,
+      "language_distribution": {},
+      "todos": 0,
+      "fixmes": 0,
+      "stubs": 0,
+      "hardcoded_values": 0,
+      "deep_nesting": 0,
+      "error_handling_ratio": 0.0,
+      "dead_code_indicators": 0,
+      "dead_code_ratio": 0.0,
+      "files_analyzed": 0,
+      "files_skipped": 0
+    },
+    "roadbook_coverage": {
+      "features_covered": [],
+      "features_missing": [],
+      "screens_covered": [],
+      "screens_missing": [],
+      "flows_covered": [],
+      "coverage_percent": 0.0
+    },
+    "synthetic_flows": [],
+    "plugin_results": {}
+  },
+  "scores": {
+    "bug_score": {
+      "value": 74.0,
+      "confidence": 95.0
+    },
+    "roadbook_match_score": {
+      "value": 0.0,
+      "confidence": 90.0
+    },
+    "structural_health_score": {
+      "value": 75.0,
+      "confidence": 85.0
+    },
+    "performance_score": {
+      "value": 85.0,
+      "confidence": 55.0
+    },
+    "ux_score": {
+      "value": 40.0,
+      "confidence": 45.0
+    },
+    "plugin_scores": {
+      "maintainability": {
+        "value": 50.0,
+        "confidence": 40.0
+      }
+    },
+    "quality_score_aggregate": 50.0
+  },
+  "gaps": [
+    {
+      "id": "GAP-2-001",
+      "category": "bug",
+      "severity": "critical",
+      "description": "bug_score (74) below target (90)",
+      "affected_component": "bug_score",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-002",
+      "category": "bug",
+      "severity": "critical",
+      "description": "Compile error: Error in GameView.swift",
+      "affected_component": "build",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-003",
+      "category": "feature",
+      "severity": "high",
+      "description": "roadbook_match_score (0) below target (95)",
+      "affected_component": "roadbook_match_score",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-004",
+      "category": "structural",
+      "severity": "high",
+      "description": "structural_health_score (75) below target (85)",
+      "affected_component": "structural_health_score",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-005",
+      "category": "bug",
+      "severity": "high",
+      "description": "2 tests failed",
+      "affected_component": "tests",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-006",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f1",
+      "affected_component": "f1",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-007",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f2",
+      "affected_component": "f2",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-008",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f3",
+      "affected_component": "f3",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-009",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f4",
+      "affected_component": "f4",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-010",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f5",
+      "affected_component": "f5",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-2-011",
+      "category": "ux",
+      "severity": "medium",
+      "description": "ux_score (40) below target (70)",
+      "affected_component": "ux_score",
+      "is_regression": true,
+      "first_seen_iteration": 1
+    }
+  ],
+  "regression_data": {
+    "trend": "improving",
+    "iterations_without_improvement": 1,
+    "regressions_detected": [],
+    "recommendation": "continue",
+    "comparison_to_previous": {
+      "bug_score": 0.0,
+      "roadbook_match_score": 0.0,
+      "structural_health_score": 0.0,
+      "performance_score": 0.0,
+      "ux_score": 0.0,
+      "quality_score_aggregate": 0.0
+    }
+  },
+  "tasks": [
+    {
+      "id": "TASK-2-001",
+      "type": "fix",
+      "description": "Fix: bug_score (74) below target (90)",
+      "target_component": "bug_score",
+      "originated_from": "GAP-2-001",
+      "priority": "critical"
+    },
+    {
+      "id": "TASK-2-002",
+      "type": "fix",
+      "description": "Fix: Compile error: Error in GameView.swift",
+      "target_component": "build",
+      "originated_from": "GAP-2-002",
+      "priority": "critical"
+    },
+    {
+      "id": "TASK-2-003",
+      "type": "implement",
+      "description": "Implement: roadbook_match_score (0) below target (95)",
+      "target_component": "roadbook_match_score",
+      "originated_from": "GAP-2-003",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-004",
+      "type": "refactor",
+      "description": "Refactor: structural_health_score (75) below target (85)",
+      "target_component": "structural_health_score",
+      "originated_from": "GAP-2-004",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-005",
+      "type": "fix",
+      "description": "Fix: 2 tests failed",
+      "target_component": "tests",
+      "originated_from": "GAP-2-005",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-006",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f1",
+      "target_component": "f1",
+      "originated_from": "GAP-2-006",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-007",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f2",
+      "target_component": "f2",
+      "originated_from": "GAP-2-007",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-008",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f3",
+      "target_component": "f3",
+      "originated_from": "GAP-2-008",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-009",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f4",
+      "target_component": "f4",
+      "originated_from": "GAP-2-009",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-010",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f5",
+      "target_component": "f5",
+      "originated_from": "GAP-2-010",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-2-011",
+      "type": "refactor",
+      "description": "Refactor: ux_score (40) below target (70)",
+      "target_component": "ux_score",
+      "originated_from": "GAP-2-011",
+      "priority": "medium"
+    }
+  ],
+  "ceo_feedback": {
+    "status": "pending",
+    "issues": []
+  }
+}
