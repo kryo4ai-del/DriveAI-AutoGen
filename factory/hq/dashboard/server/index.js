@@ -44,6 +44,9 @@ app.use('/api/janitor', janitorApi);
 const brainApi = require('./api/brain');
 app.use('/api/brain', brainApi);
 
+const liveopsApi = require('./api/liveops');
+app.use('/api/liveops', liveopsApi);
+
 app.get('/api/health-check', (req, res) => {
   res.json({
     status: 'ok',

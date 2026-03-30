@@ -15,6 +15,8 @@ import TeamView from './components/Team/TeamView';
 import ProviderView from './components/Provider/ProviderView';
 import JanitorView from './components/Janitor/JanitorView';
 import BrainView from './components/Brain/BrainView';
+import AppFleetOverview from './components/LiveOps/AppFleetOverview';
+import AppDetailView from './components/LiveOps/AppDetailView';
 
 const BASE_SECTIONS = [
   { id: 'start', label: 'Start', icon: 'Rocket' },
@@ -29,11 +31,13 @@ const BASE_SECTIONS = [
   { id: 'team', label: 'Team', icon: 'Users' },
   { id: 'history', label: 'Historie', icon: 'Clock' },
   { id: 'showcase', label: 'Schaufenster', icon: 'Eye' },
+  { id: 'liveops', label: 'Live Operations', icon: 'HeartPulse' },
 ];
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('start');
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedApp, setSelectedApp] = useState(null);
   const [gateCount, setGateCount] = useState(0);
   const [janitorProposals, setJanitorProposals] = useState(0);
   const [chatOpen, setChatOpen] = useState(false);
@@ -82,6 +86,7 @@ export default function App() {
   function handleSelectSection(section) {
     setActiveSection(section);
     setSelectedProject(null);
+    setSelectedApp(null);
   }
 
   return (
@@ -111,7 +116,13 @@ export default function App() {
           {activeSection === 'team' && <TeamView />}
           {activeSection === 'history' && <ProjectHistory />}
           {activeSection === 'showcase' && <ShowcaseView />}
-          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'brain', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase'].includes(activeSection) && (
+          {activeSection === 'liveops' && !selectedApp && (
+            <AppFleetOverview onSelectApp={setSelectedApp} />
+          )}
+          {activeSection === 'liveops' && selectedApp && (
+            <AppDetailView appId={selectedApp} onBack={() => setSelectedApp(null)} />
+          )}
+          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'brain', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase', 'liveops'].includes(activeSection) && (
             <PlaceholderView
               title={sections.find(s => s.id === activeSection)?.label || ''}
               description="Wird in einem zukuenftigen Step implementiert"

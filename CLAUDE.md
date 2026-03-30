@@ -77,17 +77,24 @@ DriveAI-AutoGen/
 │   │   ├── plugins/                ← Plugin-System (Game + Business Plugins)
 │   │   ├── config/                 ← Loop Config + Defaults (YAML)
 │   │   └── tests/                  ← 15 Test-Dateien
-│   ├── live_operations/              ← Live Operations Layer
+│   ├── live_operations/              ← Live Operations Layer (Phase 1 COMPLETE)
 │   │   ├── app_registry/            ← App Registry (SQLite): database.py, migrator.py, cli.py
-│   │   ├── agents/                  ← Live Ops Agents (metrics_collector, health_scorer, ...)
+│   │   ├── agents/
+│   │   │   ├── metrics_collector/   ← MetricsCollector: Store API + Firebase API Adapter (STUB), Normalisierung
+│   │   │   └── health_scorer/       ← AppHealthScorer: 5 Kategorien, 5 Profile, Zonen (green/yellow/red)
 │   │   └── data/                    ← Gesammelte Metriken (JSON pro Collection-Run)
 │   ├── integration/                 ← Cross-Department Integration
 │   ├── lines/                       ← Production Line Definitions
+│   ├── production_lines/            ← Platform-specific Templates
+│   │   ├── ios/templates/analytics/ ← Firebase Analytics (Swift)
+│   │   ├── android/templates/analytics/ ← Firebase Analytics (Kotlin)
+│   │   ├── web/templates/analytics/ ← Firebase Analytics (TypeScript): analyticsManager, analyticsEvents, firebaseConfig.template, INTEGRATION_GUIDE
+│   │   └── unity/templates/analytics/ ← Firebase Analytics (C#): AnalyticsManager, AnalyticsEvents, firebase_config.template, INTEGRATION_GUIDE
 │   ├── hq/                          ← Factory HQ
 │   │   ├── capabilities/            ← Feasibility Check: Capability Sheet + Matching + Gate + Watcher
 │   │   ├── dashboard/               ← Web Dashboard (React + Express, 19 Components + Team Redesign: 7 Sub-Components)
-│   │   │   ├── server/              ← API Routes (projects, gates, feasibility, janitor, providers, team, assistant, brain)
-│   │   │   └── client/              ← React Frontend (Pipeline, Gates, Janitor, Assistant, Provider, Team, Brain)
+│   │   │   ├── server/              ← API Routes (projects, gates, feasibility, janitor, providers, team, assistant, brain, liveops)
+│   │   │   └── client/              ← React Frontend (Pipeline, Gates, Janitor, Assistant, Provider, Team, Brain, LiveOps)
 │   │   ├── gates/                   ← CEO Gate Files (JSON)
 │   │   ├── janitor/                 ← Factory Janitor: Scanner, Analyzer, Consistency, Dependencies, Model Hardcode Checker, Model Evolution Check
 │   │   └── providers/               ← Service Provider Management
@@ -128,7 +135,7 @@ DriveAI-AutoGen/
 | Signing | 1 | Code Signing (iOS/Android/Web) |
 | Marketing | 11 + 7 Tools + 9 Adapters | Brand Guardian (MKT-01) + Strategy (MKT-02) + Copywriter (MKT-03) + Naming (MKT-04) + ASO (MKT-05) + Visual Designer (MKT-06) + Video Script (MKT-07) + Publishing Orchestrator (MKT-08) + Report Agent (MKT-09) + Review Manager (MKT-10, Zwei-Stufen) + Community Agent (MKT-11, Zwei-Stufen). Tools: Template Engine, Video Pipeline, Content Calendar, Ranking DB, Social Analytics, KPI Tracker, HQ Bridge. Adapters: 5 aktiv + 4 Stubs. Phase 4 COMPLETE (59+32 Tests, 54 .py, 12.653 LOC) |
 | Evolution Loop | 6 + FactoryLearner | EVO-01 SimulationAgent + EVO-02 EvaluationAgent + EVO-03 GapDetector + EVO-04 DecisionAgent + EVO-05 RegressionTracker + EVO-06 LoopOrchestrator. Subsysteme: LDO Schema/Storage, Hard+Soft Scoring, Plugin-System (Game+Business), CEO Review Gate, Git Tagger, Cost Tracker, Factory Learner. 50 .py, 9.042 LOC, 15 Tests |
-| Live Operations | - | App Registry (SQLite), Metrics Collector, Health Scorer |
+| Live Operations | 2 + App Registry | MetricsCollector (Store+Firebase STUB), AppHealthScorer (5-Kat, 5-Profile, 3-Zonen). App Registry (SQLite), Dashboard Integration (Health Score Fleet View). Phase 1 COMPLETE |
 | Integration | 1 | Cross-Department Integration |
 
 ### Deaktiviert (4)
@@ -332,6 +339,7 @@ Build + QA → OrchestratorHandoff → LDO
 - **Referenz**: `docs/ROADBOOK_EVOLUTION_LOOP.md`
 
 ## Erledigtes
+- [2026-03-29] Evolution Loop P-EVO-024: Agent Activation & Registry Finalisierung. 6 EVO Agents (EVO-01 bis EVO-06) in agent_registry.json eingetragen mit status=active, department=Evolution Loop. `factory/evolution_loop/__init__.py` vervollstaendigt: 37 Exports (6 Agents, 15 LDO-Typen, EvolutionConfig, 3 Scoring, 4 Gates, 2 Plugins, 2 Adapters, 2 Tracking, FactoryLearner). Alle 7 Sub-Package __init__.py verifiziert (ldo, scoring, gates, plugins, adapters, tracking, config). Registry Summary: 86 total, 79 active, 14 Departments. Backup: `_backups/agent_registry.json.bak_evolution_loop_activation`. 6/6 Validierungstests bestanden.
 - [2026-03-29] Evolution Loop P-EVO-023: Factory Learner (`factory/evolution_loop/factory_learner.py`, 405 LOC). Query-Schicht ueber LDO-History: list_projects() (alle Projekte mit Iterationen/Scores/Trends), get_project_summary() (vollstaendige Zusammenfassung inkl. Score-Improvement/Gaps/Tasks/Mode-History), search_similar_issues() (Substring-Match mit Relevanz-Scoring, Resolution-Tracking), get_cross_project_stats() (aggregierte Statistiken: Avg Iterations/Scores/Costs, Gap-Verteilung, Type-Distribution), get_lessons_for_project_type() (Erkenntnisse pro Typ: typische Mode-Progression, haeufige Gaps). 100% deterministisch, read-only, cached. 7/7 Tests + alle bestehenden Tests gruen.
 - [2026-03-29] Evolution Loop P-EVO-021: Plugin-System (`factory/evolution_loop/plugins/`). EvaluationPlugin ABC + PluginLoader (importlib dynamic loading, _TYPE_TO_DIR mapping). 3 Plugins: GameSystemsValidator (5 Systems je 20pts), MechanicsConsistencyChecker (Konstanten-Validierung), DataFlowValidator (API/Validation/Sanitization 40+30+30pts). SimulationAgent integriert: _run_plugins() nach synthetic_flow_check, Ergebnisse als dict fuer EvaluationAgent-Kompatibilitaet. Graceful bei missing files (Score=50, Confidence=10). 6/6 Tests + alle bestehenden Tests gruen.
 - [2026-03-29] Evolution Loop P-EVO-018: CLI Integration in main.py (+134 LOC). 4 neue Flags: `--evolution-loop PROJECT_ID` (+ `--project-type`, `--production-line`), `--evolution-status PROJECT_ID`, `--evolution-history PROJECT_ID`, `--evolution-ceo-review PROJECT_ID`. Backup: `_backups/main.py.bak_evolution_loop`. Lazy Imports (innerhalb if-Bloecke). Bestehende Flags unberuehrt. Syntax OK, 5/5 E2E + 6/6 CEO Gate bestanden.

@@ -1,0 +1,33 @@
+{
+  "_comment": "Firebase configuration template for Unity (Android). Replace all {{PLACEHOLDER}} values with your Firebase project settings. Download the real google-services.json from Firebase Console > Project Settings > Android app and place it at Assets/google-services.json.",
+  "project_info": {
+    "project_id": "{{FIREBASE_PROJECT_ID}}",
+    "project_number": "{{FIREBASE_PROJECT_NUMBER}}",
+    "firebase_url": "{{FIREBASE_URL}}"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "{{FIREBASE_APP_ID}}",
+        "android_client_info": {
+          "package_name": "{{APP_PACKAGE_NAME}}"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "{{FIREBASE_API_KEY}}"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

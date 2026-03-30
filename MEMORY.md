@@ -89,6 +89,62 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 
 ## Changelog
 
+### 2026-03-29 -- Live Operations Phase 1: COMPLETE (8 Prompts)
+
+#### Block A (parallel):
+- **Prompt 1**: App Registry + Migration -- war schon vorhanden (database.py, migrator.py, cli.py)
+- **Prompt 2**: Firebase iOS Templates -- AnalyticsManager.swift, AnalyticsEvents.swift, GoogleService-Info.plist.template, INTEGRATION_GUIDE.md
+- **Prompt 3**: Firebase Android Templates -- AnalyticsManager.kt, AnalyticsEvents.kt, google-services.json.template, INTEGRATION_GUIDE.md
+- **Prompt 4**: Firebase Web Templates -- analyticsManager.ts, analyticsEvents.ts, firebaseConfig.template.ts, INTEGRATION_GUIDE.md
+- **Prompt 5**: Firebase Unity Templates -- AnalyticsManager.cs, AnalyticsEvents.cs, firebase_config.template.json, INTEGRATION_GUIDE.md
+
+#### Block B (sequentiell):
+- **Prompt 6**: MetricsCollector Agent (`factory/live_operations/agents/metrics_collector/`)
+  - collector.py, store_api.py (STUB), firebase_api.py (STUB), config.py
+  - Normalisierte Metriken: store_metrics + firebase_metrics, JSON-Output in data/
+- **Prompt 7**: AppHealthScorer Agent (`factory/live_operations/agents/health_scorer/`)
+  - scorer.py, profiles.py, cli.py
+  - 5 Kategorien: Stability, Satisfaction, Engagement, Revenue, Growth
+  - 5 Profile: gaming, education, utility, content, subscription (Gewichtungen summieren zu 1.0)
+  - 3 Zonen: green (80-100), yellow (50-79), red (0-49)
+  - Alerts bei Kategorie < 50
+  - CLI: --app, --all, --simulate --profile
+- **Prompt 8**: Dashboard Integration
+  - Backend: `server/api/liveops.js` (3 Endpoints: /fleet, /app/:id, /app/:id/health-history)
+  - Frontend: HealthScoreCircle.jsx (SVG), AppFleetOverview.jsx (Grid), AppDetailView.jsx (Detail mit Chart)
+  - Sidebar: HeartPulse Icon, "Live Operations" Nav-Item
+  - Dependencies: better-sqlite3 (Server), kein recharts (reines SVG)
+  - Build: Client baut fehlerfrei (vite build OK)
+
+#### Cross-Platform Event-Namen (identisch auf allen 4 Plattformen):
+dai_app_open, dai_app_background, dai_onboarding_start, dai_onboarding_step, dai_onboarding_complete, dai_onboarding_skip, dai_feature_used, dai_feature_discovered, dai_session_active, dai_content_viewed, dai_purchase_start, dai_purchase_complete, dai_subscription_start, dai_ad_impression, dai_error_occurred
+
+#### Naechste Schritte:
+- Phase 2: Analytics -- analytics_agent, review_manager, support_agent
+- Store APIs: Echte Credentials konfigurieren (Apple App Store Connect, Google Play Console)
+- Firebase: Admin SDK Credentials konfigurieren
+
+### 2026-03-29 -- Android Analytics Templates (Firebase)
+- **Neue Dateien** (4) in `factory/production_lines/android/templates/analytics/`:
+  - `AnalyticsManager.kt` -- Kotlin Singleton: configure(), logEvent(), logScreenView(), logFeatureUsed(), logFunnelStep(), logConversion(), setUserProperty(), setAppProfile()
+  - `AnalyticsEvents.kt` -- Sealed class hierarchy: Session, Onboarding, Feature, Engagement, Monetization, Error (15 Events)
+  - `INTEGRATION_GUIDE.md` -- Gradle deps, google-services.json, Application setup, Usage examples, Debug-Modus
+  - `google-services.json.template` -- Placeholder-Template mit {{FIREBASE_PROJECT_ID}}, {{FIREBASE_API_KEY}} etc.
+- **Event-Prefix**: `dai_` (DriveAI identification)
+- **Cross-Platform**: Alle 15 Event-Namen identisch zu iOS (dai_app_open, dai_feature_used, dai_onboarding_start etc.)
+- **Dependencies**: firebase-analytics-ktx, firebase-crashlytics-ktx (via Firebase BoM)
+
+### 2026-03-29 -- Web Analytics Templates (Firebase)
+- **Neue Dateien** (4) in `factory/production_lines/web/templates/analytics/`:
+  - `analyticsManager.ts` -- TypeScript module: initAnalytics(), logEvent(), logScreenView(), logFeatureUsed(), logFunnelStep(), logConversion(), setUserProperty(), setAppProfile(). Named exports, async init mit isSupported()-Check (SSR-safe).
+  - `analyticsEvents.ts` -- Interface AnalyticsEvent + 15 Factory Functions (dai_app_open, dai_app_background, dai_onboarding_start/step/complete/skip, dai_feature_used/discovered, dai_session_active, dai_content_viewed, dai_purchase_start/complete, dai_subscription_start, dai_ad_impression, dai_error_occurred). Type-safe Parameters.
+  - `INTEGRATION_GUIDE.md` -- npm install firebase, Config Setup, initAnalytics() in Entry Point, React Hook useAnalytics() fuer automatisches Screen View Tracking, Lifecycle Events.
+  - `firebaseConfig.template.ts` -- Placeholder-Template mit {{FIREBASE_API_KEY}} etc., typisiert als FirebaseConfig.
+- **Event-Prefix**: `dai_` (automatisch via ensurePrefix())
+- **Cross-Platform**: Alle 15 Event-Namen identisch zu iOS/Android
+- **Kein Crashlytics**: Firebase Crashlytics existiert nicht fuer Web -- stattdessen daiErrorOccurred() Events
+- **Dependencies**: firebase (npm)
+
 ### 2026-03-29 -- Live Operations Phase 1: App Registry (Task 1.1 + 1.2)
 - **Neues Department**: `factory/live_operations/` -- Autonomer Betriebs-Layer ueber der Factory
 - **App Registry** (`factory/live_operations/app_registry/`):
@@ -100,6 +156,19 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - **Features**: CRUD, Cooling Period (auto-expire), Health Zone Filter, Action Queue mit Status-Tracking
 - **Tests**: 8/8 bestanden (Import, CRUD, Health Record, Action Queue, Release History, Cooling, Zones, Migration)
 - **Hinweis**: Keine app_registry.json vorhanden (store_pipeline/ existiert noch nicht) -- Migrator handelt das graceful
+
+### 2026-03-29 -- Evolution Loop: Agent Activation & Registry (P-EVO-024)
+- **Geaenderte Dateien** (2):
+  - `factory/agent_registry.json` -- 6 EVO Agents (EVO-01 bis EVO-06) mit status=active hinzugefuegt, Summary: 86 total, 79 active, 14 Departments
+  - `factory/evolution_loop/__init__.py` -- Vervollstaendigt: 37 Exports (vorher 15), alle Sub-Module eingebunden
+- **Backup**: `_backups/agent_registry.json.bak_evolution_loop_activation`
+- **Registry-Eintraege**:
+  - EVO-01 Simulation Agent (simulation), EVO-02 Evaluation Agent (evaluation), EVO-03 Gap Detector (analysis)
+  - EVO-04 Decision Agent (planning), EVO-05 Regression Tracker (tracking), EVO-06 Loop Orchestrator (orchestration)
+  - Alle: department=Evolution Loop, model_tier=none (deterministische Agents)
+- **__init__.py Exports** (37): 6 Agents + 15 LDO-Typen + EvolutionConfig + 3 Scoring + 4 Gates + 2 Plugins + 2 Adapters + 2 Tracking + FactoryLearner
+- **Sub-Packages verifiziert** (7/7): ldo, scoring, gates, plugins, adapters, tracking, config
+- **Validierung**: 6/6 Tests bestanden (Backup, Registry, Summary, Department, Imports, Sub-Packages)
 
 ### 2026-03-29 -- Evolution Loop: Factory Learner (P-EVO-023)
 - **Neue Dateien** (2):
@@ -2150,4 +2219,18 @@ python main.py --pack screen_plus_viewmodel --name <Name> --profile dev --approv
 - [x] Dashboard: Project Delete, Feasibility UI, Janitor Tabs, Provider View, Team View
 - [ ] AskFin Premium: Training Mode Spec → Factory Run
 - [ ] AskFin Premium: Skill Map Spec → Factory Run
+- [x] iOS Production Line: Firebase Analytics Templates erstellt (4 Dateien)
 
+## 2026-03-29 — iOS Production Line: Firebase Analytics Templates
+
+### Neue Dateien
+- `factory/production_lines/ios/templates/analytics/AnalyticsManager.swift` — Singleton Analytics Manager (Firebase init, logEvent, logScreenView, logFeatureUsed, logFunnelStep, logConversion, setUserProperty, setAppProfile)
+- `factory/production_lines/ios/templates/analytics/AnalyticsEvents.swift` — DAIAnalyticsEvent Enum (17 Standard-Events: Session, Onboarding Funnel, Feature Usage, Engagement, Monetization, Errors)
+- `factory/production_lines/ios/templates/analytics/INTEGRATION_GUIDE.md` — Assembly Agent Guide (SPM Setup, GoogleService-Info.plist, Lifecycle-Wiring, Beispiele)
+- `factory/production_lines/ios/templates/analytics/GoogleService-Info.plist.template` — Placeholder-Plist mit {{FIREBASE_*}} Platzhaltern
+
+### Design-Entscheidungen
+- Alle Custom-Events mit `dai_` Prefix (Namespace-Trennung in Firebase)
+- Nur FirebaseAnalytics + FirebaseCrashlytics (kein Firestore, Auth etc.)
+- Generische Templates ohne App-spezifische Logik
+- `AnalyticsManager.log(_ event: DAIAnalyticsEvent)` als Brücke zwischen Manager und Events-Enum
