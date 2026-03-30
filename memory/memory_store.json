@@ -13533,44 +13533,48 @@
       "note": "[swift_developer] /// accumulated drift from a simple \"subtract paused duration\" approach."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.739700",
-      "note": "Run completed for task: Design and implement a SwiftUI multiple-choice question screen for the DriveAI app."
+      "timestamp": "2026-03-30T12:20:40.858402",
+      "note": "Run completed for task: -h"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.813210",
-      "note": "[driveai_lead] ✓ Displays question text (multiline, max 3 lines recommended)"
+      "timestamp": "2026-03-30T12:20:40.959164",
+      "note": "[ios_architect] Key Decision:** Promote `NavigationPath` to root (`SetupView`) for reliable deep linking and exam reminders."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.814469",
-      "note": "[product_strategist] Recommendation: [PENDING — likely \"proceed\" if MVP-blocking]"
+      "timestamp": "2026-03-30T12:20:40.961552",
+      "note": "[product_strategist] Architecture Decision:** Sound and ready for delegation"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.815827",
-      "note": "[driveai_lead] | **Architecture Decision** | MVVM, offline-first, no backend MVP |"
+      "timestamp": "2026-03-30T12:20:40.963667",
+      "note": "[roadmap_agent] | JSON startup performance (1000+ questions) | `@data_architect` | Profile on device; switch to SQLite if >2s parse | Workstream 1 decision |"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.817082",
-      "note": "[product_strategist] Given the information provided and reasonable assumptions for a **greenfield iOS learning app**, I'm proceeding with classification and **conditional recommendations**. Where crit..."
+      "timestamp": "2026-03-30T12:20:40.967573",
+      "note": "[legal_risk_agent] Based on the project briefing, I've identified several risk areas that require documentation and external legal review recommendation."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.818344",
-      "note": "[roadmap_agent] Option B: Full DriveAI Product Roadmap (Recommended)**"
+      "timestamp": "2026-03-30T12:20:40.969294",
+      "note": "[autonomous_project_orchestrator] Recommended Phase: bootstrap → compliance_review → spec_creation → implementation"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.819597",
-      "note": "[legal_risk_agent] Recommended Next Step: halt implementation planning until external legal counsel"
+      "timestamp": "2026-03-30T12:20:40.971305",
+      "note": "[opportunity_agent] Market fit: Driver license exam prep is time-constrained (users typically 2-4 week study window). SRS compresses study time by 30-40% (research average). High willingness-to-pay fo..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.820806",
-      "note": "[autonomous_project_orchestrator] Recommended Phase: planning → spec_creation (conditional)"
+      "timestamp": "2026-03-30T12:20:40.973384",
+      "note": "[content_script_agent] 1. **Internal stakeholder alignment** (team comms, decision gates)"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.822491",
-      "note": "[ios_architect] 🎯 ARCHITECTURAL DECISION FRAMEWORK"
+      "timestamp": "2026-03-30T12:20:40.975713",
+      "note": "[bug_hunter] ✅ Recommended Refactor Plan"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.824953",
-      "note": "[bug_hunter] Recommendation:** Introduce protocols for all services:"
+      "timestamp": "2026-03-30T12:20:40.978036",
+      "note": "[ux_psychology] Fix: Consolidate state into a single `@Published var questionState: QuestionState` enum with cases `.loading`, `.presenting(Question, selectedAnswer: String?)`, `.submitted(isCorrect:..."
+    },
+    {
+      "timestamp": "2026-03-30T12:20:40.981469",
+      "note": "[test_generator] 🛠️ **Refactoring Recommendations (Critical)**"
     }
   ],
   "architecture_notes": [
@@ -32407,48 +32411,60 @@
       "note": "[swift_developer] /// Duration in seconds for this phase (simplified 4-4-6-2 pattern)."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.811098",
-      "note": "[driveai_lead] 📋 Structured Development Tasks"
+      "timestamp": "2026-03-30T12:20:40.955903",
+      "note": "[driveai_lead] DriveAI – Architecture Briefing & Task Delegation"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.813505",
-      "note": "[product_strategist] Strong architecture foundation (MVVM, offline-first, accessibility-aware)"
+      "timestamp": "2026-03-30T12:20:40.957598",
+      "note": "[ios_architect] DriveAI – Architecture Briefing Response"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.814741",
-      "note": "[driveai_lead] | **Architecture Decision** | MVVM, offline-first, no backend MVP |"
+      "timestamp": "2026-03-30T12:20:40.959515",
+      "note": "[product_strategist] Thank you for the comprehensive architecture briefing. I'm reviewing this through the **Product Strategist lens** — focusing on scope classification, priority, value assessment, a..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.816181",
-      "note": "[product_strategist] | **Codebase State Unknown** | Task breakdown assumes greenfield; may conflict with existing patterns | Product owner must confirm: (1) is any code already written? (2) which scre..."
+      "timestamp": "2026-03-30T12:20:40.962080",
+      "note": "[roadmap_agent] I've synthesized the architecture briefing, product strategy assessment, and factory system context. Here's the **structured execution roadmap** for DriveAI."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.817462",
-      "note": "[roadmap_agent] \"architecture\": \"Existing MVVM? NavigationStack? Data schema?\""
+      "timestamp": "2026-03-30T12:20:40.964056",
+      "note": "[project_bootstrap_agent] ✅ Architecture briefing (workstreams, patterns, dependencies)"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.818727",
-      "note": "[legal_risk_agent] \"Offline-first\" architecture is favorable for privacy (less data in transit)"
+      "timestamp": "2026-03-30T12:20:40.965985",
+      "note": "[legal_risk_agent] 5. Document license terms in legal/compliance folder (compliance_reports.json + separate licensing record)"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.819857",
-      "note": "[autonomous_project_orchestrator] iOS lead engineer (MVVM + SwiftUI experience required)"
+      "timestamp": "2026-03-30T12:20:40.968035",
+      "note": "[autonomous_project_orchestrator] Folder structure scaffolded (ready for git init)"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.821223",
-      "note": "[ios_architect] DriveAI iOS Architecture Review & Implementation Blueprint"
+      "timestamp": "2026-03-30T12:20:40.969692",
+      "note": "[opportunity_agent] I've reviewed the comprehensive DriveAI project context (architecture briefing, product strategy, roadmap, legal compliance, and orchestration plan). I'm now performing my core fun..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.822851",
-      "note": "[swift_developer] I'm providing the production-ready SwiftUI components for the multiple-choice question screen. This is code-focused, following your project architecture."
+      "timestamp": "2026-03-30T12:20:40.971765",
+      "note": "[content_script_agent] I've reviewed the full project context and am now performing my core function: **structured content generation** for DriveAI across multiple formats and audiences."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.823908",
-      "note": "[bug_hunter] The implementation shows strong MVVM architecture but contains several critical state management flaws, duplicate type definitions, and missing edge case handling that could lead to crash..."
+      "timestamp": "2026-03-30T12:20:40.973991",
+      "note": "[bug_hunter] The generated API surface shows **critical architectural flaws**, **missing state synchronization**, and **unhandled edge cases** that could lead to crashes, data corruption, or poor user..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.825888",
-      "note": "[ux_psychology] 1. **[Motivation Architecture]** Lack of domain-specific mastery framing"
+      "timestamp": "2026-03-30T12:20:40.977003",
+      "note": "[ux_psychology] 1. [Motivation Architecture] Missing intrinsic feedback loop in QuestionViewModel"
+    },
+    {
+      "timestamp": "2026-03-30T12:20:40.978435",
+      "note": "[refactor_agent] 1. **Shared Service Singletons with `@StateObject`** - Anti-pattern in SwiftUI"
+    },
+    {
+      "timestamp": "2026-03-30T12:20:40.979660",
+      "note": "[test_generator] 🔍 **Architecture Review Summary**"
+    },
+    {
+      "timestamp": "2026-03-30T12:20:40.982389",
+      "note": "[swift_developer] Removed `@StateObject` for shared services (anti-pattern)"
     }
   ],
   "implementation_notes": [
@@ -55261,60 +55277,64 @@
       "note": "[swift_developer] `Models/MeditationTimer/MeditationSession.swift`"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.812043",
-      "note": "[driveai_lead] Deliverable: Models/Question.swift"
+      "timestamp": "2026-03-30T12:20:40.956647",
+      "note": "[driveai_lead] I've reviewed the project context and memory. The previous memory references a different project (meditation timer), so I'm starting fresh with **DriveAI**."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.813889",
-      "note": "[product_strategist] ❓ Strategic Questions (Product Review)"
+      "timestamp": "2026-03-30T12:20:40.958071",
+      "note": "[ios_architect] I've reviewed the project context and understand the scope. Here's my architecture assessment and delegation strategy."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.815109",
-      "note": "[driveai_lead] | **Target Platform** | iOS 17+, SwiftUI, German language |"
+      "timestamp": "2026-03-30T12:20:40.959997",
+      "note": "[product_strategist] Thank you for the comprehensive architecture briefing. I'm reviewing this through the **Product Strategist lens** — focusing on scope classification, priority, value assessment, a..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.816515",
-      "note": "[product_strategist] Dependencies: [FLAGGED] Official question data source, project codebase state, team assignment"
+      "timestamp": "2026-03-30T12:20:40.962689",
+      "note": "[roadmap_agent] ViewModels (6 screens)**"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.817783",
-      "note": "[roadmap_agent] 2 active compliance blockers** (external review requiring legal counsel)"
+      "timestamp": "2026-03-30T12:20:40.964538",
+      "note": "[project_bootstrap_agent] I've reviewed your comprehensive project briefing for DriveAI (AskFin iOS). This is solid work. However, I need to clarify my role here and provide the proper **Project Boots..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.819062",
-      "note": "[legal_risk_agent] External Review Needed: yes (URGENT)"
+      "timestamp": "2026-03-30T12:20:40.966729",
+      "note": "[legal_risk_agent] Based on the project briefing, I've identified several risk areas that require documentation and external legal review recommendation."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.820247",
-      "note": "[autonomous_project_orchestrator] iOS lead engineer (MVVM + SwiftUI experience required)"
+      "timestamp": "2026-03-30T12:20:40.968517",
+      "note": "[autonomous_project_orchestrator] Recommended Phase: bootstrap → compliance_review → spec_creation → implementation"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.821756",
-      "note": "[ios_architect] DriveAI iOS Architecture Review & Implementation Blueprint"
+      "timestamp": "2026-03-30T12:20:40.970259",
+      "note": "[opportunity_agent] I've reviewed the comprehensive DriveAI project context (architecture briefing, product strategy, roadmap, legal compliance, and orchestration plan). I'm now performing my core fun..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.823225",
-      "note": "[swift_developer] DriveAI iOS Implementation – Question Screen Component Library"
+      "timestamp": "2026-03-30T12:20:40.972361",
+      "note": "[content_script_agent] I've reviewed the full project context and am now performing my core function: **structured content generation** for DriveAI across multiple formats and audiences."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.824265",
-      "note": "[bug_hunter] 1. [FK-012] Duplicate Type Definitions in Question.swift"
+      "timestamp": "2026-03-30T12:20:40.974643",
+      "note": "[bug_hunter] The generated API surface shows **critical architectural flaws**, **missing state synchronization**, and **unhandled edge cases** that could lead to crashes, data corruption, or poor user..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.825381",
-      "note": "[creative_director] Use color intensity to show how \"fresh\" the user's memory is (darker = needs review)"
+      "timestamp": "2026-03-30T12:20:40.976264",
+      "note": "[creative_director] 1. [Emotional Core] Missing emotional hook in QuestionViewModel"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.826254",
-      "note": "[ux_psychology] Fix: Integrate a simple spaced repetition scheduler in the `QuestionViewModel`. Track the last time each question was answered correctly. When the user revisits a category, prioritize..."
+      "timestamp": "2026-03-30T12:20:40.977373",
+      "note": "[ux_psychology] 1. [Motivation Architecture] Missing intrinsic feedback loop in QuestionViewModel"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.826980",
-      "note": "[refactor_agent] I'll analyze the API surface and provide a comprehensive refactor. Let me start by identifying the critical issues and then provide cleaned-up implementations."
+      "timestamp": "2026-03-30T12:20:40.978860",
+      "note": "[refactor_agent] I'll perform a comprehensive refactor of the DriveAI project based on the API surface and findings. Let me analyze the issues and provide improved implementations."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.828131",
-      "note": "[test_generator] I'll generate comprehensive XCTest and XCUITest cases for the multiple-choice question screen implementation. The tests will cover ViewModels, Views, Models, and UI flows with attenti..."
+      "timestamp": "2026-03-30T12:20:40.980058",
+      "note": "[test_generator] Scope:** QuestionViewModel, Route enum, DriveAIApp entry point"
+    },
+    {
+      "timestamp": "2026-03-30T12:20:40.982921",
+      "note": "[swift_developer] I'll address the critical issues and provide production-quality SwiftUI implementations that fix the architectural flaws while maintaining the project's goals."
     }
   ],
   "review_notes": [
@@ -77867,56 +77887,60 @@
       "note": "[swift_developer] One file per type. No duplicates. All bugs from BUG-001 resolved. Domain-fit improvements applied throughout."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.812712",
-      "note": "[driveai_lead] Why this matters:** This is the **primary user interaction loop** — users will spend 70%+ of their time on this screen. Quality, responsiveness, and feedback clarity directly impact lea..."
+      "timestamp": "2026-03-30T12:20:40.957287",
+      "note": "[driveai_lead] I've reviewed the project context and memory. The previous memory references a different project (meditation timer), so I'm starting fresh with **DriveAI**."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.814235",
-      "note": "[product_strategist] ❓ Strategic Questions (Product Review)"
+      "timestamp": "2026-03-30T12:20:40.958678",
+      "note": "[ios_architect] I've reviewed the project context and understand the scope. Here's my architecture assessment and delegation strategy."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.815648",
-      "note": "[driveai_lead] [ ] The factory shows \"2 active compliance issues\" — are they relevant to DriveAI?"
+      "timestamp": "2026-03-30T12:20:40.961036",
+      "note": "[product_strategist] Thank you for the comprehensive architecture briefing. I'm reviewing this through the **Product Strategist lens** — focusing on scope classification, priority, value assessment, a..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.816912",
-      "note": "[product_strategist] Retention signal** — Smooth feedback loops + streak mechanics improve daily active users"
+      "timestamp": "2026-03-30T12:20:40.963274",
+      "note": "[roadmap_agent] Feedback overlays, progress bars, streak badge"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.818091",
-      "note": "[roadmap_agent] 2 active compliance blockers** (external review requiring legal counsel)"
+      "timestamp": "2026-03-30T12:20:40.964949",
+      "note": "[project_bootstrap_agent] I've reviewed your comprehensive project briefing for DriveAI (AskFin iOS). This is solid work. However, I need to clarify my role here and provide the proper **Project Boots..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.820573",
-      "note": "[autonomous_project_orchestrator] Selected Agents: ProductStrategist, LegalRisk, Roadmap, iOSArchitect"
+      "timestamp": "2026-03-30T12:20:40.969046",
+      "note": "[autonomous_project_orchestrator] Recommended Phase: bootstrap → compliance_review → spec_creation → implementation"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.822203",
-      "note": "[ios_architect] DriveAI iOS Architecture Review & Implementation Blueprint"
+      "timestamp": "2026-03-30T12:20:40.970886",
+      "note": "[opportunity_agent] I've reviewed the comprehensive DriveAI project context (architecture briefing, product strategy, roadmap, legal compliance, and orchestration plan). I'm now performing my core fun..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.823645",
-      "note": "[swift_developer] enum FeedbackState: Equatable {"
+      "timestamp": "2026-03-30T12:20:40.972964",
+      "note": "[content_script_agent] I've reviewed the full project context and am now performing my core function: **structured content generation** for DriveAI across multiple formats and audiences."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.824570",
-      "note": "[bug_hunter] Bug Hunt Report: DriveAI Question Screen Implementation"
+      "timestamp": "2026-03-30T12:20:40.975138",
+      "note": "[bug_hunter] Bug Hunt Report: DriveAI (AskFin) iOS App"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.825665",
-      "note": "[creative_director] 1. **[Emotional Core]** Missing emotional transformation in feedback states"
+      "timestamp": "2026-03-30T12:20:40.976691",
+      "note": "[creative_director] Problem: The ViewModel exposes raw state (`currentQuestion`, `selectedAnswer`, `isAnswerCorrect`) without any emotional framing or motivational context. A driver's license exam is..."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.826546",
-      "note": "[ux_psychology] Fix: Replace the generic streak counter with a *domain-specific mastery indicator* that shows how many categories the user has \"mastered\" (e.g., \"Verkehrszeichen: 3/5 meisterhaft\"). Us..."
+      "timestamp": "2026-03-30T12:20:40.977734",
+      "note": "[ux_psychology] 1. [Motivation Architecture] Missing intrinsic feedback loop in QuestionViewModel"
     },
     {
-      "timestamp": "2026-03-30T12:17:39.827380",
-      "note": "[refactor_agent] I'll analyze the API surface and provide a comprehensive refactor. Let me start by identifying the critical issues and then provide cleaned-up implementations."
+      "timestamp": "2026-03-30T12:20:40.979254",
+      "note": "[refactor_agent] I'll perform a comprehensive refactor of the DriveAI project based on the API surface and findings. Let me analyze the issues and provide improved implementations."
     },
     {
-      "timestamp": "2026-03-30T12:17:39.828570",
-      "note": "[test_generator] DriveAI Question Screen - Test Case Generator"
+      "timestamp": "2026-03-30T12:20:40.980649",
+      "note": "[test_generator] DriveAI Test Case Specification"
+    },
+    {
+      "timestamp": "2026-03-30T12:20:40.983414",
+      "note": "[swift_developer] I'll address the critical issues and provide production-quality SwiftUI implementations that fix the architectural flaws while maintaining the project's goals."
     }
   ]
 }
