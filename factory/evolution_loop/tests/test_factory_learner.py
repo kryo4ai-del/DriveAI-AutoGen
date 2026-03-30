@@ -31,6 +31,17 @@ from factory.evolution_loop.ldo.storage import LDOStorage
 _TEST_PROJECTS = ["learner_test_1", "learner_test_2"]
 
 
+def setup_module(module):
+    """Called by pytest before any test in this module."""
+    _cleanup()
+    _setup_test_data()
+
+
+def teardown_module(module):
+    """Called by pytest after all tests in this module."""
+    _cleanup()
+
+
 def _setup_test_data():
     """Create 2 test projects with 3 iterations each."""
     for pid, ptype, pline in [

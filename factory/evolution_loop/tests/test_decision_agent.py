@@ -29,11 +29,8 @@ agent = DecisionAgent()
 config = EvolutionConfig()
 
 
-# ======================================================================
-# Test 1: Tasks from gaps
-# ======================================================================
-
-def test_1_tasks_from_gaps():
+def _make_ldo_with_gaps():
+    """Create a standard LDO with 5 gaps for testing."""
     ldo = LoopDataObject.create_initial("decision_test", "game", "unity")
     ldo.meta.iteration = 3
     ldo.gaps = [
@@ -48,21 +45,28 @@ def test_1_tasks_from_gaps():
         Gap(id="GAP-3-005", category="ux", severity="medium",
             description="UX score below target", affected_component=""),
     ]
+    return agent.generate_tasks(ldo, config)
 
-    ldo = agent.generate_tasks(ldo, config)
+
+# ======================================================================
+# Test 1: Tasks from gaps
+# ======================================================================
+
+def test_1_tasks_from_gaps():
+    ldo = _make_ldo_with_gaps()
     assert len(ldo.tasks) == 5, f"Expected 5 tasks, got {len(ldo.tasks)}"
     print(f"  Tasks generated: {len(ldo.tasks)}")
     for t in ldo.tasks:
         print(f"    {t.id}: [{t.priority}] {t.type} - {t.description}")
     print("  [PASS] Test 1: Task generation from gaps")
-    return ldo
 
 
 # ======================================================================
 # Test 2: Task types correct
 # ======================================================================
 
-def test_2_task_types(ldo):
+def test_2_task_types():
+    ldo = _make_ldo_with_gaps()
     types = [t.type for t in ldo.tasks]
     assert types.count("fix") == 2, f"Expected 2 fix, got {types.count('fix')}"
     assert types.count("implement") == 1, f"Expected 1 implement, got {types.count('implement')}"
@@ -74,7 +78,8 @@ def test_2_task_types(ldo):
 # Test 3: Unique task IDs
 # ======================================================================
 
-def test_3_unique_ids(ldo):
+def test_3_unique_ids():
+    ldo = _make_ldo_with_gaps()
     task_ids = [t.id for t in ldo.tasks]
     assert len(task_ids) == len(set(task_ids)), f"Duplicate task IDs: {task_ids}"
     for tid in task_ids:
@@ -86,7 +91,8 @@ def test_3_unique_ids(ldo):
 # Test 4: CEO Feedback -> tasks
 # ======================================================================
 
-def test_4_ceo_feedback(ldo):
+def test_4_ceo_feedback():
+    ldo = _make_ldo_with_gaps()
     ldo.ceo_feedback = CEOFeedback(
         status="no_go",
         issues=[
@@ -143,34 +149,11 @@ def main():
     passed = 0
     failed = 0
 
-    # Test 1 returns LDO for reuse
-    ldo_with_tasks = None
-    try:
-        ldo_with_tasks = test_1_tasks_from_gaps()
-        passed += 1
-    except Exception as e:
-        failed += 1
-        print(f"  [FAIL] test_1: {e}")
-
-    # Tests 2-4 reuse the LDO
-    if ldo_with_tasks is not None:
-        for name, fn in [
-            ("test_2_task_types", test_2_task_types),
-            ("test_3_unique_ids", test_3_unique_ids),
-            ("test_4_ceo_feedback", test_4_ceo_feedback),
-        ]:
-            try:
-                fn(ldo_with_tasks)
-                passed += 1
-            except Exception as e:
-                failed += 1
-                print(f"  [FAIL] {name}: {e}")
-    else:
-        failed += 3
-        print("  [FAIL] test_2/3/4: skipped (test_1 failed)")
-
-    # Independent tests
     for name, fn in [
+        ("test_1_tasks_from_gaps", test_1_tasks_from_gaps),
+        ("test_2_task_types", test_2_task_types),
+        ("test_3_unique_ids", test_3_unique_ids),
+        ("test_4_ceo_feedback", test_4_ceo_feedback),
         ("test_5_escalation", test_5_escalation),
         ("test_6_empty_gaps", test_6_empty_gaps),
     ]:

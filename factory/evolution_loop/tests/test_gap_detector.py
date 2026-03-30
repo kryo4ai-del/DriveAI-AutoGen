@@ -24,12 +24,8 @@ detector = GapDetector()
 config = EvolutionConfig()
 
 
-# ======================================================================
-# Test 1: LDO with problems -> gaps found
-# ======================================================================
-
-def test_1_gaps_with_problems():
-    """LDO with low scores, compile errors, test failures, missing features."""
+def _make_ldo_with_problems():
+    """Create a standard LDO with problems for gap detection."""
     ldo = LoopDataObject.create_initial("gap_test", "game", "unity")
     ldo.meta.iteration = 1
     ldo.qa_results.tests_passed = 15
@@ -51,14 +47,21 @@ def test_1_gaps_with_problems():
         "features_covered": ["save_system", "combat"],
         "screens_covered": ["main_menu", "game_view"],
     }
+    return detector.detect_gaps(ldo, config)
 
-    ldo = detector.detect_gaps(ldo, config)
+
+# ======================================================================
+# Test 1: LDO with problems -> gaps found
+# ======================================================================
+
+def test_1_gaps_with_problems():
+    """LDO with low scores, compile errors, test failures, missing features."""
+    ldo = _make_ldo_with_problems()
     print(f"  Gaps found: {len(ldo.gaps)}")
     for gap in ldo.gaps:
         print(f"    {gap.id}: [{gap.severity}] {gap.category} - {gap.description}")
     assert len(ldo.gaps) >= 5, f"Expected at least 5 gaps, got {len(ldo.gaps)}"
     print("  [PASS] Test 1: Gap detection with problems")
-    return ldo
 
 
 # ======================================================================
@@ -90,9 +93,10 @@ def test_2_perfect_build():
 # Test 3: Unique gap IDs
 # ======================================================================
 
-def test_3_unique_ids(ldo_with_gaps):
+def test_3_unique_ids():
     """All gap IDs must be unique."""
-    gap_ids = [g.id for g in ldo_with_gaps.gaps]
+    ldo = _make_ldo_with_problems()
+    gap_ids = [g.id for g in ldo.gaps]
     assert len(gap_ids) == len(set(gap_ids)), f"Duplicate gap IDs: {gap_ids}"
     # Check format
     for gid in gap_ids:
@@ -104,10 +108,11 @@ def test_3_unique_ids(ldo_with_gaps):
 # Test 4: Severity sorting
 # ======================================================================
 
-def test_4_severity_sorting(ldo_with_gaps):
+def test_4_severity_sorting():
     """Gaps must be sorted: critical > high > medium > low."""
+    ldo = _make_ldo_with_problems()
     severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
-    severities = [g.severity for g in ldo_with_gaps.gaps]
+    severities = [g.severity for g in ldo.gaps]
     for i in range(len(severities) - 1):
         assert severity_order[severities[i]] <= severity_order[severities[i + 1]], \
             f"Gaps not sorted! {severities[i]} before {severities[i+1]}"
@@ -134,45 +139,19 @@ def main():
     passed = 0
     failed = 0
 
-    # Test 1 returns the LDO for reuse in tests 3+4
-    ldo_with_gaps = None
-
-    tests_simple = [
-        ("test_1_gaps_with_problems", test_1_gaps_with_problems, False),
-        ("test_2_perfect_build", test_2_perfect_build, False),
-    ]
-
-    for name, fn, _ in tests_simple:
+    for name, fn in [
+        ("test_1_gaps_with_problems", test_1_gaps_with_problems),
+        ("test_2_perfect_build", test_2_perfect_build),
+        ("test_3_unique_ids", test_3_unique_ids),
+        ("test_4_severity_sorting", test_4_severity_sorting),
+        ("test_5_cleanup", test_5_cleanup),
+    ]:
         try:
-            result = fn()
-            if name == "test_1_gaps_with_problems":
-                ldo_with_gaps = result
+            fn()
             passed += 1
         except Exception as e:
             failed += 1
             print(f"  [FAIL] {name}: {e}")
-
-    # Tests that need the LDO from test 1
-    if ldo_with_gaps is not None:
-        for name, fn in [("test_3_unique_ids", test_3_unique_ids),
-                         ("test_4_severity_sorting", test_4_severity_sorting)]:
-            try:
-                fn(ldo_with_gaps)
-                passed += 1
-            except Exception as e:
-                failed += 1
-                print(f"  [FAIL] {name}: {e}")
-    else:
-        failed += 2
-        print("  [FAIL] test_3 + test_4: skipped (test_1 failed)")
-
-    # Cleanup
-    try:
-        test_5_cleanup()
-        passed += 1
-    except Exception as e:
-        failed += 1
-        print(f"  [FAIL] test_5_cleanup: {e}")
 
     total = passed + failed
     print(f"\nResult: {passed}/{total} passed, {failed} failed")
