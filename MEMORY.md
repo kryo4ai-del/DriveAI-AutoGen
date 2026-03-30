@@ -208,6 +208,22 @@ dai_app_open, dai_app_background, dai_onboarding_start, dai_onboarding_step, dai
 - **Tests**: 8/8 bestanden (Import, CRUD, Health Record, Action Queue, Release History, Cooling, Zones, Migration)
 - **Hinweis**: Keine app_registry.json vorhanden (store_pipeline/ existiert noch nicht) -- Migrator handelt das graceful
 
+### 2026-03-30 -- P-EVO-020: Integration Test Phase 3
+- **Neue Datei**: `factory/evolution_loop/tests/test_phase3_integration.py` (~350 LOC)
+- **8 Tests** — alle deterministisch (kein LLM):
+  1. `test_mode_switch_flow` — Sprint→Deep→CEO Review Modus-Wechsel (3 Iterationen)
+  2. `test_ceo_review_flow` — CEO Brief + NO-GO Feedback → Task-Generierung (MockNoGoProvider)
+  3. `test_budget_stop` — Budget-Überschreitung stoppt Loop (threshold $0.001)
+  4. `test_regression_detection` — Sinkende Scores → trend=declining, rec=stop (4 Regressions)
+  5. `test_plugins_in_loop` — Game-Plugins laden + ausführen (2 Plugins: game_systems_validator, mechanics_consistency_checker)
+  6. `test_factory_learner_after_loop` — Summary, Search, Cross-Stats nach Loop
+  7. `test_git_tagging` — Tag erstellen oder graceful skip
+  8. `test_cli_flags` — 3 CLI Commands (--evolution-status, --evolution-history, --evolution-ceo-review)
+- **Ergebnis**: 8/8 PASSED, 15.68s
+- **Test-Isolation**: `_TEST_PREFIX = "p3_integ_test_"`, Cleanup in setUp/tearDown
+- **Mock-Provider**: MockGoProvider (immer GO), MockNoGoProvider (immer NO-GO mit 2 Issues)
+- **Helper**: `_make_ldo()` erstellt voll-populierte LDOs mit QA, Roadbook, Simulation, Build-Artifacts
+
 ### 2026-03-30 -- P-EVO-019: Simulation Agent LLM Extension
 - **Geaenderte Datei**: `factory/evolution_loop/simulation_agent.py`
 - **3 neue Methoden**:

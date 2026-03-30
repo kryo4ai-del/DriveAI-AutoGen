@@ -60,10 +60,14 @@ class EvaluationAgent:
 
         # 3. Soft Scores
         perf = self._soft.calculate_performance_score(build_dict, sim_dict)
-        ux = self._soft.calculate_ux_score(roadbook_dict, sim_dict)
+        ux = self._soft.calculate_ux_score(roadbook_dict, sim_dict, build_dict)
 
         ldo.scores.performance_score = perf
         ldo.scores.ux_score = ux
+
+        # 3b. Maintainability Score → stored in plugin_scores
+        maint = self._soft.calculate_maintainability_score(build_dict, sim_dict)
+        ldo.scores.plugin_scores["maintainability"] = maint
 
         # 4. Plugin Scores
         plugin_results = ldo.simulation_results.plugin_results
@@ -95,7 +99,8 @@ class EvaluationAgent:
         print(
             f"{_PREFIX} Scores: Bug={bug.value:.0f} Roadbook={roadbook.value:.0f} "
             f"Structural={structural.value:.0f} Performance={perf.value:.0f} "
-            f"UX={ux.value:.0f} -> Aggregate={agg_result['quality_score_aggregate']:.1f}"
+            f"UX={ux.value:.0f} Maint={maint.value:.0f} "
+            f"-> Aggregate={agg_result['quality_score_aggregate']:.1f}"
             f"{veto}"
         )
 
