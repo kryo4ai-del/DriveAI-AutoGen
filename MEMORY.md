@@ -208,6 +208,27 @@ dai_app_open, dai_app_background, dai_onboarding_start, dai_onboarding_step, dai
 - **Tests**: 8/8 bestanden (Import, CRUD, Health Record, Action Queue, Release History, Cooling, Zones, Migration)
 - **Hinweis**: Keine app_registry.json vorhanden (store_pipeline/ existiert noch nicht) -- Migrator handelt das graceful
 
+### 2026-03-30 -- P-EVO-022: Erweiterte Soft Scores + Maintainability
+- **Geaenderte Datei**: `factory/evolution_loop/scoring/soft_scores.py` (233 → 370 LOC, +137 LOC)
+- **Geaenderte Datei**: `factory/evolution_loop/evaluation_agent.py` (+5 LOC)
+- **Performance Score** (vorher 4×25, jetzt 5×20):
+  - Neu: Code Size Efficiency (avg LOC/Datei), Anti-Pattern Density (ratio statt absolut), Async/Concurrency Patterns (async+error handling), Memory Pattern Indicators (weak self, deinit etc.), Stub/TODO Ratio (% von LOC statt % von Dateien)
+  - Confidence: 50-60% (vorher 45-55%)
+- **UX Score** (vorher 4×25, jetzt 5×20):
+  - Neu: Error/Loading State Coverage (sucht ErrorView, ProgressView etc. in Code)
+  - Enhanced: Naming Consistency prueft jetzt auch Dateinamen, nicht nur Screen-Namen
+  - Neuer Parameter `build_artifacts` fuer File-Content-Analyse
+  - Confidence: 40-50% (vorher 35-45%)
+- **Maintainability Score** (NEU, 4×25):
+  - Code Duplication Indicators (Funktionsnamen in mehreren Dateien)
+  - File Size Distribution (stddev der LOC)
+  - Naming Consistency (PascalCase Klassen, camelCase Funktionen)
+  - Test Coverage Indicator (test_files / source_files ratio)
+  - Confidence: 60-70%
+  - Gespeichert in `plugin_scores["maintainability"]` (fliesst via plugin_scores Gewicht in Aggregate)
+- **Validierung**: 5/5 Tests, Mock-Code: Perf=100, UX=92, Maint=78, EvalAgent OK
+- **Bestehende Tests**: 94 passed (keine neuen Fehler)
+
 ### 2026-03-30 -- P-EVO-020: Integration Test Phase 3
 - **Neue Datei**: `factory/evolution_loop/tests/test_phase3_integration.py` (~350 LOC)
 - **8 Tests** — alle deterministisch (kein LLM):
