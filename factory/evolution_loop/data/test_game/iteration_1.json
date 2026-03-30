@@ -1,129 +1,73 @@
 {
   "meta": {
-    "project_id": "e2e_test_report",
+    "project_id": "test_game",
     "project_type": "game",
     "production_line": "unity",
     "iteration": 1,
     "loop_mode": "sprint",
-    "timestamp": "2026-03-30T16:52:24Z",
+    "timestamp": "2026-03-30T16:52:26Z",
     "accumulated_cost": 0.0,
-    "git_tag": "evolution/e2e_test_report/iteration-1"
+    "git_tag": "evolution/test_game/iteration-1"
   },
   "roadbook_targets": {
     "features": [
-      "save_system",
-      "inventory",
-      "combat",
-      "crafting",
-      "tutorial",
-      "settings",
-      "leaderboard",
-      "achievements",
-      "shop",
-      "profile"
+      "f1",
+      "f2",
+      "f3",
+      "f4",
+      "f5"
     ],
     "screens": [
-      "MainMenuScreen",
-      "GameScreen",
-      "SettingsScreen",
-      "InventoryScreen",
-      "ShopScreen"
+      "s1",
+      "s2",
+      "s3"
     ],
     "user_flows": [
-      "start_game",
-      "buy_item",
-      "save_progress"
+      "flow1",
+      "flow2"
     ],
     "quality_thresholds": {},
     "score_weights": {}
   },
   "build_artifacts": {
-    "paths": [
-      "src/file_0.swift",
-      "src/file_1.swift",
-      "src/file_2.swift",
-      "src/file_3.swift",
-      "src/file_4.swift",
-      "src/file_5.swift",
-      "src/file_6.swift",
-      "src/file_7.swift",
-      "src/file_8.swift",
-      "src/file_9.swift",
-      "src/file_10.swift",
-      "src/file_11.swift",
-      "src/file_12.swift",
-      "src/file_13.swift",
-      "src/file_14.swift",
-      "src/file_15.swift",
-      "src/file_16.swift",
-      "src/file_17.swift",
-      "src/file_18.swift",
-      "src/file_19.swift",
-      "src/file_20.swift",
-      "src/file_21.swift",
-      "src/file_22.swift",
-      "src/file_23.swift",
-      "src/file_24.swift",
-      "src/file_25.swift",
-      "src/file_26.swift",
-      "src/file_27.swift",
-      "src/file_28.swift",
-      "src/file_29.swift",
-      "src/file_30.swift",
-      "src/file_31.swift",
-      "src/file_32.swift",
-      "src/file_33.swift",
-      "src/file_34.swift",
-      "src/file_35.swift",
-      "src/file_36.swift",
-      "src/file_37.swift",
-      "src/file_38.swift",
-      "src/file_39.swift"
-    ],
+    "paths": [],
     "compile_status": "not_built",
     "platform_details": {}
   },
   "qa_results": {
-    "tests_passed": 20,
+    "tests_passed": 18,
     "tests_failed": 2,
     "test_details": [],
     "compile_errors": [
-      "Error: undefined variable 'x'"
+      "Error in GameView.swift"
     ],
     "warnings": [
-      "Deprecated API call"
+      "Deprecated API"
     ]
   },
   "simulation_results": {
     "static_analysis": {
-      "total_files": 40,
-      "dead_code_ratio": 0.08,
-      "dependency_issues": 2,
-      "anti_patterns": 3,
-      "error_handling_ratio": 0.5,
-      "stubs": 2,
-      "todos": 3,
-      "deep_nesting": 2,
-      "hardcoded_values": 1
+      "total_files": 0,
+      "total_loc": 0,
+      "language_distribution": {},
+      "todos": 0,
+      "fixmes": 0,
+      "stubs": 0,
+      "hardcoded_values": 0,
+      "deep_nesting": 0,
+      "error_handling_ratio": 0.0,
+      "dead_code_indicators": 0,
+      "dead_code_ratio": 0.0,
+      "files_analyzed": 0,
+      "files_skipped": 0
     },
     "roadbook_coverage": {
-      "features_covered": [
-        "save_system",
-        "combat",
-        "settings",
-        "profile",
-        "inventory",
-        "shop",
-        "tutorial"
-      ],
-      "screens_covered": [
-        "MainMenuScreen",
-        "GameScreen",
-        "SettingsScreen"
-      ],
-      "flows_covered": [
-        "start_game"
-      ]
+      "features_covered": [],
+      "features_missing": [],
+      "screens_covered": [],
+      "screens_missing": [],
+      "flows_covered": [],
+      "coverage_percent": 0.0
     },
     "synthetic_flows": [],
     "plugin_results": {}
@@ -134,24 +78,24 @@
       "confidence": 95.0
     },
     "roadbook_match_score": {
-      "value": 56.0,
+      "value": 0.0,
       "confidence": 90.0
     },
     "structural_health_score": {
-      "value": 65.5,
+      "value": 75.0,
       "confidence": 85.0
     },
     "performance_score": {
-      "value": 74.0,
+      "value": 85.0,
       "confidence": 55.0
     },
     "ux_score": {
-      "value": 62.7,
-      "confidence": 50.0
+      "value": 40.0,
+      "confidence": 45.0
     },
     "plugin_scores": {
       "maintainability": {
-        "value": 40.5,
+        "value": 50.0,
         "confidence": 40.0
       }
     },
@@ -171,7 +115,7 @@
       "id": "GAP-1-002",
       "category": "bug",
       "severity": "critical",
-      "description": "Compile error: Error: undefined variable 'x'",
+      "description": "Compile error: Error in GameView.swift",
       "affected_component": "build",
       "is_regression": false,
       "first_seen_iteration": 1
@@ -180,7 +124,7 @@
       "id": "GAP-1-003",
       "category": "feature",
       "severity": "high",
-      "description": "roadbook_match_score (56) below target (95)",
+      "description": "roadbook_match_score (0) below target (95)",
       "affected_component": "roadbook_match_score",
       "is_regression": false,
       "first_seen_iteration": 1
@@ -189,7 +133,7 @@
       "id": "GAP-1-004",
       "category": "structural",
       "severity": "high",
-      "description": "structural_health_score (66) below target (85)",
+      "description": "structural_health_score (75) below target (85)",
       "affected_component": "structural_health_score",
       "is_regression": false,
       "first_seen_iteration": 1
@@ -207,8 +151,8 @@
       "id": "GAP-1-006",
       "category": "feature",
       "severity": "high",
-      "description": "Feature not implemented: crafting",
-      "affected_component": "crafting",
+      "description": "Feature not implemented: f1",
+      "affected_component": "f1",
       "is_regression": false,
       "first_seen_iteration": 1
     },
@@ -216,8 +160,8 @@
       "id": "GAP-1-007",
       "category": "feature",
       "severity": "high",
-      "description": "Feature not implemented: leaderboard",
-      "affected_component": "leaderboard",
+      "description": "Feature not implemented: f2",
+      "affected_component": "f2",
       "is_regression": false,
       "first_seen_iteration": 1
     },
@@ -225,16 +169,34 @@
       "id": "GAP-1-008",
       "category": "feature",
       "severity": "high",
-      "description": "Feature not implemented: achievements",
-      "affected_component": "achievements",
+      "description": "Feature not implemented: f3",
+      "affected_component": "f3",
       "is_regression": false,
       "first_seen_iteration": 1
     },
     {
       "id": "GAP-1-009",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f4",
+      "affected_component": "f4",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-010",
+      "category": "feature",
+      "severity": "high",
+      "description": "Feature not implemented: f5",
+      "affected_component": "f5",
+      "is_regression": false,
+      "first_seen_iteration": 1
+    },
+    {
+      "id": "GAP-1-011",
       "category": "ux",
       "severity": "medium",
-      "description": "ux_score (63) below target (70)",
+      "description": "ux_score (40) below target (70)",
       "affected_component": "ux_score",
       "is_regression": false,
       "first_seen_iteration": 1
@@ -259,7 +221,7 @@
     {
       "id": "TASK-1-002",
       "type": "fix",
-      "description": "Fix: Compile error: Error: undefined variable 'x'",
+      "description": "Fix: Compile error: Error in GameView.swift",
       "target_component": "build",
       "originated_from": "GAP-1-002",
       "priority": "critical"
@@ -267,7 +229,7 @@
     {
       "id": "TASK-1-003",
       "type": "implement",
-      "description": "Implement: roadbook_match_score (56) below target (95)",
+      "description": "Implement: roadbook_match_score (0) below target (95)",
       "target_component": "roadbook_match_score",
       "originated_from": "GAP-1-003",
       "priority": "high"
@@ -275,7 +237,7 @@
     {
       "id": "TASK-1-004",
       "type": "refactor",
-      "description": "Refactor: structural_health_score (66) below target (85)",
+      "description": "Refactor: structural_health_score (75) below target (85)",
       "target_component": "structural_health_score",
       "originated_from": "GAP-1-004",
       "priority": "high"
@@ -291,33 +253,49 @@
     {
       "id": "TASK-1-006",
       "type": "implement",
-      "description": "Implement: Feature not implemented: crafting",
-      "target_component": "crafting",
+      "description": "Implement: Feature not implemented: f1",
+      "target_component": "f1",
       "originated_from": "GAP-1-006",
       "priority": "high"
     },
     {
       "id": "TASK-1-007",
       "type": "implement",
-      "description": "Implement: Feature not implemented: leaderboard",
-      "target_component": "leaderboard",
+      "description": "Implement: Feature not implemented: f2",
+      "target_component": "f2",
       "originated_from": "GAP-1-007",
       "priority": "high"
     },
     {
       "id": "TASK-1-008",
       "type": "implement",
-      "description": "Implement: Feature not implemented: achievements",
-      "target_component": "achievements",
+      "description": "Implement: Feature not implemented: f3",
+      "target_component": "f3",
       "originated_from": "GAP-1-008",
       "priority": "high"
     },
     {
       "id": "TASK-1-009",
-      "type": "refactor",
-      "description": "Refactor: ux_score (63) below target (70)",
-      "target_component": "ux_score",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f4",
+      "target_component": "f4",
       "originated_from": "GAP-1-009",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-1-010",
+      "type": "implement",
+      "description": "Implement: Feature not implemented: f5",
+      "target_component": "f5",
+      "originated_from": "GAP-1-010",
+      "priority": "high"
+    },
+    {
+      "id": "TASK-1-011",
+      "type": "refactor",
+      "description": "Refactor: ux_score (40) below target (70)",
+      "target_component": "ux_score",
+      "originated_from": "GAP-1-011",
       "priority": "medium"
     }
   ],
