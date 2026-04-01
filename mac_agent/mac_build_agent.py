@@ -50,6 +50,12 @@ def execute_command(cmd: dict) -> dict:
     elif cmd_type == "archive":
         return _archive(project, params)
 
+    elif cmd_type == "check_signing":
+        return _check_signing(project, params)
+
+    elif cmd_type == "export_ipa":
+        return _export_ipa(project, params)
+
     else:
         return {"status": "error", "result": {"error": f"Unknown command type: {cmd_type}"}}
 
@@ -304,6 +310,168 @@ def _archive(project: str, params: dict) -> dict:
             "archive_succeeded": result.returncode == 0,
             "archive_path": str(archive_path) if result.returncode == 0 else "",
             "build_time_seconds": round(elapsed),
+        }
+    }
+
+
+def _check_signing(project: str, params: dict) -> dict:
+    """Check if code signing credentials are available on this Mac."""
+    import re as _re
+
+    has_distribution_cert = False
+    has_development_cert = False
+    cert_name = ""
+    identity_count = 0
+
+    # 1. Check code signing identities
+    try:
+        r = subprocess.run(
+            ["security", "find-identity", "-v", "-p", "codesigning"],
+            capture_output=True, text=True, timeout=10
+        )
+        output = r.stdout
+        for line in output.split("\n"):
+            if "Apple Distribution:" in line or "iPhone Distribution:" in line:
+                has_distribution_cert = True
+                m = _re.search(r'"(.+?)"', line)
+                if m:
+                    cert_name = m.group(1)
+            if "Apple Development:" in line:
+                has_development_cert = True
+                if not cert_name:
+                    m = _re.search(r'"(.+?)"', line)
+                    if m:
+                        cert_name = m.group(1)
+        # Count valid identities
+        m = _re.search(r"(\d+) valid identit", output)
+        if m:
+            identity_count = int(m.group(1))
+    except Exception as e:
+        print(f"[Mac Agent] Error checking identities: {e}")
+
+    # 2. Check provisioning profiles
+    profile_count = 0
+    has_provisioning_profiles = False
+    profiles_dir = Path.home() / "Library" / "MobileDevice" / "Provisioning Profiles"
+    if profiles_dir.exists():
+        profiles = list(profiles_dir.glob("*.mobileprovision"))
+        profile_count = len(profiles)
+        has_provisioning_profiles = profile_count > 0
+
+    # 3. Try to extract Team ID from first profile
+    team_id = ""
+    if has_provisioning_profiles:
+        try:
+            first_profile = list(profiles_dir.glob("*.mobileprovision"))[0]
+            r = subprocess.run(
+                ["security", "cms", "-D", "-i", str(first_profile)],
+                capture_output=True, text=True, timeout=10
+            )
+            # Parse TeamIdentifier from plist XML
+            m = _re.search(r"<key>TeamIdentifier</key>\s*<array>\s*<string>(.+?)</string>", r.stdout)
+            if m:
+                team_id = m.group(1)
+        except Exception as e:
+            print(f"[Mac Agent] Error reading profile: {e}")
+
+    # Build summary
+    parts = []
+    if has_distribution_cert:
+        parts.append(f"Distribution cert: {cert_name}")
+    elif has_development_cert:
+        parts.append(f"Development cert: {cert_name}")
+    else:
+        parts.append("No signing certificates found")
+    parts.append(f"{profile_count} provisioning profile(s)")
+    if team_id:
+        parts.append(f"Team ID: {team_id}")
+    summary = " | ".join(parts)
+
+    print(f"[Mac Agent] Signing check: {summary}")
+
+    return {
+        "status": "success",
+        "result": {
+            "has_distribution_cert": has_distribution_cert,
+            "has_development_cert": has_development_cert,
+            "cert_name": cert_name,
+            "identity_count": identity_count,
+            "has_provisioning_profiles": has_provisioning_profiles,
+            "profile_count": profile_count,
+            "team_id": team_id,
+            "summary": summary,
+        }
+    }
+
+
+def _export_ipa(project: str, params: dict) -> dict:
+    """Export an .xcarchive to an .ipa file."""
+    archive_path = params.get("archive_path", "")
+    export_options_path = params.get("export_options_path", "")
+
+    # Verify archive exists
+    if not archive_path or not os.path.isdir(archive_path):
+        return {"status": "failed", "result": {"error": f"Archive not found: {archive_path}"}}
+
+    # Verify export options exist
+    if not export_options_path or not os.path.isfile(export_options_path):
+        return {"status": "failed", "result": {"error": f"ExportOptions.plist not found: {export_options_path}"}}
+
+    # Create export directory
+    project_dir = REPO_PATH / "projects" / project
+    export_dir = project_dir / "build" / "export"
+    export_dir.mkdir(parents=True, exist_ok=True)
+
+    cmd = [
+        "xcodebuild", "-exportArchive",
+        "-archivePath", archive_path,
+        "-exportPath", str(export_dir),
+        "-exportOptionsPlist", export_options_path,
+    ]
+
+    print(f"[Mac Agent] Exporting IPA from {archive_path}...")
+    start = time.time()
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600,
+                                cwd=str(project_dir))
+        elapsed = time.time() - start
+    except subprocess.TimeoutExpired:
+        return {"status": "failed", "result": {"error": "Export timed out after 600s"}}
+    except Exception as e:
+        return {"status": "failed", "result": {"error": str(e)}}
+
+    if result.returncode != 0:
+        return {
+            "status": "failed",
+            "result": {
+                "error": "xcodebuild -exportArchive failed",
+                "stdout": result.stdout[-500:] if result.stdout else "",
+                "stderr": result.stderr[-500:] if result.stderr else "",
+            }
+        }
+
+    # Find .ipa in export directory
+    ipa_files = list(export_dir.glob("*.ipa"))
+    if not ipa_files:
+        return {
+            "status": "failed",
+            "result": {
+                "error": "Export succeeded but no .ipa found in output",
+                "export_dir": str(export_dir),
+            }
+        }
+
+    ipa_path = str(ipa_files[0])
+    ipa_size = os.path.getsize(ipa_path)
+    print(f"[Mac Agent] Export successful: {ipa_path} ({ipa_size} bytes)")
+
+    return {
+        "status": "success",
+        "result": {
+            "ipa_path": ipa_path,
+            "export_dir": str(export_dir),
+            "ipa_size_bytes": ipa_size,
+            "export_time_seconds": round(elapsed),
         }
     }
 
