@@ -192,32 +192,48 @@ class iOSSigner:
         return None
 
     def _ensure_export_options(self):
-        """Ensures ExportOptions.plist exists."""
+        """Ensures ExportOptions.plist exists with correct Team ID from .env."""
         template_path = self.config.export_options_template
+        team_id = os.environ.get("APPLE_TEAM_ID", "")
+
         if os.path.exists(template_path):
+            # Inject APPLE_TEAM_ID from .env if present and not already in plist
+            if team_id:
+                try:
+                    content = open(template_path).read()
+                    if "<key>teamID</key>" not in content:
+                        content = content.replace(
+                            "<key>method</key>",
+                            f"<key>teamID</key>\n    <string>{team_id}</string>\n    <key>method</key>",
+                        )
+                        with open(template_path, "w") as f:
+                            f.write(content)
+                        print(f"[Signing iOS] Injected APPLE_TEAM_ID={team_id} into ExportOptions.plist")
+                except Exception as e:
+                    print(f"[Signing iOS] WARNING: Could not inject Team ID: {e}")
             return template_path
 
-        # Create default template
+        # Create template from scratch
         os.makedirs(os.path.dirname(template_path), exist_ok=True)
+        team_block = f"\n    <key>teamID</key>\n    <string>{team_id}</string>" if team_id else ""
         default_plist = '''<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>method</key>
-    <string>{method}</string>
+    <string>{method}</string>{team}
     <key>signingStyle</key>
     <string>automatic</string>
     <key>uploadBitcode</key>
     <false/>
     <key>uploadSymbols</key>
     <true/>
-    <key>destination</key>
-    <string>export</string>
 </dict>
-</plist>'''.format(method=self.config.ios_export_method)
+</plist>'''.format(method=self.config.ios_export_method, team=team_block)
 
         with open(template_path, "w") as f:
             f.write(default_plist)
         print(f"[Signing iOS] Created ExportOptions.plist template at {template_path}")
-        print(f"[Signing iOS] NOTE: Add <key>teamID</key><string>YOUR_TEAM_ID</string> after setting up Apple Developer Account")
+        if not team_id:
+            print(f"[Signing iOS] NOTE: Set APPLE_TEAM_ID in .env for automatic Team ID injection")
         return template_path
