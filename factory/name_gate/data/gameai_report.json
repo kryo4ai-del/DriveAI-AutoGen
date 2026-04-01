@@ -1,0 +1,84 @@
+{
+  "report_id": "NGR-96628",
+  "name": "Gameai",
+  "total_score": 67,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": true,
+      "io": false,
+      "score": 50,
+      "details": {
+        "checked": [
+          "gameai.com",
+          "gameai.de",
+          "gameai.app",
+          "gameai.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Gameai' on App Store",
+        "google_search": "'Gameai' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": true,
+      "x": true,
+      "youtube": true,
+      "linkedin": false,
+      "score": 60,
+      "details": {
+        "handle_checked": "@gameai",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": false,
+      "euipo": true,
+      "score": 50,
+      "hard_blocker": true
+    },
+    "brand_fit": {
+      "tonality": 88,
+      "pronounceability": 72,
+      "memorability": 73,
+      "confusion_risk": 72,
+      "international": 93,
+      "score": 80,
+      "recommendation": "Strong name. Proceed."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [
+    "trademark_conflict: DPMA or EUIPO match found"
+  ],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on Instagram"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.674123+00:00"
+}

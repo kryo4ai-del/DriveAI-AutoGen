@@ -1,0 +1,87 @@
+{
+  "report_id": "NGR-56180",
+  "name": "Plantara",
+  "total_score": 53,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": false,
+      "app": false,
+      "io": true,
+      "score": 20,
+      "details": {
+        "plantara.com": "taken",
+        "plantara.de": "taken",
+        "plantara.app": "taken",
+        "plantara.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": false,
+      "score": 48,
+      "details": {
+        "apple": "free",
+        "google": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": false,
+      "linkedin": false,
+      "score": 0,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "taken",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 90,
+      "pronounceability": 80,
+      "memorability": 80,
+      "confusion_risk": 60,
+      "international": 80,
+      "score": 80,
+      "recommendation": "Plantara trifft den botanischen Charakter der App sehr gut – die Endung '-ara' verleiht dem Namen eine organische, leicht magische Qualitaet die gut zum KI-Pflanzendoktor-Konzept passt. Hauptrisiko: Namensnähe zu 'Plantura' (bekannte deutsche Pflanzen-Marke/App) koennte zu Verwechslungen fuehren und sollte markenrechtlich geprueft werden."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "Plantara ผู้ช่วยดูแลพืชของคุณ - Apps on ..."
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [
+    "all_major_domains_taken: .com, .de, and .app all taken"
+  ],
+  "soft_blockers": [
+    "store_partial: Google Play Store name taken",
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T20:29:02.324075+00:00"
+}

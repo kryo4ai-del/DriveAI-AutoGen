@@ -22,6 +22,19 @@ router.get('/', (req, res) => {
       const project = JSON.parse(fs.readFileSync(projectFile, 'utf-8'));
       if (project.archived) continue;
 
+      // Idea Approval Gate pending?
+      if (project.status === 'idea_submitted' &&
+          (!project.gates?.idea_approval?.status || project.gates.idea_approval.status === 'pending')) {
+        gates.push({
+          project_id: project.project_id,
+          project_title: project.title,
+          gate_type: 'idea_approval',
+          gate_label: 'Idee-Freigabe',
+          since: project.created || project.updated,
+          summary: buildGateSummary(project, 'idea_approval'),
+        });
+      }
+
       // CEO Gate pending?
       if (project.chapters?.phase1?.status === 'complete' &&
           (!project.gates?.ceo_gate?.status || project.gates.ceo_gate.status === 'pending')) {
@@ -45,6 +58,20 @@ router.get('/', (req, res) => {
           gate_label: 'Human Review Gate',
           since: project.chapters.kapitel5.date || project.updated,
           summary: buildGateSummary(project, 'visual_review'),
+        });
+      }
+
+      // Production Gate pending?
+      const prodGateStatus = project.gates?.production_gate?.status;
+      if (['preproduction_done', 'feasible', 'production_gate_pending'].includes(project.status) &&
+          (!prodGateStatus || prodGateStatus === 'pending')) {
+        gates.push({
+          project_id: project.project_id,
+          project_title: project.title,
+          gate_type: 'production_gate',
+          gate_label: 'Production Freigabe',
+          since: project.feasibility?.check_date || project.chapters?.kapitel6?.date || project.updated,
+          summary: buildGateSummary(project, 'production_gate'),
         });
       }
 
@@ -82,7 +109,7 @@ router.post('/:projectId/decide', (req, res) => {
     }
 
     const validDecisions = [
-      'GO', 'KILL', 'GO_MIT_NOTES', 'REDO',
+      'GO', 'KILL', 'GO_MIT_NOTES', 'REDO', 'PARK',
       'proceed_reduced', 'park', 'adjust_roadbook', 'redesign', 'kill',
       'start_production', 'keep_parked',
     ];
@@ -103,6 +130,14 @@ router.post('/:projectId/decide', (req, res) => {
 function buildGateSummary(project, gateType) {
   const costs = project.costs || {};
 
+  if (gateType === 'idea_approval') {
+    return {
+      ambition: project.ambition || 'realistic',
+      platforms: project.production ? Object.keys(project.production) : [],
+      hint: 'Neue Idee eingereicht. Freigabe erteilen um Pre-Production zu starten.',
+    };
+  }
+
   if (gateType === 'ceo_gate') {
     return {
       chapters_complete: Object.values(project.chapters || {}).filter(c => c?.status === 'complete').length,
@@ -119,6 +154,19 @@ function buildGateSummary(project, gateType) {
       blocker_count: metrics.blocker_count || 0,
       ki_warnings: metrics.ki_warnings_count || 0,
       hint: 'Visual Audit abgeschlossen. Asset-Liste, Stil-Guide und Ampel-Report liegen vor.',
+    };
+  }
+
+  if (gateType === 'production_gate') {
+    const feas = project.feasibility || {};
+    const specPath = path.join(config.FACTORY_BASE, 'projects', project.project_id, 'specs', 'build_spec.yaml');
+    const hasSpec = fs.existsSync(specPath);
+    return {
+      feasibility_score: feas.score || null,
+      feasibility_status: feas.status || 'not_checked',
+      has_build_spec: hasSpec,
+      target_lines: hasSpec ? ['ios'] : [],
+      hint: 'Pre-Production abgeschlossen. Freigabe erteilen um Production zu starten.',
     };
   }
 

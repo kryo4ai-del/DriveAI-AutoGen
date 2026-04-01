@@ -1,0 +1,34 @@
+{
+  "id": "LOP-13",
+  "name": "Self-Healing Monitor",
+  "department": "Live Operations",
+  "role": "Ueberwacht Systemgesundheit und repariert bekannte Probleme automatisch",
+  "status": "active",
+  "task_type": "system_health",
+  "model_tier": "none",
+  "provider": "none",
+  "version": "1.0.0",
+  "uses_web": false,
+  "capabilities": [
+    "system_health_check",
+    "auto_healing",
+    "stuck_action_cleanup",
+    "data_directory_repair",
+    "corrupted_score_reset",
+    "escalation_log_compaction",
+    "orphaned_record_cleanup",
+    "error_logging",
+    "retry_on_failure"
+  ],
+  "inputs": ["registry_db", "data_directory", "error_log"],
+  "outputs": ["health_report", "healing_report", "error_log"],
+  "triggers": ["pre_decision_cycle", "pre_anomaly_scan", "manual"],
+  "components": [
+    "self_healing/health_monitor.py",
+    "self_healing/healer.py",
+    "self_healing/utilities.py",
+    "self_healing/cli.py"
+  ],
+  "status": "active",
+  "created": "2026-03-31"
+}

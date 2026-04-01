@@ -430,6 +430,111 @@ STIL: Enthusiastisch aber authentisch. Factory-Produkt-Updates."""
         response = self._call_llm(prompt, max_tokens=1024)
         return response or ""
 
+    # --- Name Gate Integration (NGO-01) ---
+
+    def pre_check_aso(self, name: str) -> dict:
+        """Quick ASO pre-check for a name (called by NGO-01).
+
+        Checks how saturated the app store keyword space is for this name.
+        Uses SerpAPI if available, falls back to LLM assessment.
+
+        Args:
+            name: The app name to check.
+
+        Returns:
+            dict with keyword_saturation, dominant_competitors, score, assessment.
+        """
+        _ts = datetime.now().strftime("%H:%M:%S")
+        logger.info("[%s] pre_check_aso('%s') -- starting", _ts, name)
+
+        competitors = []
+        saturation = "medium"
+        assessment = ""
+
+        # Try SerpAPI first
+        serp_ios = self._serpapi_search(f'site:apps.apple.com "{name}"')
+        serp_android = self._serpapi_search(f'site:play.google.com "{name}"')
+
+        serp_available = serp_ios is not None or serp_android is not None
+
+        if serp_available:
+            # Count competing apps from search results
+            name_lower = name.lower()
+            for serp_data in [serp_ios, serp_android]:
+                if not serp_data:
+                    continue
+                for r in serp_data.get("organic_results", []):
+                    title = r.get("title", "")
+                    if title and name_lower in title.lower() and title not in competitors:
+                        competitors.append(title[:60])
+
+            total_hits = len(competitors)
+            if total_hits == 0:
+                saturation = "low"
+                assessment = f"No competing apps found for '{name}' in store search."
+            elif total_hits <= 3:
+                saturation = "medium"
+                assessment = f"{total_hits} competing app(s) found with similar name."
+            else:
+                saturation = "high"
+                assessment = f"{total_hits} competing apps found - highly saturated name."
+        else:
+            # Fallback: LLM-based assessment
+            logger.info("[%s]   SerpAPI unavailable, using LLM fallback", _ts)
+            prompt = f"""Bewerte kurz den App-Namen "{name}" aus ASO-Sicht.
+
+Wie gesaettigt ist dieser Name im App Store? Gibt es bekannte Apps mit diesem oder einem aehnlichen Namen?
+
+Antworte NUR mit JSON:
+{{"saturation": "low", "competitors": ["App1", "App2"], "assessment": "Kurze Einschaetzung"}}
+
+saturation: "low" (einzigartig), "medium" (einige aehnliche), "high" (stark besetzt)
+competitors: Nur bekannte, existierende Apps auflisten. Leere Liste wenn keine bekannt."""
+
+            response = self._call_llm(prompt, max_tokens=1024)
+            if response:
+                import re
+                text = response.strip()
+                # Robust JSON extraction
+                try:
+                    parsed = json.loads(text)
+                except json.JSONDecodeError:
+                    match = re.search(r"\{.*\}", text, re.DOTALL)
+                    try:
+                        parsed = json.loads(match.group(0)) if match else {}
+                    except (json.JSONDecodeError, AttributeError):
+                        parsed = {}
+
+                saturation = parsed.get("saturation", "medium")
+                competitors = parsed.get("competitors", [])
+                assessment = parsed.get("assessment", "LLM assessment completed.")
+            else:
+                assessment = "Unable to assess - both SerpAPI and LLM unavailable."
+
+        # Validate saturation value
+        if saturation not in ("low", "medium", "high"):
+            saturation = "medium"
+
+        # Score: low=4-5, medium=2-3, high=0-1
+        base_scores = {"low": 5, "medium": 3, "high": 1}
+        score = base_scores.get(saturation, 3)
+        # Adjust down if many competitors
+        if len(competitors) > 5:
+            score = max(0, score - 1)
+        elif len(competitors) == 0 and saturation == "low":
+            score = 5
+
+        result = {
+            "name": name,
+            "keyword_saturation": saturation,
+            "dominant_competitors": competitors[:10],
+            "score": score,
+            "assessment": assessment,
+            "checked_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+        logger.info("[%s] pre_check_aso('%s') -> %s (score %d/5)", _ts, name, saturation, score)
+        return result
+
     def competitor_keyword_analysis(
         self,
         competitors: list[str],

@@ -1,0 +1,79 @@
+{
+  "report_id": "NGR-20348",
+  "name": "ng_integ_flow1",
+  "total_score": 66,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": false,
+      "io": false,
+      "score": 50,
+      "details": {
+        "checked": [
+          "ngintegflow1.com",
+          "ngintegflow1.de",
+          "ngintegflow1.app",
+          "ngintegflow1.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": true,
+      "score": 50,
+      "details": {
+        "apple_search": "'ng_integ_flow1' on App Store",
+        "google_search": "'ng_integ_flow1' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": true,
+      "youtube": false,
+      "linkedin": true,
+      "score": 40,
+      "details": {
+        "handle_checked": "@ngintegflow1",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 83,
+      "pronounceability": 48,
+      "memorability": 93,
+      "confusion_risk": 72,
+      "international": 83,
+      "score": 76,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Apple App Store name taken",
+    "social_partial: Handle taken on Instagram, TikTok"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T08:18:53.397272+00:00"
+}

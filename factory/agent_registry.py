@@ -42,8 +42,12 @@ SCAN_ROOTS = [
     "factory/signing",
     "factory/integration",
     "factory/evolution_loop",
+    "factory/name_gate",
     "factory/brain",
     "factory/brain/memory",
+    "factory/live_operations/test_harness",
+    "factory/live_operations/self_healing",
+    "factory/live_operations/reporting",
     "mac_agent",
     "mac_agent/repair",
     "briefings",
@@ -67,12 +71,15 @@ def _discover_dirs() -> set:
             if sub.is_dir() and "__pycache__" not in str(sub) and "node_modules" not in str(sub):
                 dirs.add(sub)
 
-    # Also scan factory/**/agents/ dirs
+    # Also scan factory/**/agents/ dirs (and their subdirectories)
     factory = PROJECT_ROOT / "factory"
     if factory.exists():
         for ad in factory.rglob("agents"):
             if ad.is_dir() and "__pycache__" not in str(ad):
                 dirs.add(ad)
+                for sub in ad.iterdir():
+                    if sub.is_dir() and "__pycache__" not in str(sub):
+                        dirs.add(sub)
 
     return dirs
 

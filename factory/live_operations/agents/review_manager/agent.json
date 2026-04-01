@@ -1,0 +1,16 @@
+{
+  "id": "LOP-04",
+  "name": "Review Analyzer",
+  "role": "Store-Bewertungen analysieren und kategorisieren",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "analysis",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Keyword-basierte Review-Kategorisierung (EN+DE): bug_report, feature_request, praise, complaint, question. Pattern Detection (>=3 Mentions), Rating Health (Trend + Target), Sentiment Analyse (pos/neg/neutral/mixed).",
+  "module": "factory.live_operations.agents.review_manager",
+  "class": "ReviewAnalyzer",
+  "uses_web": false,
+  "version": "1.0.0",
+  "created": "2026-03-30"
+}

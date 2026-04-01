@@ -1,0 +1,86 @@
+{
+  "release_id": "REL-368bf523a9c5-20260331002757-5a5c85",
+  "app_id": "368bf523a9c5",
+  "action_type": "hotfix",
+  "target_version": "1.0.1",
+  "submission_id": "SUB-368bf523a9c5-20260331002757-9c77ce",
+  "briefing_id": "BRF-368bf523a9c5-20260331002757",
+  "status": "released",
+  "created_at": "2026-03-31T00:27:57.460907+00:00",
+  "qa_result": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "health_score",
+        "passed": true,
+        "detail": "Score 50.0 (min: 30.0)"
+      },
+      {
+        "name": "active_anomalies",
+        "passed": true,
+        "detail": "0 aktive Anomalien (max: 2)"
+      },
+      {
+        "name": "cooling_active",
+        "passed": true,
+        "detail": "Kein Cooling aktiv"
+      },
+      {
+        "name": "briefing_exists",
+        "passed": true,
+        "detail": "Briefing vorhanden"
+      },
+      {
+        "name": "submission_exists",
+        "passed": true,
+        "detail": "Factory Submission vorhanden"
+      }
+    ],
+    "blockers": [],
+    "total_checks": 5,
+    "passed_checks": 5
+  },
+  "store_upload": {
+    "success": true,
+    "stub": true,
+    "store": "simulated",
+    "message": "STUB: 368bf523a9c5 v1.0.1 (hotfix) an Store uebergeben"
+  },
+  "registry_updated": true,
+  "cooling_started": true,
+  "completed_at": "2026-03-31T00:27:57.471634+00:00",
+  "error": null,
+  "history": [
+    {
+      "status": "pending",
+      "timestamp": "2026-03-31T00:27:57.460907+00:00",
+      "detail": "Release erstellt"
+    },
+    {
+      "status": "qa_check",
+      "timestamp": "2026-03-31T00:27:57.460946+00:00",
+      "detail": "QA Check gestartet"
+    },
+    {
+      "status": "qa_passed",
+      "timestamp": "2026-03-31T00:27:57.460962+00:00",
+      "detail": "QA bestanden (5/5)"
+    },
+    {
+      "status": "uploading",
+      "timestamp": "2026-03-31T00:27:57.460970+00:00",
+      "detail": "Store Upload gestartet (STUB)"
+    },
+    {
+      "status": "uploaded",
+      "timestamp": "2026-03-31T00:27:57.460981+00:00",
+      "detail": "Store Upload erfolgreich (STUB)"
+    },
+    {
+      "status": "released",
+      "timestamp": "2026-03-31T00:27:57.471634+00:00",
+      "detail": "Release v1.0.1 erfolgreich abgeschlossen"
+    }
+  ],
+  "cooling_hours": 48
+}

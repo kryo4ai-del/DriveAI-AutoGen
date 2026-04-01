@@ -1,0 +1,17 @@
+{
+  "id": "LOP-07",
+  "name": "Anomaly Detector",
+  "role": "Dramatische Abweichungen erkennen und Auto-Rollback ausfuehren",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "anomaly_detection",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Laeuft alle 30 Minuten. 4 Checks: crash_explosion (2x Baseline), revenue_collapse (<20% Baseline), health_freefall (>20pt Drop), post_update_regression (48h Window). Auto-Rollback NUR bei post_update_regression mit last_stable_version. Store Re-Deploy ist STUB.",
+  "module": "factory.live_operations.agents.anomaly_detector",
+  "class": "AnomalyDetector",
+  "uses_web": false,
+  "capabilities": ["crash_detection", "revenue_monitoring", "auto_rollback"],
+  "version": "1.0.0",
+  "created": "2026-03-31"
+}

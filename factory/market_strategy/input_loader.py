@@ -64,7 +64,7 @@ def load_phase1_output(run_dir: str) -> dict:
     else:
         raise ValueError(f"CEO-Gate Entscheidung nicht gefunden: {gate_file}")
 
-    if ceo_decision != "GO":
+    if ceo_decision not in ("GO", "GO_MIT_NOTES"):
         raise ValueError("CEO-Gate Entscheidung war KILL — Phase 2 kann nicht starten.")
 
     # Read all required reports

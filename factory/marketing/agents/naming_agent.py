@@ -196,6 +196,73 @@ Beispiel: [{{"name": "EchoMatch", "reasoning": "Verbindet Sound (Echo) mit Gamep
         logger.info("Generated %d name suggestions", len(names))
         return names
 
+    def generate_name_suggestions(self, idea: str, count: int = 6) -> list[str]:
+        """Generate short, viral app name suggestions for an idea.
+
+        Simplified interface for the Name Gate flow — returns plain name
+        strings (no reasoning/style metadata).
+
+        Args:
+            idea: The app idea description.
+            count: Number of names to generate.
+
+        Returns:
+            List of name strings, e.g. ["Bloomly", "Verdana", "LeafIQ"].
+        """
+        prompt = f"""Generiere {count} kreative App-Namen fuer folgende Idee:
+
+IDEE: {idea}
+
+NAMENS-REGELN (STRIKT):
+- Maximal 1-2 Woerter
+- Leicht auszusprechen auf Deutsch UND Englisch
+- Einpraegsam und catchy (virales Potenzial)
+- Bezug zur Idee, aber KEINE woertliche Beschreibung
+- Keine generischen Woerterbuch-Woerter (nicht "PlantApp" oder "SmartGarden")
+- App-Store-tauglich (keine Sonderzeichen, nicht zu lang)
+- Domain-tauglich (.com oder .app)
+
+Antworte NUR mit einem JSON-Array von Strings, kein anderer Text.
+Beispiel: ["Bloomly", "Verdana", "LeafIQ", "Sproutix", "Floriq", "Canopi"]"""
+
+        response = self._call_llm(prompt, max_tokens=1024)
+        if not response:
+            logger.warning("LLM returned empty response for name suggestions")
+            return self._fallback_names(idea, count)
+
+        text = response.strip()
+        if "```" in text:
+            import re
+            match = re.search(r"```(?:json)?\s*\n?(.*?)```", text, re.DOTALL)
+            if match:
+                text = match.group(1).strip()
+
+        try:
+            names = json.loads(text)
+        except json.JSONDecodeError:
+            try:
+                start = text.index("[")
+                end = text.rindex("]") + 1
+                names = json.loads(text[start:end])
+            except (ValueError, json.JSONDecodeError):
+                logger.error("Could not parse name suggestions: %s", text[:200])
+                return self._fallback_names(idea, count)
+
+        # Ensure all entries are strings
+        result = [str(n) for n in names if isinstance(n, str) or isinstance(n, dict) and "name" in n]
+        if not result and names:
+            result = [n["name"] if isinstance(n, dict) else str(n) for n in names]
+
+        logger.info("Generated %d name suggestions for idea", len(result))
+        return result[:count]
+
+    def _fallback_names(self, idea: str, count: int) -> list[str]:
+        """Deterministic fallback names derived from the idea words."""
+        words = [w for w in idea.lower().split() if len(w) > 3]
+        base = words[0].capitalize() if words else "App"
+        suffixes = ["ly", "ify", "io", "ix", "ai", "go"]
+        return [f"{base}{s}" for s in suffixes[:count]]
+
     def validate_names(self, name_list: list[str]) -> list[dict]:
         """Prueft Verfuegbarkeit fuer eine Liste von Namen.
 
@@ -327,6 +394,178 @@ Beispiel: [{{"name": "EchoMatch", "reasoning": "Verbindet Sound (Echo) mit Gamep
         except Exception as e:
             logger.warning("SerpAPI check failed: %s", e)
             return "unchecked"
+
+    # --- Name Gate Integration (NGO-01) ---
+
+    def validate_name(self, name: str) -> dict:
+        """Run all availability checks for a single name (called by NGO-01).
+
+        Checks domains (.com/.de/.app/.io), app stores (Apple/Google),
+        and social media handles (Instagram/TikTok/X/YouTube/LinkedIn).
+
+        Returns:
+            dict with domain, app_store, social_media sub-results + scores.
+        """
+        _ts = datetime.utcnow().strftime("%H:%M:%S")
+        logger.info("[%s] validate_name('%s') -- starting 3 checks", _ts, name)
+
+        handle = name.lower().replace(" ", "").replace("-", "")
+        slug = handle
+
+        # --- Domain Check (25 pts: .com=10, .de=5, .app=5, .io=5) ---
+        domain_result = {"com": False, "de": False, "app": False, "io": False,
+                         "score": 0, "details": {}}
+        tld_points = {"com": 10, "de": 5, "app": 5, "io": 5}
+        for tld, pts in tld_points.items():
+            try:
+                status = self._check_domain(f"{slug}.{tld}")
+                is_free = status == "free"
+                domain_result[tld] = is_free
+                domain_result["details"][f"{slug}.{tld}"] = status
+                if is_free:
+                    domain_result["score"] += pts
+            except Exception as e:
+                domain_result["details"][f"{slug}.{tld}"] = f"error: {e}"
+        logger.info("[%s]   Domain: %d/25", _ts, domain_result["score"])
+
+        # --- App Store Check (25 pts: Apple=12, Google=13) ---
+        store_result = {"apple": False, "google": False, "score": 0, "details": {}}
+        serpapi_key = os.environ.get("SERPAPI_API_KEY")
+        store_points = {"apple": 12, "google": 13}
+        for store, pts in store_points.items():
+            try:
+                if serpapi_key:
+                    status = self._check_store_serpapi(name, store, serpapi_key)
+                    time.sleep(0.5)
+                else:
+                    status = "unchecked"
+                is_free = status == "free"
+                store_result[store] = is_free
+                store_result["details"][store] = status
+                if is_free:
+                    store_result["score"] += pts
+            except Exception as e:
+                store_result["details"][store] = f"error: {e}"
+        logger.info("[%s]   Store: %d/25", _ts, store_result["score"])
+
+        # --- Social Media Check (10 pts: 2 each) ---
+        social_result = {"instagram": False, "tiktok": False, "x": False,
+                         "youtube": False, "linkedin": False,
+                         "score": 0, "details": {}}
+        social_urls = {
+            "instagram": f"https://www.instagram.com/{handle}",
+            "tiktok": f"https://www.tiktok.com/@{handle}",
+            "x": f"https://x.com/{handle}",
+            "youtube": f"https://www.youtube.com/@{handle}",
+            "linkedin": f"https://www.linkedin.com/company/{handle}",
+        }
+        for platform, url in social_urls.items():
+            try:
+                status = self._check_social_handle(url)
+                is_free = status == "free"
+                social_result[platform] = is_free
+                social_result["details"][platform] = status
+                if is_free:
+                    social_result["score"] += 2
+                time.sleep(0.5)
+            except Exception as e:
+                social_result["details"][platform] = f"error: {e}"
+        logger.info("[%s]   Social: %d/10", _ts, social_result["score"])
+
+        result = {
+            "name": name,
+            "domain": domain_result,
+            "app_store": store_result,
+            "social_media": social_result,
+            "checked_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+        logger.info("[%s] validate_name('%s') -- done (D:%d S:%d SM:%d)",
+                     _ts, name, domain_result["score"],
+                     store_result["score"], social_result["score"])
+        return result
+
+    def check_trademark(self, name: str) -> dict:
+        """Check trademark registries DPMA + EUIPO for conflicts (called by NGO-01).
+
+        Uses SerpAPI web search as fallback since direct registry APIs
+        require authentication. Each check has a 10s timeout.
+
+        Returns:
+            dict with dpma, euipo sub-results, hard_blocker flag, and score.
+        """
+        _ts = datetime.utcnow().strftime("%H:%M:%S")
+        logger.info("[%s] check_trademark('%s') -- starting", _ts, name)
+
+        dpma = self._search_trademark_registry(name, "dpma")
+        euipo = self._search_trademark_registry(name, "euipo")
+
+        hard_blocker = dpma["found"] or euipo["found"]
+        score = 0
+        if not dpma["found"] and dpma["status"] != "unavailable":
+            score += 12
+        if not euipo["found"] and euipo["status"] != "unavailable":
+            score += 13
+
+        result = {
+            "name": name,
+            "dpma": dpma,
+            "euipo": euipo,
+            "hard_blocker": hard_blocker,
+            "score": score,
+            "checked_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+        logger.info("[%s] check_trademark('%s') -- done (score: %d/25, blocker: %s)",
+                     _ts, name, score, hard_blocker)
+        return result
+
+    def _search_trademark_registry(self, name: str, registry: str) -> dict:
+        """Search a trademark registry via SerpAPI web search.
+
+        Args:
+            name: The name to search for.
+            registry: 'dpma' or 'euipo'.
+
+        Returns:
+            dict with found (bool), status (str), details (str).
+        """
+        serpapi_key = os.environ.get("SERPAPI_API_KEY")
+        if not serpapi_key:
+            return {"found": False, "status": "unavailable",
+                    "details": "SerpAPI key not configured"}
+
+        if registry == "dpma":
+            query = f'"{name}" site:register.dpma.de OR "{name}" Marke DPMA'
+        else:
+            query = f'"{name}" site:euipo.europa.eu OR "{name}" EU trademark EUIPO'
+
+        try:
+            import requests
+            resp = requests.get(
+                "https://serpapi.com/search",
+                params={"q": query, "api_key": serpapi_key, "num": 5},
+                timeout=10,
+            )
+            if resp.status_code != 200:
+                return {"found": False, "status": "unavailable",
+                        "details": f"SerpAPI returned {resp.status_code}"}
+
+            data = resp.json()
+            results = data.get("organic_results", [])
+            name_lower = name.lower()
+
+            for r in results:
+                title = r.get("title", "").lower()
+                snippet = r.get("snippet", "").lower()
+                if name_lower in title or name_lower in snippet:
+                    return {"found": True, "status": "checked",
+                            "details": f"Potential match: {r.get('title', '')[:80]}"}
+
+            return {"found": False, "status": "checked",
+                    "details": "No exact match found"}
+        except Exception as e:
+            logger.warning("Trademark search failed (%s): %s", registry, e)
+            return {"found": False, "status": "unavailable",
+                    "details": f"Search failed: {e}"}
 
     def create_naming_report(
         self,

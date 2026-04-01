@@ -1,0 +1,16 @@
+{
+  "id": "MKT-14",
+  "name": "Campaign Planner",
+  "role": "Marketing Campaign Planner",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "campaign_planning",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Plant Marketing-Kampagnen mit Timeline, Budget-Verteilung und Kanal-Mix. Nutzt BudgetController fuer exakte Berechnungen. Kein echtes Geld — nur Planung und Simulation.",
+  "py_file": "campaign_planner.py",
+  "_source": "factory\\marketing\\agents\\agent_campaign_planner.json"
+}

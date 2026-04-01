@@ -1,8 +1,9 @@
 # DriveAI-AutoGen — Ordnerstruktur
 
-**Stand**: 2026-03-27
-**Agents**: 87 (80 aktiv) | **Departments**: 14 | **Lines**: 5
-**Python-Dateien**: ~350+ | **LOC**: ~50.000+
+**Stand**: 2026-04-02
+**Agents**: 111 (104 aktiv) | **Departments**: 18 | **Lines**: 5
+**Python-Dateien**: 585 (factory/) | **LOC**: 123.143 (factory/) | **Tests**: 485 in 55 Dateien
+**Dashboard**: 42 React Components, 18 API Endpoints | **docs**: 47 Dateien
 
 > Ausgeblendet: `node_modules/`, `venv/`, `__pycache__/`, `.git/`, Build-Artefakte
 > Collapsed `[...]`: Ordner mit vielen generierten Dateien (Anzahl angegeben)

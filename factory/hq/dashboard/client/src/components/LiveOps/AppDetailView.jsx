@@ -6,9 +6,14 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, BarChart3 } from 'lucide-react';
+import { ArrowLeft, BarChart3, Activity, AlertTriangle, Rocket } from 'lucide-react';
 import HealthScoreCircle, { getColor, getZone } from './HealthScoreCircle';
 import AnalyticsTab from './AnalyticsTab';
+import DecisionMonitor from './DecisionMonitor';
+import EscalationLog from './EscalationLog';
+import StrategicPivotPanel from './StrategicPivotPanel';
+import ExecutionPipeline from './ExecutionPipeline';
+import ReleaseTracker from './ReleaseTracker';
 
 const ZONE_ICONS = { green: '🟢', yellow: '🟡', red: '🔴' };
 const PROFILE_COLORS = {
@@ -123,6 +128,36 @@ export default function AppDetailView({ appId, onBack }) {
         >
           <BarChart3 size={14} /> Analytics
         </button>
+        <button
+          onClick={() => setActiveTab('decisions')}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
+            activeTab === 'decisions'
+              ? 'border-factory-accent text-factory-accent'
+              : 'border-transparent text-factory-text-secondary hover:text-white'
+          }`}
+        >
+          <Activity size={14} /> Decisions
+        </button>
+        <button
+          onClick={() => setActiveTab('escalations')}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
+            activeTab === 'escalations'
+              ? 'border-factory-accent text-factory-accent'
+              : 'border-transparent text-factory-text-secondary hover:text-white'
+          }`}
+        >
+          <AlertTriangle size={14} /> Escalations
+        </button>
+        <button
+          onClick={() => setActiveTab('execution')}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
+            activeTab === 'execution'
+              ? 'border-factory-accent text-factory-accent'
+              : 'border-transparent text-factory-text-secondary hover:text-white'
+          }`}
+        >
+          <Rocket size={14} /> Execution
+        </button>
       </div>
 
       {/* Tab Content */}
@@ -156,9 +191,21 @@ export default function AppDetailView({ appId, onBack }) {
           <ActionQueue actions={app.actions || []} />
         </div>
       </div>
-      ) : (
+      ) : activeTab === 'analytics' ? (
         <AnalyticsTab appId={appId} />
-      )}
+      ) : activeTab === 'decisions' ? (
+        <div className="space-y-6">
+          <DecisionMonitor appId={appId} />
+          <StrategicPivotPanel appId={appId} />
+        </div>
+      ) : activeTab === 'escalations' ? (
+        <EscalationLog appId={appId} />
+      ) : activeTab === 'execution' ? (
+        <div className="space-y-6">
+          <ExecutionPipeline appId={appId} />
+          <ReleaseTracker appId={appId} />
+        </div>
+      ) : null}
     </div>
   );
 }

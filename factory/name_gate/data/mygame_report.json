@@ -1,0 +1,78 @@
+{
+  "report_id": "NGR-56462",
+  "name": "MyGame",
+  "total_score": 96,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 100,
+      "details": {
+        "checked": [
+          "mygame.com",
+          "mygame.de",
+          "mygame.app",
+          "mygame.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'MyGame' on App Store",
+        "google_search": "'MyGame' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": true,
+      "x": true,
+      "youtube": true,
+      "linkedin": true,
+      "score": 100,
+      "details": {
+        "handle_checked": "@mygame",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 87,
+      "pronounceability": 72,
+      "memorability": 82,
+      "confusion_risk": 78,
+      "international": 87,
+      "score": 81,
+      "recommendation": "Strong name. Proceed."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [],
+  "recommendations": [
+    "Name looks strong across all dimensions. Proceed with confidence."
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.675137+00:00"
+}

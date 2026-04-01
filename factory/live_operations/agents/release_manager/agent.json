@@ -1,0 +1,17 @@
+{
+  "id": "LOP-11",
+  "name": "Release Manager",
+  "role": "Release-Lifecycle koordinieren: QA, Store Upload, Registry, Cooling",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "release_coordination",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Koordiniert den gesamten Release-Lifecycle nach Factory-Completion. QA-Gate (Health Score, Anomalien, Cooling, Briefing, Submission), Store Upload (STUB), Registry Update (Version + Release History), Cooling Period Start. Deterministisch, kein LLM.",
+  "module": "factory.live_operations.agents.release_manager",
+  "class": "ReleaseManager",
+  "uses_web": false,
+  "capabilities": ["release_coordination", "qa_check", "store_upload", "cooling_management"],
+  "version": "1.0.0",
+  "created": "2026-03-31"
+}

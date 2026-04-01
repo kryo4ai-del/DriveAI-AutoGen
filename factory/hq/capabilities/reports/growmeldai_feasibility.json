@@ -1,0 +1,321 @@
+{
+  "project_slug": "growmeldai",
+  "overall_status": "not_feasible",
+  "score": 0.88,
+  "summary": "26 von 30 Requirements erfuellt. 1 Warnungen, 3 nicht machbar.",
+  "requirements": [
+    {
+      "name": "Platform: iOS",
+      "category": "platform",
+      "status": "met",
+      "matched_by": "ios line: active",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Platform: Android",
+      "category": "platform",
+      "status": "met",
+      "matched_by": "android line: active",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Platform: Web",
+      "category": "platform",
+      "status": "met",
+      "matched_by": "web line: active",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Platform: Unity",
+      "category": "platform",
+      "status": "warning",
+      "matched_by": "unity line: planned",
+      "gap": "unity_not_proven",
+      "alternatives": [
+        "unity Line existiert, aber noch kein shipped Product"
+      ]
+    },
+    {
+      "name": "Backend/Server API",
+      "category": "backend",
+      "status": "not_met",
+      "matched_by": "In cannot_do list: custom backend apis (no cloud run, no custom rest servers)",
+      "gap": "Backend/Server API",
+      "alternatives": [
+        "Offline-First mit lokalem Storage (UserDefaults/Room/localStorage)",
+        "Firebase als BaaS nutzen (wenn in Capability Sheet)",
+        "Feature streichen"
+      ]
+    },
+    {
+      "name": "Cloud Database (Firebase)",
+      "category": "backend",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Realtime/WebSocket",
+      "category": "backend",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "AR/VR Features",
+      "category": "infrastructure",
+      "status": "not_met",
+      "matched_by": "In cannot_do list: ar/vr features (no arkit/arcore agents)",
+      "gap": "AR/VR Features",
+      "alternatives": [
+        "Feature streichen",
+        "Alternative mit verfuegbaren Capabilities suchen"
+      ]
+    },
+    {
+      "name": "Blockchain/Web3",
+      "category": "infrastructure",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Native Hardware (BLE/NFC)",
+      "category": "infrastructure",
+      "status": "met",
+      "matched_by": "Not in cannot_do list",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "GPS/Location",
+      "category": "infrastructure",
+      "status": "not_met",
+      "matched_by": "In cannot_do list: gps/location services",
+      "gap": "GPS/Location",
+      "alternatives": [
+        "Feature streichen",
+        "Alternative mit verfuegbaren Capabilities suchen"
+      ]
+    },
+    {
+      "name": "Feature: DSGVO-Onboarding-Modal (S018): VERBINDLICH",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Muss beim allerersten App-Start erscheinen, bevor jegliche Datenverarbeitung stattfindet.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Enthält eine vertrauensbildende Illustration (A042) und einen kurzen, persönlichen Text.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Service available: DALL-E 3",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Optionen für granulare Einwilligung (z.B. für ML-Training, Analytics) müssen vorhanden sein.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Muss einen Hard Block für die App-Nutzung implementieren, wenn der Basis-Consent abgelehnt wird.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Kamera-Permission-Modal (S003): VERBINDLICH",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Erscheint vor dem ersten Scan-Versuch.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Custom-Design mit Illustration (A006) und kurzem, ehrlichem Text.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Service available: DALL-E 3",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Erklärt den Zweck der Kamera-Nutzung klar.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Standort-Permission-Modal (S022): VERBINDLICH",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Erscheint vor der Generierung des ersten Pflegeplans mit Wetterdaten.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Custom-Design mit Illustration (A048) und Erklärung des Nutzens (wetterbasierte Empfehlungen).",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Service available: DALL-E 3",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Bietet PLZ-Fallback, wenn Standortzugriff abgelehnt wird.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Push-Notification-Einwilligungs-Modal (S007): VERBINDLICH",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Erscheint nach dem Pflegeplan-Reveal (S006), im Moment des höchsten empfundenen Nutzens.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Custom-Design mit Illustration (A018) und persönlich formulierter Frage.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Service available: DALL-E 3",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Die Ablehn-Option ist als \"Nicht jetzt\" formuliert, um die Tür offen zu lassen.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: ATT (App Tracking Transparency) für iOS: VERBINDLICH",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    },
+    {
+      "name": "Feature: Der ATT-Prompt muss vor dem ersten Tracking-Event (z.B. Firebase Analytics) angezeigt werden.",
+      "category": "feature",
+      "status": "met",
+      "matched_by": "Standard app feature (no special capabilities required)",
+      "gap": "",
+      "alternatives": []
+    }
+  ],
+  "capability_gaps": [
+    {
+      "capability": "Backend/Server API",
+      "required_by": [
+        "Backend/Server API"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "capability": "AR/VR Features",
+      "required_by": [
+        "AR/VR Features"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "capability": "GPS/Location",
+      "required_by": [
+        "GPS/Location"
+      ],
+      "severity": "blocking"
+    },
+    {
+      "capability": "unity_not_proven",
+      "required_by": [
+        "Platform: Unity"
+      ],
+      "severity": "warning"
+    }
+  ],
+  "line_assignments": {
+    "ios": {
+      "assigned": true,
+      "line_status": "active",
+      "available": true
+    },
+    "android": {
+      "assigned": true,
+      "line_status": "active",
+      "available": true
+    },
+    "web": {
+      "assigned": true,
+      "line_status": "active",
+      "available": true
+    },
+    "unity": {
+      "assigned": true,
+      "line_status": "planned",
+      "available": true
+    }
+  },
+  "recommendations": [
+    "Zu viele fehlende Capabilities fuer Produktion.",
+    "Optionen: Projekt parken, Roadbook redesignen, oder killen.",
+    "  Blockiert: Backend/Server API",
+    "  Blockiert: AR/VR Features",
+    "  Blockiert: GPS/Location"
+  ],
+  "check_date": "2026-04-01T17:52:57.854013",
+  "report_path": null
+}

@@ -316,6 +316,21 @@ if __name__ == "__main__":
 
     result = run_pipeline(idea_text, idea_title=args.title)
 
+    # --- Auto-update project.json ---
+    if result["status"] in ("completed", "completed_with_errors"):
+        try:
+            from factory.shared.project_registry import update_project
+            _dir_name = Path(result["output_dir"]).name
+            _slug_match = re.match(r"\d+_(.*)", _dir_name)
+            _slug = _slug_match.group(1) if _slug_match else _dir_name
+            update_project(_slug, "phase1", {
+                "status": "complete",
+                "run_number": result["run_number"],
+                "output_dir": result["output_dir"],
+            })
+        except Exception as _e:
+            print(f"[Pipeline] WARNING: project.json Update fehlgeschlagen: {_e}")
+
     # Print final summary
     line = "=" * 60
     print(f"\n{line}")

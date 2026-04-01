@@ -1,0 +1,82 @@
+{
+  "report_id": "NGR-30084",
+  "name": "Camflora",
+  "total_score": 77,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 100,
+      "details": {
+        "camflora.com": "free",
+        "camflora.de": "free",
+        "camflora.app": "free",
+        "camflora.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple": "free",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": true,
+      "linkedin": false,
+      "score": 20,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "free",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": false,
+      "score": 48,
+      "hard_blocker": true
+    },
+    "brand_fit": {
+      "tonality": 90,
+      "pronounceability": 80,
+      "memorability": 80,
+      "confusion_risk": 70,
+      "international": 80,
+      "score": 80,
+      "recommendation": "Camflora ist eine starke Kombination aus 'Camera' und 'Flora' — sofort verständlich, thematisch präzise und sowohl auf Deutsch als auch Englisch flüssig aussprechbar. Leichtes Risiko durch Nähe zu 'Canflora' oder botanischen Markennamen, aber insgesamt solide Grundlage für eine Pflanzen-Kamera-App."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 100
+    }
+  },
+  "hard_blockers": [
+    "trademark_conflict: DPMA or EUIPO match found"
+  ],
+  "soft_blockers": [
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:23:53.256494+00:00"
+}

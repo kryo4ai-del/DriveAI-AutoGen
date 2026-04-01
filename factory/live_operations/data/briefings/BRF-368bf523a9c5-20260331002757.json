@@ -1,0 +1,49 @@
+{
+  "briefing_id": "BRF-368bf523a9c5-20260331002757",
+  "briefing_type": "live_ops_update",
+  "created_at": "2026-03-31T00:27:57.435461+00:00",
+  "app_context": {
+    "app_id": "368bf523a9c5",
+    "app_name": "368bf523a9c5",
+    "current_version": null,
+    "target_version": "1.0.1",
+    "repository_path": null,
+    "platform": ""
+  },
+  "update_details": {
+    "action_type": "hotfix",
+    "priority": "P0-CRITICAL",
+    "scope": {
+      "label": "minimal",
+      "description": "Nur primaerer Trigger",
+      "trigger_count": 0,
+      "triggers": [],
+      "categories_affected": []
+    },
+    "version_bump": "patch",
+    "target_version": "1.0.1"
+  },
+  "evidence": {
+    "health_score": null,
+    "health_zone": null,
+    "primary_trigger": null,
+    "escalation_level": 0,
+    "data_summary": {},
+    "trigger_details": []
+  },
+  "factory_instructions": {
+    "urgency": "SOFORT \u2014 naechster Build-Slot",
+    "testing": "Smoke Test + betroffener Bereich",
+    "rollback_plan": "Automatisch bei Health-Score-Drop > 10pt",
+    "changes_required": [],
+    "files_likely_affected": []
+  },
+  "tracking": {
+    "action_id": "6da2acd2c681",
+    "decision_timestamp": null,
+    "briefing_status": "created",
+    "submitted_to_factory": false,
+    "submission_timestamp": null,
+    "factory_task_id": null
+  }
+}

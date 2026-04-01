@@ -1,0 +1,77 @@
+project:
+  name: EchoMatch
+  slug: echomatch
+  version: 1.0.0
+  source: cd_technical_roadbook.md
+  generated_at: '2026-04-01T18:16:35.493152+00:00'
+platforms:
+  primary: ios
+  secondary: []
+  tech_stack:
+    backend: Firebase
+design:
+  tokens:
+    colors:
+      echo_violet: '#5B2ECC'
+      match_ember: '#FF6B35'
+      gold_spark: '#FFD700'
+      echo_teal: '#00C9A7'
+      background_light: '#F4F0FF'
+      background_dark: '#120D2A'
+      surface_light: '#FFFFFF'
+      surface_dark: '#1E1540'
+      gameplay_bg: '#0E0A24'
+      success: '#27ae60'
+      warning: '#f39c12'
+      error: '#e74c3c'
+      text_primary: '#1A1333'
+      text_primary_dark: '#EDE8FF'
+      text_secondary: '#6B5FA6'
+      text_secondary_dark: '#9B8FCC'
+    fonts: {}
+  differentiators: []
+screens:
+- id: S002
+  name: '**VERBINDLICH:** Hard-Block in S002, State Minderjähriger-Blocked; kein Weiterleiten in die App; kein Tracking, kein
+    Analytics-Event-Dispatch'
+  type: '###_phase-b_screens_(4_geplant)'
+  description: ID
+  features: []
+  states:
+  - Zweck
+  priority: must_have
+  layer: 3
+features: []
+assets: []
+apis:
+- name: firebase_auth
+  type: backend
+  description: User authentication
+- name: firebase_analytics
+  type: analytics
+  description: User behavior tracking
+- name: firebase_crashlytics
+  type: monitoring
+  description: Crash reporting
+- name: firebase_fcm
+  type: backend
+  description: Push notifications
+legal:
+  gdpr_consent_required: true
+  coppa_required: true
+  att_required: true
+  location_mode: unknown
+  ml_training_user_data: true
+  consent_screens:
+  - S002
+  - S014
+  - S018
+  - S020
+  - S001
+  - S005
+  - S006
+  - S003
+  - S007
+  - S022
+target_lines:
+- ios

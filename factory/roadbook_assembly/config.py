@@ -26,7 +26,7 @@ def get_fallback_model(profile: str = "standard") -> str:
     try:
         from factory.brain.model_provider import get_model
         selection = get_model(profile=profile)
-        if selection and selection.get("model"):
+        if selection and selection.get("model") and selection.get("provider") == "anthropic":
             return selection["model"]
     except Exception:
         pass

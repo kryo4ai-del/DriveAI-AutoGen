@@ -1,0 +1,78 @@
+{
+  "report_id": "NGR-79962",
+  "name": "Socialnow",
+  "total_score": 75,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": false,
+      "io": true,
+      "score": 75,
+      "details": {
+        "checked": [
+          "socialnow.com",
+          "socialnow.de",
+          "socialnow.app",
+          "socialnow.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": true,
+      "score": 50,
+      "details": {
+        "apple_search": "'Socialnow' on App Store",
+        "google_search": "'Socialnow' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": false,
+      "x": true,
+      "youtube": false,
+      "linkedin": true,
+      "score": 60,
+      "details": {
+        "handle_checked": "@socialnow",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 82,
+      "pronounceability": 63,
+      "memorability": 82,
+      "confusion_risk": 98,
+      "international": 77,
+      "score": 80,
+      "recommendation": "Strong name. Proceed."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Apple App Store name taken",
+    "social_partial: Handle taken on TikTok"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.666772+00:00"
+}

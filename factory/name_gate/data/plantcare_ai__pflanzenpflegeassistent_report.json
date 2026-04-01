@@ -1,0 +1,80 @@
+{
+  "report_id": "NGR-97238",
+  "name": "PlantCare AI - Pflanzen-Pflege-Assistent",
+  "total_score": 88,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 100,
+      "details": {
+        "plantcareaipflanzenpflegeassistent.com": "free",
+        "plantcareaipflanzenpflegeassistent.de": "free",
+        "plantcareaipflanzenpflegeassistent.app": "free",
+        "plantcareaipflanzenpflegeassistent.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple": "free",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": true,
+      "linkedin": false,
+      "score": 20,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "free",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 70,
+      "pronounceability": 60,
+      "memorability": 50,
+      "confusion_risk": 30,
+      "international": 80,
+      "score": 60,
+      "recommendation": "Der Name ist funktional und beschreibend, aber generisch und austauschbar – 'PlantCare' ist bereits als App-Name und Marke mehrfach vergeben, was das Verwechslungsrisiko erheblich erhoeht. Fuer eine DriveAI Factory App empfehle ich einen eigenstaendigeren Namen der die KI-Persoenlichkeit staerker transportiert, z.B. 'Verdant' oder 'Florai'."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 100
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "Brand fit is below average - consider a naming workshop",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T11:20:57.020999+00:00"
+}

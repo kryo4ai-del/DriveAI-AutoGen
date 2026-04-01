@@ -1,0 +1,17 @@
+{
+  "id": "LOP-06",
+  "name": "Decision Engine",
+  "role": "Autonome Entscheidungen treffen basierend auf Severity Scoring",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "decision_making",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Herzstueck des Live Operations Layers. 3-Dimensionen Severity Scoring (deviation*0.4 + impact*0.35 + velocity*0.25). 5 Aktionstypen: hotfix, patch, feature_update, strategic_pivot, none. Action Queue (Priority, Duplicate Check, Stale Cleanup). Cooling Manager (hotfix=48h, patch=168h, feature_update=336h).",
+  "module": "factory.live_operations.agents.decision_engine",
+  "class": "DecisionEngine",
+  "uses_web": false,
+  "capabilities": ["severity_scoring", "action_queue", "cooling_management"],
+  "version": "1.0.0",
+  "created": "2026-03-31"
+}

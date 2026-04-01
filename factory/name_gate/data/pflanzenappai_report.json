@@ -1,0 +1,82 @@
+{
+  "report_id": "NGR-32264",
+  "name": "Pflanzen-appai",
+  "total_score": 74,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": false,
+      "score": 75,
+      "details": {
+        "checked": [
+          "pflanzenappai.com",
+          "pflanzenappai.de",
+          "pflanzenappai.app",
+          "pflanzenappai.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": false,
+      "score": 50,
+      "details": {
+        "apple_search": "'Pflanzen-appai' on App Store",
+        "google_search": "'Pflanzen-appai' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": true,
+      "x": true,
+      "youtube": true,
+      "linkedin": true,
+      "score": 80,
+      "details": {
+        "handle_checked": "@pflanzenappai",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 69,
+      "pronounceability": 48,
+      "memorability": 84,
+      "confusion_risk": 76,
+      "international": 69,
+      "score": 69,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Google Play Store name taken",
+    "social_partial: Handle taken on Instagram"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work",
+    "Brand fit is below average - consider a naming workshop"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T17:46:55.908474+00:00"
+}

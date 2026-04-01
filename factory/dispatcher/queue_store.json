@@ -1,4 +1,32 @@
 {
-  "products": [],
-  "updated": "2026-03-28T00:00:00.000000"
+  "products": [
+    {
+      "id": "001_growmeldai",
+      "title": "GrowMeldAI",
+      "idea": "# GrowMeldAI\n\nEine intelligente App, die Pflanzen per Kamera erkennt und als persönlicher \"Pflanzendoktor\" fungiert – mit individuellen Pflegeplänen, Erinnerungen und Problemerkennung.\nHauptfunktionen\n1. Pflanzen-Erkennung (AI-Powered)\nKamera-Scan: Foto machen → Pflanze identifizieren\nDatenbank: 10.000+ Pflanzen (Zimmerpflanzen, Kräuter, Sukkulenten, etc.)\nDetails: Name, Herkunft, Schwierigkeitsgrad, Giftigkeit\n2. Smarte Pflege-Erinnerungen\nGieß-Erinnerungen (angepasst an Pflanze + Jahreszeit)\nDünge-Zeitplan\nUmtopf-Erinnerung\nBesprühen/Luftfeuchtigkeit\nStandort-Optimierung (Lichtbedarf)\n3. Krankheits-Erkennung\nProblem-Scan: Gelbe Blätter? Braune Spitzen?\nDIagnose: KI erkennt Krankheiten/Schädlinge\nLösung: Konkrete Behandlungsvorschläge\n4. Pflanzen-Profil\nEigener \"Garten\" in der App\nWachstums-Tracking (Fotos über Zeit)\nPflege-Historie\nNotizen pro Pflanze\nTechnische Umsetzung\nAI/ML:\nBilderkennung (TensorFlow/PyTorch)\nPflanzen-Datenbank (Plant.id API oder eigene ML-Modelle)\nKrankheits-Erkennung (Computer Vision)\nFeatures:\nCamera Integration (iOS/Android)\nPush Notifications (Erinnerungen)\nOffline-Modus (Basis-Daten lokal)\nWetter-API-Integration (angepasste Gieß-Empfehlungen)",
+      "ambition": "realistic",
+      "phase": "idea_submitted",
+      "priority": 5,
+      "platforms": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "pre_production_dir": "",
+      "market_strategy_dir": "",
+      "mvp_scope_dir": "",
+      "cd_roadbook_path": "",
+      "project_dir": "",
+      "created_at": "2026-04-01T01:58:04.120343",
+      "updated_at": "2026-04-01T01:58:04.120348",
+      "phase_history": [],
+      "ceo_decision": "",
+      "ceo_notes": "",
+      "production_files": 0,
+      "compile_errors": 0,
+      "store_readiness": 0.0,
+      "feasibility_result": {}
+    }
+  ],
+  "updated": "2026-04-01T01:58:04.120448"
 }

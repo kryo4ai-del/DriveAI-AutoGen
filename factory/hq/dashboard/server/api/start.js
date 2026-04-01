@@ -98,7 +98,7 @@ router.post('/launch', (req, res) => {
       if (!fs.existsSync(ideaPath)) {
         return res.status(404).json({ error: 'Idee-Datei nicht gefunden' });
       }
-      command = `python main.py --factory-submit --idea-file "${ideaPath}" --title "${title}" --ambition ${ambition}`;
+      command = `python main.py --factory-submit --idea-file "${ideaPath}" --name "${title}" --ambition ${ambition}`;
     } else if (req.body.idea_text) {
       const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
       const filename = `${slug}.md`;
@@ -109,7 +109,7 @@ router.post('/launch', (req, res) => {
       if (!fs.existsSync(filePath)) {
         fs.writeFileSync(filePath, `# ${title}\n\n${req.body.idea_text}`, 'utf-8');
       }
-      command = `python main.py --factory-submit --idea-file "${filePath}" --title "${title}" --ambition ${ambition}`;
+      command = `python main.py --factory-submit --idea-file "${filePath}" --name "${title}" --ambition ${ambition}`;
     } else {
       return res.status(400).json({ error: 'Either idea_text or idea_file required' });
     }

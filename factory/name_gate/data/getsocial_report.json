@@ -1,0 +1,81 @@
+{
+  "report_id": "NGR-53496",
+  "name": "GetSocial",
+  "total_score": 75,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": false,
+      "score": 75,
+      "details": {
+        "checked": [
+          "getsocial.com",
+          "getsocial.de",
+          "getsocial.app",
+          "getsocial.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": false,
+      "score": 50,
+      "details": {
+        "apple_search": "'GetSocial' on App Store",
+        "google_search": "'GetSocial' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": true,
+      "x": true,
+      "youtube": true,
+      "linkedin": true,
+      "score": 80,
+      "details": {
+        "handle_checked": "@getsocial",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 61,
+      "pronounceability": 63,
+      "memorability": 91,
+      "confusion_risk": 84,
+      "international": 81,
+      "score": 76,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Google Play Store name taken",
+    "social_partial: Handle taken on Instagram"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.669013+00:00"
+}

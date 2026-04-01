@@ -1,0 +1,82 @@
+{
+  "report_id": "NGR-58255",
+  "name": "Socialai",
+  "total_score": 85,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": false,
+      "app": true,
+      "io": true,
+      "score": 75,
+      "details": {
+        "checked": [
+          "socialai.com",
+          "socialai.de",
+          "socialai.app",
+          "socialai.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Socialai' on App Store",
+        "google_search": "'Socialai' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": true,
+      "x": false,
+      "youtube": true,
+      "linkedin": true,
+      "score": 80,
+      "details": {
+        "handle_checked": "@socialai",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 65,
+      "pronounceability": 66,
+      "memorability": 75,
+      "confusion_risk": 85,
+      "international": 70,
+      "score": 72,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "high",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp",
+        "SmartTool"
+      ],
+      "score": 30
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "social_partial: Handle taken on X",
+    "aso_saturated: High keyword saturation in stores"
+  ],
+  "recommendations": [
+    "ASO: Highly saturated keyword space - differentiation needed"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.667272+00:00"
+}

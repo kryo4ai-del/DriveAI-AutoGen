@@ -1,0 +1,17 @@
+{
+  "id": "LOP-08",
+  "name": "Escalation Manager",
+  "role": "3-Stufen Eskalationslogik mit Telegram-Benachrichtigung",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "escalation",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "3 Eskalationsstufen: Level 1 (Info, Dashboard), Level 2 (Warning, Dashboard prominent), Level 3 (CEO, Dashboard + Telegram). JSONL Log fuer alle Eskalationen. Telegram Notifier (urllib, ENV-Vars). HQ Assistant Integration via liveops_tools.py.",
+  "module": "factory.live_operations.agents.escalation",
+  "class": "EscalationManager",
+  "uses_web": false,
+  "capabilities": ["telegram_notification", "escalation_logging", "ceo_alerting"],
+  "version": "1.0.0",
+  "created": "2026-03-31"
+}

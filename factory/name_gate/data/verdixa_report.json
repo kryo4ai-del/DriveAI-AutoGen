@@ -1,0 +1,82 @@
+{
+  "report_id": "NGR-82314",
+  "name": "Verdixa",
+  "total_score": 76,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 60,
+      "details": {
+        "verdixa.com": "taken",
+        "verdixa.de": "free",
+        "verdixa.app": "free",
+        "verdixa.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple": "free",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": false,
+      "linkedin": false,
+      "score": 0,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "taken",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 40,
+      "pronounceability": 70,
+      "memorability": 60,
+      "confusion_risk": 70,
+      "international": 60,
+      "score": 60,
+      "recommendation": "Verdixa klingt eher nach einer Finanz- oder Rechts-App ('Verd-' erinnert an 'Verdienst', 'Verdict') und passt kaum zur organischen, pflanzlichen Welt der App. Fuer einen Pflanzendoktor braeuchte es waermere, natuerlichere Phonetik – etwas mit Bezug zu Botanik, Wachstum oder Natur."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 100
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Brand fit is below average - consider a naming workshop",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:03:23.948110+00:00"
+}

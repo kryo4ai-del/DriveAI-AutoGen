@@ -1,0 +1,79 @@
+{
+  "report_id": "NGR-57390",
+  "name": "Socialify",
+  "total_score": 66,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": false,
+      "app": false,
+      "io": true,
+      "score": 50,
+      "details": {
+        "checked": [
+          "socialify.com",
+          "socialify.de",
+          "socialify.app",
+          "socialify.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": true,
+      "score": 50,
+      "details": {
+        "apple_search": "'Socialify' on App Store",
+        "google_search": "'Socialify' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": false,
+      "x": false,
+      "youtube": false,
+      "linkedin": true,
+      "score": 40,
+      "details": {
+        "handle_checked": "@socialify",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 70,
+      "pronounceability": 63,
+      "memorability": 85,
+      "confusion_risk": 70,
+      "international": 65,
+      "score": 71,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Apple App Store name taken",
+    "social_partial: Handle taken on TikTok, X"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.664695+00:00"
+}

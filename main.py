@@ -135,6 +135,8 @@ def _parse_args() -> dict:
         "evolution_status": None,
         "evolution_history": None,
         "evolution_ceo_review": None,
+        "ambition": None,
+        "idea_file": None,
     }
     explicit_mode = None
     explicit_approval = None
@@ -365,6 +367,12 @@ def _parse_args() -> dict:
             result["create_handoff"] = args[i + 1]
             i += 2
             i += 1
+        elif args[i] == "--idea-file" and i + 1 < len(args):
+            result["idea_file"] = args[i + 1]
+            i += 2
+        elif args[i] == "--ambition" and i + 1 < len(args):
+            result["ambition"] = args[i + 1].lower()
+            i += 2
         elif args[i] == "--factory-submit":
             result["factory_submit"] = True
             i += 1
@@ -708,10 +716,23 @@ async def main():
         from factory.dispatcher import PipelineDispatcher
         PipelineDispatcher().run_full_pipeline(a["factory_run"], auto_ceo_go=a.get("auto_ceo_go", False))
         return
-    if a.get("factory_submit") and a.get("task"):
+    if a.get("factory_submit"):
         from factory.dispatcher import PipelineDispatcher
         title = a.get("name", "Untitled")
-        PipelineDispatcher().submit_idea(a["task"], title)
+        # Read idea from --idea-file if no positional task given
+        idea_text = a.get("task")
+        if not idea_text and a.get("idea_file"):
+            try:
+                with open(a["idea_file"], encoding="utf-8") as _f:
+                    idea_text = _f.read().strip()
+            except OSError as e:
+                print(f"[ERROR] Could not read idea file: {e}")
+                return
+        if not idea_text:
+            print("[ERROR] --factory-submit requires a task argument or --idea-file")
+            return
+        ambition = a.get("ambition", "realistic")
+        PipelineDispatcher().submit_idea(idea_text, title, ambition=ambition)
         return
     if a.get("factory_advance") and a.get("factory_advance_phase"):
         from factory.dispatcher import PipelineDispatcher

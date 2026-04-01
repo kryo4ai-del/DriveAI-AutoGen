@@ -1,0 +1,16 @@
+{
+  "id": "LOP-02",
+  "name": "App Health Scorer",
+  "role": "Health Score berechnen (5 Kategorien, 5 Profile, 3 Zonen)",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "scoring",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Berechnet Health Score (0-100) pro App. 5 Kategorien: Stability, Satisfaction, Engagement, Revenue, Growth. 5 App-Profile mit unterschiedlichen Gewichtungen. 3 Zonen: green (70+), yellow (50-69), red (<50).",
+  "module": "factory.live_operations.agents.health_scorer",
+  "class": "AppHealthScorer",
+  "uses_web": false,
+  "version": "1.0.0",
+  "created": "2026-03-29"
+}

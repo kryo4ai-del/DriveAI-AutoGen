@@ -1,0 +1,77 @@
+{
+  "report_id": "NGR-29649",
+  "name": "Socialx",
+  "total_score": 89,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": false,
+      "io": true,
+      "score": 75,
+      "details": {
+        "checked": [
+          "socialx.com",
+          "socialx.de",
+          "socialx.app",
+          "socialx.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Socialx' on App Store",
+        "google_search": "'Socialx' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": false,
+      "x": true,
+      "youtube": true,
+      "linkedin": true,
+      "score": 80,
+      "details": {
+        "handle_checked": "@socialx",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 64,
+      "pronounceability": 69,
+      "memorability": 94,
+      "confusion_risk": 91,
+      "international": 74,
+      "score": 78,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "social_partial: Handle taken on TikTok"
+  ],
+  "recommendations": [
+    "Name looks strong across all dimensions. Proceed with confidence."
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.667940+00:00"
+}

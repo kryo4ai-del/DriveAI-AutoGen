@@ -1,0 +1,16 @@
+{
+  "id": "LOP-03",
+  "name": "Analytics Agent",
+  "role": "Rohdaten zu Insights verarbeiten (Trends, Funnels, Kohorten, Feature Usage)",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "analytics",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Deterministischer Analytics Agent. Trend Detection (Lineare Regression, Moving Averages, Anomaly >2sigma). Funnel Analysis (3 Standard-Funnels, Weakest-Point). Cohort Analysis (Wochenweise, Update-Impact). Feature Usage Tracking (Star/Unused/Rising/Declining).",
+  "module": "factory.live_operations.agents.analytics",
+  "class": "AnalyticsAgent",
+  "uses_web": false,
+  "version": "1.0.0",
+  "created": "2026-03-30"
+}

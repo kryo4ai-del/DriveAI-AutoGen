@@ -13,6 +13,14 @@ class ProjectCreator:
     def create_from_pipeline_output(self, product, pre_prod_dir="", mvp_scope_dir=""):
         slug = product.title.lower().replace(" ", "").replace("-", "")
         project_dir = _ROOT / "projects" / slug
+
+        # Name Gate soft check — warn if no validation, but don't block
+        ng_report = project_dir / "name_gate_report.json"
+        ng_data = _ROOT / "factory" / "name_gate" / "data" / f"{slug}_report.json"
+        if not ng_report.exists() and not ng_data.exists():
+            print(f"  [ProjectCreator] WARNING: '{product.title}' has no Name Gate "
+                  f"validation. Proceeding in legacy mode.")
+
         project_dir.mkdir(parents=True, exist_ok=True)
         (project_dir / "specs").mkdir(exist_ok=True)
 

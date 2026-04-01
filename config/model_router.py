@@ -145,6 +145,7 @@ AGENT_TASK_MAP = {
     "autonomous_project_orchestrator": "orchestration",
     "creative_director": "creative_direction",
     "ux_psychology": "ux_psychology_review",
+    "name_gate_orchestrator": "orchestration",
 }
 
 

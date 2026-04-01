@@ -5,6 +5,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import HealthScoreCircle, { getZone } from './HealthScoreCircle';
+import SystemHealthPanel from './SystemHealthPanel';
+import WeeklyReportPanel from './WeeklyReportPanel';
 
 const ZONE_ICONS = { green: '🟢', yellow: '🟡', red: '🔴' };
 const PROFILE_COLORS = {
@@ -105,6 +107,12 @@ export default function AppFleetOverview({ onSelectApp }) {
             {sortBy === 'score' ? '↑ Score' : '↑ Name'}
           </button>
         </div>
+      </div>
+
+      {/* Phase 6: System Health + Weekly Report */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <SystemHealthPanel />
+        <WeeklyReportPanel />
       </div>
 
       {error && (

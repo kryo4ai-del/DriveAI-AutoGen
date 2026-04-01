@@ -190,3 +190,19 @@ if __name__ == "__main__":
         result = run_pipeline(args.p1_dir, args.k3_dir, args.k4_dir, args.k45_dir, args.k5_dir)
     else:
         parser.error("Either --latest or all five directories required")
+
+    # --- Auto-update project.json ---
+    if result.get("status") in ("completed", "partial"):
+        try:
+            import re as _re
+            from factory.shared.project_registry import update_project
+            _dir_name = Path(result.get("output_dir", "")).name
+            _match = _re.match(r"\d+_(.*)", _dir_name)
+            if _match:
+                update_project(_match.group(1), "kapitel6", {
+                    "status": "complete",
+                    "run_number": result.get("run_number", 0),
+                    "output_dir": result.get("output_dir", ""),
+                })
+        except Exception as _e:
+            print(f"[Pipeline] WARNING: project.json Update fehlgeschlagen: {_e}")

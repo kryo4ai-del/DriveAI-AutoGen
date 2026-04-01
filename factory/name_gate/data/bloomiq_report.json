@@ -1,0 +1,88 @@
+{
+  "report_id": "NGR-33049",
+  "name": "BloomIQ",
+  "total_score": 41,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": false,
+      "app": true,
+      "io": false,
+      "score": 20,
+      "details": {
+        "bloomiq.com": "taken",
+        "bloomiq.de": "taken",
+        "bloomiq.app": "free",
+        "bloomiq.io": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": false,
+      "score": 0,
+      "details": {
+        "apple": "taken",
+        "google": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": false,
+      "linkedin": false,
+      "score": 0,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "taken",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 80,
+      "pronounceability": 90,
+      "memorability": 80,
+      "confusion_risk": 60,
+      "international": 80,
+      "score": 80,
+      "recommendation": "BloomIQ trifft den Sweet Spot zwischen organischer Pflanzenwelt ('Bloom') und KI-Kompetenz ('IQ') – das Konzept wird sofort greifbar. Das Verwechslungsrisiko ist moderat, da 'Bloom' im App-Bereich bereits mehrfach vergeben ist (Bloom Finance, Bloom Beauty), weshalb eine Trademark-Prüfung vor Launch zwingend empfohlen wird."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "BloomIQ - Apps on Google Play",
+        "Android Apps by BloomIQ Technologies on Google Play"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [
+    "both_stores_taken: Name taken on Apple AND Google"
+  ],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:04:00.592507+00:00"
+}

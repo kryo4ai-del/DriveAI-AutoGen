@@ -1,7 +1,7 @@
-import { Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye, Brain, HeartPulse } from 'lucide-react';
+import { Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye, Brain, HeartPulse, Megaphone } from 'lucide-react';
 
 const ICON_MAP = {
-  Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye, Brain, HeartPulse
+  Rocket, GitBranch, ShieldCheck, FileText, Activity, Wallet, Wrench, Bot, Users, Clock, Eye, Brain, HeartPulse, Megaphone
 };
 
 export default function Sidebar({ sections, active, onSelect }) {

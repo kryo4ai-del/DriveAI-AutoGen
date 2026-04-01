@@ -1,0 +1,16 @@
+{
+  "id": "MKT-13",
+  "name": "PR Coordinator",
+  "role": "Public Relations Coordinator",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "communications",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Koordiniert Aussenkommunikation: Pressemitteilungen, Outreach-Planung, Product Hunt Launch, Event-Vorbereitung, Crisis Response (immer CEO-Gate).",
+  "py_file": "pr_agent.py",
+  "_source": "factory\\marketing\\agents\\agent_pr.json"
+}

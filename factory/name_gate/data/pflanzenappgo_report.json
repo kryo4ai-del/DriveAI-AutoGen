@@ -1,0 +1,79 @@
+{
+  "report_id": "NGR-78532",
+  "name": "Pflanzen-appgo",
+  "total_score": 66,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": false,
+      "io": false,
+      "score": 50,
+      "details": {
+        "checked": [
+          "pflanzenappgo.com",
+          "pflanzenappgo.de",
+          "pflanzenappgo.app",
+          "pflanzenappgo.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": true,
+      "score": 50,
+      "details": {
+        "apple_search": "'Pflanzen-appgo' on App Store",
+        "google_search": "'Pflanzen-appgo' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": true,
+      "youtube": false,
+      "linkedin": true,
+      "score": 40,
+      "details": {
+        "handle_checked": "@pflanzenappgo",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 77,
+      "pronounceability": 48,
+      "memorability": 77,
+      "confusion_risk": 88,
+      "international": 77,
+      "score": 73,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Apple App Store name taken",
+    "social_partial: Handle taken on Instagram, TikTok"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T17:46:55.909116+00:00"
+}

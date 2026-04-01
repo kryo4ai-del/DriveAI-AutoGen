@@ -1,0 +1,80 @@
+{
+  "report_id": "NGR-13390",
+  "name": "Socially",
+  "total_score": 87,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": false,
+      "app": true,
+      "io": true,
+      "score": 75,
+      "details": {
+        "checked": [
+          "socially.com",
+          "socially.de",
+          "socially.app",
+          "socially.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Socially' on App Store",
+        "google_search": "'Socially' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": true,
+      "x": false,
+      "youtube": true,
+      "linkedin": true,
+      "score": 80,
+      "details": {
+        "handle_checked": "@socially",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 85,
+      "pronounceability": 66,
+      "memorability": 85,
+      "confusion_risk": 70,
+      "international": 75,
+      "score": 76,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "social_partial: Handle taken on X"
+  ],
+  "recommendations": [
+    "Name looks strong across all dimensions. Proceed with confidence."
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.664119+00:00"
+}

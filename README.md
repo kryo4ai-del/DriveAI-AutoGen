@@ -1,55 +1,63 @@
 # DriveAI-AutoGen
 
-Multi-agent AI App Factory with 93 agents across 16 departments. Builds iOS, Android, Web, and Unity apps autonomously from a single idea -- including market research, legal review, design, code generation, QA, signing, store submission, marketing, and iterative quality improvement.
+Multi-agent AI App Factory with 111 agents across 18 departments. Builds iOS, Android, Web, and Unity apps autonomously from a single idea -- including market research, legal review, design, code generation, QA, signing, store submission, marketing, live operations, and iterative quality improvement.
 
 ## Factory at a Glance
 
 | Metric | Value |
 |---|---|
-| Agents | 93 (86 active, 16 departments) |
+| Agents | 111 (104 active, 4 disabled, 3 planned) |
+| Departments | 18 |
 | Production Lines | 5 (iOS, Android, Web, Unity, Python) |
 | LLM Provider | Anthropic Claude (100% -- 3-Tier: Sonnet/Haiku/Opus) |
 | Pipeline Cost | $0.08/run (788x cheaper than legacy) |
-| Python Files | 444 in factory/ (95,506 LOC) |
-| Documentation | 46 docs, 131+ developer reports |
+| Python Files | 585 in factory/ (123,143 LOC) |
+| Tests | 485 tests in 55 files |
+| Documentation | 47 docs, 131+ developer reports |
+| Dashboard | CEO Cockpit -- 42 React components, 18 API endpoints |
 | Swarm Factory | 6-chapter autonomous pipeline (idea -> store-ready) |
-| Marketing | 11 agents + 7 tools + 9 adapters (E2E pipeline) |
-| Evolution Loop | 6 agents, iterative quality improvement (50 .py, 9,042 LOC) |
+| Marketing | 14 agents + 24 tools + 16 adapters (Phase 9 complete) |
+| Evolution Loop | 6 agents, iterative quality improvement |
+| Live Operations | 14 agents, 6h decision cycles, anomaly detection |
+| Name Gate | Pre-pipeline name validation (6 checks, traffic light system) |
 
-## Current Product: AskFin Premium
+## Architecture Overview
 
-**"Nutze Fin und sage Ja"** -- AI-powered iOS coaching app for German driver's license exam preparation.
+```
+Idea -> Name Gate -> Phase 1 (Research) -> [CEO Gate]
+  -> Kap. 3 (Strategy) -> Kap. 4 (Scope) -> Kap. 4.5 (Design)
+  -> Kap. 5 (Visual Audit) -> [Visual Review] -> Kap. 6 (Roadbook)
+  -> Auto-Feasibility -> [Production Gate] -> Production
+  -> Assembly -> QA -> Signing -> Store -> Live Operations
+```
 
-| Metric | Value |
-|---|---|
-| Xcode Build | SUCCEEDED |
-| Golden Gates | 15 Gates, 0 Failures |
-| XCUITests | 20+ automated |
-| Questions | 173 real exam questions |
-| App Store Readiness | 75% (missing: App Icon + Developer Account) |
+### CEO Cockpit Dashboard (React + Express)
 
-### 4 Product Pillars
+Web-based dashboard at `factory/hq/dashboard/` for monitoring and controlling the entire factory.
 
-1. **Training Mode** -- Adaptive question practice (3 modes: daily, topic, weakness)
-2. **Exam Simulation** -- Timed 30-question mock exam with gap analysis
-3. **Skill Map** -- Competency tracking per category with real confidence data
-4. **Readiness Score** -- 0-100% exam readiness assessment
+**42 Components across 12 sections:**
+- Pipeline (Project Grid + Detail), Gates (Inbox + Briefing), Production (Dashboard + Cost + Grid + Feed)
+- Start (Name Gate + Suggestions + Alternatives), Team (6 sub-components), LiveOps (11 sub-components)
+- Brain, Janitor, Showcase, Documents, Marketing, Assistant (Chat + Voice)
+
+**18 API Endpoints:** agents, assistant, brain, documents, factory-health, feasibility, gates, history, janitor, liveops, marketing, namegate, production, projects, providers, showcase, start, team
 
 ## Structure
 
 ```
 DriveAI-AutoGen/
-├── main.py                          # Entry point (1,729 lines, CLI + pipeline orchestration)
-├── projects/
-│   ├── askfin_v1-1/                 # AskFin iOS (234 Swift files, App Store ready)
+├── main.py                          # Entry point (CLI + pipeline orchestration)
+├── projects/                        # Generated projects
+│   ├── askfin_v1-1/                 # AskFin iOS (234 Swift files)
 │   ├── askfin_android/              # AskFin Android (204 Kotlin files)
 │   └── askfin_web/                  # AskFin Web (TypeScript/React)
-├── factory/                         # Factory Core (444 .py files, 95,506 LOC)
+│
+├── factory/                         # Factory Core (585 .py, 123K LOC)
 │   ├── pipeline/                    # Hybrid Pipeline Runner
 │   ├── orchestrator/                # Build planner (flat + layered + quality gates)
 │   ├── brain/                       # TheBrain: 7 agents, model registry, chain optimizer
 │   ├── operations/                  # Post-gen: hygiene, stubs, shape repair, sanitizer
-│   ├── dispatcher/                  # Pipeline queue manager + product state machine
+│   ├── dispatcher/                  # Pipeline queue manager + product state machine + CLI entry
 │   ├── shared/                      # Project registry, pipeline utils
 │   ├── assembly/                    # Assembly lines (Android, Web, Unity, iOS via Mac)
 │   │   └── repair/                  # 3-tier repair: deterministic -> LLM -> CEO escalation
@@ -66,32 +74,32 @@ DriveAI-AutoGen/
 │   ├── visual_audit/                # Swarm Kapitel 5: UI/UX audit
 │   ├── roadbook_assembly/           # Swarm Kapitel 6: CD technical roadbook
 │   ├── document_secretary/          # 9 PDF templates, Playwright renderer
+│   ├── name_gate/                   # Name Gate: 6 checks, traffic light, CLI
+│   ├── integration/                 # Cross-dept: roadbook_to_spec, estimator, production_logger
 │   ├── asset_forge/                 # Image/icon generation
 │   ├── motion_forge/                # Animation generation
 │   ├── sound_forge/                 # Audio generation
 │   ├── scene_forge/                 # Level/scene generation
 │   ├── brand/                       # DAI-Core Brand System (3-Tier)
-│   ├── marketing/                   # Marketing dept (54 .py, 12,653 LOC)
-│   ├── evolution_loop/              # Evolution Loop (50 .py, 9,042 LOC)
-│   │   ├── ldo/                     # LDO Schema + Storage + Validator
-│   │   ├── scoring/                 # Hard + Soft Scores + Aggregator
-│   │   ├── adapters/                # QA-to-LDO + Orchestrator Handoff
-│   │   ├── gates/                   # CEO Review Gate (Human + AI Provider)
-│   │   ├── tracking/               # Git Tagger + Cost Tracker
-│   │   ├── plugins/                # Plugin System (Game + Business)
-│   │   └── tests/                  # 15 test files
-│   ├── live_operations/             # Live Operations Layer
+│   ├── marketing/                   # Marketing dept (14 agents, 24 tools, 16 adapters)
+│   ├── evolution_loop/              # Evolution Loop (6 agents, LDO, scoring, plugins)
+│   ├── live_operations/             # Live Operations (14 agents, decision engine, anomaly detection)
+│   ├── lines/                       # Production line definitions
+│   ├── production_lines/            # Platform-specific templates (iOS/Android/Web/Unity)
 │   ├── hq/                          # Factory HQ
-│   │   ├── capabilities/            # Feasibility check
-│   │   ├── dashboard/               # Web dashboard (React + Express, 19 components)
-│   │   ├── janitor/                 # Factory janitor
+│   │   ├── capabilities/            # Feasibility check + reports
+│   │   ├── dashboard/               # CEO Cockpit Dashboard (React + Express)
+│   │   │   ├── client/              # Vite + React (42 components)
+│   │   │   └── server/              # Express (18 API endpoints)
+│   │   ├── janitor/                 # Factory janitor (cleanup + health)
 │   │   └── gates/                   # CEO gate files
-│   └── status/                      # Factory status dashboard
+│   └── status/                      # Factory status dashboard (legacy)
+│
 ├── agents/                          # AI agents (Python, AutoGen v0.4+)
 ├── config/                          # Configuration (roles, toggles, profiles, model router)
 ├── code_generation/                 # Code extractors (Swift, Kotlin, TypeScript, C#, Python)
 ├── factory_knowledge/               # 22 knowledge entries (FK-001 to FK-022)
-├── docs/                            # 46 documentation files
+├── docs/                            # 47 documentation files
 ├── ideas/                           # CEO ideas (.md files)
 ├── MasterPrompt/                    # Cross-platform command dispatch
 ├── _commands/                       # Mac <-> Windows command queue
@@ -108,11 +116,11 @@ DriveAI-AutoGen/
 | Android Line | Kotlin + Jetpack Compose + Hilt |
 | Web Line | TypeScript + React + Next.js |
 | Unity Line | C# + Unity Engine + URP |
+| Dashboard | React + Vite + Express + Tailwind (factory-* tokens) |
 | Build | xcodegen (iOS), Gradle (Android), npm (Web), Unity CLI |
-| Testing | XCUITest Golden Gates (15 gates), Jest, JUnit |
+| Testing | 485 tests (55 files), XCUITest Golden Gates |
 | TheBrain | 7 agents, model selection, chain optimizer, auto-splitter |
 | Knowledge | Factory Brain (22 entries, cross-project, cross-platform) |
-| Dashboard | React + Express (19 components: pipeline, gates, janitor, brain, team) |
 
 ## 3-Tier Model System
 
@@ -122,158 +130,119 @@ DriveAI-AutoGen/
 | 2 (Reasoning) | claude-sonnet-4-6 | Planning, orchestration, content |
 | 3 (Lightweight) | claude-haiku-4-5 | Classification, summarization, scoring |
 
-## Quick Start
-
-```bash
-# Hybrid pipeline run
-python main.py --project askfin_android --profile dev --approval auto --hybrid-pipeline "Generate feature X"
-
-# Factory status dashboard
-python main.py --factory-status
-
-# TheBrain model overview
-python main.py --brain-models
-
-# Evolution Loop
-python main.py --evolution-loop my_project --project-type game --production-line unity
-python main.py --evolution-status my_project
-python main.py --evolution-history my_project
-python main.py --evolution-ceo-review my_project
-
-# Feasibility check
-python main.py --feasibility-check echomatch
-
-# Signing
-python main.py --sign echomatch --platform all
-
-# Store readiness
-python main.py --store-readiness askfin_v1-1
-
-# QA Forge (synthetic test)
-python -m factory.qa_forge.qa_forge_orchestrator --project echomatch --synthetic --save
-
-# Mac build (if Mac agent running)
-python main.py --mac-build askfin_v1-1
-```
-
-## 16 Departments
+## 18 Departments
 
 | Department | Agents | Description |
 |---|---|---|
-| Code-Pipeline | 18 | Lead, architects, developers, reviewers, CD, UX, tests |
+| Code-Pipeline | 22 | Lead, architects, developers, reviewers, CD, UX, tests |
 | Swarm Factory | 27 | Research, strategy, scope, design, roadbook, secretary |
+| Live Operations | 14 | Metrics, health scoring, analytics, reviews, support, decisions, anomaly, escalation, updates, releases |
+| Marketing | 14 | Brand guardian, strategy, copywriter, naming, ASO, visual, video, publishing, reports, reviews, community, HQ bridge |
+| Infrastructure | 11 | HQ assistant, orchestrator, assembly, repair, status, janitor |
 | Brain | 7 | Task router, response collector, problem detector, solution proposer, gap analyzer, extension advisor, factory memory |
-| Infrastructure | 8 | HQ assistant, orchestrator, assembly, repair, status, janitor |
-| Marketing | 11 | Brand guardian, strategy, copywriter, naming, ASO, visual designer, video script, publishing, reports, reviews, community |
 | Evolution Loop | 6 | Simulation, evaluation, gap detection, decision, regression, orchestration |
 | Asset Forge | 1 | Image/icon generation |
 | Motion Forge | 1 | Animation generation |
 | Sound Forge | 1 | Audio generation |
 | Scene Forge | 1 | Level/scene generation |
+| Name Gate | 1 | Pre-pipeline name validation |
 | QA Forge | 1 | Forge output validation |
 | Store Prep | 1 | Store preparation (metadata, screenshots) |
 | Store | 1 | Store submission pipeline |
 | Signing | 1 | Code signing (iOS/Android/Web) |
-| Live Operations | - | App registry, metrics, health scoring |
 | Integration | 1 | Cross-department integration |
 
-## Evolution Loop (P-EVO-001 to P-EVO-023)
+## Quick Start
 
-Iterative quality improvement system. Automatically analyzes build artifacts, detects gaps, generates tasks, tracks regressions, and escalates to CEO when needed.
+```bash
+# CEO Cockpit Dashboard
+cd factory/hq/dashboard
+node server/index.js &                    # Backend on :3001
+cd client && npx vite --host              # Frontend on :3000
 
+# Hybrid pipeline run
+python main.py --project askfin_android --profile dev --approval auto --hybrid-pipeline "Generate feature X"
+
+# Factory status
+python main.py --factory-status
+
+# Name Gate
+python -m factory.name_gate validate "MyAppName"
+python -m factory.name_gate generate --idea "AI fitness app"
+
+# Production (via Dashboard or CLI)
+python -m factory.integration.production_estimator --spec projects/slug/specs/build_spec.yaml --format json
+python -m factory.dispatcher.dispatcher --start-production slug --spec path/to/build_spec.yaml
+
+# Evolution Loop
+python main.py --evolution-loop my_project --project-type game --production-line unity
+
+# Feasibility check
+python main.py --feasibility-check echomatch
+
+# QA Forge
+python -m factory.qa_forge.qa_forge_orchestrator --project echomatch --synthetic --save
 ```
-Build + QA -> OrchestratorHandoff -> LDO
-  -> SimulationAgent (Static Analysis + Plugins)
-  -> EvaluationAgent (Hard + Soft + Plugin Scores)
-  -> GapDetector (Score-based + Regression Gaps)
-  -> DecisionAgent (Gaps -> Tasks, CEO Feedback -> Tasks)
-  -> RegressionTracker (Trend + Mode: Sprint -> Deep -> Pivot)
-  -> LoopOrchestrator (Stop Conditions, Budget, Git Tags)
-  -> CEO Review Gate (Human/AI Provider)
-  -> Factory Learner (Cross-Project Analysis)
-```
-
-### Key Components
-- **LDO (Loop Data Object)**: 15 dataclasses, JSON-serializable, sole communication medium
-- **Plugin System**: Dynamic loading per project type (Game: 2 plugins, Business: 1 plugin)
-- **CEO Review Gate**: Pluggable provider (Human file-based, AI swappable)
-- **Factory Learner**: Cross-project queries, similar issues search, lessons per type
-- **15 test files**, ~80 tests total
 
 ## Swarm Factory: Autonomous Product Pipeline
 
-6-chapter pipeline from raw idea to production-ready product.
-
-```
-Idea -> Phase 1 (Research) -> CEO Gate -> Kapitel 3 (Strategy) -> Kapitel 4 (Scope)
-  -> Kapitel 5 (Design) -> Kapitel 6 (Roadbook) -> Feasibility Check -> Production
-  -> QA -> Signing -> Store Prep -> Submission
-```
-
-### Chapters
+6-chapter pipeline from raw idea to production-ready product. Only 2 human decisions needed (CEO Gate + Visual Review).
 
 | Chapter | Agents | Output |
 |---|---|---|
 | Phase 1: Pre-Production | 7 | Trend, competitor, audience, concept, legal, risk reports |
 | Kapitel 3: Market Strategy | 5 | Platform, monetization, marketing, release, cost reports |
-| Kapitel 4: MVP Scope | 3 | 72 features, Phase A/B prioritization, 22 screens |
+| Kapitel 4: MVP Scope | 3 | Features, Phase A/B prioritization, screen list |
 | Kapitel 5: Design Vision | - | Design system, visual audit |
 | Kapitel 6: CD Roadbook | - | Technical roadbook for production |
 | Document Secretary | 1 | 9 professional PDF types |
 
 ### Products in Pipeline
 
-| Product | Phase 1 | CEO Gate | Kap. 3 | Kap. 4 | PDFs |
-|---|---|---|---|---|---|
-| EchoMatch | #003 | **GO** | #001 | #001 | 10 PDFs |
-| SkillSense | #004 | Pending | -- | -- | -- |
+| Product | Phase 1 | CEO Gate | Strategy | Scope | Design | Roadbook | Feasibility | Production |
+|---|---|---|---|---|---|---|---|---|
+| GrowMeldAI | Done | GO | Done | Done | Done | Done | 0.88 | Gate Pending |
+| EchoMatch | Done | GO | Done | Done | -- | -- | -- | -- |
+| SkillSense | Done | Pending | -- | -- | -- | -- | -- | -- |
 
-## Marketing Department (Phase 1-4 COMPLETE)
+## Production Pipeline
 
-| Agent | Role |
-|---|---|
-| MKT-01 Brand Guardian | Brand book, style sheets, compliance checks |
-| MKT-02 Strategy | Factory narrative, app stories, marketing directives |
-| MKT-03 Copywriter | Social media, store listings, blog, ad copy |
-| MKT-04 Naming | Name generation, domain/social/store availability |
-| MKT-05 ASO | Keyword research, localized listings, competitor analysis |
-| MKT-06 Visual Designer | Creative briefs, social media templates, screenshots |
-| MKT-07 Video Script | TikTok/YouTube/Reels scripts + video generation |
-| MKT-08 Publishing Orchestrator | Cross-platform publishing, adapters (YouTube, TikTok, X) |
-| MKT-09 Report Agent | Daily/weekly/monthly marketing reports |
-| MKT-10 Review Manager | Two-tier review system (auto + CEO gate) |
-| MKT-11 Community Agent | Two-tier social media comment management |
+```
+[Production Gate GO] -> POST /api/production/start
+  -> python -m factory.dispatcher.dispatcher --start-production <slug>
+  -> FactoryOrchestrator.execute_plan(production_logger=logger)
+  -> ProductionLogger -> production_log.jsonl
+  -> SSE Stream -> Live Production Dashboard (cost, screens, agent feed)
+```
 
-**Tools**: Template Engine, Video Pipeline, Content Calendar, Ranking DB, Social Analytics, KPI Tracker, HQ Bridge
-**Adapters**: 5 active + 4 stubs (YouTube, TikTok, X, App Store, Google Play, Instagram, LinkedIn, Reddit, Twitch)
+- **ProductionLogger**: JSONL append-only log with step/phase/production lifecycle events
+- **Live Dashboard**: Real-time cost tracking, screen progress grid, agent activity feed
+- **Orchestrator**: 5-layer decomposition (Foundation -> Domain -> Application -> Presentation -> Polish)
+
+## Evolution Loop
+
+Iterative quality improvement system with 6 agents, LDO (Loop Data Object) communication, plugin system (Game + Business), CEO Review Gate, and cross-project Factory Learner.
+
+```
+Build + QA -> OrchestratorHandoff -> LDO
+  -> SimulationAgent -> EvaluationAgent -> GapDetector
+  -> DecisionAgent -> RegressionTracker -> LoopOrchestrator
+  -> CEO Review Gate -> Factory Learner
+```
+
+## Live Operations
+
+Post-launch monitoring and management with 14 agents across 6h decision cycles, 30min anomaly scans, and continuous monitoring mode.
+
+- **Agents**: MetricsCollector, HealthScorer, Analytics, ReviewManager, SupportAgent, DecisionEngine, AnomalyDetector, EscalationManager, UpdatePlanner, FactoryAdapter, ReleaseManager
+- **Self-Healing**: SystemHealthMonitor (5 checks), SelfHealer (5 actions), retry_on_failure
+- **Test Harness**: Synthetic Fleet Generator (15 apps, 8 scenarios), Stress-Test Suite
 
 ## Two-Agent System
 
 - **Windows Agent**: Factory operations, prompt quality gate, command dispatch
 - **Mac Agent**: Xcode build, simulator testing, runtime validation, golden gates
 - **Communication**: Git-based `_commands/` queue + `MasterPrompt/` dispatch
-
-## Multi-Platform Architecture
-
-```
-                    +------------------+
-                    |  TheBrain (7)    |  Model registry, task routing
-                    |  + Factory State |
-                    +--------+---------+
-                             |
-                    +--------+---------+
-                    |   Orchestrator   |  Spec -> Build Plan -> Execute
-                    |  (layered/flat)  |
-                    +--------+---------+
-                             |
-         +-----------+-------+-------+-----------+
-         |           |               |           |
-    +----+---+  +----+---+  +-------+--+  +-----+--+
-    |  iOS   |  |Android |  |   Web    |  | Unity  |
-    | Swift  |  | Kotlin |  | TS/React |  |  C#    |
-    | 234 f  |  | 204 f  |  | Spec ok  |  | Line ok|
-    +--------+  +--------+  +----------+  +--------+
-```
 
 ## Development History
 
@@ -291,6 +260,9 @@ Idea -> Phase 1 (Research) -> CEO Gate -> Kapitel 3 (Strategy) -> Kapitel 4 (Sco
 | Store + Mac Bridge | Phase 3b | Store pipeline, Mac agent, Unity line |
 | Swarm Factory | Phase 1-6 | 6-chapter autonomous pipeline, 27 agents |
 | QA + Signing | Phase 13+ | QA forge, signing pipeline, feasibility check |
-| Dashboard + Janitor | Phase HQ | HQ dashboard (19 components), janitor, team view |
-| Marketing | Phase 1-4 | 11 agents, 7 tools, 9 adapters, 12,653 LOC |
-| **Evolution Loop** | **P-EVO-001-023** | **6 agents, iterative quality loop, 9,042 LOC, 80+ tests** |
+| Dashboard + Janitor | Phase HQ | CEO Cockpit (42 components), janitor, team view |
+| Marketing | Phase 1-9 | 14 agents, 24 tools, 16 adapters, feature-complete |
+| Evolution Loop | P-EVO-001-023 | 6 agents, iterative quality loop, plugins |
+| Live Operations | Phase 1-6 | 14 agents, decision engine, self-healing, test harness |
+| Name Gate | NGO-01 | 6 checks, traffic light, auto-generate, dashboard UI |
+| Production Pipeline | Prompts 1-6 | Roadbook-to-Spec, Estimator, Briefing, Live Dashboard, Wiring |

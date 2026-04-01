@@ -654,6 +654,351 @@
       "_source": "factory\\integration\\agent.json"
     },
     {
+      "id": "LOP-01",
+      "name": "Metrics Collector",
+      "role": "Rohdaten aus Store APIs + Firebase sammeln und normalisieren",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "data_collection",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Sammelt Rohdaten aus Apple App Store Connect, Google Play Console und Firebase Analytics. Normalisiert Metriken in einheitliches Format. Store API Adapter sind STUBs bis echte Credentials konfiguriert werden.",
+      "module": "factory.live_operations.agents.metrics_collector",
+      "class": "MetricsCollector",
+      "uses_web": false,
+      "version": "1.0.0",
+      "created": "2026-03-29",
+      "_source": "factory\\live_operations\\agents\\metrics_collector\\agent.json"
+    },
+    {
+      "id": "LOP-02",
+      "name": "App Health Scorer",
+      "role": "Health Score berechnen (5 Kategorien, 5 Profile, 3 Zonen)",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "scoring",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Berechnet Health Score (0-100) pro App. 5 Kategorien: Stability, Satisfaction, Engagement, Revenue, Growth. 5 App-Profile mit unterschiedlichen Gewichtungen. 3 Zonen: green (70+), yellow (50-69), red (<50).",
+      "module": "factory.live_operations.agents.health_scorer",
+      "class": "AppHealthScorer",
+      "uses_web": false,
+      "version": "1.0.0",
+      "created": "2026-03-29",
+      "_source": "factory\\live_operations\\agents\\health_scorer\\agent.json"
+    },
+    {
+      "id": "LOP-03",
+      "name": "Analytics Agent",
+      "role": "Rohdaten zu Insights verarbeiten (Trends, Funnels, Kohorten, Feature Usage)",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "analytics",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Deterministischer Analytics Agent. Trend Detection (Lineare Regression, Moving Averages, Anomaly >2sigma). Funnel Analysis (3 Standard-Funnels, Weakest-Point). Cohort Analysis (Wochenweise, Update-Impact). Feature Usage Tracking (Star/Unused/Rising/Declining).",
+      "module": "factory.live_operations.agents.analytics",
+      "class": "AnalyticsAgent",
+      "uses_web": false,
+      "version": "1.0.0",
+      "created": "2026-03-30",
+      "_source": "factory\\live_operations\\agents\\analytics\\agent.json"
+    },
+    {
+      "id": "LOP-04",
+      "name": "Review Analyzer",
+      "role": "Store-Bewertungen analysieren und kategorisieren",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "analysis",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Keyword-basierte Review-Kategorisierung (EN+DE): bug_report, feature_request, praise, complaint, question. Pattern Detection (>=3 Mentions), Rating Health (Trend + Target), Sentiment Analyse (pos/neg/neutral/mixed).",
+      "module": "factory.live_operations.agents.review_manager",
+      "class": "ReviewAnalyzer",
+      "uses_web": false,
+      "version": "1.0.0",
+      "created": "2026-03-30",
+      "_source": "factory\\live_operations\\agents\\review_manager\\agent.json"
+    },
+    {
+      "id": "LOP-05",
+      "name": "Support Analyzer",
+      "role": "Support-Anfragen verarbeiten und kategorisieren",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "analysis",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Ticket-Kategorisierung (bug, feature_request, billing, account, other), Urgency Detection (critical/high/medium/low), Recurring Issues Tracking. Deterministisch, kein LLM.",
+      "module": "factory.live_operations.agents.support_agent",
+      "class": "SupportAnalyzer",
+      "uses_web": false,
+      "version": "1.0.0",
+      "created": "2026-03-30",
+      "_source": "factory\\live_operations\\agents\\support_agent\\agent.json"
+    },
+    {
+      "id": "LOP-06",
+      "name": "Decision Engine",
+      "role": "Autonome Entscheidungen treffen basierend auf Severity Scoring",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "decision_making",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Herzstueck des Live Operations Layers. 3-Dimensionen Severity Scoring (deviation*0.4 + impact*0.35 + velocity*0.25). 5 Aktionstypen: hotfix, patch, feature_update, strategic_pivot, none. Action Queue (Priority, Duplicate Check, Stale Cleanup). Cooling Manager (hotfix=48h, patch=168h, feature_update=336h).",
+      "module": "factory.live_operations.agents.decision_engine",
+      "class": "DecisionEngine",
+      "uses_web": false,
+      "capabilities": [
+        "severity_scoring",
+        "action_queue",
+        "cooling_management"
+      ],
+      "version": "1.0.0",
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\agents\\decision_engine\\agent.json"
+    },
+    {
+      "id": "LOP-07",
+      "name": "Anomaly Detector",
+      "role": "Dramatische Abweichungen erkennen und Auto-Rollback ausfuehren",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "anomaly_detection",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Laeuft alle 30 Minuten. 4 Checks: crash_explosion (2x Baseline), revenue_collapse (<20% Baseline), health_freefall (>20pt Drop), post_update_regression (48h Window). Auto-Rollback NUR bei post_update_regression mit last_stable_version. Store Re-Deploy ist STUB.",
+      "module": "factory.live_operations.agents.anomaly_detector",
+      "class": "AnomalyDetector",
+      "uses_web": false,
+      "capabilities": [
+        "crash_detection",
+        "revenue_monitoring",
+        "auto_rollback"
+      ],
+      "version": "1.0.0",
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\agents\\anomaly_detector\\agent.json"
+    },
+    {
+      "id": "LOP-08",
+      "name": "Escalation Manager",
+      "role": "3-Stufen Eskalationslogik mit Telegram-Benachrichtigung",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "escalation",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "3 Eskalationsstufen: Level 1 (Info, Dashboard), Level 2 (Warning, Dashboard prominent), Level 3 (CEO, Dashboard + Telegram). JSONL Log fuer alle Eskalationen. Telegram Notifier (urllib, ENV-Vars). HQ Assistant Integration via liveops_tools.py.",
+      "module": "factory.live_operations.agents.escalation",
+      "class": "EscalationManager",
+      "uses_web": false,
+      "capabilities": [
+        "telegram_notification",
+        "escalation_logging",
+        "ceo_alerting"
+      ],
+      "version": "1.0.0",
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\agents\\escalation\\agent.json"
+    },
+    {
+      "id": "LOP-09",
+      "name": "Update Planner",
+      "role": "Briefing Documents aus Decision Engine Actions generieren",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "briefing_generation",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Konvertiert Decision Engine Actions in strukturierte Factory Briefing Documents. Deterministisch: Template-basiert, kein LLM. Version Logic (hotfix/patch=patch, feature=minor), Scope Determination, 6 Trigger Templates (crash_rate, retention, funnel, review, support, revenue). Briefings als JSON in data/briefings/.",
+      "module": "factory.live_operations.agents.update_planner",
+      "class": "UpdatePlanner",
+      "uses_web": false,
+      "capabilities": [
+        "briefing_generation",
+        "version_planning",
+        "scope_determination"
+      ],
+      "version": "1.0.0",
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\agents\\update_planner\\agent.json"
+    },
+    {
+      "id": "LOP-10",
+      "name": "Factory Adapter",
+      "role": "Briefing Documents an Factory Dispatcher uebergeben",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "factory_submission",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Bridge zwischen Live Operations und Factory. Nimmt Briefing Documents vom UpdatePlanner und uebergibt sie an den Factory Dispatcher. STUB: Simuliert Factory-Akzeptanz, trackt Submission-Status (created/submitted/accepted/in_progress/completed/failed). Status-Transitions mit History-Log.",
+      "module": "factory.live_operations.agents.factory_adapter",
+      "class": "FactoryAdapter",
+      "uses_web": false,
+      "capabilities": [
+        "factory_submission",
+        "submission_tracking",
+        "status_management"
+      ],
+      "version": "1.0.0",
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\agents\\factory_adapter\\agent.json"
+    },
+    {
+      "id": "LOP-11",
+      "name": "Release Manager",
+      "role": "Release-Lifecycle koordinieren: QA, Store Upload, Registry, Cooling",
+      "department": "Live Operations",
+      "status": "active",
+      "task_type": "release_coordination",
+      "model_tier": "none",
+      "provider": "none",
+      "description": "Koordiniert den gesamten Release-Lifecycle nach Factory-Completion. QA-Gate (Health Score, Anomalien, Cooling, Briefing, Submission), Store Upload (STUB), Registry Update (Version + Release History), Cooling Period Start. Deterministisch, kein LLM.",
+      "module": "factory.live_operations.agents.release_manager",
+      "class": "ReleaseManager",
+      "uses_web": false,
+      "capabilities": [
+        "release_coordination",
+        "qa_check",
+        "store_upload",
+        "cooling_management"
+      ],
+      "version": "1.0.0",
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\agents\\release_manager\\agent.json"
+    },
+    {
+      "id": "LOP-12",
+      "name": "SyntheticFleetGenerator",
+      "department": "Live Operations",
+      "role": "Erzeugt realistische synthetische Testdaten fuer das gesamte Live Operations System",
+      "task_type": "test_data_generation",
+      "model_tier": "none",
+      "provider": "none",
+      "uses_web": false,
+      "deterministic": true,
+      "phase": "phase_6",
+      "status": "active",
+      "capabilities": [
+        "generate_fleet",
+        "generate_metrics_history",
+        "generate_reviews",
+        "generate_support_tickets",
+        "inject_scenario",
+        "populate_all",
+        "clear_all"
+      ],
+      "inputs": [
+        "fleet_config",
+        "scenario_definitions",
+        "health_state_ranges"
+      ],
+      "outputs": [
+        "synthetic_apps",
+        "metrics_history",
+        "reviews",
+        "support_tickets",
+        "injection_logs"
+      ],
+      "dependencies": [
+        "app_registry"
+      ],
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\test_harness\\agent.json"
+    },
+    {
+      "id": "LOP-13",
+      "name": "Self-Healing Monitor",
+      "department": "Live Operations",
+      "role": "Ueberwacht Systemgesundheit und repariert bekannte Probleme automatisch",
+      "status": "active",
+      "task_type": "system_health",
+      "model_tier": "none",
+      "provider": "none",
+      "version": "1.0.0",
+      "uses_web": false,
+      "capabilities": [
+        "system_health_check",
+        "auto_healing",
+        "stuck_action_cleanup",
+        "data_directory_repair",
+        "corrupted_score_reset",
+        "escalation_log_compaction",
+        "orphaned_record_cleanup",
+        "error_logging",
+        "retry_on_failure"
+      ],
+      "inputs": [
+        "registry_db",
+        "data_directory",
+        "error_log"
+      ],
+      "outputs": [
+        "health_report",
+        "healing_report",
+        "error_log"
+      ],
+      "triggers": [
+        "pre_decision_cycle",
+        "pre_anomaly_scan",
+        "manual"
+      ],
+      "components": [
+        "self_healing/health_monitor.py",
+        "self_healing/healer.py",
+        "self_healing/utilities.py",
+        "self_healing/cli.py"
+      ],
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\self_healing\\agent.json"
+    },
+    {
+      "id": "LOP-14",
+      "name": "CEO Weekly Report Generator",
+      "department": "Live Operations",
+      "role": "Generiert woechentliche CEO-Reports mit Fleet Health, Alerts, Actions, Releases und Empfehlungen",
+      "status": "active",
+      "task_type": "reporting",
+      "model_tier": "none",
+      "provider": "none",
+      "version": "1.0.0",
+      "uses_web": false,
+      "capabilities": [
+        "weekly_report_generation",
+        "fleet_health_overview",
+        "trend_analysis",
+        "recommendation_engine",
+        "report_archiving",
+        "executive_summary"
+      ],
+      "inputs": [
+        "registry_db",
+        "action_queue",
+        "escalation_log",
+        "release_history",
+        "health_monitor"
+      ],
+      "outputs": [
+        "markdown_report",
+        "json_report",
+        "executive_summary"
+      ],
+      "triggers": [
+        "weekly_schedule",
+        "manual"
+      ],
+      "components": [
+        "reporting/weekly_report.py",
+        "reporting/cli.py"
+      ],
+      "created": "2026-03-31",
+      "_source": "factory\\live_operations\\reporting\\agent.json"
+    },
+    {
       "id": "MKT-01",
       "name": "Brand Guardian",
       "role": "Brand Identity Manager",
@@ -830,6 +1175,54 @@
       "_source": "factory\\marketing\\agents\\agent_community.json"
     },
     {
+      "id": "MKT-12",
+      "name": "Storytelling",
+      "role": "Factory Storyteller",
+      "department": "Marketing",
+      "status": "active",
+      "task_type": "content_creation",
+      "model_tier": "mid",
+      "default_model": "via TheBrain",
+      "provider": "dynamic",
+      "routing": "TheBrain",
+      "uses_web": false,
+      "description": "Erzaehlt die Factory-Story als Case Studies, Behind-the-Scenes, Milestone Stories und Cost Comparisons. Nutzt echte Factory-Daten.",
+      "py_file": "storytelling_agent.py",
+      "_source": "factory\\marketing\\agents\\agent_storytelling.json"
+    },
+    {
+      "id": "MKT-13",
+      "name": "PR Coordinator",
+      "role": "Public Relations Coordinator",
+      "department": "Marketing",
+      "status": "active",
+      "task_type": "communications",
+      "model_tier": "mid",
+      "default_model": "via TheBrain",
+      "provider": "dynamic",
+      "routing": "TheBrain",
+      "uses_web": false,
+      "description": "Koordiniert Aussenkommunikation: Pressemitteilungen, Outreach-Planung, Product Hunt Launch, Event-Vorbereitung, Crisis Response (immer CEO-Gate).",
+      "py_file": "pr_agent.py",
+      "_source": "factory\\marketing\\agents\\agent_pr.json"
+    },
+    {
+      "id": "MKT-14",
+      "name": "Campaign Planner",
+      "role": "Marketing Campaign Planner",
+      "department": "Marketing",
+      "status": "active",
+      "task_type": "campaign_planning",
+      "model_tier": "mid",
+      "default_model": "via TheBrain",
+      "provider": "dynamic",
+      "routing": "TheBrain",
+      "uses_web": false,
+      "description": "Plant Marketing-Kampagnen mit Timeline, Budget-Verteilung und Kanal-Mix. Nutzt BudgetController fuer exakte Berechnungen.",
+      "py_file": "campaign_planner.py",
+      "_source": "factory\\marketing\\agents\\agent_campaign_planner.json"
+    },
+    {
       "id": "MOF-01",
       "name": "Motion Forge",
       "role": "Animation Pipeline (Lottie, Platform Animations)",
@@ -839,6 +1232,36 @@
       "default_model": "claude-sonnet-4-20250514",
       "status": "active",
       "_source": "factory\\motion_forge\\agent.json"
+    },
+    {
+      "id": "NGO-01",
+      "name": "Name Gate Orchestrator",
+      "role": "Pre-Pipeline Name Validation Gate",
+      "department": "Name Gate",
+      "status": "active",
+      "task_type": "orchestration",
+      "model_tier": "standard",
+      "default_model": "claude-sonnet-4-20250514",
+      "provider": "anthropic",
+      "routing": "tier_lock=standard",
+      "uses_web": false,
+      "description": "Validates project names for availability across domains, app stores, social media, trademark registries, brand fit, and ASO before any project folders are created. Produces a scored NameGateReport with Ampel rating (GRUEN/GELB/ROT).",
+      "py_file": "orchestrator.py",
+      "module": "factory.name_gate.orchestrator",
+      "class": "NameGateOrchestrator",
+      "capabilities": [
+        "name_validation",
+        "domain_check",
+        "store_check",
+        "social_media_check",
+        "trademark_check",
+        "brand_fit_evaluation",
+        "aso_precheck",
+        "alternative_generation"
+      ],
+      "created": "2026-03-31",
+      "version": "1.0.0",
+      "_source": "factory\\name_gate\\agent_ngo01.json"
     },
     {
       "id": "QAF-01",
@@ -1358,8 +1781,8 @@
     }
   ],
   "summary": {
-    "total": 93,
-    "active": 86,
+    "total": 111,
+    "active": 104,
     "disabled": 4,
     "planned": 3,
     "by_department": {
@@ -1369,8 +1792,10 @@
       "Evolution Loop": 6,
       "Infrastruktur": 11,
       "Integration": 1,
-      "Marketing": 11,
+      "Live Operations": 14,
+      "Marketing": 14,
       "Motion Forge": 1,
+      "Name Gate": 1,
       "QA Forge": 1,
       "Scene Forge": 1,
       "Signing": 1,
@@ -1380,17 +1805,17 @@
       "Swarm Factory": 27
     },
     "by_provider": {
-      "none": 49,
-      "anthropic": 5,
-      "dynamic": 37,
+      "none": 63,
+      "anthropic": 6,
+      "dynamic": 40,
       "google": 2
     },
     "by_model": {
-      "claude-sonnet-4-20250514": 27,
+      "claude-sonnet-4-20250514": 28,
       "claude-opus-4-6": 2,
-      "none": 18,
+      "none": 32,
       "claude-haiku-4-5-20251001": 4,
-      "via TheBrain": 37,
+      "via TheBrain": 40,
       "claude-sonnet-4-6": 3,
       "gemini-2.5-flash": 2
     }

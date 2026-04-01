@@ -1,0 +1,99 @@
+{
+  "report_id": "NGR-01894",
+  "name": "TestApp",
+  "total_score": 16,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": false,
+      "app": false,
+      "io": false,
+      "score": 40,
+      "details": {
+        "testapp.com": "free",
+        "testapp.de": "taken",
+        "testapp.app": "taken",
+        "testapp.io": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": false,
+      "score": 0,
+      "details": {
+        "apple": "taken",
+        "google": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": true,
+      "linkedin": false,
+      "score": 20,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "free",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": false,
+      "euipo": false,
+      "score": 0,
+      "hard_blocker": true
+    },
+    "brand_fit": {
+      "tonality": 20,
+      "pronounceability": 100,
+      "memorability": 20,
+      "confusion_risk": 10,
+      "international": 80,
+      "score": 40,
+      "recommendation": "Der Name 'TestApp' ist ein generischer Platzhalter ohne Markenkraft — maximal als interner Arbeitstitel geeignet. Für ein echtes Produkt dringend durch einen eigenständigen, markenfähigen Namen ersetzen."
+    },
+    "aso": {
+      "keyword_saturation": "high",
+      "dominant_competitors": [
+        "TestApp.io - App Store - Apple",
+        "TestApp Pipeline Pressure Test - App Store - Apple",
+        "TestApp.io - You Might Also Like - App Store - Apple",
+        "TestApp.io FZ LLC for iPhone - App Store",
+        "‎TestApp.io FZ LLC para iPhone - App Store - Apple",
+        "TestApp.io FZ LLC sur iPhone - App Store",
+        "Ứng dụng TestApp.io - App Store - Apple",
+        "Εφαρμογή TestApp.io - App Store - Apple",
+        "TestApp.io - También te podría interesar - App Store - Apple",
+        "TestApp.io - Apps on Google Play"
+      ],
+      "score": 0
+    }
+  },
+  "hard_blockers": [
+    "trademark_conflict: DPMA or EUIPO match found",
+    "both_stores_taken: Name taken on Apple AND Google"
+  ],
+  "soft_blockers": [
+    "social_partial: Handle taken on Instagram, TikTok, X",
+    "brand_fit_low: Score 40/100",
+    "aso_saturated: High keyword saturation in stores"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Check exact store listing names - slight variations may work",
+    "Brand fit is below average - consider a naming workshop",
+    "ASO: Highly saturated keyword space - differentiation needed",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:25:57.110048+00:00"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "LOP-09",
+  "name": "Update Planner",
+  "role": "Briefing Documents aus Decision Engine Actions generieren",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "briefing_generation",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Konvertiert Decision Engine Actions in strukturierte Factory Briefing Documents. Deterministisch: Template-basiert, kein LLM. Version Logic (hotfix/patch=patch, feature=minor), Scope Determination, 6 Trigger Templates (crash_rate, retention, funnel, review, support, revenue). Briefings als JSON in data/briefings/.",
+  "module": "factory.live_operations.agents.update_planner",
+  "class": "UpdatePlanner",
+  "uses_web": false,
+  "capabilities": ["briefing_generation", "version_planning", "scope_determination"],
+  "version": "1.0.0",
+  "created": "2026-03-31"
+}

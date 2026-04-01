@@ -1,0 +1,81 @@
+{
+  "report_id": "NGR-19996",
+  "name": "Arboriq",
+  "total_score": 70,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": false,
+      "io": false,
+      "score": 20,
+      "details": {
+        "arboriq.com": "taken",
+        "arboriq.de": "free",
+        "arboriq.app": "taken",
+        "arboriq.io": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple": "free",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": true,
+      "linkedin": false,
+      "score": 20,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "free",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 90,
+      "pronounceability": 70,
+      "memorability": 80,
+      "confusion_risk": 90,
+      "international": 80,
+      "score": 80,
+      "recommendation": "Arboriq verbindet 'Arbor' (lat. Baum) clever mit dem Tech-Suffix '-iq', was Intelligenz suggeriert — ideal fuer eine smarte Pflanzen-App. Leichte Aussprache-Unsicherheit (Ar-BO-rik vs. AR-bo-rik) koennte durch fruehzeitiges Audio-Branding adressiert werden."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 100
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T18:19:39.848786+00:00"
+}

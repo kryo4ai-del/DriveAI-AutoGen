@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ShieldCheck } from 'lucide-react';
+import ProductionBriefing from '../Production/ProductionBriefing';
 
-export default function GateInbox() {
+export default function GateInbox({ onNavigateToProduction }) {
   const [gates, setGates] = useState([]);
   const [selectedGate, setSelectedGate] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,10 @@ export default function GateInbox() {
   }
 
   if (selectedGate) {
+    // Production Gate → eigener Briefing-Screen
+    if (selectedGate.gate_type === 'production_gate') {
+      return <ProductionBriefing gate={selectedGate} onBack={() => { setSelectedGate(null); fetchGates(); }} onNavigateToProduction={onNavigateToProduction} />;
+    }
     return <GateDecisionView gate={selectedGate} onBack={() => { setSelectedGate(null); fetchGates(); }} />;
   }
 
@@ -102,7 +107,7 @@ function GateDecisionView({ gate, onBack }) {
             {isKill ? 'Projekt beendet' : 'Entscheidung gespeichert'}
           </h2>
           <p className="text-factory-text-secondary mb-4">
-            {result.gate_type === 'ceo_gate' ? 'CEO-Gate' : result.gate_type === 'feasibility_gate' ? 'Feasibility Gate' : 'Human Review Gate'}: {result.decision}
+            {result.gate_type === 'idea_approval' ? 'Idee-Freigabe' : result.gate_type === 'ceo_gate' ? 'CEO-Gate' : result.gate_type === 'feasibility_gate' ? 'Feasibility Gate' : 'Human Review Gate'}: {result.decision}
           </p>
           <p className="text-sm text-factory-text-secondary">Neuer Status: {result.project_status}</p>
           {result.next_pipeline && (
@@ -132,6 +137,12 @@ function GateDecisionView({ gate, onBack }) {
 
       {gate.summary && (
         <div className="grid grid-cols-2 gap-4 mb-6">
+          {gate.gate_type === 'idea_approval' && (
+            <>
+              <MetricCard label="Ambitions-Level" value={gate.summary.ambition || 'realistic'} />
+              <MetricCard label="Plattformen" value={(gate.summary.platforms || []).filter(p => p !== 'assembly').length} />
+            </>
+          )}
           {gate.gate_type === 'ceo_gate' && (
             <>
               <MetricCard label="Kapitel abgeschlossen" value={gate.summary.chapters_complete || 0} />

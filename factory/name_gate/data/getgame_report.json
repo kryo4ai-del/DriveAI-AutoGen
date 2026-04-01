@@ -1,0 +1,80 @@
+{
+  "report_id": "NGR-59086",
+  "name": "GetGame",
+  "total_score": 83,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 100,
+      "details": {
+        "checked": [
+          "getgame.com",
+          "getgame.de",
+          "getgame.app",
+          "getgame.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'GetGame' on App Store",
+        "google_search": "'GetGame' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": true,
+      "x": true,
+      "youtube": true,
+      "linkedin": true,
+      "score": 100,
+      "details": {
+        "handle_checked": "@getgame",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": false,
+      "euipo": true,
+      "score": 50,
+      "hard_blocker": true
+    },
+    "brand_fit": {
+      "tonality": 71,
+      "pronounceability": 69,
+      "memorability": 81,
+      "confusion_risk": 94,
+      "international": 81,
+      "score": 79,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [
+    "trademark_conflict: DPMA or EUIPO match found"
+  ],
+  "soft_blockers": [],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed."
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.675740+00:00"
+}

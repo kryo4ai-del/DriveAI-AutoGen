@@ -49,8 +49,56 @@ class PipelineDispatcher:
         )
         self.products.append(entry)
         self._save_queue()
+        # Create project.json so it appears in the dashboard immediately
+        self._create_project_json(slug, title, ambition)
         print(f"[Dispatcher] Submitted: {title} (ID: {product_id}, ambition: {ambition})")
         return entry
+
+    def _create_project_json(self, slug: str, title: str, ambition: str = "realistic") -> None:
+        """Create a minimal factory/projects/<slug>/project.json for dashboard visibility."""
+        project_dir = _ROOT / "factory" / "projects" / slug
+        project_dir.mkdir(parents=True, exist_ok=True)
+        project_file = project_dir / "project.json"
+        if project_file.exists():
+            return  # Don't overwrite existing project
+        today = datetime.now().strftime("%Y-%m-%d")
+        project_data = {
+            "project_id": slug,
+            "title": title,
+            "project_type": "production",
+            "archived": False,
+            "created": today,
+            "updated": today,
+            "status": "idea_submitted",
+            "current_phase": f"Idee eingereicht — wartet auf Pre-Production ({ambition})",
+            "ambition": ambition,
+            "runs": {"pre_production": [], "active_run": None},
+            "gates": {
+                "idea_approval": {"status": "pending", "date": None, "notes": None},
+                "ceo_gate": {"status": "pending", "date": None, "notes": None},
+                "visual_review": {"status": "pending", "date": None, "notes": None},
+            },
+            "chapters": {
+                "phase1": {"status": "not_started", "run_number": None, "output_dir": None, "date": None},
+                "kapitel3": {"status": "not_started", "run_number": None, "output_dir": None, "date": None},
+                "kapitel4": {"status": "not_started", "run_number": None, "output_dir": None, "date": None},
+                "kapitel45": {"status": "not_started", "run_number": None, "output_dir": None, "date": None},
+                "kapitel5": {"status": "not_started", "run_number": None, "output_dir": None, "date": None},
+                "kapitel6": {"status": "not_started", "run_number": None, "output_dir": None, "date": None},
+            },
+            "production": {
+                "ios": {"status": "not_started"},
+                "android": {"status": "not_started"},
+                "web": {"status": "not_started"},
+                "assembly": {"status": "not_started"},
+            },
+            "documents": {},
+            "costs": {"serpapi_credits_total": 0, "llm_cost_usd_total": 0.0, "pdf_generation_calls": 0},
+            "key_metrics": {},
+        }
+        with open(project_file, "w", encoding="utf-8") as f:
+            json.dump(project_data, f, indent=2, ensure_ascii=False)
+        print(f"[Dispatcher] Project created: factory/projects/{slug}/project.json")
 
     # ── Next Action ─────────────────────────────────────────
     def get_next_action(self, title_filter: str = "") -> dict | None:
@@ -415,3 +463,70 @@ class PipelineDispatcher:
             if p.title.lower() == title.lower():
                 return p
         return None
+
+
+# ── CLI Entry Point ──────────────────────────────────────────────────────
+# Called by production.js:  python -m factory.dispatcher.dispatcher --start-production <slug> --spec <path>
+
+if __name__ == "__main__":
+    import argparse
+    import sys
+
+    parser = argparse.ArgumentParser(description="Factory Dispatcher CLI")
+    parser.add_argument("--start-production", dest="slug", help="Start production for a project slug")
+    parser.add_argument("--spec", help="Path to build_spec.yaml")
+    args = parser.parse_args()
+
+    if not args.slug:
+        parser.print_help()
+        sys.exit(1)
+
+    slug = args.slug
+    spec_path = args.spec
+
+    # Set working directory to project root
+    os.chdir(str(_ROOT))
+
+    from factory.integration.production_logger import ProductionLogger
+
+    logger = ProductionLogger(slug)
+    print(f"[Dispatcher] Starting production for {slug}", file=sys.stderr)
+
+    try:
+        from factory.orchestrator.orchestrator import FactoryOrchestrator
+
+        orch = FactoryOrchestrator(slug)
+
+        # Create build plan from spec if provided
+        if spec_path and os.path.isfile(spec_path):
+            plan = orch.create_build_plan(spec_path)
+            # Decompose into layered plan
+            plan = orch.create_layered_build_plan(spec_path)
+        else:
+            plan = orch.create_layered_build_plan()
+
+        if not plan or not plan.steps:
+            logger.log_production_failed(f"No build steps for {slug}")
+            print(f"[Dispatcher] No build steps for {slug}", file=sys.stderr)
+            sys.exit(1)
+
+        print(f"[Dispatcher] Build plan: {len(plan.steps)} steps", file=sys.stderr)
+
+        # Execute with production logger
+        report = orch.execute_plan(
+            plan,
+            dry_run=False,
+            profile="dev",
+            approval="auto",
+            production_logger=logger,
+        )
+
+        completed = sum(1 for s in plan.steps if s.status == "completed")
+        failed = sum(1 for s in plan.steps if s.status == "failed")
+        print(f"[Dispatcher] Done: {completed} completed, {failed} failed", file=sys.stderr)
+
+    except Exception as e:
+        logger.log_production_failed(str(e))
+        print(f"[Dispatcher] Fatal error: {e}", file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+        sys.exit(1)

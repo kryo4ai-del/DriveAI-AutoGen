@@ -1,0 +1,81 @@
+{
+  "report_id": "NGR-74111",
+  "name": "PlantCareAI",
+  "total_score": 68,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": false,
+      "io": true,
+      "score": 50,
+      "details": {
+        "checked": [
+          "plantcareai.com",
+          "plantcareai.de",
+          "plantcareai.app",
+          "plantcareai.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'PlantCareAI' on App Store",
+        "google_search": "'PlantCareAI' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": false,
+      "x": true,
+      "youtube": true,
+      "linkedin": false,
+      "score": 60,
+      "details": {
+        "handle_checked": "@plantcareai",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": false,
+      "score": 50,
+      "hard_blocker": true
+    },
+    "brand_fit": {
+      "tonality": 81,
+      "pronounceability": 57,
+      "memorability": 81,
+      "confusion_risk": 69,
+      "international": 86,
+      "score": 75,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [
+    "trademark_conflict: DPMA or EUIPO match found"
+  ],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on TikTok"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T10:55:02.412694+00:00"
+}

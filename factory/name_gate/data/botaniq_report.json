@@ -1,0 +1,97 @@
+{
+  "report_id": "NGR-49831",
+  "name": "Botaniq",
+  "total_score": 10,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": false,
+      "app": false,
+      "io": false,
+      "score": 0,
+      "details": {
+        "botaniq.com": "taken",
+        "botaniq.de": "taken",
+        "botaniq.app": "taken",
+        "botaniq.io": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": false,
+      "score": 0,
+      "details": {
+        "apple": "taken",
+        "google": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": true,
+      "linkedin": false,
+      "score": 20,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "free",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": false,
+      "euipo": false,
+      "score": 0,
+      "hard_blocker": true
+    },
+    "brand_fit": {
+      "tonality": 90,
+      "pronounceability": 80,
+      "memorability": 80,
+      "confusion_risk": 70,
+      "international": 80,
+      "score": 80,
+      "recommendation": "Botaniq verbindet 'Botanik' mit einem modernen Q-Suffix, das digital und einpraegsam wirkt — starke Passung zum Pflanzen-Konzept. Leichte Verwechslungsgefahr mit 'Botanic'-Marken im Kosmetikbereich, sollte trademark-seitig geprueft werden."
+    },
+    "aso": {
+      "keyword_saturation": "high",
+      "dominant_competitors": [
+        "Plant Identifier AI: BotanIQ - App Store - Apple",
+        "‎Plant Identifier AI: BotanIQ - You Might Also Like - App St",
+        "Plant Identifier AI: BotanIQ - App Store",
+        "Програма Plant Identifier AI: BotanIQ - App Store - Apple",
+        "Plant Identifier AI: BotanIQ Uygulaması - App Store - Apple",
+        "BotaniQ-Plant Identifier - Apps on Google Play",
+        "Botaniq: AI Plant Care - Apps on Google Play",
+        "Botaniq Budai Club - Apps on Google Play"
+      ],
+      "score": 0
+    }
+  },
+  "hard_blockers": [
+    "trademark_conflict: DPMA or EUIPO match found",
+    "both_stores_taken: Name taken on Apple AND Google",
+    "all_major_domains_taken: .com, .de, and .app all taken"
+  ],
+  "soft_blockers": [
+    "social_partial: Handle taken on Instagram, TikTok, X",
+    "aso_saturated: High keyword saturation in stores"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Check exact store listing names - slight variations may work",
+    "ASO: Highly saturated keyword space - differentiation needed",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T18:17:49.024093+00:00"
+}

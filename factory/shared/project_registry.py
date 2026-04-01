@@ -122,13 +122,19 @@ def _derive_status(project: dict) -> str:
         return "parked_partially"
 
     if chapters.get("kapitel6", {}).get("status") == "complete":
+        gates = project.get("gates", {})
+        pg = gates.get("production_gate", {}).get("status")
+        if pg in ("GO", "GO_MIT_NOTES"):
+            if any(p.get("status") not in ("not_started", None) for p in production.values()):
+                return "in_production"
+            return "production_started"
         if feasibility.get("status") == "feasible":
-            return "feasible"
+            return "production_gate_pending"
         if any(p.get("status") not in ("not_started", None) for p in production.values()):
             return "in_production"
         return "preproduction_done"
     if chapters.get("kapitel5", {}).get("status") == "complete":
-        if gates.get("visual_review", {}).get("status") == "GO":
+        if gates.get("visual_review", {}).get("status") in ("GO", "GO_MIT_NOTES"):
             return "review_go"
         return "review_pending"
     if chapters.get("kapitel45", {}).get("status") == "complete":
@@ -137,7 +143,7 @@ def _derive_status(project: dict) -> str:
         return "features_complete"
     if chapters.get("kapitel3", {}).get("status") == "complete":
         return "strategy_complete"
-    if gates.get("ceo_gate", {}).get("status") == "GO":
+    if gates.get("ceo_gate", {}).get("status") in ("GO", "GO_MIT_NOTES"):
         return "ceo_gate_go"
     if gates.get("ceo_gate", {}).get("status") == "KILL":
         return "killed"
@@ -164,6 +170,8 @@ def _derive_current_phase(project: dict) -> str:
         "preproduction_done": "Pre-Production abgeschlossen -- bereit fuer Production",
         "feasibility_checking": "Feasibility-Check laeuft",
         "feasible": "Feasibility: Produktionsbereit",
+        "production_gate_pending": "Production Gate wartet -- Feasibility bestanden",
+        "production_started": "Production gestartet",
         "parked_partially": "Geparkt: Teilweise machbar",
         "parked_blocked": "Geparkt: Blockiert",
         "in_production": "Production laeuft",

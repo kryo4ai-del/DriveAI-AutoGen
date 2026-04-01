@@ -1,0 +1,80 @@
+{
+  "report_id": "NGR-42770",
+  "name": "Gamehub",
+  "total_score": 88,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": false,
+      "app": true,
+      "io": true,
+      "score": 75,
+      "details": {
+        "checked": [
+          "gamehub.com",
+          "gamehub.de",
+          "gamehub.app",
+          "gamehub.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Gamehub' on App Store",
+        "google_search": "'Gamehub' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": true,
+      "x": false,
+      "youtube": true,
+      "linkedin": true,
+      "score": 80,
+      "details": {
+        "handle_checked": "@gamehub",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 70,
+      "pronounceability": 69,
+      "memorability": 90,
+      "confusion_risk": 90,
+      "international": 75,
+      "score": 79,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "social_partial: Handle taken on X"
+  ],
+  "recommendations": [
+    "Name looks strong across all dimensions. Proceed with confidence."
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.671807+00:00"
+}

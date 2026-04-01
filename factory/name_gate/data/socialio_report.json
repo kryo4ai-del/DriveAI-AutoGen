@@ -1,0 +1,79 @@
+{
+  "report_id": "NGR-13004",
+  "name": "Socialio",
+  "total_score": 67,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": false,
+      "io": false,
+      "score": 50,
+      "details": {
+        "checked": [
+          "socialio.com",
+          "socialio.de",
+          "socialio.app",
+          "socialio.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": true,
+      "score": 50,
+      "details": {
+        "apple_search": "'Socialio' on App Store",
+        "google_search": "'Socialio' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": true,
+      "youtube": false,
+      "linkedin": true,
+      "score": 40,
+      "details": {
+        "handle_checked": "@socialio",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 89,
+      "pronounceability": 66,
+      "memorability": 74,
+      "confusion_risk": 96,
+      "international": 89,
+      "score": 83,
+      "recommendation": "Strong name. Proceed."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Apple App Store name taken",
+    "social_partial: Handle taken on Instagram, TikTok"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.665674+00:00"
+}

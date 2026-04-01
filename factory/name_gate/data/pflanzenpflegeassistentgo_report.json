@@ -1,0 +1,80 @@
+{
+  "report_id": "NGR-50012",
+  "name": "Pflanzen-pflege-assistentgo",
+  "total_score": 87,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": false,
+      "score": 75,
+      "details": {
+        "checked": [
+          "pflanzenpflegeassistentgo.com",
+          "pflanzenpflegeassistentgo.de",
+          "pflanzenpflegeassistentgo.app",
+          "pflanzenpflegeassistentgo.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Pflanzen-pflege-assistentgo' on App Store",
+        "google_search": "'Pflanzen-pflege-assistentgo' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": true,
+      "x": true,
+      "youtube": true,
+      "linkedin": true,
+      "score": 80,
+      "details": {
+        "handle_checked": "@pflanzenpflegeassistentgo",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 77,
+      "pronounceability": 30,
+      "memorability": 82,
+      "confusion_risk": 88,
+      "international": 87,
+      "score": 73,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "social_partial: Handle taken on Instagram"
+  ],
+  "recommendations": [
+    "Name looks strong across all dimensions. Proceed with confidence."
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T17:46:42.180273+00:00"
+}

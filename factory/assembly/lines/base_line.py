@@ -104,55 +104,99 @@ class BaseAssemblyLine(ABC):
         """Run platform-specific tests."""
         ...
 
-    def assemble(self, handoff: ProductionHandoff, max_fix_cycles: int = 5) -> AssemblyReport:
-        """Full assembly pipeline: receive → build → organize → wire → compile → fix → test."""
+    def assemble(self, handoff: ProductionHandoff, max_fix_cycles: int = 5,
+                 production_logger=None) -> AssemblyReport:
+        """Full assembly pipeline: receive → build → organize → wire → compile → fix → test.
+
+        Args:
+            production_logger: Optional ProductionLogger for live dashboard updates.
+        """
         report = AssemblyReport(project=handoff.project_name, platform=handoff.platform)
+        _phase = f"assembly/{handoff.platform}"
 
         # Step 1: Receive
         if not self.receive_handoff(handoff):
             report.status = "rejected"
+            if production_logger:
+                production_logger.log_error(phase=_phase, message="Handoff rejected")
             return report
+
+        if production_logger:
+            production_logger.log_phase_start(phase=_phase, total_steps=4)
 
         # Step 2: Build system
         print("\n  [Assembly] Creating build system...")
+        if production_logger:
+            production_logger.log_step_start(phase=_phase, screen="build_system", agent="assembly")
         report.build_system = self.create_build_system()
+        if production_logger:
+            production_logger.log_step_complete(phase=_phase, screen="build_system", agent="assembly")
 
         # Step 3: Organize
         print("  [Assembly] Organizing files...")
+        if production_logger:
+            production_logger.log_step_start(phase=_phase, screen="organize", agent="assembly")
         report.file_organization = self.organize_files()
+        if production_logger:
+            production_logger.log_step_complete(phase=_phase, screen="organize", agent="assembly")
 
         # Step 4: Wire
         print("  [Assembly] Wiring app entry points...")
+        if production_logger:
+            production_logger.log_step_start(phase=_phase, screen="wire_app", agent="assembly")
         report.wiring = self.wire_app()
+        if production_logger:
+            production_logger.log_step_complete(phase=_phase, screen="wire_app", agent="assembly")
 
         # Step 5: Compile-Fix cycle
         for cycle in range(max_fix_cycles):
             print(f"  [Assembly] Compile attempt {cycle + 1}/{max_fix_cycles}...")
+            if production_logger:
+                production_logger.log_step_start(phase=_phase, screen=f"compile_{cycle+1}", agent="assembly")
             compile_result = self.compile()
             report.compile_attempts.append(compile_result)
 
             if compile_result.success or compile_result.skipped:
+                if production_logger:
+                    production_logger.log_step_complete(
+                        phase=_phase, screen=f"compile_{cycle+1}", agent="assembly",
+                        subtype="repair" if cycle > 0 else "",
+                    )
                 break
 
             fixes = self.diagnose_errors(compile_result)
             if not fixes:
                 report.status = "compile_failed_no_fixes"
                 print(f"  [Assembly] No fixes available for {compile_result.error_count} error(s)")
+                if production_logger:
+                    production_logger.log_error(phase=_phase, screen=f"compile_{cycle+1}",
+                                                message=f"{compile_result.error_count} errors, no fixes")
                 break
 
             applied = self.apply_fixes(fixes)
             report.fixes_applied.extend(fixes)
             print(f"  [Assembly] Applied {len(fixes)} fix(es)")
+            if production_logger:
+                production_logger.log_step_complete(
+                    phase=_phase, screen=f"compile_{cycle+1}", agent="assembly", subtype="repair",
+                )
 
         # Step 6: Test
         last_compile = report.compile_attempts[-1] if report.compile_attempts else None
         if last_compile and (last_compile.success or last_compile.skipped):
             print("  [Assembly] Running tests...")
+            if production_logger:
+                production_logger.log_step_start(phase=_phase, screen="tests", agent="assembly")
             report.test_result = self.run_tests()
             report.status = "complete"
+            if production_logger:
+                production_logger.log_step_complete(phase=_phase, screen="tests", agent="assembly")
         elif not last_compile or last_compile.skipped:
             report.status = "complete_no_compile"
         else:
             report.status = "compile_failed"
+
+        if production_logger:
+            production_logger.log_phase_complete(phase=_phase, steps_done=4)
 
         return report

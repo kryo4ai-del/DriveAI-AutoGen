@@ -1,0 +1,83 @@
+{
+  "report_id": "NGR-64068",
+  "name": "TestBot",
+  "total_score": 49,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": false,
+      "app": false,
+      "io": false,
+      "score": 0,
+      "details": {
+        "testbot.com": "taken",
+        "testbot.de": "taken",
+        "testbot.app": "taken",
+        "testbot.io": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple": "free",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": false,
+      "linkedin": false,
+      "score": 0,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "taken",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 48,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 70,
+      "pronounceability": 90,
+      "memorability": 70,
+      "confusion_risk": 40,
+      "international": 80,
+      "score": 70,
+      "recommendation": "Der Name ist funktional und verstaendlich, wirkt aber generisch und hat Verwechslungsgefahr mit diversen Test-Tools und Bot-Plattformen (z.B. TestRail, BotFramework). Fuer eine interne Test-App akzeptabel, fuer ein marktreifes Produkt zu schwach positioniert."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 100
+    }
+  },
+  "hard_blockers": [
+    "all_major_domains_taken: .com, .de, and .app all taken"
+  ],
+  "soft_blockers": [
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T10:56:04.678286+00:00"
+}

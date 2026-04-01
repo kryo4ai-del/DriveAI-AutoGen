@@ -350,6 +350,82 @@ Antworte NUR mit JSON, kein Markdown. Exaktes Schema:
 
         return out_path
 
+    # --- Name Gate Integration (NGO-01) ---
+
+    def evaluate_name_brand_fit(self, name: str, idea: str) -> dict:
+        """Evaluate a project name against brand criteria (called by NGO-01).
+
+        Uses LLM to score 5 dimensions: tonality, pronounceability,
+        memorability, confusion_risk, international suitability.
+
+        Args:
+            name: The app name to evaluate.
+            idea: Short description of the app idea/concept.
+
+        Returns:
+            dict with 5 dimension scores (1-10), weighted score, recommendation.
+        """
+        _ts = datetime.now(timezone.utc).strftime("%H:%M:%S")
+        logger.info("[%s] evaluate_name_brand_fit('%s')", _ts, name)
+
+        prompt = f"""Bewerte den App-Namen "{name}" fuer folgendes Konzept: {idea}
+
+Bewerte auf einer Skala von 1-10 (10 = perfekt):
+1. tonality: Passt der Name zum App-Konzept? (z.B. Finanz-App sollte serioes klingen)
+2. pronounceability: Ist der Name leicht auszusprechen auf Deutsch UND Englisch?
+3. memorability: Ist der Name einpraegsam und leicht zu merken?
+4. confusion_risk: Kann der Name mit existierenden bekannten Marken verwechselt werden? (1 = hohe Verwechslungsgefahr, 10 = keine)
+5. international: Hat der Name negative Bedeutungen in anderen Sprachen? (1 = problematisch, 10 = international sicher)
+
+Antworte NUR mit JSON, kein anderer Text:
+{{"tonality": 8, "pronounceability": 7, "memorability": 9, "confusion_risk": 8, "international": 7, "recommendation": "Kurze Empfehlung in 1-2 Saetzen"}}"""
+
+        response = self._call_llm(prompt, max_tokens=1024)
+        data = self._extract_json(response) if response else {}
+
+        # Extract scores with fallback to neutral 5
+        tonality = int(data.get("tonality", 5))
+        pronounce = int(data.get("pronounceability", 5))
+        memorability = int(data.get("memorability", 5))
+        confusion = int(data.get("confusion_risk", 5))
+        international = int(data.get("international", 5))
+        recommendation = data.get("recommendation", "LLM evaluation completed.")
+
+        # Clamp to 1-10
+        tonality = max(1, min(10, tonality))
+        pronounce = max(1, min(10, pronounce))
+        memorability = max(1, min(10, memorability))
+        confusion = max(1, min(10, confusion))
+        international = max(1, min(10, international))
+
+        # Weighted average: tonality 25%, pronounce 20%, memorability 25%,
+        # confusion_risk 15%, international 15%
+        weighted = (
+            tonality * 0.25
+            + pronounce * 0.20
+            + memorability * 0.25
+            + confusion * 0.15
+            + international * 0.15
+        )
+        score = max(1, min(10, round(weighted)))
+
+        if not response:
+            recommendation = "LLM unavailable - fallback neutral scores used."
+
+        result = {
+            "name": name,
+            "tonality": tonality,
+            "pronounceability": pronounce,
+            "memorability": memorability,
+            "confusion_risk": confusion,
+            "international": international,
+            "score": score,
+            "recommendation": recommendation,
+            "evaluated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+        logger.info("[%s] evaluate_name_brand_fit('%s') -> score %d/10", _ts, name, score)
+        return result
+
     def check_brand_compliance(self, content: str, content_type: str = "social_post") -> dict:
         """Prueft Content auf Brand-Compliance.
 

@@ -1,4 +1,4 @@
-"""Marketing Agents — 11 Agents (MKT-01 bis MKT-11)."""
+"""Marketing Agents — 14 Agents (MKT-01 bis MKT-14)."""
 
 from factory.marketing.agents.brand_guardian import BrandGuardian
 from factory.marketing.agents.brand_guardian import SYSTEM_MESSAGE as BRAND_GUARDIAN_SYSTEM_MESSAGE
@@ -21,13 +21,21 @@ from factory.marketing.agents.review_manager import ReviewManager
 from factory.marketing.agents.review_manager import SYSTEM_MESSAGE as REVIEW_MANAGER_SYSTEM_MESSAGE
 from factory.marketing.agents.community_agent import CommunityAgent
 from factory.marketing.agents.community_agent import SYSTEM_MESSAGE as COMMUNITY_SYSTEM_MESSAGE
+from factory.marketing.agents.storytelling_agent import StorytellingAgent
+from factory.marketing.agents.storytelling_agent import SYSTEM_MESSAGE as STORYTELLING_SYSTEM_MESSAGE
+from factory.marketing.agents.pr_agent import PRAgent
+from factory.marketing.agents.pr_agent import SYSTEM_MESSAGE as PR_SYSTEM_MESSAGE
+from factory.marketing.agents.campaign_planner import CampaignPlanner
+from factory.marketing.agents.campaign_planner import SYSTEM_MESSAGE as CAMPAIGN_PLANNER_SYSTEM_MESSAGE
 
 __all__ = [
     "BrandGuardian", "StrategyAgent", "Copywriter", "NamingAgent", "ASOAgent",
     "VisualDesigner", "VideoScriptAgent", "PublishingOrchestrator",
     "ReportAgent", "ReviewManager", "CommunityAgent",
+    "StorytellingAgent", "PRAgent", "CampaignPlanner",
     "BRAND_GUARDIAN_SYSTEM_MESSAGE", "STRATEGY_SYSTEM_MESSAGE",
     "COPYWRITER_SYSTEM_MESSAGE", "NAMING_SYSTEM_MESSAGE", "ASO_SYSTEM_MESSAGE",
     "VISUAL_DESIGNER_SYSTEM_MESSAGE", "VIDEO_SCRIPT_SYSTEM_MESSAGE",
     "REPORT_SYSTEM_MESSAGE", "REVIEW_MANAGER_SYSTEM_MESSAGE", "COMMUNITY_SYSTEM_MESSAGE",
+    "STORYTELLING_SYSTEM_MESSAGE", "PR_SYSTEM_MESSAGE", "CAMPAIGN_PLANNER_SYSTEM_MESSAGE",
 ]

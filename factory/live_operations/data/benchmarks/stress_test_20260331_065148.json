@@ -1,0 +1,98 @@
+{
+  "run_at": "2026-03-31T06:51:48.052347+00:00",
+  "fleet_size": 10,
+  "iterations": 2,
+  "ok": true,
+  "passed": 4,
+  "total": 4,
+  "tests": {
+    "performance": {
+      "ok": true,
+      "timings": {
+        "decision_cycle": {
+          "duration_ms": 28.3,
+          "apps_evaluated": 10
+        },
+        "anomaly_scan": {
+          "duration_ms": 15.1,
+          "anomalies": 10
+        },
+        "execution_path": {
+          "duration_ms": 0.3,
+          "briefings": 0
+        }
+      },
+      "thresholds": {
+        "decision_cycle_max_ms": 2000,
+        "anomaly_scan_max_ms": 1000,
+        "execution_path_max_ms": 5000
+      }
+    },
+    "memory": {
+      "ok": true,
+      "snapshots": [
+        {
+          "iteration": 1,
+          "mem_before_mb": 29.53,
+          "mem_after_mb": 29.77,
+          "growth_mb": 0.24
+        },
+        {
+          "iteration": 2,
+          "mem_before_mb": 29.78,
+          "mem_after_mb": 29.79,
+          "growth_mb": 0.0
+        }
+      ],
+      "max_single_growth_mb": 0.24,
+      "total_growth_mb": 0.26,
+      "limits": {
+        "single_max_mb": 50.0,
+        "total_max_mb": 100.0
+      }
+    },
+    "error_cascade": {
+      "ok": true,
+      "total_apps": 11,
+      "corrupted_app": "CORRUPT_TEST_APP",
+      "decision_cycle": {
+        "ok": true,
+        "error": null
+      },
+      "anomaly_scan": {
+        "ok": true,
+        "error": null
+      },
+      "execution_path": {
+        "ok": true,
+        "error": null
+      }
+    },
+    "data_consistency": {
+      "ok": true,
+      "checks": {
+        "valid_health_scores": {
+          "ok": true,
+          "invalid": []
+        },
+        "valid_health_zones": {
+          "ok": true,
+          "invalid": []
+        },
+        "no_orphan_actions": {
+          "ok": true,
+          "orphans": []
+        },
+        "no_orphan_health_records": {
+          "ok": true,
+          "orphans": []
+        },
+        "app_count_stable": {
+          "ok": true,
+          "expected": 10,
+          "actual": 10
+        }
+      }
+    }
+  }
+}

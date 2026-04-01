@@ -1,0 +1,78 @@
+{
+  "report_id": "NGR-26889",
+  "name": "Gamex",
+  "total_score": 81,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": false,
+      "io": true,
+      "score": 50,
+      "details": {
+        "checked": [
+          "gamex.com",
+          "gamex.de",
+          "gamex.app",
+          "gamex.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Gamex' on App Store",
+        "google_search": "'Gamex' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": false,
+      "x": true,
+      "youtube": true,
+      "linkedin": false,
+      "score": 60,
+      "details": {
+        "handle_checked": "@gamex",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 74,
+      "pronounceability": 75,
+      "memorability": 84,
+      "confusion_risk": 91,
+      "international": 74,
+      "score": 80,
+      "recommendation": "Strong name. Proceed."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on TikTok"
+  ],
+  "recommendations": [
+    "Consider alternative TLDs (.app, .io) or a modified name for .com"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.674626+00:00"
+}

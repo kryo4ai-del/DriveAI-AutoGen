@@ -1,0 +1,84 @@
+{
+  "report_id": "NGR-99076",
+  "name": "Pflanzen-apply",
+  "total_score": 77,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": true,
+      "io": false,
+      "score": 50,
+      "details": {
+        "checked": [
+          "pflanzenapply.com",
+          "pflanzenapply.de",
+          "pflanzenapply.app",
+          "pflanzenapply.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'Pflanzen-apply' on App Store",
+        "google_search": "'Pflanzen-apply' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": true,
+      "x": true,
+      "youtube": true,
+      "linkedin": false,
+      "score": 60,
+      "details": {
+        "handle_checked": "@pflanzenapply",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 81,
+      "pronounceability": 48,
+      "memorability": 71,
+      "confusion_risk": 64,
+      "international": 91,
+      "score": 71,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "high",
+      "dominant_competitors": [
+        "AppX",
+        "QuickApp",
+        "SmartTool"
+      ],
+      "score": 30
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on Instagram",
+    "aso_saturated: High keyword saturation in stores"
+  ],
+  "recommendations": [
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "ASO: Highly saturated keyword space - differentiation needed"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T17:46:55.904682+00:00"
+}

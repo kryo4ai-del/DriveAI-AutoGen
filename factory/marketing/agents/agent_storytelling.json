@@ -1,0 +1,16 @@
+{
+  "id": "MKT-12",
+  "name": "Storytelling",
+  "role": "Factory Storyteller",
+  "department": "Marketing",
+  "status": "active",
+  "task_type": "content_creation",
+  "model_tier": "mid",
+  "default_model": "via TheBrain",
+  "provider": "dynamic",
+  "routing": "TheBrain",
+  "uses_web": false,
+  "description": "Erzaehlt die Factory-Story als Case Studies, Behind-the-Scenes, Milestone Stories und Cost Comparisons. Nutzt echte Factory-Daten.",
+  "py_file": "storytelling_agent.py",
+  "_source": "factory\\marketing\\agents\\agent_storytelling.json"
+}

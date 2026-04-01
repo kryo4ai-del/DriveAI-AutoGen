@@ -17,6 +17,8 @@ import JanitorView from './components/Janitor/JanitorView';
 import BrainView from './components/Brain/BrainView';
 import AppFleetOverview from './components/LiveOps/AppFleetOverview';
 import AppDetailView from './components/LiveOps/AppDetailView';
+import ProductionDashboard from './components/Production/ProductionDashboard';
+import MarketingView from './components/Marketing/MarketingView';
 
 const BASE_SECTIONS = [
   { id: 'start', label: 'Start', icon: 'Rocket' },
@@ -32,12 +34,14 @@ const BASE_SECTIONS = [
   { id: 'history', label: 'Historie', icon: 'Clock' },
   { id: 'showcase', label: 'Schaufenster', icon: 'Eye' },
   { id: 'liveops', label: 'Live Operations', icon: 'HeartPulse' },
+  { id: 'marketing', label: 'Marketing', icon: 'Megaphone' },
 ];
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('start');
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedApp, setSelectedApp] = useState(null);
+  const [productionSlug, setProductionSlug] = useState(null);
   const [gateCount, setGateCount] = useState(0);
   const [janitorProposals, setJanitorProposals] = useState(0);
   const [chatOpen, setChatOpen] = useState(false);
@@ -87,6 +91,7 @@ export default function App() {
     setActiveSection(section);
     setSelectedProject(null);
     setSelectedApp(null);
+    setProductionSlug(null);
   }
 
   return (
@@ -106,7 +111,7 @@ export default function App() {
           {activeSection === 'pipeline' && selectedProject && (
             <ProjectDetail projectId={selectedProject} onBack={() => setSelectedProject(null)} />
           )}
-          {activeSection === 'gates' && <GateInbox />}
+          {activeSection === 'gates' && <GateInbox onNavigateToProduction={setProductionSlug} />}
           {activeSection === 'documents' && <DocumentLibrary />}
           {activeSection === 'factory' && <HealthOverview />}
           {activeSection === 'brain' && <BrainView />}
@@ -122,7 +127,11 @@ export default function App() {
           {activeSection === 'liveops' && selectedApp && (
             <AppDetailView appId={selectedApp} onBack={() => setSelectedApp(null)} />
           )}
-          {!['start', 'pipeline', 'gates', 'documents', 'factory', 'brain', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase', 'liveops'].includes(activeSection) && (
+          {activeSection === 'marketing' && <MarketingView />}
+          {productionSlug && (
+            <ProductionDashboard slug={productionSlug} onBack={() => setProductionSlug(null)} />
+          )}
+          {!productionSlug && !['start', 'pipeline', 'gates', 'documents', 'factory', 'brain', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase', 'liveops', 'marketing'].includes(activeSection) && (
             <PlaceholderView
               title={sections.find(s => s.id === activeSection)?.label || ''}
               description="Wird in einem zukuenftigen Step implementiert"

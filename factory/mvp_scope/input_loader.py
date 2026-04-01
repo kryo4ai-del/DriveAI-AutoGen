@@ -160,7 +160,7 @@ def _validate_ceo_gate(p1_path: Path) -> None:
 
     content = gate_file.read_text(encoding="utf-8")
     dec_match = re.search(r"\*\*Entscheidung:\*\*\s*(\w+)", content)
-    if not dec_match or dec_match.group(1).upper() != "GO":
+    if not dec_match or dec_match.group(1).upper() not in ("GO", "GO_MIT_NOTES"):
         raise ValueError("CEO-Gate Entscheidung war nicht GO — Kapitel 4 kann nicht starten.")
 
 

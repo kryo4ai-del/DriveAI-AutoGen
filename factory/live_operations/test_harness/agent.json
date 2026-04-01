@@ -1,0 +1,38 @@
+{
+    "id": "LOP-12",
+    "name": "SyntheticFleetGenerator",
+    "department": "Live Operations",
+    "role": "Erzeugt realistische synthetische Testdaten fuer das gesamte Live Operations System",
+    "task_type": "test_data_generation",
+    "model_tier": "none",
+    "provider": "none",
+    "uses_web": false,
+    "deterministic": true,
+    "phase": "phase_6",
+    "status": "active",
+    "capabilities": [
+        "generate_fleet",
+        "generate_metrics_history",
+        "generate_reviews",
+        "generate_support_tickets",
+        "inject_scenario",
+        "populate_all",
+        "clear_all"
+    ],
+    "inputs": [
+        "fleet_config",
+        "scenario_definitions",
+        "health_state_ranges"
+    ],
+    "outputs": [
+        "synthetic_apps",
+        "metrics_history",
+        "reviews",
+        "support_tickets",
+        "injection_logs"
+    ],
+    "dependencies": [
+        "app_registry"
+    ],
+    "created": "2026-03-31"
+}

@@ -1,0 +1,113 @@
+{
+  "project_id": "growmeldai",
+  "title": "GrowMeldAI",
+  "project_type": "production",
+  "archived": false,
+  "created": "2026-04-01",
+  "updated": "2026-04-01",
+  "status": "production_gate_pending",
+  "current_phase": "Production Gate wartet -- Feasibility bestanden",
+  "ambition": "realistic",
+  "runs": {
+    "pre_production": [],
+    "active_run": null
+  },
+  "gates": {
+    "idea_approval": {
+      "status": "GO",
+      "date": "2026-04-01",
+      "notes": null
+    },
+    "ceo_gate": {
+      "status": "GO_MIT_NOTES",
+      "date": "2026-04-01",
+      "notes": "DSGVO-Punkt(PLZ statt GPS in Phase 1, kein ML-Training auf Nutzer-Uploads in Phase 1)."
+    },
+    "visual_review": {
+      "status": "GO",
+      "date": "2026-04-01",
+      "notes": null
+    }
+  },
+  "chapters": {
+    "phase1": {
+      "status": "complete",
+      "run_number": 4,
+      "output_dir": "factory/pre_production/output/004_growmeldai",
+      "date": "2026-04-01"
+    },
+    "kapitel3": {
+      "status": "complete",
+      "run_number": 2,
+      "output_dir": "factory/market_strategy/output/002_growmeldai",
+      "date": "2026-04-01"
+    },
+    "kapitel4": {
+      "status": "complete",
+      "run_number": 3,
+      "output_dir": "factory/mvp_scope/output/003_growmeldai",
+      "date": "2026-04-01"
+    },
+    "kapitel45": {
+      "status": "complete",
+      "run_number": 2,
+      "output_dir": "factory/design_vision/output/002_growmeldai",
+      "date": "2026-04-01"
+    },
+    "kapitel5": {
+      "status": "complete",
+      "run_number": 2,
+      "output_dir": "factory/visual_audit/output/002_growmeldai",
+      "date": "2026-04-01"
+    },
+    "kapitel6": {
+      "status": "complete",
+      "run_number": "2",
+      "output_dir": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\roadbook_assembly\\output\\002_growmeldai",
+      "agents_ok": 0,
+      "agents_total": 0,
+      "serpapi_credits": 0,
+      "llm_cost_usd": 0.0,
+      "date": "2026-04-01"
+    }
+  },
+  "production": {
+    "ios": {
+      "status": "not_started"
+    },
+    "android": {
+      "status": "not_started"
+    },
+    "web": {
+      "status": "not_started"
+    },
+    "assembly": {
+      "status": "not_started"
+    }
+  },
+  "documents": {},
+  "costs": {
+    "serpapi_credits_total": 0,
+    "llm_cost_usd_total": 0.0,
+    "pdf_generation_calls": 0
+  },
+  "key_metrics": {
+    "assets_total": 100,
+    "assets_launch_critical": 63,
+    "blocker_count": 52,
+    "ki_warnings_count": 25
+  },
+  "feasibility": {
+    "status": "feasible",
+    "check_date": "2026-04-01T17:17:19.566508",
+    "score": 0.88,
+    "gaps": [
+      "Backend/Server API",
+      "AR/VR Features",
+      "GPS/Location",
+      "unity_not_proven"
+    ],
+    "report": "C:\\Users\\Admin\\.claude\\current-projects\\DriveAI-AutoGen\\factory\\hq\\capabilities\\reports\\growmeldai_feasibility.json",
+    "note": "Overridden: Backend=Firebase(BaaS), GPS=PLZ-only, AR/VR=not used, Unity=not targeted"
+  }
+}

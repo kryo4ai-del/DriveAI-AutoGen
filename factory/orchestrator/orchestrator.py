@@ -112,14 +112,26 @@ class FactoryOrchestrator:
         return [id_to_name.get(dep_id, dep_id) for dep_id in step.depends_on]
 
     def execute_plan(self, plan: BuildPlan | None = None, dry_run: bool = True,
-                     profile: str = "standard", approval: str = "auto") -> BuildReport:
-        """Execute a build plan step by step."""
+                     profile: str = "standard", approval: str = "auto",
+                     production_logger=None) -> BuildReport:
+        """Execute a build plan step by step.
+
+        Args:
+            production_logger: Optional ProductionLogger instance for live dashboard updates.
+        """
         if plan is None:
             plan = self.build_plan or self.create_build_plan()
 
         self._print_plan(plan)
         report = BuildReport(plan)
         plan.status = "in_progress"
+
+        # Log production start
+        if production_logger:
+            production_logger.log_production_start(
+                total_steps=len(plan.steps),
+                slug=self.project_name,
+            )
 
         print()
         if dry_run:
@@ -144,6 +156,15 @@ class FactoryOrchestrator:
 
             # Detect layer name from step name (e.g. "TrainingMode — Foundation" → "foundation")
             _layer_name = self._extract_layer_name(step.name)
+
+            # Log step start
+            if production_logger and not dry_run:
+                production_logger.log_step_start(
+                    phase=_layer_name or "build",
+                    screen=step.id,
+                    agent=f"orchestrator/{step.line}",
+                    message=step.name,
+                )
 
             if dry_run:
                 print(f"    Status  : DRY RUN — would execute")
@@ -199,6 +220,22 @@ class FactoryOrchestrator:
                         print(f"    Integration: skipped ({_ie})")
 
                     print(f"    Status  : COMPLETED")
+
+                    # Log step completion
+                    if production_logger:
+                        _files_count = 0
+                        _loc_count = 0
+                        if isinstance(pipeline_result, dict):
+                            _files_count = pipeline_result.get("files_generated", 0)
+                            _loc_count = pipeline_result.get("loc", 0)
+                        production_logger.log_step_complete(
+                            phase=_layer_name or "build",
+                            screen=step.id,
+                            agent=f"orchestrator/{step.line}",
+                            files=_files_count or _copied if '_copied' in dir() else 0,
+                            loc=_loc_count,
+                        )
+
                     report.step_results.append({
                         "step_id": step.id,
                         "name": step.name,
@@ -210,6 +247,16 @@ class FactoryOrchestrator:
                     step.result = {"error": str(_e)}
                     print(f"    Status  : FAILED ({_e})")
                     self._skip_dependents(plan, step.id)
+
+                    # Log step error
+                    if production_logger:
+                        production_logger.log_error(
+                            phase=_layer_name or "build",
+                            screen=step.id,
+                            agent=f"orchestrator/{step.line}",
+                            message=str(_e),
+                        )
+
                     report.step_results.append({
                         "step_id": step.id,
                         "name": step.name,
@@ -222,6 +269,15 @@ class FactoryOrchestrator:
                     step.result = {"error": str(e)}
                     print(f"    Status  : FAILED ({e})")
                     self._skip_dependents(plan, step.id)
+
+                    # Log step error (second catch block)
+                    if production_logger:
+                        production_logger.log_error(
+                            phase=_layer_name or "build",
+                            screen=step.id,
+                            agent=f"orchestrator/{step.line}",
+                            message=str(e),
+                        )
 
                 # Run quality gate after successful execution
                 if step.status == "completed" and _layer_name:
@@ -249,6 +305,26 @@ class FactoryOrchestrator:
         failed = sum(1 for s in plan.steps if s.status == "failed")
         skipped = sum(1 for s in plan.steps if s.status == "skipped")
         pending = sum(1 for s in plan.steps if s.status == "pending")
+
+        # Log production completion/failure
+        if production_logger and not dry_run:
+            if plan.status == "completed":
+                production_logger.log_production_complete(
+                    total_screens=completed,
+                    total_files=sum(
+                        r.get("files_generated", 0)
+                        for r in report.step_results if isinstance(r, dict)
+                    ),
+                    total_loc=sum(
+                        r.get("loc", 0)
+                        for r in report.step_results if isinstance(r, dict)
+                    ),
+                )
+            else:
+                _errors = [r.get("error", "") for r in report.step_results if r.get("status") == "failed"]
+                production_logger.log_production_failed(
+                    error="; ".join(filter(None, _errors)) or "Unknown error",
+                )
 
         print("=" * 60)
         print(f"  Plan Summary: {len(plan.steps)} steps, "

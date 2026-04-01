@@ -1,0 +1,80 @@
+{
+  "report_id": "NGR-59018",
+  "name": "GrowMeld",
+  "total_score": 88,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 100,
+      "details": {
+        "growmeld.com": "free",
+        "growmeld.de": "free",
+        "growmeld.app": "free",
+        "growmeld.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple": "free",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": true,
+      "linkedin": false,
+      "score": 20,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "free",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 60,
+      "pronounceability": 50,
+      "memorability": 60,
+      "confusion_risk": 80,
+      "international": 70,
+      "score": 60,
+      "recommendation": "GrowMeld verbindet Wachstum ('Grow') mit einem unklaren zweiten Element ('Meld' = melden/verschmelzen), was für eine Pflanzen-App semantisch schwach ist und den AI-Pflanzendoktor-Charakter nicht transportiert. Die Aussprache ist im Deutschen unintuitiv ('Meld' klingt wie ein Verb-Stamm), und der Name erzeugt kein starkes, einprägsames Bild – hier wäre ein Name mit klarerer Pflanzenpflege- oder AI-Konnotation deutlich wirkungsvoller."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 100
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "Brand fit is below average - consider a naming workshop",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T20:29:32.902226+00:00"
+}

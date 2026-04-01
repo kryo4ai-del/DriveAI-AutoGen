@@ -1,0 +1,29 @@
+{
+  "id": "LOP-14",
+  "name": "CEO Weekly Report Generator",
+  "department": "Live Operations",
+  "role": "Generiert woechentliche CEO-Reports mit Fleet Health, Alerts, Actions, Releases und Empfehlungen",
+  "status": "active",
+  "task_type": "reporting",
+  "model_tier": "none",
+  "provider": "none",
+  "version": "1.0.0",
+  "uses_web": false,
+  "capabilities": [
+    "weekly_report_generation",
+    "fleet_health_overview",
+    "trend_analysis",
+    "recommendation_engine",
+    "report_archiving",
+    "executive_summary"
+  ],
+  "inputs": ["registry_db", "action_queue", "escalation_log", "release_history", "health_monitor"],
+  "outputs": ["markdown_report", "json_report", "executive_summary"],
+  "triggers": ["weekly_schedule", "manual"],
+  "components": [
+    "reporting/weekly_report.py",
+    "reporting/cli.py"
+  ],
+  "status": "active",
+  "created": "2026-03-31"
+}

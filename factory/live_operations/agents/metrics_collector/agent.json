@@ -1,0 +1,16 @@
+{
+  "id": "LOP-01",
+  "name": "Metrics Collector",
+  "role": "Rohdaten aus Store APIs + Firebase sammeln und normalisieren",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "data_collection",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Sammelt Rohdaten aus Apple App Store Connect, Google Play Console und Firebase Analytics. Normalisiert Metriken in einheitliches Format. Store API Adapter sind STUBs bis echte Credentials konfiguriert werden.",
+  "module": "factory.live_operations.agents.metrics_collector",
+  "class": "MetricsCollector",
+  "uses_web": false,
+  "version": "1.0.0",
+  "created": "2026-03-29"
+}

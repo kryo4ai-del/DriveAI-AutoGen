@@ -1,0 +1,29 @@
+{
+  "id": "NGO-01",
+  "name": "Name Gate Orchestrator",
+  "role": "Pre-Pipeline Name Validation Gate",
+  "department": "Name Gate",
+  "status": "active",
+  "task_type": "orchestration",
+  "model_tier": "standard",
+  "default_model": "claude-sonnet-4-20250514",
+  "provider": "anthropic",
+  "routing": "tier_lock=standard",
+  "uses_web": false,
+  "description": "Validates project names for availability across domains, app stores, social media, trademark registries, brand fit, and ASO before any project folders are created. Produces a scored NameGateReport with Ampel rating (GRUEN/GELB/ROT).",
+  "py_file": "orchestrator.py",
+  "module": "factory.name_gate.orchestrator",
+  "class": "NameGateOrchestrator",
+  "capabilities": [
+    "name_validation",
+    "domain_check",
+    "store_check",
+    "social_media_check",
+    "trademark_check",
+    "brand_fit_evaluation",
+    "aso_precheck",
+    "alternative_generation"
+  ],
+  "created": "2026-03-31",
+  "version": "1.0.0"
+}

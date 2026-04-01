@@ -1,0 +1,78 @@
+{
+  "report_id": "NGR-40131",
+  "name": "EchoMatch",
+  "total_score": 81,
+  "ampel": "GRUEN",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": false,
+      "io": true,
+      "score": 50,
+      "details": {
+        "checked": [
+          "echomatch.com",
+          "echomatch.de",
+          "echomatch.app",
+          "echomatch.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple_search": "'EchoMatch' on App Store",
+        "google_search": "'EchoMatch' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": true,
+      "tiktok": false,
+      "x": true,
+      "youtube": true,
+      "linkedin": false,
+      "score": 60,
+      "details": {
+        "handle_checked": "@echomatch",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 81,
+      "pronounceability": 63,
+      "memorability": 76,
+      "confusion_risk": 89,
+      "international": 86,
+      "score": 79,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on TikTok"
+  ],
+  "recommendations": [
+    "Consider alternative TLDs (.app, .io) or a modified name for .com"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T06:53:19.563226+00:00"
+}

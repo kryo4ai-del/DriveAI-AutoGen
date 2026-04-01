@@ -47,6 +47,15 @@ app.use('/api/brain', brainApi);
 const liveopsApi = require('./api/liveops');
 app.use('/api/liveops', liveopsApi);
 
+const namegateApi = require('./api/namegate');
+app.use('/api/namegate', namegateApi);
+
+const productionApi = require('./api/production');
+app.use('/api/production', productionApi);
+
+const marketingApi = require('./api/marketing');
+app.use('/api/marketing', marketingApi);
+
 app.get('/api/health-check', (req, res) => {
   res.json({
     status: 'ok',

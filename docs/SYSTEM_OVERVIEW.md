@@ -1,6 +1,6 @@
 # DriveAI-AutoGen -- System Overview
 
-Last Updated: 2026-03-29
+Last Updated: 2026-04-02
 
 ---
 
@@ -14,9 +14,11 @@ A **Multi-Agent AI App Factory** that autonomously builds mobile and web apps fr
 
 ```
 CEO Idea
+  -> Name Gate (Pre-Pipeline Name Validation, 6 Checks)
   -> Swarm Factory (6 Chapters: Research -> Strategy -> Scope -> Design -> Roadbook)
-  -> Feasibility Check (Can we build this?)
-  -> Production (Code Generation via Hybrid Pipeline)
+  -> Auto-Feasibility Check (Can we build this?)
+  -> [Production Gate] (CEO Briefing: Cost/Duration/Scope)
+  -> Production (Code Generation via Orchestrator + ProductionLogger)
   -> QA (Compile Hygiene, Type Stubs, Shape Repair, Forge QA)
   -> Assembly (Platform-specific packaging)
   -> Signing (Credentials -> Version -> Build -> Artifacts)
@@ -24,6 +26,7 @@ CEO Idea
   -> Store Submission
   -> Marketing (Brand, Content, Campaigns, Publishing)
   -> Evolution Loop (Iterative Quality Improvement)
+  -> Live Operations (Metrics, Health, Anomalies, Decisions)
 ```
 
 ---
@@ -32,40 +35,45 @@ CEO Idea
 
 | Metric | Value |
 |---|---|
-| Total Agents | 93 (86 active, 4 disabled, 3 planned) |
-| Departments | 16 |
+| Total Agents | 111 (104 active, 4 disabled, 3 planned) |
+| Departments | 18 |
 | Production Lines | 5 (iOS, Android, Web, Unity, Python) |
 | LLM Provider | Anthropic Claude (100%) |
 | LLM Models | 3-Tier: Sonnet 4.6 + Haiku 4.5 + Opus 4.6 |
 | Pipeline Cost | $0.08/run (was $63, 788x cheaper) |
-| Python Files | 444 (in factory/) |
-| Total LOC | 95,506 (in factory/) |
-| Documentation | 46 docs, 131+ dev reports |
+| Python Files | 585 (in factory/) |
+| Total LOC | 123,143 (in factory/) |
+| Tests | 485 tests in 55 files |
+| Documentation | 47 docs, 131+ dev reports |
 | Factory Knowledge | 22 entries (FK-001 to FK-022) |
-| Evolution Loop | 50 .py, 9,042 LOC, 15 test files |
-| Marketing | 54 .py, 12,653 LOC, 11 agents + 7 tools + 9 adapters |
+| Dashboard | CEO Cockpit: 42 React components, 18 API endpoints |
+| Evolution Loop | 6 agents, iterative quality improvement |
+| Marketing | 14 agents + 24 tools + 16 adapters (Phase 9 complete) |
+| Live Operations | 14 agents, decision cycles, anomaly detection |
+| Name Gate | Pre-pipeline name validation (6 checks, traffic light) |
 
 ---
 
-## 16 Departments
+## 18 Departments
 
 | Department | Agents | Purpose |
 |---|---|---|
-| Code-Pipeline | 18 | Lead, architects, developers, reviewers, CD, UX, tests |
+| Code-Pipeline | 22 | Lead, architects, developers, reviewers, CD, UX, tests |
 | Swarm Factory | 27 | Pre-production, market strategy, MVP scope, design, roadbook, secretary |
+| Live Operations | 14 | Metrics, health scoring, analytics, reviews, support, decisions, anomaly, escalation, updates, releases |
+| Marketing | 14 | Brand guardian, strategy, copywriter, naming, ASO, visual, video, publishing, reports, reviews, community, HQ bridge |
+| Infrastructure | 11 | HQ assistant, orchestrator, assembly, repair, status, promotion, mac bridge, janitor |
 | Brain | 7 | Task router, response collector, problem detector, solution proposer, gap analyzer, extension advisor, factory memory |
-| Infrastructure | 8 | HQ assistant, orchestrator, assembly, repair, status, promotion, mac bridge, janitor |
-| Marketing | 11 | Brand guardian, strategy, copywriter, naming, ASO, visual designer, video script, publishing, reports, reviews, community |
 | Evolution Loop | 6 | Simulation, evaluation, gap detection, decision, regression tracking, loop orchestration |
 | Asset Forge | 1 | Image/icon generation |
 | Motion Forge | 1 | Animation generation |
 | Sound Forge | 1 | Audio generation |
 | Scene Forge | 1 | Level/scene generation |
+| Name Gate | 1 | Pre-pipeline name validation (6 checks, traffic light) |
 | QA Forge | 1 | Forge output validation (4 checkers + design compliance) |
 | Store Prep | 1 | Store preparation (metadata, screenshots, privacy) |
 | Store | 1 | Store submission pipeline |
 | Signing | 1 | Code signing (iOS/Android/Web) |
-| Live Operations | - | App registry, metrics collection, health scoring |
 | Integration | 1 | Cross-department integration |
 
 ---
@@ -150,12 +158,12 @@ Additional systems:
 
 ---
 
-## Marketing Department (Phase 1-4 COMPLETE)
+## Marketing Department (Phase 1-9 COMPLETE, feature-complete)
 
-11 agents, 7 tools, 9 adapters. 54 Python files, 12,653 LOC.
+14 agents, 24 tools, 16 adapters, 20 DB tables. 90 Python files, 24K+ LOC.
 
-**Tools**: Template Engine, Video Pipeline, Content Calendar, Ranking DB, Social Analytics, KPI Tracker, HQ Bridge
-**Adapters**: YouTube, TikTok, X, App Store, Google Play + 4 stubs
+**Agents**: Brand Guardian, Strategy, Copywriter, Naming, ASO, Visual Designer, Video Script, Publishing Orchestrator, Report Agent, Review Manager, Community Agent, HQ Bridge, Trend Monitor, Campaign Manager
+**Adapters**: YouTube, TikTok, X, App Store, Google Play, Instagram, LinkedIn, Reddit, Twitch + more
 
 ---
 
@@ -175,15 +183,21 @@ Additional systems:
 
 ---
 
-## Dashboard (Factory HQ)
+## CEO Cockpit Dashboard (Factory HQ)
 
-React + Express web dashboard with 19 components:
+React + Vite + Express web dashboard with 42 components and 18 API endpoints:
 - **Pipeline**: Project grid, project detail, progress bars
-- **Gates**: CEO gate inbox, feasibility gates, decision UI
-- **Janitor**: Scanner results, consistency checks, dependency health
-- **Assistant**: Chat panel (21 tools: 14 factory + 7 TheBrain)
-- **Team**: Agent overview (enriched, tier/provider filter, capability chips)
+- **Gates**: CEO gate inbox, feasibility gates, production gate decision UI
+- **Production**: Briefing (cost/scope/duration), Live Dashboard (SSE, cost tracker, screen grid, agent feed)
+- **Start / Name Gate**: Name validation (6 checks, traffic light), alternatives, suggestions
+- **Team**: Agent overview (enriched, 6 sub-components, tier/provider filter, capability chips)
+- **LiveOps**: App fleet overview, health scoring, analytics, decision monitor, escalation log, release tracker, weekly reports, system health (11 sub-components)
 - **Brain**: TheBrain COO-level awareness (6 tabs)
+- **Janitor**: Scanner results, consistency checks, dependency health
+- **Showcase**: App showcase gallery
+- **Documents**: Document library
+- **Marketing**: Marketing overview
+- **Assistant**: Chat panel + voice input/output
 
 ---
 
@@ -202,8 +216,32 @@ React + Express web dashboard with 19 components:
 | AskFin Premium | iOS (Swift/SwiftUI) | App Store Prep (75% ready) |
 | AskFin Android | Kotlin/Compose | 204 files, 4 features |
 | AskFin Web | TypeScript/React | Spec ready |
-| EchoMatch | Swarm Pipeline | 10 PDFs generated, all chapters complete |
+| GrowMeldAI | Swarm Pipeline | Full pipeline complete, Production Gate pending (Feasibility 0.88) |
+| EchoMatch | Swarm Pipeline | 10 PDFs, Strategy + Scope complete |
 | SkillSense | Swarm Pipeline | Phase 1 complete, CEO gate pending |
+
+---
+
+## Production Pipeline (Prompts 1-6)
+
+Complete end-to-end production wiring:
+
+```
+[Production Gate GO] -> POST /api/production/start
+  -> python -m factory.dispatcher.dispatcher --start-production <slug>
+  -> FactoryOrchestrator.execute_plan(production_logger=logger)
+  -> ProductionLogger -> production_log.jsonl (JSONL append-only)
+  -> SSE Stream (fs.watch on directory) -> Live Production Dashboard
+```
+
+| Component | File | Purpose |
+|---|---|---|
+| Roadbook-to-Spec | `factory/integration/roadbook_to_spec.py` | CD Roadbook (.md) -> build_spec.yaml |
+| Production Estimator | `factory/integration/production_estimator.py` | build_spec -> cost/duration estimate |
+| Production Logger | `factory/integration/production_logger.py` | JSONL lifecycle logging for dashboard |
+| Production Briefing | `components/Production/ProductionBriefing.jsx` | CEO cost/scope/risk view before GO |
+| Live Dashboard | `components/Production/ProductionDashboard.jsx` | SSE real-time progress, costs, agents |
+| Dispatcher CLI | `factory/dispatcher/dispatcher.py` (__main__) | CLI entry for production subprocess |
 
 ---
 
@@ -256,7 +294,7 @@ python -m factory.qa_forge.qa_forge_orchestrator --project <p> --synthetic --sav
 
 ## Documentation Index (docs/)
 
-46 files covering:
+47 files covering:
 - Architecture, agents, commands, roadmap
 - Factory intake, operating guide, control center
 - Premium product principles, learning loop
@@ -267,3 +305,4 @@ python -m factory.qa_forge.qa_forge_orchestrator --project <p> --synthetic --sav
 - Feature index, project state, UX flow
 - Evolution Loop roadbook (ROADBOOK_EVOLUTION_LOOP.md)
 - Live operations roadbook (DAI-Core_Live-Operations_Roadbook_v1.0.md)
+- System overview, directory structure

@@ -1,0 +1,79 @@
+{
+  "report_id": "NGR-23012",
+  "name": "Gamely",
+  "total_score": 66,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": true,
+      "de": true,
+      "app": false,
+      "io": false,
+      "score": 50,
+      "details": {
+        "checked": [
+          "gamely.com",
+          "gamely.de",
+          "gamely.app",
+          "gamely.io"
+        ],
+        "source": "STUB"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": true,
+      "score": 50,
+      "details": {
+        "apple_search": "'Gamely' on App Store",
+        "google_search": "'Gamely' on Play Store",
+        "source": "STUB"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": true,
+      "youtube": false,
+      "linkedin": true,
+      "score": 40,
+      "details": {
+        "handle_checked": "@gamely",
+        "source": "STUB"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 62,
+      "pronounceability": 72,
+      "memorability": 82,
+      "confusion_risk": 88,
+      "international": 77,
+      "score": 76,
+      "recommendation": "Acceptable. Minor concerns noted."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 90
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "store_partial: Apple App Store name taken",
+    "social_partial: Handle taken on Instagram, TikTok"
+  ],
+  "recommendations": [
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:26:10.670762+00:00"
+}

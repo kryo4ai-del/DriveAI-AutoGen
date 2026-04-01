@@ -1,0 +1,87 @@
+{
+  "report_id": "NGR-78673",
+  "name": "Floriq",
+  "total_score": 56,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": false,
+      "app": false,
+      "io": true,
+      "score": 20,
+      "details": {
+        "floriq.com": "taken",
+        "floriq.de": "taken",
+        "floriq.app": "taken",
+        "floriq.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": false,
+      "google": true,
+      "score": 52,
+      "details": {
+        "apple": "taken",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": true,
+      "linkedin": false,
+      "score": 20,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "free",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 100,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 90,
+      "pronounceability": 80,
+      "memorability": 80,
+      "confusion_risk": 70,
+      "international": 80,
+      "score": 80,
+      "recommendation": "Floriq trifft den Nerv perfekt — 'Flor' evoziert sofort Pflanzenwelt und Blüte, das -iq-Suffix signalisiert Tech und Intelligenz ohne aufdringlich zu wirken. Leichte Abzüge weil die Aussprache im Englischen (FLOR-ik vs. flo-REEK) ambivalent ist und entfernte Ähnlichkeit zu 'Florik' oder botanischen Markennamen im EU-Raum eine kurze Trademark-Prüfung rechtfertigt."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "Plant Identifier & Care Floriq - App Store - Apple"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [
+    "all_major_domains_taken: .com, .de, and .app all taken"
+  ],
+  "soft_blockers": [
+    "store_partial: Apple App Store name taken",
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:24:05.799558+00:00"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "LOP-10",
+  "name": "Factory Adapter",
+  "role": "Briefing Documents an Factory Dispatcher uebergeben",
+  "department": "Live Operations",
+  "status": "active",
+  "task_type": "factory_submission",
+  "model_tier": "none",
+  "provider": "none",
+  "description": "Bridge zwischen Live Operations und Factory. Nimmt Briefing Documents vom UpdatePlanner und uebergibt sie an den Factory Dispatcher. STUB: Simuliert Factory-Akzeptanz, trackt Submission-Status (created/submitted/accepted/in_progress/completed/failed). Status-Transitions mit History-Log.",
+  "module": "factory.live_operations.agents.factory_adapter",
+  "class": "FactoryAdapter",
+  "uses_web": false,
+  "capabilities": ["factory_submission", "submission_tracking", "status_management"],
+  "version": "1.0.0",
+  "created": "2026-03-31"
+}

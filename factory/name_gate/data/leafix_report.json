@@ -1,0 +1,88 @@
+{
+  "report_id": "NGR-08814",
+  "name": "Leafix",
+  "total_score": 38,
+  "ampel": "ROT",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 60,
+      "details": {
+        "leafix.com": "taken",
+        "leafix.de": "free",
+        "leafix.app": "free",
+        "leafix.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": false,
+      "score": 48,
+      "details": {
+        "apple": "free",
+        "google": "taken",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": false,
+      "linkedin": false,
+      "score": 0,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "taken",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": false,
+      "euipo": false,
+      "score": 0,
+      "hard_blocker": true
+    },
+    "brand_fit": {
+      "tonality": 90,
+      "pronounceability": 80,
+      "memorability": 80,
+      "confusion_risk": 70,
+      "international": 80,
+      "score": 80,
+      "recommendation": "Leafix trifft den Pflanzen-Kontext präzise ('Leaf' als direkter Bezug) und klingt modern-technologisch durch das '-ix' Suffix. Leichte Verwechslungsgefahr mit generischen 'Leaf'-Produkten im App-Store, aber insgesamt ein starker, markenfähiger Name."
+    },
+    "aso": {
+      "keyword_saturation": "medium",
+      "dominant_competitors": [
+        "Leafix - Apps on Google Play"
+      ],
+      "score": 60
+    }
+  },
+  "hard_blockers": [
+    "trademark_conflict: DPMA or EUIPO match found"
+  ],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "store_partial: Google Play Store name taken",
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "CRITICAL: Hard blockers detected. Name cannot proceed.",
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Check exact store listing names - slight variations may work",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T19:24:13.235465+00:00"
+}

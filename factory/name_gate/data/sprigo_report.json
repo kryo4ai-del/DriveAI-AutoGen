@@ -1,0 +1,81 @@
+{
+  "report_id": "NGR-34732",
+  "name": "Sprigo",
+  "total_score": 65,
+  "ampel": "GELB",
+  "checks": {
+    "domain": {
+      "com": false,
+      "de": true,
+      "app": true,
+      "io": true,
+      "score": 60,
+      "details": {
+        "sprigo.com": "taken",
+        "sprigo.de": "free",
+        "sprigo.app": "free",
+        "sprigo.io": "free",
+        "source": "MKT-04"
+      }
+    },
+    "store": {
+      "apple": true,
+      "google": true,
+      "score": 100,
+      "details": {
+        "apple": "free",
+        "google": "free",
+        "source": "MKT-04"
+      }
+    },
+    "social_media": {
+      "instagram": false,
+      "tiktok": false,
+      "x": false,
+      "youtube": false,
+      "linkedin": false,
+      "score": 0,
+      "details": {
+        "instagram": "taken",
+        "tiktok": "unknown",
+        "x": "unknown",
+        "youtube": "taken",
+        "linkedin": "unknown",
+        "source": "MKT-04"
+      }
+    },
+    "trademark": {
+      "dpma": true,
+      "euipo": true,
+      "score": 48,
+      "hard_blocker": false
+    },
+    "brand_fit": {
+      "tonality": 80,
+      "pronounceability": 90,
+      "memorability": 80,
+      "confusion_risk": 70,
+      "international": 80,
+      "score": 80,
+      "recommendation": "Sprigo klingt organisch und lebendig – die Kombination aus 'Spross' (DE) und 'sprig' (EN, = Zweig/Trieb) macht den Pflanzenbezug intuitiv spürbar. Leichte Verwechslungsgefahr mit Sprig (US-Pflanzendienst, inaktiv) sollte rechtlich geprüft werden."
+    },
+    "aso": {
+      "keyword_saturation": "low",
+      "dominant_competitors": [],
+      "score": 100
+    }
+  },
+  "hard_blockers": [],
+  "soft_blockers": [
+    "domain_partial: .com taken but other TLDs available",
+    "social_partial: Handle taken on Instagram, TikTok, X"
+  ],
+  "recommendations": [
+    "Consider alternative TLDs (.app, .io) or a modified name for .com",
+    "Social handles limited - consider adding a prefix (get/my/the)"
+  ],
+  "alternatives": [],
+  "ceo_decision": null,
+  "iteration": 1,
+  "timestamp": "2026-03-31T18:19:07.200855+00:00"
+}

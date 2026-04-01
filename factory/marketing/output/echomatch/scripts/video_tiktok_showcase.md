@@ -1,49 +1,70 @@
 # Video-Skript: echomatch (tiktok, showcase)
 
 ## Metadaten
-- Format: tiktok
-- Gesamtdauer: 60s
-- Orientierung: vertical
-- Musik/Sound: Pulsierende, futuristische Elektronikmusik mit kräftigen Beats
+- **Format:** TikTok
+- **Content-Typ:** Showcase
+- **Gesamtdauer:** 58s
+- **Orientierung:** Vertikal 9:16
+- **Musik/Sound:** Tiefer, pulsierender Synthbeat mit kurzen "Pop"-Sounds bei Match-Effekten — kein Gesang, baut subtil Spannung auf (Referenz: Dark Techno Lo-Fi, ~120 BPM)
 
-## Hook (0-3s)
-**On-Screen-Text:** Revolutioniere dein Puzzle-Erlebnis!  
-**Voiceover:** Erlebe echomatch – Puzzle neu definiert!  
-**Visuell:** Schneller Schnitt: Das pulsierende Gehirn der Factory, das an futuristischer Maschinerie angeschlossen ist, blendet ein.  
-**Dauer:** 3s
+---
 
-## Szene 1 (3-10s)
-**On-Screen-Text:** Dynamisch generierte Levels  
-**Voiceover:** Jeden Tag erschafft unsere KI maßgeschneiderte Levels, die perfekt zu deinem Spielstil passen.  
-**Visuell:** Animation von Levels, die sich in Echtzeit formen und verändern – helle Farben, dynamische Übergänge.  
-**Dauer:** 7s
+## Hook (0–3s)
 
-## Szene 2 (10-20s)
-**On-Screen-Text:** Emotion trifft Challenge  
-**Voiceover:** Erlebe narrative Social-Challenges, die dein Puzzle-Abenteuer in eine packende Story verwandeln.  
-**Visuell:** Szenenwechsel zu kurzen, spannenden Spielszenen mit kooperativen Herausforderungen und interaktiven Story-Elementen.  
-**Dauer:** 10s
+**On-Screen-Text:** `Candy Crush kennt dich nicht. Nicht nach Level 500.`
+**Voiceover:** *"Candy Crush kennt dich nicht. Nicht nach Level 500."*
+**Visuell:** Extreme Close-Up eines generischen Match-3-Grids — grau, kalt, seelenlos. Dann harter Schnitt zu schwarzem Screen mit roter Schrift. Kurzes Glitch-Flash.
 
-## Szene 3 (20-30s)
-**On-Screen-Text:** KI, die dich kennt  
-**Voiceover:** Echomatch passt sich deiner Persönlichkeit an – für ein Spielerlebnis, das so individuell ist wie du selbst.  
-**Visuell:** Darstellung eines Avatars, der sich mit jedem Spielzug verändert, während stilisierte KI-Daten und Diagramme eingeblendet werden.  
-**Dauer:** 10s
+---
 
-## Szene 4 (30-40s)
-**On-Screen-Text:** Geschaffen von der Factory  
-**Voiceover:** Unsere DriveAI Factory beweist: Vollautonome KI-Innovation bringt dir heute schon die Zukunft des Gaming.  
-**Visuell:** Übergang zu einem Blick in die innere Werkstatt der Factory – das pulsierende Gehirn und technische Anlagen im Fokus.  
-**Dauer:** 10s
+## Szene 1 (3–12s)
 
-## Szene 5 (40-50s)
-**On-Screen-Text:** Puzzle. Story. Revolution.  
-**Voiceover:** Mix aus klassischem Match‑3 und revolutionärer, KI-gesteuerter Story – alles in einer App!  
-**Visuell:** Zusammenschnitt von Gameplay-Highlights, emotionalen Momenten und innovativen Interface-Details.  
-**Dauer:** 10s
+**On-Screen-Text:** `$114 Mio. pro Monat. Immer. Dieselben. Level.`
+**Voiceover:** *"Der Match-3-Markt macht hundertvierzehn Millionen Dollar — jeden Monat. Und trotzdem spielt jeder Spieler exakt dieselben Level. Immer. Tag für Tag."*
+**Visuell:** Animierte Infografik — ein riesiger Geldstapel, daneben unzählige identische Spieler-Icons, alle starren auf identische Grids. Factory-Maschinerie rotiert im Hintergrund, analysiert die Szene mit scanning lines.
+**Dauer:** 9s
 
-## CTA (50-60s)
-**On-Screen-Text:** Jetzt downloaden & durchstarten!  
-**Voiceover:** Lade echomatch jetzt herunter und erlebe die KI-Revolution im Puzzle-Game!  
-**Visuell:** App-Download-Icons erscheinen neben dem pulsierenden Factory-Gehirn, das im Takt pulsiert.  
-**Dauer:** 10s
+---
+
+## Szene 2 (12–24s)
+
+**On-Screen-Text:** `Das pulsende Gehirn hat das Problem gefunden.`
+**Voiceover:** *"Die Factory hat das analysiert. Die strukturelle Gleichgültigkeit gegenüber dem Spieler. Und sie hat ein Spiel gebaut, das aufhört, dich zu ignorieren."*
+**Visuell:** Das Factory-Maskottchen — pulsierendes Gehirn, angeschlossen an Fabrikarme — beugt sich über ein digitales Board voller Spielerdaten. Analyse-Linien scannen, Verbindungen leuchten auf. Maschinen stampfen rhythmisch. Output: EchoMatch-Logo materialisiert sich aus Datenpartikeln.
+**Dauer:** 12s
+
+---
+
+## Szene 3 (24–38s)
+
+**On-Screen-Text:** `Kein Level wie jedes andere.`
+**Voiceover:** *"EchoMatch lernt, wie du spielst. Heute Morgen. Heute Abend. Und morgen wieder. Adaptive Tages-Level, die sich an dein Tempo, deinen Stil, deine Stärken anpassen. Kein anderer Wettbewerber macht das."*
+**Visuell:** Split-Screen — links ein grauer generischer Spieler, rechts ein EchoMatch-Spieler. Die rechte Seite pulsiert mit Farbe, das Grid reagiert sichtbar auf Spielerentscheidungen, Level-Elemente verschieben sich in Echtzeit. Subtile Wellen-Effekte zeigen "Anpassung" visuell an.
+**Dauer:** 14s
+
+---
+
+## Szene 4 (38–50s)
+
+**On-Screen-Text:** `Story. Match. Dein Echo.`
+**Voiceover:** *"Plus eine narrative Story-Layer, die dich reinzieht — nicht als Dekoration, sondern als Teil des Gameplays. EchoMatch ist kein Klon. Es ist der nächste Schritt."*
+**Visuell:** Schnelle Montage: Story-Cutscenes blitzen auf, Charaktere reagieren auf Match-Aktionen, emotionale Momente im Spiel. Factory-Maschinerie pumpt im Hintergrund weiter, als würde sie das Spiel live generieren. Alles wirkt lebendig, nicht statisch.
+**Dauer:** 12s
+
+---
+
+## CTA (50–58s)
+
+**On-Screen-Text:** `EchoMatch. Bald verfügbar. 🔗 Link in Bio.`
+**Voiceover:** *"EchoMatch. Gebaut von der DriveAI Factory. Kein Spiel kennt dich so gut — bald. Link in Bio."*
+**Visuell:** Letzter Shot: Das Factory-Gehirn-Maskottchen zwinkert, ein EchoMatch-Tile explodiert aus dem Bildschirm in Richtung Kamera. Logo-Freeze mit Glow-Effekt. Schwarzer Hintergrund, klarer Abschluss.
+**Dauer:** 8s
+
+---
+
+## Produktions-Notizen
+
+> - **Schnittrhythmus:** Jeder Cut sitzt auf einem Beat — kein weicher Übergang, alles hart und präzise
+> - **Farbpalette:** Kalt/Grau für den Wettbewerb, Warm/Leuchtendes Blau-Violett für EchoMatch
+> - **Glitch-Effekte:** Sparsam einsetzen — nur bei Kontrast-Momenten (alt vs. neu)
+> - **Factory-Maschinerie:** Immer im Hintergrund sichtbar, nie im Vordergrund — die Factory baut, sie showt nicht

@@ -33,7 +33,7 @@ DriveAI-AutoGen/
 │   ├── askfin_android/              ← AskFin Android (204 Kotlin Files)
 │   └── askfin_web/                  ← AskFin Web (TypeScript/React, Spec ready)
 │
-├── factory/                         ← Factory Core (444 .py Files, 95.506 LOC)
+├── factory/                         ← Factory Core (585 .py Files, 123.143 LOC)
 │   ├── pipeline/                    ← Extrahierter Pipeline Runner
 │   ├── orchestrator/                ← Build-Planer (flat + layered + quality gates)
 │   ├── brain/                       ← TheBrain: Model Registry (9 Modelle, 4 Provider), AutoSplitter, Chain Optimizer, CapabilityMatcher (17 Tags, Score-Based), AgentClassifier (Auto-Tier + Auto-Caps, 94.7% Accuracy), FactoryState, CapabilityMap, StateReport, TaskRouter, Persona, ResponseCollector, ProblemDetector, SolutionProposer, GapAnalyzer, ExtensionAdvisor, FactoryMemory, ModelEvolution (Auto-Discovery + Registration + Tier Cascade), Directives (DIR-001 Self-First)
@@ -67,7 +67,7 @@ DriveAI-AutoGen/
 │   ├── sound_forge/                 ← Sound/Audio Generation
 │   ├── scene_forge/                 ← Scene/Level Generation
 │   ├── brand/                       ← DAI-Core Brand System: Brand Bible, Brand Summary, Brand Loader (3-Tier), CSS, Assets
-│   ├── marketing/                   ← Marketing (54 .py, 12.653 LOC): 11 Agents + 7 Tools + 9 Adapters, E2E Pipeline
+│   ├── marketing/                   ← Marketing (90 .py, 24.194 LOC): 14 Agents + 24 Tools + 16 Adapters + 20 DB-Tabellen + Dashboard-Tab, Phase 9 COMPLETE (feature-complete Dry-Run)
 │   ├── evolution_loop/              ← Evolution Loop (50 .py, 9.079 LOC): 6 Agents, iterative Quality-Verbesserung
 │   │   ├── ldo/                     ← LDO Schema + Storage + Validator
 │   │   ├── scoring/                 ← Hard Scores + Soft Scores + Aggregator
@@ -77,16 +77,28 @@ DriveAI-AutoGen/
 │   │   ├── plugins/                ← Plugin-System (Game + Business Plugins)
 │   │   ├── config/                 ← Loop Config + Defaults (YAML)
 │   │   └── tests/                  ← 15 Test-Dateien
-│   ├── live_operations/              ← Live Operations Layer (Phase 1+2 COMPLETE)
+│   ├── live_operations/              ← Live Operations Layer (Phase 1+2+3+4+6 COMPLETE)
 │   │   ├── app_registry/            ← App Registry (SQLite): database.py, migrator.py, cli.py
+│   │   ├── orchestrator.py          ← Cycle Orchestrator: 6h Decision + 30min Anomaly + Execution Path + Continuous Mode
+│   │   ├── __main__.py              ← Entry: python -m factory.live_operations (--decision-cycle / --anomaly-scan / --execution / --continuous)
+│   │   ├── test_harness/            ← Phase 6: Synthetic Fleet Generator (15 Apps, 8 Szenarien, 4 Health States), Stress-Test Suite, Self-Healing Simulation
+│   │   ├── self_healing/            ← Phase 6: SystemHealthMonitor (5 Checks), SelfHealer (5 Actions), ErrorLog, retry_on_failure
+│   │   ├── reporting/              ← Phase 6: WeeklyReportGenerator (9 Sektionen, Recommendations Engine, Archiv)
 │   │   ├── agents/
 │   │   │   ├── metrics_collector/   ← MetricsCollector: Store API + Firebase API Adapter (STUB), Normalisierung
 │   │   │   ├── health_scorer/       ← AppHealthScorer: 5 Kategorien, 5 Profile, Zonen (green/yellow/red)
 │   │   │   ├── analytics/           ← AnalyticsAgent: Trends, Funnels, Cohorts, Feature Usage (deterministisch)
 │   │   │   ├── review_manager/      ← ReviewAnalyzer: Keyword-Kategorisierung (EN+DE), Pattern Detection, Rating Health
-│   │   │   └── support_agent/       ← SupportAnalyzer: Ticket-Kategorisierung, Urgency, Recurring Issues
-│   │   └── data/                    ← Gesammelte Metriken + Insights (JSON pro Collection-Run)
-│   ├── integration/                 ← Cross-Department Integration
+│   │   │   ├── support_agent/       ← SupportAnalyzer: Ticket-Kategorisierung, Urgency, Recurring Issues
+│   │   │   ├── decision_engine/     ← DecisionEngine: Severity Scoring (3-Dim), Action Queue, Cooling Manager
+│   │   │   ├── anomaly_detector/    ← AnomalyDetector: 4 Checks (Crash/Revenue/Health/PostUpdate), RollbackManager (STUB)
+│   │   │   ├── escalation/          ← EscalationManager: 3 Stufen (Info/Warning/CEO), TelegramNotifier, JSONL Log
+│   │   │   ├── update_planner/      ← UpdatePlanner: Briefing Documents aus Actions, 6 Trigger Templates, Version Logic
+│   │   │   ├── factory_adapter/     ← FactoryAdapter: Briefing->Factory Bridge (STUB), Submission Tracking
+│   │   │   └── release_manager/     ← ReleaseManager: QA Gate, Store Upload (STUB), Registry Update, Cooling
+│   │   └── data/                    ← Metriken + Insights + Escalation Log + Briefings + Submissions + Releases + Synthetic
+│   ├── name_gate/                   ← Name Gate (NGO-01): Pre-Pipeline Name Validation, 6 Checks, Ampel-System, CLI (validate/generate/alternatives/lock/status)
+│   ├── integration/                 ← Cross-Department Integration: roadbook_to_spec.py (Roadbook→YAML), production_estimator.py (Kosten/Dauer-Schaetzung), production_logger.py (JSONL Logger fuer Live Dashboard), mock_production_log.py (Smoke Test)
 │   ├── lines/                       ← Production Line Definitions
 │   ├── production_lines/            ← Platform-specific Templates
 │   │   ├── ios/templates/analytics/ ← Firebase Analytics (Swift)
@@ -95,9 +107,9 @@ DriveAI-AutoGen/
 │   │   └── unity/templates/analytics/ ← Firebase Analytics (C#): AnalyticsManager, AnalyticsEvents, firebase_config.template, INTEGRATION_GUIDE
 │   ├── hq/                          ← Factory HQ
 │   │   ├── capabilities/            ← Feasibility Check: Capability Sheet + Matching + Gate + Watcher
-│   │   ├── dashboard/               ← Web Dashboard (React + Express, 19 Components + Team Redesign: 7 Sub-Components)
-│   │   │   ├── server/              ← API Routes (projects, gates, feasibility, janitor, providers, team, assistant, brain, liveops)
-│   │   │   └── client/              ← React Frontend (Pipeline, Gates, Janitor, Assistant, Provider, Team, Brain, LiveOps)
+│   │   ├── dashboard/               ← CEO Cockpit Dashboard (42 React Components, 18 API Endpoints)
+│   │   │   ├── server/              ← Express API (18 Endpoints: agents, assistant, brain, documents, factory-health, feasibility, gates, history, janitor, liveops, marketing, namegate, production, projects, providers, showcase, start, team)
+│   │   │   └── client/              ← Vite + React (42 JSX: Pipeline, Gates, Production, Start/NameGate, Team, LiveOps, Brain, Janitor, Showcase, Documents, Marketing, Assistant)
 │   │   ├── gates/                   ← CEO Gate Files (JSON)
 │   │   ├── janitor/                 ← Factory Janitor: Scanner, Analyzer, Consistency, Dependencies, Model Hardcode Checker, Model Evolution Check
 │   │   └── providers/               ← Service Provider Management
@@ -117,7 +129,7 @@ DriveAI-AutoGen/
 └── DeveloperReports/                ← 131+ Development Reports
 ```
 
-## Agents (93 total: 86 aktiv / 4 deaktiviert / 3 planned, 16 Departments)
+## Agents (111 total: 104 aktiv / 4 deaktiviert / 3 planned, 18 Departments)
 > Registry: `factory/agent_registry.json` (auto-generated via `factory/agent_registry.py`)
 > Agent-Files: `agent*.json` in jeweiligem Department-Ordner
 
@@ -136,9 +148,10 @@ DriveAI-AutoGen/
 | Store Prep | 1 | Store-Vorbereitung (Metadata, Screenshots) |
 | Store | 1 | Store Submission Pipeline |
 | Signing | 1 | Code Signing (iOS/Android/Web) |
-| Marketing | 11 + 7 Tools + 9 Adapters | Brand Guardian (MKT-01) + Strategy (MKT-02) + Copywriter (MKT-03) + Naming (MKT-04) + ASO (MKT-05) + Visual Designer (MKT-06) + Video Script (MKT-07) + Publishing Orchestrator (MKT-08) + Report Agent (MKT-09) + Review Manager (MKT-10, Zwei-Stufen) + Community Agent (MKT-11, Zwei-Stufen). Tools: Template Engine, Video Pipeline, Content Calendar, Ranking DB, Social Analytics, KPI Tracker, HQ Bridge. Adapters: 5 aktiv + 4 Stubs. Phase 4 COMPLETE (59+32 Tests, 54 .py, 12.653 LOC) |
+| Marketing | 14 Agents + 24 Tools + 16 Adapters | Brand Guardian (MKT-01) + Strategy (MKT-02) + Copywriter (MKT-03) + Naming (MKT-04) + ASO (MKT-05) + Visual Designer (MKT-06) + Video Script (MKT-07) + Publishing Orchestrator (MKT-08) + Report Agent (MKT-09) + Review Manager (MKT-10, Zwei-Stufen) + Community Agent (MKT-11, Zwei-Stufen) + Storytelling (MKT-12, echte Factory-Daten) + PR Coordinator (MKT-13, Crisis=CEO-Gate) + Campaign Planner (MKT-14). Tools: 24 inkl. RankingDB (20 Tabellen), Feedback-Loop, Knowledge Base, Cost Reporter, Pipeline Runner, Budget Controller, A/B Test, Survey System, Template Engine, Video Pipeline, Content Calendar, und mehr. Adapters: 8 aktiv (YouTube, TikTok, X, AppStore, GooglePlay, GitHub, HuggingFace, SMTP) + 4 Publishing Stubs + 4 Ad-Platform Stubs. 145 Tests, 90 .py, 24.194 LOC. Dashboard-Tab (read-only). Phase 9 COMPLETE (feature-complete Dry-Run) |
 | Evolution Loop | 6 + FactoryLearner | EVO-01 SimulationAgent + EVO-02 EvaluationAgent + EVO-03 GapDetector + EVO-04 DecisionAgent + EVO-05 RegressionTracker + EVO-06 LoopOrchestrator. Subsysteme: LDO Schema/Storage, Hard+Soft Scoring, Plugin-System (Game+Business), CEO Review Gate, Git Tagger, Cost Tracker, Factory Learner. 50 .py, 9.042 LOC, 15 Tests |
-| Live Operations | 5 + App Registry | MetricsCollector (Store+Firebase STUB), AppHealthScorer (5-Kat, 5-Profile, 3-Zonen), AnalyticsAgent (Trends+Funnels+Cohorts+FeatureUsage), ReviewAnalyzer (EN+DE Keywords, Pattern Detection), SupportAnalyzer (Tickets, Urgency, Recurring). App Registry (SQLite), Dashboard Integration (Fleet View + Analytics Tab). Phase 1+2 COMPLETE |
+| Live Operations | 14 + App Registry + Test Harness + Self-Healing + Reporting | MetricsCollector, AppHealthScorer, AnalyticsAgent, ReviewAnalyzer, SupportAnalyzer, DecisionEngine (Severity Scoring, Action Queue, Cooling), AnomalyDetector (4 Checks, Rollback STUB), EscalationManager (3 Stufen, Telegram), UpdatePlanner (Briefing Docs, 6 Templates), FactoryAdapter (Submission Tracking, STUB), ReleaseManager (QA Gate, Store Upload STUB, Cooling), SyntheticFleetGenerator (15 Apps, 8 Szenarien, 4 Health States), SelfHealingMonitor (5 Health Checks, 5 Healing Actions, Pre-Cycle Integration), WeeklyReportGenerator (9 Sektionen, Recommendations, Archiv). Cycle Orchestrator (Decision + Anomaly + Execution). App Registry (SQLite). Test Harness (Fleet Gen + Stress-Test + Self-Heal + Report Sim). Phase 1+2+3+4+6 COMPLETE |
+| Name Gate | 1 | NGO-01 Name Gate Orchestrator: Pre-Pipeline Name Validation (Domain, Store, Social Media, Trademark, Brand Fit, ASO). Ampel-System (GRUEN/GELB/ROT), Hard-Blocker-Detection, Alternative Generation. 7 .py, 867 LOC, CLI |
 | Integration | 1 | Cross-Department Integration |
 
 ### Deaktiviert (4)
@@ -170,8 +183,8 @@ DriveAI-AutoGen/
 - **Projekt-Inferenz**: Automatisch erkannt wenn `--project` weggelassen wird
 
 ## AI App Factory
-- **93 Agents** (86 aktiv, 16 Departments, Python AutoGen-basiert, 100% Anthropic Claude)
-- **444 Python-Dateien**, 95.506 LOC in factory/
+- **111 Agents** (104 aktiv, 18 Departments, Python AutoGen-basiert, 100% Anthropic Claude)
+- **585 Python-Dateien**, 123K+ LOC in factory/ | 485 Tests in 55 Dateien
 - **Streamlit Control Center**: `streamlit run control_center/app.py`
 - **Bearbeitung**: Windows oder Server
 
@@ -294,10 +307,46 @@ Alle 11 Reports → Feature-Extraction (72 Features) → Priorisierung (Phase A/
 - CEO Roadbook + CD Technical Roadbook Assembly
 - Output: `factory/roadbook_assembly/output/{NNN}_{slug}/`
 
-### Post-Roadbook Pipeline
+### Autonome Pipeline Chain (KOMPLETT)
+- `factory/chapter_chain.py` — Zentraler Chain Runner: K3→K4→K4.5→K5 sequentiell
+- CLI: `python -m factory.chapter_chain --slug X --p1-dir Y`
+- CEO Gate GO → chapter_chain (statt nur K3) → Visual Review Gate erscheint auto
+- Phase 1 + K6: Schreiben project.json auto via project_registry
+- Nur 2 menschliche Entscheidungen noetig: CEO Gate + Visual Review
+- Flow: Idea GO → Phase 1 → [CEO Gate] → K3→K4→K4.5→K5 auto → [Visual Review] → K6 → Auto-Feasibility → [Production Gate] → Production
+
+### Roadbook-to-Spec Converter
+- `factory/integration/roadbook_to_spec.py` — Parst CD Technical Roadbook (.md) → build_spec.yaml
+- CLI: `python -m factory.integration.roadbook_to_spec --roadbook <path> [--output <path>] [--json] [--stats]`
+- Output: `projects/{slug}/specs/build_spec.yaml` (kompatibel mit `factory/orchestrator/spec_parser.py`)
+- Extrahiert: Screens, Features (Phase A/B/Backlog), Assets, APIs, Design Tokens, Legal Requirements
+- Regex-basiert (kein LLM noetig), UTF-8 safe, Windows-kompatibel
+- GrowMeldAI Ergebnis: 34 Screens, 68 Features, 100 Assets, 8 APIs, 11 Farben, 3 Fonts
+
+### Production Estimator
+- `factory/integration/production_estimator.py` — Analysiert build_spec.yaml → Kosten/Dauer-Schaetzung
+- CLI: `python -m factory.integration.production_estimator --spec <path> [--registry <path>] --format json|summary`
+- Liest echte Agenten aus `factory/agent_registry.json` (default_model, model_tier, status)
+- 5 Phasen: Coding, Assembly, QA, Store, Evolution
+- Erkennt Platform-Readiness: iOS (CPL-03+INF-06), Android (CPL-20+INF-07), Web (CPL-22+INF-08)
+- Risiko-Analyse: Blocker (disabled lines), Warnings (legal), Infos (scope, APIs)
+
+### Post-Roadbook Pipeline (Automation Gap geschlossen)
 ```
-CD_ROADBOOK_COMPLETE → Feasibility Check → [feasible → Production Review] | [partial → CEO Gate] | [blocked → Parked]
+K6 Complete → Auto-Feasibility → [feasible → Production Gate] | [partial → CEO Override] | [blocked → Parked]
+Production Gate GO → Production Start (async) → production_log.jsonl → SSE Stream
 ```
+- **Auto-Feasibility**: Nach K6/Visual Review triggert `gate-executor.js` automatisch `FeasibilityChecker`
+- **Production Gate**: 5. Gate im Dashboard — GO/GO_MIT_NOTES/KILL/PARK Entscheidungen
+- **Production Briefing**: `components/Production/ProductionBriefing.jsx` — CEO-Briefing mit Scope/Dauer/Kosten-Karten, Risiken, Confirm-Modal. Routing via GateInbox (production_gate → ProductionBriefing)
+- **Production Dashboard**: `components/Production/ProductionDashboard.jsx` + `CostTracker.jsx` + `ScreenGrid.jsx` + `AgentFeed.jsx` — Live-Dashboard mit SSE, Timer, Cost Tracker, Screen Grid, Agent Feed. Navigation: Briefing GO → Dashboard (via App.jsx productionSlug State)
+- **Production Logger**: `factory/integration/production_logger.py` — Append-only JSONL Logger, schreibt nach `factory/projects/<slug>/production_log.jsonl`. Types: production_start/step_start/step_complete/error/phase_start/phase_complete/production_complete/production_failed
+- **Production Wiring**: Orchestrator `execute_plan(production_logger=...)`, Assembly `assemble(production_logger=...)`, Dispatcher `__main__` (`python -m factory.dispatcher.dispatcher --start-production <slug> --spec <path>`)
+- **Production API** (`server/api/production.js`):
+  - `POST /api/production/estimate` — Runs production_estimator.py (auto-generiert build_spec)
+  - `POST /api/production/start` — Async via spawn → Dispatcher __main__ → ProductionLogger → JSONL
+  - `GET /api/production/status/:slug` — Aggregiert Log-Eintraege
+  - `GET /api/production/status/:slug/stream` — SSE Real-time, Directory-Watch (nicht File-Watch)
 - Feasibility Check: Capability Sheet vs Roadbook Matching (deterministisch, kein LLM)
 - CLI: `--feasibility-check <project>`, `--capability-sheet`, `--recheck-parked`
 
@@ -338,10 +387,24 @@ Build + QA → OrchestratorHandoff → LDO
 - **Tracking**: GitTagger (annotated tags, rollback), CostTracker (per-agent, per-iteration)
 - **Factory Learner**: Cross-Project Queries, Similar Issues, Lessons per Type, Cross-Stats
 - **CLI**: `--evolution-loop`, `--evolution-status`, `--evolution-history`, `--evolution-ceo-review`
-- **Tests**: 16 Test-Dateien, 104 Tests total (94 passed, 5 failed, 5 errors)
+- **Tests**: 16 Test-Dateien, 104 Tests total (104 passed, 0 failed, 0 errors)
 - **Referenz**: `docs/ROADBOOK_EVOLUTION_LOOP.md`, `docs/evolution_loop.md` (Agent-Referenz)
 
 ## Erledigtes
+- [2026-04-01] Production Wiring (Prompt 6): ProductionLogger (JSONL, ~115 LOC), Orchestrator+Assembly Logger-Integration, Dispatcher `__main__` Block, production.js Pfad+SSE+Aggregator Fixes, Mock-Tool. Kette verifiziert: GO→/start→subprocess→JSONL→SSE→Dashboard. Smoke Test OK.
+- [2026-04-01] Live Production Dashboard: 4 neue Dateien (ProductionDashboard+CostTracker+ScreenGrid+AgentFeed, ~590 LOC). SSE Live-Updates, Timer, Screen Grid, Agent Feed. Navigation: Briefing GO → Dashboard. Vite Build + GrowMeldAI Live-Test OK.
+- [2026-04-01] Production Briefing Screen: `ProductionBriefing.jsx` (~280 LOC) — CEO-Briefing mit Scope/Dauer/Kosten-Karten, Risiken, Confirm-Modal. GateInbox routing production_gate → ProductionBriefing. Vite Build + GrowMeldAI Live-Test OK.
+- [2026-04-01] Automation Gap Close: Auto-Feasibility nach K6 (gate-executor.js), Production Gate als 5. Gate (gates.js), Production API (production.js: estimate/start/status/stream), project_registry.py production_gate Status-Logik. GrowMeldAI getestet: Gate sichtbar, Estimate $3.90/374 Calls, SSE Stream OK.
+- [2026-04-01] Production Estimator: `factory/integration/production_estimator.py` — build_spec.yaml → Kosten/Dauer JSON. 5 Phasen, Platform-Readiness, Risiko-Analyse. GrowMeldAI: $3.90/374 Calls/6.5h/13 Runs.
+- [2026-04-01] Roadbook-to-Spec: `factory/integration/roadbook_to_spec.py` — Parst CD Roadbook → build_spec.yaml. Regex-basiert, kein LLM. GrowMeldAI: 34 Screens, 68 Features, 100 Assets.
+- [2026-03-31] Name Gate Auto-Generate Flow: Idee-only → 3 validierte Namensvorschlaege. NamingAgent `generate_name_suggestions()` (+60 LOC, LLM-basiert). Orchestrator `generate_and_validate()` (+75 LOC, generiert count*2, validiert alle, Top N). CLI `generate` Subcommand. API `POST /api/namegate/generate` (180s Timeout). Frontend: `NameSuggestionsPanel.jsx` (175 LOC, Gold/Silber/Bronze Cards, expandierbar, Custom-Input), `StartView.jsx` (Name-Feld optional, kontextabhaengiger Button Shield/Wand, Phasen generating+suggestions, lila Lade-Animation). Bestehender Validate-Flow unveraendert. 33/33 Tests, Vite Build OK.
+- [2026-03-31] Name Gate Prompt 6: Real Agent Wiring + Tests. Orchestrator ueberarbeitet: `use_stubs` Flag, lazy Agent-Instantiierung, MKT-04 Cache (1 Call → 3 Results), 6 `_call_*` Methoden mit Score-Normalisierung + Stub-Fallback, `lock_from_saved()`. CLI: `--stubs` Flag, vereinfachte Lock-Logik. Dispatcher: Soft-Check in `project_creator.py` (Warnung ohne Blocking). 33 Tests (test_scoring 14, test_orchestrator 13, test_integration 6), alle deterministisch, 0.88s. Bugs gefixt: Lock-Pfad Mismatch, `_log()` stdout→stderr, JSON-Parser Forward-Scan.
+- [2026-03-31] Name Gate Prompt 5: Dashboard Frontend. `NameGateReportCard.jsx` (260 LOC: Ampel-Badge, 6 expandierbare Checks, Blocker-Banner, Empfehlungen, Aktions-Buttons). `NameAlternativesPanel.jsx` (145 LOC: Mini-Ampel, expandierbare Checks, Waehlen-Button). `StartView.jsx` modifiziert (330 LOC): 7-Phasen Name Gate Flow (input->validating->result->alternatives->locking->done), rotierende Validierungs-Messages, Lock dann Launch. Build OK.
+- [2026-03-31] Name Gate Prompt 4: Dashboard Backend API. `server/api/namegate.js` (120 LOC, 4 Endpoints: POST validate/alternatives/lock, GET status/:name). `runNameGate()` Helper via `execFileSync('python', ['-m', 'factory.name_gate', ...args])`. CLI erweitert um `lock` Subcommand (+48 LOC). Route in index.js registriert, Pfade in config.js. Kein Client-Config noetig (Vite Proxy).
+- [2026-03-31] Name Gate Prompt 3: MKT-01 `evaluate_name_brand_fit()` (+75 LOC, LLM-basiert, 5 Dimensionen) + MKT-05 `pre_check_aso()` (+104 LOC, SerpAPI + LLM-Fallback). Beide Agents erweitert ohne bestehende Methoden zu aendern.
+- [2026-03-31] Name Gate Prompt 2: MKT-04 erweitert um `validate_name()` + `check_trademark()` (+171 LOC). validate_name: Domain (4 TLDs via DNS, .com=10/.de=5/.app=5/.io=5), Store (Apple=12/Google=13 via SerpAPI), Social (5 Plattformen via HTTP HEAD, je 2 Punkte). check_trademark: DPMA + EUIPO via SerpAPI Web-Search (DPMA=12, EUIPO=13), graceful "unavailable" Fallback. Bestehende Methoden unberuehrt.
+- [2026-03-31] Name Gate Department: `factory/name_gate/` (7 .py + 1 JSON, 867 LOC). NGO-01 Name Gate Orchestrator - Pre-Pipeline Name Validation. 6 Checks: Domain (TLD-Verfuegbarkeit), App Store (Apple/Google), Social Media (5 Plattformen), Trademark (DPMA/EUIPO), Brand Fit (5 Kriterien), ASO Pre-Check. Scoring: Gewichteter Score (100 Punkte), Ampel-System (GRUEN/GELB/ROT), Hard-Blocker-Detection (Trademark/Stores/Domains). CLI: `python -m factory.name_gate validate/alternatives/status`. Agent registriert: agent_registry.json (105 Agents, 98 aktiv, 18 Departments), model_router.py (AGENT_TASK_MAP), SCAN_ROOTS. Real Agent Integration via Prompt 6 (MKT-04/01/05 + Stubs als Fallback).
+- [2026-03-30] Evolution Loop P-EVO-FIX: Test Failures gefixt (104→104 passed, 0 failed, 0 errors). 3 Dateien: `test_decision_agent.py` (Tests 2-4 self-contained statt Parameter-Dependency), `test_gap_detector.py` (Tests 3-4 self-contained), `test_factory_learner.py` (setup_module/teardown_module fuer pytest). Root Cause: Tests waren fuer `__main__`-Runner geschrieben, nicht fuer pytest.
 - [2026-03-30] Evolution Loop P-EVO-022: Erweiterte Soft Scores + Maintainability (`factory/evolution_loop/scoring/soft_scores.py`, +137 LOC). Performance Score: 5×20 (Code Size Efficiency, Anti-Pattern Density, Async/Concurrency, Memory Patterns, Stub/TODO). UX Score: 5×20 (Screen Coverage, Flow Completeness, Nav Depth, Error/Loading States, Naming). Maintainability Score NEU: 4×25 (Duplication, File Size Distribution, Naming, Test Coverage) → `plugin_scores["maintainability"]`. EvaluationAgent erweitert. Confidence verbessert: Perf 50-60%, UX 40-50%, Maint 60-70%. 5/5 Tests, 94 bestehende Tests gruen.
 - [2026-03-30] Evolution Loop P-EVO-020: Integration Test Phase 3 (`factory/evolution_loop/tests/test_phase3_integration.py`, ~350 LOC). 8 Szenarien: Mode-Switch Sprint→Deep→CEO (3 Iter), CEO Review NO-GO→Tasks (MockProvider), Budget-Stop ($0.001 threshold), Regression-Detection (4 declining regressions→stop), Plugin-Integration (2 Game-Plugins), Factory Learner (Summary+Search+Stats), Git Tagging (graceful skip), CLI Flags (3 Commands). Alle deterministisch, isoliert via `p3_integ_test_` Prefix. 8/8 PASSED, 15.68s.
 - [2026-03-30] Evolution Loop P-EVO-019: Simulation Agent LLM Extension (`factory/evolution_loop/simulation_agent.py`). 3 neue Methoden: `_call_llm()` (TheBrain+ProviderRouter Primary, Anthropic SDK Fallback, Cost-Tracking), `_deep_flow_analysis()` (max 3 LLM-Calls: Flow-Completeness, Dead-Ends, Empfehlungen), `_code_quality_analysis()` (max 5 LLM-Calls: Readability/Structure/ErrorHandling/Maintainability je 1-10). `simulate()` erweitert: LLM-Analyse nach deterministischer Phase (try/except, non-critical). O-series Fix: max_tokens Floor=1024 (Reasoning-Token-Overhead), temperature=1.0. Test: 5 Dateien, Quality 7.1/10, $0.014.
@@ -366,6 +429,14 @@ Build + QA → OrchestratorHandoff → LDO
 - [2026-03-28] Evolution Loop P-EVO-004: 6 Agents registriert (EVO-01 bis EVO-06) in agent_registry.json. 86 Agents total, 14 Departments, 9 planned.
 - [2026-03-28] Evolution Loop P-EVO-003: Default Config — 2 YAML + config_loader.py. Loop-Limits, Quality Targets, Score Weights (4 Typen), Confidence. Deep-merge fuer Projekt-Overrides.
 - [2026-03-28] Evolution Loop P-EVO-002: LDO Schema — 15 Dataclasses (schema.py), Validator (validator.py), Storage (storage.py). Round-trip + nested deserialization + validation OK. 354 LOC gesamt.
+- [2026-04-01] Marketing Phase 8 Block A COMPLETE: Integration Tools. 4 neue Tools: Feedback-Loop (analyze_and_route, ROUTING Map 9 Insight-Typen, Task Lifecycle open/executed/measured), Knowledge Base (Auto-Promotion hypothesis->confirmed->established, AGENT_KNOWLEDGE_MAP 8 Agents, 10 Seeds, Jaccard-Deduplizierung), Cost Reporter (TheBrain-Read + Estimation Fallback, Factory vs Market $0.45 vs $163k = 100% Savings), Pipeline Runner (12 Steps, graceful failure pro Step, Alert bei Fehler, DB-Tracking). 3 neue DB-Tabellen (feedback_tasks, marketing_knowledge, pipeline_runs) + 9 Methoden. 24 Tools, 20 DB-Tabellen. 10/10 Tests. 88 .py, ~23K LOC.
+- [2026-04-01] Marketing Phase 7 COMPLETE: Campaign Planning & Optimization. Block A: Campaign Planner Agent (MKT-14), Budget Controller (deterministisch, ROI, KEIN ECHTES GELD), A/B Test Tool (scipy Z-Test + Abramowitz&Stegun), Survey System (X/Reddit/YouTube Limits). 2 DB-Tabellen + 5 Methoden. Block B: 4 Ad-Platform-Stubs (Meta, Google, TikTok, Apple Search Ads — alle stub_phase1, dry_run IMMER True). Registry: 111 Agents (104 aktiv), Marketing=14. 20 Tools, 16 Adapters (8 active + 4 publishing-stubs + 4 ad-stubs), 17 DB-Tabellen. 24/24 Tests (Block A 12/12 + Integration 12/12). Phase-7-Report. 84 .py, ~21.9K LOC.
+- [2026-04-01] Marketing Phase 6 COMPLETE: PR & Outreach Infrastructure. Block A: SMTP Adapter (dry-run, smtplib), Press Database (15 Seed, 3-Tier Research), Influencer Database (Auto-Tier, Auto-Discover), Press Kit Generator (Live Registry, ZIP). 2 DB-Tabellen + 9 Methoden. Block B: Storytelling Agent (MKT-12, Case Studies/BTS/Milestones/Cost Comparisons mit echten Factory-Daten aus Registry), PR Agent (MKT-13, PM kurz/lang/DE, Product Hunt, Events, Crisis Response IMMER CEO-Gate), Community Templates (6 Plattformen: Reddit AI/ML, HN, PH, Dev.to, Indie Hackers). Registry: 110 Agents (103 aktiv), Marketing=13. 17 Tools, 12 Adapters, 15 DB-Tabellen. 22/22 Tests (Block A 10/10 + Integration 12/12). Phase-6-Report. 74 .py, ~19.9K LOC.
+- [2026-03-31] Marketing Phase 5 COMPLETE: Research & Intelligence Layer. 8 neue Komponenten (6 Tools + 2 Adapter). Content Trend Analyzer (Hook-Bibliothek: hypothesis->proven->deprecated, Auto-Promotion/Deprecation), App Market Scanner (Marktluecken->App-Ideen->CEO-Gate Pipeline, "PuzzlePlanet" als Beispiel). 13 DB-Tabellen, 13 Tools, 11 Adapters. 30/30 Tests (Block A 10/10 + Block B 10/10 + Integration 10/10). Phase-5-Report. 65 .py, ~17K LOC.
+- [2026-03-31] Marketing Phase 5 Block B (Steps 5.4-5.6): GitHub Adapter (REST API v3, Repo Info + Search + Trending + Track, Star-Explosion-Detection), HuggingFace Adapter (Hub API, Model Info + Search + Trending + Compare), Sentiment Analyzer (3 Ebenen: ai_apps/autonomous_ai/driveai, SerpAPI-Scan + LLM-Analyse, Narrative Shift Detection, Factory Mentions Check, Weekly Report). 3 neue DB-Tabellen (github_repos, sentiment_data, factory_mentions). Adapters: 7→11 aktiv. Tools: 10→11. 10/10 Tests (echte GitHub+HuggingFace API-Calls). 61 .py, ~15.2K LOC.
+- [2026-03-31] Marketing Phase 5 Block A (Steps 5.1-5.3): 3 neue Research-Tools. Trend Monitor (SerpAPI + Adapter + LLM-Bewertung, Keyword-Fallback), TikTok Creative Center Scraper (dreistufig: Scraping→SerpAPI→LLM, 137 Hashtags live gescrapt), Competitor Tracker (App-Level + Factory-Level, Change Detection, Differentiator Matrix). 3 neue DB-Tabellen (trends, competitors, competitor_snapshots) in bestehender ranking_database.py. 10/10 Tests. SerpAPI aktiv (Google News + App Search). Tools: 7→10. 57 .py, ~13.8K LOC.
+- [2026-03-31] Agent Registry Fix: 3 Phase-6 Agents (LOP-12/13/14) fehlten — Feld-Mismatch (agent_id statt id) + fehlende SCAN_ROOTS. Gefixt. Registry: 105→108 Agents (101 aktiv).
+- [2026-03-31] Dashboard LiveOps Fix: runPython() gab Non-JSON (Python-Logmeldungen vor JSON-Output). Fix: Rueckwaerts-Suche nach erster JSON-Zeile. System Health + Weekly Report jetzt funktional.
 - [2026-03-28] Evolution Loop P-EVO-001: Department-Struktur `factory/evolution_loop/` erstellt (10 Dirs, 9 __init__.py). Referenz: ROADBOOK_EVOLUTION_LOOP.md.
 - [2026-03-28] Cascade Delete: DELETE /api/projects/:id von 8 auf 17 Locations erweitert (store_prep, asset_forge, forges, integration, qa_forge, marketing, ideas, capabilities, dispatcher). Test-Projekte (BrainPuzzle, MemeRun2026, SkillSense) komplett entfernt. Server-Banner auf DAI-Core.
 - [2026-03-27] CEO Cockpit Dashboard Rebranding: Komplett auf DAI-Core Brand umgestellt. Farbschema (Magenta/Cyan/Void/Midnight), 5 Text-Referenzen in 4 Dateien, Logo + Favicon in public/. Build OK.
