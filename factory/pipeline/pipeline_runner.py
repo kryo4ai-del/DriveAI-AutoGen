@@ -3,10 +3,20 @@
 # This is a pure structural refactor — zero behavior change.
 
 import asyncio
+import io
 import json
 import os
 import shutil
+import sys
 from datetime import datetime
+
+# Fix Windows charmap encoding for Unicode in build specs/prompts
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 from tasks.task_manager import TaskManager
 from code_generation.code_extractor import CodeExtractor

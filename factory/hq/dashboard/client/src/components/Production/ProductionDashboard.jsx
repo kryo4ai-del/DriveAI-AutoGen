@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, Wifi, WifiOff, CheckCircle, XCircle, Pause } from 'lucide-react';
+import { ArrowLeft, Wifi, WifiOff, CheckCircle, XCircle, Pause, RotateCcw } from 'lucide-react';
 import CostTracker from './CostTracker';
 import ScreenGrid from './ScreenGrid';
 import AgentFeed from './AgentFeed';
@@ -71,30 +71,19 @@ export default function ProductionDashboard({ slug, onBack }) {
           setStartTime(prev => prev || new Date(entry.timestamp));
         }
 
-        // Update aggregated status from entries
+        // Update status on terminal events
         if (entry.type === 'production_complete' || entry.type === 'production_failed') {
           setStatus(prev => ({
             ...prev,
             status: entry.type === 'production_complete' ? 'completed' : 'failed',
-            completed_steps: entry.completed_steps || prev?.completed_steps || 0,
-            total_steps: entry.total_steps || prev?.total_steps || 0,
           }));
         }
-        if (entry.cost) {
+        // Update current phase on step events (counts come from API poll below)
+        if (entry.type === 'step_complete' || entry.type === 'step_start') {
           setStatus(prev => ({
             ...prev,
-            total_cost: (prev?.total_cost || 0) + entry.cost,
-          }));
-        }
-        if (entry.type === 'step_complete') {
-          setStatus(prev => ({
-            ...prev,
-            completed_steps: (prev?.completed_steps || 0) + 1,
             current_phase: entry.phase || prev?.current_phase,
           }));
-        }
-        if (entry.total_steps) {
-          setStatus(prev => ({ ...prev, total_steps: entry.total_steps }));
         }
       } catch (e) { /* skip bad entries */ }
     };
@@ -128,9 +117,35 @@ export default function ProductionDashboard({ slug, onBack }) {
     return () => clearInterval(timer);
   }, [startTime, status?.status]);
 
+  // ── Poll API for real step counts (build_plan.json = source of truth) ──
+  useEffect(() => {
+    const isDone = status?.status === 'completed' || status?.status === 'failed'
+      || status?.status === 'production_complete' || status?.status === 'production_failed';
+    if (isDone) return;
+
+    const poll = async () => {
+      try {
+        const r = await fetch(`/api/production/status/${slug}`);
+        if (r.ok) {
+          const s = await r.json();
+          setStatus(prev => ({
+            ...prev,
+            completed_steps: s.completed_steps,
+            failed_steps: s.failed_steps,
+            total_steps: s.total_steps,
+            total_cost: s.total_cost,
+            status: s.status,
+          }));
+        }
+      } catch (e) { /* ignore */ }
+    };
+    const interval = setInterval(poll, 15000);
+    return () => clearInterval(interval);
+  }, [slug, status?.status]);
+
   // ── Derived Values ───────────────────────────────────────────────
-  const isDone = status?.status === 'completed';
-  const isFailed = status?.status === 'failed';
+  const isDone = status?.status === 'completed' || status?.status === 'production_complete';
+  const isFailed = status?.status === 'failed' || status?.status === 'production_failed';
   const isRunning = status?.status === 'running' || status?.status === 'in_production';
   const isNotStarted = !status || status.status === 'not_started' || status.project_status === 'production_gate_pending';
 
@@ -328,6 +343,27 @@ export default function ProductionDashboard({ slug, onBack }) {
               </div>
             </div>
             <div className="flex gap-2">
+              {isFailed && (
+                <button
+                  onClick={async () => {
+                    try {
+                      const r = await fetch('/api/production/resume', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ slug }),
+                      });
+                      if (r.ok) {
+                        // Reset state in-place instead of full page reload (which loses productionSlug)
+                        setStatus(prev => ({ ...prev, status: 'running', project_status: 'in_production' }));
+                        connectSSE();
+                      }
+                    } catch (e) { /* ignore */ }
+                  }}
+                  className="px-4 py-2 bg-factory-warning/20 text-factory-warning rounded-lg text-sm hover:bg-factory-warning/30 flex items-center gap-2"
+                >
+                  <RotateCcw size={14} /> Production fortsetzen
+                </button>
+              )}
               <button onClick={onBack}
                 className="px-4 py-2 bg-factory-accent/20 text-factory-accent rounded-lg text-sm hover:bg-factory-accent/30">
                 Zur Pipeline

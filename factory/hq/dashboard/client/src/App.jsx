@@ -104,38 +104,41 @@ export default function App() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header activeSection={activeSection} onToggleChat={() => setChatOpen(!chatOpen)} chatOpen={chatOpen} />
         <main className="flex-1 overflow-y-auto p-6">
-          {activeSection === 'start' && <StartView />}
-          {activeSection === 'pipeline' && !selectedProject && (
-            <ProjectGrid onSelectProject={setSelectedProject} />
-          )}
-          {activeSection === 'pipeline' && selectedProject && (
-            <ProjectDetail projectId={selectedProject} onBack={() => setSelectedProject(null)} />
-          )}
-          {activeSection === 'gates' && <GateInbox onNavigateToProduction={setProductionSlug} />}
-          {activeSection === 'documents' && <DocumentLibrary />}
-          {activeSection === 'factory' && <HealthOverview />}
-          {activeSection === 'brain' && <BrainView />}
-          {activeSection === 'providers' && <ProviderView />}
-          {activeSection === 'janitor' && <JanitorView />}
-          {activeSection === 'agents' && <AgentMonitor />}
-          {activeSection === 'team' && <TeamView />}
-          {activeSection === 'history' && <ProjectHistory />}
-          {activeSection === 'showcase' && <ShowcaseView />}
-          {activeSection === 'liveops' && !selectedApp && (
-            <AppFleetOverview onSelectApp={setSelectedApp} />
-          )}
-          {activeSection === 'liveops' && selectedApp && (
-            <AppDetailView appId={selectedApp} onBack={() => setSelectedApp(null)} />
-          )}
-          {activeSection === 'marketing' && <MarketingView />}
-          {productionSlug && (
+          {productionSlug ? (
             <ProductionDashboard slug={productionSlug} onBack={() => setProductionSlug(null)} />
-          )}
-          {!productionSlug && !['start', 'pipeline', 'gates', 'documents', 'factory', 'brain', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase', 'liveops', 'marketing'].includes(activeSection) && (
-            <PlaceholderView
-              title={sections.find(s => s.id === activeSection)?.label || ''}
-              description="Wird in einem zukuenftigen Step implementiert"
-            />
+          ) : (
+            <>
+              {activeSection === 'start' && <StartView />}
+              {activeSection === 'pipeline' && !selectedProject && (
+                <ProjectGrid onSelectProject={setSelectedProject} />
+              )}
+              {activeSection === 'pipeline' && selectedProject && (
+                <ProjectDetail projectId={selectedProject} onBack={() => setSelectedProject(null)} onNavigateToProduction={setProductionSlug} />
+              )}
+              {activeSection === 'gates' && <GateInbox onNavigateToProduction={setProductionSlug} />}
+              {activeSection === 'documents' && <DocumentLibrary />}
+              {activeSection === 'factory' && <HealthOverview />}
+              {activeSection === 'brain' && <BrainView />}
+              {activeSection === 'providers' && <ProviderView />}
+              {activeSection === 'janitor' && <JanitorView />}
+              {activeSection === 'agents' && <AgentMonitor />}
+              {activeSection === 'team' && <TeamView />}
+              {activeSection === 'history' && <ProjectHistory />}
+              {activeSection === 'showcase' && <ShowcaseView />}
+              {activeSection === 'liveops' && !selectedApp && (
+                <AppFleetOverview onSelectApp={setSelectedApp} />
+              )}
+              {activeSection === 'liveops' && selectedApp && (
+                <AppDetailView appId={selectedApp} onBack={() => setSelectedApp(null)} />
+              )}
+              {activeSection === 'marketing' && <MarketingView />}
+              {!['start', 'pipeline', 'gates', 'documents', 'factory', 'brain', 'providers', 'janitor', 'agents', 'team', 'history', 'showcase', 'liveops', 'marketing'].includes(activeSection) && (
+                <PlaceholderView
+                  title={sections.find(s => s.id === activeSection)?.label || ''}
+                  description="Wird in einem zukuenftigen Step implementiert"
+                />
+              )}
+            </>
           )}
         </main>
       </div>

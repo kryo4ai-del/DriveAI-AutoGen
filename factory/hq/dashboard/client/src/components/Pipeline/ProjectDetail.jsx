@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ChevronDown, ChevronRight, FileText, ShieldCheck, RefreshCw } from 'lucide-react';
 
-export default function ProjectDetail({ projectId, onBack }) {
+export default function ProjectDetail({ projectId, onBack, onNavigateToProduction }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,9 +46,25 @@ export default function ProjectDetail({ projectId, onBack }) {
             <h2 className="text-2xl font-bold text-factory-text">{project.title}</h2>
             <p className="text-factory-text-secondary mt-1">{project.current_phase}</p>
           </div>
-          <div className="text-right text-sm text-factory-text-secondary">
-            <p>SerpAPI: {project.costs?.serpapi_credits_total || 0} Credits</p>
-            <p>LLM: ${(project.costs?.llm_cost_usd_total || 0).toFixed(2)}</p>
+          <div className="flex items-center gap-4">
+            {onNavigateToProduction && ['in_production', 'production_started', 'production_complete', 'production_failed'].includes(project.status) && (
+              <button
+                onClick={() => onNavigateToProduction(projectId)}
+                className={`px-4 py-2 text-white rounded-lg font-bold transition-colors ${
+                  project.status === 'production_complete'
+                    ? 'bg-factory-success hover:bg-green-600'
+                    : project.status === 'production_failed'
+                    ? 'bg-factory-error hover:bg-red-600'
+                    : 'bg-factory-success hover:bg-green-600 animate-pulse'
+                }`}
+              >
+                Production Dashboard
+              </button>
+            )}
+            <div className="text-right text-sm text-factory-text-secondary">
+              <p>SerpAPI: {project.costs?.serpapi_credits_total || 0} Credits</p>
+              <p>LLM: ${(project.costs?.llm_cost_usd_total || 0).toFixed(2)}</p>
+            </div>
           </div>
         </div>
       </div>

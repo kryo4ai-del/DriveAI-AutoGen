@@ -465,6 +465,30 @@ class PipelineDispatcher:
         return None
 
 
+def _update_project_status(slug, completed, failed, total, error=None):
+    """Update project.json after production ends."""
+    import json as _json
+    pf = os.path.join(str(_ROOT), "projects", slug, "project.json")
+    if not os.path.isfile(pf):
+        return
+    try:
+        with open(pf, encoding="utf-8") as f:
+            proj = _json.load(f)
+        if error or failed > 0:
+            proj["status"] = "production_failed"
+            proj["current_phase"] = f"Production fehlgeschlagen ({completed}/{total} Steps)"
+        else:
+            proj["status"] = "production_complete"
+            proj["current_phase"] = f"Production abgeschlossen ({completed}/{total} Steps)"
+        from datetime import datetime as _dt
+        proj["updated"] = _dt.now().strftime("%Y-%m-%d")
+        with open(pf, "w", encoding="utf-8") as f:
+            _json.dump(proj, f, indent=2, ensure_ascii=False)
+    except Exception as ue:
+        import sys as _sys
+        print(f"[Dispatcher] WARNING: project.json update failed: {ue}", file=_sys.stderr)
+
+
 # ── CLI Entry Point ──────────────────────────────────────────────────────
 # Called by production.js:  python -m factory.dispatcher.dispatcher --start-production <slug> --spec <path>
 
@@ -472,9 +496,24 @@ if __name__ == "__main__":
     import argparse
     import sys
 
+    # Load .env (API keys etc.) — critical when started as subprocess from Dashboard
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
+    except ImportError:
+        pass
+
+    # Fix Windows encoding (charmap can't handle Unicode like → in build specs)
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+
     parser = argparse.ArgumentParser(description="Factory Dispatcher CLI")
     parser.add_argument("--start-production", dest="slug", help="Start production for a project slug")
     parser.add_argument("--spec", help="Path to build_spec.yaml")
+    parser.add_argument("--resume", action="store_true",
+                        help="Resume failed production — loads existing build_plan.json, resets failed/skipped to pending")
     args = parser.parse_args()
 
     if not args.slug:
@@ -488,22 +527,45 @@ if __name__ == "__main__":
     os.chdir(str(_ROOT))
 
     from factory.integration.production_logger import ProductionLogger
+    from factory.orchestrator.build_plan import BuildPlan
 
     logger = ProductionLogger(slug)
-    print(f"[Dispatcher] Starting production for {slug}", file=sys.stderr)
 
     try:
         from factory.orchestrator.orchestrator import FactoryOrchestrator
 
         orch = FactoryOrchestrator(slug)
 
-        # Create build plan from spec if provided
-        if spec_path and os.path.isfile(spec_path):
-            plan = orch.create_build_plan(spec_path)
-            # Decompose into layered plan
-            plan = orch.create_layered_build_plan(spec_path)
+        if args.resume:
+            # ── Resume mode: load existing plan, reset failed/skipped → pending ──
+            plan_path = os.path.join(
+                str(_ROOT), "projects", slug, "specs", "build_plan.json"
+            )
+            if not os.path.isfile(plan_path):
+                print(f"[Dispatcher] No build_plan.json found at {plan_path}", file=sys.stderr)
+                sys.exit(1)
+
+            plan = BuildPlan.load(plan_path)
+            completed_before = sum(1 for s in plan.steps if s.status == "completed")
+            reset_count = 0
+            for step in plan.steps:
+                if step.status in ("failed", "skipped"):
+                    step.status = "pending"
+                    step.result = None
+                    reset_count += 1
+            plan.status = "in_progress"
+
+            remaining = sum(1 for s in plan.steps if s.status == "pending")
+            print(f"[Dispatcher] RESUME: {completed_before} completed kept, {reset_count} steps reset to pending", file=sys.stderr)
+            logger.log_production_resumed(completed=completed_before, remaining=remaining)
         else:
-            plan = orch.create_layered_build_plan()
+            # ── Fresh start: create new build plan ──
+            print(f"[Dispatcher] Starting production for {slug}", file=sys.stderr)
+            if spec_path and os.path.isfile(spec_path):
+                plan = orch.create_build_plan(spec_path)
+                plan = orch.create_layered_build_plan(spec_path)
+            else:
+                plan = orch.create_layered_build_plan()
 
         if not plan or not plan.steps:
             logger.log_production_failed(f"No build steps for {slug}")
@@ -525,8 +587,13 @@ if __name__ == "__main__":
         failed = sum(1 for s in plan.steps if s.status == "failed")
         print(f"[Dispatcher] Done: {completed} completed, {failed} failed", file=sys.stderr)
 
+        # Update project.json status based on result
+        _update_project_status(slug, completed, failed, len(plan.steps))
+
     except Exception as e:
         logger.log_production_failed(str(e))
         print(f"[Dispatcher] Fatal error: {e}", file=sys.stderr)
         traceback.print_exc(file=sys.stderr)
+        # Mark project as failed so Dashboard shows Resume button
+        _update_project_status(slug, 0, 0, 0, error=str(e))
         sys.exit(1)

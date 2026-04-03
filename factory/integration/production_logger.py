@@ -118,6 +118,16 @@ class ProductionLogger:
             "message": "Production abgeschlossen",
         })
 
+    def log_production_resumed(self, completed: int = 0, remaining: int = 0):
+        """Log production resume after failure."""
+        self._write({
+            "type": "production_resumed",
+            "phase": "production",
+            "completed_before": completed,
+            "remaining": remaining,
+            "message": f"Production fortgesetzt — {completed} fertig, {remaining} verbleibend",
+        })
+
     def log_production_failed(self, error: str):
         """Log production failure."""
         self._write({

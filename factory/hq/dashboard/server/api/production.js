@@ -101,6 +101,46 @@ router.post('/start', (req, res) => {
   res.json({ status: 'started', slug, pid: child.pid });
 });
 
+// ── POST /api/production/resume ──────────────────────────────────────────
+// Resumes failed production — keeps completed steps, retries rest
+router.post('/resume', (req, res) => {
+  const { slug } = req.body;
+  if (!slug) return res.status(400).json({ error: 'slug required' });
+
+  const projectFile = path.join(config.PATHS.projects, slug, 'project.json');
+  if (!fs.existsSync(projectFile)) {
+    return res.status(404).json({ error: `Project not found: ${slug}` });
+  }
+
+  const planPath = path.join(config.FACTORY_BASE, 'projects', slug, 'specs', 'build_plan.json');
+  if (!fs.existsSync(planPath)) {
+    return res.status(400).json({ error: 'No build_plan.json found — nothing to resume' });
+  }
+
+  const child = spawn('python', ['-m', 'factory.dispatcher.dispatcher', '--start-production', slug, '--resume'], {
+    cwd: config.FACTORY_BASE,
+    env: _pyEnv(),
+    detached: true,
+    stdio: ['ignore', 'ignore', 'pipe'],
+  });
+
+  if (child.stderr) {
+    child.stderr.on('data', (data) => {
+      console.log(`[Production/${slug}] ${data.toString().trim()}`);
+    });
+  }
+  child.unref();
+
+  const project = JSON.parse(fs.readFileSync(projectFile, 'utf-8'));
+  project.status = 'in_production';
+  project.current_phase = 'Production laeuft (resumed)';
+  project.production_pid = child.pid;
+  project.updated = new Date().toISOString().split('T')[0];
+  fs.writeFileSync(projectFile, JSON.stringify(project, null, 2), 'utf-8');
+
+  res.json({ status: 'resumed', slug, pid: child.pid });
+});
+
 // ── GET /api/production/status/:slug ─────────────────────────────────────
 // Aggregates production status from production_log.jsonl
 router.get('/status/:slug', (req, res) => {
@@ -141,6 +181,13 @@ router.get('/status/:slug', (req, res) => {
     let totalSteps = 0;
 
     for (const entry of entries) {
+      // On resume: reset counters to carry over only completed steps
+      if (entry.type === 'production_resumed') {
+        completedSteps = entry.completed_before || 0;
+        totalCost = 0;
+        startTime = entry.timestamp;
+        for (const p of Object.keys(phases)) { phases[p] = { status: 'running', steps: 0, errors: 0 }; }
+      }
       if (entry.timestamp && !startTime) startTime = entry.timestamp;
       if (entry.timestamp) lastTime = entry.timestamp;
       if (entry.phase) {
@@ -165,13 +212,28 @@ router.get('/status/:slug', (req, res) => {
       ? (new Date(lastTime) - new Date(startTime)) / 1000
       : 0;
 
+    // Use build_plan.json as source of truth for step counts (not JSONL accumulation)
+    const planPath = path.join(config.FACTORY_BASE, 'projects', slug, 'specs', 'build_plan.json');
+    let planCompleted = completedSteps;
+    let planFailed = 0;
+    let planTotal = totalSteps;
+    if (fs.existsSync(planPath)) {
+      try {
+        const plan = JSON.parse(fs.readFileSync(planPath, 'utf-8'));
+        planCompleted = plan.steps.filter(s => s.status === 'completed').length;
+        planFailed = plan.steps.filter(s => s.status === 'failed').length;
+        planTotal = plan.steps.length;
+      } catch (e) { /* fall back to JSONL counts */ }
+    }
+
     res.json({
       slug,
       status: project.status === 'in_production' ? 'running' : project.status,
       project_status: project.status,
       current_phase: currentPhase,
-      completed_steps: completedSteps,
-      total_steps: totalSteps,
+      completed_steps: planCompleted,
+      failed_steps: planFailed,
+      total_steps: planTotal,
       phases,
       total_cost: Math.round(totalCost * 100) / 100,
       elapsed_seconds: Math.round(elapsed),
