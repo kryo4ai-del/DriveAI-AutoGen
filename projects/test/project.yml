@@ -1,0 +1,20 @@
+name: test
+options:
+  bundleIdPrefix: com.driveai
+  deploymentTarget:
+    iOS: "17.0"
+
+targets:
+  test:
+    type: application
+    platform: iOS
+    sources:
+      - path: Models
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        GENERATE_INFOPLIST_FILE: true
+        TARGETED_DEVICE_FAMILY: "1,2"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
