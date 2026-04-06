@@ -1,9 +1,9 @@
 import CoreLocation
 import Foundation
 
-extension CLAuthorizationStatus {
+extension CLLocationManager {
     var locationPermissionStatus: LocationPermissionStatus {
-        switch self {
+        switch authorizationStatus {
         case .notDetermined:
             return .notDetermined
         case .restricted:
@@ -15,13 +15,7 @@ extension CLAuthorizationStatus {
         case .authorizedWhenInUse:
             return .authorizedWhenInUse
         @unknown default:
-            return .unknown
+            return .notDetermined
         }
-    }
-}
-
-extension CLLocationManager {
-    var locationPermissionStatus: LocationPermissionStatus {
-        return authorizationStatus.locationPermissionStatus
     }
 }

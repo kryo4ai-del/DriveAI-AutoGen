@@ -37,8 +37,7 @@ struct BundleProvider {
                     QuizAnswer(id: "q1a3", text: "3 liters"),
                     QuizAnswer(id: "q1a4", text: "4 liters")
                 ],
-                correctAnswerID: "q1a2",
-                explanation: "Most adults need about 2 liters (8 cups) of water per day."
+                correctAnswerID: "q1a2"
             ),
             QuizQuestion(
                 id: "q2",
@@ -49,20 +48,18 @@ struct BundleProvider {
                     QuizAnswer(id: "q2a3", text: "Carbohydrates"),
                     QuizAnswer(id: "q2a4", text: "Both Protein and Carbohydrates")
                 ],
-                correctAnswerID: "q2a4",
-                explanation: "Both protein and carbohydrates provide 4 calories per gram, while fat provides 9."
+                correctAnswerID: "q2a4"
             ),
             QuizQuestion(
                 id: "q3",
                 text: "How many hours of sleep do adults generally need per night?",
                 answers: [
-                    QuizAnswer(id: "q3a1", text: "5–6 hours"),
-                    QuizAnswer(id: "q3a2", text: "6–7 hours"),
-                    QuizAnswer(id: "q3a3", text: "7–9 hours"),
+                    QuizAnswer(id: "q3a1", text: "5-6 hours"),
+                    QuizAnswer(id: "q3a2", text: "6-7 hours"),
+                    QuizAnswer(id: "q3a3", text: "7-9 hours"),
                     QuizAnswer(id: "q3a4", text: "10+ hours")
                 ],
-                correctAnswerID: "q3a3",
-                explanation: "The CDC recommends 7–9 hours of sleep per night for adults."
+                correctAnswerID: "q3a3"
             )
         ]
     }
@@ -98,8 +95,24 @@ struct BundleProvider {
         do {
             return try String(contentsOf: url, encoding: .utf8)
         } catch {
-            print("[BundleProvider] ✗ Failed to load string from \(fileName).\(ext): \(error)")
+            print("[BundleProvider] ✗ Failed to load string \(fileName).\(ext): \(error)")
             return nil
         }
     }
+}
+
+// MARK: - QuizAnswer
+
+struct QuizAnswer: Codable, Identifiable {
+    let id: String
+    let text: String
+}
+
+// MARK: - QuizQuestion
+
+struct QuizQuestion: Codable, Identifiable {
+    let id: String
+    let text: String
+    let answers: [QuizAnswer]
+    let correctAnswerID: String
 }

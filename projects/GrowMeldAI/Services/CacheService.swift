@@ -39,7 +39,7 @@ final class CacheService: ObservableObject {
     ) throws {
         let encoded = try JSONEncoder().encode(value)
         let entry = CacheEntry(data: encoded, timestamp: Date(), ttl: ttl)
-        memoryCache.setObject(entry, forKey: (key as NSString))
+        memoryCache.setObject(entry, forKey: key as NSString)
 
         let fileURL = cacheDirectory.appendingPathComponent(sanitizedKey(key))
         let wrapper = DiskEntry(data: encoded, timestamp: Date(), ttl: ttl)
@@ -48,7 +48,7 @@ final class CacheService: ObservableObject {
     }
 
     func get<T: Codable>(_ key: String, type: T.Type) -> T? {
-        if let entry = memoryCache.object(forKey: (key as NSString)),
+        if let entry = memoryCache.object(forKey: key as NSString),
            !entry.isExpired() {
             return try? JSONDecoder().decode(T.self, from: entry.data)
         }
@@ -60,13 +60,13 @@ final class CacheService: ObservableObject {
         else { return nil }
 
         let entry = CacheEntry(data: wrapper.data, timestamp: wrapper.timestamp, ttl: wrapper.ttl)
-        memoryCache.setObject(entry, forKey: (key as NSString))
+        memoryCache.setObject(entry, forKey: key as NSString)
 
         return try? JSONDecoder().decode(T.self, from: wrapper.data)
     }
 
     func remove(_ key: String) {
-        memoryCache.removeObject(forKey: (key as NSString))
+        memoryCache.removeObject(forKey: key as NSString)
         let fileURL = cacheDirectory.appendingPathComponent(sanitizedKey(key))
         try? fileManager.removeItem(at: fileURL)
     }
@@ -86,7 +86,7 @@ final class CacheService: ObservableObject {
             else { continue }
 
             try? fileManager.removeItem(at: url)
-            memoryCache.removeObject(forKey: (url.lastPathComponent as NSString))
+            memoryCache.removeObject(forKey: url.lastPathComponent as NSString)
             removedCount += 1
         }
         return removedCount
