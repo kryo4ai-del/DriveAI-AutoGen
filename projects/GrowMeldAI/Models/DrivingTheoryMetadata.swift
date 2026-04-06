@@ -1,3 +1,9 @@
+enum LegalSeverity: String, Codable {
+    case low
+    case medium
+    case high
+}
+
 struct DrivingTheoryMetadata: Codable {
     let stvoSection: String?
     let trafficSignNumber: String?

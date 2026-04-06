@@ -16,8 +16,12 @@ extension DriverExamPlan {
         announcement += "\(mediumUrgency) mit mittlerer, "
         announcement += "\(lowUrgency) mit niedriger Priorität."
 
-        if daysUntilExam <= 7 {
-            announcement += " Prüfung in \(daysUntilExam) Tag\(daysUntilExam == 1 ? "" : "en")."
+        if let examDate = examDate {
+            let calendar = Calendar.current
+            let days = calendar.dateComponents([.day], from: Date(), to: examDate).day ?? 0
+            if days <= 7 {
+                announcement += " Prüfung in \(days) Tag\(days == 1 ? "" : "en")."
+            }
         }
 
         return announcement

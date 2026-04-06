@@ -8,5 +8,5 @@ struct DrivingTheoryReference {
 
 // Features/Questions/ViewModels/QuestionViewModel.swift
 @MainActor
-class QuestionViewModel {
+class QuestionViewModelClass {
 }
