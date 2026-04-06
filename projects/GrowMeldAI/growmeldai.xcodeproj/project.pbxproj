@@ -2421,7 +2421,6 @@
 		F0266ADD385D017B34FED4C6 /* ExamResultScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451B61663D0A3049536127EB /* ExamResultScreen.swift */; };
 		F03F311CDFFC5DB26E1602C2 /* AnalyticsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19356BB6516DFD68440BDE6 /* AnalyticsConfiguration.swift */; };
 		F044F8E3B643340626D07E76 /* NSURLErrorTimedOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487493540BDB4AE18D3B42DF /* NSURLErrorTimedOut.swift */; };
-		F0529A0E32173726EDAA53A5 /* LocationDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A603D55029A89D1F4C39ECB /* LocationDataService.swift */; };
 		F07852F4A98E5EA2646982AA /* AIServiceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283E00D6EE5E13CE7160B42E /* AIServiceStatus.swift */; };
 		F07C4AB8743D5277A14A0A3D /* NudgeServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D613D9137B6AC1D29E6FCA /* NudgeServiceProtocol.swift */; };
 		F0A71262D8E6786143CBBADB /* DatabaseConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0F47AC897CCE0A13F7FF7 /* DatabaseConnectionPool.swift */; };
@@ -2666,7 +2665,6 @@
 		0A454E8AFE455746E1A3A8C1 /* AnswerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCardView.swift; sourceTree = "<group>"; };
 		0A57303BEB7C8E871FF7CC90 /* DriveAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveAIApp.swift; sourceTree = "<group>"; };
 		0A57F3420096FEF689F486DC /* ToxicityWarningCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToxicityWarningCardView.swift; sourceTree = "<group>"; };
-		0A603D55029A89D1F4C39ECB /* LocationDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataService.swift; sourceTree = "<group>"; };
 		0A7274A12197E9E0C22CCE13 /* ProgressTrackerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTrackerProtocol.swift; sourceTree = "<group>"; };
 		0A9A9F5CE6E676413159EB60 /* PrivacyNoticeOnboardingForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyNoticeOnboardingForm.swift; sourceTree = "<group>"; };
 		0AE0E59467A15F59D51AE6CD /* FreemiumPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreemiumPersistence.swift; sourceTree = "<group>"; };
@@ -5719,7 +5717,6 @@
 				2CA70555DC636A4C1CF82D5A /* LocalToxicityWarningService.swift */,
 				4A8B282CBE3850CB2CB4BA14 /* LocationAuditService.swift */,
 				2DE2499E603CE5BB12F23209 /* LocationCleanupService.swift */,
-				0A603D55029A89D1F4C39ECB /* LocationDataService.swift */,
 				3BDCF43609898E3774A914B4 /* LocationPermissionService.swift */,
 				65A21356FE5D004B40768FA8 /* LocationService.swift */,
 				4191BE87AE514627F0E59B3E /* LoggingService.swift */,
@@ -9093,7 +9090,6 @@
 				EEE06F396A608FDC8D468C03 /* LocationData.swift in Sources */,
 				F581325D97D14781EB90B3D8 /* LocationDataError.swift in Sources */,
 				43D7972F1C4DD04A499EE837 /* LocationDataModel.swift in Sources */,
-				F0529A0E32173726EDAA53A5 /* LocationDataService.swift in Sources */,
 				94A6CCCD54719698E0BD5EF4 /* LocationDataServiceProtocol.swift in Sources */,
 				A29DA2A6F6D5ED3DFCF6D65A /* LocationDelegate.swift in Sources */,
 				7A808BEC39307800D09EEB68 /* LocationDetailsSheet.swift in Sources */,
