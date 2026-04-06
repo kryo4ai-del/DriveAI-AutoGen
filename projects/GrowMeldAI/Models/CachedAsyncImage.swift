@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct CachedAsyncImage: View {
     let url: URL?
     @State private var image: Image?

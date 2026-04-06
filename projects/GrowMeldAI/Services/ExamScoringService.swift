@@ -5,11 +5,10 @@ class ExamScoringService: ExamScoringServiceProtocol {
     private let totalExamQuestions: Int = 30
     
     func calculateScore(_ answers: [QuestionState]) -> Int {
-        answers.reduce(0) { count, state in
+        answers.reduce(into: 0) { count, state in
             if case .answeredCorrectly = state {
-                return count + 1
+                count += 1
             }
-            return count
         }
     }
     
@@ -17,8 +16,9 @@ class ExamScoringService: ExamScoringServiceProtocol {
         score >= passingThreshold
     }
     
-    func generateCategoryBreakdown(_ results: [QuestionState]) -> [CategoryProgress] {
+    func generateCategoryBreakdown(_ results: [QuestionState]) -> [Models.CategoryProgress] {
         // Aggregate results by category
         // Return list of CategoryProgress with updated stats
+        return []
     }
 }

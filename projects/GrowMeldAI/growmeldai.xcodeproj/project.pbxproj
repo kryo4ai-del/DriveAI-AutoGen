@@ -232,7 +232,6 @@
 		1587C6330904DE9F9A0E28DA /* FahrschulFokusTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D09834CD06E50458D29A81 /* FahrschulFokusTrackerView.swift */; };
 		15AC759D2AC4EAAD332E5257 /* SyncOperationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBA7985FAA87DDCD895A2B /* SyncOperationProtocol.swift */; };
 		15BF2F2C2D58C43287B019F3 /* OnboardingStorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB124A57CF0348A8800BA50 /* OnboardingStorageError.swift */; };
-		15BF38B738B0C13F78B58B9C /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11C2F50210F34EC69750541 /* CacheService.swift */; };
 		15E812FEF21FA10639F10F50 /* TimerCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C76B05F2ABA797DFE4560C /* TimerCalculator.swift */; };
 		160CE08421BAFA5D26BA026D /* ExamReadinessServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0AED18A2A8AA646666ECE6 /* ExamReadinessServiceProtocol.swift */; };
 		161396104C6809976B287B70 /* LocalDataServiceTests+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EEF2230902735693543952 /* LocalDataServiceTests+Extension.swift */; };
@@ -4484,7 +4483,6 @@
 		C0CD97A878614EFEDC26C002 /* OverallScoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallScoreCard.swift; sourceTree = "<group>"; };
 		C0CE6C921DA49BFDE70F244A /* PlantIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantIdentity.swift; sourceTree = "<group>"; };
 		C0EB68A713DABF2BD4BCBAF6 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
-		C11C2F50210F34EC69750541 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		C169AB70EF8987A5B869D7C4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		C193E0572767B72348F7F3E5 /* QuotaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaStore.swift; sourceTree = "<group>"; };
 		C1B99CB0A2525ABF58F6962A /* Weight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weight.swift; sourceTree = "<group>"; };
@@ -5611,7 +5609,6 @@
 				6C63C83986FD02213480AA25 /* BackupService.swift */,
 				7A17FEC1FFA434E19BF7565F /* BackupValidationService.swift */,
 				9B59FEB74A3E868830486899 /* BackupViewModel.swift */,
-				C11C2F50210F34EC69750541 /* CacheService.swift */,
 				09E4BEA9E97DC1D3423430EB /* CameraPermissionService.swift */,
 				63708509584A17D8422EEA61 /* CameraPreviewService.swift */,
 				76641363B3CFB2355EDCB739 /* CategoryService.swift */,
@@ -8065,7 +8062,6 @@
 				EAF4993493B8174B874AAD13 /* CacheEntry.swift in Sources */,
 				08C586E3EC3A344A67BDEDFC /* CacheMetadata.swift in Sources */,
 				62DC6E6EFC2DF0F0A592F48D /* CacheProvider.swift in Sources */,
-				15BF38B738B0C13F78B58B9C /* CacheService.swift in Sources */,
 				CEAE8B367BD635F8D72A7345 /* CacheServiceProtocol.swift in Sources */,
 				67BD7BB2B1AF67E2B5233AA7 /* CacheState.swift in Sources */,
 				2200E7F47D6AFDDAB585B144 /* CachedAsyncImage.swift in Sources */,
