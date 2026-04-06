@@ -21,9 +21,7 @@ struct AnswerOptionCard: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Antwort: \(optionText)"))
-        .accessibilityHint(
-            isSelected ? Text(isCorrect == true ? "Richtig" : "Falsch") : nil
-        )
+        .accessibilityHint(isSelected ? Text(isCorrect == true ? "Richtig" : "Falsch") : Text(""))
         .accessibilityAddTraits(.isButton)
     }
 

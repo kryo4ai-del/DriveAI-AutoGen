@@ -1,7 +1,7 @@
 import Foundation
 
-struct Answer: Identifiable, Codable {
+struct QuizAnswer: Identifiable, Codable {
     let id: String
     let text: String
-    let explanation: String // ✅ Required, always shown
+    let explanation: String
 }

@@ -1,25 +1,22 @@
-// Services/AnswerValidationService.swift
 import Foundation
 
 @MainActor
 final class AnswerValidationService {
-    private let localDataService: LocalDataService
+    private let localDataService: GrowMeldAI.LocalDataService
 
-    init(localDataService: LocalDataService) {
+    init(localDataService: GrowMeldAI.LocalDataService) {
         self.localDataService = localDataService
     }
 
     func validateAnswer(
         questionId: UUID,
         selectedOptionId: UUID,
-        against question: Question
+        against question: GrowMeldAI.Question
     ) throws -> (isCorrect: Bool, explanation: String?) {
-        // Validate option exists
         guard question.options.contains(where: { $0.id == selectedOptionId }) else {
             throw ValidationError.invalidOptionId
         }
 
-        // Fetch correct answer
         let isCorrect = localDataService.validateAnswer(
             questionId: questionId,
             selectedOptionId: selectedOptionId
