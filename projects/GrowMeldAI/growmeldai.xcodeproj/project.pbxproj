@@ -224,7 +224,6 @@
 		149EA4F507BC20BF6F9C231C /* FeatureMarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6824360850B81ACE007934D6 /* FeatureMarketplaceView.swift */; };
 		14C1EFA53943CF6D3A7F8AEB /* MotivationalStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1BB878231180C65B48DE9F /* MotivationalStrategy.swift */; };
 		14C82B07BDB47DF1509CB2B6 /* AgeConfirmationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DBF95741579892FFCE1BEF /* AgeConfirmationStep.swift */; };
-		14D30604E941E2CD01682907 /* BackendType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84636A86F9A2AF00413DE09 /* BackendType.swift */; };
 		154BE0C51301C320A4E435D8 /* PaymentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F790E4862C34F4AFA4D9A /* PaymentProcessor.swift */; };
 		1570C30B062259E07E6CC607 /* TransactionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2819F91CAB3EE8C8F474AFA5 /* TransactionState.swift */; };
 		15778E19D5A6F6812D121D1A /* AgeVerificationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F330EE95548B5349D18B0C76 /* AgeVerificationScreen.swift */; };
@@ -4875,7 +4874,6 @@
 		E826019531BDC95BA06B8AF4 /* NSDecimalNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDecimalNumber.swift; sourceTree = "<group>"; };
 		E83656D4A7ED47882CFD7710 /* DataSensitivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSensitivity.swift; sourceTree = "<group>"; };
 		E84186B72BD20C15F9B62F46 /* AnyCodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyCodable+Extension.swift"; sourceTree = "<group>"; };
-		E84636A86F9A2AF00413DE09 /* BackendType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendType.swift; sourceTree = "<group>"; };
 		E8719AFFAE4E8223663A2635 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		E8783B5402FF30FADE3E445C /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		E878DEE9F9BCE0C1AC313BAB /* NotificationSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSchedule.swift; sourceTree = "<group>"; };
@@ -6008,7 +6006,6 @@
 				7E50F6E592F5DB6619576A70 /* AVCapturePhotoOutput.swift */,
 				CB9BC2DC1A77D619A722FFCD /* AVCaptureSession.swift */,
 				3671DDF380C6D635AD6D1B22 /* AVCaptureVideoOrientation+Extension.swift */,
-				E84636A86F9A2AF00413DE09 /* BackendType.swift */,
 				AC014B0923A774262E3AAC45 /* BackupConsent.swift */,
 				0EAC30996FEC33B8815EE617 /* BackupEnvelope.swift */,
 				3782BCC15D83AAA1AEECC664 /* BackupError.swift */,
@@ -8006,7 +8003,6 @@
 				46A870E17100F3DB914367D8 /* AuthUser.swift in Sources */,
 				4AFAAFAED10CB23336D8EB4F /* AuthValidator.swift in Sources */,
 				D6B26033A1B705BE68C2EC09 /* AutoRenewalAcknowledgmentView.swift in Sources */,
-				14D30604E941E2CD01682907 /* BackendType.swift in Sources */,
 				D0645DF2A2488E6583F04B0D /* BackupConsent.swift in Sources */,
 				5CACC567A83AE00C37D82492 /* BackupDomainService.swift in Sources */,
 				EE04B41E615C32811E898A90 /* BackupEncryptionService.swift in Sources */,

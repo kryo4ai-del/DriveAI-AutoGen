@@ -1,3 +1,5 @@
+import Foundation
+
 enum PermissionState {
     case accepted(date: Date)  // ✅ Has timestamp
     case denied(date: Date, nextRetryDate: Date?)

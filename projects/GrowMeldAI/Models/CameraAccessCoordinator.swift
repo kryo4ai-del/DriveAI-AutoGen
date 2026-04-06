@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CameraAccessCoordinator: View {
-    @StateObject private var viewModel: CameraAccessViewModel
+    @StateObject private var viewModel = CameraAccessViewModel()
     @Environment(\.cameraContainer) var container
     @Environment(\.dismiss) var dismiss
     
