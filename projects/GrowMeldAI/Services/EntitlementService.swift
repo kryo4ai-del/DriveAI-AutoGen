@@ -1,22 +1,44 @@
-// Option A: Local (Simpler, MVP-friendly)
-@MainActor
-final class EntitlementService: ObservableObject {
-    func syncEntitlements() async throws {
-        // Query StoreKit2 transaction history directly
-        for await result in Transaction.all {
-            let transaction = try validateTransaction(result)
-            try saveEntitlements(from: transaction)
-        }
-    }
-}
+import Foundation
+import Combine
 
-// Option B: Backend validation (Production-recommended)
 @MainActor
 final class EntitlementService: ObservableObject {
+    @Published private(set) var isEntitled: Bool = false
+    @Published private(set) var activeProductIDs: Set<String> = []
+
+    private let userDefaultsKey = "entitlement_product_ids"
+
+    init() {
+        loadEntitlements()
+    }
+
     func syncEntitlements() async throws {
-        // Send receipt to your backend
-        let receipt = try storeKitManager.getReceipt()
-        let entitlements = try await backend.validateReceipt(receipt)
-        try localDataService.saveEntitlements(entitlements)
+        loadEntitlements()
+    }
+
+    func grantEntitlement(for productID: String) {
+        activeProductIDs.insert(productID)
+        isEntitled = !activeProductIDs.isEmpty
+        saveEntitlements()
+    }
+
+    func revokeEntitlement(for productID: String) {
+        activeProductIDs.remove(productID)
+        isEntitled = !activeProductIDs.isEmpty
+        saveEntitlements()
+    }
+
+    func hasEntitlement(for productID: String) -> Bool {
+        return activeProductIDs.contains(productID)
+    }
+
+    private func loadEntitlements() {
+        let stored = UserDefaults.standard.stringArray(forKey: userDefaultsKey) ?? []
+        activeProductIDs = Set(stored)
+        isEntitled = !activeProductIDs.isEmpty
+    }
+
+    private func saveEntitlements() {
+        UserDefaults.standard.set(Array(activeProductIDs), forKey: userDefaultsKey)
     }
 }

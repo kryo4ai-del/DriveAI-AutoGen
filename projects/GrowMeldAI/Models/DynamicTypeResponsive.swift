@@ -1,26 +1,24 @@
 import SwiftUI
 
 extension Font {
-    static var driveAIHeadline: Font { AppTheme.typography.headline }
-    static var driveAITitle1: Font { AppTheme.typography.title1 }
-    static var driveAITitle2: Font { AppTheme.typography.title2 }
-    static var driveAIBody: Font { AppTheme.typography.body }
-    static var driveAIBodyEmphasis: Font { AppTheme.typography.bodyEmphasis }
-    static var driveAICaption: Font { AppTheme.typography.caption }
-    static var driveAIButton: Font { AppTheme.typography.button }
+    static var driveAIHeadline: Font { .system(.headline, design: .default).weight(.semibold) }
+    static var driveAITitle1: Font { .system(.title, design: .default).weight(.bold) }
+    static var driveAITitle2: Font { .system(.title2, design: .default).weight(.semibold) }
+    static var driveAIBody: Font { .system(.body, design: .default) }
+    static var driveAIBodyEmphasis: Font { .system(.body, design: .default).weight(.semibold) }
+    static var driveAICaption: Font { .system(.caption, design: .default) }
+    static var driveAIButton: Font { .system(.body, design: .default).weight(.medium) }
 }
 
-/// ViewModifier for dynamic type scaling
 struct DynamicTypeResponsive: ViewModifier {
     @Environment(\.sizeCategory) var sizeCategory
-    
+
     func body(content: Content) -> some View {
-        if sizeCategory >= .accessibilityMedium {
-            // Scale up for large dynamic type
-            content.scaleEffect(1.2, anchor: .topLeading)
-        } else {
-            content
-        }
+        content
+            .scaleEffect(
+                sizeCategory >= .accessibilityMedium ? 1.2 : 1.0,
+                anchor: .topLeading
+            )
     }
 }
 

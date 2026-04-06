@@ -5,12 +5,12 @@ struct EmptyMaintenanceStateView: View {
     let message: String
 
     var body: some View {
-        VStack(spacing: DriveAISpacing.lg) {
+        VStack(spacing: 16) {
             Image(systemName: "checkmark.seal.fill")
                 .font(.system(size: 48))
-                .foregroundColor(DriveAIColors.success)
+                .foregroundColor(.green)
 
-            VStack(spacing: DriveAISpacing.sm) {
+            VStack(spacing: 8) {
                 Text("Alles auf dem Laufenden!")
                     .font(.headline)
 
@@ -22,7 +22,7 @@ struct EmptyMaintenanceStateView: View {
 
             Spacer()
         }
-        .padding(DriveAISpacing.xl)
+        .padding(24)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }

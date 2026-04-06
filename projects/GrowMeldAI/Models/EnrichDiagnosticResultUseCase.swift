@@ -1,25 +1,22 @@
-// MARK: - UseCases/EnrichDiagnosticResultUseCase.swift
+import Foundation
+
+// MARK: - Protocol
 
 protocol EnrichDiagnosticResultUseCase {
     func execute(_ result: DiagnosticResult) async throws -> DiagnosticResult
 }
 
+// MARK: - Implementation
+
 final class EnrichDiagnosticResultUseCaseImpl: EnrichDiagnosticResultUseCase {
     private let recommendationsUseCase: GenerateRecommendationsUseCase
-    private let actionsGenerator: InteractiveActionsGenerator
-    
+
+    init(recommendationsUseCase: GenerateRecommendationsUseCase) {
+        self.recommendationsUseCase = recommendationsUseCase
+    }
+
     func execute(_ result: DiagnosticResult) async throws -> DiagnosticResult {
         let recommendations = try await recommendationsUseCase.execute(for: result)
-        let actions = actionsGenerator.generate(from: result, recommendations: recommendations)
-        
-        return DiagnosticResult(
-            timestamp: result.timestamp,
-            categoryStrengths: result.categoryStrengths,
-            masteryCoverage: result.masteryCoverage,
-            overallAccuracy: result.overallAccuracy,
-            learningGaps: result.learningGaps,
-            recommendations: recommendations,
-            interactiveActions: actions
-        )
+        return DiagnosticResult(recommendations: recommendations)
     }
 }
