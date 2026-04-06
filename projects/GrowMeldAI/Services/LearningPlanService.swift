@@ -1,8 +1,16 @@
-// ✅ Single source of truth
+import Foundation
+
+@MainActor
 final class LearningPlanService: ObservableObject {
     private let categoryProgressRepository: CategoryProgressRepository
     private let localDataService: LocalDataService
-    
-    // Composes existing services—no duplication
-    func generatePlan() async throws { ... }
+
+    init(categoryProgressRepository: CategoryProgressRepository, localDataService: LocalDataService) {
+        self.categoryProgressRepository = categoryProgressRepository
+        self.localDataService = localDataService
+    }
+
+    func generatePlan() async throws {
+        // No-op implementation placeholder
+    }
 }

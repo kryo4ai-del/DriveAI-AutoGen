@@ -2,14 +2,23 @@ import Combine
 import Foundation
 
 // MARK: - ViewModel Protocol (enforces consistency)
-protocol ScreenViewModel: ObservableObject, Sendable {
+protocol ScreenViewModel: ObservableObject {
     associatedtype State
-    @Published var state: State { get set }
-    @Published var isLoading: Bool { get set }
-    @Published var errorMessage: String? { get set }
+    var state: State { get set }
+    var isLoading: Bool { get set }
+    var errorMessage: String? { get set }
 }
 
 // MARK: - Example: DashboardViewModel
 @MainActor
+class DashboardViewModel: ScreenViewModel {
+    // MARK: - State Enum (replaces multiple @Published variables)
+    enum State {
+        case idle
+        case loaded
+    }
 
-// MARK: - State Enum (replaces multiple @Published variables)
+    @Published var state: State = .idle
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String?
+}

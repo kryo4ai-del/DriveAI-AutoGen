@@ -1,5 +1,3 @@
-// ViewModels/Performance/PerformanceStateManager.swift
-
 import Foundation
 
 // MARK: - PerformanceAction
@@ -11,7 +9,7 @@ enum PerformanceAction: Equatable {
     case setError(PerformanceError)
     case clearError
     case resetProgress
-    
+
     static func == (lhs: PerformanceAction, rhs: PerformanceAction) -> Bool {
         switch (lhs, rhs) {
         case (.recordQuestionAttempt(let a), .recordQuestionAttempt(let b)):
@@ -43,35 +41,32 @@ func performanceReducer(state: inout PerformanceState, action: PerformanceAction
             state.recentAttempts.removeLast()
         }
         state.error = nil
-        
+
     case .recordExamAttempt(let exam):
         state.recentExams.insert(exam, at: 0)
         if state.recentExams.count > PerformanceConfig.shared.maxRecentExams {
             state.recentExams.removeLast()
         }
         state.error = nil
-        
+
     case .loadMetrics:
         state.isLoading = true
         state.error = nil
-        
+
     case .loadMetricsSuccess(let metrics, let streak):
         state.metrics = metrics
         state.streak = streak
         state.isLoading = false
         state.error = nil
-        
+
     case .setError(let error):
         state.error = error
         state.isLoading = false
-        
+
     case .clearError:
         state.error = nil
-        
+
     case .resetProgress:
         state = PerformanceState()
     }
 }
-
-// MARK: - PerformanceStateManager
-@MainActor

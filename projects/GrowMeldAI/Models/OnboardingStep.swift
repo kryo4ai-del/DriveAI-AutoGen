@@ -11,3 +11,19 @@ enum OnboardingStep: Hashable {
 }
 
 @MainActor
+class OnboardingViewModel: ObservableObject {
+    @Published var currentStep: OnboardingStep = .welcome
+    
+    func advance() {
+        switch currentStep {
+        case .welcome:
+            currentStep = .examDate
+        case .examDate:
+            currentStep = .notificationConsent
+        case .notificationConsent:
+            currentStep = .complete
+        case .complete:
+            break
+        }
+    }
+}

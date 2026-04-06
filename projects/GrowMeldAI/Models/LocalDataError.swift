@@ -17,5 +17,3 @@ enum LocalDataError: LocalizedError, Equatable {
         }
     }
 }
-
-@MainActor

@@ -8,6 +8,3 @@ final class FeedbackServiceFactory {
         )
     }
 }
-
-// Usage in App:
-@main

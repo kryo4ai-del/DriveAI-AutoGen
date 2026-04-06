@@ -12,19 +12,31 @@ enum FreemiumDateFormatter {
 }
 
 // Then in TrialPeriod.swift
-public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(
-        FreemiumDateFormatter.string(from: startDate),
-        forKey: .startDate
-    )
+struct TrialPeriod: Codable {
+    var startDate: Date
+
+    enum CodingKeys: String, CodingKey {
+        case startDate
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(
+            FreemiumDateFormatter.string(from: startDate),
+            forKey: .startDate
+        )
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let startStr = try container.decode(String.self, forKey: .startDate)
+        guard let start = FreemiumDateFormatter.date(from: startStr) else {
+            throw FreemiumError.dateCalculationFailed
+        }
+        self.startDate = start
+    }
 }
 
-public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    let startStr = try container.decode(String.self, forKey: .startDate)
-    guard let start = FreemiumDateFormatter.date(from: startStr) else {
-        throw FreemiumError.dateCalculationFailed
-    }
-    self.startDate = start
+enum FreemiumError: Error {
+    case dateCalculationFailed
 }

@@ -4,7 +4,7 @@ final class ProgressTrackingServiceImpl: ProgressTrackingService {
     
     nonisolated private let queue = DispatchQueue(label: "com.driveai.progress", attributes: .concurrent)
     
-    func recordAnswer(...) async {
+    func recordAnswer(categoryId: String, isCorrect: Bool) async {
         let newProgress = queue.sync {
             // Atomic read + modify
             var p = categoryProgress[categoryId] ?? UserProgress(id: categoryId)

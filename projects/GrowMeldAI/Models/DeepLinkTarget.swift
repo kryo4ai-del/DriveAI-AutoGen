@@ -106,7 +106,7 @@ enum DeepLinkTarget: Equatable {
         _ message: String,
         url: URL? = nil,
         components: URLComponents? = nil,
-        params: [String: String]? = nil
+        params: [String: String?]? = nil
     ) {
         #if DEBUG
         var log = "[DeepLink] ❌ \(message)"
@@ -126,10 +126,11 @@ enum DeepLinkTarget: Equatable {
     }
 }
 
-// Add to AnalyticsEvent
-extension AnalyticsEvent {
+// AnalyticsEvent as a standalone enum (cannot add cases via extension)
+enum AnalyticsEvent {
     case deepLinkHandled(target: DeepLinkTarget)
-    
+    // ... add other cases here as needed
+
     var conversionValue: Int {
         switch self {
         case .deepLinkHandled(let target):
@@ -141,9 +142,6 @@ extension AnalyticsEvent {
             default:
                 return 20
             }
-        // ... existing cases
-        default:
-            return 0
         }
     }
 }

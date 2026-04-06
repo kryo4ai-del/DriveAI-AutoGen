@@ -1,18 +1,27 @@
-// ✅ GOOD: Clear separation
+import SwiftUI
+
+// GOOD: Clear separation
 struct DashboardView: View {
     @StateObject private var viewModel = DashboardViewModel()
     
     var body: some View {
-        // View logic only
+        Text("Dashboard")
     }
 }
 
-// ❌ BAD: Business logic in View
-struct DashboardView: View {
-    var body: some View {
-        Text(String(format: "Score: %.1f%%", calculateScore()))
-        // ^ Avoid — move to ViewModel
-    }
+class DashboardViewModel: ObservableObject {
+    @Published var score: Double = 0.0
     
-    private func calculateScore() -> Double { ... }
+    func calculateScore() -> Double {
+        return score
+    }
+}
+
+// Example of moving logic to ViewModel
+struct DashboardView2: View {
+    @StateObject private var viewModel = DashboardViewModel()
+    
+    var body: some View {
+        Text(String(format: "Score: %.1f%%", viewModel.calculateScore()))
+    }
 }

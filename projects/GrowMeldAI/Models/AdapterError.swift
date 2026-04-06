@@ -1,12 +1,9 @@
 import Foundation
-import FirebaseAuth
 
 /// Wraps Firebase Authentication SDK for dependency injection and testability.
 /// Uses `actor` isolation to prevent concurrent mutations during auth state changes.
 actor FirebaseAuthAdapter {
     static let shared = FirebaseAuthAdapter()
-    
-    private let auth = Auth.auth()
     
     enum AdapterError: LocalizedError, Equatable {
         case firebaseNotInitialized
@@ -32,117 +29,56 @@ actor FirebaseAuthAdapter {
     
     /// Creates a new user account with email and password.
     func signUp(email: String, password: String) async throws -> AuthUser {
-        do {
-            let result = try await auth.createUser(withEmail: email, password: password)
-            let authUser = AuthUser.from(firebaseUser: result.user)
-            
-            #if DEBUG
-            print("✅ User signed up: \(authUser.id)")
-            #endif
-            
-            return authUser
-        } catch {
-            throw mapFirebaseError(error)
-        }
+        // TODO: Integrate with FirebaseAuth when module is available
+        throw AdapterError.firebaseNotInitialized
     }
     
     /// Signs in an existing user with email and password.
     func signIn(email: String, password: String) async throws -> AuthUser {
-        do {
-            let result = try await auth.signIn(withEmail: email, password: password)
-            let authUser = AuthUser.from(firebaseUser: result.user)
-            
-            #if DEBUG
-            print("✅ User signed in: \(authUser.id)")
-            #endif
-            
-            return authUser
-        } catch {
-            throw mapFirebaseError(error)
-        }
+        // TODO: Integrate with FirebaseAuth when module is available
+        throw AdapterError.firebaseNotInitialized
     }
     
     /// Signs out the current user.
     func signOut() throws {
-        do {
-            try auth.signOut()
-            #if DEBUG
-            print("✅ User signed out")
-            #endif
-        } catch {
-            throw mapFirebaseError(error)
-        }
+        // TODO: Integrate with FirebaseAuth when module is available
+        throw AdapterError.firebaseNotInitialized
     }
     
     /// Retrieves the currently authenticated user without async.
     func getCurrentUser() -> AuthUser? {
-        guard let firebaseUser = auth.currentUser else {
-            return nil
-        }
-        return AuthUser.from(firebaseUser: firebaseUser)
+        // TODO: Integrate with FirebaseAuth when module is available
+        return nil
     }
     
     /// Sends a password reset email.
     func sendPasswordReset(email: String) async throws {
-        do {
-            try await auth.sendPasswordReset(withEmail: email)
-            #if DEBUG
-            print("✅ Password reset email sent to \(email)")
-            #endif
-        } catch {
-            throw mapFirebaseError(error)
-        }
+        // TODO: Integrate with FirebaseAuth when module is available
+        throw AdapterError.firebaseNotInitialized
     }
     
     /// Verifies user's email address.
     func sendEmailVerification() async throws {
-        guard let user = auth.currentUser else {
-            throw AdapterError.userNotAuthenticated
-        }
-        
-        do {
-            try await user.sendEmailVerification()
-            #if DEBUG
-            print("✅ Verification email sent")
-            #endif
-        } catch {
-            throw mapFirebaseError(error)
-        }
+        // TODO: Integrate with FirebaseAuth when module is available
+        throw AdapterError.userNotAuthenticated
     }
     
     /// Checks if Firebase is properly configured.
     func isConfigured() -> Bool {
-        return FirebaseApp.app() != nil
+        // TODO: Integrate with FirebaseAuth when module is available
+        return false
     }
     
     /// Deletes the current user account (GDPR compliance).
     func deleteAccount() async throws {
-        guard let user = auth.currentUser else {
-            throw AdapterError.userNotAuthenticated
-        }
-        
-        do {
-            try await user.delete()
-            #if DEBUG
-            print("✅ User account deleted")
-            #endif
-        } catch {
-            throw mapFirebaseError(error)
-        }
+        // TODO: Integrate with FirebaseAuth when module is available
+        throw AdapterError.userNotAuthenticated
     }
     
     /// Returns the current Firebase user's ID token (for API calls, Phase 2).
     func getIDToken() async throws -> String {
-        guard let user = auth.currentUser else {
-            throw AdapterError.userNotAuthenticated
-        }
-        
-        do {
-            let result = try await user.getIDTokenResult()
-            return result.token
-        } catch {
-            throw mapFirebaseError(error)
-        }
+        // TODO: Integrate with FirebaseAuth when module is available
+        throw AdapterError.userNotAuthenticated
     }
     
     // MARK: - Private Error Mapping
@@ -151,27 +87,23 @@ actor FirebaseAuthAdapter {
     private func mapFirebaseError(_ error: Error) -> AuthError {
         let nsError = error as NSError
         
-        guard let errorCode = AuthErrorCode(rawValue: nsError.code) else {
-            return .unknown(nsError.localizedDescription)
-        }
-        
-        switch errorCode {
-        case .invalidEmail:
+        switch nsError.code {
+        case 17008:
             return .invalidEmail
-        case .weakPassword:
+        case 17026:
             let reason = nsError.localizedDescription
             return .weakPassword(reason)
-        case .userNotFound:
+        case 17011:
             return .userNotFound
-        case .userDisabled:
+        case 17005:
             return .unknown("Benutzer ist deaktiviert.")
-        case .emailAlreadyInUse:
+        case 17007:
             return .userAlreadyExists
-        case .wrongPassword:
+        case 17009:
             return .invalidPassword
-        case .networkError:
+        case 17020:
             return .networkError
-        case .tooManyRequests:
+        case 17010:
             return .unknown("Zu viele Anmeldeversuche. Versuchen Sie es später erneut.")
         default:
             return .unknown(nsError.localizedDescription)

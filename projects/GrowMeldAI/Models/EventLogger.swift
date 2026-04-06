@@ -20,7 +20,3 @@ actor EventLoggerImpl: EventLogger {
         }
     }
 }
-
-// Updated ViewModel
-
-@MainActor

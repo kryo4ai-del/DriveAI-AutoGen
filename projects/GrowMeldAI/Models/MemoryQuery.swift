@@ -1,4 +1,3 @@
-// Models/MemoryQuery.swift
 import Foundation
 
 struct MemoryQuery {
@@ -7,12 +6,12 @@ struct MemoryQuery {
     let dateRange: DateRange?
     let limit: Int
     let offset: Int
-    
+
     struct DateRange {
         let start: Date
         let end: Date
     }
-    
+
     init(
         types: [MemoryType]? = nil,
         categoryId: String? = nil,
@@ -26,12 +25,12 @@ struct MemoryQuery {
         self.limit = limit
         self.offset = offset
     }
-    
-    static var recent(limit: Int = 20) -> MemoryQuery {
+
+    static func recent(limit: Int = 20) -> MemoryQuery {
         MemoryQuery(limit: limit)
     }
-    
-    static var thisWeek(types: [MemoryType]? = nil) -> MemoryQuery {
+
+    static func thisWeek(types: [MemoryType]? = nil) -> MemoryQuery {
         let end = Date()
         let start = Calendar.current.date(byAdding: .day, value: -7, to: end) ?? end
         return MemoryQuery(
