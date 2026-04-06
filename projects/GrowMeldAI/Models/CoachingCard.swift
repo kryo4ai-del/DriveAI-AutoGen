@@ -1,16 +1,17 @@
+import SwiftUI
+
 struct CoachingCard: View {
     let recommendation: CoachingRecommendation
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // HEADLINE
             VStack(alignment: .leading, spacing: 4) {
                 Text(recommendation.headline)
                     .font(.headline)
                     .accessibilityLabel("Coaching-Titel")
                     .accessibilityValue(recommendation.headline)
                     .accessibilityAddTraits(.isHeader)
-                
+
                 Text(recommendation.evidence)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -18,27 +19,25 @@ struct CoachingCard: View {
                     .accessibilityValue(recommendation.evidence)
             }
             .accessibilityElement(children: .combine)
-            
-            // PSYCHOLOGICAL CUE
+
             Text(recommendation.psychologicalCue)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .accessibilityLabel("Lernratschlag")
                 .accessibilityValue(recommendation.psychologicalCue)
-            
-            // ACTION ITEMS (grouped)
+
             VStack(alignment: .leading, spacing: 8) {
                 Text("Empfohlene Aktionen")
                     .font(.caption)
                     .fontWeight(.semibold)
                     .accessibilityAddTraits(.isHeader)
-                
+
                 ForEach(Array(recommendation.actionItems.enumerated()), id: \.offset) { index, item in
                     HStack(spacing: 8) {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundStyle(.green)
-                            .accessibilityHidden(true)  // ← Don't announce icon separately
-                        
+                            .accessibilityHidden(true)
+
                         Text(item)
                             .font(.caption)
                             .accessibilityLabel("Aktion")
@@ -46,9 +45,8 @@ struct CoachingCard: View {
                     }
                 }
             }
-            .accessibilityElement(children: .contain)  // ← Group actions, but keep granular
-            
-            // PRIORITY BADGE
+            .accessibilityElement(children: .contain)
+
             priorityBadge
                 .accessibilityLabel("Priorität")
                 .accessibilityValue(recommendation.priority.accessibilityDescription)
@@ -56,10 +54,10 @@ struct CoachingCard: View {
         .padding()
         .background(Color(.secondarySystemBackground))
         .cornerRadius(12)
-        .accessibilityElement(children: .contain)  // ← KEY FIX: Use .contain
+        .accessibilityElement(children: .contain)
         .accessibilityAddTraits(.isSummaryElement)
     }
-    
+
     @ViewBuilder
     private var priorityBadge: some View {
         switch recommendation.priority {
@@ -88,7 +86,6 @@ struct CoachingCard: View {
     }
 }
 
-// MARK: - Extension for Accessibility
 extension CoachingRecommendation.CoachingPriority {
     var accessibilityDescription: String {
         switch self {

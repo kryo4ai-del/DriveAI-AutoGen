@@ -1,19 +1,21 @@
+import SwiftUI
+
 struct CircularProgressView: View {
     let progress: Double
     let lineWidth: CGFloat = 8
     let label: String
     let primaryColor: Color = .blue
     let backgroundColor: Color = Color(.systemGray5)
-    
+
     @State private var displayProgress: Double = 0
-    
+
     var body: some View {
         VStack(spacing: 12) {
             ZStack {
                 Circle()
                     .stroke(backgroundColor, lineWidth: lineWidth)
-                    .accessibilityHidden(true)  // Visual-only decoration
-                
+                    .accessibilityHidden(true)
+
                 Circle()
                     .trim(from: 0, to: displayProgress)
                     .stroke(
@@ -22,8 +24,8 @@ struct CircularProgressView: View {
                     )
                     .rotationEffect(.degrees(-90))
                     .animation(.easeInOut(duration: 0.8), value: displayProgress)
-                    .accessibilityHidden(true)  // Animated visual
-                
+                    .accessibilityHidden(true)
+
                 VStack(spacing: 4) {
                     Text("\(Int(displayProgress * 100))")
                         .font(.title)
@@ -32,14 +34,14 @@ struct CircularProgressView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-                .accessibilityHidden(true)  // Text covered below
+                .accessibilityHidden(true)
             }
             .frame(width: 120, height: 120)
-            
+
             Text(label)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-                .accessibilityHidden(true)  // Redundant; used in accessibilityLabel
+                .accessibilityHidden(true)
         }
         .onAppear {
             withAnimation(.easeInOut(duration: 0.8)) {
@@ -51,10 +53,8 @@ struct CircularProgressView: View {
                 displayProgress = newValue
             }
         }
-        // ✅ Single accessibility element with semantic value
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(label)
         .accessibilityValue(String(format: NSLocalizedString("percent_%d", comment: ""), Int(progress * 100)))
-        // ✅ NO traits—not interactive, just informational
     }
 }
