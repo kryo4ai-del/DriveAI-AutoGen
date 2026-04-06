@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct CoachingRecommendation: Identifiable {
     let id: UUID
