@@ -1,3 +1,4 @@
+import Foundation
 final class LocalFeedbackPersistence: FeedbackPersistenceService {
     private let fileManager: FileManager
     private let feedbackURL: URL

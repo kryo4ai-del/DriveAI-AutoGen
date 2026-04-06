@@ -1,3 +1,4 @@
+import Foundation
 // Define encryption scope clearly:
 protocol FeedbackEncryptionService {
     // At-rest: SQLite (use CryptoKit or SQLCipher)

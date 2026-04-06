@@ -1,3 +1,4 @@
+import SwiftUI
 struct FeedbackOverlayView: View {
     @State var showFeedback = false
     let isCorrect: Bool
