@@ -1,18 +1,17 @@
-// Features/NotificationConsent/Models/ConsentState.swift
 import Foundation
 
-enum ConsentDecision: String, Codable {
-    case accepted
-    case declined
-    case deferred
+struct ConsentDecision: Codable {
+    let userConsented: Bool
+    let timestamp: Date
+    let version: Int
 }
 
 struct ConsentState: Codable {
-    let decision: ConsentDecision
+    let decision: ConsentDecisionType
     let timestamp: Date
     let deferralCount: Int
-    
+
     var canDefer: Bool {
-        deferralCount < 3  // ← ENFORCES LIMIT (per refactor notes)
+        deferralCount < 3
     }
 }
