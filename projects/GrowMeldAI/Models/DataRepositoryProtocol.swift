@@ -83,12 +83,12 @@ actor LocalDataRepository: DataRepositoryProtocol {
         // Parse path: "categories/traffic_signs/questions"
         let components = path.split(separator: "/")
         // Query local SQLite
-        ...
+        fatalError("Not implemented")
     }
     
     func writeRemote<T: Encodable>(_ path: String, data: T) async throws {
         // Write to local SQLite (Phase 1: no actual remote write)
-        ...
+        fatalError("Not implemented")
     }
 }
 

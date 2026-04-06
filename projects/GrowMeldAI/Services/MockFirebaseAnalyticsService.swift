@@ -1,7 +1,7 @@
 // Mock Firebase (stub analytics calls)
 class MockFirebaseAnalyticsService: FirebaseAnalyticsService {
     var loggedEvents: [AnalyticsEvent] = []
-    override func logConfidentAnswer(...) {
+    override func logConfidentAnswer(event: AnalyticsEvent) {
         loggedEvents.append(event)
     }
 }

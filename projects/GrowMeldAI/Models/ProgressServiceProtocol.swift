@@ -10,5 +10,3 @@ protocol UserServiceProtocol: AnyObject {
     func exportProfileData() async throws -> ProfileBackupData
     func importProfileData(_ data: ProfileBackupData) async throws
 }
-
-@MainActor

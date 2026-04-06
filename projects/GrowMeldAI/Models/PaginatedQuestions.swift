@@ -1,3 +1,14 @@
+import Foundation
+
+struct Question {
+    let id: UUID
+    let text: String
+}
+
+enum AppError: Error {
+    case unknown
+}
+
 struct PaginatedQuestions {
     let questions: [Question]
     let hasMore: Bool
@@ -10,7 +21,10 @@ func loadQuestions(
     offset: Int = 0
 ) async -> Result<PaginatedQuestions, AppError> {
     // Implementation with LIMIT/OFFSET
+    return .failure(.unknown)
 }
 
-// In QuizViewModel:
 @Observable
+class QuizViewModel {
+    var paginatedQuestions: PaginatedQuestions?
+}

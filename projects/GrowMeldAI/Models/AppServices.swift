@@ -37,6 +37,3 @@ class MockAppServices: AppServices {
         self.exam = MockExamService()
     }
 }
-
-// App initialization
-@main

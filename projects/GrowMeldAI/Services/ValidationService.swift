@@ -37,6 +37,8 @@ struct ValidationService {
 
 // SignInViewModel (cleaned up)
 @MainActor
+class SignInViewModel {}
 
 // SignUpViewModel (cleaned up)
 @MainActor
+class SignUpViewModel {}

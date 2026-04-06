@@ -1,3 +1,5 @@
+import SwiftUI
+
 // ✅ Explicit state machine
 enum LoadingState<T> {
     case idle
@@ -6,14 +8,49 @@ enum LoadingState<T> {
     case error(Error)
 }
 
-@MainActor
+struct Question {
+    let text: String
+}
 
-// In View
-switch viewModel.state {
-case .idle, .loading:
-    ProgressView()
-case .success(let question):
-    QuestionContent(question: question)
-case .error(let error):
-    ErrorView(error: error, retry: viewModel.reload)
+@MainActor
+class ViewModel: ObservableObject {
+    @Published var state: LoadingState<Question> = .idle
+
+    func reload() {
+        // reload logic
+    }
+}
+
+struct QuestionContent: View {
+    let question: Question
+    var body: some View {
+        Text(question.text)
+    }
+}
+
+struct ErrorView: View {
+    let error: Error
+    let retry: () -> Void
+    var body: some View {
+        VStack {
+            Text(error.localizedDescription)
+            Button("Retry", action: retry)
+        }
+    }
+}
+
+struct ContentView: View {
+    @StateObject var viewModel = ViewModel()
+
+    var body: some View {
+        // In View
+        switch viewModel.state {
+        case .idle, .loading:
+            ProgressView()
+        case .success(let question):
+            QuestionContent(question: question)
+        case .error(let error):
+            ErrorView(error: error, retry: viewModel.reload)
+        }
+    }
 }

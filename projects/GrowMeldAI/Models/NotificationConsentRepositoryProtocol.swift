@@ -6,5 +6,3 @@ protocol NotificationConsentRepositoryProtocol {
     func deleteAllConsents() throws
     func shouldAskForConsent(triggerId: String) -> Bool
 }
-
-@MainActor

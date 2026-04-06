@@ -3,6 +3,7 @@ protocol ViewModelError: LocalizedError {
     var retryAction: (() -> Void)? { get }
 }
 
-@MainActor
-
 // Enables consistent error UI across all features
+@MainActor
+class BaseViewModel: ObservableObject {
+}

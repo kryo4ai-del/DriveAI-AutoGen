@@ -20,38 +20,40 @@ enum UserConfidence: Int, CaseIterable {
     }
 }
 
-static func calculateNextReview(
-    userConfidence: UserConfidence,
-    currentInterval: Int = 0,
-    currentEaseFactor: Float = 2.5
-) -> (interval: Int, easeFactor: Float) {
-    let quality = userConfidence.sm2Quality
-    
-    // Proper SM-2 thresholds
-    var newEaseFactor = currentEaseFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
-    newEaseFactor = max(1.3, newEaseFactor)
-    
-    let nextInterval: Int
-    if quality < 3 {
-        // Failed: aggressive restart
-        nextInterval = 1
-    } else if currentInterval == 0 {
-        nextInterval = 1
-    } else if currentInterval == 1 {
-        nextInterval = 3
-    } else {
-        nextInterval = Int(Float(currentInterval) * newEaseFactor)
+struct SpacedRepetition {
+    static func calculateNextReview(
+        userConfidence: UserConfidence,
+        currentInterval: Int = 0,
+        currentEaseFactor: Float = 2.5
+    ) -> (interval: Int, easeFactor: Float) {
+        let quality = userConfidence.sm2Quality
+        
+        // Proper SM-2 thresholds
+        var newEaseFactor = currentEaseFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+        newEaseFactor = max(1.3, newEaseFactor)
+        
+        let nextInterval: Int
+        if quality < 3 {
+            // Failed: aggressive restart
+            nextInterval = 1
+        } else if currentInterval == 0 {
+            nextInterval = 1
+        } else if currentInterval == 1 {
+            nextInterval = 3
+        } else {
+            nextInterval = Int(Float(currentInterval) * newEaseFactor)
+        }
+        
+        return (interval: nextInterval, easeFactor: newEaseFactor)
     }
-    
-    return (interval: nextInterval, easeFactor: newEaseFactor)
 }
 
 // ✅ Test now catches SM-2 violations
 func test_sm2_failureRestarts() {
-    let (interval, _) = calculateNextReview(
+    let (interval, _) = SpacedRepetition.calculateNextReview(
         userConfidence: .veryUnsure,  // User doesn't know it
         currentInterval: 30,           // Has been 30 days
         currentEaseFactor: 2.8
     )
-    XCTAssertEqual(interval, 1)  // Must restart to 1 day
+    assert(interval == 1)  // Must restart to 1 day
 }

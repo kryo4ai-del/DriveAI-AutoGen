@@ -4,5 +4,3 @@ protocol CloudKitServiceProtocol {
     func observeRemoteChanges() async
     func resolveConflict(local: ProgressSnapshot, cloud: ProgressSnapshot) -> ProgressSnapshot
 }
-
-@MainActor

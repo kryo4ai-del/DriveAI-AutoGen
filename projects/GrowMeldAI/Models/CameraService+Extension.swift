@@ -1,16 +1,25 @@
-// ❌ PROBLEM: State mutated from multiple threads
-@Published var state: CameraState = .idle
+import AVFoundation
+import Combine
 
-private func processPhoto(...) async {
-    await MainActor.run {
-        self.state = .processing  // ← Fine
+enum CameraState {
+    case idle
+    case processing
+}
+
+class CameraService: NSObject, ObservableObject {
+    @Published var state: CameraState = .idle
+
+    private func processPhoto(data: Data) async {
+        await MainActor.run {
+            self.state = .processing
+        }
     }
 }
 
-// But in video output delegate:
 extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(...) {
-        // Background thread
-        state = .idle  // ← WRONG: direct mutation off main thread
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        DispatchQueue.main.async {
+            self.state = .idle
+        }
     }
 }

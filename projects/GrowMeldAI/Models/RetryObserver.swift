@@ -9,7 +9,7 @@ protocol RetryObserver {
 func withRetry<T>(
     policy: RetryPolicy = .default,
     shouldRetry: ((Error) -> Bool)? = nil,
-    observer: RetryObserver? = nil, // NEW
+    observer: RetryObserver? = nil,
     operation: () async throws -> T
 ) async throws -> T {
     let defaultShouldRetry: (Error) -> Bool = { error in
@@ -33,14 +33,14 @@ func withRetry<T>(
             lastError = error
             
             guard attempt < policy.maxAttempts && retryCheck(error) else {
-                await observer?.retryDidExhaust()
+                observer?.retryDidExhaust()
                 throw error
             }
             
-            await observer?.retryWillAttempt(attempt, of: policy.maxAttempts)
+            observer?.retryWillAttempt(attempt, of: policy.maxAttempts)
             
             let delay = policy.delay(for: attempt)
-            await observer?.retryWillWait(for: delay)
+            observer?.retryWillWait(for: delay)
             
             try await Task.sleep(nanoseconds: delay)
         }
@@ -48,6 +48,3 @@ func withRetry<T>(
     
     throw lastError ?? CloudFunctionError.unknown("Max retries exceeded")
 }
-
-// Usage in ViewModel
-@MainActor

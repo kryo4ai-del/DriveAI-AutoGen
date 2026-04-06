@@ -14,21 +14,20 @@ final class SessionIdManager {
         let today = calendar.startOfDay(for: Date())
         
         // Load stored ID and date
-        let storedDate = UserDefaults.standard
-            .object(forKey: sessionIdDateKey) as? Date
+        let storedDate = (userDefaults.object(forKey: sessionIdDateKey) as? Date)
             .map { calendar.startOfDay(for: $0) }
         
         // Reuse if from today; otherwise create new
         if let storedDate = storedDate,
            storedDate == today,
-           let storedId = UserDefaults.standard.string(forKey: sessionIdKey) {
+           let storedId = userDefaults.string(forKey: sessionIdKey) {
             return storedId
         }
         
         // Generate new daily session ID
         let newId = UUID().uuidString
-        UserDefaults.standard.set(newId, forKey: sessionIdKey)
-        UserDefaults.standard.set(Date(), forKey: sessionIdDateKey)
+        userDefaults.set(newId, forKey: sessionIdKey)
+        userDefaults.set(Date(), forKey: sessionIdDateKey)
         
         return newId
     }

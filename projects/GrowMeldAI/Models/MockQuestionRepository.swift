@@ -14,3 +14,5 @@ final class MockQuestionRepository: QuestionRepository {
 
 // Now tests are simple:
 @MainActor
+class MockQuestionRepositoryTests {
+}

@@ -33,4 +33,3 @@ final class TimerCalculator {
 // Usage in ExamSession
 
 // Usage in HomeViewModel
-@MainActor

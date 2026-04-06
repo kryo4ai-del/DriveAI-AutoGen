@@ -1,7 +1,12 @@
+import AVFoundation
+import UIKit
+import CoreMedia
+import Combine
+
 class CameraManager: NSObject {
     @Published var estimatedLuminance: Float = 0.5 // 0.0 = dark, 1.0 = bright
     
-    func captureOutput(...) {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         
         // ✅ Measure luminance
@@ -33,7 +38,7 @@ class CameraManager: NSObject {
         var totalLuminance: UInt32 = 0
         let sampleCount = 100 // Sample subset
         
-        for i in 0..<sampleCount {
+        for _ in 0..<sampleCount {
             let randomIndex = Int.random(in: 0..<(width * height))
             let offset = (randomIndex / width) * bytesPerRow + (randomIndex % width) * 4
             

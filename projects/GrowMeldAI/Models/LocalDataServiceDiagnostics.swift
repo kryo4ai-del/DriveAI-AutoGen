@@ -20,7 +20,7 @@ class LocalDataServiceDiagnostics {
   }
   
   func verifyCategoryDistribution() throws {
-    let expected = ["traffic_signs": 300, "right_of_way": 250, ...]
+    let expected: [String: Int] = ["traffic_signs": 300, "right_of_way": 250]
     let actual = try db.execute(
       "SELECT category, COUNT(*) FROM questions GROUP BY category"
     )

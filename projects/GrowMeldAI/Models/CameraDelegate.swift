@@ -1,12 +1,19 @@
-// ❌ AVOID: Retain cycles in closure-based delegates
-weak var delegate: CameraDelegate?
-imageProcessor.onComplete = { [weak self] in  // ⚠️ Dangerous
-    self?.updateUI()
+protocol CameraDelegate: AnyObject {
+    func updateUI()
 }
 
-// ✅ PREFER: Protocol-based weak references
-protocol CameraDelegate: AnyObject { }
-weak var delegate: CameraDelegate?
+class ImageProcessor {
+    var onComplete: (() -> Void)?
+}
 
-// ✅ PREFER: Weak capture in ViewModels
 @MainActor
+class CameraViewModel {
+    weak var delegate: CameraDelegate?
+    var imageProcessor = ImageProcessor()
+
+    func setup() {
+        imageProcessor.onComplete = { [weak self] in
+            self?.delegate?.updateUI()
+        }
+    }
+}
