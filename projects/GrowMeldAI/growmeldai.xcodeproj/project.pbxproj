@@ -1274,7 +1274,6 @@
 		77F99DF9C69AE88184F5D1D2 /* TrafficSignMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D623C3B2CA0967498717F9FE /* TrafficSignMLModel.swift */; };
 		7804D40281F5CD5B11AF4A45 /* ExamSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD6CA16A5AF58C5EFEF5AD /* ExamSessionViewModel.swift */; };
 		7809392DEB7C80762595ED1A /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432E1B3409A80BB69B6D1590 /* CLLocationCoordinate2D.swift */; };
-		782E109643365AF0955A3DE2 /* CrashReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F71D9DDFCA11D809920365 /* CrashReport.swift */; };
 		783C7D08BC920D68E27C14D2 /* QuestionID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005A9F9A1F4D8938ECF114FB /* QuestionID.swift */; };
 		7843FD24DD50591FC936DEE5 /* FormField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D104CC1061BC7DFF49D9E1 /* FormField.swift */; };
 		7845FD0934A356A730265324 /* SubscriptionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B83DDEA8113E021052A43 /* SubscriptionRepository.swift */; };
@@ -2678,7 +2677,6 @@
 		03DD604E9446BF5A5ACA63BA /* NSNull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSNull.swift; sourceTree = "<group>"; };
 		03DE20CE6A97ADBBED156648 /* SubscriptionStatus+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubscriptionStatus+Extension.swift"; sourceTree = "<group>"; };
 		03E67E06C7FD74AB47389FFB /* FeatureFlagService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagService.swift; sourceTree = "<group>"; };
-		03F71D9DDFCA11D809920365 /* CrashReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReport.swift; sourceTree = "<group>"; };
 		040581D9C00C2C94D4020DE8 /* NSRegularExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSRegularExpression.swift; sourceTree = "<group>"; };
 		044E3A5F928D358CA11398DF /* UserPreferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesService.swift; sourceTree = "<group>"; };
 		046C4522B88D649B980B0BC4 /* MaintenanceServiceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceServiceFactory.swift; sourceTree = "<group>"; };
@@ -6455,7 +6453,6 @@
 				1AE9C3813D869A7F94B6FAA9 /* CrashlyticsEnvironment.swift */,
 				B701FA2F7480720563A94DC7 /* CrashlyticsManager.swift */,
 				AC1134773A0FB3B8BCBE9A9A /* CrashlyticsService+Extension.swift */,
-				03F71D9DDFCA11D809920365 /* CrashReport.swift */,
 				0B70C2ACFA10276DFBD58198 /* CrashReportingConfig.swift */,
 				058A4FFD930CEE8CE6072A8E /* CrashReportingService+Extension.swift */,
 				1484D54D75CD050536D712DD /* CrashReportingServiceProtocol.swift */,
@@ -8567,7 +8564,6 @@
 				CA03B6F8A275C72636C95E94 /* CrashEvent.swift in Sources */,
 				9A0C80BB25BAA246DE427D2F /* CrashLogger.swift in Sources */,
 				4F46E8916F3CB2DBB6C49DFA /* CrashRecoveryView.swift in Sources */,
-				782E109643365AF0955A3DE2 /* CrashReport.swift in Sources */,
 				64110E789A891FC2D9F54573 /* CrashReportView.swift in Sources */,
 				382174A1B148007EB6D7A4A2 /* CrashReportingConfig.swift in Sources */,
 				53FF921DBFCC5D5063438268 /* CrashReportingService+Extension.swift in Sources */,

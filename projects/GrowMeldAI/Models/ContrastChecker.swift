@@ -1,3 +1,4 @@
+import SwiftUI
 // Add to debug build to test contrast
 #if DEBUG
 struct ContrastChecker {
