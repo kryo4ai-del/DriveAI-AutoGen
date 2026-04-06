@@ -289,7 +289,6 @@
 		19E46744B3CE073358BCB1DC /* CloudDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD48425BF4C029E0B50B0DE /* CloudDataError.swift */; };
 		19EABC0A0EB9D27E41A2E1FA /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770268E0C184D42A16CAB581 /* ErrorScreen.swift */; };
 		1A09D437611565812C5BB4BA /* UserProgressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4D2AB1689B122B0BEE554D /* UserProgressModel.swift */; };
-		1A1E9E4A927C8F6D762AD0D1 /* ConsentPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B61C0E1CF09A9B82871D395 /* ConsentPersistenceServiceProtocol.swift */; };
 		1A8B6499589133CFB2A52FD2 /* HomeViewModel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8B3C662FCC52852F969BE4 /* HomeViewModel+Extension.swift */; };
 		1AAE116E52C3C00192A31F79 /* NotificationConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8430566AB07465C7490BEEAC /* NotificationConsentManager.swift */; };
 		1AB37ACE893C21A0978740A6 /* Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64AB9A2498D5D1119B3D68 /* Explanation.swift */; };
@@ -664,7 +663,6 @@
 		3CE6DEB04803E79F88619715 /* AuthRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F877D1CFA7EE6B2E002B41 /* AuthRootView.swift */; };
 		3CFCC5EAD0E52B8ECC643D7E /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A067A8B7BC025A43361D3EF /* DesignSystem.swift */; };
 		3D05D44A2040E2D5B9C54062 /* ProgressPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B163D31ADE14EBFCCE887DC /* ProgressPersistenceService.swift */; };
-		3D35F553A9B45FE069B637EB /* ConsentRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF885EA2126D624BF201CC /* ConsentRecordingService.swift */; };
 		3D4ABE5A80320F61A51E21F7 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8930FE6D6001E00949572218 /* SessionManager.swift */; };
 		3D6D84B5005691EA3BB4227B /* PhoneVerifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C32F676D2779F289DD9C28 /* PhoneVerifierProtocol.swift */; };
 		3D9CD97B728B530542206FA7 /* LocationSelectionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56B68E2B98EB9CCEA426C6C /* LocationSelectionRepository.swift */; };
@@ -1884,7 +1882,6 @@
 		B31420575AC6D1E0F5E4EF8F /* SyncQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF22CA14CBEA0579528D9C20 /* SyncQueueManager.swift */; };
 		B319A93330E4B366E1355E80 /* CoordinatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA673F49AB13879C83E92AC1 /* CoordinatorKey.swift */; };
 		B31BF7431818C289F6BF2322 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB84DD5EBB5C57D5828860DE /* ErrorAlert.swift */; };
-		B34ADDECAEF50D0BA453161E /* ConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7C062D396E689DBBFF5E04 /* ConsentManager.swift */; };
 		B362EDECDFB9A098B6DAA6E5 /* ConsentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD340FE8249BB36227951F19 /* ConsentService.swift */; };
 		B38B646D90B2DFE52CB801F2 /* ProgressRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D33ECC9B3DF3F2498044769 /* ProgressRecord.swift */; };
 		B397BBCE87B3AAA1DBD1B953 /* MockProductBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A616C15A42BB1CDB13A1E7 /* MockProductBuilder.swift */; };
@@ -3017,7 +3014,6 @@
 		2B283323B762DCAA675232E9 /* FreemiumService+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FreemiumService+Extension.swift"; sourceTree = "<group>"; };
 		2B45CE8FFCFAD1C3C640CBFF /* WeakTopicsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakTopicsViewModel.swift; sourceTree = "<group>"; };
 		2B5C4F054443088BEACD6864 /* OSLog+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Extension.swift"; sourceTree = "<group>"; };
-		2B61C0E1CF09A9B82871D395 /* ConsentPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
 		2B64A7C04DB6D994EC1C84C1 /* CrashReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportView.swift; sourceTree = "<group>"; };
 		2B650CFEBCA19DD33A8958CF /* ConsentStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentStrings.swift; sourceTree = "<group>"; };
 		2B9B28B6FA0A7D0E6527D62B /* CodingKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingKeys.swift; sourceTree = "<group>"; };
@@ -3090,7 +3086,6 @@
 		3091F2214D84E252A7CA6DC1 /* PerformanceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCoordinator.swift; sourceTree = "<group>"; };
 		30982CCE6A377E22BC990C6D /* ASODataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASODataService.swift; sourceTree = "<group>"; };
 		30AD086C673D55E714D0923B /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
-		30AF885EA2126D624BF201CC /* ConsentRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentRecordingService.swift; sourceTree = "<group>"; };
 		313361C8ADCAD8270E097B1A /* UserEntitlements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntitlements.swift; sourceTree = "<group>"; };
 		3140E1595603B4A6138F6A71 /* MockCameraAccessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCameraAccessManager.swift; sourceTree = "<group>"; };
 		314B5B1B3E4E8F93B7AE5C62 /* CircularBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularBuffer.swift; sourceTree = "<group>"; };
@@ -4504,7 +4499,6 @@
 		B9D3BDBAB6A12459DDE745DB /* AuthContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthContainerView.swift; sourceTree = "<group>"; };
 		B9FEE0CA71C0CBA18F111841 /* TrafficSignsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficSignsView.swift; sourceTree = "<group>"; };
 		BA2D3021E81E768F7D9711EF /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
-		BA7C062D396E689DBBFF5E04 /* ConsentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentManager.swift; sourceTree = "<group>"; };
 		BA81F7863E40C9015C380C44 /* DefaultConsentUIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultConsentUIProvider.swift; sourceTree = "<group>"; };
 		BA962A3B5694F116A1C9B6BD /* UNNotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNNotificationRequest.swift; sourceTree = "<group>"; };
 		BAA156FD1A434A040DDBECF3 /* AnalyticsDataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsDataProcessor.swift; sourceTree = "<group>"; };
@@ -5727,7 +5721,6 @@
 				9C46659A28413DFAB584B8DE /* ComplianceDataService.swift */,
 				F1738302DDCFA61D7FB6C395 /* ComplianceService.swift */,
 				3738DD01DED3D8C8549ED022 /* ConsentAwareAnalyticsService.swift */,
-				30AF885EA2126D624BF201CC /* ConsentRecordingService.swift */,
 				BD340FE8249BB36227951F19 /* ConsentService.swift */,
 				DF3AD2A551618741C54194B5 /* ConsentStorageService.swift */,
 				833AF387589130A1DC80B52F /* CountdownTimerService.swift */,
@@ -6345,12 +6338,10 @@
 				1EB50049485CFA56F19FF626 /* ConsentLog.swift */,
 				187B84C572B2F7BB0B7FC8B8 /* ConsentLogRow.swift */,
 				7A3501B824CC3BF9C4A90624 /* ConsentManagementScreen.swift */,
-				BA7C062D396E689DBBFF5E04 /* ConsentManager.swift */,
 				A7E0C115524D25A0F8DBF121 /* ConsentManager+Extension.swift */,
 				0AFAD0BBA6C7B328B254E43F /* ConsentManagerProtocol.swift */,
 				F4D2131B188BDBCDCEC9FF68 /* ConsentManaging.swift */,
 				A0ACAE9EEFE3A2FE43608461 /* ConsentPersistenceError.swift */,
-				2B61C0E1CF09A9B82871D395 /* ConsentPersistenceServiceProtocol.swift */,
 				45CABE9F890D7C22140B7490 /* ConsentPolicy.swift */,
 				8C6A125A7F57F4230125BD7E /* ConsentPreference.swift */,
 				42251BBFB2FBC2E813A952CF /* ConsentPreference+Extension.swift */,
@@ -8436,11 +8427,9 @@
 				65E2FEF36AEF7C79DCCBB33A /* ConsentLogRow.swift in Sources */,
 				B02C595E7A407E3531F8E9DD /* ConsentManagementScreen.swift in Sources */,
 				772B94F0BAC0C2700C9F2BB7 /* ConsentManager+Extension.swift in Sources */,
-				B34ADDECAEF50D0BA453161E /* ConsentManager.swift in Sources */,
 				6492A871447D3B36C81AEE29 /* ConsentManagerProtocol.swift in Sources */,
 				93A64F8DCFE36C5EC181C2A9 /* ConsentManaging.swift in Sources */,
 				8CA6F942A0E5A2C21D91AD9F /* ConsentPersistenceError.swift in Sources */,
-				1A1E9E4A927C8F6D762AD0D1 /* ConsentPersistenceServiceProtocol.swift in Sources */,
 				BF03ADE4FC6AEACB2B144CAD /* ConsentPolicy.swift in Sources */,
 				BB0FEFCA8A92A75A9FF1D911 /* ConsentPreference+Extension.swift in Sources */,
 				5FF0D048AE52B5578696ED9D /* ConsentPreference.swift in Sources */,
@@ -8448,7 +8437,6 @@
 				6A6B8D6A30AE44E74F6AB66B /* ConsentPromptView.swift in Sources */,
 				A0A0D07523823178707F2F63 /* ConsentProtocol.swift in Sources */,
 				3A210A8A16776DC56A4F79F6 /* ConsentRecord.swift in Sources */,
-				3D35F553A9B45FE069B637EB /* ConsentRecordingService.swift in Sources */,
 				664741E7AEB9DDA8D4FF4269 /* ConsentRepositoryError.swift in Sources */,
 				B362EDECDFB9A098B6DAA6E5 /* ConsentService.swift in Sources */,
 				795361052E3215210B7CCF02 /* ConsentServiceProtocol.swift in Sources */,

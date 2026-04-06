@@ -1,3 +1,4 @@
+import SwiftUI
 struct ConsentManagementScreen: View {
     @EnvironmentObject var consentManager: AppConsentManager
     
