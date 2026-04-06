@@ -20,16 +20,14 @@ struct AuthNavigationStack: View {
             .padding()
             
             // Content
-            Group {
-                if showSignUp {
-                    SignUpView()
-                        .accessibilityElement(children: .combine)
-                } else {
-                    LoginView(viewModel: viewModel, showSignUp: $showSignUp)
-                        .accessibilityLabel("Anmeldebildschirm")
-                }
+            if showSignUp {
+                SignUpView()
+                    .accessibilityElement(children: .combine)
+            } else {
+                LoginView(viewModel: viewModel, showSignUp: $showSignUp)
+                    .accessibilityLabel("Anmeldebildschirm")
             }
-            .transition(.opacity)
         }
+        .animation(.default, value: showSignUp)
     }
 }

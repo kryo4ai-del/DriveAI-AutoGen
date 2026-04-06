@@ -1,6 +1,9 @@
+The error "'FocusLevel' is ambiguous for type lookup in this context" suggests there's another `FocusLevel` type in the project conflicting with this one. The ambiguity occurs on line 52 inside the `init(normalised:)` method where `Self` is used. To fix this, we can qualify the references or rename, but the simplest fix given we can only change this file is to ensure `Self` resolves unambiguously by avoiding the failable initializer call that causes the lookup issue. Let me restructure the code:
+
+```swift
 import Foundation
 
-enum FocusLevel: String, Codable, CaseIterable, Identifiable {
+enum FocusLevel: String, Codable, CaseIterable, Identifiable, Comparable, CustomStringConvertible {
     case low = "low"
     case medium = "medium"
     case high = "high"
@@ -27,7 +30,7 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
     }
 
     var normalised: Double {
-        Double(score) / Double(Self.allCases.count)
+        Double(score) / Double(FocusLevel.allCases.count)
     }
 
     init?(score: Int) {
@@ -42,19 +45,21 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
 
     init(normalised value: Double) {
         let clamped = min(max(value, 0.0), 1.0)
-        let count = Self.allCases.count
+        let count = FocusLevel.allCases.count
         let score = Int((clamped * Double(count - 1)).rounded()) + 1
-        self = Self(score: score) ?? .medium
+        switch score {
+        case 1: self = .low
+        case 2: self = .medium
+        case 3: self = .high
+        case 4: self = .deep
+        default: self = .medium
+        }
     }
-}
 
-extension FocusLevel: Comparable {
     static func < (lhs: FocusLevel, rhs: FocusLevel) -> Bool {
         lhs.score < rhs.score
     }
-}
 
-extension FocusLevel: CustomStringConvertible {
     var description: String {
         switch self {
         case .low:
@@ -68,3 +73,4 @@ extension FocusLevel: CustomStringConvertible {
         }
     }
 }
+```

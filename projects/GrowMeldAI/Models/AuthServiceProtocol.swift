@@ -6,13 +6,13 @@ protocol AuthServiceProtocol: Sendable {
     var authState: AsyncStream<AuthState> { get }
     
     /// Current authenticated user (thread-safe)
-    var currentUser: AuthUser? { get async }
+    var currentUser: Models.AuthUser? { get }
     
     /// Sign in with email and password
-    func signIn(with credentials: AuthCredentials) async throws -> AuthUser
+    func signIn(with credentials: AuthCredentials) async throws -> Models.AuthUser
     
     /// Create new account
-    func signUp(with credentials: AuthCredentials) async throws -> AuthUser
+    func signUp(with credentials: AuthCredentials) async throws -> Models.AuthUser
     
     /// Sign out current user
     func signOut() async throws
@@ -21,10 +21,10 @@ protocol AuthServiceProtocol: Sendable {
     func deleteAccount() async throws
     
     /// Update user profile (name + exam date)
-    func updateProfile(displayName: String, examDate: Date) async throws -> AuthUser
+    func updateProfile(displayName: String, examDate: Date) async throws -> Models.AuthUser
     
     /// Update exam date only
-    func updateExamDate(_ date: Date) async throws -> AuthUser
+    func updateExamDate(_ date: Date) async throws -> Models.AuthUser
     
     /// Send password reset email
     func sendPasswordResetEmail(to email: String) async throws
