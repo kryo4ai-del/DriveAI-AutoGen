@@ -1,4 +1,3 @@
-import Foundation
 class FeedbackService {
     private var deletedFeedbackIDs: Set<UUID> = []  // Track deletions
     

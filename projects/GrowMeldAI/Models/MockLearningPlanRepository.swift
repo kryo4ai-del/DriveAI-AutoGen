@@ -1,6 +1,45 @@
 import Foundation
 
-// MARK: - LearningPlanRepositoryProtocol
+// MARK: - LearningPlan Model
+
+struct LearningPlan: Identifiable, Codable {
+    let id: String
+    var title: String
+    var description: String
+    var steps: [LearningStep]
+    var createdAt: Date
+    var updatedAt: Date
+
+    init(
+        id: String = UUID().uuidString,
+        title: String,
+        description: String = "",
+        steps: [LearningStep] = [],
+        createdAt: Date = Date(),
+        updatedAt: Date = Date()
+    ) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.steps = steps
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
+}
+
+struct LearningStep: Identifiable, Codable {
+    let id: String
+    var title: String
+    var isCompleted: Bool
+
+    init(id: String = UUID().uuidString, title: String, isCompleted: Bool = false) {
+        self.id = id
+        self.title = title
+        self.isCompleted = isCompleted
+    }
+}
+
+// MARK: - LearningPlanRepository Protocol
 
 protocol LearningPlanRepositoryProtocol {
     func fetchAll() -> [LearningPlan]
@@ -41,6 +80,7 @@ class MockLearningPlanRepository: LearningPlanRepositoryProtocol {
     private var store: [String: LearningPlan] = [:]
 
     init() {
+        // Seed with sample data
         let sample = LearningPlan(
             id: "mock-plan-1",
             title: "Swift Fundamentals",

@@ -6,3 +6,5 @@ struct ExamPassConfiguration {
         Double(minScore) / Double(maxScore) * 100
     }
 }
+
+@MainActor

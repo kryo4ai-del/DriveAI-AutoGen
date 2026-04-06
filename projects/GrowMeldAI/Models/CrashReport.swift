@@ -1,5 +1,6 @@
 // Services/Crashlytics/CrashReportingService.swift
 import Foundation
+import FirebaseCrashlytics
 
 /// Main service for crash reporting and error logging
 actor CrashReportingService {
@@ -140,6 +141,5 @@ private enum CrashSeverity: String, Codable, Sendable {
         case is AppError: return .high
         case let urlError as URLError where urlError.code == .timedOut: return .medium
         default: return .low
-        }
     }
 }

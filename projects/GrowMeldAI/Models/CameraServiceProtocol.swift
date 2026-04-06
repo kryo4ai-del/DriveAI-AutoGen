@@ -1,4 +1,3 @@
-import Foundation
 // Services/Protocols/CameraServiceProtocol.swift
 protocol CameraServiceProtocol: AnyObject {
     var state: CameraState { get }

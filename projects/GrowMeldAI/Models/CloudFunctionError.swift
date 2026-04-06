@@ -11,7 +11,7 @@ enum CloudFunctionError: LocalizedError, Equatable {
     case badRequest(String)
     case serverError(String)
     case unknown(String)
-
+    
     var errorDescription: String? {
         switch self {
         case .networkUnavailable:
@@ -36,7 +36,7 @@ enum CloudFunctionError: LocalizedError, Equatable {
             return "Unbekannter Fehler: \(detail)"
         }
     }
-
+    
     var recoverySuggestion: String? {
         switch self {
         case .networkUnavailable:
@@ -51,7 +51,8 @@ enum CloudFunctionError: LocalizedError, Equatable {
             return "Bitte versuchen Sie es später erneut oder kontaktieren Sie den Support."
         }
     }
-
+    
+    // For retry logic
     var isRetryable: Bool {
         switch self {
         case .networkUnavailable, .functionTimeout, .quotaExceeded:
@@ -60,10 +61,13 @@ enum CloudFunctionError: LocalizedError, Equatable {
             return false
         }
     }
+}
 
-    init(from nsError: NSError) {
-        let code = nsError.code
-        let userInfo = nsError.userInfo
+extension CloudFunctionError {
+    init(from functionsError: NSError) {
+        let code = functionsError.code
+        let userInfo = functionsError.userInfo
+        
         switch code {
         case -1001:
             self = .functionTimeout(retryCount: 0)
@@ -73,10 +77,10 @@ enum CloudFunctionError: LocalizedError, Equatable {
             if let details = userInfo["details"] as? String {
                 self = .decodingError(details)
             } else {
-                self = .unknown(nsError.localizedDescription)
+                self = .unknown(functionsError.localizedDescription)
             }
         default:
-            self = .unknown(nsError.localizedDescription)
+            self = .unknown(functionsError.localizedDescription)
         }
     }
 }

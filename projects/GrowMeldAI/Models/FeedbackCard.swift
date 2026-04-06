@@ -1,4 +1,3 @@
-import SwiftUI
 struct FeedbackCard: View {
     let isCorrect: Bool
     let explanation: String

@@ -34,3 +34,9 @@ struct ValidationService {
         return trimmed.count >= nameMinLength && trimmed.count <= nameMaxLength
     }
 }
+
+// SignInViewModel (cleaned up)
+@MainActor
+
+// SignUpViewModel (cleaned up)
+@MainActor

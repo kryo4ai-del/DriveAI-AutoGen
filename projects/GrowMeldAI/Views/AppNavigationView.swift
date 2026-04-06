@@ -1,7 +1,8 @@
+// Views/AppNavigationView.swift
 import SwiftUI
 
 struct AppNavigationView: View {
-    @StateObject private var coordinator = AppNavigationCoordinator()
+    @StateObject private var coordinator = NavigationCoordinator()
 
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
@@ -12,14 +13,14 @@ struct AppNavigationView: View {
                     OnboardingView()
                 }
             }
-            .navigationDestination(for: AppRoute.self) { route in
-                switch route {
+            .navigationDestination(for: AppNavigationPath.self) { path in
+                switch path {
                 case .home:
                     HomeView()
                 case .categoryDetail(let categoryID):
-                    CategoryDetailPlaceholderView(categoryID: categoryID)
+                    CategoryDetailView(categoryID: categoryID)
                 case .question(let questionID, let context):
-                    QuestionPlaceholderView(questionID: questionID, context: context)
+                    QuestionView(questionID: questionID, context: context)
                 }
             }
         }
@@ -27,16 +28,16 @@ struct AppNavigationView: View {
     }
 }
 
-// MARK: - Navigation Route
-enum AppRoute: Hashable {
+// MARK: - Navigation Path
+enum AppNavigationPath: Hashable {
     case home
     case categoryDetail(categoryID: String)
     case question(questionID: String, context: String?)
 }
 
 // MARK: - Navigation Coordinator
-class AppNavigationCoordinator: ObservableObject {
-    @Published var navigationPath = [AppRoute]()
+class NavigationCoordinator: ObservableObject {
+    @Published var navigationPath = NavigationPath()
     @Published var isOnboarded: Bool
 
     init() {
@@ -48,8 +49,8 @@ class AppNavigationCoordinator: ObservableObject {
         isOnboarded = true
     }
 
-    func navigate(to route: AppRoute) {
-        navigationPath.append(route)
+    func navigate(to path: AppNavigationPath) {
+        navigationPath.append(path)
     }
 
     func navigateBack() {
@@ -59,45 +60,13 @@ class AppNavigationCoordinator: ObservableObject {
     }
 
     func navigateToRoot() {
-        navigationPath = []
+        navigationPath = NavigationPath()
     }
 }
 
-// MARK: - Placeholder Views
-private struct CategoryDetailPlaceholderView: View {
-    let categoryID: String
-    var body: some View {
-        Text("Category: \(categoryID)")
-            .navigationTitle("Category")
-    }
-}
-
-private struct QuestionPlaceholderView: View {
-    let questionID: String
-    let context: String?
-    var body: some View {
-        Text("Question: \(questionID)")
-            .navigationTitle("Question")
-    }
-}
-
-private struct HomeView: View {
-    var body: some View {
-        Text("Home")
-            .navigationTitle("Home")
-    }
-}
-
-private struct OnboardingView: View {
-    var body: some View {
-        Text("Onboarding")
-            .navigationTitle("Onboarding")
-    }
-}
-
-// MARK: - Preview
+// MARK: - Placeholder Views (minimal stubs if not defined elsewhere)
 #if DEBUG
-struct AppNavigationView_Preview: PreviewProvider {
+struct HomeView_Preview: PreviewProvider {
     static var previews: some View {
         AppNavigationView()
     }

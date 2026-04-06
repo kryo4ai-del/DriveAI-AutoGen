@@ -1,7 +1,7 @@
 @MainActor
 final class PerformanceStateManager: ObservableObject {
-    func recordQuestionAttempt(questionId: String, isCorrect: Bool, timeSpent: TimeInterval) async {
-        let attempt = QuestionAttempt(questionId: questionId, isCorrect: isCorrect, timeSpent: timeSpent)
+    func recordQuestionAttempt(...) async {
+        let attempt = QuestionAttempt(...)
         dispatch(.recordQuestionAttempt(attempt))
         
         do {
@@ -16,10 +16,7 @@ final class PerformanceStateManager: ObservableObject {
 
 // PerformanceCache is a proper actor
 actor PerformanceCache {
-    private var metricsCache: Any?
-    private var recentAttemptsCache: [Any] = []
-
-    func invalidate() {
+    func invalidate() async {
         metricsCache = nil
         recentAttemptsCache.removeAll()
     }

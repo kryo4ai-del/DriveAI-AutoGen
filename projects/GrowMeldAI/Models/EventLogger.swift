@@ -1,23 +1,26 @@
-import Foundation
+// Services/ABTesting/Core/EventLogger.swift
 
 protocol EventLogger: Sendable {
+    /// Log event asynchronously without blocking caller
     func logAsync(_ event: ExperimentEvent)
 }
 
 actor EventLoggerImpl: EventLogger {
     private let abTestingService: ABTestingService
-
-    init(abTestingService: ABTestingService) {
-        self.abTestingService = abTestingService
-    }
-
-    nonisolated func logAsync(_ event: ExperimentEvent) {
-        Task {
-            await EventLoggerImpl.log(event: event, service: abTestingService)
+    private let eventQueue = DispatchQueue(
+        label: "com.driveai.abtesting.eventlog",
+        qos: .background
+    )
+    
+    func logAsync(_ event: ExperimentEvent) {
+        eventQueue.async { [weak self] in
+            Task {
+                try? await self?.abTestingService.logEvent(event)
+            }
         }
     }
-
-    private static func log(event: ExperimentEvent, service: ABTestingService) async {
-        try? await service.logEvent(event)
-    }
 }
+
+// Updated ViewModel
+
+@MainActor

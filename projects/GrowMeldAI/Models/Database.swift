@@ -10,8 +10,31 @@ struct DBRecord: Codable {
     let updatedAt: Date
 }
 
-// MARK: - Column Expression
+// MARK: - Database Error
 
+enum DatabaseError: Error, LocalizedError {
+    case encodingFailed(String)
+    case decodingFailed(String)
+    case recordNotFound(String)
+    case saveFailed(String)
+    case deleteFailed(String)
+    case directoryCreationFailed(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .encodingFailed(let msg):    return "Encoding failed: \(msg)"
+        case .decodingFailed(let msg):    return "Decoding failed: \(msg)"
+        case .recordNotFound(let msg):    return "Record not found: \(msg)"
+        case .saveFailed(let msg):        return "Save failed: \(msg)"
+        case .deleteFailed(let msg):      return "Delete failed: \(msg)"
+        case .directoryCreationFailed(let msg): return "Directory creation failed: \(msg)"
+        }
+    }
+}
+
+// MARK: - Column Expression (Replaces GRDB/SQLite.swift Expression<T>)
+
+/// Lightweight column descriptor replacing SQLite.swift `Expression<T>`
 struct Column {
     let name: String
 
@@ -23,168 +46,38 @@ struct Column {
 // MARK: - Table Definitions
 
 enum Table {
-    static let abTests           = "ab_tests"
-    static let testVariants      = "test_variants"
-    static let testResults       = "test_results"
+    static let abTests          = "ab_tests"
+    static let testVariants     = "test_variants"
+    static let testResults      = "test_results"
     static let abTestAssignments = "ab_test_assignments"
 }
 
 // MARK: - Column Definitions
 
 enum Columns {
-    static let id           = Column("id")
-    static let createdAt    = Column("created_at")
-    static let updatedAt    = Column("updated_at")
-    static let name         = Column("name")
-    static let description  = Column("description")
-    static let active       = Column("active")
-    static let testID       = Column("test_id")
-    static let percentile   = Column("percentile")
-    static let variantID    = Column("variant_id")
-    static let userIDHash   = Column("user_id_hash")
-    static let outcome      = Column("outcome")
-    static let metadataJSON = Column("metadata_json")
-    static let timestamp    = Column("timestamp")
-    static let assignedAt   = Column("assigned_at")
-}
+    // Shared
+    static let id          = Column("id")
+    static let createdAt   = Column("created_at")
+    static let updatedAt   = Column("updated_at")
 
-// MARK: - Local Error Type
+    // ABTest
+    static let name        = Column("name")
+    static let description = Column("description")
+    static let active      = Column("active")
 
-private enum DBInternalError: Error, LocalizedError {
-    case encodingFailed(String)
-    case decodingFailed(String)
-    case recordNotFound(String)
-    case saveFailed(String)
-    case deleteFailed(String)
-    case directoryCreationFailed(String)
+    // TestVariant
+    static let testID      = Column("test_id")
+    static let percentile  = Column("percentile")
 
-    var errorDescription: String? {
-        switch self {
-        case .encodingFailed(let msg):          return "Encoding failed: \(msg)"
-        case .decodingFailed(let msg):          return "Decoding failed: \(msg)"
-        case .recordNotFound(let msg):          return "Record not found: \(msg)"
-        case .saveFailed(let msg):              return "Save failed: \(msg)"
-        case .deleteFailed(let msg):            return "Delete failed: \(msg)"
-        case .directoryCreationFailed(let msg): return "Directory creation failed: \(msg)"
-        }
-    }
-}
+    // TestResult
+    static let variantID     = Column("variant_id")
+    static let userIDHash    = Column("user_id_hash")
+    static let outcome       = Column("outcome")
+    static let metadataJSON  = Column("metadata_json")
+    static let timestamp     = Column("timestamp")
 
-// MARK: - ABTest Model
-
-struct ABTest: Codable, Identifiable {
-    let id: String
-    let name: String
-    let description: String
-    let active: Bool
-    let createdAt: Date
-    let updatedAt: Date
-
-    init(
-        id: String = UUID().uuidString,
-        name: String,
-        description: String,
-        active: Bool = true,
-        createdAt: Date = Date(),
-        updatedAt: Date = Date()
-    ) {
-        self.id = id
-        self.name = name
-        self.description = description
-        self.active = active
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-    }
-}
-
-// MARK: - TestVariant Model
-
-struct TestVariant: Codable, Identifiable {
-    let id: String
-    let testID: String
-    let name: String
-    let percentile: Double
-    let createdAt: Date
-    let updatedAt: Date
-
-    init(
-        id: String = UUID().uuidString,
-        testID: String,
-        name: String,
-        percentile: Double,
-        createdAt: Date = Date(),
-        updatedAt: Date = Date()
-    ) {
-        self.id = id
-        self.testID = testID
-        self.name = name
-        self.percentile = percentile
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-    }
-}
-
-// MARK: - TestResult Model
-
-struct TestResult: Codable, Identifiable {
-    let id: String
-    let variantID: String
-    let userIDHash: String
-    let outcome: String
-    let metadataJSON: String
-    let timestamp: Date
-    let createdAt: Date
-    let updatedAt: Date
-
-    init(
-        id: String = UUID().uuidString,
-        variantID: String,
-        userIDHash: String,
-        outcome: String,
-        metadataJSON: String = "{}",
-        timestamp: Date = Date(),
-        createdAt: Date = Date(),
-        updatedAt: Date = Date()
-    ) {
-        self.id = id
-        self.variantID = variantID
-        self.userIDHash = userIDHash
-        self.outcome = outcome
-        self.metadataJSON = metadataJSON
-        self.timestamp = timestamp
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-    }
-}
-
-// MARK: - ABTestAssignment Model
-
-struct ABTestAssignment: Codable, Identifiable {
-    let id: String
-    let testID: String
-    let variantID: String
-    let userIDHash: String
-    let assignedAt: Date
-    let createdAt: Date
-    let updatedAt: Date
-
-    init(
-        id: String = UUID().uuidString,
-        testID: String,
-        variantID: String,
-        userIDHash: String,
-        assignedAt: Date = Date(),
-        createdAt: Date = Date(),
-        updatedAt: Date = Date()
-    ) {
-        self.id = id
-        self.testID = testID
-        self.variantID = variantID
-        self.userIDHash = userIDHash
-        self.assignedAt = assignedAt
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-    }
+    // ABTestAssignment
+    static let assignedAt  = Column("assigned_at")
 }
 
 // MARK: - Database Manager
@@ -253,148 +146,163 @@ final class Database {
 
     // MARK: - Generic CRUD
 
-    func save<T: Codable>(_ record: T, id: String, table: String) throws {
+    func save<T: Codable & Identifiable>(_ record: T, to table: String) throws where T.ID == String {
         let data = try encoder.encode(record)
-        let url = recordURL(for: table, id: id)
-        do {
-            try data.write(to: url, options: .atomic)
-        } catch {
-            throw DBInternalError.saveFailed(error.localizedDescription)
-        }
+        let url = recordURL(for: table, id: record.id)
+        try data.write(to: url, options: .atomic)
     }
 
-    func load<T: Codable>(_ type: T.Type, id: String, table: String) throws -> T {
+    func fetch<T: Codable>(id: String, from table: String) throws -> T {
         let url = recordURL(for: table, id: id)
         guard fileManager.fileExists(atPath: url.path) else {
-            throw DBInternalError.recordNotFound("id=\(id) in \(table)")
+            throw DatabaseError.recordNotFound("No record with id '\(id)' in '\(table)'")
         }
-        do {
-            let data = try Data(contentsOf: url)
-            return try decoder.decode(type, from: data)
-        } catch let error as DBInternalError {
-            throw error
-        } catch {
-            throw DBInternalError.decodingFailed(error.localizedDescription)
-        }
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(T.self, from: data)
     }
 
-    func loadAll<T: Codable>(_ type: T.Type, table: String) throws -> [T] {
+    func fetchAll<T: Codable>(from table: String) throws -> [T] {
         let dir = tableURL(for: table)
         guard fileManager.fileExists(atPath: dir.path) else { return [] }
-        let files = (try? fileManager.contentsOfDirectory(
+        let files = try fileManager.contentsOfDirectory(
             at: dir,
             includingPropertiesForKeys: nil
-        )) ?? []
-        return files.compactMap { url in
-            guard let data = try? Data(contentsOf: url) else { return nil }
-            return try? decoder.decode(type, from: data)
+        ).filter { $0.pathExtension == "json" }
+        return try files.compactMap { url in
+            let data = try Data(contentsOf: url)
+            return try? decoder.decode(T.self, from: data)
         }
     }
 
-    func delete(id: String, table: String) throws {
+    func delete(id: String, from table: String) throws {
         let url = recordURL(for: table, id: id)
         guard fileManager.fileExists(atPath: url.path) else {
-            throw DBInternalError.recordNotFound("id=\(id) in \(table)")
+            throw DatabaseError.recordNotFound("No record with id '\(id)' in '\(table)'")
         }
-        do {
-            try fileManager.removeItem(at: url)
-        } catch {
-            throw DBInternalError.deleteFailed(error.localizedDescription)
-        }
+        try fileManager.removeItem(at: url)
     }
 
-    func exists(id: String, table: String) -> Bool {
-        fileManager.fileExists(atPath: recordURL(for: table, id: id).path)
+    func deleteAll(from table: String) throws {
+        let dir = tableURL(for: table)
+        guard fileManager.fileExists(atPath: dir.path) else { return }
+        let files = try fileManager.contentsOfDirectory(
+            at: dir,
+            includingPropertiesForKeys: nil
+        ).filter { $0.pathExtension == "json" }
+        for file in files {
+            try fileManager.removeItem(at: file)
+        }
     }
 
     // MARK: - ABTest Operations
 
     func saveABTest(_ test: ABTest) throws {
-        try save(test, id: test.id, table: Table.abTests)
+        try save(test, to: Table.abTests)
     }
 
-    func loadABTest(id: String) throws -> ABTest {
-        try load(ABTest.self, id: id, table: Table.abTests)
+    func fetchABTest(id: String) throws -> ABTest {
+        try fetch(id: id, from: Table.abTests)
     }
 
-    func loadAllABTests() throws -> [ABTest] {
-        try loadAll(ABTest.self, table: Table.abTests)
+    func fetchAllABTests() throws -> [ABTest] {
+        try fetchAll(from: Table.abTests)
+    }
+
+    func fetchActiveABTests() throws -> [ABTest] {
+        let all: [ABTest] = try fetchAll(from: Table.abTests)
+        return all.filter { $0.active }
     }
 
     func deleteABTest(id: String) throws {
-        try delete(id: id, table: Table.abTests)
+        try delete(id: id, from: Table.abTests)
     }
 
     // MARK: - TestVariant Operations
 
     func saveTestVariant(_ variant: TestVariant) throws {
-        try save(variant, id: variant.id, table: Table.testVariants)
+        try save(variant, to: Table.testVariants)
     }
 
-    func loadTestVariant(id: String) throws -> TestVariant {
-        try load(TestVariant.self, id: id, table: Table.testVariants)
+    func fetchTestVariant(id: String) throws -> TestVariant {
+        try fetch(id: id, from: Table.testVariants)
     }
 
-    func loadAllTestVariants() throws -> [TestVariant] {
-        try loadAll(TestVariant.self, table: Table.testVariants)
-    }
-
-    func loadTestVariants(for testID: String) throws -> [TestVariant] {
-        let all = try loadAllTestVariants()
-        return all.filter { $0.testID == testID }
+    func fetchAllTestVariants() throws -> [TestVariant] {
+        try fetchAll(from: Table.testVariants)
     }
 
     func deleteTestVariant(id: String) throws {
-        try delete(id: id, table: Table.testVariants)
+        try delete(id: id, from: Table.testVariants)
     }
 
     // MARK: - TestResult Operations
 
     func saveTestResult(_ result: TestResult) throws {
-        try save(result, id: result.id, table: Table.testResults)
+        try save(result, to: Table.testResults)
     }
 
-    func loadTestResult(id: String) throws -> TestResult {
-        try load(TestResult.self, id: id, table: Table.testResults)
+    func fetchTestResult(id: String) throws -> TestResult {
+        try fetch(id: id, from: Table.testResults)
     }
 
-    func loadAllTestResults() throws -> [TestResult] {
-        try loadAll(TestResult.self, table: Table.testResults)
+    func fetchAllTestResults() throws -> [TestResult] {
+        try fetchAll(from: Table.testResults)
     }
 
-    func loadTestResults(for variantID: String) throws -> [TestResult] {
-        let all = try loadAllTestResults()
+    func fetchTestResults(forTestID testID: String) throws -> [TestResult] {
+        let all: [TestResult] = try fetchAll(from: Table.testResults)
+        return all.filter { $0.testID == testID }
+    }
+
+    func fetchTestResults(forVariantID variantID: String) throws -> [TestResult] {
+        let all: [TestResult] = try fetchAll(from: Table.testResults)
         return all.filter { $0.variantID == variantID }
     }
 
     func deleteTestResult(id: String) throws {
-        try delete(id: id, table: Table.testResults)
+        try delete(id: id, from: Table.testResults)
+    }
+
+    func deleteAllTestResults(forTestID testID: String) throws {
+        let results = try fetchTestResults(forTestID: testID)
+        for result in results {
+            try delete(id: result.id, from: Table.testResults)
+        }
     }
 
     // MARK: - ABTestAssignment Operations
 
-    func saveABTestAssignment(_ assignment: ABTestAssignment) throws {
-        try save(assignment, id: assignment.id, table: Table.abTestAssignments)
+    func saveAssignment(_ assignment: ABTestAssignment) throws {
+        // Use testID as file key since assignments are 1-per-test
+        let data = try encoder.encode(assignment)
+        let url = recordURL(for: Table.abTestAssignments, id: assignment.testID)
+        try data.write(to: url, options: .atomic)
     }
 
-    func loadABTestAssignment(id: String) throws -> ABTestAssignment {
-        try load(ABTestAssignment.self, id: id, table: Table.abTestAssignments)
-    }
-
-    func loadAllABTestAssignments() throws -> [ABTestAssignment] {
-        try loadAll(ABTestAssignment.self, table: Table.abTestAssignments)
-    }
-
-    func loadABTestAssignment(testID: String, userIDHash: String) throws -> ABTestAssignment {
-        let all = try loadAllABTestAssignments()
-        guard let found = all.first(where: { $0.testID == testID && $0.userIDHash == userIDHash }) else {
-            throw DBInternalError.recordNotFound("testID=\(testID) userIDHash=\(userIDHash)")
+    func fetchAssignment(forTestID testID: String) throws -> ABTestAssignment {
+        let url = recordURL(for: Table.abTestAssignments, id: testID)
+        guard fileManager.fileExists(atPath: url.path) else {
+            throw DatabaseError.recordNotFound("No assignment for testID '\(testID)'")
         }
-        return found
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(ABTestAssignment.self, from: data)
     }
 
-    func deleteABTestAssignment(id: String) throws {
-        try delete(id: id, table: Table.abTestAssignments)
+    func fetchAllAssignments() throws -> [ABTestAssignment] {
+        let dir = tableURL(for: Table.abTestAssignments)
+        guard fileManager.fileExists(atPath: dir.path) else { return [] }
+        let files = try fileManager.contentsOfDirectory(
+            at: dir,
+            includingPropertiesForKeys: nil
+        ).filter { $0.pathExtension == "json" }
+        return try files.compactMap { url in
+            let data = try Data(contentsOf: url)
+            return try? decoder.decode(ABTestAssignment.self, from: data)
+        }
+    }
+
+    func deleteAssignment(forTestID testID: String) throws {
+        try delete(id: testID, from: Table.abTestAssignments)
     }
 
     // MARK: - Async Wrappers
@@ -412,16 +320,87 @@ final class Database {
         }
     }
 
-    func loadAllABTestsAsync() async throws -> [ABTest] {
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[ABTest], Error>) in
+    func fetchAllABTestsAsync() async throws -> [ABTest] {
+        try await withCheckedThrowingContinuation { continuation in
             queue.async {
                 do {
-                    let tests = try self.loadAllABTests()
+                    let tests = try self.fetchAllABTests()
                     continuation.resume(returning: tests)
                 } catch {
                     continuation.resume(throwing: error)
                 }
             }
+        }
+    }
+
+    func saveTestResultAsync(_ result: TestResult) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            queue.async(flags: .barrier) {
+                do {
+                    try self.saveTestResult(result)
+                    continuation.resume()
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    func fetchTestResultsAsync(forTestID testID: String) async throws -> [TestResult] {
+        try await withCheckedThrowingContinuation { continuation in
+            queue.async {
+                do {
+                    let results = try self.fetchTestResults(forTestID: testID)
+                    continuation.resume(returning: results)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    // MARK: - Statistics
+
+    struct VariantStats {
+        let variantID: String
+        let totalResults: Int
+        let passCount: Int
+        let failCount: Int
+        var passRate: Double {
+            guard totalResults > 0 else { return 0 }
+            return Double(passCount) / Double(totalResults)
+        }
+    }
+
+    func computeStats(forTestID testID: String) throws -> [VariantStats] {
+        let results = try fetchTestResults(forTestID: testID)
+        var grouped: [String: [TestResult]] = [:]
+        for result in results {
+            grouped[result.variantID, default: []].append(result)
+        }
+        return grouped.map { variantID, variantResults in
+            let passCount = variantResults.filter { $0.outcome == "pass" }.count
+            let failCount = variantResults.filter { $0.outcome == "fail" }.count
+            return VariantStats(
+                variantID: variantID,
+                totalResults: variantResults.count,
+                passCount: passCount,
+                failCount: failCount
+            )
+        }.sorted { $0.variantID < $1.variantID }
+    }
+
+    // MARK: - Purge / Reset
+
+    func purgeAll() throws {
+        let tables = [
+            Table.abTests,
+            Table.testVariants,
+            Table.testResults,
+            Table.abTestAssignments
+        ]
+        for table in tables {
+            try? deleteAll(from: table)
         }
     }
 }

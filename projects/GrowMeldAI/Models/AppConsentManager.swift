@@ -86,7 +86,7 @@ final class AppConsentStorageService {
 
 // MARK: - Consent Category
 
-enum AppConsentCategory: String, CaseIterable, Codable {
+enum ConsentCategory: String, CaseIterable, Codable {
     case analytics = "analytics"
     case personalization = "personalization"
     case marketing = "marketing"
@@ -95,10 +95,10 @@ enum AppConsentCategory: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .analytics:             return "Analytics"
-        case .personalization:       return "Personalization"
-        case .marketing:             return "Marketing"
-        case .crashReporting:        return "Crash Reporting"
+        case .analytics:            return "Analytics"
+        case .personalization:      return "Personalization"
+        case .marketing:            return "Marketing"
+        case .crashReporting:       return "Crash Reporting"
         case .performanceMonitoring: return "Performance Monitoring"
         }
     }
@@ -136,86 +136,158 @@ final class AppConsentManager: ObservableObject {
 
     @Published private(set) var preferences: [AppConsentPreference] = []
     @Published private(set) var auditLog: [AppConsentAuditEntry] = []
-    @Published private(set) var hasCompletedInitialConsent: Bool = false
+    @Published private(set) var hasUserResponded: Bool = false
+    @Published private(set) var currentPolicyVersion: String = AppConsentManager.policyVersion
 
     // MARK: - Private
 
     private let storage: AppConsentStorageService
-    private let hasCompletedConsentKey = "com.growmeldai.consent.hasCompleted"
+    private let respondedKey = "com.growmeldai.consent.hasResponded"
+    private let respondedVersionKey = "com.growmeldai.consent.respondedVersion"
 
-    // MARK: - Init
+    // MARK: - Initializer
 
     init(storage: AppConsentStorageService = AppConsentStorageService()) {
         self.storage = storage
-        self.preferences = storage.loadPreferences()
-        self.auditLog = storage.loadAuditLog()
-        self.hasCompletedInitialConsent = UserDefaults.standard.bool(forKey: hasCompletedConsentKey)
+        self.currentPolicyVersion = AppConsentManager.policyVersion
+        load()
+    }
+
+    // MARK: - Load / Save
+
+    private func load() {
+        let saved = storage.loadPreferences()
+        if saved.isEmpty {
+            preferences = ConsentCategory.allCases.map { category in
+                AppConsentPreference(
+                    category: category.rawValue,
+                    isGranted: false,
+                    grantedAt: nil,
+                    version: AppConsentManager.policyVersion
+                )
+            }
+        } else {
+            preferences = saved
+        }
+        auditLog = storage.loadAuditLog()
+        hasUserResponded = UserDefaults.standard.bool(forKey: respondedKey)
+    }
+
+    private func persist() {
+        storage.savePreferences(preferences)
+        storage.saveAuditLog(auditLog)
     }
 
     // MARK: - Public API
 
-    func isGranted(_ category: AppConsentCategory) -> Bool {
+    /// Returns the current consent state for a given category
+    func isGranted(for category: ConsentCategory) -> Bool {
         preferences.first { $0.category == category.rawValue }?.isGranted ?? false
     }
 
-    func setConsent(for category: AppConsentCategory, granted: Bool) {
+    /// Updates consent for a specific category
+    func setConsent(for category: ConsentCategory, granted: Bool) {
         let previous = preferences.first { $0.category == category.rawValue }?.isGranted
-        let newPreference = AppConsentPreference(
+
+        let updated = AppConsentPreference(
             category: category.rawValue,
             isGranted: granted,
-            grantedAt: granted ? Date() : nil
+            grantedAt: granted ? Date() : nil,
+            version: AppConsentManager.policyVersion
         )
+
         if let index = preferences.firstIndex(where: { $0.category == category.rawValue }) {
-            preferences[index] = newPreference
+            preferences[index] = updated
         } else {
-            preferences.append(newPreference)
+            preferences.append(updated)
         }
-        storage.savePreferences(preferences)
 
         let entry = AppConsentAuditEntry(
             category: category.rawValue,
             previousValue: previous,
-            newValue: granted
+            newValue: granted,
+            policyVersion: AppConsentManager.policyVersion
         )
         auditLog.append(entry)
-        storage.saveAuditLog(auditLog)
+        persist()
     }
 
+    /// Grants all consent categories
     func grantAll() {
-        for category in AppConsentCategory.allCases {
+        for category in ConsentCategory.allCases {
             setConsent(for: category, granted: true)
         }
-        markInitialConsentCompleted()
+        markUserResponded()
     }
 
+    /// Denies all optional consent categories
     func denyAll() {
-        for category in AppConsentCategory.allCases {
+        for category in ConsentCategory.allCases where !category.isRequired {
             setConsent(for: category, granted: false)
         }
-        markInitialConsentCompleted()
+        markUserResponded()
     }
 
-    func markInitialConsentCompleted() {
-        hasCompletedInitialConsent = true
-        UserDefaults.standard.set(true, forKey: hasCompletedConsentKey)
+    /// Saves current selections and marks user as having responded
+    func saveSelections() {
+        markUserResponded()
+        persist()
     }
 
+    /// Marks that the user has responded to the consent prompt
+    func markUserResponded() {
+        hasUserResponded = true
+        UserDefaults.standard.set(true, forKey: respondedKey)
+        UserDefaults.standard.set(AppConsentManager.policyVersion, forKey: respondedVersionKey)
+    }
+
+    /// Returns true if the user needs to re-consent due to policy update
+    func requiresReconsent() -> Bool {
+        guard hasUserResponded else { return true }
+        let respondedVersion = UserDefaults.standard.string(forKey: respondedVersionKey) ?? ""
+        return respondedVersion != AppConsentManager.policyVersion
+    }
+
+    /// Resets all consent data (e.g. for testing or account deletion)
     func resetAll() {
-        preferences = []
-        auditLog = []
-        hasCompletedInitialConsent = false
         storage.clearAll()
-        UserDefaults.standard.removeObject(forKey: hasCompletedConsentKey)
+        UserDefaults.standard.removeObject(forKey: respondedKey)
+        UserDefaults.standard.removeObject(forKey: respondedVersionKey)
+        preferences = ConsentCategory.allCases.map { category in
+            AppConsentPreference(
+                category: category.rawValue,
+                isGranted: false,
+                grantedAt: nil,
+                version: AppConsentManager.policyVersion
+            )
+        }
+        auditLog = []
+        hasUserResponded = false
     }
 
-    func exportAuditLog() -> String {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        encoder.dateEncodingStrategy = .iso8601
-        guard let data = try? encoder.encode(auditLog),
-              let json = String(data: data, encoding: .utf8) else {
-            return "[]"
+    // MARK: - Audit
+
+    /// Returns audit entries filtered by category
+    func auditEntries(for category: ConsentCategory) -> [AppConsentAuditEntry] {
+        auditLog.filter { $0.category == category.rawValue }
+    }
+
+    /// Returns a summary of current consent state
+    func consentSummary() -> [String: Bool] {
+        var summary: [String: Bool] = [:]
+        for preference in preferences {
+            summary[preference.category] = preference.isGranted
         }
-        return json
+        return summary
+    }
+
+    /// Returns preferences that match the current policy version
+    func currentVersionPreferences() -> [AppConsentPreference] {
+        preferences.filter { $0.version == AppConsentManager.policyVersion }
+    }
+
+    /// Returns preferences that are outdated (from a previous policy version)
+    func outdatedPreferences() -> [AppConsentPreference] {
+        preferences.filter { $0.version != AppConsentManager.policyVersion }
     }
 }

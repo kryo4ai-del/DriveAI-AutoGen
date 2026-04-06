@@ -1,63 +1,81 @@
 import SwiftUI
 
+// MARK: - App Route
+
+enum AppRoute: Hashable {
+    case home
+    case detail(String)
+    case settings
+}
+
+// MARK: - Environment Key
+
+private struct NavigateKey: EnvironmentKey {
+    static let defaultValue: (AppRoute) -> Void = { _ in }
+}
+
+extension EnvironmentValues {
+    var navigate: (AppRoute) -> Void {
+        get { self[NavigateKey.self] }
+        set { self[NavigateKey.self] = newValue }
+    }
+}
+
+// MARK: - App Navigation
+
 struct AppNavigation: View {
-    @StateObject private var navStack = NavigationStackController()
+    @State private var navigationPath = NavigationPath()
 
     var body: some View {
-        NavigationStack(path: $navStack.path) {
-            DashboardPlaceholderView()
-                .navigationDestination(for: AppNavigationPath.self) { route in
-                    switch route {
-                    case .categoryBrowser:
-                        CategoryBrowserPlaceholderView()
-                    case .questionFlow(let categoryId):
-                        QuestionFlowPlaceholderView(categoryId: categoryId)
-                    case .examMode:
-                        ExamModePlaceholderView()
-                    case .examResults(let score, let total, let passed):
-                        ExamResultsPlaceholderView(score: score, total: total, passed: passed)
-                    }
+        NavigationStack(path: $navigationPath) {
+            HomeView()
+                .environment(\.navigate, { route in
+                    navigationPath.append(route)
+                })
+                .navigationDestination(for: AppRoute.self) { route in
+                    destination(route)
                 }
         }
-        .environmentObject(navStack)
+    }
+
+    @ViewBuilder
+    private func destination(_ route: AppRoute) -> some View {
+        switch route {
+        case .home:
+            HomeView()
+        case .detail(let id):
+            DetailPlaceholderView(id: id)
+        case .settings:
+            SettingsPlaceholderView()
+        }
     }
 }
 
-private struct DashboardPlaceholderView: View {
+// MARK: - Placeholder Views (replace with real views as available)
+
+private struct DetailPlaceholderView: View {
+    let id: String
+
     var body: some View {
-        Text("Dashboard")
-            .navigationTitle("Dashboard")
+        Text("Detail: \(id)")
+            .navigationTitle("Detail")
     }
 }
 
-private struct CategoryBrowserPlaceholderView: View {
+private struct SettingsPlaceholderView: View {
     var body: some View {
-        Text("Category Browser")
-            .navigationTitle("Categories")
+        Text("Settings")
+            .navigationTitle("Settings")
     }
 }
 
-private struct QuestionFlowPlaceholderView: View {
-    let categoryId: UUID
-    var body: some View {
-        Text("Question Flow: \(categoryId.uuidString)")
-            .navigationTitle("Questions")
-    }
-}
+// MARK: - HomeView Stub (only if not defined elsewhere)
 
-private struct ExamModePlaceholderView: View {
+#if !HOMVIEW_DEFINED
+struct HomeView: View {
     var body: some View {
-        Text("Exam Mode")
-            .navigationTitle("Exam")
+        Text("Home")
+            .navigationTitle("Home")
     }
 }
-
-private struct ExamResultsPlaceholderView: View {
-    let score: Int
-    let total: Int
-    let passed: Bool
-    var body: some View {
-        Text("Results: \(score)/\(total) — \(passed ? "Passed" : "Failed")")
-            .navigationTitle("Results")
-    }
-}
+#endif

@@ -1,6 +1,7 @@
+// DriveAI/Views/Questions/ErrorView.swift
 import SwiftUI
 
-private struct ErrorView_Impl: View {
+struct ErrorView: View {
     let message: String
     let onRetry: () -> Void
 

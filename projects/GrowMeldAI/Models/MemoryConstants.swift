@@ -6,6 +6,5 @@ enum MemoryConstants {
 }
 
 // Use:
-let dailyStats: [Int] = [] // sorted
-let recentReviewCount = 0
+let dailyStats = ... // sorted
 let confidenceFactor = min(Double(recentReviewCount) / Double(MemoryConstants.targetWeeklyReviews), 1.0)

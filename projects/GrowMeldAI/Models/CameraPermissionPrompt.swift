@@ -1,4 +1,3 @@
-import SwiftUI
 // BUGGY CODE
 struct CameraPermissionPrompt: View {
     @StateObject private var viewModel = CameraPermissionViewModel()

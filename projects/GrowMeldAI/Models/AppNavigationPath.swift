@@ -5,4 +5,6 @@ enum AppNavigationPath: Hashable {
     case questionFlow(categoryId: UUID)
     case examMode
     case examResults(score: Int, total: Int, passed: Bool)
+    
+    // Hashable synthesized automatically (all cases are Hashable)
 }

@@ -1,22 +1,45 @@
 import SwiftUI
 import Combine
 
+// MARK: - Supporting Protocol Definitions
+
+protocol LocalDataServiceProtocol: AnyObject {}
+
+protocol FirebaseAuthServiceProtocol: AnyObject {}
+
+protocol FirestoreServiceProtocol: AnyObject {}
+
+protocol AnalyticsServiceProtocol: AnyObject {}
+
+protocol FirebaseSyncCoordinatorProtocol: AnyObject {}
+
+protocol NetworkConnectivityMonitorProtocol: AnyObject {}
+
+protocol OfflineQueueManagerProtocol: AnyObject {}
+
 // MARK: - AppDependenciesProtocol
 
 protocol AppDependenciesProtocol: ObservableObject {
     var isFirebaseAvailable: Bool { get }
     var isSyncEnabled: Bool { get set }
     var initializationError: Error? { get }
-    var logger: GrowMeldAppLogger { get }
+    var localDataService: any LocalDataServiceProtocol { get }
+    var authService: (any FirebaseAuthServiceProtocol)? { get }
+    var firestoreService: (any FirestoreServiceProtocol)? { get }
+    var analyticsService: any AnalyticsServiceProtocol { get }
+    var syncCoordinator: (any FirebaseSyncCoordinatorProtocol)? { get }
+    var networkMonitor: any NetworkConnectivityMonitorProtocol { get }
+    var offlineQueueManager: any OfflineQueueManagerProtocol { get }
+    var logger: AppLogger { get }
 
     func initialize() async
     func disableFirebaseSync()
 }
 
-// MARK: - GrowMeldAppLogger
+// MARK: - AppLogger
 
-final class GrowMeldAppLogger {
-    static let shared = GrowMeldAppLogger()
+final class AppLogger {
+    static let shared = AppLogger()
 
     func log(_ message: String, level: LogLevel = .info) {
         #if DEBUG
@@ -43,26 +66,29 @@ final class GrowMeldAppLogger {
     }
 }
 
-// MARK: - GrowMeldFirebaseManager
+// MARK: - FirebaseManager Stub
 
-final class GrowMeldFirebaseManager: ObservableObject {
-    static let shared = GrowMeldFirebaseManager()
+final class FirebaseManager: ObservableObject {
+    static let shared = FirebaseManager()
     var isConfigured: Bool = false
 }
 
-// MARK: - AppDependenciesBox
+// MARK: - Environment Key & Values Extension
 
+private struct AppDependenciesKeyWrapper {
+    static var current: (any AppDependenciesProtocol)?
+}
+
+struct AppDependenciesEnvironmentKey: EnvironmentKey {
+    static let defaultValue: AppDependenciesBox? = nil
+}
+
+/// Type-erased box to allow storage of `any AppDependenciesProtocol` in EnvironmentValues
 final class AppDependenciesBox: ObservableObject {
     let wrapped: any AppDependenciesProtocol
     init(_ wrapped: any AppDependenciesProtocol) {
         self.wrapped = wrapped
     }
-}
-
-// MARK: - Environment Key
-
-private struct AppDependenciesEnvironmentKey: EnvironmentKey {
-    static let defaultValue: AppDependenciesBox? = nil
 }
 
 extension EnvironmentValues {

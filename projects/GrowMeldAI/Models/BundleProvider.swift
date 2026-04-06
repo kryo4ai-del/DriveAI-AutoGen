@@ -1,19 +1,27 @@
 import Foundation
 
-// MARK: - QuizAnswer
+// MARK: - QuizQuestion Model
 
-struct QuizAnswer: Codable, Identifiable {
+struct QuizQuestion: Identifiable, Codable {
     let id: String
-    let text: String
-}
+    let question: String
+    let answers: [String]
+    let correctAnswerIndex: Int
+    let explanation: String?
 
-// MARK: - QuizQuestion
-
-struct QuizQuestion: Codable, Identifiable {
-    let id: String
-    let text: String
-    let answers: [QuizAnswer]
-    let correctAnswerID: String
+    init(
+        id: String = UUID().uuidString,
+        question: String,
+        answers: [String],
+        correctAnswerIndex: Int,
+        explanation: String? = nil
+    ) {
+        self.id = id
+        self.question = question
+        self.answers = answers
+        self.correctAnswerIndex = correctAnswerIndex
+        self.explanation = explanation
+    }
 }
 
 // MARK: - BundleProvider
@@ -46,36 +54,24 @@ struct BundleProvider {
         [
             QuizQuestion(
                 id: "q1",
-                text: "What is the recommended daily water intake for adults?",
-                answers: [
-                    QuizAnswer(id: "q1a1", text: "1 liter"),
-                    QuizAnswer(id: "q1a2", text: "2 liters"),
-                    QuizAnswer(id: "q1a3", text: "3 liters"),
-                    QuizAnswer(id: "q1a4", text: "4 liters")
-                ],
-                correctAnswerID: "q1a2"
+                question: "What is the recommended daily water intake for adults?",
+                answers: ["1 liter", "2 liters", "3 liters", "4 liters"],
+                correctAnswerIndex: 1,
+                explanation: "Most adults need about 2 liters (8 cups) of water per day."
             ),
             QuizQuestion(
                 id: "q2",
-                text: "Which macronutrient provides 4 calories per gram?",
-                answers: [
-                    QuizAnswer(id: "q2a1", text: "Fat"),
-                    QuizAnswer(id: "q2a2", text: "Protein"),
-                    QuizAnswer(id: "q2a3", text: "Carbohydrates"),
-                    QuizAnswer(id: "q2a4", text: "Both Protein and Carbohydrates")
-                ],
-                correctAnswerID: "q2a4"
+                question: "Which macronutrient provides 4 calories per gram?",
+                answers: ["Fat", "Protein", "Carbohydrates", "Both Protein and Carbohydrates"],
+                correctAnswerIndex: 3,
+                explanation: "Both protein and carbohydrates provide 4 calories per gram, while fat provides 9."
             ),
             QuizQuestion(
                 id: "q3",
-                text: "How many hours of sleep do adults generally need per night?",
-                answers: [
-                    QuizAnswer(id: "q3a1", text: "5-6 hours"),
-                    QuizAnswer(id: "q3a2", text: "6-7 hours"),
-                    QuizAnswer(id: "q3a3", text: "7-9 hours"),
-                    QuizAnswer(id: "q3a4", text: "10+ hours")
-                ],
-                correctAnswerID: "q3a3"
+                question: "How many hours of sleep do adults generally need per night?",
+                answers: ["5–6 hours", "6–7 hours", "7–9 hours", "10+ hours"],
+                correctAnswerIndex: 2,
+                explanation: "The CDC recommends 7–9 hours of sleep per night for adults."
             )
         ]
     }
@@ -111,7 +107,7 @@ struct BundleProvider {
         do {
             return try String(contentsOf: url, encoding: .utf8)
         } catch {
-            print("[BundleProvider] ✗ Failed to load string \(fileName).\(ext): \(error)")
+            print("[BundleProvider] ✗ Failed to load string from \(fileName).\(ext): \(error)")
             return nil
         }
     }

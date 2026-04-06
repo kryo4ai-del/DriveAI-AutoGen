@@ -1,4 +1,3 @@
-import SwiftUI
 struct CameraIdentificationView: View {
     @StateObject var viewModel: CameraIdentificationViewModel
     @State var showErrorAlert = false

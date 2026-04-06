@@ -1,8 +1,4 @@
-import SwiftUI
-
-struct AppFonts {
-    static let headline1 = Font.system(.largeTitle, design: .default).weight(.bold)
-}
+static let headline1 = Font.system(.largeTitle, design: .default).weight(.bold)
 
 // Or create scalable system
 struct ScalableFont {

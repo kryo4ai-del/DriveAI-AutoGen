@@ -1,19 +1,25 @@
-import Foundation
-import UserNotifications
-
 @MainActor
 class MockNotificationService: NotificationService {
-    var scheduledRequests: [String] = []
-
+    var scheduledRequests: [UNNotificationRequest] = []
+    
     override func scheduleReminder(
         id: UUID,
         at dateComponents: DateComponents,
         content: String
     ) async throws {
-        scheduledRequests.append(id.uuidString)
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: dateComponents,
+            repeats: true
+        )
+        let request = UNNotificationRequest(
+            identifier: id.uuidString,
+            content: buildContent(body: content),
+            trigger: trigger
+        )
+        scheduledRequests.append(request)
     }
-
+    
     override func cancelReminder(id: UUID) async throws {
-        scheduledRequests.removeAll { $0 == id.uuidString }
+        scheduledRequests.removeAll { $0.identifier == id.uuidString }
     }
 }

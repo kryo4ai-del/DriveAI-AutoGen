@@ -1,12 +1,10 @@
-struct ConsentPolicy {
-    static let enabledTriggersForMVP: [PushNotificationTrigger] = [
-        .examPassed(score: 0),
-        .examFailed,
-        .streakMilestone(days: 7),
-        .streakMilestone(days: 14),
-        .streakMilestone(days: 30)
-    ]
-}
+static let enabledTriggersForMVP: [PushNotificationTrigger] = [
+    .examPassed(score: 0),
+    .examFailed,
+    .streakMilestone(days: 7),
+    .streakMilestone(days: 14),
+    .streakMilestone(days: 30)
+]
 
 // Type-safe helper:
 extension PushNotificationTrigger {

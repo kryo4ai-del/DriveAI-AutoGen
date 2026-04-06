@@ -52,3 +52,5 @@ protocol RecommendationServiceProtocol: AnyObject {
     func generateRecommendations() async throws -> [ASORecommendation]
     func prioritizeRecommendations(_ recs: [ASORecommendation]) -> [ASORecommendation]
 }
+
+@MainActor

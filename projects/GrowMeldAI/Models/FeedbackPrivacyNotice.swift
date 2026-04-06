@@ -1,4 +1,3 @@
-import SwiftUI
 struct FeedbackPrivacyNotice: View {
     @State private var consentGiven = false
     

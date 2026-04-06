@@ -10,11 +10,11 @@ private struct TrialData: Codable {
     var featureUsageCounts: [String: Int]
 }
 
-private final class TrialPersistenceStore {
+private final class TrialPersistence {
     private let userDefaults: UserDefaults
     private let storageKey = "com.growmeld.trial.data"
 
-    static let shared = TrialPersistenceStore()
+    static let shared = TrialPersistence()
 
     private init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
@@ -83,14 +83,14 @@ final class TrialService: ObservableObject {
 
     // MARK: - Dependencies
 
-    private let persistence: TrialPersistenceStore
+    private let persistence: TrialPersistence
     private let configuration: TrialConfiguration
     private var refreshTimer: Timer?
 
     // MARK: - Init
 
     init(
-        persistence: TrialPersistenceStore = .shared,
+        persistence: TrialPersistence = .shared,
         configuration: TrialConfiguration = .default
     ) {
         self.persistence = persistence
@@ -105,6 +105,7 @@ final class TrialService: ObservableObject {
 
     // MARK: - Public API
 
+    /// Start the trial period for this user
     func startTrial() {
         var data = persistence.load()
         guard !data.hasStartedTrial else { return }
@@ -126,6 +127,7 @@ final class TrialService: ObservableObject {
         refreshStatus()
     }
 
+    /// Mark the user as having converted to a paid plan
     func convertToPaid() {
         var data = persistence.load()
         data.hasConvertedToPaid = true
@@ -133,6 +135,7 @@ final class TrialService: ObservableObject {
         refreshStatus()
     }
 
+    /// Track usage of a gated feature; returns false if limit reached
     @discardableResult
     func trackFeatureUsage(_ featureKey: String) -> Bool {
         let data = persistence.load()
@@ -149,44 +152,35 @@ final class TrialService: ObservableObject {
         return true
     }
 
+    /// Check whether a feature is accessible in the current trial state
     func canUseFeature(_ featureKey: String) -> Bool {
         let data = persistence.load()
 
-        if data.hasConvertedToPaid {
-            return true
-        }
+        // Paid users always have access
+        if data.hasConvertedToPaid { return true }
 
-        guard data.hasStartedTrial else {
-            return false
-        }
+        // Not in an active trial
+        guard case .active = status else { return false }
 
-        if let endDate = data.trialEndDate, Date() > endDate {
-            return false
-        }
-
+        // Check feature-specific usage limits
         if let limit = configuration.featureLimits[featureKey] {
-            let currentUsage = data.featureUsageCounts[featureKey] ?? 0
-            return currentUsage < limit
+            let used = data.featureUsageCounts[featureKey] ?? 0
+            return used < limit
         }
 
+        // No limit defined → allow
         return true
     }
 
-    func remainingUsage(for featureKey: String) -> Int? {
+    /// Remaining uses for a given feature; nil if unlimited or not applicable
+    func remainingUses(for featureKey: String) -> Int? {
+        guard let limit = configuration.featureLimits[featureKey] else { return nil }
         let data = persistence.load()
-
-        if data.hasConvertedToPaid {
-            return nil
-        }
-
-        guard let limit = configuration.featureLimits[featureKey] else {
-            return nil
-        }
-
         let used = data.featureUsageCounts[featureKey] ?? 0
         return max(0, limit - used)
     }
 
+    /// Reset all trial state (e.g., for testing / sign-out)
     func resetTrial() {
         persistence.clear()
         refreshStatus()
@@ -211,18 +205,25 @@ final class TrialService: ObservableObject {
         }
 
         let now = Date()
-        if now > endDate {
+        if now >= endDate {
             status = .expired
             daysRemaining = 0
         } else {
-            let days = Calendar.current.dateComponents([.day], from: now, to: endDate).day ?? 0
-            daysRemaining = max(0, days)
+            let remaining = Calendar.current.dateComponents(
+                [.day],
+                from: now,
+                to: endDate
+            ).day ?? 0
+            daysRemaining = max(0, remaining)
             status = .active(daysRemaining: daysRemaining)
         }
     }
 
     private func startRefreshTimer() {
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: 3600, repeats: true) { [weak self] _ in
+        refreshTimer = Timer.scheduledTimer(
+            withTimeInterval: 60 * 60, // refresh every hour
+            repeats: true
+        ) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.refreshStatus()
             }

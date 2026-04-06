@@ -23,10 +23,6 @@ enum FeedbackLoadingState<T: Equatable>: Equatable {
 
 // ViewModels/Feedback/FeedbackCollectionViewModel.swift
 @MainActor
-class FeedbackCollectionViewModel {
-}
 
 // ViewModels/Feedback/FlaggedQuestionsViewModel.swift
 @MainActor
-class FlaggedQuestionsViewModel {
-}

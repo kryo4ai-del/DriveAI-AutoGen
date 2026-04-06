@@ -50,7 +50,7 @@ struct AgeVerificationState: Equatable {
         return age < minimumIndependentAge
     }
     
-    func canProceedFromStep(_ step: AgeVerificationStep) -> Bool {
+    var canProceedFromStep(_ step: AgeVerificationStep) -> Bool {
         switch step {
         case .ageInput:
             return isAgeInputValid

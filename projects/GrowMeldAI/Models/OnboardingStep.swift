@@ -11,27 +11,3 @@ enum OnboardingStep: Hashable {
 }
 
 @MainActor
-class OnboardingViewModel: ObservableObject {
-    @Published var currentStep: OnboardingStep = .welcome
-    
-    func advance() {
-        switch currentStep {
-        case .welcome:
-            currentStep = .examDate
-        case .examDate:
-            currentStep = .notificationConsent
-        case .notificationConsent:
-            currentStep = .complete
-        case .complete:
-            break
-        }
-    }
-    
-    func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            if let error = error {
-                print("Notification permission error: \(error)")
-            }
-        }
-    }
-}

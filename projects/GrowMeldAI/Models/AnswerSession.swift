@@ -1,8 +1,9 @@
+// Models/AnswerSession.swift
 import Foundation
 import Combine
 
 class AnswerSession: ObservableObject {
-    @Published var answers: [String: String] = [:]
+    @Published var answers: [String: String] = [:]  // questionId -> answerId
 
     func recordAnswer(questionId: String, answerId: String) {
         answers[questionId] = answerId
@@ -28,4 +29,17 @@ class AnswerSession: ObservableObject {
     func clearAll() {
         answers.removeAll()
     }
+}
+
+// MARK: - Minimal QuizQuestion model (used by AnswerSession.scoreCount)
+struct QuizQuestion: Identifiable {
+    let id: String
+    let text: String
+    let correctAnswerId: String
+    let answers: [QuizAnswer]
+}
+
+struct QuizAnswer: Identifiable {
+    let id: String
+    let text: String
 }

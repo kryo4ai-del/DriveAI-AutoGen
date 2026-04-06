@@ -1,5 +1,4 @@
-import Foundation
-import SwiftUI
+// Core/Utilities/ValidationService.swift (add)
 
 enum PasswordStrength {
     case weak, fair, good, strong
@@ -23,7 +22,7 @@ enum PasswordStrength {
     }
 }
 
-class ValidationService {
+extension ValidationService {
     // Precompile regexes once
     private static let uppercaseRegex = try! NSRegularExpression(pattern: "[A-Z]")
     private static let numberRegex = try! NSRegularExpression(pattern: "[0-9]")
@@ -49,3 +48,6 @@ class ValidationService {
         }
     }
 }
+
+// SignUpViewModel (refactored)
+@MainActor

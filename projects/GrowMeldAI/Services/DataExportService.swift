@@ -13,10 +13,15 @@ final class DataExportService {
     func exportUserData() throws -> Data {
         var userData: [String: Any] = [:]
 
+        // Add user progress
+        userData["userProgress"] = userProgressService.getAllProgress()
+
+        // Add UserDefaults keys (excluding sensitive ones)
         let defaultsData = userDefaults.dictionaryRepresentation()
             .filter { !$0.key.hasPrefix("Apple") }
         userData["userDefaults"] = defaultsData
 
+        // Add app metadata
         userData["appVersion"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         userData["exportDate"] = ISO8601DateFormatter().string(from: Date())
 

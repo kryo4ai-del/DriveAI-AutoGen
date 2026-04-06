@@ -1,4 +1,3 @@
-import Foundation
 class FeedbackQueueManager {
     // Required methods:
     func enqueue(_ feedback: UserFeedback) async throws

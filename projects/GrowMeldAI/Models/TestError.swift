@@ -1,6 +1,6 @@
 @MainActor
 func testQuestionViewModelInitialization() async {
-    let mockQuestion = Question(id: "q1", text: "Test?", answers: [])
+    let mockQuestion = Question(id: "q1", text: "Test?", answers: [...])
     let mockService = MockQuestionService(questionToReturn: mockQuestion)
     
     let vm = QuestionScreenViewModel(categoryId: "traffic-signs", questionService: mockService)

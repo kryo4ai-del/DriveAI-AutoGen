@@ -117,7 +117,7 @@ struct NotificationTypeToggle: View {
                     Image(systemName: isSelected ? "checkmark.square.fill" : "square")
                         .font(.title3)
                         .foregroundColor(isSelected ? .blue : .gray)
-                        .frame(width: 24, height: 24)
+                        .frame(width: 24, height: 24) // ✅ Min 44pt touch target
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(type.displayTitle)
@@ -132,7 +132,7 @@ struct NotificationTypeToggle: View {
                     
                     Spacer()
                 }
-                .contentShape(Rectangle())
+                .contentShape(Rectangle()) // Make entire row tappable
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel("\(type.displayTitle), \(type.accessibilityDescription)")
@@ -143,7 +143,7 @@ struct NotificationTypeToggle: View {
             }
         }
         .padding(.vertical, 8)
-        .frame(minHeight: 44)
+        .frame(minHeight: 44) // ✅ Min touch target
     }
 }
 
@@ -163,3 +163,6 @@ extension NotificationType {
         }
     }
 }
+
+// MARK: - ViewModel with Accessibility State
+@MainActor

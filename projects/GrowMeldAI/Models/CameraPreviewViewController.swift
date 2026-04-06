@@ -1,4 +1,3 @@
-import SwiftUI
 final class CameraPreviewViewController: UIViewController {
     // ...
     override func viewDidLayoutSubviews() {

@@ -17,7 +17,7 @@ extension UserDefaults {
     }
 }
 
-// MARK: - Privacy-first Analytics Implementation
+// MARK: - Privacy-first Analytics Implementation (Firebase-free)
 
 final class FirebaseAnalyticsService: AnalyticsServiceProtocol {
 
@@ -76,16 +76,17 @@ final class FirebaseAnalyticsService: AnalyticsServiceProtocol {
         #endif
     }
 
-    // MARK: - Local Persistence
+    // MARK: - Local Persistence (replaces Firebase SDK)
 
     private let storageKey = "analytics_event_queue"
 
     private func persistEvent(_ payload: [String: Any]) {
-        guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []),
+        guard let data = try? JSONSerialization.data(withJSONObject: payload),
               let jsonString = String(data: data, encoding: .utf8) else { return }
 
         var queue = loadQueue()
         queue.append(jsonString)
+        // Keep queue bounded to avoid unbounded storage growth
         if queue.count > 500 {
             queue = Array(queue.dropFirst(queue.count - 500))
         }
@@ -96,12 +97,13 @@ final class FirebaseAnalyticsService: AnalyticsServiceProtocol {
         UserDefaults.standard.stringArray(forKey: storageKey) ?? []
     }
 
+    /// Call this to flush / upload queued events when ready
     func flushEvents() -> [[String: Any]] {
         let queue = loadQueue()
         UserDefaults.standard.removeObject(forKey: storageKey)
         return queue.compactMap { jsonString -> [String: Any]? in
             guard let data = jsonString.data(using: .utf8),
-                  let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                  let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
             else { return nil }
             return dict
         }

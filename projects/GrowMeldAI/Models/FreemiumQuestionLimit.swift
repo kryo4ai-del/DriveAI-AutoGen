@@ -5,16 +5,12 @@ enum FreemiumQuestionLimit {
 }
 
 // In TrialStatus:
-enum TrialStatus {
-    case active(
-        signsMastered: Int,
-        signsTotal: Int,
-        examReadiness: Int
-    )
-}
+case active(
+    signsMastered: Int,
+    signsTotal: Int,
+    examReadiness: Int
+)
 
 // In ViewModel for motivation:
-let motivationText = """
-Du kennst schon 42 von 87 Verkehrsschildern! \
-Premium zeigt dir gezielt die 45 Zeichen, die dir noch fehlen.
-"""
+"Du kennst schon 42 von 87 Verkehrsschildern! 
+ Premium zeigt dir gezielt die {45} Zeichen, die dir noch fehlen."

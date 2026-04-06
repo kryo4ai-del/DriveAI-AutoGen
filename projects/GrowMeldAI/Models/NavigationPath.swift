@@ -1,9 +1,8 @@
-import Foundation
-
-enum AppNavigationDestination: Hashable {
+// Presentation/Helpers/Navigation.swift
+enum NavigationPath: Hashable {
     case onboarding
     case home
-    case question(QuizCategory?)
+    case question(Category?)        // Optional filter
     case categoryList
     case exam
     case result(ExamResult)
@@ -11,4 +10,8 @@ enum AppNavigationDestination: Hashable {
     case reviewMistakes(ExamAttempt)
 }
 
-typealias AppNavigationPath = AppNavigationDestination
+// App/AppCoordinator.swift
+@MainActor
+
+// App/DriveAIApp.swift
+@main

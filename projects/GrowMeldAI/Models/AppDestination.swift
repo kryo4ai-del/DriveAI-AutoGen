@@ -4,7 +4,7 @@ enum AppDestination: Hashable {
     case home
     case questionCategory(String)
     case examSimulation
-    case examResults(UUID, Int, Int, Date)
+    case examResults(ExamResult)
     case profile
 
     func hash(into hasher: inout Hasher) {
@@ -16,9 +16,9 @@ enum AppDestination: Hashable {
             hasher.combine(category)
         case .examSimulation:
             hasher.combine(2)
-        case .examResults(let id, _, _, _):
+        case .examResults(let result):
             hasher.combine(3)
-            hasher.combine(id)
+            hasher.combine(result.id)
         case .profile:
             hasher.combine(4)
         }
@@ -32,12 +32,39 @@ enum AppDestination: Hashable {
             return a == b
         case (.examSimulation, .examSimulation):
             return true
-        case (.examResults(let aId, _, _, _), .examResults(let bId, _, _, _)):
-            return aId == bId
+        case (.examResults(let a), .examResults(let b)):
+            return a.id == b.id
         case (.profile, .profile):
             return true
         default:
             return false
         }
+    }
+}
+
+// MARK: - Minimal ExamResult model (if not defined elsewhere)
+
+struct ExamResult: Identifiable, Hashable, Codable {
+    let id: String
+    let score: Int
+    let totalQuestions: Int
+    let correctAnswers: Int
+    let dateTaken: Date
+    let categoryName: String?
+
+    init(
+        id: String = UUID().uuidString,
+        score: Int,
+        totalQuestions: Int,
+        correctAnswers: Int,
+        dateTaken: Date = Date(),
+        categoryName: String? = nil
+    ) {
+        self.id = id
+        self.score = score
+        self.totalQuestions = totalQuestions
+        self.correctAnswers = correctAnswers
+        self.dateTaken = dateTaken
+        self.categoryName = categoryName
     }
 }

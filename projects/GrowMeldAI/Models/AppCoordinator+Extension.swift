@@ -1,20 +1,20 @@
-import Foundation
 import SwiftUI
+import Foundation
 
 // MARK: - AppRoute
 
 enum GrowMeldAppRoute: Hashable {
     case home
     case exam
-    case examResult(ExamResultPayload)
+    case examResult(GrowMeldExamResult)
     case settings
     case progress
     case onboarding
 }
 
-// MARK: - ExamResultPayload
+// MARK: - ExamResult
 
-struct ExamResultPayload: Hashable, Codable {
+struct GrowMeldExamResult: Hashable, Codable {
     let id: UUID
     let score: Int
     let totalQuestions: Int
@@ -90,14 +90,19 @@ final class AppCoordinator: ObservableObject {
         switch route {
         case .home:
             navigateToRoot()
+
         case .exam:
             navigate(to: .exam)
+
         case .examResult(let result):
             handleExamResult(result)
+
         case .settings:
             navigate(to: .settings)
+
         case .progress:
             navigate(to: .progress)
+
         case .onboarding:
             navigate(to: .onboarding)
         }
@@ -105,12 +110,12 @@ final class AppCoordinator: ObservableObject {
 
     // MARK: - Exam Result Handling
 
-    func handleExamResult(_ result: ExamResultPayload) {
+    func handleExamResult(_ result: GrowMeldExamResult) {
         navigate(to: .examResult(result))
         recordExamResult(result)
     }
 
-    private func recordExamResult(_ result: ExamResultPayload) {
+    private func recordExamResult(_ result: GrowMeldExamResult) {
         var results = loadStoredExamResults()
         results.append(result)
         saveExamResults(results)
@@ -120,17 +125,17 @@ final class AppCoordinator: ObservableObject {
 
     private static let examResultsKey = "com.growmeld.examResults"
 
-    func loadStoredExamResults() -> [ExamResultPayload] {
+    func loadStoredExamResults() -> [GrowMeldExamResult] {
         guard
             let data = UserDefaults.standard.data(forKey: Self.examResultsKey),
-            let results = try? JSONDecoder().decode([ExamResultPayload].self, from: data)
+            let results = try? JSONDecoder().decode([GrowMeldExamResult].self, from: data)
         else {
             return []
         }
         return results
     }
 
-    private func saveExamResults(_ results: [ExamResultPayload]) {
+    private func saveExamResults(_ results: [GrowMeldExamResult]) {
         guard let data = try? JSONEncoder().encode(results) else { return }
         UserDefaults.standard.set(data, forKey: Self.examResultsKey)
     }
@@ -154,8 +159,31 @@ final class AppCoordinator: ObservableObject {
             handleRoute(.settings)
         case "progress":
             handleRoute(.progress)
+        case "onboarding":
+            handleRoute(.onboarding)
         default:
-            break
+            handleRoute(.home)
+        }
+    }
+
+    // MARK: - State Helpers
+
+    var canGoBack: Bool {
+        !navigationPath.isEmpty
+    }
+
+    var isAtRoot: Bool {
+        navigationPath.isEmpty
+    }
+
+    var routeTitle: String {
+        switch currentRoute {
+        case .home:       return "Home"
+        case .exam:       return "Exam"
+        case .examResult: return "Result"
+        case .settings:   return "Settings"
+        case .progress:   return "Progress"
+        case .onboarding: return "Welcome"
         }
     }
 }

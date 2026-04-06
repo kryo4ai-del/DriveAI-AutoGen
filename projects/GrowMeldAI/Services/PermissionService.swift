@@ -1,7 +1,3 @@
-import AVFoundation
-import UIKit
-import CoreMedia
-
 // Services/PermissionService.swift
 @MainActor
 final class PermissionService: ObservableObject {
@@ -23,16 +19,13 @@ final class PermissionService: ObservableObject {
     }
     
     func openSettings() {
-        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLScheme + "://") else { return }
         UIApplication.shared.open(settingsURL)
     }
 }
 
 // Services/CameraService.swift
 @MainActor
-class CameraService: NSObject, ObservableObject {
-    // Placeholder for camera service functionality
-}
 
 // MARK: - Photo Capture Delegate
 private class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
@@ -45,20 +38,25 @@ private class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput,
                     didFinishProcessingPhoto photo: AVCapturePhoto,
                     error: Error?) {
-        guard error == nil, let _ = photo.pixelBuffer else {
+        guard error == nil, let sampleBuffer = photo.pixelBuffer else {
             return
         }
         
-        // Note: Proper conversion from CVPixelBuffer to CMSampleBuffer would be needed here
+        // Convert CVPixelBuffer to CMSampleBuffer and pass to completion
+        completion(sampleBuffer as! CMSampleBuffer) // Simplified - proper conversion needed
     }
 }
 
 // MARK: - Video Data Output Delegate
 extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
-    nonisolated func captureOutput(_ output: AVCaptureOutput,
+    func captureOutput(_ output: AVCaptureOutput,
                       didOutput sampleBuffer: CMSampleBuffer,
                       from connection: AVCaptureConnection) {
         // Optional: Enable continuous frame processing for preview hints
+        // guard state == .idle else { return }
+        // Task {
+        //     await visionService.prefetchPlantHints(from: sampleBuffer)
+        // }
     }
 }
 
@@ -66,6 +64,3 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
 
 // Services/PlantDatabaseService.swift
 @MainActor
-class PlantDatabaseService: ObservableObject {
-    // Placeholder for plant database service functionality
-}

@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 
+/// Central event dispatcher (thread-safe, non-blocking)
 protocol EventBusProtocol: AnyObject {
     func publish(_ event: DriveAIEvent) -> AnyPublisher<Void, EventBusError>
     func subscribe() -> AnyPublisher<DriveAIEvent, Never>
@@ -9,7 +10,7 @@ protocol EventBusProtocol: AnyObject {
 enum EventBusError: LocalizedError {
     case publishFailed(String)
     case notInitialized
-
+    
     var errorDescription: String? {
         switch self {
         case .publishFailed(let msg):
@@ -20,21 +21,32 @@ enum EventBusError: LocalizedError {
     }
 }
 
-final class EventBus: EventBusProtocol {
+actor EventBus: EventBusProtocol {
     private let eventSubject = PassthroughSubject<DriveAIEvent, Never>()
-    private let lock = NSLock()
-
-    func publish(_ event: DriveAIEvent) -> AnyPublisher<Void, EventBusError> {
-        lock.lock()
-        defer { lock.unlock() }
+    private var subscribers: [UUID: AnyCancellable] = [:]
+    
+    nonisolated func publish(_ event: DriveAIEvent) -> AnyPublisher<Void, EventBusError> {
+        Future { [weak self] promise in
+            Task {
+                await self?._publish(event, promise: promise)
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    private func _publish(
+        _ event: DriveAIEvent,
+        promise: @escaping (Result<Void, EventBusError>) -> Void
+    ) {
         #if DEBUG
         print("📡 Event published: \(event)")
         #endif
+        
         eventSubject.send(event)
-        return Just(()).setFailureType(to: EventBusError.self).eraseToAnyPublisher()
+        promise(.success(()))
     }
-
-    func subscribe() -> AnyPublisher<DriveAIEvent, Never> {
+    
+    nonisolated func subscribe() -> AnyPublisher<DriveAIEvent, Never> {
         eventSubject.eraseToAnyPublisher()
     }
 }

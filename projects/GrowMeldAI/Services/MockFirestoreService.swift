@@ -1,53 +1,35 @@
-import Foundation
-
-final class MockFirestoreService {
+class MockFirestoreService: FirestoreService {
     var shouldFail = false
     var mockDocuments: [String: [String: Any]] = [:]
-
-    func fetchDocument<T: Decodable>(
+    
+    nonisolated override func fetchDocument<T: Decodable>(
         from collection: String,
         documentID: String,
         as type: T.Type
     ) async throws -> T {
         if shouldFail {
-            throw MockFirestoreError.networkUnavailable
+            throw FirestoreError.networkUnavailable
         }
-
+        
         guard let data = mockDocuments["\(collection)/\(documentID)"] else {
-            throw MockFirestoreError.documentNotFound
+            throw FirestoreError.documentNotFound
         }
-
-        let jsonData = try JSONSerialization.data(withJSONObject: data, options: [])
+        
+        let jsonData = try JSONSerialization.data(withJSONObject: data)
         return try JSONDecoder().decode(T.self, from: jsonData)
     }
 }
 
-enum MockFirestoreError: LocalizedError {
-    case networkUnavailable
-    case documentNotFound
-
-    var errorDescription: String? {
-        switch self {
-        case .networkUnavailable:
-            return "Network is unavailable."
-        case .documentNotFound:
-            return "Document not found."
-        }
-    }
-}
-
-final class MockQuestionRepository {
-    var mockQuestions: [MockQuestion] = []
+class MockQuestionRepository: QuestionRepository {
+    var mockQuestions: [Question] = []
     var mockError: Error?
-
-    func fetchAllQuestions() async throws -> [MockQuestion] {
+    
+    func fetchAllQuestions() async throws -> [Question] {
         if let error = mockError { throw error }
         return mockQuestions
     }
-}
-
-struct MockQuestion: Codable, Identifiable {
-    let id: String
-    let text: String
-    let answer: String
+    
+    var questionsPublisher: AnyPublisher<[Question], Never> {
+        Just(mockQuestions).eraseToAnyPublisher()
+    }
 }
