@@ -14,13 +14,13 @@ protocol AppProgressTrackerProtocol: AnyObject {
 
 // MARK: - Default Implementations
 
-final class LocalDataServiceImpl: AppLocalDataServiceProtocol {
+final class AppLocalDataServiceImpl: AppLocalDataServiceProtocol {
     func fetchQuestions() -> [Any] {
         return []
     }
 }
 
-final class ProgressTrackerImpl: AppProgressTrackerProtocol {
+final class AppProgressTrackerImpl: AppProgressTrackerProtocol {
     private var progressData: [Int: [Bool]] = [:]
 
     func recordProgress(for questionId: Int, correct: Bool) {
@@ -34,8 +34,8 @@ final class ProgressTrackerImpl: AppProgressTrackerProtocol {
     }
 }
 
-final class AppUserPreferences {
-    static let shared = AppUserPreferences()
+final class AppUserPreferencesStore {
+    static let shared = AppUserPreferencesStore()
     private let defaults = UserDefaults.standard
 
     init() {}
@@ -61,7 +61,7 @@ final class AppUserPreferences {
 protocol AppDataService {
     var questions: AppLocalDataServiceProtocol { get }
     var progress: AppProgressTrackerProtocol { get }
-    var preferences: AppUserPreferences { get }
+    var preferences: AppUserPreferencesStore { get }
 }
 
 // MARK: - AppDataService Implementation
@@ -69,12 +69,12 @@ protocol AppDataService {
 final class AppDataServiceImpl: AppDataService {
     let questions: AppLocalDataServiceProtocol
     let progress: AppProgressTrackerProtocol
-    let preferences: AppUserPreferences
+    let preferences: AppUserPreferencesStore
 
     init(
-        questions: AppLocalDataServiceProtocol = LocalDataServiceImpl(),
-        progress: AppProgressTrackerProtocol = ProgressTrackerImpl(),
-        preferences: AppUserPreferences = .shared
+        questions: AppLocalDataServiceProtocol = AppLocalDataServiceImpl(),
+        progress: AppProgressTrackerProtocol = AppProgressTrackerImpl(),
+        preferences: AppUserPreferencesStore = .shared
     ) {
         self.questions = questions
         self.progress = progress

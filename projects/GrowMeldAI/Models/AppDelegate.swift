@@ -7,8 +7,6 @@ final class AppDelegate: NSObject, ObservableObject {
     static let recognitionService = RecognitionService()
 
     func applicationDidFinishLaunching() {
-        Task(priority: .userInitiated) {
-            print("ML model loaded successfully")
-        }
+        print("ML model loaded successfully")
     }
 }

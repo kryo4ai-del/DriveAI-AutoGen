@@ -6,19 +6,14 @@ import Combine
 
 final class AppEnvironment: ObservableObject {
     let trialService: TrialService
-    let quotaManager: QuotaManager
-    let localDataService: LocalDataService
-    let analyticsService: AnalyticsService
+    let quotaManager: GrowMeldAI.QuotaManager
+    let localDataService: GrowMeldAI.LocalDataService
+    let analyticsService: GrowMeldAI.AnalyticsService
 
     init() {
-        let analytics = AnalyticsService()
-        let quota = QuotaManager()
-        let trial = TrialService()
-        let local = LocalDataService()
-
-        self.analyticsService = analytics
-        self.quotaManager = quota
-        self.trialService = trial
-        self.localDataService = local
+        self.analyticsService = GrowMeldAI.AnalyticsService()
+        self.quotaManager = GrowMeldAI.QuotaManager()
+        self.trialService = TrialService()
+        self.localDataService = GrowMeldAI.LocalDataService()
     }
 }

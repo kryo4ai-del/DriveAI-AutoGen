@@ -1,24 +1,10 @@
 import Foundation
 
-struct ExamResult: Identifiable, Hashable {
-    let id: UUID
-    let score: Int
-    let totalQuestions: Int
-    let date: Date
-
-    init(id: UUID = UUID(), score: Int, totalQuestions: Int, date: Date = Date()) {
-        self.id = id
-        self.score = score
-        self.totalQuestions = totalQuestions
-        self.date = date
-    }
-}
-
 enum AppDestination: Hashable {
     case home
     case questionCategory(String)
     case examSimulation
-    case examResults(ExamResult)
+    case examResults(UUID, Int, Int, Date)
     case profile
 
     func hash(into hasher: inout Hasher) {
@@ -30,9 +16,9 @@ enum AppDestination: Hashable {
             hasher.combine(category)
         case .examSimulation:
             hasher.combine(2)
-        case .examResults(let result):
+        case .examResults(let id, _, _, _):
             hasher.combine(3)
-            hasher.combine(result.id)
+            hasher.combine(id)
         case .profile:
             hasher.combine(4)
         }
@@ -46,8 +32,8 @@ enum AppDestination: Hashable {
             return a == b
         case (.examSimulation, .examSimulation):
             return true
-        case (.examResults(let a), .examResults(let b)):
-            return a.id == b.id
+        case (.examResults(let aId, _, _, _), .examResults(let bId, _, _, _)):
+            return aId == bId
         case (.profile, .profile):
             return true
         default:

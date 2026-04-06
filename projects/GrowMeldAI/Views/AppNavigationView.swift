@@ -7,15 +7,15 @@ struct AppNavigationView: View {
         NavigationStack(path: $coordinator.navigationPath) {
             Group {
                 if coordinator.isOnboarded {
-                    HomeView(viewModel: HomeViewModel())
+                    HomeView()
                 } else {
-                    OnboardingView(viewModel: OnboardingViewModel())
+                    OnboardingView()
                 }
             }
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
                 case .home:
-                    HomeView(viewModel: HomeViewModel())
+                    HomeView()
                 case .categoryDetail(let categoryID):
                     CategoryDetailPlaceholderView(categoryID: categoryID)
                 case .question(let questionID, let context):
@@ -27,14 +27,12 @@ struct AppNavigationView: View {
     }
 }
 
-// MARK: - Navigation Path
+// MARK: - Navigation Route
 enum AppRoute: Hashable {
     case home
     case categoryDetail(categoryID: String)
     case question(questionID: String, context: String?)
 }
-
-typealias AppNavigationPath = AppRoute
 
 // MARK: - Navigation Coordinator
 class AppNavigationCoordinator: ObservableObject {
@@ -83,9 +81,19 @@ private struct QuestionPlaceholderView: View {
     }
 }
 
-// MARK: - Stub ViewModels if not defined elsewhere
-class HomeViewModel: ObservableObject {}
-class OnboardingViewModel: ObservableObject {}
+private struct HomeView: View {
+    var body: some View {
+        Text("Home")
+            .navigationTitle("Home")
+    }
+}
+
+private struct OnboardingView: View {
+    var body: some View {
+        Text("Onboarding")
+            .navigationTitle("Onboarding")
+    }
+}
 
 // MARK: - Preview
 #if DEBUG

@@ -1,5 +1,14 @@
 import SwiftUI
 
+enum AppRoute: Hashable {
+    case dashboard
+    case category(id: String)
+    case question(id: String)
+    case exam
+    case result(score: Double)
+    case profile
+}
+
 struct AppNavigation: View {
     @StateObject private var navStack = NavigationStackController()
 

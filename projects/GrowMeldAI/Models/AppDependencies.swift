@@ -1,28 +1,8 @@
 import Foundation
 
-// MARK: - Protocols
-
-protocol LocalDataServiceProtocol {
-    func save<T: Codable>(_ object: T, forKey key: String) throws
-    func load<T: Codable>(_ type: T.Type, forKey key: String) throws -> T?
-    func delete(forKey key: String)
-}
-
-protocol ProgressTrackerProtocol {
-    var currentProgress: Double { get }
-    func updateProgress(_ value: Double)
-    func reset()
-}
-
-protocol UserPreferencesProtocol {
-    var notificationsEnabled: Bool { get set }
-    var theme: String { get set }
-    var language: String { get set }
-}
-
 // MARK: - Implementations
 
-final class AppLocalDataService: LocalDataServiceProtocol {
+final class AppLocalDataService {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let userDefaults: UserDefaults
@@ -46,7 +26,7 @@ final class AppLocalDataService: LocalDataServiceProtocol {
     }
 }
 
-final class AppProgressTracker: ProgressTrackerProtocol {
+final class AppProgressTracker {
     private(set) var currentProgress: Double = 0.0
 
     func updateProgress(_ value: Double) {
@@ -58,7 +38,7 @@ final class AppProgressTracker: ProgressTrackerProtocol {
     }
 }
 
-final class AppUserPreferences: UserPreferencesProtocol {
+final class AppUserPreferences {
     static let shared = AppUserPreferences()
 
     private let defaults: UserDefaults
@@ -92,73 +72,29 @@ final class AppUserPreferences: UserPreferencesProtocol {
 // MARK: - AppDependencies
 
 struct AppDependencies {
-    let dataService: LocalDataServiceProtocol
-    let progressTracker: ProgressTrackerProtocol
-    let preferences: UserPreferencesProtocol
+    let dataService: AppLocalDataService
+    let progressTracker: AppProgressTracker
+    let preferences: AppUserPreferences
 
     static func makeForApp() -> AppDependencies {
-        let prefs = AppUserPreferences.shared
-        let dataService = AppLocalDataService()
-        let tracker = AppProgressTracker()
         return AppDependencies(
-            dataService: dataService,
-            progressTracker: tracker,
-            preferences: prefs
+            dataService: AppLocalDataService(),
+            progressTracker: AppProgressTracker(),
+            preferences: AppUserPreferences.shared
         )
     }
 
     #if DEBUG
     static func makeForTesting(
-        dataService: LocalDataServiceProtocol? = nil,
-        progressTracker: ProgressTrackerProtocol? = nil,
-        preferences: UserPreferencesProtocol? = nil
+        dataService: AppLocalDataService? = nil,
+        progressTracker: AppProgressTracker? = nil,
+        preferences: AppUserPreferences? = nil
     ) -> AppDependencies {
         return AppDependencies(
-            dataService: dataService ?? AppMockDataService(),
-            progressTracker: progressTracker ?? AppMockProgressTracker(),
-            preferences: preferences ?? AppMockUserPreferences()
+            dataService: dataService ?? AppLocalDataService(),
+            progressTracker: progressTracker ?? AppProgressTracker(),
+            preferences: preferences ?? AppUserPreferences()
         )
     }
     #endif
 }
-
-// MARK: - Mock Implementations (DEBUG only)
-
-#if DEBUG
-final class AppMockDataService: LocalDataServiceProtocol {
-    private var storage: [String: Data] = [:]
-    private let encoder = JSONEncoder()
-    private let decoder = JSONDecoder()
-
-    func save<T: Codable>(_ object: T, forKey key: String) throws {
-        storage[key] = try encoder.encode(object)
-    }
-
-    func load<T: Codable>(_ type: T.Type, forKey key: String) throws -> T? {
-        guard let data = storage[key] else { return nil }
-        return try decoder.decode(type, from: data)
-    }
-
-    func delete(forKey key: String) {
-        storage.removeValue(forKey: key)
-    }
-}
-
-final class AppMockProgressTracker: ProgressTrackerProtocol {
-    private(set) var currentProgress: Double = 0.0
-
-    func updateProgress(_ value: Double) {
-        currentProgress = max(0.0, min(1.0, value))
-    }
-
-    func reset() {
-        currentProgress = 0.0
-    }
-}
-
-final class AppMockUserPreferences: UserPreferencesProtocol {
-    var notificationsEnabled: Bool = true
-    var theme: String = "default"
-    var language: String = "en"
-}
-#endif

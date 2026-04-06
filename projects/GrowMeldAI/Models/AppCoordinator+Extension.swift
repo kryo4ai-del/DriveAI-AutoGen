@@ -44,10 +44,6 @@ struct ExamResultPayload: Hashable, Codable {
     }
 }
 
-// MARK: - GrowMeldExamResult typealias
-
-typealias GrowMeldExamResult = ExamResultPayload
-
 // MARK: - AppCoordinator
 
 @MainActor
@@ -158,8 +154,6 @@ final class AppCoordinator: ObservableObject {
             handleRoute(.settings)
         case "progress":
             handleRoute(.progress)
-        case "onboarding":
-            handleRoute(.onboarding)
         default:
             break
         }

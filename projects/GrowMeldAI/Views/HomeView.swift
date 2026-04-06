@@ -1,14 +1,7 @@
 import SwiftUI
 
-class HomeViewModel: ObservableObject {
-    @Published var learningPlanVM: LearningPlanViewModel? = nil
-
-    func loadDashboard() async {
-    }
-}
-
 struct HomeView: View {
-    @StateObject var viewModel: HomeViewModel
+    @StateObject var viewModel: HomeViewModelObject
 
     var body: some View {
         VStack {
@@ -24,5 +17,12 @@ struct HomeView: View {
         .task {
             await viewModel.loadDashboard()
         }
+    }
+}
+
+class HomeViewModelObject: ObservableObject {
+    @Published var learningPlanVM: LearningPlanViewModel? = nil
+
+    func loadDashboard() async {
     }
 }

@@ -43,8 +43,6 @@ final class GrowMeldAppLogger {
     }
 }
 
-typealias AppLogger = GrowMeldAppLogger
-
 // MARK: - GrowMeldFirebaseManager
 
 final class GrowMeldFirebaseManager: ObservableObject {
@@ -63,7 +61,7 @@ final class AppDependenciesBox: ObservableObject {
 
 // MARK: - Environment Key
 
-struct AppDependenciesEnvironmentKey: EnvironmentKey {
+private struct AppDependenciesEnvironmentKey: EnvironmentKey {
     static let defaultValue: AppDependenciesBox? = nil
 }
 
