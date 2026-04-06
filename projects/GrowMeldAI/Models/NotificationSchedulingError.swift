@@ -1,8 +1,10 @@
-enum NotificationSchedulingError: LocalizedError {
+import Foundation
+
+enum NotificationSchedulingError: Error, LocalizedError {
     case testNotification(Error)
     case examCountdown(Error)
     case dailyTips(Error)
-    case multipleErrors([Self])
+    case multipleErrors([NotificationSchedulingError])
     
     var errorDescription: String? {
         switch self {

@@ -13,3 +13,9 @@ struct NotificationSchedule: Codable, Equatable {
         case weekly
     }
 }
+
+enum NotificationTrigger: String, Codable, Equatable {
+    case time
+    case location
+    case event
+}
