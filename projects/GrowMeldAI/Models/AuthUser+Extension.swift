@@ -1,5 +1,9 @@
 import Foundation
 
+struct AuthUser {
+    var examDate: Date?
+}
+
 extension AuthUser {
     func examCountdownDescription() -> String {
         guard let examDate = examDate else {
