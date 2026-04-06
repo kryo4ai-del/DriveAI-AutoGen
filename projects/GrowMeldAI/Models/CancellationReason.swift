@@ -1,3 +1,4 @@
+import Foundation
 enum SubscriptionStatus {
     case cancelled(expiresUntil: Date, reason: CancellationReason?, cancelledDate: Date)
 
