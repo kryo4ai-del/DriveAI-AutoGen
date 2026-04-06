@@ -3,7 +3,7 @@ import Foundation
 
 // MARK: - Severity
 
-enum Severity: String {
+enum Severity {
     case low
     case medium
     case high
