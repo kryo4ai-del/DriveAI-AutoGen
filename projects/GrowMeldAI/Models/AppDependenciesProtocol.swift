@@ -1,22 +1,6 @@
 import SwiftUI
 import Combine
 
-// MARK: - Supporting Protocol Definitions
-
-protocol LocalDataServiceProtocol: AnyObject {}
-
-protocol FirebaseAuthServiceProtocol: AnyObject {}
-
-protocol FirestoreServiceProtocol: AnyObject {}
-
-protocol AnalyticsServiceProtocol: AnyObject {}
-
-protocol FirebaseSyncCoordinatorProtocol: AnyObject {}
-
-protocol NetworkConnectivityMonitorProtocol: AnyObject {}
-
-protocol OfflineQueueManagerProtocol: AnyObject {}
-
 // MARK: - AppDependenciesProtocol
 
 protocol AppDependenciesProtocol: ObservableObject {
@@ -36,21 +20,26 @@ protocol AppDependenciesProtocol: ObservableObject {
     func disableFirebaseSync()
 }
 
+// MARK: - Supporting Protocol Definitions
+
+protocol LocalDataServiceProtocol: AnyObject {}
+
+protocol FirebaseAuthServiceProtocol: AnyObject {}
+
+protocol FirestoreServiceProtocol: AnyObject {}
+
+protocol AnalyticsServiceProtocol: AnyObject {}
+
+protocol FirebaseSyncCoordinatorProtocol: AnyObject {}
+
+protocol NetworkConnectivityMonitorProtocol: AnyObject {}
+
+protocol OfflineQueueManagerProtocol: AnyObject {}
+
 // MARK: - AppLogger
 
 final class AppLogger {
     static let shared = AppLogger()
-
-    func log(_ message: String, level: LogLevel = .info) {
-        #if DEBUG
-        print("[\(level.prefix)] \(message)")
-        #endif
-    }
-
-    func info(_ message: String) { log(message, level: .info) }
-    func warning(_ message: String) { log(message, level: .warning) }
-    func error(_ message: String) { log(message, level: .error) }
-    func debug(_ message: String) { log(message, level: .debug) }
 
     enum LogLevel {
         case debug, info, warning, error
@@ -64,6 +53,17 @@ final class AppLogger {
             }
         }
     }
+
+    func log(_ message: String, level: LogLevel = .info) {
+        #if DEBUG
+        print("[\(level.prefix)] \(message)")
+        #endif
+    }
+
+    func info(_ message: String) { log(message, level: .info) }
+    func warning(_ message: String) { log(message, level: .warning) }
+    func error(_ message: String) { log(message, level: .error) }
+    func debug(_ message: String) { log(message, level: .debug) }
 }
 
 // MARK: - FirebaseManager Stub
@@ -75,15 +75,10 @@ final class FirebaseManager: ObservableObject {
 
 // MARK: - Environment Key & Values Extension
 
-private struct AppDependenciesKeyWrapper {
-    static var current: (any AppDependenciesProtocol)?
-}
-
 struct AppDependenciesEnvironmentKey: EnvironmentKey {
     static let defaultValue: AppDependenciesBox? = nil
 }
 
-/// Type-erased box to allow storage of `any AppDependenciesProtocol` in EnvironmentValues
 final class AppDependenciesBox: ObservableObject {
     let wrapped: any AppDependenciesProtocol
     init(_ wrapped: any AppDependenciesProtocol) {

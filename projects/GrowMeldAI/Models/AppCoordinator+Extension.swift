@@ -1,16 +1,5 @@
-import SwiftUI
 import Foundation
-
-// MARK: - AppRoute
-
-enum GrowMeldAppRoute: Hashable {
-    case home
-    case exam
-    case examResult(GrowMeldExamResult)
-    case settings
-    case progress
-    case onboarding
-}
+import SwiftUI
 
 // MARK: - ExamResult
 
@@ -42,6 +31,17 @@ struct GrowMeldExamResult: Hashable, Codable {
         guard totalQuestions > 0 else { return 0 }
         return Double(score) / Double(totalQuestions) * 100
     }
+}
+
+// MARK: - AppRoute
+
+enum GrowMeldAppRoute: Hashable {
+    case home
+    case exam
+    case examResult(GrowMeldExamResult)
+    case settings
+    case progress
+    case onboarding
 }
 
 // MARK: - AppCoordinator
@@ -90,19 +90,14 @@ final class AppCoordinator: ObservableObject {
         switch route {
         case .home:
             navigateToRoot()
-
         case .exam:
             navigate(to: .exam)
-
         case .examResult(let result):
             handleExamResult(result)
-
         case .settings:
             navigate(to: .settings)
-
         case .progress:
             navigate(to: .progress)
-
         case .onboarding:
             navigate(to: .onboarding)
         }
@@ -162,28 +157,7 @@ final class AppCoordinator: ObservableObject {
         case "onboarding":
             handleRoute(.onboarding)
         default:
-            handleRoute(.home)
-        }
-    }
-
-    // MARK: - State Helpers
-
-    var canGoBack: Bool {
-        !navigationPath.isEmpty
-    }
-
-    var isAtRoot: Bool {
-        navigationPath.isEmpty
-    }
-
-    var routeTitle: String {
-        switch currentRoute {
-        case .home:       return "Home"
-        case .exam:       return "Exam"
-        case .examResult: return "Result"
-        case .settings:   return "Settings"
-        case .progress:   return "Progress"
-        case .onboarding: return "Welcome"
+            break
         }
     }
 }

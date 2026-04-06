@@ -1,25 +1,5 @@
 import Foundation
 
-// MARK: - Protocol Definitions
-
-protocol LocalDataServiceProtocol {
-    func save<T: Codable>(_ object: T, forKey key: String) throws
-    func load<T: Codable>(_ type: T.Type, forKey key: String) throws -> T?
-    func delete(forKey key: String)
-}
-
-protocol ProgressTrackerProtocol: AnyObject {
-    var currentProgress: Double { get }
-    func updateProgress(_ value: Double)
-    func reset()
-}
-
-protocol UserPreferencesProtocol: AnyObject {
-    var notificationsEnabled: Bool { get set }
-    var theme: String { get set }
-    var language: String { get set }
-}
-
 // MARK: - Concrete Implementations
 
 final class AppLocalDataService: LocalDataServiceProtocol {
@@ -58,6 +38,18 @@ final class AppProgressTracker: ProgressTrackerProtocol {
     }
 }
 
+protocol ProgressTrackerProtocol: AnyObject {
+    var currentProgress: Double { get }
+    func updateProgress(_ value: Double)
+    func reset()
+}
+
+protocol UserPreferencesProtocol: AnyObject {
+    var notificationsEnabled: Bool { get set }
+    var theme: String { get set }
+    var language: String { get set }
+}
+
 final class AppUserPreferences: UserPreferencesProtocol {
     static let shared = AppUserPreferences()
 
@@ -92,9 +84,9 @@ final class AppUserPreferences: UserPreferencesProtocol {
 // MARK: - AppDependencies
 
 struct AppDependencies {
-    let dataService: LocalDataServiceProtocol
-    let progressTracker: ProgressTrackerProtocol
-    let preferences: UserPreferencesProtocol
+    let dataService: any LocalDataServiceProtocol
+    let progressTracker: any ProgressTrackerProtocol
+    let preferences: any UserPreferencesProtocol
 
     static func makeForApp() -> AppDependencies {
         let prefs = AppUserPreferences.shared
@@ -109,9 +101,9 @@ struct AppDependencies {
 
     #if DEBUG
     static func makeForTesting(
-        dataService: LocalDataServiceProtocol? = nil,
-        progressTracker: ProgressTrackerProtocol? = nil,
-        preferences: UserPreferencesProtocol? = nil
+        dataService: (any LocalDataServiceProtocol)? = nil,
+        progressTracker: (any ProgressTrackerProtocol)? = nil,
+        preferences: (any UserPreferencesProtocol)? = nil
     ) -> AppDependencies {
         return AppDependencies(
             dataService: dataService ?? MockDataService(),
