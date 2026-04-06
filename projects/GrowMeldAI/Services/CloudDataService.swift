@@ -1,25 +1,61 @@
-// ⚠️ MISSING: Encryption at rest
-class CloudDataService {
+import Foundation
+
+final class CloudDataService {
+    private let baseURL: URL
+    private let session: URLSession
+
+    init(baseURL: URL = URL(string: "https://api.example.com")!, session: URLSession = .shared) {
+        self.baseURL = baseURL
+        self.session = session
+    }
+
     func saveProfile(_ profile: UserProfile, userId: String) async throws {
-        // ❌ Data sent to Firestore unencrypted (TLS in-transit only)
-        // ❌ Stored on Google Cloud servers unencrypted at rest
-        // ❌ DSGWO compliance: Where is the data geographically?
-        
-        let data = try Firestore.Encoder().encode(profile)
-        try await db.collection("users").document(userId).collection("profile").document("info").setData(data)
+        let url = baseURL.appendingPathComponent("users/\(userId)/profile")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONEncoder().encode(profile)
+
+        let (_, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw CloudDataError.requestFailed
+        }
+    }
+
+    func loadProfile(userId: String) async throws -> UserProfile {
+        let url = baseURL.appendingPathComponent("users/\(userId)/profile")
+        let request = URLRequest(url: url)
+
+        let (data, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw CloudDataError.requestFailed
+        }
+
+        return try JSONDecoder().decode(UserProfile.self, from: data)
     }
 }
 
-// ✅ BETTER: Client-side encryption
-class CloudDataService {
-    private let encryptionService: ClientEncryptionService
-    
-    func saveProfile(_ profile: UserProfile, userId: String) async throws {
-        let data = try Firestore.Encoder().encode(profile)
-        let encrypted = try encryptionService.encrypt(data, keyId: userId)  // E2E encryption
-        try await db.collection("users").document(userId).collection("encrypted").document("profile").setData([
-            "ciphertext": encrypted.ciphertext,
-            "keyId": encrypted.keyId
-        ])
+enum CloudDataError: LocalizedError {
+    case requestFailed
+    case encodingFailed
+    case decodingFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .requestFailed:
+            return "The cloud data request failed."
+        case .encodingFailed:
+            return "Failed to encode data for upload."
+        case .decodingFailed:
+            return "Failed to decode data from server."
+        }
     }
+}
+
+struct UserProfile: Codable {
+    let id: String
+    let name: String
+    let email: String
 }

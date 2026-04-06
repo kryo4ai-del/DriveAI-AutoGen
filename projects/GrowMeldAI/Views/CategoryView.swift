@@ -1,7 +1,13 @@
+import SwiftUI
+
 struct CategoryView: View {
-    @Binding var navigationPath: NavigationPath  // ← Circular reference potential
-    
-    // If CategoryView keeps strong reference to navigationPath binding
-    // and AppNavigation creates CategoryView with self binding,
-    // you get retain cycle
+    @Binding var navigationPath: NavigationPath
+
+    var body: some View {
+        List {
+            Text("Categories")
+                .font(.headline)
+        }
+        .navigationTitle("Categories")
+    }
 }
