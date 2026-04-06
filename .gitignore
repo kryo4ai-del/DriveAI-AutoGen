@@ -4,7 +4,22 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Secrets & Credentials
 .env
+.env.*
+!.env.example
+*.p8
+*.p12
+*.pem
+*.key
+*.pfx
+*.jks
+credentials/
+secrets/
+
+# Node
+node_modules/
 
 # Runtime / generated artifacts
 logs/
@@ -14,6 +29,7 @@ analytics/analytics_summary.json
 # Local machine / editor
 .vscode/
 .DS_Store
+Thumbs.db
 
 # Xcode / Apple
 DerivedData/
@@ -23,4 +39,3 @@ build/
 
 # Generated code cache
 generated_code/
-projects/askfin_web/node_modules/
