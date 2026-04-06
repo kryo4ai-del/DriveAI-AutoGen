@@ -27,7 +27,7 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
     }
 
     var normalised: Double {
-        Double(score) / Double(FocusLevel.allCases.count)
+        Double(score) / Double(Self.allCases.count)
     }
 
     init?(score: Int) {
@@ -42,9 +42,9 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
 
     init(normalised value: Double) {
         let clamped = min(max(value, 0.0), 1.0)
-        let count = FocusLevel.allCases.count
+        let count = Self.allCases.count
         let score = Int((clamped * Double(count - 1)).rounded()) + 1
-        self = FocusLevel(score: score) ?? .medium
+        self = Self(score: score) ?? .medium
     }
 }
 
