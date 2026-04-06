@@ -25,6 +25,47 @@ struct CacheEntry<T: Codable>: Codable {
     }
 }
 
+// MARK: - AnyCodable (for generic expiry checks)
+
+private struct CacheAnyCodable: Codable {
+    let value: Any
+    
+    init(_ value: Any) {
+        self.value = value
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let int = try? container.decode(Int.self) {
+            value = int
+        } else if let double = try? container.decode(Double.self) {
+            value = double
+        } else if let string = try? container.decode(String.self) {
+            value = string
+        } else if let bool = try? container.decode(Bool.self) {
+            value = bool
+        } else {
+            value = NSNull()
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch value {
+        case let int as Int:
+            try container.encode(int)
+        case let double as Double:
+            try container.encode(double)
+        case let string as String:
+            try container.encode(string)
+        case let bool as Bool:
+            try container.encode(bool)
+        default:
+            try container.encodeNil()
+        }
+    }
+}
+
 // MARK: - Cache Manager
 
 final class CacheManager {
@@ -116,7 +157,7 @@ final class CacheManager {
             ) else { return }
             for url in contents {
                 guard let data = try? Data(contentsOf: url),
-                      let entry = try? self.decoder.decode(CacheEntry<AnyCodable>.self, from: data),
+                      let entry = try? self.decoder.decode(CacheEntry<CacheAnyCodable>.self, from: data),
                       entry.isExpired else { continue }
                 try? self.fileManager.removeItem(at: url)
             }
@@ -136,46 +177,5 @@ final class CacheManager {
             .replacingOccurrences(of: "/", with: "_")
             .replacingOccurrences(of: ":", with: "_")
         return cacheDirectory.appendingPathComponent("\(safeKey).cache")
-    }
-}
-
-// MARK: - AnyCodable (for generic expiry checks)
-
-private struct AnyCodable: Codable {
-    let value: Any
-    
-    init(_ value: Any) {
-        self.value = value
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let int = try? container.decode(Int.self) {
-            value = int
-        } else if let double = try? container.decode(Double.self) {
-            value = double
-        } else if let string = try? container.decode(String.self) {
-            value = string
-        } else if let bool = try? container.decode(Bool.self) {
-            value = bool
-        } else {
-            value = NSNull()
-        }
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch value {
-        case let int as Int:
-            try container.encode(int)
-        case let double as Double:
-            try container.encode(double)
-        case let string as String:
-            try container.encode(string)
-        case let bool as Bool:
-            try container.encode(bool)
-        default:
-            try container.encodeNil()
-        }
     }
 }

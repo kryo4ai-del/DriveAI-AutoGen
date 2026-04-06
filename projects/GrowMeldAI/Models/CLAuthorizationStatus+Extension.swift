@@ -3,7 +3,7 @@ import Foundation
 
 // MARK: - Location Permission Status
 
-enum LocationPermissionStatus {
+enum AppLocationPermissionStatus {
     case notDetermined
     case restricted
     case denied
@@ -15,13 +15,18 @@ enum LocationPermissionStatus {
 // MARK: - CLAuthorizationStatus Extension
 
 extension CLLocationManager {
-    var locationPermissionStatus: LocationPermissionStatus {
-        let status = CLLocationManager.authorizationStatus()
-        return LocationPermissionStatus(from: status)
+    var locationPermissionStatus: AppLocationPermissionStatus {
+        let status: CLAuthorizationStatus
+        if #available(iOS 14.0, macOS 11.0, *) {
+            status = self.authorizationStatus
+        } else {
+            status = CLLocationManager.authorizationStatus()
+        }
+        return AppLocationPermissionStatus(from: status)
     }
 }
 
-extension LocationPermissionStatus {
+extension AppLocationPermissionStatus {
     init(from status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:

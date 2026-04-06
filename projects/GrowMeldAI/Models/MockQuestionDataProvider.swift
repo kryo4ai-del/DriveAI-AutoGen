@@ -1,3 +1,4 @@
+import Foundation
 // Tests/Mocks/MockQuestionDataProvider.swift
 class MockQuestionDataProvider: QuestionDataProvider {
     var mockQuestions: [Question] = []

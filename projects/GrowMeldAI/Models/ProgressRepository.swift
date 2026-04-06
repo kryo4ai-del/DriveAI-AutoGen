@@ -1,3 +1,4 @@
+import Foundation
 protocol ProgressRepository {
     func loadProgress() -> UserProgress
     func saveProgress(_ progress: UserProgress)
