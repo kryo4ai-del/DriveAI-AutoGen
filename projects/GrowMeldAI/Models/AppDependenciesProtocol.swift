@@ -1,22 +1,6 @@
 import SwiftUI
 import Combine
 
-// MARK: - Supporting Protocol Definitions
-
-protocol LocalDataServiceProtocol: AnyObject {}
-
-protocol FirebaseAuthServiceProtocol: AnyObject {}
-
-protocol FirestoreServiceProtocol: AnyObject {}
-
-protocol AnalyticsServiceProtocol: AnyObject {}
-
-protocol FirebaseSyncCoordinatorProtocol: AnyObject {}
-
-protocol NetworkConnectivityMonitorProtocol: AnyObject {}
-
-protocol OfflineQueueManagerProtocol: AnyObject {}
-
 // MARK: - AppDependenciesProtocol
 
 protocol AppDependenciesProtocol: ObservableObject {
@@ -66,6 +50,22 @@ final class AppLogger {
     }
 }
 
+// MARK: - Supporting Protocol Definitions
+
+protocol LocalDataServiceProtocol: AnyObject {}
+
+protocol FirebaseAuthServiceProtocol: AnyObject {}
+
+protocol FirestoreServiceProtocol: AnyObject {}
+
+protocol AnalyticsServiceProtocol: AnyObject {}
+
+protocol FirebaseSyncCoordinatorProtocol: AnyObject {}
+
+protocol NetworkConnectivityMonitorProtocol: AnyObject {}
+
+protocol OfflineQueueManagerProtocol: AnyObject {}
+
 // MARK: - FirebaseManager Stub
 
 final class FirebaseManager: ObservableObject {
@@ -73,22 +73,19 @@ final class FirebaseManager: ObservableObject {
     var isConfigured: Bool = false
 }
 
-// MARK: - Environment Key & Values Extension
+// MARK: - AppDependenciesBox
 
-private struct AppDependenciesKeyWrapper {
-    static var current: (any AppDependenciesProtocol)?
-}
-
-struct AppDependenciesEnvironmentKey: EnvironmentKey {
-    static let defaultValue: AppDependenciesBox? = nil
-}
-
-/// Type-erased box to allow storage of `any AppDependenciesProtocol` in EnvironmentValues
 final class AppDependenciesBox: ObservableObject {
     let wrapped: any AppDependenciesProtocol
     init(_ wrapped: any AppDependenciesProtocol) {
         self.wrapped = wrapped
     }
+}
+
+// MARK: - Environment Key
+
+struct AppDependenciesEnvironmentKey: EnvironmentKey {
+    static let defaultValue: AppDependenciesBox? = nil
 }
 
 extension EnvironmentValues {

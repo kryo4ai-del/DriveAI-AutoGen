@@ -1,6 +1,14 @@
 import Foundation
 import Combine
 
+enum DataPurpose: String, CaseIterable, Codable {
+    case examProgress
+    case userProfile
+    case analytics
+    case crashReporting
+    case personalization
+}
+
 final class AppPrivacyManager: ObservableObject {
     private let userDefaults = UserDefaults.standard
     private let privacyDataKey = "com.driveai.privacy.consentState"
@@ -9,21 +17,30 @@ final class AppPrivacyManager: ObservableObject {
     @Published private(set) var hasCompletedOnboarding: Bool
 
     init() {
-        // Load saved consent state or use defaults
-        if let savedData = userDefaults.data(forKey: privacyDataKey),
-           let decoded = try? JSONDecoder().decode([DataPurpose: Bool].self, from: savedData) {
-            self.consentState = decoded
-        } else {
-            self.consentState = DataPurpose.allCases.reduce(into: [:]) {
-                $0[$1] = $1 == .examProgress || $1 == .userProfile
+        if let savedData = userDefaults.data(forKey: "com.driveai.privacy.consentState"),
+           let decoded = try? JSONDecoder().decode([String: Bool].self, from: savedData) {
+            var state: [DataPurpose: Bool] = [:]
+            for purpose in DataPurpose.allCases {
+                state[purpose] = decoded[purpose.rawValue] ?? (purpose == .examProgress || purpose == .userProfile)
             }
+            self.consentState = state
+        } else {
+            var state: [DataPurpose: Bool] = [:]
+            for purpose in DataPurpose.allCases {
+                state[purpose] = (purpose == .examProgress || purpose == .userProfile)
+            }
+            self.consentState = state
         }
 
         self.hasCompletedOnboarding = userDefaults.bool(forKey: "hasCompletedPrivacyOnboarding")
     }
 
     func saveConsentState() {
-        if let encoded = try? JSONEncoder().encode(consentState) {
+        var stringKeyed: [String: Bool] = [:]
+        for (purpose, value) in consentState {
+            stringKeyed[purpose.rawValue] = value
+        }
+        if let encoded = try? JSONEncoder().encode(stringKeyed) {
             userDefaults.set(encoded, forKey: privacyDataKey)
         }
     }
@@ -38,11 +55,11 @@ final class AppPrivacyManager: ObservableObject {
     }
 
     func requestDataDeletion() {
-        // In a real app, this would trigger data deletion
-        // For now, just reset consent state
-        consentState = DataPurpose.allCases.reduce(into: [:]) {
-            $0[$1] = $1 == .examProgress || $1 == .userProfile
+        var state: [DataPurpose: Bool] = [:]
+        for purpose in DataPurpose.allCases {
+            state[purpose] = (purpose == .examProgress || purpose == .userProfile)
         }
+        consentState = state
         saveConsentState()
     }
 }

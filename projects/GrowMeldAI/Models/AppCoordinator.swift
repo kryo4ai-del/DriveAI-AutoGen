@@ -1,189 +1,95 @@
-// Models/AppCoordinator.swift
 import SwiftUI
-
-// MARK: - Supporting Types
-
-enum QuestionMode: Hashable {
-    case learning
-    case practice
-    case review
-}
+import Foundation
 
 // MARK: - AppCoordinator
 
 @MainActor
 final class AppCoordinator: ObservableObject {
 
-    // MARK: - Route
+    // MARK: - Published State
 
-    enum Route: Hashable {
-        case onboarding
-        case dashboard
-        case questions(categoryID: String?, mode: QuestionMode)
-        case exam
-        case examResults(String) // ExamResult ID
-        case profile
-        case categoryDetail(String) // Category ID
-        case settings
-    }
-
-    // MARK: - Properties
-
-    @Published var path: [Route] = []
-
-    private let dataService: LocalDataService
-    private let preferencesService: UserPreferencesService
-
-    // MARK: - Init
-
-    init(
-        dataService: LocalDataService,
-        preferencesService: UserPreferencesService
-    ) {
-        self.dataService = dataService
-        self.preferencesService = preferencesService
-    }
+    @Published var navigationPath: [GrowMeldAppRoute] = []
+    @Published var currentRoute: GrowMeldAppRoute = .home
+    @Published var isPresenting: Bool = false
+    @Published var presentedRoute: GrowMeldAppRoute? = nil
 
     // MARK: - Navigation
 
-    func navigate(to route: Route) {
-        path.append(route)
+    func navigate(to route: GrowMeldAppRoute) {
+        navigationPath.append(route)
+        currentRoute = route
     }
 
-    func pop() {
-        if !path.isEmpty {
-            path.removeLast()
-        }
+    func navigateBack() {
+        guard !navigationPath.isEmpty else { return }
+        navigationPath.removeLast()
+        currentRoute = navigationPath.last ?? .home
     }
 
-    func popToRoot() {
-        path.removeAll()
+    func navigateToRoot() {
+        navigationPath.removeAll()
+        currentRoute = .home
     }
 
-    func replace(with route: Route) {
-        if !path.isEmpty {
-            path.removeLast()
-        }
-        path.append(route)
+    func present(_ route: GrowMeldAppRoute) {
+        presentedRoute = route
+        isPresenting = true
     }
 
-    // MARK: - Destination Builder
+    func dismissPresented() {
+        isPresenting = false
+        presentedRoute = nil
+    }
 
-    @ViewBuilder
-    func destination(for route: Route) -> some View {
+    // MARK: - Route Handling
+
+    func handleRoute(_ route: GrowMeldAppRoute) {
         switch route {
-        case .onboarding:
-            OnboardingPlaceholderView()
-
-        case .dashboard:
-            DashboardPlaceholderView()
-
-        case .questions(let categoryID, let mode):
-            QuestionSessionPlaceholderView(
-                categoryID: categoryID,
-                mode: mode
-            )
-
+        case .home:
+            navigateToRoot()
         case .exam:
-            ExamPlaceholderView()
-
-        case .examResults(let resultID):
-            ExamResultsPlaceholderView(resultID: resultID)
-
-        case .profile:
-            ProfilePlaceholderView()
-
-        case .categoryDetail(let categoryID):
-            CategoryDetailPlaceholderView(categoryID: categoryID)
-
+            navigate(to: .exam)
+        case .examResult(let result):
+            handleExamResult(result)
         case .settings:
-            SettingsPlaceholderView(preferencesService: preferencesService)
+            navigate(to: .settings)
+        case .progress:
+            navigate(to: .progress)
+        case .onboarding:
+            navigate(to: .onboarding)
         }
     }
-}
 
-// MARK: - Service Stubs (minimal working versions if not defined elsewhere)
+    // MARK: - Exam Result Handling
 
-final class LocalDataService: ObservableObject {
-    static let shared = LocalDataService()
-    init() {}
-}
-
-final class UserPreferencesService: ObservableObject {
-    static let shared = UserPreferencesService()
-
-    @Published var hasCompletedOnboarding: Bool {
-        didSet { UserDefaults.standard.set(hasCompletedOnboarding, forKey: "hasCompletedOnboarding") }
+    func handleExamResult(_ result: GrowMeldExamResult) {
+        navigate(to: .examResult(result))
+        recordExamResult(result)
     }
 
-    init() {
-        self.hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
+    private func recordExamResult(_ result: GrowMeldExamResult) {
+        var results = loadStoredExamResults()
+        results.append(result)
+        saveExamResults(results)
     }
-}
 
-// MARK: - Placeholder Views
+    // MARK: - Persistence (UserDefaults + Codable)
 
-private struct OnboardingPlaceholderView: View {
-    var body: some View {
-        Text("Onboarding")
-            .navigationTitle("Welcome")
+    private static let examResultsKey = "com.growmeld.examResults"
+
+    func loadStoredExamResults() -> [GrowMeldExamResult] {
+        guard let data = UserDefaults.standard.data(forKey: Self.examResultsKey) else {
+            return []
+        }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return (try? decoder.decode([GrowMeldExamResult].self, from: data)) ?? []
     }
-}
 
-private struct DashboardPlaceholderView: View {
-    var body: some View {
-        Text("Dashboard")
-            .navigationTitle("Dashboard")
-    }
-}
-
-private struct QuestionSessionPlaceholderView: View {
-    let categoryID: String?
-    let mode: QuestionMode
-
-    var body: some View {
-        Text("Questions – mode: \(String(describing: mode))")
-            .navigationTitle("Questions")
-    }
-}
-
-private struct ExamPlaceholderView: View {
-    var body: some View {
-        Text("Exam")
-            .navigationTitle("Exam")
-    }
-}
-
-private struct ExamResultsPlaceholderView: View {
-    let resultID: String
-
-    var body: some View {
-        Text("Exam Results – \(resultID)")
-            .navigationTitle("Results")
-    }
-}
-
-private struct ProfilePlaceholderView: View {
-    var body: some View {
-        Text("Profile")
-            .navigationTitle("Profile")
-    }
-}
-
-private struct CategoryDetailPlaceholderView: View {
-    let categoryID: String
-
-    var body: some View {
-        Text("Category – \(categoryID)")
-            .navigationTitle("Category")
-    }
-}
-
-private struct SettingsPlaceholderView: View {
-    let preferencesService: UserPreferencesService
-
-    var body: some View {
-        Text("Settings")
-            .navigationTitle("Settings")
+    private func saveExamResults(_ results: [GrowMeldExamResult]) {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        guard let data = try? encoder.encode(results) else { return }
+        UserDefaults.standard.set(data, forKey: Self.examResultsKey)
     }
 }

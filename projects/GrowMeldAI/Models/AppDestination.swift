@@ -41,30 +41,3 @@ enum AppDestination: Hashable {
         }
     }
 }
-
-// MARK: - Minimal ExamResult model (if not defined elsewhere)
-
-struct ExamResult: Identifiable, Hashable, Codable {
-    let id: String
-    let score: Int
-    let totalQuestions: Int
-    let correctAnswers: Int
-    let dateTaken: Date
-    let categoryName: String?
-
-    init(
-        id: String = UUID().uuidString,
-        score: Int,
-        totalQuestions: Int,
-        correctAnswers: Int,
-        dateTaken: Date = Date(),
-        categoryName: String? = nil
-    ) {
-        self.id = id
-        self.score = score
-        self.totalQuestions = totalQuestions
-        self.correctAnswers = correctAnswers
-        self.dateTaken = dateTaken
-        self.categoryName = categoryName
-    }
-}

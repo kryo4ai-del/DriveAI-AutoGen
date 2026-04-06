@@ -1,23 +1,36 @@
 import Foundation
 
-// MARK: - Protocol Definitions
+// MARK: - AppDependencies
 
-protocol LocalDataServiceProtocol {
-    func save<T: Codable>(_ object: T, forKey key: String) throws
-    func load<T: Codable>(_ type: T.Type, forKey key: String) throws -> T?
-    func delete(forKey key: String)
-}
+struct AppDependencies {
+    let dataService: any LocalDataServiceProtocol
+    let progressTracker: AppProgressTracker
+    let preferences: AppUserPreferences
 
-protocol ProgressTrackerProtocol: AnyObject {
-    var currentProgress: Double { get }
-    func updateProgress(_ value: Double)
-    func reset()
-}
+    static func makeForApp() -> AppDependencies {
+        let prefs = AppUserPreferences.shared
+        let dataService = AppLocalDataService()
+        let tracker = AppProgressTracker()
+        return AppDependencies(
+            dataService: dataService,
+            progressTracker: tracker,
+            preferences: prefs
+        )
+    }
 
-protocol UserPreferencesProtocol: AnyObject {
-    var notificationsEnabled: Bool { get set }
-    var theme: String { get set }
-    var language: String { get set }
+    #if DEBUG
+    static func makeForTesting(
+        dataService: (any LocalDataServiceProtocol)? = nil,
+        progressTracker: AppProgressTracker? = nil,
+        preferences: AppUserPreferences? = nil
+    ) -> AppDependencies {
+        return AppDependencies(
+            dataService: dataService ?? MockDataService(),
+            progressTracker: progressTracker ?? AppProgressTracker(),
+            preferences: preferences ?? AppUserPreferences.shared
+        )
+    }
+    #endif
 }
 
 // MARK: - Concrete Implementations
@@ -46,7 +59,7 @@ final class AppLocalDataService: LocalDataServiceProtocol {
     }
 }
 
-final class AppProgressTracker: ProgressTrackerProtocol {
+final class AppProgressTracker {
     private(set) var currentProgress: Double = 0.0
 
     func updateProgress(_ value: Double) {
@@ -58,7 +71,7 @@ final class AppProgressTracker: ProgressTrackerProtocol {
     }
 }
 
-final class AppUserPreferences: UserPreferencesProtocol {
+final class AppUserPreferences {
     static let shared = AppUserPreferences()
 
     private let defaults: UserDefaults
@@ -89,39 +102,6 @@ final class AppUserPreferences: UserPreferencesProtocol {
     }
 }
 
-// MARK: - AppDependencies
-
-struct AppDependencies {
-    let dataService: LocalDataServiceProtocol
-    let progressTracker: ProgressTrackerProtocol
-    let preferences: UserPreferencesProtocol
-
-    static func makeForApp() -> AppDependencies {
-        let prefs = AppUserPreferences.shared
-        let dataService = AppLocalDataService()
-        let tracker = AppProgressTracker()
-        return AppDependencies(
-            dataService: dataService,
-            progressTracker: tracker,
-            preferences: prefs
-        )
-    }
-
-    #if DEBUG
-    static func makeForTesting(
-        dataService: LocalDataServiceProtocol? = nil,
-        progressTracker: ProgressTrackerProtocol? = nil,
-        preferences: UserPreferencesProtocol? = nil
-    ) -> AppDependencies {
-        return AppDependencies(
-            dataService: dataService ?? MockDataService(),
-            progressTracker: progressTracker ?? MockProgressTracker(),
-            preferences: preferences ?? MockUserPreferences()
-        )
-    }
-    #endif
-}
-
 // MARK: - Mock Implementations (DEBUG only)
 
 #if DEBUG
@@ -142,23 +122,5 @@ final class MockDataService: LocalDataServiceProtocol {
     func delete(forKey key: String) {
         storage.removeValue(forKey: key)
     }
-}
-
-final class MockProgressTracker: ProgressTrackerProtocol {
-    private(set) var currentProgress: Double = 0.0
-
-    func updateProgress(_ value: Double) {
-        currentProgress = max(0.0, min(1.0, value))
-    }
-
-    func reset() {
-        currentProgress = 0.0
-    }
-}
-
-final class MockUserPreferences: UserPreferencesProtocol {
-    var notificationsEnabled: Bool = true
-    var theme: String = "default"
-    var language: String = "en"
 }
 #endif

@@ -1,8 +1,7 @@
-// Views/AppNavigationView.swift
 import SwiftUI
 
 struct AppNavigationView: View {
-    @StateObject private var coordinator = NavigationCoordinator()
+    @StateObject private var coordinator = AppNavigationCoordinator()
 
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
@@ -18,9 +17,9 @@ struct AppNavigationView: View {
                 case .home:
                     HomeView()
                 case .categoryDetail(let categoryID):
-                    CategoryDetailView(categoryID: categoryID)
+                    CategoryDetailPlaceholderView(categoryID: categoryID)
                 case .question(let questionID, let context):
-                    QuestionView(questionID: questionID, context: context)
+                    QuestionPlaceholderView(questionID: questionID, context: context)
                 }
             }
         }
@@ -36,7 +35,7 @@ enum AppNavigationPath: Hashable {
 }
 
 // MARK: - Navigation Coordinator
-class NavigationCoordinator: ObservableObject {
+class AppNavigationCoordinator: ObservableObject {
     @Published var navigationPath = NavigationPath()
     @Published var isOnboarded: Bool
 
@@ -64,9 +63,26 @@ class NavigationCoordinator: ObservableObject {
     }
 }
 
-// MARK: - Placeholder Views (minimal stubs if not defined elsewhere)
+// MARK: - Placeholder Views
+private struct CategoryDetailPlaceholderView: View {
+    let categoryID: String
+    var body: some View {
+        Text("Category: \(categoryID)")
+            .navigationTitle("Category")
+    }
+}
+
+private struct QuestionPlaceholderView: View {
+    let questionID: String
+    let context: String?
+    var body: some View {
+        Text("Question: \(questionID)")
+            .navigationTitle("Question")
+    }
+}
+
 #if DEBUG
-struct HomeView_Preview: PreviewProvider {
+struct AppNavigationView_Preview: PreviewProvider {
     static var previews: some View {
         AppNavigationView()
     }
