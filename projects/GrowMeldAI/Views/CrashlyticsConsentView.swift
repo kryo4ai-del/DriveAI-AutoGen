@@ -1,7 +1,33 @@
-// CrashlyticsConsentView.swift
 import SwiftUI
+import Foundation
 
-/// Consent view for Crashlytics reporting
+struct AnalyticsConsent: Codable {
+    var crashlyticsEnabled: Bool = true
+
+    static let userDefaultsKey = "analyticsConsent"
+
+    init() {}
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        crashlyticsEnabled = try container.decodeIfPresent(Bool.self, forKey: .crashlyticsEnabled) ?? true
+    }
+
+    func save() {
+        if let data = try? JSONEncoder().encode(self) {
+            UserDefaults.standard.set(data, forKey: AnalyticsConsent.userDefaultsKey)
+        }
+    }
+
+    static func load() -> AnalyticsConsent {
+        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+              let consent = try? JSONDecoder().decode(AnalyticsConsent.self, from: data) else {
+            return AnalyticsConsent()
+        }
+        return consent
+    }
+}
+
 struct CrashlyticsConsentView: View {
     @Binding var consent: AnalyticsConsent
     @Environment(\.dismiss) private var dismiss
@@ -18,13 +44,10 @@ struct CrashlyticsConsentView: View {
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
 
-                Text("""
-                Crash reports help us make the app smoother for your theory exam prep. \
-                This helps reduce technical issues that could disrupt your study sessions.
-                """)
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
+                Text("Crash reports help us make the app smoother for your theory exam prep. This helps reduce technical issues that could disrupt your study sessions.")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
             }
             .padding()
 

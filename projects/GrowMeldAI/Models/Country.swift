@@ -1,29 +1,24 @@
-// MARK: - Models/Country.swift
+import Foundation
 
-enum Country: CaseIterable, Hashable {
-    case australia
-    case canada
-    
+enum Country: String, CaseIterable, Hashable, Codable {
+    case australia = "AU"
+    case canada = "CA"
+
     var id: String {
-        switch self {
-        case .australia: return "AU"
-        case .canada: return "CA"
-        }
+        return rawValue
     }
-    
+
     var displayName: String {
         switch self {
         case .australia: return "Australia"
         case .canada: return "Canada"
         }
     }
-    
+
     var flag: String {
         switch self {
         case .australia: return "🇦🇺"
         case .canada: return "🇨🇦"
         }
     }
-    
-    static var allCases: [Country] = [.australia, .canada]
 }
