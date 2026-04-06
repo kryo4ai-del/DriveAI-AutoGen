@@ -1,11 +1,12 @@
-// Services/MockMasteryService.swift
+import Foundation
+
 class MockMasteryService: MasteryCalculationServiceProtocol {
     func calculateMastery(for categoryId: String, from quizHistory: [QuizAttempt]) -> MasteryRecord? {
         nil
     }
-    
+
     func updateMastery(after quizCompletion: QuizSession) {}
-    
+
     func fetchMasteryByCategory() -> [MasteryRecord] {
         [
             MasteryRecord(
@@ -34,7 +35,7 @@ class MockMasteryService: MasteryCalculationServiceProtocol {
             ),
         ]
     }
-    
+
     func fetchOverallMastery() -> Double {
         84.0
     }
