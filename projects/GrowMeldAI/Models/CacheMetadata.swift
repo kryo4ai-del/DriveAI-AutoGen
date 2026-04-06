@@ -1,3 +1,4 @@
+import Foundation
 struct CacheMetadata: Codable {
     let version: String  // e.g., "2024.Q2"
     let lastUpdated: Date
