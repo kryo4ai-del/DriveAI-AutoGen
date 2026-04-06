@@ -1,5 +1,4 @@
 import Foundation
-import SQLite
 
 @MainActor
 class DataRecoveryService {
@@ -72,6 +71,7 @@ class DataRecoveryService {
                 let decoder = JSONDecoder()
                 let questions = try decoder.decode([Question].self, from: data)
                 // TODO: Batch insert questions
+                _ = questions
             }
             
             return true

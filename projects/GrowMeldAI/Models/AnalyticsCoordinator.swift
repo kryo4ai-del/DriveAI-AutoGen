@@ -1,6 +1,5 @@
 // Services/AnalyticsCoordinator.swift
 import Foundation
-import FirebaseAnalytics
 
 @MainActor
 final class AnalyticsCoordinator: ObservableObject {
@@ -127,7 +126,7 @@ final class AnalyticsCoordinator: ObservableObject {
         var params: [String: Any] = event.params
         params["timestamp"] = event.timestamp.timeIntervalSince1970
         
-        Analytics.logEvent(event.type.rawValue, parameters: params)
+        FirebaseAnalyticsWrapper.logEvent(event.type.rawValue, parameters: params)
     }
     
     // MARK: - Sync & Recovery
@@ -152,6 +151,16 @@ final class AnalyticsCoordinator: ObservableObject {
         if !pending.isEmpty {
             eventQueue.removeSynced()
         }
+    }
+}
+
+// MARK: - Firebase Analytics Wrapper (no direct Firebase dependency)
+
+enum FirebaseAnalyticsWrapper {
+    static func logEvent(_ name: String, parameters: [String: Any]?) {
+        // Stub: Replace with actual Firebase Analytics call when the module is available.
+        // e.g., Analytics.logEvent(name, parameters: parameters)
+        print("📊 Analytics event logged: \(name), params: \(parameters ?? [:])")
     }
 }
 

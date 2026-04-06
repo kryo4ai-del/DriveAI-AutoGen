@@ -13,8 +13,9 @@ struct LearningProgress {
     }
 }
 
-// In TrialStatus:
-case active(
-    competencyPercent: Int,  // ← Changed from timePercent
-    daysRemaining: Int
-)
+enum TrialStatus {
+    case active(
+        competencyPercent: Int,
+        daysRemaining: Int
+    )
+}

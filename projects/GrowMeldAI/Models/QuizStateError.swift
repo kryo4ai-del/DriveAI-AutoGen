@@ -13,3 +13,5 @@ enum QuizStateError: LocalizedError {
 }
 
 @MainActor
+class QuizState {
+}

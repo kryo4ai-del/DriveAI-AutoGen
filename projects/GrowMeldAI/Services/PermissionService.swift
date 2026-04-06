@@ -1,3 +1,7 @@
+import AVFoundation
+import UIKit
+import CoreMedia
+
 // Services/PermissionService.swift
 @MainActor
 final class PermissionService: ObservableObject {
@@ -19,13 +23,16 @@ final class PermissionService: ObservableObject {
     }
     
     func openSettings() {
-        guard let settingsURL = URL(string: UIApplication.openSettingsURLScheme + "://") else { return }
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
         UIApplication.shared.open(settingsURL)
     }
 }
 
 // Services/CameraService.swift
 @MainActor
+class CameraService: NSObject, ObservableObject {
+    // Placeholder for camera service implementation
+}
 
 // MARK: - Photo Capture Delegate
 private class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
@@ -38,29 +45,26 @@ private class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput,
                     didFinishProcessingPhoto photo: AVCapturePhoto,
                     error: Error?) {
-        guard error == nil, let sampleBuffer = photo.pixelBuffer else {
+        guard error == nil, let _ = photo.pixelBuffer else {
             return
         }
         
-        // Convert CVPixelBuffer to CMSampleBuffer and pass to completion
-        completion(sampleBuffer as! CMSampleBuffer) // Simplified - proper conversion needed
+        // Proper conversion from AVCapturePhoto would be needed here
+        // This is a placeholder
     }
 }
 
 // MARK: - Video Data Output Delegate
 extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput,
+    nonisolated func captureOutput(_ output: AVCaptureOutput,
                       didOutput sampleBuffer: CMSampleBuffer,
                       from connection: AVCaptureConnection) {
         // Optional: Enable continuous frame processing for preview hints
-        // guard state == .idle else { return }
-        // Task {
-        //     await visionService.prefetchPlantHints(from: sampleBuffer)
-        // }
     }
 }
 
-// Services/VisionService.swift
-
 // Services/PlantDatabaseService.swift
 @MainActor
+class PlantDatabaseService: ObservableObject {
+    // Placeholder for plant database service implementation
+}

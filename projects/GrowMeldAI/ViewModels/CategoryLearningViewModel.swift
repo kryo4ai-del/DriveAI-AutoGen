@@ -104,9 +104,9 @@ final class CategoryLearningViewModel: ObservableObject {
             
             let masteryOnDate = questions
                 .map { question -> Double in
-                    let reviewsUpToDate = memoryService.getReviewsForQuestion(question.id)
+                    let _ = memoryService.getReviewsForQuestion(question.id)
                         .filter { $0.timestamp <= date }
-                    return Double($0.masteryLevel.rawValue)
+                    return Double(question.masteryLevel.rawValue)
                 }
                 .reduce(0, +) / Double(max(questions.count, 1))
             

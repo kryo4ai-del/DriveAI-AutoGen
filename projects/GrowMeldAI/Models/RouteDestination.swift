@@ -1,12 +1,3 @@
-// Current (Limited routing)
-enum RouteDestination: Hashable {
-    case home
-    case questionCategory(id: String)
-    case examStart
-    case result(sessionId: String)
-    case profile
-}
-
 // Improved (Deep link compatible)
 enum RouteDestination: Hashable {
     case home
@@ -37,6 +28,3 @@ enum RouteDestination: Hashable {
         }
     }
 }
-
-// Usage in App
-@main

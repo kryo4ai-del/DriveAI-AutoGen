@@ -47,5 +47,3 @@ struct NotificationSettingsView: View {
         .navigationTitle("Benachrichtigungen")
     }
 }
-
-@MainActor

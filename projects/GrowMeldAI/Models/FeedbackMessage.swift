@@ -17,3 +17,6 @@ struct FeedbackMessage: Identifiable {
 }
 
 @MainActor
+class FeedbackService {
+    
+}

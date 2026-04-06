@@ -1,6 +1,14 @@
-// BEFORE
-class ProgressService { func recordAnswer(...) }
-class StatisticsService { func getStreak() }
-class AchievementService { func updateBadges() }
+class ProgressService {
+    func recordAnswer(_ answer: Any) {
+    }
+}
 
-// AFTER
+class StatisticsService {
+    func getStreak() {
+    }
+}
+
+class AchievementService {
+    func updateBadges() {
+    }
+}
