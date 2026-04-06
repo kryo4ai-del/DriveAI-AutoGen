@@ -37,7 +37,7 @@ enum BackupCrypto {
 
     static func encrypt(_ data: Data) throws -> EncryptedBackup {
         let key = try getMasterKey()
-        let nonce = try AES.GCM.Nonce()
+        let nonce = AES.GCM.Nonce()
         let sealedBox = try AES.GCM.seal(data, using: key, nonce: nonce)
 
         return EncryptedBackup(

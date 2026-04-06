@@ -16,6 +16,22 @@ struct CategoryProgress: Codable {
     }
 }
 
+struct ExamAttempt: Codable {
+    let id: UUID
+    let date: Date
+    let score: Int
+    let totalQuestions: Int
+    let passed: Bool
+
+    init(id: UUID = UUID(), date: Date = Date(), score: Int, totalQuestions: Int, passed: Bool) {
+        self.id = id
+        self.date = date
+        self.score = score
+        self.totalQuestions = totalQuestions
+        self.passed = passed
+    }
+}
+
 struct UserProfile: Codable {
     let id: UUID
     var examDate: Date?
@@ -56,21 +72,5 @@ struct UserProfile: Codable {
 
     static func empty() -> UserProfile {
         UserProfile()
-    }
-}
-
-struct ExamAttempt: Codable {
-    let id: UUID
-    let date: Date
-    let score: Int
-    let totalQuestions: Int
-    let passed: Bool
-
-    init(id: UUID = UUID(), date: Date = Date(), score: Int, totalQuestions: Int, passed: Bool) {
-        self.id = id
-        self.date = date
-        self.score = score
-        self.totalQuestions = totalQuestions
-        self.passed = passed
     }
 }
