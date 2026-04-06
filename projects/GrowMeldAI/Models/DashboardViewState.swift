@@ -1,7 +1,13 @@
+import Foundation
+
 enum DashboardViewState {
     case loading
-    case ready(categories: [Category], progress: [String: Double])
+    case ready(categories: [AppCategory], progress: [String: Double])
     case error(Error)
 }
 
-// Prevents invalid state combinations (e.g., both loading AND ready)
+struct AppCategory: Identifiable, Codable {
+    let id: String
+    let name: String
+    let description: String
+}

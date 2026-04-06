@@ -1,6 +1,4 @@
-// Services/LocalDataService.swift
 import Foundation
-import os.log
 
 enum DataLoadError: LocalizedError {
     case fileNotFound
@@ -17,8 +15,4 @@ enum DataLoadError: LocalizedError {
             return "Unbekannter Fehler: \(message)"
         }
     }
-}
-
-@MainActor
-class LocalDataService {
 }
