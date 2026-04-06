@@ -1,14 +1,23 @@
 import Foundation
 
-struct Exam: Identifiable, Equatable {
+struct Exam: Identifiable {
     let id: UUID
     let startTime: Date
-    let questions: [Question]
-    let currentIndex: Int
-    let answers: [UUID?] // Parallel array to questions
+    let questions: [ExamQuestion]
+    var currentIndex: Int
+    var answers: [UUID?]
 
-    var currentQuestion: Question {
-        questions[currentIndex]
+    init(id: UUID = UUID(), startTime: Date = Date(), questions: [ExamQuestion]) {
+        self.id = id
+        self.startTime = startTime
+        self.questions = questions
+        self.currentIndex = 0
+        self.answers = Array(repeating: nil, count: questions.count)
+    }
+
+    var currentQuestion: ExamQuestion? {
+        guard currentIndex < questions.count else { return nil }
+        return questions[currentIndex]
     }
 
     var isComplete: Bool {
@@ -16,66 +25,81 @@ struct Exam: Identifiable, Equatable {
     }
 
     var elapsedSeconds: Int {
-        Int(Date.now.timeIntervalSince(startTime))
+        Int(Date().timeIntervalSince(startTime))
     }
 
     var remainingSeconds: Int {
-        max(0, (Constants.Exam.questionCount * Constants.Exam.timePerQuestionSeconds) - elapsedSeconds)
+        let totalSeconds = Int(ExamConfig.timeLimit)
+        return max(0, totalSeconds - elapsedSeconds)
     }
 
     mutating func selectAnswer(_ answerID: UUID) {
-        var mutableAnswers = answers
-        mutableAnswers[currentIndex] = answerID
-        self.answers = mutableAnswers
+        guard currentIndex < answers.count else { return }
+        answers[currentIndex] = answerID
     }
 
     mutating func nextQuestion() {
         if !isComplete {
-            self.currentIndex += 1
+            currentIndex += 1
         }
     }
 
-    var result: ExamResult {
+    var score: Int {
         var correct = 0
         for (index, selectedID) in answers.enumerated() {
+            guard index < questions.count else { continue }
             if let selectedID = selectedID, questions[index].isAnswerCorrect(selectedID) {
                 correct += 1
             }
         }
-
-        return ExamResult(
-            id: id,
-            date: startTime,
-            score: correct,
-            duration: Date.now.timeIntervalSince(startTime),
-            isPassed: Double(correct) / Double(Constants.Exam.questionCount) >= Constants.Exam.passingScore,
-            categoryScores: calculateCategoryScores()
-        )
+        return correct
     }
 
-    private func calculateCategoryScores() -> [CategoryScore] {
-        var scores: [String: (correct: Int, total: Int)] = [:]
+    var isPassed: Bool {
+        let percentage = questions.isEmpty ? 0.0 : Double(score) / Double(questions.count) * 100.0
+        return percentage >= ExamConfig.passThreshold
+    }
+}
 
-        for (index, question) in questions.enumerated() {
-            let categoryName = question.categoryID.uuidString // In real app, fetch category name
-            let isCorrect = answers[index].map { question.isAnswerCorrect($0) } ?? false
+struct ExamQuestion: Identifiable, Equatable {
+    let id: UUID
+    let categoryID: UUID
+    let text: String
+    let answers: [ExamAnswerOption]
 
-            if scores[categoryName] == nil {
-                scores[categoryName] = (0, 0)
-            }
-            scores[categoryName]!.total += 1
-            if isCorrect {
-                scores[categoryName]!.correct += 1
-            }
-        }
+    func isAnswerCorrect(_ answerID: UUID) -> Bool {
+        answers.first(where: { $0.id == answerID })?.isCorrect ?? false
+    }
+}
 
-        return scores.map { (name, score) in
-            CategoryScore(
-                categoryID: UUID(), // Would be fetched from category
-                categoryName: name,
-                correct: score.correct,
-                total: score.total
-            )
-        }
+struct ExamAnswerOption: Identifiable, Equatable {
+    let id: UUID
+    let text: String
+    let isCorrect: Bool
+}
+
+struct ExamResult: Identifiable {
+    let id: UUID
+    let date: Date
+    let score: Int
+    let total: Int
+    let duration: TimeInterval
+    let isPassed: Bool
+    let categoryScores: [CategoryScore]
+
+    var percentage: Double {
+        total == 0 ? 0.0 : Double(score) / Double(total) * 100.0
+    }
+}
+
+struct CategoryScore: Identifiable {
+    let id: UUID
+    let categoryID: UUID
+    let categoryName: String
+    let correct: Int
+    let total: Int
+
+    var percentage: Double {
+        total == 0 ? 0.0 : Double(correct) / Double(total) * 100.0
     }
 }

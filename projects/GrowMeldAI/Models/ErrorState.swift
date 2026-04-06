@@ -1,13 +1,38 @@
-// MARK: - ErrorState.swift
 import Foundation
+
+enum SyncError: Error, Equatable {
+    case networkUnavailable
+    case apiError(Int, String)
+    case invalidResponse
+    case decodingFailed
+    case timeout
+    case unknown(String)
+
+    static func == (lhs: SyncError, rhs: SyncError) -> Bool {
+        switch (lhs, rhs) {
+        case (.networkUnavailable, .networkUnavailable): return true
+        case (.apiError(let a, let b), .apiError(let c, let d)): return a == c && b == d
+        case (.invalidResponse, .invalidResponse): return true
+        case (.decodingFailed, .decodingFailed): return true
+        case (.timeout, .timeout): return true
+        case (.unknown(let a), .unknown(let b)): return a == b
+        default: return false
+        }
+    }
+}
+
+enum AppDataError: Error, Equatable {
+    case corrupted(String)
+    case notFound(String)
+    case saveFailed(String)
+}
 
 enum ErrorState: Equatable {
     case sync(SyncError)
-    case dataCorruption(DataError)
+    case dataCorruption(AppDataError)
     case validation(String)
     case unknown(String)
 
-    // MARK: - User-Facing Messages (German)
     var userMessage: String {
         switch self {
         case .sync(let error):
@@ -37,6 +62,16 @@ enum ErrorState: Equatable {
     var actionButtonTitle: String? {
         isRecoverable ? "Erneut versuchen" : nil
     }
+
+    static func == (lhs: ErrorState, rhs: ErrorState) -> Bool {
+        switch (lhs, rhs) {
+        case (.sync(let a), .sync(let b)): return a == b
+        case (.dataCorruption(let a), .dataCorruption(let b)): return a == b
+        case (.validation(let a), .validation(let b)): return a == b
+        case (.unknown(let a), .unknown(let b)): return a == b
+        default: return false
+        }
+    }
 }
 
 extension SyncError {
@@ -52,8 +87,8 @@ extension SyncError {
             return "Daten konnten nicht gelesen werden."
         case .timeout:
             return "Verbindungs-Timeout. Bitte versuchen Sie später erneut."
-        case .unknown(let error):
-            return "Fehler: \(error.localizedDescription)"
+        case .unknown(let message):
+            return "Fehler: \(message)"
         }
     }
 

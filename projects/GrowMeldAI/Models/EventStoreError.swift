@@ -1,10 +1,12 @@
+import Foundation
+
 enum EventStoreError: LocalizedError {
     case fileNotFound
     case ioError(Error)
     case decodingError(Error)
     case diskFull
     case invalidPath
-    
+
     var errorDescription: String? {
         switch self {
         case .fileNotFound:

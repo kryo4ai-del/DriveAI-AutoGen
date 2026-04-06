@@ -1,3 +1,5 @@
+import Foundation
+
 public struct ExamAttempt {
     public let id: String
     public let userId: String
@@ -12,5 +14,29 @@ public struct ExamAttempt {
 
     public var actualDuration: TimeInterval {
         completedAt.timeIntervalSince(startedAt)
+    }
+
+    public init(
+        id: String,
+        userId: String,
+        startedAt: Date,
+        completedAt: Date,
+        score: Int,
+        maxScore: Int,
+        percentage: Double,
+        passed: Bool,
+        timeTakenSeconds: Int,
+        duration: TimeInterval
+    ) {
+        self.id = id
+        self.userId = userId
+        self.startedAt = startedAt
+        self.completedAt = completedAt
+        self.score = score
+        self.maxScore = maxScore
+        self.percentage = percentage
+        self.passed = passed
+        self.timeTakenSeconds = timeTakenSeconds
+        self.duration = duration
     }
 }

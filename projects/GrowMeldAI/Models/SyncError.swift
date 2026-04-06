@@ -1,10 +1,12 @@
+import Foundation
+
 enum SyncError: LocalizedError {
     case networkTimeout
     case authExpired
     case firestoreQuotaExceeded
     case invalidData
     case offline
-    
+
     var errorDescription: String? {
         switch self {
         case .networkTimeout:
@@ -24,6 +26,6 @@ enum SyncError: LocalizedError {
 @MainActor
 class SyncManager {
     func syncProgress() async throws {
-        // Comprehensive error handling placeholder
+        // no-op
     }
 }
