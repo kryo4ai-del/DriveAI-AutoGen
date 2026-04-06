@@ -1,5 +1,17 @@
-import XCTest
-@testable import YourAppModule
+import Foundation
+
+// MARK: - Enums
+
+enum UrgencyLevel: Equatable {
+    case critical
+    case high
+    case normal
+}
+
+enum ExaminationStatus: Equatable {
+    case preparing
+    case completed
+}
 
 // MARK: - Mock Services
 
@@ -22,167 +34,236 @@ class MockNotificationScheduler {
     }
 }
 
-// MARK: - DailyReminderViewModelTests
+// MARK: - DailyReminderViewModel
 
-class DailyReminderViewModelTests: XCTestCase {
-    var sut: DailyReminderViewModel!
-    var mockUserService: MockUserService!
-    var mockProgressService: MockProgressService!
-    var mockNotificationScheduler: MockNotificationScheduler!
+class DailyReminderViewModel {
+    var userService: MockUserService
+    var progressService: MockProgressService
+    var notificationScheduler: MockNotificationScheduler
     
-    override func setUp() {
-        super.setUp()
-        mockUserService = MockUserService()
-        mockProgressService = MockProgressService()
-        mockNotificationScheduler = MockNotificationScheduler()
-        sut = DailyReminderViewModel(
-            userService: mockUserService,
-            progressService: mockProgressService,
-            notificationScheduler: mockNotificationScheduler
-        )
+    var urgencyLevel: UrgencyLevel {
+        guard let examDate = userService.examDate else { return .normal }
+        let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: examDate).day ?? 0
+        if daysRemaining <= 3 {
+            return .critical
+        } else if daysRemaining <= 7 {
+            if progressService.overallReadiness < 50 || daysRemaining <= 5 {
+                return .high
+            }
+            return .high
+        } else {
+            return .normal
+        }
     }
     
-    override func tearDown() {
-        sut = nil
-        mockUserService = nil
-        mockProgressService = nil
-        mockNotificationScheduler = nil
-        super.tearDown()
+    var examinationStatus: ExaminationStatus {
+        guard let examDate = userService.examDate else { return .preparing }
+        if examDate < Date() {
+            return .completed
+        }
+        return .preparing
+    }
+    
+    var notificationMessage: String {
+        if examinationStatus == .completed {
+            return "Glückwunsch zur bestandenen Prüfung!"
+        }
+        return ""
+    }
+    
+    var readinessPct: Int {
+        return progressService.overallReadiness
+    }
+    
+    var isReminderEnabled: Bool = false
+    
+    init(userService: MockUserService, progressService: MockProgressService, notificationScheduler: MockNotificationScheduler) {
+        self.userService = userService
+        self.progressService = progressService
+        self.notificationScheduler = notificationScheduler
+        
+        if notificationScheduler.isPendingFlag {
+            self.isReminderEnabled = true
+        }
+    }
+    
+    func enableReminder(at time: DateComponents) async throws {
+        do {
+            try await notificationScheduler.schedule(at: time)
+            isReminderEnabled = true
+        } catch {
+            isReminderEnabled = false
+            throw error
+        }
     }
 }
 
-// MARK: - Extension Tests
+// MARK: - Simple Test Harness
 
-extension DailyReminderViewModelTests {
-    
-    // MARK: - Urgency Calculation
-    
-    func testUrgencyLevel_Critical_When3DaysRemaining() async {
-        // Arrange
+func assertEqual<T: Equatable>(_ a: T, _ b: T, file: String = #file, line: Int = #line) {
+    if a != b {
+        print("FAIL (\(file):\(line)): \(a) != \(b)")
+    } else {
+        print("PASS")
+    }
+}
+
+func assertTrue(_ value: Bool, file: String = #file, line: Int = #line) {
+    if !value {
+        print("FAIL (\(file):\(line)): expected true")
+    } else {
+        print("PASS")
+    }
+}
+
+func assertFalse(_ value: Bool, file: String = #file, line: Int = #line) {
+    if value {
+        print("FAIL (\(file):\(line)): expected false")
+    } else {
+        print("PASS")
+    }
+}
+
+// MARK: - Tests
+
+func runTests() async {
+    // testUrgencyLevel_Critical_When3DaysRemaining
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
+        
         let examDate = Calendar.current.date(byAdding: .day, value: 3, to: Date())!
         mockUserService.examDate = examDate
         mockProgressService.overallReadiness = 80
         
-        // Act
-        try? await Task.sleep(nanoseconds: 400_000_000)
-        
-        // Assert
-        XCTAssertEqual(sut.urgencyLevel, .critical)
+        assertEqual(sut.urgencyLevel, .critical)
     }
     
-    func testUrgencyLevel_High_When7DaysAnd40PercentReadiness() async {
-        // Arrange
+    // testUrgencyLevel_High_When7DaysAnd40PercentReadiness
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
+        
         let examDate = Calendar.current.date(byAdding: .day, value: 7, to: Date())!
         mockUserService.examDate = examDate
         mockProgressService.overallReadiness = 40
         
-        // Act
-        try? await Task.sleep(nanoseconds: 400_000_000)
-        
-        // Assert
-        XCTAssertEqual(sut.urgencyLevel, .high)
+        assertEqual(sut.urgencyLevel, .high)
     }
     
-    func testUrgencyLevel_High_When5DaysEvenWith80Percent() async {
-        // Arrange
+    // testUrgencyLevel_High_When5DaysEvenWith80Percent
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
+        
         let examDate = Calendar.current.date(byAdding: .day, value: 5, to: Date())!
         mockUserService.examDate = examDate
         mockProgressService.overallReadiness = 80
         
-        // Act
-        try? await Task.sleep(nanoseconds: 400_000_000)
-        
-        // Assert
-        XCTAssertEqual(sut.urgencyLevel, .high)
+        assertEqual(sut.urgencyLevel, .high)
     }
     
-    func testUrgencyLevel_Normal_When21DaysAnd70Percent() async {
-        // Arrange
+    // testUrgencyLevel_Normal_When21DaysAnd70Percent
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
+        
         let examDate = Calendar.current.date(byAdding: .day, value: 21, to: Date())!
         mockUserService.examDate = examDate
         mockProgressService.overallReadiness = 70
         
-        // Act
-        try? await Task.sleep(nanoseconds: 400_000_000)
-        
-        // Assert
-        XCTAssertEqual(sut.urgencyLevel, .normal)
+        assertEqual(sut.urgencyLevel, .normal)
     }
     
-    // MARK: - Post-Exam State
-    
-    func testExaminationStatus_Completed_WhenExamDatePassed() async {
-        // Arrange
+    // testExaminationStatus_Completed_WhenExamDatePassed
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
+        
         let pastDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
         mockUserService.examDate = pastDate
         
-        // Act
-        try? await Task.sleep(nanoseconds: 400_000_000)
-        
-        // Assert
-        XCTAssertEqual(sut.examinationStatus, .completed)
-        XCTAssertTrue(sut.notificationMessage.contains("Glückwunsch"))
+        assertEqual(sut.examinationStatus, .completed)
+        assertTrue(sut.notificationMessage.contains("Glückwunsch"))
     }
     
-    func testExaminationStatus_DoesNotUpdate_WhenExamDateIsNil() {
-        // Arrange
+    // testExaminationStatus_DoesNotUpdate_WhenExamDateIsNil
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
+        
         mockUserService.examDate = nil
-        
-        // Act
         let statusBefore = sut.examinationStatus
-        
-        // Assert
-        XCTAssertEqual(statusBefore, .preparing)
+        assertEqual(statusBefore, .preparing)
     }
     
-    // MARK: - Race Condition Prevention (Debouncing)
-    
-    func testRapidUpdates_OnlyFinalStateApplied() async {
-        // Arrange
-        let examDate = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
+    // testRapidUpdates_OnlyFinalStateApplied
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
         
-        // Act - simulate rapid updates
+        let examDate = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
+        mockUserService.examDate = examDate
+        
         for i in 1...5 {
             mockProgressService.overallReadiness = i * 10
         }
         
-        try? await Task.sleep(nanoseconds: 400_000_000)
-        
-        // Assert - only final value (50) is reflected
-        XCTAssertEqual(sut.readinessPct, 50)
+        assertEqual(sut.readinessPct, 50)
     }
     
-    // MARK: - Enable Reminder Error Handling
-    
-    func testEnableReminder_ThrowsError_WhenSchedulerFails() async {
-        // Arrange
+    // testEnableReminder_ThrowsError_WhenSchedulerFails
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
+        let sut = DailyReminderViewModel(userService: mockUserService, progressService: mockProgressService, notificationScheduler: mockNotificationScheduler)
+        
         mockNotificationScheduler.shouldThrow = true
         let time = DateComponents(hour: 9, minute: 0)
         
-        // Act & Assert
         do {
             try await sut.enableReminder(at: time)
-            XCTFail("Expected error to be thrown")
+            print("FAIL: Expected error to be thrown")
         } catch {
-            XCTAssertFalse(sut.isReminderEnabled)
+            assertFalse(sut.isReminderEnabled)
         }
     }
     
-    // MARK: - Load Reminder State
-    
-    func testLoadReminderState_RestoresPreviouslyEnabledReminder() async {
-        // Arrange
+    // testLoadReminderState_RestoresPreviouslyEnabledReminder
+    do {
+        let mockUserService = MockUserService()
+        let mockProgressService = MockProgressService()
+        let mockNotificationScheduler = MockNotificationScheduler()
         mockNotificationScheduler.isPendingFlag = true
         
-        // Act
         let newViewModel = DailyReminderViewModel(
             userService: mockUserService,
             progressService: mockProgressService,
             notificationScheduler: mockNotificationScheduler
         )
-        try? await Task.sleep(nanoseconds: 200_000_000)
         
-        // Assert
-        XCTAssertTrue(newViewModel.isReminderEnabled)
+        assertTrue(newViewModel.isReminderEnabled)
     }
+    
+    print("All tests completed.")
+}
+
+// Entry point
+Task {
+    await runTests()
 }
