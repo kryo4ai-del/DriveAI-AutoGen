@@ -1,3 +1,4 @@
+import SwiftUI
 // Features/Auth/Application/Views/Auth/AuthRootView.swift
 
 struct AuthRootView: View {

@@ -1,3 +1,4 @@
+import SwiftUI
 struct AuthNavigationStack: View {
     let viewModel: AuthViewModel
     @State private var showSignUp = false

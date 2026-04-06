@@ -11,7 +11,7 @@ final class MockProgressRepository: ProgressRepository {
     }
 
     func getProgress(userId: String, categoryId: String) async throws -> UserProgressDomain? {
-        progress.values.first { $0.userId == userId && $0.categoryId == categoryId }
+        self.progress.values.first(where: { $0.userId == userId && $0.categoryId == categoryId })
     }
 
     func getUserProgress(userId: String) async throws -> [UserProgressDomain] {
@@ -20,6 +20,11 @@ final class MockProgressRepository: ProgressRepository {
 
     func deleteProgress(userId: String, categoryId: String) async throws {
         let keysToRemove = progress.filter { $0.value.userId == userId && $0.value.categoryId == categoryId }.map { $0.key }
+        keysToRemove.forEach { progress.removeValue(forKey: $0) }
+    }
+
+    func deleteAllProgress(userId: String) async throws {
+        let keysToRemove = progress.filter { $0.value.userId == userId }.map { $0.key }
         keysToRemove.forEach { progress.removeValue(forKey: $0) }
     }
 }
