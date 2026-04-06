@@ -1,4 +1,6 @@
-// Deliverable: Models/Location/LocationDataModel.swift
+import Foundation
+import CoreLocation
+
 struct LocationDataModel {
     struct UseCase {
         let id: String // "exam_center_locator", "traffic_alerts"
@@ -14,4 +16,10 @@ struct LocationDataModel {
         let privacyImpact: PrivacyLevel // minimal, moderate, high
         let optOutUrl: URL? // Link to disable in settings
     }
+}
+
+enum PrivacyLevel {
+    case minimal
+    case moderate
+    case high
 }
