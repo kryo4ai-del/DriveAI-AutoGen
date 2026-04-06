@@ -1,4 +1,3 @@
-// Features/CameraOnboarding/Presentation/ViewModels/CameraOnboardingViewModel.swift
 import Foundation
 import SwiftUI
 
@@ -37,7 +36,7 @@ final class CameraOnboardingViewModel: ObservableObject {
             updateProgress(for: .confirmed(capturedImage))
         } catch {
             errorMessage = error.localizedDescription
-            currentState = .error(error as? LicenseCaptureError ?? .unknown)
+            currentState = .error(error as? LicenseCaptureError ?? .unknown("Unbekannter Fehler"))
         }
     }
 
