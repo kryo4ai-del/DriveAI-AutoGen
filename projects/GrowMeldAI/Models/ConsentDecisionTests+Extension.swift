@@ -1,13 +1,12 @@
 import Foundation
-import XCTest
 
 #if canImport(XCTest)
+import XCTest
 
 class ConsentDecisionTests: XCTestCase {}
 
 extension ConsentDecisionTests {
 
-    // TC-008: Decode missing required field (timestamp)
     func testDecode_missingTimestamp_throwsDecodingError() throws {
         let json = """
         {
@@ -29,7 +28,6 @@ extension ConsentDecisionTests {
         }
     }
 
-    // TC-009: Decode malformed date (invalid ISO8601)
     func testDecode_invalidDateFormat_throwsError() throws {
         let json = """
         {
@@ -47,7 +45,6 @@ extension ConsentDecisionTests {
         )
     }
 
-    // TC-010: Version mismatch (future schema)
     func testDecode_futureVersion_decodesButHandled() throws {
         let json = """
         {
