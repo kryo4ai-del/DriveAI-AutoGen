@@ -1,3 +1,4 @@
+import SwiftUI
 // Views/CoachingRecommendationCard.swift
 struct CoachingRecommendationCard: View {
     @ObservedObject var viewModel: CoachingViewModel
