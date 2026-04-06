@@ -1,10 +1,7 @@
-// UserProfileService.swift
 import Foundation
 import os.log
 
-/// Manages user profile persistence and state with thread-safe access
-@globalActor
-
 extension OSLog {
-    static let `default` = OSLog(subsystem: "com.driveai.profile", category: "persistence")
+    private static var subsystem = "com.driveai.profile"
+    static let persistence = OSLog(subsystem: subsystem, category: "persistence")
 }

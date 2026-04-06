@@ -1,3 +1,5 @@
+import SwiftUI
+
 struct MilestoneProgress: View {
     let completed: Int
     let total: Int

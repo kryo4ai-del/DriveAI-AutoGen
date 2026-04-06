@@ -1,6 +1,6 @@
 import Foundation
 
-struct Misconception: Codable, Identifiable, Equatable {
+struct MisconceptionModel: Codable, Identifiable, Equatable {
     let id: UUID
     let questionId: String
     let categoryId: String
@@ -23,6 +23,8 @@ struct Misconception: Codable, Identifiable, Equatable {
         self.suggestedExplanation = suggestedExplanation
     }
 }
+
+typealias Misconception = MisconceptionModel
 
 enum MisconceptionType: String, Codable {
     case rightOfWay

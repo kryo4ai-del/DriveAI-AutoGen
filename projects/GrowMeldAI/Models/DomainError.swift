@@ -1,8 +1,15 @@
+import Foundation
+
 public enum DomainError: LocalizedError, Sendable {
-    // ... existing cases ...
     case unknownError(String, underlyingError: (any Error)? = nil)
-    
-    // Adopt CustomDebugStringConvertible
+
+    public var errorDescription: String? {
+        switch self {
+        case .unknownError(let message, _):
+            return message
+        }
+    }
+
     public var debugDescription: String {
         switch self {
         case .unknownError(let message, let underlying):
@@ -10,12 +17,9 @@ public enum DomainError: LocalizedError, Sendable {
                 return "UnknownError: \(message) | Cause: \(type(of: underlying)).\(underlying)"
             }
             return "UnknownError: \(message)"
-        default:
-            return errorDescription ?? "Unknown"
         }
     }
-    
-    // Add LoggableError support for Sentry/Crashlytics
+
     public var loggableContext: [String: Any] {
         switch self {
         case .unknownError(let message, let underlying):
@@ -26,8 +30,6 @@ public enum DomainError: LocalizedError, Sendable {
                 context["underlyingDescription"] = underlying.localizedDescription
             }
             return context
-        default:
-            return ["error": errorDescription ?? "Unknown"]
         }
     }
 }

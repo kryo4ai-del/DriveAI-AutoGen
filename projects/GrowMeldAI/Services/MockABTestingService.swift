@@ -1,30 +1,51 @@
+import Foundation
+
 final class MockABTestingService: ABTestingService {
-    private nonisolated let assignmentQueue = DispatchQueue(
-        label: "com.driveai.abtesting.mock.assignments",
-        attributes: .concurrent
-    )
-    private nonisolated let eventQueue = DispatchQueue(
-        label: "com.driveai.abtesting.mock.events",
-        attributes: .concurrent
-    )
-    
     private var mockAssignments: [ExperimentAssignment] = []
     private var savedEvents: [ExperimentEvent] = []
-    
+    private let lock = NSLock()
+
     func saveAssignment(_ assignment: ExperimentAssignment) async throws {
-        return await withCheckedContinuation { continuation in
-            assignmentQueue.async(flags: .barrier) {
-                self.mockAssignments.append(assignment)
-                continuation.resume()
-            }
-        }
+        lock.lock()
+        defer { lock.unlock() }
+        mockAssignments.append(assignment)
     }
-    
+
     func getCurrentAssignments() async throws -> [ExperimentAssignment] {
-        return await withCheckedContinuation { continuation in
-            assignmentQueue.async {
-                continuation.resume(returning: self.mockAssignments)
-            }
+        lock.lock()
+        defer { lock.unlock() }
+        return mockAssignments
+    }
+
+    func getAssignment(for experimentId: String) async throws -> ExperimentAssignment {
+        lock.lock()
+        defer { lock.unlock() }
+        guard let assignment = mockAssignments.first(where: { $0.experimentId == experimentId }) else {
+            throw ABTestingError.experimentNotFound(experimentId: experimentId)
         }
+        return assignment
+    }
+
+    func recordExposure(experimentId: String, variantId: String) async throws {
+        // No-op for mock
+    }
+
+    func trackEvent(_ event: ExperimentEvent) async throws {
+        lock.lock()
+        defer { lock.unlock() }
+        savedEvents.append(event)
+    }
+
+    func getAllTrackedEvents() -> [ExperimentEvent] {
+        lock.lock()
+        defer { lock.unlock() }
+        return savedEvents
+    }
+
+    func reset() {
+        lock.lock()
+        defer { lock.unlock() }
+        mockAssignments.removeAll()
+        savedEvents.removeAll()
     }
 }

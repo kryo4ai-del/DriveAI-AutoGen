@@ -1,9 +1,25 @@
-// Tests/Mocks/MockCameraPermissionService.swift
-final class MockCameraPermissionService: CameraPermissionService {
+import Foundation
+import AVFoundation
+
+enum CameraError: LocalizedError {
+    case permissionDenied
+    case deviceUnavailable
+
+    var errorDescription: String? {
+        switch self {
+        case .permissionDenied:
+            return "Camera permission denied."
+        case .deviceUnavailable:
+            return "Camera device unavailable."
+        }
+    }
+}
+
+final class MockCameraPermissionService {
     var shouldSucceed = true
-    
-    override func requestCameraAccess() async throws -> AVAuthorizationStatus {
-        try await Task.sleep(nanoseconds: 100_000_000) // Simulate delay
+
+    func requestCameraAccess() async throws -> AVAuthorizationStatus {
+        try await Task.sleep(nanoseconds: 100_000_000)
         if shouldSucceed {
             return .authorized
         } else {
