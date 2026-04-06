@@ -20,7 +20,7 @@ extension CLLocationManager {
         if #available(iOS 14.0, macOS 11.0, *) {
             status = self.authorizationStatus
         } else {
-            status = CLLocationManager.authorizationStatus()
+            status = type(of: self).authorizationStatus()
         }
         return AppLocationPermissionStatus(from: status)
     }
