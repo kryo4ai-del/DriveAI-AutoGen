@@ -1,30 +1,4 @@
-import SwiftUI
-import Combine
-
-enum PasswordStrength: Int, CaseIterable {
-    case weak = 0
-    case fair = 1
-    case good = 2
-    case strong = 3
-    
-    var label: String {
-        switch self {
-        case .weak: return "Weak"
-        case .fair: return "Fair"
-        case .good: return "Good"
-        case .strong: return "Strong"
-        }
-    }
-    
-    var color: Color {
-        switch self {
-        case .weak: return .red
-        case .fair: return .orange
-        case .good: return .yellow
-        case .strong: return .green
-        }
-    }
-}
+// Core/Utilities/PasswordStrengthEvaluator.swift
 
 @MainActor
 final class PasswordStrengthEvaluator {
@@ -56,16 +30,10 @@ final class PasswordStrengthEvaluator {
     }
 }
 
+// SignUpViewModel (updated)
 @MainActor
-class SignUpViewModel: ObservableObject {
-    @Published var password: String = "" {
-        didSet {
-            passwordStrength = PasswordStrengthEvaluator.shared.evaluate(password)
-        }
-    }
-    @Published var passwordStrength: PasswordStrength = .weak
-}
 
+// SignUpView (updated)
 struct SignUpView: View {
     @StateObject private var viewModel = SignUpViewModel()
     
@@ -77,7 +45,7 @@ struct SignUpView: View {
             HStack {
                 ForEach(PasswordStrength.allCases, id: \.self) { strength in
                     Capsule()
-                        .fill(strength.color.opacity(viewModel.passwordStrength.rawValue >= strength.rawValue ? 1 : 0.2))
+                        .fill(strength.color.opacity(viewModel.passwordStrength.rawValue <= strength.rawValue ? 1 : 0.2))
                 }
             }
             .frame(height: 4)
