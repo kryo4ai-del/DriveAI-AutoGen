@@ -1,13 +1,25 @@
-// ✅ GOOD: Persistent storage via SQLite
-struct UserEntitlements: Codable {
-    let userId: String
-    var premiumFeatures: Set<String> = []
-    var subscriptionStatus: SubscriptionStatus?
-    var lastValidatedAt: Date?
+import Foundation
+
+enum SubscriptionStatus: String, Codable {
+    case active
+    case expired
+    case trial
+    case none
 }
 
-// Services/LocalDataService.swift (existing from project context)
+struct UserEntitlements: Codable {
+    let userId: String
+    var premiumFeatures: [String]
+    var subscriptionStatus: SubscriptionStatus?
+    var lastValidatedAt: Date?
 
-// ❌ AVOID: UserDefaults for entitlements
-// - Can be cleared by iOS when storage is low
-// - User loses access to purchased features after reinstall
+    init(userId: String,
+         premiumFeatures: [String] = [],
+         subscriptionStatus: SubscriptionStatus? = nil,
+         lastValidatedAt: Date? = nil) {
+        self.userId = userId
+        self.premiumFeatures = premiumFeatures
+        self.subscriptionStatus = subscriptionStatus
+        self.lastValidatedAt = lastValidatedAt
+    }
+}

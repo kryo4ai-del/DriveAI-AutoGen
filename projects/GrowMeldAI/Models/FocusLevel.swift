@@ -1,6 +1,5 @@
 import Foundation
 
-/// Represents the focus/concentration level of a user session
 enum FocusLevel: String, Codable, CaseIterable, Identifiable {
     case low = "low"
     case medium = "medium"
@@ -8,8 +7,6 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
     case deep = "deep"
 
     var id: String { rawValue }
-
-    // MARK: - Display Properties
 
     var displayName: String {
         switch self {
@@ -20,9 +17,6 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    // MARK: - Numeric Representation
-
-    /// Numeric score 1–4 for comparisons and analytics
     var score: Int {
         switch self {
         case .low:    return 1
@@ -32,14 +26,10 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    /// Normalised value in [0.0, 1.0]
     var normalised: Double {
-        Double(score) / Double(Self.allCases.count)
+        Double(score) / Double(FocusLevel.allCases.count)
     }
 
-    // MARK: - Initialisation Helpers
-
-    /// Create a FocusLevel from a numeric score (1–4). Returns nil for out-of-range values.
     init?(score: Int) {
         switch score {
         case 1: self = .low
@@ -50,23 +40,19 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    /// Create a FocusLevel from a normalised value in [0.0, 1.0].
     init(normalised value: Double) {
         let clamped = min(max(value, 0.0), 1.0)
-        let score = Int((clamped * Double(Self.allCases.count - 1)).rounded()) + 1
-        self = Self(score: score) ?? .medium
+        let count = FocusLevel.allCases.count
+        let score = Int((clamped * Double(count - 1)).rounded()) + 1
+        self = FocusLevel(score: score) ?? .medium
     }
 }
-
-// MARK: - Comparable
 
 extension FocusLevel: Comparable {
     static func < (lhs: FocusLevel, rhs: FocusLevel) -> Bool {
         lhs.score < rhs.score
     }
 }
-
-// MARK: - CustomStringConvertible
 
 extension FocusLevel: CustomStringConvertible {
     var description: String {

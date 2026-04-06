@@ -1,10 +1,9 @@
-// Services/UserDefaultsService.swift
 import Foundation
 
 enum UserDefaultsError: LocalizedError {
     case encodingFailed
     case decodingFailed
-    
+
     var errorDescription: String? {
         switch self {
         case .encodingFailed:
@@ -13,8 +12,4 @@ enum UserDefaultsError: LocalizedError {
             return "Fehler beim Laden des Profils"
         }
     }
-}
-
-@MainActor
-class UserDefaultsService {
 }
