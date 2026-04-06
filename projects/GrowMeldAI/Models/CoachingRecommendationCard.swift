@@ -1,13 +1,20 @@
 // Views/CoachingRecommendationCard.swift
+import SwiftUI
+
 struct CoachingRecommendationCard: View {
     @ObservedObject var viewModel: CoachingViewModel
-    let recommendation: CoachingRecommendation
+    let recommendation: CoachingViewModel.CoachingRecommendation
     
     var body: some View {
         VStack {
             Text(recommendation.categoryName)
             Text(recommendation.prescription)
-            Slider(value: Binding(...))
+            Slider(value: Binding(
+                get: { recommendation.confidence },
+                set: { newValue in
+                    viewModel.setConfidence(for: recommendation.id, value: newValue)
+                }
+            ))
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(recommendation.accessibilityLabel)
