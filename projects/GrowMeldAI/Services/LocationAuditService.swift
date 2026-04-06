@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 final class LocationAuditService {
     struct DeletionRecord: Codable {

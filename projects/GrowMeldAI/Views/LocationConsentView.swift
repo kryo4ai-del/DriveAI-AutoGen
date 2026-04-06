@@ -1,3 +1,4 @@
+import SwiftUI
 // Views/LocationConsentView.swift
 struct LocationConsentView: View {
     @ObservedObject var viewModel: LocationConsentViewModel

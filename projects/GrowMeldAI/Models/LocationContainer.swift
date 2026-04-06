@@ -1,3 +1,4 @@
+import SwiftUI
 final class LocationContainer: Sendable {
     let repository: LocationRepository
     let locationPickerViewModel: LocationPickerViewModel

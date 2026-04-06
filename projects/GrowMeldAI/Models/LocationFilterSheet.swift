@@ -1,3 +1,4 @@
+import SwiftUI
 struct LocationFilterSheet: View {
     @State var searchText = ""
     @FocusState var focusedField: Field?

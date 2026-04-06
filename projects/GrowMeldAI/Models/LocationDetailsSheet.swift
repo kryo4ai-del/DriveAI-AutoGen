@@ -1,3 +1,4 @@
+import SwiftUI
 struct LocationDetailsSheet: View {
     @ObservedObject var permissionManager: LocationPermissionManager
     @Environment(\.dismiss) var dismiss
