@@ -41,3 +41,23 @@ enum AppDestination: Hashable {
         }
     }
 }
+
+struct ExamResult: Identifiable, Hashable, Codable {
+    let id: String
+    let score: Int
+    let totalQuestions: Int
+    let correctAnswers: Int
+    let date: Date
+
+    init(id: String = UUID().uuidString,
+         score: Int,
+         totalQuestions: Int,
+         correctAnswers: Int,
+         date: Date = Date()) {
+        self.id = id
+        self.score = score
+        self.totalQuestions = totalQuestions
+        self.correctAnswers = correctAnswers
+        self.date = date
+    }
+}

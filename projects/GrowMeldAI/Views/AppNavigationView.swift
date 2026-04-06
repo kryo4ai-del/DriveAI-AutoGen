@@ -12,8 +12,8 @@ struct AppNavigationView: View {
                     OnboardingView()
                 }
             }
-            .navigationDestination(for: AppNavigationPath.self) { path in
-                switch path {
+            .navigationDestination(for: AppRoute.self) { route in
+                switch route {
                 case .home:
                     HomeView()
                 case .categoryDetail(let categoryID):
@@ -28,7 +28,7 @@ struct AppNavigationView: View {
 }
 
 // MARK: - Navigation Path
-enum AppNavigationPath: Hashable {
+enum AppRoute: Hashable {
     case home
     case categoryDetail(categoryID: String)
     case question(questionID: String, context: String?)
@@ -36,7 +36,7 @@ enum AppNavigationPath: Hashable {
 
 // MARK: - Navigation Coordinator
 class AppNavigationCoordinator: ObservableObject {
-    @Published var navigationPath = [AppNavigationPath]()
+    @Published var navigationPath = [AppRoute]()
     @Published var isOnboarded: Bool
 
     init() {
@@ -48,8 +48,8 @@ class AppNavigationCoordinator: ObservableObject {
         isOnboarded = true
     }
 
-    func navigate(to path: AppNavigationPath) {
-        navigationPath.append(path)
+    func navigate(to route: AppRoute) {
+        navigationPath.append(route)
     }
 
     func navigateBack() {
@@ -78,6 +78,27 @@ private struct QuestionPlaceholderView: View {
     var body: some View {
         Text("Question: \(questionID)")
             .navigationTitle("Question")
+    }
+}
+
+// MARK: - Stub Views
+private struct HomeView: View {
+    var body: some View {
+        Text("Home")
+            .navigationTitle("Home")
+    }
+}
+
+private struct OnboardingView: View {
+    @EnvironmentObject var coordinator: AppNavigationCoordinator
+    var body: some View {
+        VStack {
+            Text("Onboarding")
+            Button("Continue") {
+                coordinator.markOnboarded()
+            }
+        }
+        .navigationTitle("Welcome")
     }
 }
 

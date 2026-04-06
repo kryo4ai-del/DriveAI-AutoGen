@@ -26,6 +26,14 @@ final class AppLocalDataService: LocalDataServiceProtocol {
     }
 }
 
+// MARK: - ProgressTrackerProtocol
+
+protocol ProgressTrackerProtocol: AnyObject {
+    var currentProgress: Double { get }
+    func updateProgress(_ value: Double)
+    func reset()
+}
+
 final class AppProgressTracker: ProgressTrackerProtocol {
     private(set) var currentProgress: Double = 0.0
 
@@ -38,11 +46,7 @@ final class AppProgressTracker: ProgressTrackerProtocol {
     }
 }
 
-protocol ProgressTrackerProtocol: AnyObject {
-    var currentProgress: Double { get }
-    func updateProgress(_ value: Double)
-    func reset()
-}
+// MARK: - UserPreferencesProtocol
 
 protocol UserPreferencesProtocol: AnyObject {
     var notificationsEnabled: Bool { get set }
@@ -106,7 +110,7 @@ struct AppDependencies {
         preferences: (any UserPreferencesProtocol)? = nil
     ) -> AppDependencies {
         return AppDependencies(
-            dataService: dataService ?? MockDataService(),
+            dataService: dataService ?? MockLocalDataService(),
             progressTracker: progressTracker ?? MockProgressTracker(),
             preferences: preferences ?? MockUserPreferences()
         )
@@ -117,7 +121,7 @@ struct AppDependencies {
 // MARK: - Mock Implementations (DEBUG only)
 
 #if DEBUG
-final class MockDataService: LocalDataServiceProtocol {
+final class MockLocalDataService: LocalDataServiceProtocol {
     private var storage: [String: Data] = [:]
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
@@ -149,7 +153,7 @@ final class MockProgressTracker: ProgressTrackerProtocol {
 }
 
 final class MockUserPreferences: UserPreferencesProtocol {
-    var notificationsEnabled: Bool = true
+    var notificationsEnabled: Bool = false
     var theme: String = "default"
     var language: String = "en"
 }

@@ -20,70 +20,19 @@ protocol AppDependenciesProtocol: ObservableObject {
     func disableFirebaseSync()
 }
 
-// MARK: - Supporting Protocol Definitions
-
-protocol LocalDataServiceProtocol: AnyObject {}
-
-protocol FirebaseAuthServiceProtocol: AnyObject {}
-
-protocol FirestoreServiceProtocol: AnyObject {}
-
-protocol AnalyticsServiceProtocol: AnyObject {}
-
-protocol FirebaseSyncCoordinatorProtocol: AnyObject {}
-
-protocol NetworkConnectivityMonitorProtocol: AnyObject {}
-
-protocol OfflineQueueManagerProtocol: AnyObject {}
-
-// MARK: - AppLogger
-
-final class AppLogger {
-    static let shared = AppLogger()
-
-    enum LogLevel {
-        case debug, info, warning, error
-
-        var prefix: String {
-            switch self {
-            case .debug:   return "DEBUG 🔍"
-            case .info:    return "INFO ℹ️"
-            case .warning: return "WARN ⚠️"
-            case .error:   return "ERROR ❌"
-            }
-        }
-    }
-
-    func log(_ message: String, level: LogLevel = .info) {
-        #if DEBUG
-        print("[\(level.prefix)] \(message)")
-        #endif
-    }
-
-    func info(_ message: String) { log(message, level: .info) }
-    func warning(_ message: String) { log(message, level: .warning) }
-    func error(_ message: String) { log(message, level: .error) }
-    func debug(_ message: String) { log(message, level: .debug) }
-}
-
-// MARK: - FirebaseManager Stub
-
-final class FirebaseManager: ObservableObject {
-    static let shared = FirebaseManager()
-    var isConfigured: Bool = false
-}
-
-// MARK: - Environment Key & Values Extension
-
-struct AppDependenciesEnvironmentKey: EnvironmentKey {
-    static let defaultValue: AppDependenciesBox? = nil
-}
+// MARK: - AppDependenciesBox
 
 final class AppDependenciesBox: ObservableObject {
     let wrapped: any AppDependenciesProtocol
     init(_ wrapped: any AppDependenciesProtocol) {
         self.wrapped = wrapped
     }
+}
+
+// MARK: - Environment Key
+
+struct AppDependenciesEnvironmentKey: EnvironmentKey {
+    static let defaultValue: AppDependenciesBox? = nil
 }
 
 extension EnvironmentValues {

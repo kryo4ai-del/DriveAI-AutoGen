@@ -1,163 +1,58 @@
 import Foundation
 import SwiftUI
 
-// MARK: - ExamResult
+// MARK: - AppCoordinator Extension
 
-struct GrowMeldExamResult: Hashable, Codable {
-    let id: UUID
-    let score: Int
-    let totalQuestions: Int
-    let passed: Bool
-    let date: Date
-    let subject: String
+extension AppCoordinator {
 
-    init(
-        id: UUID = UUID(),
-        score: Int,
-        totalQuestions: Int,
-        passed: Bool,
-        date: Date = Date(),
-        subject: String = ""
-    ) {
-        self.id = id
-        self.score = score
-        self.totalQuestions = totalQuestions
-        self.passed = passed
-        self.date = date
-        self.subject = subject
+    // MARK: - Convenience Navigation
+
+    func showExam() {
+        navigate(to: .exam)
     }
 
-    var percentageScore: Double {
-        guard totalQuestions > 0 else { return 0 }
-        return Double(score) / Double(totalQuestions) * 100
-    }
-}
-
-// MARK: - AppRoute
-
-enum GrowMeldAppRoute: Hashable {
-    case home
-    case exam
-    case examResult(GrowMeldExamResult)
-    case settings
-    case progress
-    case onboarding
-}
-
-// MARK: - AppCoordinator
-
-@MainActor
-final class AppCoordinator: ObservableObject {
-
-    // MARK: - Published State
-
-    @Published var navigationPath: [GrowMeldAppRoute] = []
-    @Published var currentRoute: GrowMeldAppRoute = .home
-    @Published var isPresenting: Bool = false
-    @Published var presentedRoute: GrowMeldAppRoute? = nil
-
-    // MARK: - Navigation
-
-    func navigate(to route: GrowMeldAppRoute) {
-        navigationPath.append(route)
-        currentRoute = route
+    func showSettings() {
+        navigate(to: .settings)
     }
 
-    func navigateBack() {
-        guard !navigationPath.isEmpty else { return }
-        navigationPath.removeLast()
-        currentRoute = navigationPath.last ?? .home
+    func showProgress() {
+        navigate(to: .progress)
     }
 
-    func navigateToRoot() {
-        navigationPath.removeAll()
-        currentRoute = .home
+    func showOnboarding() {
+        navigate(to: .onboarding)
     }
 
-    func present(_ route: GrowMeldAppRoute) {
-        presentedRoute = route
-        isPresenting = true
+    func showHome() {
+        navigateToRoot()
     }
 
-    func dismissPresented() {
-        isPresenting = false
-        presentedRoute = nil
-    }
+    // MARK: - Exam Result Convenience
 
-    // MARK: - Route Handling
-
-    func handleRoute(_ route: GrowMeldAppRoute) {
-        switch route {
-        case .home:
-            navigateToRoot()
-        case .exam:
-            navigate(to: .exam)
-        case .examResult(let result):
-            handleExamResult(result)
-        case .settings:
-            navigate(to: .settings)
-        case .progress:
-            navigate(to: .progress)
-        case .onboarding:
-            navigate(to: .onboarding)
-        }
-    }
-
-    // MARK: - Exam Result Handling
-
-    func handleExamResult(_ result: GrowMeldExamResult) {
+    func showExamResult(_ result: GrowMeldExamResult) {
         navigate(to: .examResult(result))
-        recordExamResult(result)
     }
 
-    private func recordExamResult(_ result: GrowMeldExamResult) {
-        var results = loadStoredExamResults()
-        results.append(result)
-        saveExamResults(results)
+    // MARK: - Statistics
+
+    func averageScore() -> Double {
+        let results = loadStoredExamResults()
+        guard !results.isEmpty else { return 0 }
+        let total = results.reduce(0.0) { $0 + $1.percentageScore }
+        return total / Double(results.count)
     }
 
-    // MARK: - Persistence (UserDefaults + Codable)
-
-    private static let examResultsKey = "com.growmeld.examResults"
-
-    func loadStoredExamResults() -> [GrowMeldExamResult] {
-        guard
-            let data = UserDefaults.standard.data(forKey: Self.examResultsKey),
-            let results = try? JSONDecoder().decode([GrowMeldExamResult].self, from: data)
-        else {
-            return []
-        }
-        return results
+    func passedExamsCount() -> Int {
+        loadStoredExamResults().filter { $0.passed }.count
     }
 
-    private func saveExamResults(_ results: [GrowMeldExamResult]) {
-        guard let data = try? JSONEncoder().encode(results) else { return }
-        UserDefaults.standard.set(data, forKey: Self.examResultsKey)
+    func totalExamsCount() -> Int {
+        loadStoredExamResults().count
     }
 
-    func clearExamResults() {
-        UserDefaults.standard.removeObject(forKey: Self.examResultsKey)
-    }
-
-    // MARK: - Deep Link Handling
-
-    func handleDeepLink(_ url: URL) {
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            return
-        }
-        switch components.host {
-        case "home":
-            handleRoute(.home)
-        case "exam":
-            handleRoute(.exam)
-        case "settings":
-            handleRoute(.settings)
-        case "progress":
-            handleRoute(.progress)
-        case "onboarding":
-            handleRoute(.onboarding)
-        default:
-            break
-        }
+    func recentResults(limit: Int = 5) -> [GrowMeldExamResult] {
+        let results = loadStoredExamResults()
+            .sorted { $0.date > $1.date }
+        return Array(results.prefix(limit))
     }
 }

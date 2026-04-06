@@ -3,24 +3,24 @@ import Combine
 
 // MARK: - Supporting Protocols
 
-protocol AppLocalDataService: AnyObject {
+protocol AppLocalDataServiceProtocol: AnyObject {
     func fetchQuestions() -> [Any]
 }
 
-protocol AppProgressTracker: AnyObject {
+protocol AppProgressTrackerProtocol: AnyObject {
     func recordProgress(for questionId: Int, correct: Bool)
     func getProgress(for questionId: Int) -> Double
 }
 
 // MARK: - Default Implementations
 
-final class LocalDataServiceImpl: AppLocalDataService {
+final class LocalDataServiceImpl: AppLocalDataServiceProtocol {
     func fetchQuestions() -> [Any] {
         return []
     }
 }
 
-final class ProgressTrackerImpl: AppProgressTracker {
+final class ProgressTrackerImpl: AppProgressTrackerProtocol {
     private var progressData: [Int: [Bool]] = [:]
 
     func recordProgress(for questionId: Int, correct: Bool) {
@@ -34,8 +34,8 @@ final class ProgressTrackerImpl: AppProgressTracker {
     }
 }
 
-final class UserPreferences {
-    static let shared = UserPreferences()
+final class UserPreferencesStore {
+    static let shared = UserPreferencesStore()
     private let defaults = UserDefaults.standard
 
     init() {}
@@ -59,22 +59,22 @@ final class UserPreferences {
 // MARK: - AppDataService Protocol
 
 protocol AppDataService {
-    var questions: AppLocalDataService { get }
-    var progress: AppProgressTracker { get }
-    var preferences: UserPreferences { get }
+    var questions: AppLocalDataServiceProtocol { get }
+    var progress: AppProgressTrackerProtocol { get }
+    var preferences: UserPreferencesStore { get }
 }
 
 // MARK: - AppDataService Implementation
 
 final class AppDataServiceImpl: AppDataService {
-    let questions: AppLocalDataService
-    let progress: AppProgressTracker
-    let preferences: UserPreferences
+    let questions: AppLocalDataServiceProtocol
+    let progress: AppProgressTrackerProtocol
+    let preferences: UserPreferencesStore
 
     init(
-        questions: AppLocalDataService = LocalDataServiceImpl(),
-        progress: AppProgressTracker = ProgressTrackerImpl(),
-        preferences: UserPreferences = .shared
+        questions: AppLocalDataServiceProtocol = LocalDataServiceImpl(),
+        progress: AppProgressTrackerProtocol = ProgressTrackerImpl(),
+        preferences: UserPreferencesStore = .shared
     ) {
         self.questions = questions
         self.progress = progress

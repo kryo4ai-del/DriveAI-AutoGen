@@ -1,4 +1,13 @@
 import SwiftUI
+import Foundation
+
+class HomeViewModel: ObservableObject {
+    @Published var learningPlanVM: LearningPlanViewModel? = nil
+
+    func loadDashboard() async {
+        // Load dashboard data
+    }
+}
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
