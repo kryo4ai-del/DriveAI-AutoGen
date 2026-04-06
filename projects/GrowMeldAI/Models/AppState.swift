@@ -1,5 +1,3 @@
-import Combine
-
 @MainActor
 final class AppState: ObservableObject {
     private let persistence: UserPreferencesService
