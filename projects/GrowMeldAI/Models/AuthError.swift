@@ -1,19 +1,3 @@
-The error "invalid redeclaration of 'AuthError'" means there's another `AuthError` type already defined elsewhere in your project. The fix is to rename this one to avoid the conflict.
-
-```swift
+// AuthError is declared in AuthState.swift
+// This file intentionally left minimal to avoid duplicate declaration.
 import Foundation
-
-enum AppAuthError: LocalizedError {
-    case invalidEmail
-    case weakPassword(String)
-
-    var errorDescription: String? {
-        switch self {
-        case .invalidEmail:
-            return "Invalid email address."
-        case .weakPassword(let reason):
-            return "Weak password: \(reason)"
-        }
-    }
-}
-```
