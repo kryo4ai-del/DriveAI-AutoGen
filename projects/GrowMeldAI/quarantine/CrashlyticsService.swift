@@ -69,9 +69,9 @@ final class DefaultCrashSanitizer: CrashSanitizer {
 
     init() {
         let patterns = [
-            "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
-            "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
-            "\\b\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}\\b"
+            "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",  // email
+            "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",                 // phone
+            "\\b\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}\\b"      // credit card
         ]
         self.piiPatterns = patterns.compactMap {
             try? NSRegularExpression(pattern: $0, options: .caseInsensitive)
@@ -109,7 +109,7 @@ final class DefaultCrashSanitizer: CrashSanitizer {
     }
 }
 
-// MARK: - CrashReportingService
+// MARK: - CrashReportingService (Actor-based, testable)
 
 actor CrashReportingService {
     private let firebaseService: FirebaseService
@@ -152,31 +152,78 @@ actor CrashReportingService {
 
     // MARK: - Error Logging
 
-    func logError(_ error: Error, context: [String: Any]? = nil) async {
+    func log(_ error: Error, context: [String: Any]? = nil) async {
         guard isEnabled else { return }
+
         let sanitizedError = sanitizer.sanitizeError(error)
         let sanitizedContext = context.map { sanitizer.sanitize($0) }
-        await firebaseService.logError(sanitizedError, context: sanitizedContext)
-        let event = AnalyticsEvent(name: "error", parameters: ["description": error.localizedDescription])
+
+        let event = AnalyticsEvent(
+            name: "crash_non_fatal",
+            parameters: sanitizedContext ?? [:]
+        )
         await queue.enqueue(event)
+
+        await firebaseService.logError(sanitizedError, context: sanitizedContext)
     }
 
     func logNonFatal(_ message: String, context: [String: Any]? = nil) async {
         guard isEnabled else { return }
+
         let sanitizedMessage = sanitizer.sanitize(message)
         let sanitizedContext = context.map { sanitizer.sanitize($0) }
-        await firebaseService.logNonFatal(sanitizedMessage, context: sanitizedContext)
-        let event = AnalyticsEvent(name: "non_fatal", parameters: ["message": sanitizedMessage])
+
+        let event = AnalyticsEvent(
+            name: "non_fatal_event",
+            parameters: ["message": sanitizedMessage]
+        )
         await queue.enqueue(event)
+
+        await firebaseService.logNonFatal(sanitizedMessage, context: sanitizedContext)
     }
 
     // MARK: - Queue Management
 
-    func drainEventQueue() async -> [AnalyticsEvent] {
+    func flushQueue() async -> [AnalyticsEvent] {
         return await queue.drainAll()
     }
 
     func pendingEventCount() async -> Int {
         return await queue.count
+    }
+}
+
+// MARK: - Legacy CrashlyticsService (retained for backward compatibility)
+
+@MainActor
+final class CrashlyticsService: ObservableObject {
+    private let reportingService: CrashReportingService
+
+    init(firebaseService: FirebaseService) {
+        self.reportingService = CrashReportingService(
+            firebaseService: firebaseService,
+            sanitizer: DefaultCrashSanitizer(),
+            queue: EventQueue<AnalyticsEvent>()
+        )
+    }
+
+    func configure(userID: String) async {
+        await reportingService.setUserID(userID)
+    }
+
+    func record(_ error: Error, context: [String: Any]? = nil) async {
+        await reportingService.log(error, context: context)
+    }
+
+    func recordNonFatal(_ message: String, context: [String: Any]? = nil) async {
+        await reportingService.logNonFatal(message, context: context)
+    }
+
+    func setCustomKey(_ key: String, value: String) async {
+        await reportingService.setCustomKey(key, value: value)
+    }
+
+    func setEnabled(_ enabled: Bool) async {
+        await reportingService.setEnabled(enabled)
     }
 }

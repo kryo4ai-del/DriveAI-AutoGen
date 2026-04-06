@@ -1,3 +1,4 @@
+import SwiftUI
 struct DashboardComplianceWidget: View {
     @ObservedObject var viewModel: ComplianceViewModel
     let daysUntilExam: Int
