@@ -1,12 +1,14 @@
-private final class CachedQuestions: NSObject {
+import Foundation
+
+final class CachedQuestions {
     let questions: [Question]
     let timestamp = Date()
-    
+
     init(_ questions: [Question]) {
         self.questions = questions
     }
-    
-    override var debugDescription: String {
+
+    var debugDescription: String {
         "CachedQuestions(count: \(questions.count), age: \(Date().timeIntervalSince(timestamp))s)"
     }
 }

@@ -1,6 +1,5 @@
 import Foundation
 
-/// Emotionally calibrated feedback with domain-specific narrative
 struct CalibratedFeedback: Codable {
     let correctness: Bool
     let explanation: String
@@ -14,7 +13,7 @@ struct FeedbackNarrative: Codable {
     let primaryMessage: String
     let secondaryMessage: String?
     let tone: EmotionalTone
-    let motivationalBoost: Double // 0.0-1.0
+    let motivationalBoost: Double
 }
 
 enum EmotionalTone: String, Codable {

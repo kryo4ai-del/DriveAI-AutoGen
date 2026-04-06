@@ -1,14 +1,14 @@
-// Models/CachedAuthTokenManager.swift
 import Foundation
 
 @MainActor
 final class CachedAuthTokenManager {
     static let shared = CachedAuthTokenManager()
 
-    private let keychain = KeychainService()
     private let userDefaults = UserDefaults.standard
     private let keychainPrefix = "driveai.auth.token"
     private let cachedUserKey = "driveai.auth.cachedUser"
+
+    private init() {}
 
     // MARK: - Caching
 
@@ -22,12 +22,8 @@ final class CachedAuthTokenManager {
 
         userDefaults.set(userData, forKey: cachedUserKey)
 
-        // Store token in Keychain for security
         if let token = token {
-            try keychain.store(
-                token,
-                for: "\(keychainPrefix).\(uid)"
-            )
+            try storeInKeychain(token, for: "\(keychainPrefix).\(uid)")
         }
     }
 
@@ -50,12 +46,87 @@ final class CachedAuthTokenManager {
 
     func clearCache() {
         userDefaults.removeObject(forKey: cachedUserKey)
-        // Clear all tokens from Keychain
-        try? keychain.deleteAll(prefix: keychainPrefix)
+        deleteAllFromKeychain(prefix: keychainPrefix)
     }
 
     func retrieveCachedToken(uid: String) -> String? {
-        return try? keychain.retrieve(for: "\(keychainPrefix).\(uid)")
+        return try? retrieveFromKeychain(for: "\(keychainPrefix).\(uid)")
+    }
+
+    // MARK: - Keychain Helpers
+
+    private func storeInKeychain(_ value: String, for key: String) throws {
+        guard let data = value.data(using: .utf8) else {
+            throw KeychainHelperError.encodingError
+        }
+
+        let query: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key,
+            kSecValueData: data
+        ]
+
+        SecItemDelete(query as CFDictionary)
+
+        let status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else {
+            throw KeychainHelperError.unhandledError(status)
+        }
+    }
+
+    private func retrieveFromKeychain(for key: String) throws -> String {
+        let query: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key,
+            kSecReturnData: kCFBooleanTrue as Any,
+            kSecMatchLimit: kSecMatchLimitOne
+        ]
+
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+
+        guard status == errSecSuccess else {
+            throw KeychainHelperError.itemNotFound
+        }
+
+        guard let data = item as? Data,
+              let value = String(data: data, encoding: .utf8) else {
+            throw KeychainHelperError.unexpectedData
+        }
+
+        return value
+    }
+
+    private func deleteAllFromKeychain(prefix: String) {
+        let query: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword
+        ]
+
+        let searchQuery: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecReturnAttributes: kCFBooleanTrue as Any,
+            kSecReturnData: kCFBooleanFalse as Any,
+            kSecMatchLimit: kSecMatchLimitAll
+        ]
+
+        var result: CFTypeRef?
+        let status = SecItemCopyMatching(searchQuery as CFDictionary, &result)
+
+        guard status == errSecSuccess,
+              let items = result as? [[CFString: Any]] else { return }
+
+        for item in items {
+            guard let account = item[kSecAttrAccount] as? String,
+                  account.hasPrefix(prefix) else { continue }
+
+            let deleteQuery: [CFString: Any] = [
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrAccount: account
+            ]
+            SecItemDelete(deleteQuery as CFDictionary)
+        }
+
+        _ = query
     }
 }
 
@@ -67,7 +138,6 @@ private struct CachedUser: Codable {
     let displayName: String?
 }
 
-/// Minimal user representation for offline/cached use (replaces FirebaseAuth.User)
 struct CachedAuthUser {
     let uid: String
     let email: String?
@@ -80,92 +150,9 @@ struct CachedAuthUser {
     }
 }
 
-// MARK: - KeychainService stub (if not already defined elsewhere)
-
-final class KeychainService {
-    enum KeychainError: Error {
-        case itemNotFound
-        case unexpectedData
-        case unhandledError(OSStatus)
-        case encodingError
-    }
-
-    func store(_ value: String, for key: String) throws {
-        guard let data = value.data(using: .utf8) else { throw KeychainError.encodingError }
-
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key,
-            kSecValueData as String: data
-        ]
-
-        // Delete existing item first
-        SecItemDelete(query as CFDictionary)
-
-        let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else {
-            throw KeychainError.unhandledError(status)
-        }
-    }
-
-    func retrieve(for key: String) throws -> String {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key,
-            kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne
-        ]
-
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
-
-        guard status == errSecSuccess else {
-            throw KeychainError.itemNotFound
-        }
-
-        guard let data = item as? Data,
-              let value = String(data: data, encoding: .utf8) else {
-            throw KeychainError.unexpectedData
-        }
-
-        return value
-    }
-
-    func delete(for key: String) throws {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key
-        ]
-
-        let status = SecItemDelete(query as CFDictionary)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            throw KeychainError.unhandledError(status)
-        }
-    }
-
-    func deleteAll(prefix: String) throws {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword
-        ]
-
-        var result: CFTypeRef?
-        let fetchQuery: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecReturnAttributes as String: true,
-            kSecMatchLimit as String: kSecMatchLimitAll
-        ]
-
-        let status = SecItemCopyMatching(fetchQuery as CFDictionary, &result)
-        guard status == errSecSuccess, let items = result as? [[String: Any]] else { return }
-
-        for item in items {
-            if let account = item[kSecAttrAccount as String] as? String,
-               account.hasPrefix(prefix) {
-                try? delete(for: account)
-            }
-        }
-
-        // Fallback: delete by class if no prefix matches found
-        _ = query
-    }
+private enum KeychainHelperError: Error {
+    case itemNotFound
+    case unexpectedData
+    case unhandledError(OSStatus)
+    case encodingError
 }

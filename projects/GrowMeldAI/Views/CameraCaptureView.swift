@@ -1,10 +1,9 @@
-// Views/CameraCaptureView.swift
 import SwiftUI
 import AVFoundation
+import UIKit
 
 struct CameraCaptureView: UIViewControllerRepresentable {
     @Binding var image: UIImage?
-    @State private var isShowingImagePicker = false
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
@@ -26,8 +25,8 @@ struct CameraCaptureView: UIViewControllerRepresentable {
             self.parent = parent
         }
 
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let uiImage = info[.originalImage] as? UIImage {
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            if let uiImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 parent.image = uiImage
             }
             picker.dismiss(animated: true)

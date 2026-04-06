@@ -1,17 +1,22 @@
-// Models/CachedIdentification.swift
 import Foundation
 
 struct CachedIdentification: Codable {
     let imageHash: String
-    let result: IdentificationResult
-    let source: CacheSource
+    let result: PlantIdentificationResult
+    let source: IdentificationCacheSource
     let cachedAt: Date
     let expiresAt: Date
 
     var isExpired: Bool { Date() > expiresAt }
 }
 
-enum CacheSource: String, Codable {
+struct PlantIdentificationResult: Codable {
+    let plantName: String
+    let confidence: Double
+    let description: String
+}
+
+enum IdentificationCacheSource: String, Codable {
     case api
     case offline
 }

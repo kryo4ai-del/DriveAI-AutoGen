@@ -1,14 +1,25 @@
-// Services/CameraDataManager.swift
-   @MainActor
-   final class CameraDataManager {
-       func deleteCameraDataForUser(_ userID: String) async throws {
-           // Delete all stored images
-           try FileManager.default.removeItem(atPath: imageDirectory)
-           
-           // Delete processing logs
-           try CoreData.deleteAll(predicate: NSPredicate(format: "userId == %@", userID))
-           
-           // Delete from third-party services
-           try await cloudProvider.deleteCameraData(userID: userID)
-       }
-   }
+import Foundation
+
+@MainActor
+final class CameraDataManager {
+    private let imageDirectoryName = "CameraImages"
+
+    private var imageDirectoryURL: URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return docs.appendingPathComponent(imageDirectoryName)
+    }
+
+    func deleteCameraDataForUser(_ userID: String) async throws {
+        let fm = FileManager.default
+        let userDir = imageDirectoryURL.appendingPathComponent(userID)
+        if fm.fileExists(atPath: userDir.path) {
+            try fm.removeItem(at: userDir)
+        }
+        deleteProcessingLogs(for: userID)
+    }
+
+    private func deleteProcessingLogs(for userID: String) {
+        let key = "processingLogs_\(userID)"
+        UserDefaults.standard.removeObject(forKey: key)
+    }
+}

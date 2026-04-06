@@ -1,16 +1,14 @@
 import Foundation
 
-// PREFER: Protocol-based weak references
 protocol CameraDelegate: AnyObject {
     func cameraDidFinish()
 }
 
-// PREFER: Weak capture in ViewModels
 @MainActor
-class CameraViewModel {
+class CameraViewModel_Camera {
     weak var delegate: CameraDelegate?
 
-    var imageProcessor: ImageProcessor?
+    var imageProcessor: ImageProcessor_Camera?
 
     func processImage() {
         imageProcessor?.onComplete = { [weak self] in
@@ -18,11 +16,9 @@ class CameraViewModel {
         }
     }
 
-    func updateUI() {
-        // Update UI
-    }
+    func updateUI() {}
 }
 
-class ImageProcessor {
+class ImageProcessor_Camera {
     var onComplete: (() -> Void)?
 }

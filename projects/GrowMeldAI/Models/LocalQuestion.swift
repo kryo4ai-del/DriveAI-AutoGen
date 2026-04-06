@@ -1,15 +1,24 @@
+import Foundation
+
 struct LocalQuestion: Codable {
     let id: String
     let question: String
     let answers: [String]
     let correctIndex: Int
-    let explanation: String  // Official DACH content
+    let explanation: String
     let category: String
-    let difficulty: Int      // 1-5
-    
-    // Lightweight metadata for offline search
+    let difficulty: Int
     let keywords: [String]
 }
 
-// Stored as JSON bundle: ~4MB for ~1400 DACH questions
-let questions = Bundle.main.decode([LocalQuestion].self, from: "question_catalog.json")
+extension Bundle {
+    func decode<T: Decodable>(_ type: T.Type, from filename: String) -> T? {
+        guard let url = self.url(forResource: filename, withExtension: nil) ?? self.url(forResource: (filename as NSString).deletingPathExtension, withExtension: (filename as NSString).pathExtension) else {
+            return nil
+        }
+        guard let data = try? Data(contentsOf: url) else {
+            return nil
+        }
+        return try? JSONDecoder().decode(T.self, from: data)
+    }
+}

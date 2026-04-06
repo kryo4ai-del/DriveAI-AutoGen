@@ -1,154 +1,161 @@
-// ViewModels/CameraAccess/CameraAccessViewModel.swift
-
+import Foundation
 import SwiftUI
 import Combine
-import os.log
+import os
 
 @MainActor
 final class CameraAccessViewModel: ObservableObject {
     // MARK: - Published Properties
-    
+
     @Published var showPermissionRequest = true
     @Published var hasPermission = false
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var showRestrictedAlert = false
     @Published var showTimeoutAlert = false
-    
+
     // MARK: - Private Properties
-    
+
     private let cameraManager: CameraAccessManagerProtocol
-    private let logger = Logger(subsystem: "com.driveai.camera", category: "CameraAccessViewModel")
-    private let permissionTimeout: TimeInterval = 10 // seconds
+    private let logger = OSLog(subsystem: "com.driveai.camera", category: "CameraAccessViewModel")
+    private let permissionTimeout: TimeInterval = 10
     private var cancellables: Set<AnyCancellable> = []
-    
+
     // MARK: - Initialization
-    
+
     init(cameraManager: CameraAccessManagerProtocol) {
         self.cameraManager = cameraManager
         setupInitialState()
     }
-    
+
     // MARK: - Public Methods
-    
+
     func checkExistingPermission() async {
         let state = await cameraManager.checkPermission()
         updateUIState(for: state)
     }
-    
+
     func requestCameraPermission() async {
-        // Prevent concurrent requests
         guard !isLoading else { return }
-        
+
         isLoading = true
         errorMessage = nil
-        
+
         do {
             let state = try await withTimeout(
                 timeInterval: permissionTimeout,
                 operation: { await self.cameraManager.requestPermission() }
             )
-            
             updateUIState(for: state)
         } catch is TimeoutError {
             handleTimeout()
         } catch {
-            logger.error("Unexpected error requesting permission: \(error)")
+            os_log("Unexpected error requesting permission: %@", log: logger, type: .error, error.localizedDescription)
             errorMessage = LocalizedString.cameraAccessError
         }
-        
+
         isLoading = false
     }
-    
+
     func skipPermission() {
         showPermissionRequest = false
-        logger.debug("User skipped camera permission")
+        os_log("User skipped camera permission", log: logger, type: .debug)
     }
-    
+
     func openSettings() -> URL? {
         guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
             return nil
         }
-        
+
         if UIApplication.shared.canOpenURL(settingsURL) {
             UIApplication.shared.open(settingsURL)
-            logger.debug("Opened system settings")
+            os_log("Opened system settings", log: logger, type: .debug)
         }
-        
+
         return settingsURL
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func setupInitialState() {
         Task {
             await checkExistingPermission()
         }
     }
-    
+
     private func updateUIState(for state: PermissionState) {
         switch state {
-        case .authorized:
+        case .granted:
             hasPermission = true
             showPermissionRequest = false
             errorMessage = nil
-            
+
         case .denied:
             hasPermission = false
             errorMessage = LocalizedString.cameraAccessDenied
-            logger.warning("User denied camera permission")
-            
+            os_log("User denied camera permission", log: logger, type: .default)
+
         case .restricted:
             showRestrictedAlert = true
             hasPermission = false
-            logger.warning("Camera access restricted by device policy")
-            
-        case .notAvailable, .notDetermined:
+            os_log("Camera access restricted by device policy", log: logger, type: .default)
+
+        case .undetermined:
             hasPermission = false
         }
     }
-    
+
     private func handleTimeout() {
         showTimeoutAlert = true
         errorMessage = LocalizedString.cameraAccessTimeout
-        logger.error("Camera permission request timed out")
+        os_log("Camera permission request timed out", log: logger, type: .error)
     }
-    
+
     // MARK: - Timeout Helper
-    
+
     private func withTimeout<T>(
         timeInterval: TimeInterval,
         operation: @escaping () async -> T
     ) async throws -> T {
         try await withThrowingTaskGroup(of: T.self) { group in
-            let timeoutTask = group.addTaskUnlessCancelled {
-                try await Task.sleep(nanoseconds: UInt64(timeInterval * 1_000_000_000))
+            group.addTask {
+                try await Task.sleep(nanoseconds: Swift.UInt64(timeInterval * 1_000_000_000))
                 throw TimeoutError()
             }
-            
-            let operationTask = group.addTaskUnlessCancelled {
+
+            group.addTask {
                 await operation()
             }
-            
-            if let result = try await group.next() {
+
+            guard let result = try await group.next() else {
                 group.cancelAll()
-                return result
+                throw TimeoutError()
             }
-            
-            throw TimeoutError()
+
+            group.cancelAll()
+            return result
         }
     }
 }
 
-// MARK: - Custom Error
+// MARK: - Supporting Types
 
-// MARK: - Localization Constants
+struct TimeoutError: Error {}
+
+enum PermissionState {
+    case granted
+    case denied
+    case restricted
+    case undetermined
+}
+
+protocol CameraAccessManagerProtocol {
+    func checkPermission() async -> PermissionState
+    func requestPermission() async -> PermissionState
+}
 
 enum LocalizedString {
-    static let cameraAccessDenied = String(localized: "camera_access_denied", 
-                                          defaultValue: "Kamerazugriff verweigert")
-    static let cameraAccessTimeout = String(localized: "camera_access_timeout", 
-                                           defaultValue: "Anfrage hat zu lange gedauert")
-    static let cameraAccessError = String(localized: "camera_access_error", 
-                                         defaultValue: "Fehler beim Kamerazugriff")
+    static let cameraAccessError = "Ein Fehler ist aufgetreten. Bitte versuche es erneut."
+    static let cameraAccessDenied = "Kamerazugriff wurde verweigert. Bitte aktiviere ihn in den Einstellungen."
+    static let cameraAccessTimeout = "Die Anfrage hat zu lange gedauert. Bitte versuche es erneut."
 }
