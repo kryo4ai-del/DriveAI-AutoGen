@@ -1,3 +1,4 @@
+import SwiftUI
 // MARK: - Presentation/Common/Components/CategoryStrengthCard.swift
 
 struct CategoryStrengthCard: View {

@@ -390,7 +390,6 @@
 		23D391B10641C10521D0A684 /* DataServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDF54F3CEFEE1AF45D195B /* DataServiceType.swift */; };
 		23DF8B6B64EF4C84E9729973 /* FocusField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADFB132118B4C8D2192453 /* FocusField.swift */; };
 		23FF9B018EB96D0A35B47C4A /* MaintenanceScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD02CFD424BCCA8261434A08 /* MaintenanceScheduleView.swift */; };
-		240017AB8F90E0E919A587B7 /* CircuitBreaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE6A67BB50FCC0116C100C5 /* CircuitBreaker.swift */; };
 		242084BA9AE6C560DD5A98CE /* Recommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA7757F17E21FACA781AB5E /* Recommendation.swift */; };
 		242378D31B6488C85F1A6DDB /* ReviewSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0315760CB231BB5D4D29C99F /* ReviewSchedule.swift */; };
 		2436D8A1C1B2F0203EAC6ED9 /* ErrorCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2EAFD02F965184BF26E5C /* ErrorCategory.swift */; };
@@ -4779,7 +4778,6 @@
 		DEA708556E2E073AD6578D41 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		DEABB1A4FFF2F64B6FF0D1A0 /* OfflineModeBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineModeBanner.swift; sourceTree = "<group>"; };
 		DED2EE07791FE69553FDCFFB /* DataExportPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExportPayload.swift; sourceTree = "<group>"; };
-		DEE6A67BB50FCC0116C100C5 /* CircuitBreaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircuitBreaker.swift; sourceTree = "<group>"; };
 		DEFF6C0B5E598BABD97CB28E /* TrialJourney.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialJourney.swift; sourceTree = "<group>"; };
 		DF0F9E67CA835B4CA81ED50D /* SQLITE_INTEGER.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLITE_INTEGER.swift; sourceTree = "<group>"; };
 		DF22CA14CBEA0579528D9C20 /* SyncQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncQueueManager.swift; sourceTree = "<group>"; };
@@ -6129,7 +6127,6 @@
 				E668D981FBCB767AC6603A6E /* CheckSeverity.swift */,
 				8DC65D1C06B376A5DE7C2C21 /* CheckType.swift */,
 				6A2977CED3DD1D3EDB8487E5 /* CIImage.swift */,
-				DEE6A67BB50FCC0116C100C5 /* CircuitBreaker.swift */,
 				314B5B1B3E4E8F93B7AE5C62 /* CircularBuffer.swift */,
 				D0F70D64A54554E81B7E1C3E /* CLAuthorizationStatus.swift */,
 				9E6745CC7E7E984EC66ADC5E /* CLAuthorizationStatus+Extension.swift */,
@@ -8175,7 +8172,6 @@
 				DB8FA475EA414C4F6F0DF55D /* CheckType.swift in Sources */,
 				5DD2899BF25FEC19B0503342 /* CheckedContinuation.swift in Sources */,
 				A6DCD3080FF7DE6304DBB56A /* CheckoutStep.swift in Sources */,
-				240017AB8F90E0E919A587B7 /* CircuitBreaker.swift in Sources */,
 				3C5F1801446009A3C0826F6D /* CircularBuffer.swift in Sources */,
 				4CC2CD3898B942CADD9B0B2B /* CircularProgressView.swift in Sources */,
 				19E46744B3CE073358BCB1DC /* CloudDataError.swift in Sources */,
