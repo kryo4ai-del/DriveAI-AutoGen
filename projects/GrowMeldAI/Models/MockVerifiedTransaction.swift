@@ -1,4 +1,5 @@
-// Use StoreKit 2 proper verification model
+import Foundation
+
 class MockVerifiedTransaction {
     let id: UInt64
     let productID: String
@@ -6,11 +7,11 @@ class MockVerifiedTransaction {
     let expirationDate: Date?
     let revocationDate: Date?
     var isRevoked: Bool { revocationDate != nil }
-    
+
     init(
-        id: UInt64 = UInt64.random(in: 1...UInt64.max),
+        id: UInt64 = UInt64.random(in: 1 ... UInt64.max),
         productID: String,
-        purchaseDate: Date = .now,
+        purchaseDate: Date = Date(),
         expirationDate: Date? = nil,
         revocationDate: Date? = nil
     ) {
@@ -20,14 +21,4 @@ class MockVerifiedTransaction {
         self.expirationDate = expirationDate
         self.revocationDate = revocationDate
     }
-}
-
-// Tests now verify real scenarios:
-func test_purchase_handleRefundedTransaction_marksAsInvalid() async throws {
-    let refundedTx = MockVerifiedTransaction(
-        productID: "test",
-        revocationDate: Date().addingTimeInterval(-3600) // Refunded 1hr ago
-    )
-    XCTAssertTrue(refundedTx.isRevoked)
-    // Verify app removes feature
 }

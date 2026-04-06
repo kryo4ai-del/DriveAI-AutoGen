@@ -1,30 +1,64 @@
-// MARK: - Tests/Mocks/MockProductBuilder.swift
-
-import StoreKit
 import Foundation
 
-/// Builds realistic Product mocks for testing
-class MockProductBuilder {
-  static func monthly() -> Product {
-    // In real tests, use StoreKitTest framework (iOS 17.2+)
-    // or mock at the StoreKit2 boundary, not Product itself
-    fatalError("Use StoreKitTest environment or mock IAPService directly")
-  }
-  
-  // Better approach: Mock IAPService, not Product
-  static func mockServiceWithProducts(_ products: [IAPProduct]) -> IAPService {
-    let service = IAPService(storeKit: MockStoreKitWrapper(products: products))
-    return service
-  }
+// MARK: - IAPProduct
+
+struct IAPProduct {
+    let productID: String
+    let localizedTitle: String
+    let localizedDescription: String
+    let price: Decimal
+    let localizedPriceString: String
 }
 
-/// Wrapper that returns mock data without constructing real Product objects
+// MARK: - StoreKitProtocol
+
+protocol StoreKitProtocol {
+    func loadProducts(ids: [String]) async throws -> [IAPProduct]
+}
+
+// MARK: - IAPService
+
+class IAPService {
+    private let storeKit: StoreKitProtocol
+
+    init(storeKit: StoreKitProtocol) {
+        self.storeKit = storeKit
+    }
+
+    func fetchProducts(ids: [String]) async throws -> [IAPProduct] {
+        return try await storeKit.loadProducts(ids: ids)
+    }
+}
+
+// MARK: - MockStoreKitWrapper
+
 class MockStoreKitWrapper: StoreKitProtocol {
-  let mockProducts: [IAPProduct]
-  
-  func loadProducts(ids: [String]) async throws -> [IAPProduct] {
-    return mockProducts.filter { ids.contains($0.id) }
-  }
+    let mockProducts: [IAPProduct]
+
+    init(products: [IAPProduct]) {
+        self.mockProducts = products
+    }
+
+    func loadProducts(ids: [String]) async throws -> [IAPProduct] {
+        return mockProducts.filter { ids.contains($0.productID) }
+    }
 }
 
-/// Your own Product model (not StoreKit's)
+// MARK: - MockProductBuilder
+
+class MockProductBuilder {
+    static func monthly() -> IAPProduct {
+        return IAPProduct(
+            productID: "com.growmeldai.subscription.monthly",
+            localizedTitle: "Monthly Subscription",
+            localizedDescription: "Full access for one month.",
+            price: 9.99,
+            localizedPriceString: "$9.99"
+        )
+    }
+
+    static func mockServiceWithProducts(_ products: [IAPProduct]) -> IAPService {
+        let wrapper = MockStoreKitWrapper(products: products)
+        return IAPService(storeKit: wrapper)
+    }
+}

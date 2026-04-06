@@ -1,8 +1,53 @@
-// QuestionDatabaseService+Mock.swift
 import Foundation
 
-extension QuestionDatabaseService {
-    /// Mock implementation for testing and previews
+protocol QuestionDatabaseServiceProtocol {
+    func loadQuestions() async throws -> [Question]
+    func saveQuestions(_ questions: [Question]) async throws
+    func getQuestionCount() async throws -> Int
+    func getQuestion(byId id: String) async throws -> Question?
+    func resetDatabase() async throws
+}
+
+struct Question: Identifiable, Codable {
+    let id: String
+    let text: String
+    let answers: [String]
+    let correctAnswerIndex: Int
+    let category: String
+    let explanation: String
+    let imageName: String?
+    let difficulty: Difficulty
+
+    enum Difficulty: String, Codable {
+        case easy
+        case medium
+        case hard
+    }
+}
+
+final class QuestionDatabaseService: QuestionDatabaseServiceProtocol {
+    private var questions: [Question] = []
+
+    func loadQuestions() async throws -> [Question] {
+        return questions
+    }
+
+    func saveQuestions(_ questions: [Question]) async throws {
+        self.questions = questions
+    }
+
+    func getQuestionCount() async throws -> Int {
+        return questions.count
+    }
+
+    func getQuestion(byId id: String) async throws -> Question? {
+        return questions.first { $0.id == id }
+    }
+
+    func resetDatabase() async throws {
+        questions = []
+    }
+
     static func mock() -> QuestionDatabaseServiceProtocol {
         let mockQuestions = [
             Question(
@@ -26,7 +71,6 @@ extension QuestionDatabaseService {
                 difficulty: .medium
             )
         ]
-
         return MockQuestionDatabaseService(mockQuestions: mockQuestions)
     }
 }
@@ -39,7 +83,7 @@ private final class MockQuestionDatabaseService: QuestionDatabaseServiceProtocol
     }
 
     func loadQuestions() async throws -> [Question] {
-        mockQuestions
+        return mockQuestions
     }
 
     func saveQuestions(_ questions: [Question]) async throws {
@@ -47,11 +91,11 @@ private final class MockQuestionDatabaseService: QuestionDatabaseServiceProtocol
     }
 
     func getQuestionCount() async throws -> Int {
-        mockQuestions.count
+        return mockQuestions.count
     }
 
     func getQuestion(byId id: String) async throws -> Question? {
-        mockQuestions.first { $0.id == id }
+        return mockQuestions.first { $0.id == id }
     }
 
     func resetDatabase() async throws {
