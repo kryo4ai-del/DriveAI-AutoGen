@@ -264,9 +264,6 @@ func runTests() async {
 }
 
 // Entry point
-@main
-struct Main {
-    static func main() async {
-        await runTests()
-    }
+Task {
+    await runTests()
 }
