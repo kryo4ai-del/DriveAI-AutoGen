@@ -1,0 +1,13 @@
+// ReminderModel.swift
+// Auto-generated stub — type was referenced but never declared.
+// Referenced in:
+//   - Models/RemindersPersistenceProtocol.swift
+//   - Models/RemindersServiceProtocol.swift
+//
+// TODO: Replace this stub with a full implementation.
+
+import Foundation
+
+struct ReminderModel: Sendable {
+    // Add properties
+}

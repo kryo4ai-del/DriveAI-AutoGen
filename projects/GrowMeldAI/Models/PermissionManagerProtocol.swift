@@ -1,0 +1,1 @@
+protocol PermissionManagerProtocol: Sendable { }
