@@ -1870,7 +1870,6 @@
 		B1DE9EB3C8B4B2BC9C8A7368 /* ASAView_Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B676D97BBA00AAA5B374D8D1 /* ASAView_Previews.swift */; };
 		B1FC982B84752301D1706E47 /* ExamConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5147FB6D18FDF70E04FE4C1F /* ExamConstants.swift */; };
 		B207888C4FC77C7543D1636E /* OnboardingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFC09959A0429B1A29E5746 /* OnboardingError.swift */; };
-		B208827446BBE9B1EBB99707 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727F172643E6390CD942C20 /* AppCoordinator.swift */; };
 		B230735C9E4AE782100DA963 /* FirestoreQuestionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14B29CFE7142AFC1A47BB38 /* FirestoreQuestionRepository.swift */; };
 		B23B88F184C07D111CEACE3A /* AdaptiveTrialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024DB5F7BC1E0F9BAE1DF191 /* AdaptiveTrialService.swift */; };
 		B23E977EB43A8613D04EA29C /* GrowthDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C47BA21DE69F2DBD27FC3 /* GrowthDashboardView.swift */; };
@@ -2829,7 +2828,6 @@
 		16CC70D618160D906F1B26DE /* UserProgressMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgressMetrics.swift; sourceTree = "<group>"; };
 		16D97A26B353CE21F5E7C7E8 /* OnboardingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingState.swift; sourceTree = "<group>"; };
 		171F16D6E0A3EE40272856D3 /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
-		1727F172643E6390CD942C20 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		172AC9311B7ACF37A1596B62 /* AsyncResult+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsyncResult+Extension.swift"; sourceTree = "<group>"; };
 		173F9EEABC8199BB5250096A /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1741A1DD42CDAAB47CB81D97 /* ExamReadinessWeights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamReadinessWeights.swift; sourceTree = "<group>"; };
@@ -6075,7 +6073,6 @@
 				3223A779B685B191E94E84E8 /* AppConsentManager.swift */,
 				C1C44CF7C398185360D6D006 /* AppConstants.swift */,
 				6BF700A6572CED54C6FF07E9 /* AppContainer.swift */,
-				1727F172643E6390CD942C20 /* AppCoordinator.swift */,
 				50A7A74C9E7D0363EA877D76 /* AppCoordinator+Extension.swift */,
 				7776D1479F5D2741D5F90AB6 /* AppDelegate.swift */,
 				691028E325F58317200EFC4A /* AppDependencies.swift */,
@@ -8110,7 +8107,6 @@
 				90BBD3867A6A9E6A49F43284 /* AppConstants.swift in Sources */,
 				9E358BE10026F889659BD929 /* AppContainer.swift in Sources */,
 				8E7769F951AD9CC316563648 /* AppCoordinator+Extension.swift in Sources */,
-				B208827446BBE9B1EBB99707 /* AppCoordinator.swift in Sources */,
 				DB1C1A077F46983254CF9252 /* AppCoordinatorViewModel.swift in Sources */,
 				B41498A0367120A071AB10DA /* AppDataService.swift in Sources */,
 				2D5F7CA5227B521CB811A508 /* AppDelegate.swift in Sources */,
