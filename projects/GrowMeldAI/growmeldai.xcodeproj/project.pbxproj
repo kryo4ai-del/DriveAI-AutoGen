@@ -1710,7 +1710,6 @@
 		A502908DCC528BD6A47A1AA2 /* NWInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C54C35B5C39C670E9B312A5 /* NWInterface.swift */; };
 		A50EC6FF1F81672A68797D47 /* PurchaseConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB90E5EB583AD05D9902123 /* PurchaseConfirmationView.swift */; };
 		A55222D7BE4B8C9C645E1A6D /* StudySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC284818C1562C8D8C98898 /* StudySession.swift */; };
-		A5885DF23659727473D917BD /* CameraPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3569EFBB27A3783E83DEE5F /* CameraPermissionManager.swift */; };
 		A5927319F0B7A42AF3944448 /* AuthUser+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B8B7D91E0BDDA9DBD98156 /* AuthUser+Extension.swift */; };
 		A594C029FFC79F37207B48F7 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66DE9D18973C8646973D2C9 /* DayOfWeek.swift */; };
 		A596B904FFDAF539C9255C92 /* DiagnosticViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203C28A85CCF8C7C372717CD /* DiagnosticViewModelFactory.swift */; };
@@ -4823,7 +4822,6 @@
 		E2FB691EE37BC8D3D864A19C /* FamilyMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyMember.swift; sourceTree = "<group>"; };
 		E3150D61F6A0F3F181688CDB /* SignRecognitionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignRecognitionResultView.swift; sourceTree = "<group>"; };
 		E3311DA1EA4F6F4AA3C55BC7 /* ProgressPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPersistence.swift; sourceTree = "<group>"; };
-		E3569EFBB27A3783E83DEE5F /* CameraPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionManager.swift; sourceTree = "<group>"; };
 		E35F40A5FCC88E66440C9CBF /* AIStatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIStatusBadge.swift; sourceTree = "<group>"; };
 		E388234F464A4063F15EDC3F /* ParentalConsentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentalConsentState.swift; sourceTree = "<group>"; };
 		E3B010E453BEF75E1D466CDE /* Crashlytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crashlytics.swift; sourceTree = "<group>"; };
@@ -6060,7 +6058,6 @@
 				D2B9D75EE0F21FA035B2286D /* CameraPerformanceMonitor.swift */,
 				B8CB475A539401A1089B80BB /* CameraPermissionContainer.swift */,
 				48AD77202F6B83B434461B32 /* CameraPermissionDeniedCard.swift */,
-				E3569EFBB27A3783E83DEE5F /* CameraPermissionManager.swift */,
 				E8B58AC6035F46CC1D275119 /* CameraPermissionManagerFactory.swift */,
 				454F7C00E3DA42F432C05B8C /* CameraPermissionManagerProtocol.swift */,
 				1226AFAB6FEF8EF87A003B58 /* CameraPermissionPrompt.swift */,
@@ -8089,7 +8086,6 @@
 				BD39084E680348798AA4912D /* CameraPerformanceMonitor.swift in Sources */,
 				00B565820189D2D3010F332D /* CameraPermissionContainer.swift in Sources */,
 				4635A7C5BDACC79E6DD0A540 /* CameraPermissionDeniedCard.swift in Sources */,
-				A5885DF23659727473D917BD /* CameraPermissionManager.swift in Sources */,
 				A3A67083DF039142AC72F30D /* CameraPermissionManagerFactory.swift in Sources */,
 				035C4F7CC0B84972CC37ADD1 /* CameraPermissionManagerProtocol.swift in Sources */,
 				B8167BCE9BE609980F9E6B2C /* CameraPermissionPrompt.swift in Sources */,

@@ -1,10 +1,14 @@
-// ✅ FIXED
+import Foundation
+import Observation
 
-// Usage:
 @Observable
 final class UserProgressViewModel {
     private let dataService: LocalDataService
     var progress: Progress?
+    
+    init(dataService: LocalDataService) {
+        self.dataService = dataService
+    }
     
     func loadProgress() async {
         do {
@@ -13,4 +17,8 @@ final class UserProgressViewModel {
             // Handle error gracefully
         }
     }
+}
+
+protocol LocalDataService {
+    func loadProgress() async throws -> Progress
 }
