@@ -1,3 +1,5 @@
+import SwiftUI
+
 struct NavigationButtonsView: View {
     let onNext: () -> Void
     let isAnswered: Bool
