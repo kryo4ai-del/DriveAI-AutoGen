@@ -10,15 +10,11 @@ final class AppEnvironment: ObservableObject {
     let localDataService: LocalDataService
     let analyticsService: AnalyticsService
 
+    @MainActor
     init() {
-        let dataSource = TrialLocalDataSource()
         let analytics = AnalyticsService()
-        let quota = QuotaManager(dataSource: dataSource)
-        let trial = TrialService(
-            dataSource: dataSource,
-            quotaManager: quota,
-            analytics: analytics
-        )
+        let quota = QuotaManager()
+        let trial = TrialService()
         let local = LocalDataService()
 
         self.analyticsService = analytics

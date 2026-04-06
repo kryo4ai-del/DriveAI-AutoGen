@@ -1,88 +1,10 @@
 import Foundation
 import SwiftUI
 
-// MARK: - ExamResult
-
-struct GrowMeldExamResult: Hashable, Codable {
-    let id: UUID
-    let score: Int
-    let totalQuestions: Int
-    let passed: Bool
-    let date: Date
-    let subject: String
-
-    init(
-        id: UUID = UUID(),
-        score: Int,
-        totalQuestions: Int,
-        passed: Bool,
-        date: Date = Date(),
-        subject: String = ""
-    ) {
-        self.id = id
-        self.score = score
-        self.totalQuestions = totalQuestions
-        self.passed = passed
-        self.date = date
-        self.subject = subject
-    }
-
-    var percentageScore: Double {
-        guard totalQuestions > 0 else { return 0 }
-        return Double(score) / Double(totalQuestions) * 100
-    }
-}
-
-// MARK: - AppRoute
-
-enum GrowMeldAppRoute: Hashable {
-    case home
-    case exam
-    case examResult(GrowMeldExamResult)
-    case settings
-    case progress
-    case onboarding
-}
-
-// MARK: - AppCoordinator
+// MARK: - AppCoordinator Extension
 
 @MainActor
-final class AppCoordinator: ObservableObject {
-
-    // MARK: - Published State
-
-    @Published var navigationPath: [GrowMeldAppRoute] = []
-    @Published var currentRoute: GrowMeldAppRoute = .home
-    @Published var isPresenting: Bool = false
-    @Published var presentedRoute: GrowMeldAppRoute? = nil
-
-    // MARK: - Navigation
-
-    func navigate(to route: GrowMeldAppRoute) {
-        navigationPath.append(route)
-        currentRoute = route
-    }
-
-    func navigateBack() {
-        guard !navigationPath.isEmpty else { return }
-        navigationPath.removeLast()
-        currentRoute = navigationPath.last ?? .home
-    }
-
-    func navigateToRoot() {
-        navigationPath.removeAll()
-        currentRoute = .home
-    }
-
-    func present(_ route: GrowMeldAppRoute) {
-        presentedRoute = route
-        isPresenting = true
-    }
-
-    func dismissPresented() {
-        isPresenting = false
-        presentedRoute = nil
-    }
+extension AppCoordinator {
 
     // MARK: - Route Handling
 
@@ -116,13 +38,11 @@ final class AppCoordinator: ObservableObject {
         saveExamResults(results)
     }
 
-    // MARK: - Persistence (UserDefaults + Codable)
-
-    private static let examResultsKey = "com.growmeld.examResults"
+    // MARK: - Persistence
 
     func loadStoredExamResults() -> [GrowMeldExamResult] {
         guard
-            let data = UserDefaults.standard.data(forKey: Self.examResultsKey),
+            let data = UserDefaults.standard.data(forKey: AppCoordinator.examResultsKey),
             let results = try? JSONDecoder().decode([GrowMeldExamResult].self, from: data)
         else {
             return []
@@ -130,13 +50,13 @@ final class AppCoordinator: ObservableObject {
         return results
     }
 
-    private func saveExamResults(_ results: [GrowMeldExamResult]) {
+    func saveExamResults(_ results: [GrowMeldExamResult]) {
         guard let data = try? JSONEncoder().encode(results) else { return }
-        UserDefaults.standard.set(data, forKey: Self.examResultsKey)
+        UserDefaults.standard.set(data, forKey: AppCoordinator.examResultsKey)
     }
 
     func clearExamResults() {
-        UserDefaults.standard.removeObject(forKey: Self.examResultsKey)
+        UserDefaults.standard.removeObject(forKey: AppCoordinator.examResultsKey)
     }
 
     // MARK: - Deep Link Handling
@@ -159,5 +79,87 @@ final class AppCoordinator: ObservableObject {
         default:
             break
         }
+    }
+}
+
+// MARK: - GrowMeldExamResult
+
+struct GrowMeldExamResult: Hashable, Codable {
+    let id: UUID
+    let score: Int
+    let totalQuestions: Int
+    let passed: Bool
+    let date: Date
+    let subject: String
+
+    init(
+        id: UUID = UUID(),
+        score: Int,
+        totalQuestions: Int,
+        passed: Bool,
+        date: Date = Date(),
+        subject: String = ""
+    ) {
+        self.id = id
+        self.score = score
+        self.totalQuestions = totalQuestions
+        self.passed = passed
+        self.date = date
+        self.subject = subject
+    }
+
+    var percentageScore: Double {
+        guard totalQuestions > 0 else { return 0 }
+        return Double(score) / Double(totalQuestions) * 100
+    }
+}
+
+// MARK: - GrowMeldAppRoute
+
+enum GrowMeldAppRoute: Hashable {
+    case home
+    case exam
+    case examResult(GrowMeldExamResult)
+    case settings
+    case progress
+    case onboarding
+}
+
+// MARK: - AppCoordinator
+
+@MainActor
+final class AppCoordinator: ObservableObject {
+
+    static let examResultsKey = "com.growmeld.examResults"
+
+    @Published var navigationPath: [GrowMeldAppRoute] = []
+    @Published var currentRoute: GrowMeldAppRoute = .home
+    @Published var isPresenting: Bool = false
+    @Published var presentedRoute: GrowMeldAppRoute? = nil
+
+    func navigate(to route: GrowMeldAppRoute) {
+        navigationPath.append(route)
+        currentRoute = route
+    }
+
+    func navigateBack() {
+        guard !navigationPath.isEmpty else { return }
+        navigationPath.removeLast()
+        currentRoute = navigationPath.last ?? .home
+    }
+
+    func navigateToRoot() {
+        navigationPath.removeAll()
+        currentRoute = .home
+    }
+
+    func present(_ route: GrowMeldAppRoute) {
+        presentedRoute = route
+        isPresenting = true
+    }
+
+    func dismissPresented() {
+        isPresenting = false
+        presentedRoute = nil
     }
 }

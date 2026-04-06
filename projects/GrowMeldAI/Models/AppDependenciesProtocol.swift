@@ -25,6 +25,8 @@ protocol AppDependenciesProtocol: ObservableObject {
 final class AppLogger {
     static let shared = AppLogger()
 
+    private init() {}
+
     func log(_ message: String, level: LogLevel = .info) {
         #if DEBUG
         print("[\(level.prefix)] \(message)")
@@ -70,6 +72,7 @@ protocol OfflineQueueManagerProtocol: AnyObject {}
 
 final class FirebaseManager: ObservableObject {
     static let shared = FirebaseManager()
+    private init() {}
     var isConfigured: Bool = false
 }
 
@@ -84,7 +87,7 @@ final class AppDependenciesBox: ObservableObject {
 
 // MARK: - Environment Key
 
-struct AppDependenciesEnvironmentKey: EnvironmentKey {
+private struct AppDependenciesEnvironmentKey: EnvironmentKey {
     static let defaultValue: AppDependenciesBox? = nil
 }
 

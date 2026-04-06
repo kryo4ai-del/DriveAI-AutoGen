@@ -1,5 +1,14 @@
 import Foundation
 
+enum AppError: Error {
+    case fileNotFound
+    case jsonDecodingFailed
+    case persistenceFailed
+    case networkUnavailable
+    case dataValidationFailed
+    case unknownError
+}
+
 extension AppError {
     func recover() -> Bool {
         switch self {

@@ -1,5 +1,9 @@
 import Foundation
 
+struct ExamResult: Identifiable, Hashable {
+    let id: UUID
+}
+
 enum AppDestination: Hashable {
     case home
     case questionCategory(String)

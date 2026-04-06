@@ -6,5 +6,3 @@ enum AppNavigationDestination: Hashable {
     case examMode
     case examResults(score: Int, total: Int, passed: Bool)
 }
-
-typealias AppNavigationPath = AppNavigationDestination

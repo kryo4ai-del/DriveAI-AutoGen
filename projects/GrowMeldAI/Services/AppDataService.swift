@@ -3,24 +3,24 @@ import Combine
 
 // MARK: - Supporting Protocols
 
-protocol AppLocalDataService: AnyObject {
+protocol AppLocalDataService2: AnyObject {
     func fetchQuestions() -> [Any]
 }
 
-protocol AppProgressTracker: AnyObject {
+protocol AppProgressTracker2: AnyObject {
     func recordProgress(for questionId: Int, correct: Bool)
     func getProgress(for questionId: Int) -> Double
 }
 
 // MARK: - Default Implementations
 
-final class LocalDataServiceImpl: AppLocalDataService {
+final class LocalDataServiceImpl: AppLocalDataService2 {
     func fetchQuestions() -> [Any] {
         return []
     }
 }
 
-final class ProgressTrackerImpl: AppProgressTracker {
+final class ProgressTrackerImpl: AppProgressTracker2 {
     private var progressData: [Int: [Bool]] = [:]
 
     func recordProgress(for questionId: Int, correct: Bool) {
@@ -59,21 +59,21 @@ final class UserPreferences {
 // MARK: - AppDataService Protocol
 
 protocol AppDataService {
-    var questions: AppLocalDataService { get }
-    var progress: AppProgressTracker { get }
+    var questions: AppLocalDataService2 { get }
+    var progress: AppProgressTracker2 { get }
     var preferences: UserPreferences { get }
 }
 
 // MARK: - AppDataService Implementation
 
 final class AppDataServiceImpl: AppDataService {
-    let questions: AppLocalDataService
-    let progress: AppProgressTracker
+    let questions: AppLocalDataService2
+    let progress: AppProgressTracker2
     let preferences: UserPreferences
 
     init(
-        questions: AppLocalDataService = LocalDataServiceImpl(),
-        progress: AppProgressTracker = ProgressTrackerImpl(),
+        questions: AppLocalDataService2 = LocalDataServiceImpl(),
+        progress: AppProgressTracker2 = ProgressTrackerImpl(),
         preferences: UserPreferences = .shared
     ) {
         self.questions = questions

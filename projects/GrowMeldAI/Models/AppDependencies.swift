@@ -4,13 +4,13 @@ import Foundation
 
 struct AppDependencies {
     let dataService: any LocalDataServiceProtocol
-    let progressTracker: AppProgressTracker
-    let preferences: AppUserPreferences
+    let progressTracker: GrowMeldProgressTracker
+    let preferences: GrowMeldUserPreferences
 
     static func makeForApp() -> AppDependencies {
-        let prefs = AppUserPreferences.shared
-        let dataService = AppLocalDataService()
-        let tracker = AppProgressTracker()
+        let prefs = GrowMeldUserPreferences.shared
+        let dataService = GrowMeldLocalDataService()
+        let tracker = GrowMeldProgressTracker()
         return AppDependencies(
             dataService: dataService,
             progressTracker: tracker,
@@ -21,13 +21,13 @@ struct AppDependencies {
     #if DEBUG
     static func makeForTesting(
         dataService: (any LocalDataServiceProtocol)? = nil,
-        progressTracker: AppProgressTracker? = nil,
-        preferences: AppUserPreferences? = nil
+        progressTracker: GrowMeldProgressTracker? = nil,
+        preferences: GrowMeldUserPreferences? = nil
     ) -> AppDependencies {
         return AppDependencies(
-            dataService: dataService ?? MockDataService(),
-            progressTracker: progressTracker ?? AppProgressTracker(),
-            preferences: preferences ?? AppUserPreferences.shared
+            dataService: dataService ?? GrowMeldMockDataService(),
+            progressTracker: progressTracker ?? GrowMeldProgressTracker(),
+            preferences: preferences ?? GrowMeldUserPreferences.shared
         )
     }
     #endif
@@ -35,7 +35,7 @@ struct AppDependencies {
 
 // MARK: - Concrete Implementations
 
-final class AppLocalDataService: LocalDataServiceProtocol {
+final class GrowMeldLocalDataService: LocalDataServiceProtocol {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let userDefaults: UserDefaults
@@ -59,7 +59,7 @@ final class AppLocalDataService: LocalDataServiceProtocol {
     }
 }
 
-final class AppProgressTracker {
+final class GrowMeldProgressTracker {
     private(set) var currentProgress: Double = 0.0
 
     func updateProgress(_ value: Double) {
@@ -71,8 +71,8 @@ final class AppProgressTracker {
     }
 }
 
-final class AppUserPreferences {
-    static let shared = AppUserPreferences()
+final class GrowMeldUserPreferences {
+    static let shared = GrowMeldUserPreferences()
 
     private let defaults: UserDefaults
 
@@ -102,10 +102,16 @@ final class AppUserPreferences {
     }
 }
 
+// MARK: - Type Aliases for backward compatibility
+
+typealias AppProgressTracker = GrowMeldProgressTracker
+typealias AppUserPreferences = GrowMeldUserPreferences
+typealias AppLocalDataService = GrowMeldLocalDataService
+
 // MARK: - Mock Implementations (DEBUG only)
 
 #if DEBUG
-final class MockDataService: LocalDataServiceProtocol {
+final class GrowMeldMockDataService: LocalDataServiceProtocol {
     private var storage: [String: Data] = [:]
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
@@ -123,4 +129,6 @@ final class MockDataService: LocalDataServiceProtocol {
         storage.removeValue(forKey: key)
     }
 }
+
+typealias MockDataService = GrowMeldMockDataService
 #endif

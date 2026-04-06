@@ -36,7 +36,7 @@ enum AppNavigationPath: Hashable {
 
 // MARK: - Navigation Coordinator
 class AppNavigationCoordinator: ObservableObject {
-    @Published var navigationPath = NavigationPath()
+    @Published var navigationPath: [AppNavigationPath] = []
     @Published var isOnboarded: Bool
 
     init() {
@@ -59,7 +59,7 @@ class AppNavigationCoordinator: ObservableObject {
     }
 
     func navigateToRoot() {
-        navigationPath = NavigationPath()
+        navigationPath = []
     }
 }
 
@@ -78,6 +78,27 @@ private struct QuestionPlaceholderView: View {
     var body: some View {
         Text("Question: \(questionID)")
             .navigationTitle("Question")
+    }
+}
+
+// MARK: - Stub Views
+private struct HomeView: View {
+    var body: some View {
+        Text("Home")
+            .navigationTitle("Home")
+    }
+}
+
+private struct OnboardingView: View {
+    @EnvironmentObject var coordinator: AppNavigationCoordinator
+    var body: some View {
+        VStack {
+            Text("Onboarding")
+            Button("Continue") {
+                coordinator.markOnboarded()
+            }
+        }
+        .navigationTitle("Welcome")
     }
 }
 
