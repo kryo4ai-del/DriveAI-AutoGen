@@ -1,3 +1,4 @@
+import SwiftUI
 struct CountdownTimer: View {
     let days: Int
     @Environment(\.dynamicTypeSize) var dynamicTypeSize

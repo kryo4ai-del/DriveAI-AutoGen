@@ -1,3 +1,4 @@
+import Foundation
 // Models/ErrorContext.swift
 struct ErrorContext: Sendable, Codable {
     let category: ErrorCategory
