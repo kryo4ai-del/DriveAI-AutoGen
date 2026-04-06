@@ -396,7 +396,6 @@
 		23D391B10641C10521D0A684 /* DataServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDF54F3CEFEE1AF45D195B /* DataServiceType.swift */; };
 		23DF8B6B64EF4C84E9729973 /* FocusField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ADFB132118B4C8D2192453 /* FocusField.swift */; };
 		23FF9B018EB96D0A35B47C4A /* MaintenanceScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD02CFD424BCCA8261434A08 /* MaintenanceScheduleView.swift */; };
-		240017AB8F90E0E919A587B7 /* CircuitBreaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE6A67BB50FCC0116C100C5 /* CircuitBreaker.swift */; };
 		242084BA9AE6C560DD5A98CE /* Recommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA7757F17E21FACA781AB5E /* Recommendation.swift */; };
 		242378D31B6488C85F1A6DDB /* ReviewSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0315760CB231BB5D4D29C99F /* ReviewSchedule.swift */; };
 		2436D8A1C1B2F0203EAC6ED9 /* ErrorCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2EAFD02F965184BF26E5C /* ErrorCategory.swift */; };
@@ -2572,7 +2571,6 @@
 		FB298FBD75735566B13AF5B9 /* FamilySharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A75EB07A477BA850A3F7545 /* FamilySharingService.swift */; };
 		FB2CAC652EFACD6B5FCDA68E /* ExamServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8245F4E6E756BA78E41E757 /* ExamServiceProtocol.swift */; };
 		FB350DDE3D78497B9B7984F1 /* TrialStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FCF07D3C6CC329F5A99524 /* TrialStatusView.swift */; };
-		FB35BA2CF81841E9593F969C /* MasteryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BBD515BE3721D479CD3EDB /* MasteryPolicy.swift */; };
 		FB4FBAE805951EFE8FAE2782 /* AIModelStatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B562F05A9E357A3D25A362C8 /* AIModelStatusBadge.swift */; };
 		FB7CC70DAC0C4A4557301243 /* ExperimentDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B59878202959F173F7A6E40 /* ExperimentDataService.swift */; };
 		FB9B11CCB1C0C29A37B22FDE /* AnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D4640A81CB198CD30805BA /* AnswerButton.swift */; };
@@ -4482,7 +4480,6 @@
 		B81AE00712A732BB30E0F86B /* DatabaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRow.swift; sourceTree = "<group>"; };
 		B8566218422E204A261E323A /* SubscriptionStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionStatusView.swift; sourceTree = "<group>"; };
 		B87EFAD4C49873D6F3D60E20 /* ResilienceError+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResilienceError+Extension.swift"; sourceTree = "<group>"; };
-		B8BBD515BE3721D479CD3EDB /* MasteryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryPolicy.swift; sourceTree = "<group>"; };
 		B8BD36BAB7FC0A70186F8ACB /* GeoRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoRegion.swift; sourceTree = "<group>"; };
 		B8CB475A539401A1089B80BB /* CameraPermissionContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionContainer.swift; sourceTree = "<group>"; };
 		B8DA1960FAFBE44C640711B9 /* APIQuestionsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIQuestionsResponse.swift; sourceTree = "<group>"; };
@@ -4872,7 +4869,6 @@
 		DEA708556E2E073AD6578D41 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		DEABB1A4FFF2F64B6FF0D1A0 /* OfflineModeBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineModeBanner.swift; sourceTree = "<group>"; };
 		DED2EE07791FE69553FDCFFB /* DataExportPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExportPayload.swift; sourceTree = "<group>"; };
-		DEE6A67BB50FCC0116C100C5 /* CircuitBreaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircuitBreaker.swift; sourceTree = "<group>"; };
 		DEFF6C0B5E598BABD97CB28E /* TrialJourney.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialJourney.swift; sourceTree = "<group>"; };
 		DF09F5D5D0284B059CEEFABA /* MockWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWeatherService.swift; sourceTree = "<group>"; };
 		DF0F9E67CA835B4CA81ED50D /* SQLITE_INTEGER.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLITE_INTEGER.swift; sourceTree = "<group>"; };
@@ -6264,7 +6260,6 @@
 				E668D981FBCB767AC6603A6E /* CheckSeverity.swift */,
 				8DC65D1C06B376A5DE7C2C21 /* CheckType.swift */,
 				6A2977CED3DD1D3EDB8487E5 /* CIImage.swift */,
-				DEE6A67BB50FCC0116C100C5 /* CircuitBreaker.swift */,
 				314B5B1B3E4E8F93B7AE5C62 /* CircularBuffer.swift */,
 				D0F70D64A54554E81B7E1C3E /* CLAuthorizationStatus.swift */,
 				9E6745CC7E7E984EC66ADC5E /* CLAuthorizationStatus+Extension.swift */,
@@ -6974,7 +6969,6 @@
 				8D58307C55CD0B6827C0D440 /* MasteryDistributionChart.swift */,
 				AE6C74E124C371C741727250 /* MasteryFeedback.swift */,
 				327D8925C262A585C7644794 /* MasteryLevel+Extension.swift */,
-				B8BBD515BE3721D479CD3EDB /* MasteryPolicy.swift */,
 				AEBCA0C6130CF4E6900821C1 /* MasteryRecord.swift */,
 				759FB1A465CBAFFF8E740552 /* MasteryRepositoryProtocol.swift */,
 				4E94B694EA06013BFC7835E3 /* MasteryThreshold.swift */,
@@ -8334,7 +8328,6 @@
 				DB8FA475EA414C4F6F0DF55D /* CheckType.swift in Sources */,
 				5DD2899BF25FEC19B0503342 /* CheckedContinuation.swift in Sources */,
 				A6DCD3080FF7DE6304DBB56A /* CheckoutStep.swift in Sources */,
-				240017AB8F90E0E919A587B7 /* CircuitBreaker.swift in Sources */,
 				3C5F1801446009A3C0826F6D /* CircularBuffer.swift in Sources */,
 				4CC2CD3898B942CADD9B0B2B /* CircularProgressView.swift in Sources */,
 				19E46744B3CE073358BCB1DC /* CloudDataError.swift in Sources */,
@@ -9297,7 +9290,6 @@
 				1FC24E3A2B9B298F04E2CAAF /* MasteryDistributionChart.swift in Sources */,
 				AB2FEA8BB813F7CE14488488 /* MasteryFeedback.swift in Sources */,
 				09BCBD9425C00E31313A2399 /* MasteryLevel+Extension.swift in Sources */,
-				FB35BA2CF81841E9593F969C /* MasteryPolicy.swift in Sources */,
 				54A98AB0F8FEF1BBEFFE321B /* MasteryRecord.swift in Sources */,
 				02D8A26FEFB98352B2EF3B78 /* MasteryRepositoryProtocol.swift in Sources */,
 				23090ED03E262562BDBA5B61 /* MasteryThreshold.swift in Sources */,

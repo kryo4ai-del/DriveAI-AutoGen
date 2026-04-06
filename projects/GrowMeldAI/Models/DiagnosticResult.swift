@@ -1,3 +1,4 @@
+import Foundation
 // ❌ CURRENT: No connection to source data
 struct DiagnosticResult: Identifiable, Codable {
     let id: UUID

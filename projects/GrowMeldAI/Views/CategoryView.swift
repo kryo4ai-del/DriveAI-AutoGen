@@ -1,3 +1,4 @@
+import SwiftUI
 struct CategoryView: View {
     @Binding var navigationPath: NavigationPath  // ← Circular reference potential
     
