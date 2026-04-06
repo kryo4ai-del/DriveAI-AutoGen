@@ -1,3 +1,4 @@
+import Foundation
 // MARK: - Tests/Mocks/IAPTestModels.swift
 
 /// Simplified, testable transaction model
