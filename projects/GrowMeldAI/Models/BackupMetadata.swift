@@ -1,4 +1,3 @@
-// Sources/Models/Backup/BackupMetadata.swift
 import Foundation
 
 struct BackupMetadata: Codable, Identifiable {
