@@ -264,6 +264,9 @@ func runTests() async {
 }
 
 // Entry point
+let semaphore = DispatchSemaphore(value: 0)
 Task {
     await runTests()
+    semaphore.signal()
 }
+semaphore.wait()
