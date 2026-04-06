@@ -1,36 +1,6 @@
-// Models/AppEnvironment.swift
-
+import Foundation
 import SwiftUI
 import Combine
-import Foundation
-
-// MARK: - Supporting Service Types
-
-final class TrialLocalDataSource {
-    init() {}
-}
-
-final class QuotaManager {
-    init(dataSource: TrialLocalDataSource) {}
-}
-
-final class TrialService {
-    init(dataSource: TrialLocalDataSource, quotaManager: QuotaManager, analytics: AnalyticsService) {}
-}
-
-final class LocalDataService {
-    init() {}
-}
-
-final class AnalyticsService {
-    init() {}
-    
-    func track(_ event: String, properties: [String: Any]? = nil) {
-        #if DEBUG
-        print("[Analytics] Event: \(event), properties: \(properties ?? [:])")
-        #endif
-    }
-}
 
 // MARK: - AppEnvironment
 

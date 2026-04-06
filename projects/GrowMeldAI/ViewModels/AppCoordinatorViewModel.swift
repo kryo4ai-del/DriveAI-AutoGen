@@ -3,15 +3,15 @@ import Combine
 
 @MainActor
 class AppCoordinatorViewModel: ObservableObject {
-    @Published var navigationPath: NavigationPath = NavigationPath()
+    @Published var navigationPath: [NavigationDestination] = []
     @Published var userState: UserState = .new
 
     enum UserState {
-        case new              // hasn't set exam date
-        case setup            // onboarding flow
-        case ready            // home/learning
-        case examInProgress   // timed exam running
-        case examComplete     // waiting to review results
+        case new
+        case setup
+        case ready
+        case examInProgress
+        case examComplete
     }
 
     enum NavigationDestination: Hashable {
@@ -31,15 +31,13 @@ class AppCoordinatorViewModel: ObservableObject {
     }
 
     func popToRoot() {
-        navigationPath = NavigationPath()
+        navigationPath = []
     }
 
     func pop() {
         guard !navigationPath.isEmpty else { return }
         navigationPath.removeLast()
     }
-
-    // MARK: - Private Helpers
 
     private func isValidTransition(from state: UserState, to destination: NavigationDestination) -> Bool {
         switch (state, destination) {
@@ -62,7 +60,7 @@ class AppCoordinatorViewModel: ObservableObject {
         case (.examComplete, .examResults):
             return true
         default:
-            return true // Allow permissive navigation by default; tighten as needed
+            return true
         }
     }
 }

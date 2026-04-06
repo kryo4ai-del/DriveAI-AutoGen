@@ -1,5 +1,5 @@
-import SwiftUI
 import Foundation
+import SwiftUI
 
 // MARK: - AppRoute
 
@@ -90,19 +90,14 @@ final class AppCoordinator: ObservableObject {
         switch route {
         case .home:
             navigateToRoot()
-
         case .exam:
             navigate(to: .exam)
-
         case .examResult(let result):
             handleExamResult(result)
-
         case .settings:
             navigate(to: .settings)
-
         case .progress:
             navigate(to: .progress)
-
         case .onboarding:
             navigate(to: .onboarding)
         }
@@ -162,28 +157,7 @@ final class AppCoordinator: ObservableObject {
         case "onboarding":
             handleRoute(.onboarding)
         default:
-            handleRoute(.home)
-        }
-    }
-
-    // MARK: - State Helpers
-
-    var canGoBack: Bool {
-        !navigationPath.isEmpty
-    }
-
-    var isAtRoot: Bool {
-        navigationPath.isEmpty
-    }
-
-    var routeTitle: String {
-        switch currentRoute {
-        case .home:       return "Home"
-        case .exam:       return "Exam"
-        case .examResult: return "Result"
-        case .settings:   return "Settings"
-        case .progress:   return "Progress"
-        case .onboarding: return "Welcome"
+            break
         }
     }
 }
