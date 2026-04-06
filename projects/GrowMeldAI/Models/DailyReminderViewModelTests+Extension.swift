@@ -264,9 +264,9 @@ func runTests() async {
 }
 
 // Entry point
-@main
-struct Main {
-    static func main() async {
-        await runTests()
-    }
+let semaphore = DispatchSemaphore(value: 0)
+Task {
+    await runTests()
+    semaphore.signal()
 }
+semaphore.wait()
