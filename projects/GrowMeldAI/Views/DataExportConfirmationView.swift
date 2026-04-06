@@ -1,3 +1,4 @@
+import SwiftUI
 struct DataExportConfirmationView: View {
     @ObservedObject var viewModel: ComplianceViewModel
     @Environment(\.dismiss) var dismiss
