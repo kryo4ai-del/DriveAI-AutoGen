@@ -4,5 +4,6 @@ protocol ViewModelError: LocalizedError {
 }
 
 @MainActor
-
 // Enables consistent error UI across all features
+class BaseViewModel: ObservableObject {
+}

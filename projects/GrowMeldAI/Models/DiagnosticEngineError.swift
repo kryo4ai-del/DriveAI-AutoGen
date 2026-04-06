@@ -15,6 +15,4 @@ enum DiagnosticEngineError: LocalizedError {
     }
 }
 
-@MainActor
-
 // In ViewModel: Handle error explicitly

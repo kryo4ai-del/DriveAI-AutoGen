@@ -5,7 +5,7 @@ enum FallbackStrategy: Sendable {
     /// Use local pre-bundled data
     case local
     /// Return simplified/static responses
-    case static
+    case `static`
     /// Return previously cached responses
     case cached
     /// Combine multiple providers

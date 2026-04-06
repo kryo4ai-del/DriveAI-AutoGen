@@ -20,3 +20,5 @@ enum DataLoadError: LocalizedError {
 }
 
 @MainActor
+class LocalDataService {
+}

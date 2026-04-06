@@ -1,11 +1,24 @@
-// ✅ EXPLICIT VALIDATION
-init?(_ correct: Int, _ total: Int) {
-    // All invalid conditions in one guard
-    guard total > 0, correct >= 0, correct <= total else {
-        return nil
+struct Accuracy {
+    let percentage: Double
+    
+    init?(_ percentage: Double) {
+        guard percentage >= 0, percentage <= 100 else {
+            return nil
+        }
+        self.percentage = percentage
     }
-    let pct = (Double(correct) / Double(total)) * 100
-    self.init(pct)  // Now guaranteed to succeed
+}
+
+// ✅ EXPLICIT VALIDATION
+extension Accuracy {
+    init?(correct: Int, total: Int) {
+        // All invalid conditions in one guard
+        guard total > 0, correct >= 0, correct <= total else {
+            return nil
+        }
+        let pct = (Double(correct) / Double(total)) * 100
+        self.init(pct)  // Now guaranteed to succeed
+    }
 }
 
 // Even better: throw for better diagnostics
@@ -39,11 +52,4 @@ extension Accuracy {
         }
         self = accuracy
     }
-}
-
-// Usage:
-do {
-    let accuracy = try Accuracy(10, 5)
-} catch AccuracyError.correctExceedsTotal {
-    // User feedback: "More correct than total questions?"
 }

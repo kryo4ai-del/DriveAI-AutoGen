@@ -10,3 +10,5 @@ enum QuestionViewState {
 
 // MARK: - ViewModel (Testable)
 @MainActor
+class QuestionViewModel {
+}

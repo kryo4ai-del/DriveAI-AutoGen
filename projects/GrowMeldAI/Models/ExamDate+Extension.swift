@@ -1,7 +1,7 @@
 // Add convenience for common patterns
 extension ExamDate {
     /// Exam scheduled for today
-    static var today() -> ExamDate? {
+    static func today() -> ExamDate? {
         ExamDate(.now)
     }
     

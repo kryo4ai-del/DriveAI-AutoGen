@@ -10,5 +10,3 @@ struct DriveAIApp: App {
         }
     }
 }
-
-@MainActor
