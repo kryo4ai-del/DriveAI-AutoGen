@@ -327,7 +327,6 @@
 		1E5955883FE88A2B08D5CC9F /* PreferencesServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21A5E502182D4E2DF7754 /* PreferencesServiceProtocol.swift */; };
 		1EA5E536803502E7A1B9962C /* RegionalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9714D16918A6EBB14D697A /* RegionalConfig.swift */; };
 		1EB6388ADB7B249203F4C1F0 /* TransactionValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BBB5B14B4BDAFE2CAC6D1 /* TransactionValidator.swift */; };
-		1EF83658EDFA10A91C63B922 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1096EB359B598F7DF5D1B85 /* AuthRepository.swift */; };
 		1F00931260261B473F25F948 /* CancellationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2BA2E1FE095AE03C486ECA /* CancellationError.swift */; };
 		1F052303D3E9FD7DA0B05364 /* QuestionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994A283A666769618E3E5BBC /* QuestionDetailView.swift */; };
 		1F28A31F16B020E25CA9689E /* ASOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0156580C554C712B11695B /* ASOError.swift */; };
@@ -4330,7 +4329,6 @@
 		B0D3A8A61D48EF81498DDB1E /* NotificationPermissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionService.swift; sourceTree = "<group>"; };
 		B0DA4AE667E7B256CAAF178F /* ExperimentDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentDashboardView.swift; sourceTree = "<group>"; };
 		B0E04D5E04C8759B88BE48C7 /* ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationResult.swift; sourceTree = "<group>"; };
-		B1096EB359B598F7DF5D1B85 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		B10DC605C4536B21325E6C79 /* FeedbackFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFormView.swift; sourceTree = "<group>"; };
 		B10E8AE8B7B45538FFC073F6 /* AtomicInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicInt.swift; sourceTree = "<group>"; };
 		B1722905B0347C9ACFBB439C /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
@@ -6000,7 +5998,6 @@
 				EF033833C03407D1B77589C5 /* AuthCredentials+Extension.swift */,
 				3BF8D66E33A064E86BDF31AF /* AuthError.swift */,
 				37D963F281DB78FC3D2DE0BF /* AuthNavigationStack.swift */,
-				B1096EB359B598F7DF5D1B85 /* AuthRepository.swift */,
 				CC3B3E7339D7660D557C4CB3 /* AuthServiceProtocol.swift */,
 				949046FDF2EF909187BE2281 /* AuthState.swift */,
 				47937B617E72B45C9593A7EA /* AuthStateDidChangeListenerHandle.swift */,
@@ -8006,7 +8003,6 @@
 				0638CE545FA987C7EF994DAF /* AuthCredentials.swift in Sources */,
 				A040F183B918C5A35CBF1781 /* AuthError.swift in Sources */,
 				25A0A93BF5AF3156D13680FA /* AuthNavigationStack.swift in Sources */,
-				1EF83658EDFA10A91C63B922 /* AuthRepository.swift in Sources */,
 				3CE6DEB04803E79F88619715 /* AuthRootView.swift in Sources */,
 				63CD28FBC4B616BE7AA0F7FC /* AuthServiceProtocol.swift in Sources */,
 				C79C6BA983128E7EE16053BB /* AuthState.swift in Sources */,

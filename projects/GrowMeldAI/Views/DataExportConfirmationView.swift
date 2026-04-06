@@ -45,3 +45,13 @@ struct DataExportConfirmationView: View {
         .padding()
     }
 }
+
+class ComplianceViewModel: ObservableObject {
+    @Published var isExporting: Bool = false
+    @Published var exportedDataURL: URL?
+    @Published var errorMessage: String?
+
+    func exportData() async {
+        // Implementation
+    }
+}

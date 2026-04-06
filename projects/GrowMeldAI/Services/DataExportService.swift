@@ -20,6 +20,7 @@ final class DataExportService {
         userData["appVersion"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         userData["exportDate"] = ISO8601DateFormatter().string(from: Date())
 
-        return try JSONSerialization.data(withJSONObject: userData, options: [.prettyPrinted])
+        let options: JSONSerialization.WritingOptions = [.prettyPrinted]
+        return try JSONSerialization.data(withJSONObject: userData, options: options)
     }
 }

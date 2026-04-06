@@ -1,10 +1,5 @@
 import Foundation
 
-protocol DataLoader: Sendable {
-    func loadQuestions() async throws -> [AppQuestion]
-    func loadCategories() async throws -> [AppCategory]
-}
-
 struct AppQuestion: Codable, Sendable {
     let id: Int
     let text: String
@@ -17,6 +12,11 @@ struct AppCategory: Codable, Sendable {
     let id: String
     let name: String
     let description: String
+}
+
+protocol DataLoader: Sendable {
+    func loadQuestions() async throws -> [AppQuestion]
+    func loadCategories() async throws -> [AppCategory]
 }
 
 final class JSONDataLoader: DataLoader {
