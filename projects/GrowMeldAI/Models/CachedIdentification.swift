@@ -1,6 +1,6 @@
 import Foundation
 
-struct IdentificationResult: Codable {
+struct PlantIdentificationResult: Codable {
     let commonName: String
     let scientificName: String
     let confidence: Double
@@ -9,7 +9,7 @@ struct IdentificationResult: Codable {
 
 struct CachedIdentification: Codable {
     let imageHash: String
-    let result: IdentificationResult
+    let result: PlantIdentificationResult
     let source: CacheSource
     let cachedAt: Date
     let expiresAt: Date
@@ -21,3 +21,5 @@ enum CacheSource: String, Codable {
     case api
     case offline
 }
+
+typealias IdentificationResult = PlantIdentificationResult
