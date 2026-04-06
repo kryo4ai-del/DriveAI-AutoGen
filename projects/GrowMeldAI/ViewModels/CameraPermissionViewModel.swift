@@ -1,29 +1,36 @@
-// ViewModels/CameraPermissionViewModel.swift
 import Foundation
+import AVFoundation
 
 @MainActor
 final class CameraPermissionViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var showSettings = false
-    
-    private let coordinator: CameraCoordinator
-    
-    init(coordinator: CameraCoordinator) {
-        self.coordinator = coordinator
-    }
-    
+
     func requestPermission() async {
         isLoading = true
         defer { isLoading = false }
-        
-        await coordinator.requestPermissionAndInitialize()
-        
-        if coordinator.state.permissionStatus == .denied {
+
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+
+        switch status {
+        case .authorized:
+            break
+        case .notDetermined:
+            let granted = await AVCaptureDevice.requestAccess(for: .video)
+            if !granted {
+                showSettings = true
+            }
+        case .denied, .restricted:
+            showSettings = true
+        @unknown default:
             showSettings = true
         }
     }
-    
+
     func openSettings() {
-        coordinator.permissionService.openAppSettings()
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        Task { @MainActor in
+            await UIApplication.shared.open(url)
+        }
     }
 }

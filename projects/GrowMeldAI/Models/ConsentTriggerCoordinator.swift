@@ -28,6 +28,32 @@ struct ConsentPreference: Codable {
         let deferralInterval = TimeInterval(deferralDays * 24 * 60 * 60)
         return elapsed >= deferralInterval
     }
+
+    enum CodingKeys: String, CodingKey {
+        case state
+        case deferredAt
+        case deferralDays
+    }
+
+    init(state: ConsentState, deferredAt: Date? = nil, deferralDays: Int = 7) {
+        self.state = state
+        self.deferredAt = deferredAt
+        self.deferralDays = deferralDays
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        state = try container.decode(ConsentState.self, forKey: .state)
+        deferredAt = try container.decodeIfPresent(Date.self, forKey: .deferredAt)
+        deferralDays = try container.decode(Int.self, forKey: .deferralDays)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(state, forKey: .state)
+        try container.encodeIfPresent(deferredAt, forKey: .deferredAt)
+        try container.encode(deferralDays, forKey: .deferralDays)
+    }
 }
 
 // MARK: - Storage Service
@@ -36,8 +62,15 @@ final class ConsentStorageService {
     private let defaults: UserDefaults
     private let preferenceKey = "com.growmeldai.consent.preference"
 
+    private let encoder: JSONEncoder
+    private let decoder: JSONDecoder
+
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
+        self.encoder = JSONEncoder()
+        self.encoder.dateEncodingStrategy = .iso8601
+        self.decoder = JSONDecoder()
+        self.decoder.dateDecodingStrategy = .iso8601
     }
 
     func updateConsentState(_ state: ConsentState) {
@@ -52,7 +85,7 @@ final class ConsentStorageService {
     func loadPreference() -> ConsentPreference {
         guard
             let data = defaults.data(forKey: preferenceKey),
-            let preference = try? JSONDecoder().decode(ConsentPreference.self, from: data)
+            let preference = try? decoder.decode(ConsentPreference.self, from: data)
         else {
             return ConsentPreference(state: .unknown, deferredAt: nil, deferralDays: 7)
         }
@@ -60,7 +93,7 @@ final class ConsentStorageService {
     }
 
     private func savePreference(_ preference: ConsentPreference) {
-        if let data = try? JSONEncoder().encode(preference) {
+        if let data = try? encoder.encode(preference) {
             defaults.set(data, forKey: preferenceKey)
         }
     }
@@ -108,8 +141,6 @@ final class ConsentViewModel: ObservableObject {
 
 // MARK: - Consent Trigger Coordinator
 
-/// Coordinates consent re-evaluation across app lifecycle events.
-/// Checks deferred consent prompts and re-triggers evaluation when appropriate.
 final class ConsentTriggerCoordinator {
     private let storageService: ConsentStorageService
     private let viewModel: ConsentViewModel
@@ -122,7 +153,6 @@ final class ConsentTriggerCoordinator {
         self.viewModel = viewModel
     }
 
-    /// Call this on app launch to check if a deferred consent prompt should be shown again.
     func checkDeferredPrompts() {
         let preference = storageService.loadPreference()
         if preference.shouldPromptAgain {
@@ -130,10 +160,7 @@ final class ConsentTriggerCoordinator {
         }
     }
 
-    /// Defers consent and schedules a re-check after the deferral period.
     func deferConsent() {
         storageService.updateConsentState(.deferred)
-        // The deferral is persisted; re-evaluation happens on the next app launch
-        // via checkDeferredPrompts(), which inspects the deferredAt timestamp.
     }
 }

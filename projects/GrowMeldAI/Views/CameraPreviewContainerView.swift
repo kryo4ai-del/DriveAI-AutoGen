@@ -1,18 +1,17 @@
 import SwiftUI
+import AVFoundation
 
 struct CameraPreviewContainerView: View {
     @ObservedObject var viewModel: CameraPreviewViewModel
     let onCapture: () -> Void
     let onDismiss: () -> Void
 
-    @State private var showQualityHint = false
-
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            CameraPreviewView(sessionManager: viewModel.sessionManager)
+            Color.black.ignoresSafeArea()
 
             VStack {
-                CameraOnboardingHeaderView(examDaysRemaining: viewModel.examDaysRemaining)
+                headerSection
 
                 Spacer()
 
@@ -24,9 +23,23 @@ struct CameraPreviewContainerView: View {
 
             closeButton
         }
-        .sheet(isPresented: $showQualityHint) {
-            QualityHintView(hint: viewModel.qualityHint)
+    }
+
+    private var headerSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Kamera")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                if viewModel.examDaysRemaining > 0 {
+                    Text("Noch \(viewModel.examDaysRemaining) Tage bis zur Prüfung")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+            }
+            Spacer()
         }
+        .padding(.top, 16)
     }
 
     private var closeButton: some View {
@@ -41,7 +54,7 @@ struct CameraPreviewContainerView: View {
     }
 
     private var guidanceSection: some View {
-        Text(viewModel.guidanceMessage.primaryText)
+        Text(viewModel.guidanceMessage)
             .font(.headline)
             .foregroundColor(.white)
             .padding()
@@ -67,11 +80,22 @@ struct CameraPreviewContainerView: View {
                 .fill(viewModel.isCapturing ? Color.gray : Color.white)
                 .frame(width: 80, height: 80)
                 .overlay(
-                    viewModel.isCapturing ?
-                        ProgressView() :
-                        Image(systemName: "circle.fill")
+                    Group {
+                        if viewModel.isCapturing {
+                            ProgressView()
+                        } else {
+                            Image(systemName: "circle.fill")
+                        }
+                    }
                 )
         }
         .disabled(viewModel.isCapturing)
     }
+}
+
+class CameraPreviewViewModel: ObservableObject {
+    @Published var examDaysRemaining: Int = 0
+    @Published var guidanceMessage: String = ""
+    @Published var qualityPercentage: Int = 100
+    @Published var isCapturing: Bool = false
 }

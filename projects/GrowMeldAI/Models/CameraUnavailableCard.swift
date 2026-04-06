@@ -1,17 +1,28 @@
-// Features/Camera/Views/CameraUnavailableCard.swift
 import SwiftUI
 
-/// Card shown when camera is unavailable
 struct CameraUnavailableCard: View {
     var body: some View {
-        CameraPermissionStateCard(
-            icon: "camera.slash.fill",
-            iconColor: .gray,
-            title: "Kamera nicht verfügbar",
-            description: "Ihr Gerät unterstützt keine Kamerafunktion.",
-            actionTitle: nil,
-            onAction: nil,
-            secondaryText: "Bitte verwenden Sie ein Gerät mit Kamera, um fortzufahren."
-        )
+        VStack(spacing: 16) {
+            Image(systemName: "camera.slash.fill")
+                .font(.system(size: 48))
+                .foregroundColor(Color.gray)
+
+            Text("Kamera nicht verfügbar")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+
+            Text("Ihr Gerät unterstützt keine Kamerafunktion.")
+                .font(.body)
+                .multilineTextAlignment(.center)
+
+            Text("Bitte verwenden Sie ein Gerät mit Kamera, um fortzufahren.")
+                .font(.footnote)
+                .foregroundColor(Color.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(12)
+        .padding()
     }
 }

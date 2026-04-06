@@ -1,4 +1,6 @@
-// Allows testable, reusable preview logic
+import Foundation
+import AVFoundation
+
 final class CameraPreviewService {
     func createPreviewLayer(session: AVCaptureSession) -> AVCaptureVideoPreviewLayer {
         let layer = AVCaptureVideoPreviewLayer(session: session)

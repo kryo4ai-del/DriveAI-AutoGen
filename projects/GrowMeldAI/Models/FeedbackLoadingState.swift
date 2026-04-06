@@ -4,14 +4,14 @@ enum FeedbackLoadingState<T: Equatable>: Equatable {
     case idle
     case loading
     case success(T)
-    case failure(FeedbackError)
+    case failure(GrowMeldFeedbackError)
 
     var isLoading: Bool {
         if case .loading = self { return true }
         return false
     }
 
-    var error: FeedbackError? {
+    var error: GrowMeldFeedbackError? {
         if case .failure(let error) = self { return error }
         return nil
     }
@@ -22,7 +22,7 @@ enum FeedbackLoadingState<T: Equatable>: Equatable {
     }
 }
 
-enum FeedbackError: LocalizedError, Equatable {
+enum GrowMeldFeedbackError: LocalizedError, Equatable {
     case networkUnavailable
     case serverError(String)
     case invalidResponse
@@ -41,7 +41,7 @@ enum FeedbackError: LocalizedError, Equatable {
         }
     }
 
-    static func == (lhs: FeedbackError, rhs: FeedbackError) -> Bool {
+    static func == (lhs: GrowMeldFeedbackError, rhs: GrowMeldFeedbackError) -> Bool {
         switch (lhs, rhs) {
         case (.networkUnavailable, .networkUnavailable):
             return true
@@ -56,3 +56,5 @@ enum FeedbackError: LocalizedError, Equatable {
         }
     }
 }
+
+typealias FeedbackError = GrowMeldFeedbackError
