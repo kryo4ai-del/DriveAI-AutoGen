@@ -1,5 +1,21 @@
 import Foundation
 
+// MARK: - QuizAnswer
+
+struct QuizAnswer: Codable, Identifiable {
+    let id: String
+    let text: String
+}
+
+// MARK: - QuizQuestion
+
+struct QuizQuestion: Codable, Identifiable {
+    let id: String
+    let text: String
+    let answers: [QuizAnswer]
+    let correctAnswerID: String
+}
+
 // MARK: - BundleProvider
 
 struct BundleProvider {
@@ -99,20 +115,4 @@ struct BundleProvider {
             return nil
         }
     }
-}
-
-// MARK: - QuizAnswer
-
-struct QuizAnswer: Codable, Identifiable {
-    let id: String
-    let text: String
-}
-
-// MARK: - QuizQuestion
-
-struct QuizQuestion: Codable, Identifiable {
-    let id: String
-    let text: String
-    let answers: [QuizAnswer]
-    let correctAnswerID: String
 }

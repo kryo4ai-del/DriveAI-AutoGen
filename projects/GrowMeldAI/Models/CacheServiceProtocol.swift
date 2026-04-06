@@ -1,12 +1,5 @@
 import Foundation
 
-struct DriveAIProduct: Codable {
-    let id: String
-    let name: String
-    let description: String
-    let price: Double
-}
-
 protocol CacheServiceProtocol {
     func cache(_ products: [DriveAIProduct], ttl: TimeInterval)
     func getCached() -> [DriveAIProduct]?

@@ -1,9 +1,18 @@
 import CoreLocation
 import Foundation
 
+enum LocationPermissionStatus {
+    case notDetermined
+    case restricted
+    case denied
+    case authorizedAlways
+    case authorizedWhenInUse
+}
+
 extension CLLocationManager {
     var locationPermissionStatus: LocationPermissionStatus {
-        switch authorizationStatus {
+        let status = CLLocationManager.authorizationStatus()
+        switch status {
         case .notDetermined:
             return .notDetermined
         case .restricted:

@@ -1,6 +1,6 @@
 import Foundation
 
-enum SyncError: Error, Equatable {
+enum GrowMeldSyncError: Error, Equatable {
     case networkUnavailable
     case apiError(Int, String)
     case invalidResponse
@@ -8,7 +8,7 @@ enum SyncError: Error, Equatable {
     case timeout
     case unknown(String)
 
-    static func == (lhs: SyncError, rhs: SyncError) -> Bool {
+    static func == (lhs: GrowMeldSyncError, rhs: GrowMeldSyncError) -> Bool {
         switch (lhs, rhs) {
         case (.networkUnavailable, .networkUnavailable): return true
         case (.apiError(let a, let b), .apiError(let c, let d)): return a == c && b == d
@@ -19,7 +19,35 @@ enum SyncError: Error, Equatable {
         default: return false
         }
     }
+
+    var localizedUserMessage: String {
+        switch self {
+        case .networkUnavailable:
+            return "Keine Internetverbindung. Offline-Modus aktiv."
+        case .apiError(let statusCode, _):
+            return "Server-Fehler (\(statusCode)). Später erneut versuchen."
+        case .invalidResponse:
+            return "Ungültige Antwort vom Server."
+        case .decodingFailed:
+            return "Daten konnten nicht gelesen werden."
+        case .timeout:
+            return "Verbindungs-Timeout. Bitte versuchen Sie später erneut."
+        case .unknown(let message):
+            return "Fehler: \(message)"
+        }
+    }
+
+    var isRecoverable: Bool {
+        switch self {
+        case .networkUnavailable, .timeout, .apiError:
+            return true
+        case .invalidResponse, .decodingFailed, .unknown:
+            return false
+        }
+    }
 }
+
+typealias SyncError = GrowMeldSyncError
 
 enum AppDataError: Error, Equatable {
     case corrupted(String)
@@ -28,7 +56,7 @@ enum AppDataError: Error, Equatable {
 }
 
 enum ErrorState: Equatable {
-    case sync(SyncError)
+    case sync(GrowMeldSyncError)
     case dataCorruption(AppDataError)
     case validation(String)
     case unknown(String)
@@ -70,34 +98,6 @@ enum ErrorState: Equatable {
         case (.validation(let a), .validation(let b)): return a == b
         case (.unknown(let a), .unknown(let b)): return a == b
         default: return false
-        }
-    }
-}
-
-extension SyncError {
-    var localizedUserMessage: String {
-        switch self {
-        case .networkUnavailable:
-            return "Keine Internetverbindung. Offline-Modus aktiv."
-        case .apiError(let statusCode, _):
-            return "Server-Fehler (\(statusCode)). Später erneut versuchen."
-        case .invalidResponse:
-            return "Ungültige Antwort vom Server."
-        case .decodingFailed:
-            return "Daten konnten nicht gelesen werden."
-        case .timeout:
-            return "Verbindungs-Timeout. Bitte versuchen Sie später erneut."
-        case .unknown(let message):
-            return "Fehler: \(message)"
-        }
-    }
-
-    var isRecoverable: Bool {
-        switch self {
-        case .networkUnavailable, .timeout, .apiError:
-            return true
-        case .invalidResponse, .decodingFailed, .unknown:
-            return false
         }
     }
 }

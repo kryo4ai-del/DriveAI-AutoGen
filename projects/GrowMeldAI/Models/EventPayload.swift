@@ -28,20 +28,19 @@ struct AnyCodable: Codable, Equatable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        switch value {
-        case let intVal as Int:
+        if let intVal = value as? Int {
             try container.encode(intVal)
-        case let doubleVal as Double:
+        } else if let doubleVal = value as? Double {
             try container.encode(doubleVal)
-        case let boolVal as Bool:
+        } else if let boolVal = value as? Bool {
             try container.encode(boolVal)
-        case let stringVal as String:
+        } else if let stringVal = value as? String {
             try container.encode(stringVal)
-        case let arrayVal as [AnyCodable]:
+        } else if let arrayVal = value as? [AnyCodable] {
             try container.encode(arrayVal)
-        case let dictVal as [String: AnyCodable]:
+        } else if let dictVal = value as? [String: AnyCodable] {
             try container.encode(dictVal)
-        default:
+        } else {
             try container.encodeNil()
         }
     }
