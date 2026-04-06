@@ -86,7 +86,7 @@ final class AppConsentStorageService {
 
 // MARK: - Consent Category
 
-enum ConsentCategory: String, CaseIterable, Codable {
+enum AppConsentCategory: String, CaseIterable, Codable {
     case analytics = "analytics"
     case personalization = "personalization"
     case marketing = "marketing"
@@ -127,6 +127,9 @@ enum ConsentCategory: String, CaseIterable, Codable {
 
 @MainActor
 final class AppConsentManager: ObservableObject {
+
+    // MARK: - Type Alias
+    typealias ConsentCategory = AppConsentCategory
 
     // MARK: - Constants
 
