@@ -1,3 +1,4 @@
+import SwiftUI
 // ✅ FIXED: Add accessibility labels to views displaying logs
 struct ConsentLogRow: View {
     let log: ConsentLog

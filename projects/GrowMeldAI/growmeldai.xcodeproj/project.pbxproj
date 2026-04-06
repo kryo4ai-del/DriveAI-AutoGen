@@ -1876,7 +1876,6 @@
 		B61BCFDB555B5331711A1E6A /* MaintenanceDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775F0EC575BD920EA6F5367F /* MaintenanceDashboardViewModel.swift */; };
 		B64C6C6807DD0E6BF43F09F8 /* AnswerID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747366CB204A8C6D39891965 /* AnswerID.swift */; };
 		B6672065C2E23B62460E7190 /* KeywordMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EEE0E53F84889FBA615586 /* KeywordMetric.swift */; };
-		B6E91008CE0EACF9CD8BCF92 /* ConsentFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C428B08F0E649EE0B8D19614 /* ConsentFlowViewModel.swift */; };
 		B7126385496950C202A66966 /* PlantIdentificationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E59FB12D7528B16546656D /* PlantIdentificationError.swift */; };
 		B71E6B692DD41C6362E80E76 /* QuizResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DE96D3FEF558145B364822 /* QuizResultViewModel.swift */; };
 		B7240733137A803A2972CF33 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DBA1B18CBFF4191F0257C5 /* Container.swift */; };
@@ -4524,7 +4523,6 @@
 		C3E89C43BA51BE2F020F54CC /* CloudDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDataService.swift; sourceTree = "<group>"; };
 		C3F3C17050388A6E4C43B4EC /* RemindersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersViewModel.swift; sourceTree = "<group>"; };
 		C40DAD008576FAE5933BD26E /* NotificationStrategyFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStrategyFactory.swift; sourceTree = "<group>"; };
-		C428B08F0E649EE0B8D19614 /* ConsentFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentFlowViewModel.swift; sourceTree = "<group>"; };
 		C43F2F7D2B0198473C1E0D96 /* DateUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilities.swift; sourceTree = "<group>"; };
 		C45A46993304A880CB4E830E /* QuizResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResult.swift; sourceTree = "<group>"; };
 		C495834B2B5393A977565D5B /* LoadError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadError.swift; sourceTree = "<group>"; };
@@ -5477,7 +5475,6 @@
 				F3C8355CA921EBD9C56BC30C /* ComplianceGateViewModel.swift */,
 				5F3AE824F8A1B802AFC5BB6D /* CompliancePresentationViewModel.swift */,
 				F04B6BDB75EB36D4F687F23A /* ComplianceViewModel.swift */,
-				C428B08F0E649EE0B8D19614 /* ConsentFlowViewModel.swift */,
 				1BD22A6B7C15F842C7C378AA /* ConsentViewModel.swift */,
 				BAAFC0CD2963AB2763D23939 /* DailyReminderViewModel.swift */,
 				A5BE3F135EFE7F957E243726 /* DiagnosticScreenViewModel.swift */,
@@ -8299,7 +8296,6 @@
 				3CC523BF1264995925AA41EE /* ConsentError.swift in Sources */,
 				5443B65283FE30AC40DC2421 /* ConsentEvent.swift in Sources */,
 				E40FF73FBDB28D10B864444B /* ConsentFlowResult.swift in Sources */,
-				B6E91008CE0EACF9CD8BCF92 /* ConsentFlowViewModel.swift in Sources */,
 				027AF84880921F8DB32ACC12 /* ConsentLog.swift in Sources */,
 				65E2FEF36AEF7C79DCCBB33A /* ConsentLogRow.swift in Sources */,
 				B02C595E7A407E3531F8E9DD /* ConsentManagementScreen.swift in Sources */,

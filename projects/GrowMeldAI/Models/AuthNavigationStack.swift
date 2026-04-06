@@ -22,8 +22,8 @@ struct AuthNavigationStack: View {
             // Content
             Group {
                 if showSignUp {
-                    SignUpView(viewModel: viewModel, showSignUp: $showSignUp)
-                        .accessibilityLabel("Registrierungsbildschirm")
+                    SignUpView()
+                        .accessibilityElement(children: .combine)
                 } else {
                     LoginView(viewModel: viewModel, showSignUp: $showSignUp)
                         .accessibilityLabel("Anmeldebildschirm")
