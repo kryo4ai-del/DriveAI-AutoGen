@@ -2,4 +2,9 @@ import Foundation
 
 // MARK: - Stub file
 
-print("Stub: No tests to run.")
+@main
+struct StubApp {
+    static func main() {
+        print("Stub: No tests to run.")
+    }
+}
