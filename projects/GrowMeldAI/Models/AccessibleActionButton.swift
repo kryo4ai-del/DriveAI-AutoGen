@@ -1,4 +1,5 @@
 // MARK: - Presentation/Common/Components/ActionButton.swift
+import SwiftUI
 
 struct AccessibleActionButton: View {
     let label: String

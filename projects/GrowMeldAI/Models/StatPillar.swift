@@ -1,3 +1,4 @@
+import SwiftUI
 struct StatPillar: View {
     let label: String
     let value: String

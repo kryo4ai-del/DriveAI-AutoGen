@@ -1,13 +1,3 @@
-// Einklappen.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Views/ExamReadinessGaugeView.swift
-//   - Views/LearningGapCardView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Einklappen - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Einklappen: Sendable {
-    // Add properties
-}

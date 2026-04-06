@@ -1,3 +1,4 @@
+import SwiftUI
 struct PermissionBenefitRow: View {
     let icon: String
     let title: String

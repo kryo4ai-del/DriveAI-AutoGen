@@ -1,4 +1,5 @@
 // ❌ INACCESSIBLE
+import SwiftUI
 struct PreExamConfidenceBoost: View {
     let achievements: [EpisodicMemory]
     @Environment(\.dismiss) var dismiss

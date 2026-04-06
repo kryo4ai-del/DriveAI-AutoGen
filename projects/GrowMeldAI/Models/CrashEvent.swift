@@ -1,10 +1,10 @@
-struct CrashEvent {
-}
+import Foundation
 
-struct AnalyticsEvent {
+struct CrashEvent: Codable {
+    let id: UUID
+    let message: String
+    let timestamp: Date
+    init(id: UUID = UUID(), message: String, timestamp: Date = Date()) {
+        self.id = id; self.message = message; self.timestamp = timestamp
+    }
 }
-
-struct EventQueue<T> {
-}
-
-private let queue: EventQueue<AnalyticsEvent> = EventQueue<AnalyticsEvent>()

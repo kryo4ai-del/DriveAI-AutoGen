@@ -1,14 +1,3 @@
-// DateComponents.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/DailyReminder.swift
-//   - Models/ReminderScheduler.swift
-//   - Services/MockNotificationService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// DateComponents - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct DateComponents: Sendable {
-    // Add properties
-}

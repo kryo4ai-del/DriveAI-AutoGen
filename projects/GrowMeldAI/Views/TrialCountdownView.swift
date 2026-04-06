@@ -1,4 +1,2 @@
-struct TrialCountdownView: View {
-    @State private var updateTimer: Timer?
-    // Never invalidated
-}
+import SwiftUI
+struct TrialCountdownView: View { var body: some View { Text("TrialCountdownView") } }

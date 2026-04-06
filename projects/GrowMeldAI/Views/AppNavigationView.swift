@@ -16,10 +16,12 @@ struct AppNavigationView: View {
                 switch route {
                 case .home:
                     MainHomeView()
-                case .categoryDetail(let categoryID):
-                    CategoryDetailPlaceholderView(categoryID: categoryID)
-                case .question(let questionID, let context):
-                    QuestionPlaceholderView(questionID: questionID, context: context)
+                case .category(let id):
+                    CategoryDetailPlaceholderView(categoryID: id)
+                case .results(let resultId):
+                    QuestionPlaceholderView(questionID: resultId, context: nil)
+                default:
+                    EmptyView()
                 }
             }
         }
@@ -27,12 +29,7 @@ struct AppNavigationView: View {
     }
 }
 
-// MARK: - Navigation Path
-enum AppRoute: Hashable {
-    case home
-    case categoryDetail(categoryID: String)
-    case question(questionID: String, context: String?)
-}
+// AppRoute declared in Models/AppRoot.swift
 
 // MARK: - Navigation Coordinator
 class AppNavigationCoordinator: ObservableObject {
@@ -50,6 +47,10 @@ class AppNavigationCoordinator: ObservableObject {
 
     func navigate(to route: AppRoute) {
         navigationPath.append(route)
+    }
+
+    func navigateToCategory(_ id: String) {
+        navigationPath.append(.category(id: id))
     }
 
     func navigateBack() {

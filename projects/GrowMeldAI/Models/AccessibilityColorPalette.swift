@@ -1,4 +1,6 @@
 // ✓ Add to project: Color contrast validation helper
+import SwiftUI
+import UIKit
 struct AccessibilityColorPalette {
     // Define colors with inline contrast ratios
     static let label = Color(

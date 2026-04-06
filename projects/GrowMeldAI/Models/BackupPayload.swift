@@ -1,3 +1,4 @@
+import Foundation
 struct BackupPayload: Codable {
     let version: Int
     let timestamp: Date

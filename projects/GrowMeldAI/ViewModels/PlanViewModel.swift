@@ -1,12 +1,4 @@
+import Foundation
+import Combine
 @MainActor
-final class PlanViewModel: ObservableObject {
-    func generatePlan() {
-        // ... generate new plan ...
-        
-        // Announce to VoiceOver
-        UIAccessibility.post(
-            notification: .announcement,
-            argument: plan?.accessibilityAnnouncement
-        )
-    }
-}
+class PlanViewModel: ObservableObject { init() {} }

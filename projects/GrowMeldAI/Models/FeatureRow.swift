@@ -1,3 +1,4 @@
+import SwiftUI
 struct FeatureRow: View {
     let icon: String
     let title: String

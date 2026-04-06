@@ -10,15 +10,7 @@ enum ConsentEvent: String {
     case failed
 }
 
-final class ConsentAuditLog {
-    private let persistenceKey = "com.driveai.consent.auditLog"
-
-    func logEvent(_ event: String, timestamp: Date) async {
-        // In production, this would persist to secure storage
-        let logEntry = ConsentLogEntry(event: event, timestamp: timestamp)
-        // Implementation would save to Keychain/secure storage
-    }
-}
+// ConsentAuditLog declared in Models/ConsentAuditLog.swift
 
 private struct ConsentLogEntry: Codable {
     let event: String

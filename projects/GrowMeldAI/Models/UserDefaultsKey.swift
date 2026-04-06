@@ -1,4 +1,5 @@
 // ✅ FIXED: Namespaced constants
+import Foundation
 enum UserDefaultsKey {
     static let userProfile = "driveai.userProfile"
     static let userProgress = "driveai.userProgress"

@@ -1,3 +1,4 @@
+import Foundation
 enum MaintenanceServiceError: LocalizedError {
     case statsServiceUnavailable(underlyingError: Error? = nil)
     case categoryServiceUnavailable(underlyingError: Error? = nil)

@@ -1,13 +1,3 @@
-// WriteBatch.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/BatchWriteOperation.swift
-//   - Services/FirestoreService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct WriteBatch: Sendable {
-    // Add properties
-}
+// WriteBatch - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Foundation  // Firebase not available

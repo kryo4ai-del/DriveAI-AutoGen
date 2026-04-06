@@ -1,3 +1,2 @@
-protocol HealthCheckDelegate: AnyObject {
-    func healthStatusDidChange(_ status: AIServiceStatus)
-}
+// HealthCheckDelegate - simplified
+import Foundation

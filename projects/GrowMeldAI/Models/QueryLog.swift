@@ -1,3 +1,4 @@
+import Foundation
 struct QueryLog {
     let query: String
     let duration: TimeInterval

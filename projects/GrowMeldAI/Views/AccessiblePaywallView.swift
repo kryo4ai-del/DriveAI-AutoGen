@@ -1,3 +1,4 @@
+import SwiftUI
 struct AccessiblePaywallView: View {
     var body: some View {
         VStack(spacing: 16) {

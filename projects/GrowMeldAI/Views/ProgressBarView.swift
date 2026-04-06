@@ -1,3 +1,4 @@
+import SwiftUI
 // Views/Questions/ProgressBarView.swift
 struct ProgressBarView: View {
     let currentIndex: Int

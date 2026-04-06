@@ -1,13 +1,3 @@
-// CLLocationCoordinate2D.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/ExamCenterLocator.swift
-//   - Services/DeviceLocationService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct CLLocationCoordinate2D: Sendable {
-    // Add properties
-}
+// CLLocationCoordinate2D - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import CoreLocation

@@ -3,6 +3,8 @@ import SwiftUI
 import UserNotifications
 import os.log
 import Combine
+import Foundation
+import UIKit
 
 /// Centralized manager for push notification (APNs) integration
 /// Handles notification permissions, token registration, and message processing

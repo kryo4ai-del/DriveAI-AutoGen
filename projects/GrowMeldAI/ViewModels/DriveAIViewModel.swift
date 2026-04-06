@@ -1,3 +1,5 @@
+import SwiftUI
+import Combine
 // Core protocol for consistency
 protocol DriveAIViewModel: ObservableObject {
     associatedtype State

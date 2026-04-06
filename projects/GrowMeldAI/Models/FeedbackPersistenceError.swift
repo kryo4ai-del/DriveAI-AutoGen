@@ -1,3 +1,4 @@
+import Foundation
 enum FeedbackPersistenceError: LocalizedError {
     case fileNotFound(path: String)
     case fileCopyFailed(Error)

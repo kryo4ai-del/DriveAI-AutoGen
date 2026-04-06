@@ -1,12 +1,4 @@
-// ViewModels/Performance/ExamResultViewModel.swift
-
+import Foundation
+import Combine
 @MainActor
-final class ExamResultViewModel: ObservableObject {
-    @Published private(set) var exam: ExamAttempt
-    @Published private(set) var feedback: ExamFeedback
-    
-    init(exam: ExamAttempt) {
-        self.exam = exam
-        self.feedback = ExamFeedback(for: exam)
-    }
-}
+class ExamResultViewModel: ObservableObject { init() {} }

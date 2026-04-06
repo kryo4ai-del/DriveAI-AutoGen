@@ -10,24 +10,4 @@ enum OnboardingStep: Hashable {
     case complete
 }
 
-@MainActor
-class OnboardingViewModel: ObservableObject {
-    @Published var currentStep: OnboardingStep = .welcome
-    
-    func advance() {
-        switch currentStep {
-        case .welcome:
-            currentStep = .examDate
-        case .examDate:
-            currentStep = .notificationConsent
-        case .notificationConsent:
-            currentStep = .complete
-        case .complete:
-            break
-        }
-    }
-    
-    func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
-    }
-}
+// Class OnboardingViewModel declared in ViewModels/OnboardingViewModel.swift

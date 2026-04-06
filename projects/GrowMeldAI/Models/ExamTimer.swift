@@ -1,3 +1,5 @@
+import Foundation
+import Combine
 @MainActor
 final class ExamTimer: NSObject, ObservableObject {
     @Published var remainingSeconds: Int = 1800

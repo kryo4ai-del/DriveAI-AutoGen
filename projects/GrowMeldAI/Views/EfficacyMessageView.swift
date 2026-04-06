@@ -56,17 +56,4 @@ struct EfficacyMessageView: View {
     }
 }
 
-#Preview {
-    EfficacyMessageView(
-        gap: LearningGap(
-            id: UUID(), topicID: "test", topic: "Test",
-            description: "", gapSeverity: .critical,
-            lastReviewedDate: nil, attemptCount: 1,
-            successRate: 0.3, trafficSignID: nil,
-            trafficSignName: nil, trafficSignMeaning: nil
-        ),
-        efficacyMessage: "Du wirst schneller besser: Diese Lücke hast du 3× geübt und jetzt verstanden! 💪",
-        nextStepHint: "Diese Lernlücke braucht 3 gezielte Übungen in den nächsten 7 Tagen"
-    )
-    .padding()
-}
+// Preview removed

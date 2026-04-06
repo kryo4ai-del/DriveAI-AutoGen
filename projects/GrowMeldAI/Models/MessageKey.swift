@@ -1,4 +1,5 @@
 // Models/MotivationalMessage.swift
+import Foundation
 enum MessageKey: String {
     case beginnerTimeLeft = "msg.beginner.timeLeft"
     case beginnerDailyQuestions = "enc.beginner.dailyQuestions"

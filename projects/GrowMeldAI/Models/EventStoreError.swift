@@ -1,3 +1,4 @@
+import Foundation
 enum EventStoreError: LocalizedError {
     case fileNotFound
     case ioError(Error)

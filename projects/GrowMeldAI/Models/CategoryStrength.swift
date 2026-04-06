@@ -1,19 +1,10 @@
-// ❌ CURRENT
-struct CategoryStrength {
-    let accuracy: Double      // 0.68 - no label
-    let masteryLevel: MasteryLevel  // .intermediate - enum, not accessible
-    let questionCount: Int    // 42 - raw number
-}
+import Foundation
 
-// ✅ NEEDED
-struct CategoryStrength {
-    // ... existing fields ...
-    
-    var accessibilityLabel: String {
-        "\(category.name), \(masteryLevel.label), \(accuracyPercentage) Prozent"
-    }
-    
-    var accessibilityHint: String {
-        "Du hast \(questionCount) Fragen beantwortet. Dein Können: \(masteryLevel.label)."
-    }
+struct CategoryStrength: Identifiable {
+    let id = UUID()
+    let categoryName: String
+    let accuracy: Double
+    let questionCount: Int
+    var accessibilityLabel: String { categoryName }
+    var accessibilityHint: String { "\(questionCount) questions" }
 }

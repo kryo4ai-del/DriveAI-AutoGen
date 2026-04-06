@@ -1,3 +1,4 @@
+import Foundation
 enum FallbackError: LocalizedError, Sendable {
     case resourceNotFound(String)
     case notFound(String)

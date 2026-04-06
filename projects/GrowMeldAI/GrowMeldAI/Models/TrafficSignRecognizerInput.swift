@@ -1,1 +1,0 @@
-class TrafficSignRecognizerInput: MLFeatureProvider { ... } // Manual stub

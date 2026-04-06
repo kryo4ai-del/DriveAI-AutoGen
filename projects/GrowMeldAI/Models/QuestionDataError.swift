@@ -1,3 +1,4 @@
+import Foundation
 enum QuestionDataError: LocalizedError, Equatable {
     case fileNotFound(String)
     case invalidJSON(String)

@@ -1,3 +1,5 @@
+import Foundation
+import SwiftUI
 enum ImageRecognitionError: LocalizedError {
   case invalidImage(reason: String)
   case apiKeyMissing

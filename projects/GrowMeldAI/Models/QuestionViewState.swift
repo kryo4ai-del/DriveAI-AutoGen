@@ -9,6 +9,4 @@ enum QuestionViewState {
 }
 
 // MARK: - ViewModel (Testable)
-@MainActor
-class QuestionViewModel {
-}
+// Class QuestionViewModel declared in Models/QuestionMode.swift

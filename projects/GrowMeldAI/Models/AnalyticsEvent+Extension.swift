@@ -1,4 +1,1 @@
-enum AnalyticsEvent {
-    case appCrashLogged(type: String, severity: String)
-    case nonFatalErrorLogged(category: String)
-}
+// Enum AnalyticsEvent declared in Models/AnalyticsEvent.swift

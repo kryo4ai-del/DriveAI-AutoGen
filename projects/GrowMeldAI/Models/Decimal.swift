@@ -1,16 +1,3 @@
-// Decimal.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/PriceFormatter.swift
-//   - Models/ProrateCalculation.swift
-//   - Models/ProrateCalculator.swift
-//   - Models/SubscriptionPlan.swift
-//   - Models/SubscriptionTier.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Decimal - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Decimal: Sendable {
-    // Add properties
-}

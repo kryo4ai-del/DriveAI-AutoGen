@@ -1,3 +1,4 @@
+import Foundation
 struct Streak: Codable {
        var current: Int = 0
        var longest: Int = 0

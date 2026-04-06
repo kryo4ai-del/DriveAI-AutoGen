@@ -1,3 +1,4 @@
+import SwiftUI
 struct HorizontalAnswerLayout: View {
     var answers: [String]
     @Binding var selectedAnswer: String?

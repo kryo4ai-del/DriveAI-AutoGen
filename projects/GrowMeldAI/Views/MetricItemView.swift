@@ -1,3 +1,4 @@
+import SwiftUI
 struct MetricItemView: View {
     let label: String
     let value: String

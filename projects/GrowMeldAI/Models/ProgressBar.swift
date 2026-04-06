@@ -1,3 +1,4 @@
+import SwiftUI
 struct ProgressBar: View {
     let current: Int
     let total: Int

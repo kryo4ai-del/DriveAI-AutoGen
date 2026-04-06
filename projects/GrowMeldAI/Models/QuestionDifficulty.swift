@@ -17,13 +17,7 @@ enum QuestionDifficulty: Int, Codable, CaseIterable {
     }
 }
 
-enum AnswerState: String, Codable, CaseIterable {
-    case unanswered
-    case selected
-    case submitted
-    case correct
-    case incorrect
-}
+// Enum AnswerState declared in Models/AnswerState.swift
 
 enum ExamSessionState: String, Codable {
     case inProgress
@@ -34,17 +28,7 @@ enum ExamSessionState: String, Codable {
 
 // MARK: - Question & Options
 
-struct QuestionOption: Identifiable, Codable, Equatable {
-    let id: UUID
-    let text: String
-    let imageUrl: String?
-    
-    init(id: UUID = UUID(), text: String, imageUrl: String? = nil) {
-        self.id = id
-        self.text = text
-        self.imageUrl = imageUrl
-    }
-}
+// Struct QuestionOption declared in Models/QuestionOption.swift
 
 // MARK: - Category
 

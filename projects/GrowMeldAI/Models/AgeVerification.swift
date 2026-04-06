@@ -1,3 +1,4 @@
+import Foundation
 struct AgeVerification {
     let userId: UUID
     let verifiedAge: Int?              // Null if unverified

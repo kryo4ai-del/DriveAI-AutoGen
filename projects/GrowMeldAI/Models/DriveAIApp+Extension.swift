@@ -1,10 +1,2 @@
-extension DriveAIApp {
-    var body: some Scene {
-        WindowGroup {
-            // ...
-            .environment(\.localDataService, LocalDataService.shared)
-            .environment(\.progressService, ProgressService.shared)
-            .environment(\.userService, UserService.shared)
-        }
-    }
-}
+// DriveAIApp body declared in Models/DriveAIApp.swift
+import Foundation

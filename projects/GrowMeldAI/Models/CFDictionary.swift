@@ -1,13 +1,3 @@
-// CFDictionary.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/VisionServiceProtocol.swift
-//   - Services/VisionService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct CFDictionary: Sendable {
-    // Add properties
-}
+// CFDictionary is provided by CoreFoundation framework
+// This file intentionally left empty to avoid shadowing the system type
+import CoreFoundation

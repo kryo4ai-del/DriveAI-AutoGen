@@ -1,5 +1,6 @@
 import CoreLocation
 import Combine
+import Foundation
 
 @MainActor
 final class LocationAuthorizationManager: NSObject, CLLocationManagerDelegate {

@@ -1,3 +1,4 @@
+import Foundation
 enum ASOError: LocalizedError {
     case networkUnavailable
     case apiRateLimited(retryAfter: TimeInterval)

@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct ComplianceIntroScreen: View {
     @Environment(\.sizeCategory) var sizeCategory
     

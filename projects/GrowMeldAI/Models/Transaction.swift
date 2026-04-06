@@ -1,15 +1,3 @@
-// Transaction.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/StoreKitManager.swift
-//   - Models/SubscriptionManager.swift
-//   - Models/TransactionValidator.swift
-//   - Services/EntitlementService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Transaction - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Transaction: Sendable {
-    // Add properties
-}

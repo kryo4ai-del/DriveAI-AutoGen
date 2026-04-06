@@ -16,6 +16,4 @@ enum SEOServiceError: Error, LocalizedError {
     }
 }
 
-@MainActor
-class SEOService {
-}
+// Class SEOService declared in Services/SEOService.swift

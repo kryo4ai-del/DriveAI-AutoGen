@@ -1,4 +1,5 @@
 // Domain/Coaching/CoachingRepositoryProtocol.swift
+import Foundation
 
 protocol CoachingRepositoryProtocol {
     func fetchRecommendations(for userId: String) async throws -> [CoachingRecommendation]

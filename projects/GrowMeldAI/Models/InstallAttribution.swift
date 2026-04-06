@@ -1,4 +1,5 @@
 // Models/Attribution.swift
+import Foundation
 
 struct InstallAttribution: Codable {
     let source: InstallSource

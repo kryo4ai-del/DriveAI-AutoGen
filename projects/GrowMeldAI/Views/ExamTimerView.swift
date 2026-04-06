@@ -1,3 +1,6 @@
+import SwiftUI
+import Foundation
+import UIKit
 struct ExamTimerView: View {
     let timeRemaining: TimeInterval
     let examDuration: TimeInterval = 30 * 60
@@ -54,19 +57,4 @@ struct ExamTimerView: View {
 }
 
 // Usage in ExamProgressView:
-struct ExamProgressView: View {
-    @ObservedObject var viewModel: ExamViewModel
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text("Question \(viewModel.questionsRemaining) of 30")
-                Spacer()
-                ExamTimerView(timeRemaining: viewModel.timeRemaining)
-            }
-            .accessibilityElement(children: .combine)
-            
-            // Question content...
-        }
-    }
-}
+// Struct ExamProgressView declared in Views/ExamProgressView.swift

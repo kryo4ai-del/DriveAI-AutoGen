@@ -1,3 +1,5 @@
+import Foundation
+import SwiftUI
 enum DesignConstants {
     enum Spacing {
         static let xs: CGFloat = 4

@@ -1,4 +1,5 @@
 // Validators/TimezoneValidator.swift
+import Foundation
 struct TimezoneValidator {
     static func isDifferentCalendarDay(_ date1: Date, _ date2: Date) -> Bool {
         let calendar = Calendar.current

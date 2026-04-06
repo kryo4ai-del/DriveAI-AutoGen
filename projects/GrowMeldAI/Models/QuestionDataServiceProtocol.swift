@@ -7,21 +7,4 @@ protocol QuestionDataServiceProtocol {
     func getRandomQuestions(count: Int, from categoryId: UUID?) async throws -> [Question]
 }
 
-@MainActor
-class QuestionDataService: QuestionDataServiceProtocol {
-    func getQuestion(id: UUID) async throws -> Question {
-        fatalError("Not implemented")
-    }
-    
-    func getQuestionsByCategory(_ categoryId: UUID) async throws -> [Question] {
-        fatalError("Not implemented")
-    }
-    
-    func getAllCategories() async throws -> [Category] {
-        fatalError("Not implemented")
-    }
-    
-    func getRandomQuestions(count: Int, from categoryId: UUID?) async throws -> [Question] {
-        fatalError("Not implemented")
-    }
-}
+// Class QuestionDataService declared in Services/QuestionDataService.swift

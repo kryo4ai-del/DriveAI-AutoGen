@@ -1,13 +1,3 @@
-// VNClassificationObservation.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/IdentificationError.swift
-//   - Models/PlantIdentificationError.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct VNClassificationObservation: Sendable {
-    // Add properties
-}
+// VNClassificationObservation - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Vision

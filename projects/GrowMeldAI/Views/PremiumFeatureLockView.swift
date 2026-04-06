@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct PremiumFeatureLockView: View {
     let onDismiss: (DismissReason) -> Void
     

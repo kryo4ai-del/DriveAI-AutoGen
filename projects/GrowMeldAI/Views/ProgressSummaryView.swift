@@ -1,3 +1,4 @@
+import SwiftUI
 struct ProgressSummaryView: View {
     let categoryName: String
     let correct: Int

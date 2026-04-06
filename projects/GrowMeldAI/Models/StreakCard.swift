@@ -1,3 +1,4 @@
+import SwiftUI
 struct StreakCard: View {
     let current: Int
     let longest: Int

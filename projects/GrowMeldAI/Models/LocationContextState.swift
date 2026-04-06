@@ -1,6 +1,2 @@
-enum LocationContextState: Equatable {
-    case idle
-    case fetching
-    case success(UserLocationContext)
-    case failed(LocationError)
-}
+// LocationContextState - simplified
+import Foundation

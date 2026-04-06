@@ -1,3 +1,4 @@
+import SwiftUI
 // Views/Debug/AnalyticsDebugView.swift
 // Available only in #DEBUG builds
 

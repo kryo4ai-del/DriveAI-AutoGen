@@ -1,3 +1,4 @@
+import Foundation
 struct SpacedRepetitionItem: Identifiable, Equatable {
     let id: String
     let questionId: String

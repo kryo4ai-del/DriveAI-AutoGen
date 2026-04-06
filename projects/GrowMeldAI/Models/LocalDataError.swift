@@ -1,3 +1,4 @@
+import Foundation
 enum LocalDataError: LocalizedError, Equatable {
     case databaseInitializationFailed(String)
     case queryFailed(String)

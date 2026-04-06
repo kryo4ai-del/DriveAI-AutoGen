@@ -1,3 +1,2 @@
-public struct ErrorReport: Codable, Identifiable {
-    // No CodingKeys, no custom Codable impl
-}
+// ErrorReport - simplified
+import Foundation

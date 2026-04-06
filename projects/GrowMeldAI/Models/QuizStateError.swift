@@ -1,3 +1,4 @@
+import Foundation
 enum QuizStateError: LocalizedError {
     case invalidStateTransition(from: String, action: String)
     case noMoreQuestions

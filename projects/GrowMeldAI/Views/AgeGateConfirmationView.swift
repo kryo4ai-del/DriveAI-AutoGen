@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct AgeGateConfirmationView: View {
     let birthDate: Date
     let recordedDate: Date = Date()

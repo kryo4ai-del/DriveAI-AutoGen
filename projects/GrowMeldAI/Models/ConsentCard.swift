@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct ConsentCard: View {
     @State private var isExpanded = false
     @State private var isProcessing = false  // ← Guard against double-submit

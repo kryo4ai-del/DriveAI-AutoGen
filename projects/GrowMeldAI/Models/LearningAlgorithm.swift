@@ -1,4 +1,5 @@
 // Services/Domain/LearningAlgorithm.swift
+import Foundation
 struct LearningAlgorithm {
     /// Calculates next review date respecting user's local midnight.
     ///

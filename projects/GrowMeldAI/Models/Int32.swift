@@ -1,13 +1,3 @@
-// Int32.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/DatabaseConfiguration.swift
-//   - Models/DatabaseValue.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Int32 - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Int32: Sendable {
-    // Add properties
-}

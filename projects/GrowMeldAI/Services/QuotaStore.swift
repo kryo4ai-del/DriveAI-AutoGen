@@ -8,6 +8,7 @@
 // TODO: Replace this stub with a full implementation.
 
 import Foundation
+import SwiftUI
 
 final class QuotaStore: @unchecked Sendable {
     // Add implementation

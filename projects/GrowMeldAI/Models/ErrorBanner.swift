@@ -1,4 +1,5 @@
 // Models/AppError.swift
+import SwiftUI
 
 // Views/ErrorBanner.swift
 struct ErrorBanner: View {

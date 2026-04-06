@@ -1,3 +1,4 @@
+import Foundation
 enum ParentalConsentState {
     case notApplicable           // Age verified ≥13
     case consentPending          // Waiting for parent approval

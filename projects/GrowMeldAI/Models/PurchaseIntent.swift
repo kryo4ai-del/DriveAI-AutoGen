@@ -1,3 +1,4 @@
+import Foundation
 struct PurchaseIntent {
     let plan: SubscriptionPlan
     let initiatedAt: Date

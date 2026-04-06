@@ -1,6 +1,8 @@
 // ✅ FIXED: ExamDateViewModel.swift
 
 import Foundation
+import SwiftUI
+import Combine
 
 @MainActor
 final class ExamDateViewModel: ObservableObject {

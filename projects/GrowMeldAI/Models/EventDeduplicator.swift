@@ -1,3 +1,4 @@
+import Foundation
 struct EventDeduplicator: Sendable {
     private actor DeduplicationStore {
         private var seenHashes: [String: Date] = [:]

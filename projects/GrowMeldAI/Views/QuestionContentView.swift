@@ -1,3 +1,4 @@
+import SwiftUI
 struct QuestionContentView: View {
     let question: Question
     @Environment(\.sizeCategory) var sizeCategory

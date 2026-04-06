@@ -1,8 +1,7 @@
-enum CheckoutStep {
-    case selectPlan  // Only: product name, price, "Choose this"
-    case confirmTrial  // Only: "14-day free trial. You'll be charged on day 15."
-    case reviewPayment  // Only: total price, VAT transparency, terms link
-    case success  // Celebration frame
-}
+import Foundation
 
-@Published var checkoutStep: CheckoutStep = .selectPlan
+enum CheckoutStep: Int, CaseIterable {
+    case review = 0
+    case payment = 1
+    case confirmation = 2
+}

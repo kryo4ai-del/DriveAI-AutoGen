@@ -1,5 +1,6 @@
 import SwiftUI
 import Foundation
+import UIKit
 
 struct CachedAsyncImage: View {
     let url: URL?

@@ -1,4 +1,5 @@
 // Models/Compliance/ComplianceProfile.swift
+import Foundation
 
 struct ComplianceProfile: Codable, Equatable {
     enum AgeGroup: String, Codable {

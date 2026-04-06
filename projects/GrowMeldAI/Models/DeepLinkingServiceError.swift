@@ -3,6 +3,4 @@ enum DeepLinkingServiceError: Error {
     case invalidCategory
 }
 
-@MainActor
-class DeepLinkingService {
-}
+// Class DeepLinkingService declared in Services/DeepLinkingService.swift

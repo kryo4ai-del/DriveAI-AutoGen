@@ -1,3 +1,4 @@
+import Foundation
 enum ConfidenceTrend {
     case improving, stable, declining
     

@@ -1,13 +1,3 @@
-// Publishers.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - ViewModels/DriveAIBackupPresentationViewModel.swift
-//   - ViewModels/EpisodicalMemoriesViewModel.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Publishers - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Publishers: Sendable {
-    // Add properties
-}

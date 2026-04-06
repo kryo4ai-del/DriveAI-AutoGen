@@ -1,5 +1,6 @@
 // Services/Notifications/NotificationServiceProtocol.swift
 import UserNotifications
+import Foundation
 
 protocol NotificationServiceProtocol: Sendable {
     func requestUserPermission() async -> UNAuthorizationStatus

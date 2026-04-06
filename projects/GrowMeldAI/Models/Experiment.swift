@@ -106,15 +106,4 @@ struct Variant: Codable, Identifiable {
 
 // MARK: - ExperimentAssignment
 
-struct ExperimentAssignment: Codable {
-    let id: UUID
-    let experimentId: String
-    let userId: String
-    let variantId: String
-    let assignedAt: Date
-    let cohort: String? // for tracking
-
-    enum CodingKeys: String, CodingKey {
-        case id, experimentId, userId, variantId, assignedAt, cohort
-    }
-}
+// Struct ExperimentAssignment declared in Models/ABTestingError.swift

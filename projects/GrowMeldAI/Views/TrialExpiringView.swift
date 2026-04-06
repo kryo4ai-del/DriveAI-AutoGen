@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct TrialExpiringView: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     

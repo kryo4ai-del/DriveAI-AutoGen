@@ -1,5 +1,6 @@
 // DesignSystem.swift
 import SwiftUI
+import UIKit
 
 enum DesignSystem {
     // MARK: - Colors

@@ -1,3 +1,4 @@
+import SwiftUI
 // ✅ Scales with Dynamic Type
 struct StepIndicatorView: View {
     @Environment(\.sizeCategory) var sizeCategory

@@ -1,3 +1,4 @@
+import Foundation
 struct SpacedRepetitionCalculator {
     // Ebbinghaus curve intervals (days)
     private let reviewIntervals = [1, 3, 7, 14, 30]

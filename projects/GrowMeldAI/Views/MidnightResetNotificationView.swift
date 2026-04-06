@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct MidnightResetNotificationView: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     

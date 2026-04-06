@@ -1,13 +1,3 @@
-// PersistableRecord.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/Columns.swift
-//   - Models/QuestionRecord.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct PersistableRecord: Sendable {
-    // Add properties
-}
+// PersistableRecord - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Foundation  // SQLite not available

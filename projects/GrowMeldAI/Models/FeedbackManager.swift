@@ -1,4 +1,5 @@
 // ViewModels/Shared/FeedbackManager.swift
+import UIKit
 @MainActor
 final class FeedbackManager {
     static let shared = FeedbackManager()

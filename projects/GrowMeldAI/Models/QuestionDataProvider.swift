@@ -1,6 +1,7 @@
 /// Provides read access to the question database.
 /// 
 /// Implementations must load questions from local storage (JSON/SQLite).
+import Foundation
 /// All methods are thread-safe for concurrent access.
 protocol QuestionDataProvider: Sendable {
     /// - Parameters:

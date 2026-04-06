@@ -1,3 +1,4 @@
+import Foundation
 struct RegionConfigAudit {
     let version: String
     let updated: Date

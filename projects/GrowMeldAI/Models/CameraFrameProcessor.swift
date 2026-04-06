@@ -1,6 +1,7 @@
 import Foundation
 import CoreVideo
 import CoreImage
+import SwiftUI
 
 class CameraFrameProcessor {
     private let queue = DispatchQueue(

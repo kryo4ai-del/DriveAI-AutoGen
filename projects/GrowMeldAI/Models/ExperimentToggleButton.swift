@@ -1,4 +1,5 @@
 // AFTER (✅ Accessible size)
+import SwiftUI
 struct ExperimentToggleButton: View {
     var body: some View {
         Button(action: { /* toggle */ }) {

@@ -1,3 +1,4 @@
+import Foundation
 struct QuestionOutcome {
     let questionId: String
     let categoryId: String

@@ -1,13 +1,3 @@
-// Notification.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AccessibilityAnnouncementManager.swift
-//   - Models/DeepLinkHandlerProtocol.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Notification - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Notification: Sendable {
-    // Add properties
-}

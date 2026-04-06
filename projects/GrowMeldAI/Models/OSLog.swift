@@ -1,13 +1,3 @@
-// OSLog.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/OSLog+Extension.swift
-//   - Services/MockAnalyticsService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// OSLog - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct OSLog: Sendable {
-    // Add properties
-}

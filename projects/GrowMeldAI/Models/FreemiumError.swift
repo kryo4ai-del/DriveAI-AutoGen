@@ -1,3 +1,4 @@
+import Foundation
 public enum FreemiumError: LocalizedError {
     case invalidTrialDuration
     case invalidDailyLimits

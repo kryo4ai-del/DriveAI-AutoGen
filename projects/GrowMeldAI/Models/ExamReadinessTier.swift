@@ -14,10 +14,4 @@ enum TemporalZone {
     case lastMinute      // <7 days
 }
 
-struct ExamReadinessAssessment {
-    let tier: ExamReadinessTier
-    let temporalZone: TemporalZone
-    let motivationalText: String
-    let primaryCTA: StudyOption?
-    let nextOptimalReviewCategories: [String]
-}
+// Struct ExamReadinessAssessment declared in Models/UserDiagnosticProfile.swift

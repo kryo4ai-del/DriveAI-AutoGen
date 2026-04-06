@@ -1,12 +1,6 @@
-// ❌ DON'T DO THIS
-class AppService {  // Does everything, hard to test
-    func loadQuestions() { }
-    func saveProgress() { }
-    func startExam() { }
-    func encryptBackup() { }
-}
+// AppService - example code, real services in dedicated files
+import Foundation
 
-// ✅ DO THIS
-class QuestionService { func loadQuestions() { } }
-class ProgressService { func saveProgress() { } }
+// QuestionService declared in Services/QuestionService.swift
+// ProgressService declared in Services/ProgressService.swift
 class ExamModeService { func startExam() { } }

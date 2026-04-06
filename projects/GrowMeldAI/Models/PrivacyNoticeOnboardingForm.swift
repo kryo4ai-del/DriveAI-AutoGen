@@ -1,4 +1,5 @@
 // Privacy Notice during form completion
+import SwiftUI
 struct PrivacyNoticeOnboardingForm: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {

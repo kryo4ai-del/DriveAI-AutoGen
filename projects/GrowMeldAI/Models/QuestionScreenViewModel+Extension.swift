@@ -1,10 +1,4 @@
-// BETTER: Move to ViewModel
-extension QuestionScreenViewModel {
-    func getFeedbackState(
-        for option: Question.Option,
-        isSelected: Bool,
-        isRevealed: Bool
-    ) -> AnswerOptionView.FeedbackState {
-        // Centralized logic
-    }
-}
+import Foundation
+import Combine
+@MainActor
+class QuestionScreenViewModelExt: ObservableObject { init() {} }

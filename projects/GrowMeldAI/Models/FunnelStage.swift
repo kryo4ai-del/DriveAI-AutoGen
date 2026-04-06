@@ -1,4 +1,5 @@
 // In FunnelStage enum:
+import Foundation
 enum FunnelStage: String, CaseIterable {
     case appLaunch
     case onboardingStart

@@ -1,14 +1,3 @@
-// Memory.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/EpisodicalMemoryViewModelTests+Extension.swift
-//   - Models/EpisodicalMemoryViewModelTests.swift
-//   - ViewModels/EpisodicalMemoryViewModel.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Memory - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Memory: Sendable {
-    // Add properties
-}

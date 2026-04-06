@@ -1,4 +1,5 @@
 // Models/Firestore/FirestoreTimestamp.swift
+import Foundation
 @propertyWrapper
 struct FirestoreTimestamp: Codable {
     var wrappedValue: Date

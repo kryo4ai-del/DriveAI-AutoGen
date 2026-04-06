@@ -1,5 +1,10 @@
 public enum QuestionCategory: String, Codable, CaseIterable, Sendable {
-    // ... existing cases ...
+    case trafficSigns = "traffic_signs"
+    case speedLimits = "speed_limits"
+    case parkingRules = "parking_rules"
+    case vehicleTechnique = "vehicle_technique"
+    case rightOfWay = "right_of_way"
+    case fines = "fines"
     
     /// Recommended study order for first-time learners (low-to-high prerequisites)
     public static let recommendedSequence: [QuestionCategory] = [

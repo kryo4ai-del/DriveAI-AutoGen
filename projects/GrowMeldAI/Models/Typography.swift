@@ -1,3 +1,4 @@
+import SwiftUI
 enum Typography {
     // Use TextStyle directly (automatically scales with Dynamic Type)
     static let h1 = Font.system(.largeTitle, design: .default).weight(.bold)

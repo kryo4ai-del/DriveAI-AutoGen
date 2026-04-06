@@ -1,19 +1,7 @@
 import Foundation
 import AVFoundation
 
-enum CameraError: LocalizedError {
-    case permissionDenied
-    case deviceUnavailable
-
-    var errorDescription: String? {
-        switch self {
-        case .permissionDenied:
-            return "Camera permission denied."
-        case .deviceUnavailable:
-            return "Camera device unavailable."
-        }
-    }
-}
+// Enum CameraError declared in Models/CameraError.swift
 
 final class MockCameraPermissionService {
     var shouldSucceed = true

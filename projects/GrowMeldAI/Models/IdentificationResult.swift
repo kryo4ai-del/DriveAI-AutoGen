@@ -1,14 +1,13 @@
 // Models/IdentificationResult.swift
 import Foundation
 
-struct IdentificationResult: Codable {
+struct IdentificationResult: Codable, Equatable {
     let name: String
     let confidence: Double
-    let category: Category
+    let category: IdentificationCategory
     let description: String
-    let learningPath: [Question.Category] // NEW: For competence feedback
 
-    enum Category: String, Codable {
+    enum IdentificationCategory: String, Codable {
         case trafficSign = "traffic_sign"
         case roadMarking = "road_marking"
         case vehicle = "vehicle"
@@ -21,8 +20,7 @@ extension IdentificationResult {
             name: "Stoppschild",
             confidence: 0.98,
             category: .trafficSign,
-            description: "Rotes achteckiges Schild mit 'STOP'",
-            learningPath: [.trafficSigns, .rightOfWay]
+            description: "Rotes achteckiges Schild mit 'STOP'"
         )
     }
 }

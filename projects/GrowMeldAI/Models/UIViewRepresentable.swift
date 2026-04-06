@@ -1,13 +1,3 @@
-// UIViewRepresentable.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Views/PlantRecognitionCameraView.swift
-//   - Views/WebView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct UIViewRepresentable: Sendable {
-    // Add properties
-}
+// UIViewRepresentable - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import UIKit

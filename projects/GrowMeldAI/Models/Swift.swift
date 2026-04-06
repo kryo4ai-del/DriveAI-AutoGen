@@ -1,13 +1,3 @@
-// Swift.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/LoadError.swift
-//   - Services/ReminderContentService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Swift - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Swift: Sendable {
-    // Add properties
-}

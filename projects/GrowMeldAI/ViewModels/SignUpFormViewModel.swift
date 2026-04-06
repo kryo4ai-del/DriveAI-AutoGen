@@ -1,6 +1,8 @@
 // ✅ FIXED: SignUpFormViewModel.swift
 
 import Foundation
+import SwiftUI
+import Combine
 
 @MainActor
 final class SignUpFormViewModel: ObservableObject {

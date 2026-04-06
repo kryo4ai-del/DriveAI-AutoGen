@@ -1,4 +1,7 @@
+import Foundation
+import Combine
 class DeepLinkRouter: ObservableObject {
+    static let shared = DeepLinkRouter()
     @Published var pendingTarget: DeepLinkTarget?
     private let lock = NSLock()
     

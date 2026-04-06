@@ -21,7 +21,7 @@ struct DomainEvent: ASOEvent {
     init(
         type: EventType,
         sessionID: UUID,
-        payload: EventPayload = EventPayload(),
+        payload: EventPayload = EventPayload(type: "", data: [:]),
         timestamp: Date = Date()
     ) {
         self.id = UUID()

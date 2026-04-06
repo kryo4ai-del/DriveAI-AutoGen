@@ -1,6 +1,7 @@
 // File: ComplianceViewModel.swift
 import Foundation
 import Combine
+import SwiftUI
 
 @MainActor
 final class ComplianceViewModel: ObservableObject {
@@ -43,6 +44,17 @@ final class ComplianceViewModel: ObservableObject {
     private func validateCompliance() {
         // Additional validation logic can be added here
         objectWillChange.send()
+    }
+
+    @Published var totalQuestionsProtected: Int = 0
+    @Published var isLoading = false
+    @Published var exportedDataURL: URL? = nil
+    @Published var errorMessage: String? = nil
+
+    func exportData() async {
+        isLoading = true
+        defer { isLoading = false }
+        // Placeholder export logic
     }
 
     // MARK: - Compliance Status

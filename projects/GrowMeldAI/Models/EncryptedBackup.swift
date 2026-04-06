@@ -8,9 +8,7 @@ struct EncryptedBackup {
     let algorithm: String
 }
 
-enum BackupError: Error {
-    case encryptionFailed(String)
-}
+// Enum BackupError declared in Models/BackupError.swift
 
 struct BackupCrypto {
     static func encrypt(_ data: Data) throws -> EncryptedBackup {

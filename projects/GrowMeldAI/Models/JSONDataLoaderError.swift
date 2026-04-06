@@ -1,3 +1,4 @@
+import Foundation
 enum JSONDataLoaderError: LocalizedError {
     case fileNotFound(String)
     case decodingFailed(DecodingError)

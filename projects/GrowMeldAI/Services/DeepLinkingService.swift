@@ -1,5 +1,6 @@
 import Foundation
 import os.log
+import Combine
 
 @MainActor
 class DeepLinkingService: ObservableObject {
@@ -49,7 +50,7 @@ class DeepLinkingService: ObservableObject {
                 return nil
             }
             logger.info("Routing to category: \(categoryName)")
-            return .category(name: categoryName)
+            return .category(id: categoryName)
             
         case "exam":
             logger.info("Routing to exam simulation")
@@ -92,6 +93,12 @@ class DeepLinkingService: ObservableObject {
             
         case .examSimulation:
             components.path = "/exam"
+        case .profile:
+            components.path = "/profile"
+        case .dashboard:
+            components.path = "/dashboard"
+        default:
+            components.path = "/"
         }
         
         return components.url
@@ -100,8 +107,4 @@ class DeepLinkingService: ObservableObject {
 
 // MARK: - Destination Types
 
-enum DeepLinkDestination: Equatable {
-    case question(id: String)
-    case category(name: String)
-    case examSimulation
-}
+// Enum DeepLinkDestination declared in Models/DeepLinkDestination.swift

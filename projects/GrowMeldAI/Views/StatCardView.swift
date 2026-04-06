@@ -1,3 +1,4 @@
+import SwiftUI
 struct StatCardView: View {
     let title: String
     let value: String

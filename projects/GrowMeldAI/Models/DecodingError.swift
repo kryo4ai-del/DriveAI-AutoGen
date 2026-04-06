@@ -1,13 +1,3 @@
-// DecodingError.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/JSONDataLoaderError.swift
-//   - Models/QuestionDecodeError.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// DecodingError - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct DecodingError: Sendable {
-    // Add properties
-}

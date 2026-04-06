@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import SwiftUI
 
 /// ViewModel for Apple Search Ads campaign management
 final class ASAViewModel: ObservableObject {

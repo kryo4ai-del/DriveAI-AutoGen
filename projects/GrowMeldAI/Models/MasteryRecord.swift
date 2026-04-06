@@ -1,5 +1,6 @@
 // Models/MasteryRecord.swift
 import Foundation
+import SwiftUI
 
 struct MasteryRecord: Identifiable, Codable, Equatable {
     let id: UUID

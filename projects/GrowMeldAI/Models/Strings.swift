@@ -1,3 +1,4 @@
+import Foundation
 enum Strings {
     enum Backup {
         static let insufficientSpace = NSLocalizedString(

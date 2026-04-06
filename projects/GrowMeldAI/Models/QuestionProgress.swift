@@ -1,4 +1,5 @@
 // Data/Models/QuestionProgress.swift
+import Foundation
 struct QuestionProgress: Codable, Identifiable {
     let id: String
     let questionId: String

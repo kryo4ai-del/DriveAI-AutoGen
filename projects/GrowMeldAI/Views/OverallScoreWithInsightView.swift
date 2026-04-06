@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct OverallScoreWithInsightView: View {
     let overallScore: Double // 0.75
     let categoryBreakdown: [CategoryInsight]

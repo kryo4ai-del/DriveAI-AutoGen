@@ -1,3 +1,4 @@
+import Foundation
 private final class CachedQuestions: NSObject {
     let questions: [Question]
     let timestamp = Date()

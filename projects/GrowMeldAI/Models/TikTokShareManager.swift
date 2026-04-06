@@ -1,5 +1,6 @@
 // TikTokShareManager.swift
 import Foundation
+import UIKit
 
 /// Manager for TikTok sharing operations
 /// This is intentionally minimal to avoid any data sharing concerns

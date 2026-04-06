@@ -1,3 +1,4 @@
+import Foundation
 enum ProficiencyLevel: Codable {
     case weak, fair, strong
 }

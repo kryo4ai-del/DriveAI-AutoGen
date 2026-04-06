@@ -1,23 +1,9 @@
-func test_loadProducts_concurrentCalls_singleNetworkRequest() async {
-  let counter = AtomicInt(0) // Use non-actor struct for simplicity
-  
-  mockStoreKit.onLoadProducts = {
-    counter.atomicallyIncrement() // Thread-safe operation
-  }
-  
-  // ... rest of test
-  XCTAssertEqual(counter.value, 1)
-}
+import Foundation
 
-struct AtomicInt {
-  private let lock = NSLock()
-  private var _value: Int = 0
-  
-  var value: Int {
-    lock.withLock { _value }
-  }
-  
-  mutating func atomicallyIncrement() {
-    lock.withLock { _value += 1 }
-  }
+class AtomicInt {
+    private var value: Int
+    private let lock = NSLock()
+    init(_ value: Int = 0) { self.value = value }
+    func get() -> Int { lock.lock(); defer { lock.unlock() }; return value }
+    func increment() { lock.lock(); value += 1; lock.unlock() }
 }

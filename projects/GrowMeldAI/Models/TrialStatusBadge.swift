@@ -1,3 +1,4 @@
+import SwiftUI
 struct TrialStatusBadge: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var isPulsing = false

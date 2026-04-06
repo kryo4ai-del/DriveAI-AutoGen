@@ -1,13 +1,3 @@
-// Success.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AsyncResult+Extension.swift
-//   - Views/InstagramShareView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Success - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Success: Sendable {
-    // Add properties
-}

@@ -1,4 +1,5 @@
 // Instead of "Streak: 5", show exam readiness
+import SwiftUI
 struct ExamReadinessIndicator: View {
     let daysUntilExam: Int
     let questionsAnsweredThisWeek: Int

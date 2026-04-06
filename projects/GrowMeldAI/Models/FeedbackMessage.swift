@@ -16,7 +16,4 @@ struct FeedbackMessage: Identifiable {
     }
 }
 
-@MainActor
-class FeedbackService {
-    
-}
+// Class FeedbackService declared in Services/FeedbackService.swift

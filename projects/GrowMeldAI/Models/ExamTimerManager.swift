@@ -1,3 +1,6 @@
+import Foundation
+import Combine
+import UIKit
 @MainActor
 final class ExamTimerManager: NSObject, ObservableObject {
     @Published var remainingSeconds: Int = 1800  // 30 min

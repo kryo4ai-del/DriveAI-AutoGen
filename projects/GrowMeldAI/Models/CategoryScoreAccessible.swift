@@ -1,3 +1,4 @@
+import Foundation
 struct CategoryScoreAccessible {
     let categoryID: String
     let categoryName: String  // Localized

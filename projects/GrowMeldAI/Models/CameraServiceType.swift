@@ -23,8 +23,8 @@ class MockCameraService: CameraServiceType {
 #endif
 
 // Injected at app launch
-@main
-struct App {
+// @main removed - entry point is in DriveAIApp.swift
+struct CameraAppBootstrap {
     static func main() {
         #if CAMERA_ENABLED
         let _: CameraServiceType = AVFoundationCameraService()

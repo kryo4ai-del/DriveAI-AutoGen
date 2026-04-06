@@ -1,13 +1,3 @@
-// SQLITE_OPEN_CREATE.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/DatabaseManager.swift
-//   - Models/DatabaseValue.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct SQLITE_OPEN_CREATE: Sendable {
-    // Add properties
-}
+// SQLITE_OPEN_CREATE - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Foundation  // SQLite not available

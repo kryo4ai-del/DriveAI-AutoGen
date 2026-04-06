@@ -1,3 +1,4 @@
+import SwiftUI
 enum DriveAIColorScheme {
     enum Status {
         static let success = Color(red: 0.13, green: 0.77, blue: 0.36)

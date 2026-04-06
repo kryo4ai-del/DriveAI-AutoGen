@@ -1,13 +1,3 @@
-// Configuration.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AccessibleButtonStyle.swift
-//   - Views/FahrschulFokusTrackerView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Configuration - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Configuration: Sendable {
-    // Add properties
-}

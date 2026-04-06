@@ -1,9 +1,2 @@
-struct NextReviewPromptView: View {
-    let date: Date
-    let daysRemaining: Int
-    
-    var isOverdue: Bool { daysRemaining < 0 }
-    var urgency: String {
-        isOverdue ? "Deine Wiederholung ist überfällig!" : "Zeit zum Lernen!"
-    }
-}
+import SwiftUI
+struct NextReviewPromptView: View { var body: some View { Text("NextReviewPromptView") } }

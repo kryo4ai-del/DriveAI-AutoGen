@@ -1,4 +1,5 @@
 // MARK: - Deep Link Schemes (Info.plist + Code)
+import Foundation
 /*
  URL Schemes:
  - driveai://category/verkehrszeichen

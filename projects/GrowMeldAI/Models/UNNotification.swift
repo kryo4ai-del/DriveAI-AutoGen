@@ -1,13 +1,3 @@
-// UNNotification.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/NotificationManager.swift
-//   - Services/RemindersService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct UNNotification: Sendable {
-    // Add properties
-}
+// UNNotification - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import UserNotifications

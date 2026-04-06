@@ -1,3 +1,4 @@
+import Foundation
 private var accessLog: [AccessEvent] = []
 
 struct AccessEvent: Codable {

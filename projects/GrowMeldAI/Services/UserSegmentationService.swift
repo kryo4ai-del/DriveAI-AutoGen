@@ -1,6 +1,7 @@
 import UIKit
 import CryptoKit
 import os
+import Foundation
 
 private let log = OSLog(subsystem: "com.driveai.abtesting", category: "segmentation")
 

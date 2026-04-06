@@ -1,4 +1,5 @@
 // Modules/Subscription/Services/ProrateCalculator.swift
+import Foundation
 
 final class ProrateCalculator {
     private let monthlyPrice: Decimal = 4.99

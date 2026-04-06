@@ -7,41 +7,7 @@ enum FeedbackType: String, Codable {
     case detailedForm = "detailed_form"
 }
 
-enum FeedbackCategory: String, Codable, CaseIterable {
-    case contentAccuracy = "content_accuracy"
-    case safetyConcern = "safety_concern"
-    case regulatoryMismatch = "regulatory_mismatch"
-    case quizDifficulty = "quiz_difficulty"
-    case uiClarity = "ui_clarity"
-    case featureRequest = "feature_request"
-    case examRelevance = "exam_relevance"
-    case other = "other"
-    
-    var localizedName: String {
-        switch self {
-        case .contentAccuracy:
-            return "Inhaltliche Genauigkeit"
-        case .safetyConcern:
-            return "Sicherheitsbedenken"
-        case .regulatoryMismatch:
-            return "Behördliche Abweichung"
-        case .quizDifficulty:
-            return "Quiz-Schwierigkeit"
-        case .uiClarity:
-            return "UI-Klarheit"
-        case .featureRequest:
-            return "Funktionsanforderung"
-        case .examRelevance:
-            return "Prüfungsrelevanz"
-        case .other:
-            return "Sonstiges"
-        }
-    }
-    
-    var requiresEscalation: Bool {
-        [.contentAccuracy, .safetyConcern, .regulatoryMismatch].contains(self)
-    }
-}
+// Enum FeedbackCategory declared in Models/FeedbackCategory.swift
 
 enum FeedbackSeverity: String, Codable {
     case low = "low"

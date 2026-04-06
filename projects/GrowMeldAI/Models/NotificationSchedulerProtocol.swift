@@ -5,7 +5,7 @@ import Foundation
 import UserNotifications
 
 protocol NotificationSchedulerProtocol {
-    func scheduleNotifications(
+    func scheduleNotificatio(
         baseId: String,
         time: Date,
         frequency: ReminderFrequency,

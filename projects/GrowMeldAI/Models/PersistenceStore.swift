@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 final class PersistenceStore {
     static let shared = PersistenceStore()

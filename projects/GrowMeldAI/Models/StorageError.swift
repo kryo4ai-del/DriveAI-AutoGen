@@ -1,3 +1,4 @@
+import Foundation
 enum StorageError: LocalizedError {
     case insufficientSpace
     case permissionDenied

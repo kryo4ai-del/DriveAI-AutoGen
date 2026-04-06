@@ -1,3 +1,5 @@
+import UIKit
+import SwiftUI
 protocol LicenseCaptureServiceProtocol: AnyObject {
     func validateImageQuality(_ image: UIImage) async -> CameraQualityMetrics
     func processLicenseImage(_ image: UIImage) async throws -> UIImage

@@ -1,3 +1,5 @@
+import Foundation
+
 struct DateCalculator {
     static func daysUntilExam(_ examDate: Date?) -> Int? {
         guard let examDate else { return nil }

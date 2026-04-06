@@ -1,4 +1,6 @@
 import Network
+import Foundation
+import Combine
 
 class Reachability {
     static let shared = Reachability()

@@ -1,3 +1,4 @@
+import SwiftUI
 struct FeatureBlockModal: View {
     let feature: TrialFeature
     let usedCount: Int

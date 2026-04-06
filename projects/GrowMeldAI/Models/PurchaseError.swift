@@ -1,3 +1,4 @@
+import Foundation
 enum PurchaseError: LocalizedError, Equatable, Hashable {
     case networkError
     

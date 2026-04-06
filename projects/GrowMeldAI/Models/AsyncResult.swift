@@ -1,13 +1,3 @@
-// AsyncResult.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AsyncResult+Extension.swift
-//   - Services/ResilienceService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// AsyncResult - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct AsyncResult: Sendable {
-    // Add properties
-}

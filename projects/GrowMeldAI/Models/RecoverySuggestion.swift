@@ -1,5 +1,6 @@
 // Models/RecoverySuggestion.swift
 import Foundation
+import SwiftUI
 
 struct RecoverySuggestion {
     let title: String

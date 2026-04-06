@@ -1,14 +1,3 @@
-// Priority.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/RecommendationEngine.swift
-//   - Models/WeakTopic.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Priority - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-enum Priority: String, Sendable {
-    case unknown
-    // Add real cases
-}

@@ -1,13 +1,3 @@
-// Element.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/LoadError.swift
-//   - Models/SyncQueueManager.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Element - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Element: Sendable {
-    // Add properties
-}

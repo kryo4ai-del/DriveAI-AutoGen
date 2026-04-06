@@ -1,3 +1,4 @@
+import Foundation
 public struct UserExperiment {
     // ... existing fields ...
     public let userAgeVerified: Bool  // Has user's age been verified?

@@ -1,5 +1,6 @@
 // Features/NotificationConsent/Resources/ConsentStrings.swift
 import Foundation
+import SwiftUI
 
 enum ConsentStrings {
     // German (de) — primary

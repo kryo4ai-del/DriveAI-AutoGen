@@ -9,7 +9,7 @@ protocol SpacedRepetitionEngine: Sendable {
     func markReviewed(questionId: UUID, correct: Bool) async throws
     
     /// Calculate next review date for a question
-    func calculateNextReviewDate(
+    func calculateNextReviewDa(
         questionId: UUID,
         currentDifficulty: Int,
         successCount: Int,

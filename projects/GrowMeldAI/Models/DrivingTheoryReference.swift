@@ -7,6 +7,4 @@ struct DrivingTheoryReference {
 }
 
 // Features/Questions/ViewModels/QuestionViewModel.swift
-@MainActor
-class QuestionViewModel {
-}
+// Class QuestionViewModel declared in Models/QuestionMode.swift

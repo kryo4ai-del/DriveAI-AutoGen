@@ -1,3 +1,4 @@
+import Foundation
 struct ConflictLog {
     let timestamp: Date
     let localVersion: String      // SHA256 of local progress

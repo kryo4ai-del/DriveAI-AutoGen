@@ -36,18 +36,7 @@ struct BackupSnapshot: Codable, Identifiable {
 }
 
 // MARK: - Backup Metadata
-struct BackupMetadata: Codable, Identifiable {
-    let id: String
-    let timestamp: Date
-    let displayName: String
-    let size: String  // Human-readable: "2.5 MB"
-    let version: Int
-    let isValid: Bool
-    
-    var formattedDate: String {
-        DateFormatter.backup.string(from: timestamp)
-    }
-}
+// Struct BackupMetadata declared in Models/BackupMetadata.swift
 
 extension DateFormatter {
     static let backup: DateFormatter = {

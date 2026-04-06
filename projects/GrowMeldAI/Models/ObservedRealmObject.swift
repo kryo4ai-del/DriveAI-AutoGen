@@ -1,13 +1,3 @@
-// ObservedRealmObject.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/OfflineModeBanner.swift
-//   - Views/RegionRowView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct ObservedRealmObject: Sendable {
-    // Add properties
-}
+// ObservedRealmObject - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Foundation  // Third-party framework not available

@@ -1,47 +1,22 @@
 import SwiftUI
+
 struct LocationFilterSheet: View {
-    @State var searchText = ""
-    @FocusState var focusedField: Field?
-    
-    enum Field {
-        case searchBar
-        case regionList
-    }
-    
+    @Environment(\.dismiss) private var dismiss
+    @State private var searchText = ""
+
     var body: some View {
         VStack {
-            // 1. Search (focused first)
-            SearchBar(text: $searchText)
-                .focused($focusedField, equals: .searchBar)
+            TextField("Nach Region suchen", text: $searchText)
+                .textFieldStyle(.roundedBorder)
+                .padding()
                 .accessibilityLabel("Nach Region suchen")
-                .accessibilityHint("Geben Sie einen Bundesland-Namen oder eine Postleitzahl ein")
-            
-            // 2. Results
-            List(filteredRegions) { region in
-                Button(action: { selectRegion(region) }) {
-                    HStack {
-                        Text(region.localizedName)
-                        
-                        if isFavorite(region) {
-                            Image(systemName: "heart.fill")
-                                .foregroundColor(.red)
-                        }
-                    }
-                }
-                .accessibilityLabel(region.localizedName)
-                .accessibilityValue(isFavorite(region) ? "Favorit" : "")
-                .accessibilityHint("Doppeltippen zum Auswählen")
-            }
-            .focused($focusedField, equals: .regionList)
-            
-            // 3. Confirm (focus last)
+
+            Spacer()
+
             Button("Bestätigen") { dismiss() }
-                .accessibilityLabel("Bestätigen")
                 .frame(maxWidth: .infinity)
                 .frame(height: 44)
-        }
-        .onAppear {
-            focusedField = .searchBar  // Start at search
+                .padding()
         }
     }
 }

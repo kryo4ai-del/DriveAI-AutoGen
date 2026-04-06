@@ -1,4 +1,5 @@
 // ✅ Models/ExamSnapshot.swift
+import Foundation
 struct ExamSnapshot: Codable {
     let examID: UUID
     let currentQuestionIndex: Int

@@ -1,4 +1,5 @@
 // Deep link compatible routing
+import Foundation
 enum RouteDestination: Hashable {
     case home
     case questionCategory(id: String)

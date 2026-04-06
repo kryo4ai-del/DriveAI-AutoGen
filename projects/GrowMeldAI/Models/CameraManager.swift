@@ -3,11 +3,12 @@ import UIKit
 import CoreMedia
 import CoreVideo
 import Combine
+import Foundation
 
 class CameraManager: NSObject {
     @Published var estimatedLuminance: Float = 0.5
 
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CoreMedia.CMSampleBuffer, from connection: AVCaptureConnection) {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
 
         let luminance = estimateLuminance(from: pixelBuffer)
@@ -22,7 +23,7 @@ class CameraManager: NSObject {
         }
     }
 
-    private func estimateLuminance(from pixelBuffer: CoreVideo.CVPixelBuffer) -> Float {
+    private func estimateLuminance(from pixelBuffer: CVPixelBuffer) -> Float {
         CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
         defer { CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly) }
 
@@ -46,8 +47,8 @@ class CameraManager: NSObject {
             let g = Int(buffer[offset + 1])
             let r = Int(buffer[offset + 2])
 
-            let luminance = (r * 299 + g * 587 + b * 114) / 1000
-            totalLuminance += luminance
+            let pixelLuminance = (r * 299 + g * 587 + b * 114) / 1000
+            totalLuminance += pixelLuminance
         }
 
         return Float(totalLuminance) / Float(sampleCount * 255)

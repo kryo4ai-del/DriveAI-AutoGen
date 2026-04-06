@@ -1,3 +1,4 @@
+import SwiftUI
 struct ExamCountdownPreview: View {
     let daysUntilExam: Int
     

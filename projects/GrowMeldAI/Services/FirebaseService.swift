@@ -1,13 +1,5 @@
-protocol FirebaseService: Sendable {
-    func recordError(_ error: Error) async
-    func setCustomValue(_ value: Any, forKey key: String) async
-}
+import Foundation
 
-final class FirebaseCrashlyticsAdapter: FirebaseService {
-    private let crashlytics = Crashlytics.crashlytics()
-    // Real implementation
-}
-
-struct MockFirebaseService: FirebaseService {
-    // Test implementation (no real SDK calls)
+class FirebaseService {
+    init() {}
 }

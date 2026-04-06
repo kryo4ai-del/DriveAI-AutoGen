@@ -1,13 +1,3 @@
-// Actor.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/PerformanceServiceProtocol.swift
-//   - Models/QuestionServiceProtocol.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Actor - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Actor: Sendable {
-    // Add properties
-}

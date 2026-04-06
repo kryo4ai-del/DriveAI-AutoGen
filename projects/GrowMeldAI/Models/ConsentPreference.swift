@@ -4,12 +4,7 @@ import Foundation
 
 // MARK: - ConsentState
 
-enum ConsentState: String, Codable, Equatable {
-    case pending
-    case accepted
-    case declined
-    case dismissed
-}
+// Enum ConsentState declared in Models/ConsentState.swift
 
 // MARK: - ConsentPreference
 

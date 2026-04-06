@@ -1,3 +1,4 @@
+import Foundation
 final class UserMetricsModel {
     private let queue = DispatchQueue(label: "metrics.queue", attributes: .concurrent)
     private var totalQuestionsAnswered = 0

@@ -1,3 +1,5 @@
+import SwiftUI
+import UIKit
 struct ExplanationView: View {
     let text: String
     let isCorrect: Bool

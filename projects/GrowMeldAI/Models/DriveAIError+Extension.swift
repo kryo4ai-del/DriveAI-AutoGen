@@ -1,6 +1,4 @@
-enum DriveAIError: Error {
-    case testError(message: String = "Test error")
-}
+// Enum DriveAIError declared in Models/DriveAIError.swift
 
 #if !DEBUG
 extension DriveAIError {

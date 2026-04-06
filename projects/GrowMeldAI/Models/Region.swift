@@ -1,4 +1,7 @@
 // Minimal, high-value compliance infrastructure
+import Foundation
+import Combine
+import SwiftUI
 // (Everything else is post-legal-gate)
 
 // MARK: - Region Detection & Configuration

@@ -1,3 +1,4 @@
+import Foundation
 public struct ExamAttempt {
     public let id: String
     public let userId: String

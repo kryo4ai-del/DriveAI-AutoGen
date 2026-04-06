@@ -1,6 +1,7 @@
 // Features/Onboarding/Services/ProfileImageService.swift
 import UIKit
 import Foundation
+import SwiftUI
 
 protocol ProfileImageServiceProtocol: Sendable {
     func saveProfileImage(_ image: UIImage?, for userID: String) async throws

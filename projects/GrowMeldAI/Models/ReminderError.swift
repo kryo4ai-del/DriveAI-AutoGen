@@ -1,4 +1,5 @@
 // Services/Reminders/ReminderError.swift
+import Foundation
 
 enum ReminderError: LocalizedError {
     case reminderNotFound

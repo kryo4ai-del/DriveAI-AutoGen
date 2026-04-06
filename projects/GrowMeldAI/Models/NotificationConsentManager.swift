@@ -2,6 +2,7 @@
 import SwiftUI
 import UserNotifications
 import Combine
+import UIKit
 
 final class NotificationConsentManager: ObservableObject {
     @Published var showConsentSheet = false

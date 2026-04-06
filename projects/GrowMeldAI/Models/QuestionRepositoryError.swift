@@ -1,4 +1,5 @@
 // ✅ GRACEFUL DEGRADATION
+import Foundation
 enum QuestionRepositoryError: LocalizedError {
     case failedToLoadFile
     case invalidJSON(DecodingError)

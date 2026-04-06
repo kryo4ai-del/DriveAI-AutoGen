@@ -13,7 +13,7 @@ protocol ReminderService: AnyObject, Sendable {
     func initialize() async throws
     
     // MARK: - CRUD
-    func createReminder(
+    func createRemind(
         _ trigger: ReminderTrigger,
         action: ReminderAction
     ) async throws -> Reminder

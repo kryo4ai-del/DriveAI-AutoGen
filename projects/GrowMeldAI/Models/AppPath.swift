@@ -1,5 +1,6 @@
 // Models/AppPath.swift
 import Foundation
+import SwiftUI
 
 /// Single source of truth for all app navigation paths
 /// Type-safe, enables deep linking, testable

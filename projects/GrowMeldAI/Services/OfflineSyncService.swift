@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 final class OfflineSyncService {
     static let shared = OfflineSyncService()

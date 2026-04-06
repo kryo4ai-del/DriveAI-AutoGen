@@ -13,9 +13,4 @@ struct LearningProgress {
     }
 }
 
-enum TrialStatus {
-    case active(
-        competencyPercent: Int,
-        daysRemaining: Int
-    )
-}
+// Enum TrialStatus declared in Models/FreemiumQuestionLimit.swift

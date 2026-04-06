@@ -1,4 +1,6 @@
 // Add to debug build to test contrast
+import UIKit
+import SwiftUI
 #if DEBUG
 struct ContrastChecker {
     static func check(foreground: UIColor, background: UIColor) -> Double {

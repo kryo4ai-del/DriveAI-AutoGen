@@ -1,3 +1,4 @@
+import SwiftUI
 // ❌ NO TABLE SEMANTICS
 struct CategoryMetricsView: View {
     let metrics: [String: RetentionMetrics.CategoryMetrics]

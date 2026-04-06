@@ -4,11 +4,7 @@ enum DifficultyLevel: String, Sendable {  // ✅ Explicit Sendable
     case hard
 }
 
-enum ExamMode: String, Sendable {
-    case practice
-    case fullExam = "full_exam"
-    case categoryFocused = "category_focused"
-}
+// Enum ExamMode declared in Models/LocalUser.swift
 
 enum PassStatus: String, Sendable {
     case passed

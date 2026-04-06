@@ -1,3 +1,4 @@
+import Foundation
 enum SyncError: LocalizedError {
     case networkTimeout
     case authExpired
@@ -21,9 +22,4 @@ enum SyncError: LocalizedError {
     }
 }
 
-@MainActor
-class SyncManager {
-    func syncProgress() async throws {
-        // Comprehensive error handling placeholder
-    }
-}
+// Class SyncManager declared in Models/SyncManager.swift

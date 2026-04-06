@@ -1,5 +1,6 @@
 // REQUIRED: Add blocker resolution phase BEFORE Phase 1
 // Create ChecklistView for blocking compliance decisions:
+import Foundation
 struct ComplianceBlockerChecklist {
     var legalOpinion = true           // Legal opinion: DACH regulatory requirements
     var architectureDecision = true   // Architecture decision: CoreML (on-device) confirmed

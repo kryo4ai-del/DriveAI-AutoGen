@@ -8,6 +8,4 @@ struct ExamConstants {
     static let examDurationSeconds: TimeInterval = 1800  // 30 minutes
 }
 
-@MainActor
-class ExamSimulationViewModel: ObservableObject {
-}
+// Class ExamSimulationViewModel declared in Models/ExamState.swift

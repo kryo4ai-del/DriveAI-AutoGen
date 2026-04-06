@@ -1,3 +1,4 @@
+import SwiftUI
 // ✅ ACCESSIBLE VERSION
 struct RetentionMetricsView: View {
     let metrics: RetentionMetrics

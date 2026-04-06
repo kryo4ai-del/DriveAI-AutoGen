@@ -1,3 +1,4 @@
+import SwiftUI
 struct CategoryCardView: View {
     let category: Category
     let action: () -> Void

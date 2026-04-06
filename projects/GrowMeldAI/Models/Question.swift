@@ -61,109 +61,14 @@ struct Answer: Codable, Identifiable, Equatable {
 }
 
 // Features/Questions/Models/Category.swift
-struct Category: Codable, Identifiable, Equatable, Hashable {
-    let id: String
-    let name: String
-    let description: String
-    let icon: String?
-    let questionCount: Int
-    
-    init(
-        id: String,
-        name: String,
-        description: String = "",
-        icon: String? = nil,
-        questionCount: Int = 0
-    ) {
-        precondition(!id.isEmpty, "Category ID must not be empty")
-        precondition(!name.isEmpty, "Category name must not be empty")
-        self.id = id
-        self.name = name
-        self.description = description
-        self.icon = icon
-        self.questionCount = questionCount
-    }
-}
+// Struct Category declared in Models/Category.swift
 
 // Features/Exam/Models/ExamResult.swift
 import Foundation
 
-struct QuizResult: Identifiable, Equatable {
-    let id: UUID = UUID()
-    let totalQuestions: Int
-    let correctAnswers: Int
-    let category: Category?
-    let duration: TimeInterval
-    let timestamp: Date
-    
-    init(
-        totalQuestions: Int,
-        correctAnswers: Int,
-        category: Category? = nil,
-        duration: TimeInterval = 0,
-        timestamp: Date = Date()
-    ) {
-        precondition(totalQuestions > 0, "Total questions must be greater than 0")
-        precondition(correctAnswers >= 0, "Correct answers cannot be negative")
-        precondition(
-            correctAnswers <= totalQuestions,
-            "Correct answers cannot exceed total questions"
-        )
-        
-        self.totalQuestions = totalQuestions
-        self.correctAnswers = correctAnswers
-        self.category = category
-        self.duration = duration
-        self.timestamp = timestamp
-    }
-    
-    var accuracy: Double {
-        guard totalQuestions > 0 else { return 0.0 }
-        return Double(correctAnswers) / Double(totalQuestions)
-    }
-    
-    var percentage: Int {
-        Int(accuracy * 100)
-    }
-    
-    // German driving license exam requires 75% pass rate
-    private static let passingThreshold: Double = 0.75
-    
-    var passed: Bool {
-        accuracy >= Self.passingThreshold
-    }
-    
-    var formattedDuration: String {
-        let minutes = Int(duration) / 60
-        let seconds = Int(duration) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-}
+// Struct QuizResult declared in Models/QuizResult.swift
 
-struct ExamResult: Identifiable, Equatable {
-    let id: UUID = UUID()
-    let quizResult: QuizResult
-    let categoryBreakdowns: [CategoryBreakdown]
-    let completedAt: Date
-    
-    var score: Int {
-        quizResult.percentage
-    }
-    
-    var passed: Bool {
-        quizResult.passed
-    }
-    
-    init(
-        quizResult: QuizResult,
-        categoryBreakdowns: [CategoryBreakdown] = [],
-        completedAt: Date = Date()
-    ) {
-        self.quizResult = quizResult
-        self.categoryBreakdowns = categoryBreakdowns
-        self.completedAt = completedAt
-    }
-}
+// Struct ExamResult declared in Models/ExamResult.swift
 
 struct CategoryBreakdown: Identifiable, Equatable {
     let id: String

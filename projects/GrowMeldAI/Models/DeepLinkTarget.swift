@@ -1,3 +1,5 @@
+import Foundation
+
 enum DeepLinkTarget: Equatable {
     case home
     case category(id: String)
@@ -35,9 +37,11 @@ enum DeepLinkTarget: Equatable {
         guard components.scheme == "driveai" else { return nil }
         guard let host = components.host else { return nil }
         
-        let params = Dictionary(
-            components.queryItems?.map { ($0.name, $0.value) } ?? [],
-            uniquingKeysWith: { first, _ in first }
+        let params: [String: String] = Dictionary(
+            uniqueKeysWithValues: (components.queryItems ?? []).compactMap { item in
+                guard let value = item.value else { return nil }
+                return (item.name, value)
+            }
         )
         
         switch host.lowercased() {
@@ -127,21 +131,4 @@ enum DeepLinkTarget: Equatable {
 }
 
 // AnalyticsEvent as a standalone enum (cannot add cases via extension)
-enum AnalyticsEvent {
-    case deepLinkHandled(target: DeepLinkTarget)
-    // ... add other cases here as needed
-
-    var conversionValue: Int {
-        switch self {
-        case .deepLinkHandled(let target):
-            switch target {
-            case .category, .quiz:
-                return 35  // High intent
-            case .examSimulation:
-                return 60  // Very high intent
-            default:
-                return 20
-            }
-        }
-    }
-}
+// Enum AnalyticsEvent declared in Models/AnalyticsEvent.swift

@@ -30,23 +30,4 @@ struct PriceFormatter {
 
 // Simplified MonthlySubscriptionPlan
 
-struct MonthlySubscriptionPlan: SubscriptionPlan, Identifiable {
-    let id: UUID
-    let price: Decimal
-    let currency: String
-    let trialDays: Int
-    let autoRenews: Bool
-    let createdAt: Date
-    
-    var displayPrice: String {
-        PriceFormatter(currency: currency).format(price)
-    }
-    
-    var trialExpiryDate: Date {
-        Calendar.current.date(byAdding: .day, value: trialDays, to: createdAt) ?? createdAt
-    }
-    
-    var daysRemainingInTrial: Int {
-        max(0, Calendar.current.dateComponents([.day], from: Date(), to: trialExpiryDate).day ?? 0)
-    }
-}
+// Struct MonthlySubscriptionPlan declared in Models/SubscriptionPlan.swift

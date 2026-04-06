@@ -1,4 +1,6 @@
 // Models/Domain/ParentalConsent.swift
+import Foundation
+import Combine
 struct ParentalConsent: Codable, Identifiable {
     let id: String
     let userId: String

@@ -31,17 +31,4 @@ extension VariantID: ExpressibleByStringLiteral {
 }
 
 // Update ExperimentAssignment to use typed IDs
-struct ExperimentAssignment: Codable {
-    let id: UUID
-    let experimentId: ExperimentID
-    let userId: String
-    let variantId: VariantID
-    let assignedAt: Date
-    let cohort: String?
-
-    enum CodingKeys: String, CodingKey {
-        case id, userId, assignedAt, cohort
-        case experimentId = "experiment_id"
-        case variantId = "variant_id"
-    }
-}
+// Struct ExperimentAssignment declared in Models/ABTestingError.swift

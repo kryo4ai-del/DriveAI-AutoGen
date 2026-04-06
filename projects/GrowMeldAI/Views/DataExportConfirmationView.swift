@@ -25,10 +25,13 @@ struct DataExportConfirmationView: View {
                 }
             } else if let error = viewModel.errorMessage {
                 // FAILURE: Show retry option
-                ErrorRecoveryView(
-                    message: error,
-                    retryAction: { Task { await viewModel.exportData() } }
-                )
+                VStack {
+                    Text(error)
+                        .foregroundColor(.red)
+                    Button("Erneut versuchen") {
+                        Task { await viewModel.exportData() }
+                    }
+                }
             }
             
             Button("Fertig") { dismiss() }

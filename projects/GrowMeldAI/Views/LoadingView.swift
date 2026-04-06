@@ -1,6 +1,6 @@
 import SwiftUI
 
-@main
+// @main removed - entry point is in DriveAIApp.swift
 
 private struct LoadingView: View {
     var body: some View {

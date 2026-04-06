@@ -6,9 +6,4 @@ enum SyncOperationType: String, Codable {
     case deleteProgress
 }
 
-enum SyncStatus: String, Codable {
-    case pending
-    case inProgress
-    case completed
-    case failed
-}
+// Enum SyncStatus declared in Models/SyncStatus.swift

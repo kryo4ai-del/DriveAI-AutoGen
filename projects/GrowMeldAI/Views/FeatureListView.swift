@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct FeatureListView: View {
     let features = [
         (icon: "infinity", text: NSLocalizedString("feat.unlimited_practice", comment: "Unlimited practice questions")),

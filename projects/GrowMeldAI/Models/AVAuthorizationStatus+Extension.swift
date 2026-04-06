@@ -1,3 +1,4 @@
+import AVFoundation
 extension AVAuthorizationStatus {
     var asPermissionStatus: CameraPermissionStatus {
         switch self {

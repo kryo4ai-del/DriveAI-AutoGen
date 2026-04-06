@@ -19,24 +19,4 @@ enum ConsentType: String, Codable, CaseIterable {
 }
 
 // MARK: - Consent Record
-struct ConsentRecord: Identifiable, Codable {
-    let id: UUID
-    let consentType: ConsentType
-    let isConsented: Bool
-    let timestamp: Date
-    let policyVersion: String
-    
-    init(
-        id: UUID = UUID(),
-        consentType: ConsentType,
-        isConsented: Bool,
-        timestamp: Date = Date(),
-        policyVersion: String = "1.0"
-    ) {
-        self.id = id
-        self.consentType = consentType
-        self.isConsented = isConsented
-        self.timestamp = timestamp
-        self.policyVersion = policyVersion
-    }
-}
+// Struct ConsentRecord declared in Models/ConsentRecord.swift

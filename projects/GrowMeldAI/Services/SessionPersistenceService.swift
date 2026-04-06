@@ -1,4 +1,5 @@
 // MARK: - Modules/Data/Services/SessionPersistenceService.swift
+import Foundation
 @MainActor
 protocol SessionPersistenceService: AnyObject {
     func saveSessionState<T: Codable>(_ state: T, for sessionId: UUID) async throws

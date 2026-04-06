@@ -1,7 +1,4 @@
+import Foundation
+import Combine
 @MainActor
-class PushConsentViewModel {
-    private func scheduleReminders() async {
-        // This runs on MainActor
-        try await pushService.scheduleQuizReminderNotification(...)
-    }
-}
+class PushConsentViewModel: ObservableObject { init() {} }

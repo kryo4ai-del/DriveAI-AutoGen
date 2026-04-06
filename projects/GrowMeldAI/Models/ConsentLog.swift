@@ -1,8 +1,15 @@
 import Foundation
+
 struct ConsentLog: Codable, Identifiable {
-    let timestamp: Date              // ❌ What is this for?
-    let decision: LocationPermissionState  // ❌ Ambiguous to SR
-    let context: String              // ❌ No description
-    let withdrawalDate: Date?        // ❌ Optional, unclear purpose
-    let lawfulBasis: String          // ❌ Legal text, not accessible
+    let id: UUID
+    let consentType: String
+    let granted: Bool
+    let timestamp: Date
+    
+    init(id: UUID = UUID(), consentType: String, granted: Bool, timestamp: Date = Date()) {
+        self.id = id
+        self.consentType = consentType
+        self.granted = granted
+        self.timestamp = timestamp
+    }
 }

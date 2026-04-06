@@ -1,4 +1,5 @@
 // Core/Accessibility/A11yModifiers.swift
+import SwiftUI
 
 struct AccessibleTextField: View {
     let label: String

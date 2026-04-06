@@ -1,13 +1,3 @@
-// UIActivityViewController.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/ShareToTikTokButton.swift
-//   - Views/ActivityView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-final class UIActivityViewController: @unchecked Sendable {
-    // Add implementation
-}
+// UIActivityViewController is provided by UIKit framework
+// This file intentionally left empty to avoid shadowing the system type
+import UIKit

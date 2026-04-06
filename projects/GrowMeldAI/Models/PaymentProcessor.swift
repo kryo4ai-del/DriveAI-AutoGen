@@ -4,12 +4,12 @@ import Foundation
 
 protocol PaymentProcessor: Sendable {
     
-    func createSubscriptionIntent(
+    func createSubscriptionInte(
         plan: SubscriptionPlan,
         userId: UUID
     ) async throws -> SubscriptionIntent
     
-    func confirmAndCharge(
+    func confirmAndChar(
         intentId: String,
         paymentMethodToken: String,
         plan: SubscriptionPlan,
@@ -19,14 +19,14 @@ protocol PaymentProcessor: Sendable {
     
     func fetchSubscriptionStatus(subscriptionId: String) async throws -> ProcessorSubscriptionStatus
     
-    func chargeRenewal(
+    func chargeRenew(
         subscriptionId: String,
         billingCycle: BillingCycle
     ) async throws -> BillingReceipt
     
     func cancelSubscription(subscriptionId: String) async throws
     
-    func refund(
+    func refu(
         subscriptionId: String,
         billingCycleId: String,
         amountEUR: Decimal,

@@ -1,6 +1,6 @@
 // DataDeletionService.swift – GDPR Article 17 implementation
 protocol DataDeletionServiceProtocol {
-    func deleteUserAccount(
+    func deleteUserAccou(
         userId: String,
         reason: DeletionReason?
     ) async throws
@@ -8,8 +8,4 @@ protocol DataDeletionServiceProtocol {
     func deletionStatus(userId: String) async throws -> DeletionStatus
 }
 
-enum DeletionReason {
-    case userRequested
-    case accountInactive(days: Int) // Auto-delete after 12 months
-    case parentRequest // Parental control
-}
+// Enum DeletionReason declared in Models/ComplianceRegion.swift

@@ -1,3 +1,4 @@
+import Foundation
 enum ReadinessLevel: String, Codable {
     case excellent
     case good

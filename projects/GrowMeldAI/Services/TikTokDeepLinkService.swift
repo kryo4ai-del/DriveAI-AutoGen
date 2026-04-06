@@ -1,5 +1,6 @@
 // TikTokDeepLinkService.swift
 import Foundation
+import UIKit
 
 /// Service for generating TikTok deep links
 /// Uses only URL scheme approach - no API calls or data sharing

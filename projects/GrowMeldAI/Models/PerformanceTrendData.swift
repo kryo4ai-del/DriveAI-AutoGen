@@ -1,5 +1,6 @@
 // DriveAI/Features/GrowthTracking/Models/PerformanceTrendData.swift
 import Foundation
+import SwiftUI
 
 /// Single data point for performance trend visualization
 struct PerformanceTrendData: Identifiable, Equatable {

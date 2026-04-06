@@ -1,3 +1,4 @@
+import SwiftUI
 struct PulseModifier: ViewModifier {
     @State private var isAnimating = false
     @Environment(\.accessibilityReduceMotion) var reduceMotion

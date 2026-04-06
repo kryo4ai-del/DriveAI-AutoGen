@@ -1,3 +1,2 @@
-struct CategoryProgress: Codable, Identifiable {
-    let lastUpdated: Date  // ❌ immutable `let`
-}
+// CategoryProgress - simplified
+import Foundation

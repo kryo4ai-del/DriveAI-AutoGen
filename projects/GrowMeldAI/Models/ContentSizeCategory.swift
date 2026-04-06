@@ -1,14 +1,3 @@
-// ContentSizeCategory.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/DynamicTypeTests.swift
-//   - Models/ScaledFontModifier.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// ContentSizeCategory - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-enum ContentSizeCategory: String, Sendable {
-    case unknown
-    // Add real cases
-}

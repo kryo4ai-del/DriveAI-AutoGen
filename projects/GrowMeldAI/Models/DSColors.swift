@@ -1,5 +1,6 @@
 // Core/Design/AccessibleColors.swift
 import SwiftUI
+import UIKit
 
 enum DSColors {
     // MARK: - Semantic Colors with WCAG AA Contrast Verified

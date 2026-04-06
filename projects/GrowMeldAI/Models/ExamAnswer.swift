@@ -1,3 +1,4 @@
+import Foundation
 struct ExamAnswer: Codable, Identifiable {
     let id: UUID = UUID()
     let questionId: UUID

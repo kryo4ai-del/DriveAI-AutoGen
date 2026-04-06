@@ -1,3 +1,4 @@
+import Foundation
 @MainActor
 final class QuotaRepository {
     static let shared = QuotaRepository()

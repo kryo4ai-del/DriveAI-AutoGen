@@ -1,13 +1,3 @@
-// PHASE_2_APPROVED.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Services/NotificationService.swift
-//   - Views/SettingsView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// PHASE_2_APPROVED - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct PHASE_2_APPROVED: Sendable {
-    // Add properties
-}

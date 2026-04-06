@@ -1,13 +1,3 @@
-// CAMERA_ENABLED.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/CameraFeature.swift
-//   - Models/CameraServiceType.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// CAMERA_ENABLED - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct CAMERA_ENABLED: Sendable {
-    // Add properties
-}

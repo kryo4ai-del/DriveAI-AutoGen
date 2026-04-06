@@ -1,13 +1,3 @@
-// SQLITE_ROW.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/DatabaseConnectionPoolTests.swift
-//   - Models/SQLiteDatabase.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct SQLITE_ROW: Sendable {
-    // Add properties
-}
+// SQLITE_ROW - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Foundation  // SQLite not available

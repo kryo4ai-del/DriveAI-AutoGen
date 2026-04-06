@@ -1,8 +1,2 @@
-// Services/ProgressTrackingService.swift (CORRECTED)
+// ProgressTrackingService - simplified
 import Foundation
-
-protocol ProgressTrackingService: ObservableObject {
-    func recordAnswer(categoryId: String, questionId: String, isCorrect: Bool)
-    func getProgress(forCategory categoryId: String) -> UserProgress
-    func getAllProgress() -> [UserProgress]
-}

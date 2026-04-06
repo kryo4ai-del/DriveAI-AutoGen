@@ -1,13 +1,3 @@
-// Int64.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/LocalBackupRepository.swift
-//   - Services/BackupValidationService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Int64 - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Int64: Sendable {
-    // Add properties
-}

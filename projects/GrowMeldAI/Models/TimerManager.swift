@@ -1,4 +1,6 @@
 // Utils/TimerManager.swift
+import Foundation
+import Combine
 class TimerManager: ObservableObject {
     @Published var timeRemaining: Int
     @Published var isRunning = false

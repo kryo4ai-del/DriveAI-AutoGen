@@ -1,3 +1,4 @@
+import Foundation
 enum AnalyticsConfigError: Error, LocalizedError, Sendable {
     case firebaseNotInitialized
     case invalidEventParameters

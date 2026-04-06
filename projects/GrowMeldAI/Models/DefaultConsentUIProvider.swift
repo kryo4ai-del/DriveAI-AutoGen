@@ -1,4 +1,5 @@
 import UIKit
+import Foundation
 
 @MainActor
 final class DefaultConsentUIProvider: ConsentUIProvider {

@@ -1,3 +1,4 @@
+import Foundation
 enum DiagnosticEngineError: LocalizedError {
     case dataServiceUnavailable(String)
     case corruptedSnapshot(String)

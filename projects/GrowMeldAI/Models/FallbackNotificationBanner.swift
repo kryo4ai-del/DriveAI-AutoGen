@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct FallbackNotificationBanner: View {
     @Binding var isVisible: Bool

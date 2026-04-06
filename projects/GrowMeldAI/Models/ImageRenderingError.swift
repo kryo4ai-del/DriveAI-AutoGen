@@ -17,6 +17,4 @@ enum ImageRenderingError: Error, LocalizedError {
     }
 }
 
-@MainActor
-class ImageRenderingService {
-}
+// Class ImageRenderingService declared in Services/ImageRenderingService.swift

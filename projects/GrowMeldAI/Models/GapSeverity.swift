@@ -1,3 +1,4 @@
+import SwiftUI
 enum GapSeverity: Int, Comparable, Hashable {
     case critical = 2      // < 40% accuracy
     case moderate = 1      // 40-69% accuracy

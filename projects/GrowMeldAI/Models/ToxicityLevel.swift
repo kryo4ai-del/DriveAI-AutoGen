@@ -57,11 +57,4 @@ struct TheoryQuestionLink: Codable, Identifiable {
 }
 
 /// Complete toxicity warning data model
-struct ToxicityWarning: Identifiable, Codable {
-    let id: String
-    let level: ToxicityLevel
-    let affectedGroups: [AffectedGroup]
-    let content: WarningContent
-    let questionLinks: [TheoryQuestionLink]
-    let isActive: Bool
-}
+// Struct ToxicityWarning declared in Views/ToxicityWarningView.swift

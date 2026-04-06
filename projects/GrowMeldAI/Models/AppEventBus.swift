@@ -1,5 +1,6 @@
 // Core/AppEventBus.swift
 import Foundation
+import Combine
 
 /// Thread-safe event bus using synchronous callbacks
 /// Guarantees event delivery (no PassthroughSubject data loss)

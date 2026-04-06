@@ -1,3 +1,4 @@
+import SwiftUI
 struct MetricBox: View {
     let title: String
     let value: String

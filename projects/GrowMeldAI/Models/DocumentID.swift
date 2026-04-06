@@ -1,13 +1,3 @@
-// DocumentID.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/FirestoreUser.swift
-//   - Models/Progress.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct DocumentID: Sendable {
-    // Add properties
-}
+// DocumentID - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Foundation  // Firebase not available

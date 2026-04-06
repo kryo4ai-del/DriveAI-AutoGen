@@ -1,3 +1,4 @@
+import Foundation
 struct AuthUser: Identifiable, Codable, Equatable, Hashable {
     let id: String
     let email: String

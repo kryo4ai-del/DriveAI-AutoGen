@@ -11,9 +11,7 @@ actor JSONDataCodec: DataCodec {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     
-    override init() {
-        super.init()
-        
+    init() {
         decoder.dateDecodingStrategy = .iso8601
         encoder.dateEncodingStrategy = .iso8601
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]

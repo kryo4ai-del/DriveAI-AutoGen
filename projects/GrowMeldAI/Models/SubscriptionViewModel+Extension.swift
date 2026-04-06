@@ -1,5 +1,4 @@
-extension SubscriptionViewModel {
-    func canAccessExamSimulation() -> Bool
-    func canViewDetailedStats() -> Bool
-    func remainingFreeAttempts() -> Int
-  }
+import Foundation
+import Combine
+@MainActor
+class SubscriptionViewModelExt: ObservableObject { init() {} }

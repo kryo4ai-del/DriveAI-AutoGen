@@ -1,3 +1,5 @@
+import SwiftUI
+import Combine
 // Every ViewModel does this:
 class SomeViewModel: ObservableObject {
     @Published var isLoading = false

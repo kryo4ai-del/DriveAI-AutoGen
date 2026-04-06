@@ -10,16 +10,4 @@ enum ConsentStatus: String, Codable, Equatable {
     var isDetermined: Bool { self != .undetermined }
 }
 
-enum ConsentStorageError: LocalizedError {
-    case storageFailure(String)
-    case invalidState(String)
-    
-    var errorDescription: String? {
-        switch self {
-        case .storageFailure(let msg):
-            return "Consent storage failed: \(msg)"
-        case .invalidState(let msg):
-            return "Invalid consent state: \(msg)"
-        }
-    }
-}
+// Enum ConsentStorageError declared in Models/ConsentStorageServiceProtocol.swift

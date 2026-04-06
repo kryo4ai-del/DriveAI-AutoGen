@@ -1,11 +1,9 @@
 // ❌ BAD: Component has state
+import SwiftUI
 struct QuestionOption: View {
     @State var isSelected = false  // WRONG
     var body: some View { /* ... */ }
 }
 
 // ✅ GOOD: Component receives binding
-struct QuestionOption: View {
-    @Binding var isSelected: Bool  // State lives in ViewModel
-    var body: some View { /* ... */ }
-}
+// Struct QuestionOption declared in Models/QuestionOption.swift

@@ -1,3 +1,4 @@
+import Foundation
 struct YearlySubscriptionPlan: SubscriptionPlan {
     let id: UUID
     let price: Decimal

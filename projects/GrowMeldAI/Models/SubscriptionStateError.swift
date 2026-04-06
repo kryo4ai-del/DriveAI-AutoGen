@@ -1,3 +1,4 @@
+import Foundation
 enum SubscriptionStateError: LocalizedError {
     case invalidTransition(from: String, to: String)
     case trialAlreadyUsed

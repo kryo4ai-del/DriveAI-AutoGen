@@ -1,3 +1,4 @@
+import SwiftUI
 struct TimerWidget: View {
     let timeRemaining: Int
     

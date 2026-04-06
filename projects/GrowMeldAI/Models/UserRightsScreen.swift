@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct UserRightsScreen: View {
     var body: some View {
         ScrollView {

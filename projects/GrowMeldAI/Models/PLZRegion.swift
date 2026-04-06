@@ -1,3 +1,4 @@
+import Foundation
 struct PLZRegion: Identifiable, Codable, Equatable {
     let id: String
     let name: String

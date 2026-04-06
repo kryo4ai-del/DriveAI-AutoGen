@@ -1,4 +1,5 @@
 // Extend OfflineError enum with explicit recovery paths
+import Foundation
 enum OfflineError: LocalizedError {
     case networkUnavailable(duration: TimeInterval?)
     case syncConflict(attemptCount: Int, lastAttempt: Date)

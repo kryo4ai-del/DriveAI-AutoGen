@@ -1,3 +1,4 @@
+import SwiftUI
 struct ComplianceBannerCard: View {
     let icon: String
     let title: String

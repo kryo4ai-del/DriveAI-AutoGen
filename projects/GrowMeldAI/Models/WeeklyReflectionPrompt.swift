@@ -1,3 +1,4 @@
+import SwiftUI
 struct WeeklyReflectionPrompt: View {
     var body: some View {
         VStack {

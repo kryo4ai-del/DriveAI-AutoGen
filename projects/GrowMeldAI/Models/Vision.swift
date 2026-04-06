@@ -1,15 +1,3 @@
-// Vision.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/SignRecognitionResult.swift
-//   - Models/VisionServiceProtocol.swift
-//   - Services/VisionService.swift
-//   - Views/PlantRecognitionCameraView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct Vision: Sendable {
-    // Add properties
-}
+// Vision - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import Vision

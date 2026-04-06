@@ -1,4 +1,5 @@
 // ❌ Protocol declared but never implemented
+import Foundation
 protocol DataStoreProtocol {
     func deleteAllUserData(userId: UUID) async throws
 }

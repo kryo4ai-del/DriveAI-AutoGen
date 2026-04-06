@@ -1,14 +1,3 @@
-// ButtonStyle.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AccessibleButtonStyle.swift
-//   - Views/FahrschulFokusTrackerView.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// ButtonStyle - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-enum ButtonStyle: String, Sendable {
-    case unknown
-    // Add real cases
-}

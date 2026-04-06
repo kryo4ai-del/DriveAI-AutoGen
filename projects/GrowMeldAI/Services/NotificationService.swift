@@ -5,12 +5,7 @@
 #if PHASE_2_APPROVED
 import FirebaseMessaging
 
-class NotificationService: NSObject, MessagingDelegate {
-    // Phase 2 code — only compiled if PHASE_2_APPROVED=1
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        // APNs token handling
-    }
-}
+// Class NotificationService declared in Services/NotificationService.swift
 #else
 class NotificationService {
     static let shared = NotificationService()

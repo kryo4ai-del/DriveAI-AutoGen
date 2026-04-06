@@ -1,13 +1,3 @@
-// AsyncStream.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AuthServiceProtocol.swift
-//   - Models/AuthViewModelTests.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// AsyncStream - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct AsyncStream: Sendable {
-    // Add properties
-}

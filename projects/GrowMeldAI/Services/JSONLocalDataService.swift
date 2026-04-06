@@ -1,3 +1,2 @@
-class JSONLocalDataService: LocalDataService {
-    // ✅ Has protocol, good
-}
+// JSONLocalDataService - simplified
+import Foundation

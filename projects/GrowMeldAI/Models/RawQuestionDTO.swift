@@ -4,5 +4,4 @@ struct RawQuestionDTO: Codable {
     }
 }
 
-struct Question: Codable {
-}
+// Struct Question declared in Models/Question.swift

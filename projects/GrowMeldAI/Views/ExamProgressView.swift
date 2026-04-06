@@ -1,3 +1,4 @@
+import SwiftUI
 struct ExamProgressView: View {
     let currentIndex: Int
     let totalQuestions: Int

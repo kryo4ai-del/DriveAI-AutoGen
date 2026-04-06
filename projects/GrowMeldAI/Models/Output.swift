@@ -1,13 +1,3 @@
-// Output.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/FirestoreCollectionPublisher.swift
-//   - Models/FirestorePublisher.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Output - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Output: Sendable {
-    // Add properties
-}

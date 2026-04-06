@@ -6,6 +6,4 @@ enum QuestionMode {
     case exam
 }
 
-@MainActor
-class QuestionViewModel: ObservableObject {
-}
+// QuestionViewModel declared in ViewModels/QuestionViewModel.swift

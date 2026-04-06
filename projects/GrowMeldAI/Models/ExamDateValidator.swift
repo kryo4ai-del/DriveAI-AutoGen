@@ -1,4 +1,5 @@
 // Models/ExamDateValidator.swift
+import Foundation
 struct ExamDateValidator {
     static func validate(_ date: Date) -> (isValid: Bool, error: String?) {
         let now = Date()

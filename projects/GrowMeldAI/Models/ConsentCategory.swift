@@ -43,29 +43,4 @@ enum ConsentCategory: String, CaseIterable, Codable, Hashable {
     }
 }
 
-struct PrivacySettings: Codable, Equatable {
-    var consents: [ConsentCategory: ConsentState] = [:]
-    var dataRetentionDays: Int = 365
-    var allowCrossCategoryAnalytics: Bool = false
-    var lastConsentUpdate: Date = Date()
-    
-    static func `default`() -> PrivacySettings {
-        var settings = PrivacySettings()
-        // Essential is auto-granted
-        settings.consents[.essential] = ConsentState(
-            category: .essential,
-            isGranted: true,
-            grantedAt: Date()
-        )
-        // Others default to not granted (user must opt-in)
-        settings.consents[.analytics] = ConsentState(
-            category: .analytics,
-            isGranted: false
-        )
-        settings.consents[.notifications] = ConsentState(
-            category: .notifications,
-            isGranted: false
-        )
-        return settings
-    }
-}
+// Struct PrivacySettings declared in Models/PrivacySettings.swift

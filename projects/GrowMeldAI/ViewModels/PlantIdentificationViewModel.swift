@@ -1,3 +1,5 @@
+import SwiftUI
+import Combine
 // ViewModels/PlantIdentificationViewModel.swift
   @MainActor
   class PlantIdentificationViewModel: ObservableObject {

@@ -1,3 +1,4 @@
+import Foundation
 struct LearningGap {
     let id: UUID
     let category: Category

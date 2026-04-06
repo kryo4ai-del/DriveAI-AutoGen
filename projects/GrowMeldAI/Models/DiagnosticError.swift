@@ -64,34 +64,7 @@ import Foundation
 
 import Foundation
 
-struct DiagnosticAction: Identifiable, Equatable, Hashable, Codable {
-    let id: UUID
-    let action: ActionType
-    let label: String
-    let isHighlighted: Bool
-    let icon: String
-    
-    init(
-        id: UUID = UUID(),
-        action: ActionType,
-        label: String,
-        isHighlighted: Bool,
-        icon: String
-    ) {
-        self.id = id
-        self.action = action
-        self.label = label
-        self.isHighlighted = isHighlighted
-        self.icon = icon
-    }
-    
-    enum ActionType: Equatable, Hashable, Codable {
-        case reviewCriticalGap(String)  // Gap ID
-        case focusCategory(String)  // Category ID
-        case simulateExam
-        case viewDetailedAnalysis(String)  // Category ID
-    }
-}
+// Struct DiagnosticAction declared in Models/DiagnosticAction.swift
 
 // MARK: - Models/DiagnosticResult.swift
 

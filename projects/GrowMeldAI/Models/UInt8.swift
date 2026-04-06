@@ -1,13 +1,3 @@
-// UInt8.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AnalyticsDataProcessor.swift
-//   - Models/CameraManager.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct UInt8: Sendable {
-    // Add properties
-}
+// UInt8 - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import UIKit

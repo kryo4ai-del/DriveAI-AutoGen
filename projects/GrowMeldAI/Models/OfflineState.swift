@@ -7,9 +7,4 @@ struct OfflineState: Equatable {
     let pendingOperations: Int
 }
 
-struct SyncStatus: Identifiable {
-    let id: String
-    let isInProgress: Bool
-    let lastAttempt: Date?
-    let nextRetry: Date?
-}
+// Struct SyncStatus declared in Models/SyncStatus.swift

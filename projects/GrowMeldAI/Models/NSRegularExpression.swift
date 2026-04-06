@@ -1,13 +1,3 @@
-// NSRegularExpression.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/AnalyticsConfiguration.swift
-//   - Models/DefaultCrashSanitizer.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// NSRegularExpression - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct NSRegularExpression: Sendable {
-    // Add properties
-}

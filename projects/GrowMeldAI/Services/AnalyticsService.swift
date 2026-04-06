@@ -1,13 +1,8 @@
-// Shared/Services/Analytics/AnalyticsService.swift
-protocol AnalyticsService {
-    func logEvent(_ name: String, parameters: [String: Any]?)
-}
+// AnalyticsService class declared in Models/AnalyticsServiceKey.swift
+import Foundation
 
-class DefaultAnalyticsService: AnalyticsService {
+class DefaultAnalyticsService {
     func logEvent(_ name: String, parameters: [String: Any]?) {
-        // Implement with Firebase, Mixpanel, or local logging
-        print("📊 Event: \(name) | Params: \(parameters ?? [:])")
+        print("[Analytics] Event: \(name) | Params: \(parameters ?? [:])")
     }
 }
-
-// In CameraIdentificationViewModel:

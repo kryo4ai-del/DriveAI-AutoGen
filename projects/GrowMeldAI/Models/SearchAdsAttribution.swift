@@ -1,3 +1,5 @@
+import Foundation
+import UIKit
 struct SearchAdsAttribution: Codable, Equatable {
     let token: String
     let fetchedAt: Date

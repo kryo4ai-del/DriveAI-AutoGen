@@ -1,3 +1,4 @@
+import Foundation
 struct SyncResponse: Codable, Equatable {
     let success: Bool
     let message: String

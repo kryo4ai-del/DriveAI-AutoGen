@@ -1,3 +1,4 @@
+import Foundation
 enum AppStateError: LocalizedError, Equatable {
     case dataCorruptionDetected(key: String, underlyingError: String)
     case persistenceFailure(underlyingError: String)

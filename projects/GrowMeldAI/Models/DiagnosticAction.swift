@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // MARK: - DiagnosticAction
 
@@ -12,6 +13,7 @@ struct DiagnosticAction: Identifiable, Codable, Sendable {
     let createdAt: Date
     let resolvedAt: Date?
     let metadata: [String: String]
+    var isHighlighted: Bool { severity == .critical || severity == .error }
 
     init(
         id: String = UUID().uuidString,

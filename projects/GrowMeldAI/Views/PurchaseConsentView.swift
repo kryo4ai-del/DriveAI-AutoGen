@@ -1,3 +1,5 @@
+import SwiftUI
+import Foundation
 struct PurchaseConsentView: View {
     @State var consentGiven = false
     

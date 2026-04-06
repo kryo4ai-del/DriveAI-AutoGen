@@ -1,3 +1,4 @@
+import Foundation
 enum LocationStrings {
     enum Selection {
         static let title = NSLocalizedString(

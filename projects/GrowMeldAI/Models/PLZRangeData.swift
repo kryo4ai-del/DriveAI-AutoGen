@@ -1,4 +1,5 @@
 // Use actual PLZ mapping data from official German Post source
+import Foundation
 // Example: store as JSON file, not hardcoded
 struct PLZRangeData: Codable {
     let bundesland: String

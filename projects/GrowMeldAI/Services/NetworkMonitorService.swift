@@ -2,6 +2,7 @@
 
 import Combine
 import Network
+import Foundation
 
 /// Monitors network reachability and notifies observers of connection changes
 @MainActor

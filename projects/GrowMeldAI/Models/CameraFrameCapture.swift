@@ -2,16 +2,7 @@ import Foundation
 import AVFoundation
 import Combine
 
-enum CameraError: Error, LocalizedError {
-    case captureFailed(Error)
-
-    var errorDescription: String? {
-        switch self {
-        case .captureFailed(let error):
-            return "Camera capture failed: \(error.localizedDescription)"
-        }
-    }
-}
+// Enum CameraError declared in Models/CameraError.swift
 
 protocol CameraFrameCaptureDelegate: AnyObject {
     func didFailWithError(_ error: CameraError)
@@ -40,11 +31,7 @@ final class CameraFrameCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDe
         }
 
         guard !isProcessing else {
-            delegate?.didFailWithError(CameraError.captureFailed(
-                NSError(domain: "Frame", code: -1, userInfo: [
-                    NSLocalizedDescriptionKey: "Frame dropped – processing backed up"
-                ])
-            ))
+            delegate?.didFailWithError(CameraError.captureFailed)
             return
         }
 

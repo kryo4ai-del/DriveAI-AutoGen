@@ -1,13 +1,3 @@
-// Content.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/ComplianceBlockerChecklist.swift
-//   - Models/NavigationRouter.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Content - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Content: Sendable {
-    // Add properties
-}

@@ -1,5 +1,6 @@
 import Foundation
 import os.log
+import SwiftUI
 
 private let logger = Logger(subsystem: "com.driveai.fallback", category: "cache")
 

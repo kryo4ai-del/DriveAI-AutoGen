@@ -22,18 +22,4 @@ struct Category: Identifiable, Codable, Hashable {
     }
 }
 
-struct CategoryProgress: Codable {
-    let categoryId: UUID
-    let answeredCount: Int
-    let correctCount: Int
-    let lastAccessDate: Date
-    
-    var accuracy: Double {
-        guard answeredCount > 0 else { return 0 }
-        return Double(correctCount) / Double(answeredCount)
-    }
-    
-    var progressPercentage: Double {
-        accuracy * 100
-    }
-}
+// Struct CategoryProgress declared in Models/CategoryProgress.swift

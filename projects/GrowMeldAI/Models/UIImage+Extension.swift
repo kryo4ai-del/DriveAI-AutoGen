@@ -1,3 +1,4 @@
+import UIKit
 
 // ✅ UIImage extension for memory estimation
 extension UIImage {

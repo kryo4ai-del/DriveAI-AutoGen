@@ -17,7 +17,4 @@ enum QuotaError: LocalizedError {
     }
 }
 
-/// Thread-safe quota manager using actor isolation
-@MainActor
-class QuotaManager {
-}
+// QuotaManager declared in Models/QuotaManager.swift

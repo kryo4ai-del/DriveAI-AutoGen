@@ -1,7 +1,2 @@
-// Services/Domain/ExamScoringService.swift (Complete)
+// ExamScoringServiceProtocol - simplified
 import Foundation
-
-protocol ExamScoringServiceProtocol {
-    func calculateScore(session: ExamSession) throws -> ExamResult
-    func isPassing(score: Int, totalQuestions: Int) -> Bool
-}

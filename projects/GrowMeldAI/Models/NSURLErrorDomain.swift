@@ -1,14 +1,3 @@
-// NSURLErrorDomain.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/FirebaseAuthServiceSignInTests.swift
-//   - Models/PerformanceTrackingViewModelTests.swift
-//   - ViewModels/PerformanceTrackingViewModel.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// NSURLErrorDomain - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct NSURLErrorDomain: Sendable {
-    // Add properties
-}

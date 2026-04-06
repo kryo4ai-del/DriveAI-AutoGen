@@ -1,3 +1,4 @@
+import SwiftUI
 enum Screen: Hashable {
     case onboarding
     case home

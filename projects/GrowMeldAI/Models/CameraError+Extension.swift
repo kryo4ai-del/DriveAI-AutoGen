@@ -1,3 +1,4 @@
+import Foundation
 extension CameraError {
     /// Short description suitable for VoiceOver announcements
     var accessibilityLabel: String {
@@ -30,6 +31,12 @@ extension CameraError {
             return NSLocalizedString(
                 "accessibility.camera.error.captureFailed",
                 value: "Photo capture failed",
+                comment: "Short VoiceOver label"
+            )
+        case .sessionStartFailed:
+            return NSLocalizedString(
+                "accessibility.camera.error.sessionStartFailed",
+                value: "Camera session start failed",
                 comment: "Short VoiceOver label"
             )
         case .unknown:

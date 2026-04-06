@@ -46,16 +46,7 @@ struct EpisodicalMemory: Identifiable, Codable {
     }
 }
 
-struct MemoryInsight: Identifiable {
-    let id = UUID()
-    let categoryId: String
-    let categoryName: String
-    let totalMemories: Int
-    let correctCount: Int
-    let successRate: Double
-    let recentMemories: [EpisodicalMemory]
-    let topMistakePatterns: [MistakePattern]
-}
+// Struct MemoryInsight declared in Models/MemoryInsight.swift
 
 struct MistakePattern: Identifiable {
     let id = UUID()

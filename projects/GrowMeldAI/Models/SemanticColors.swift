@@ -1,3 +1,4 @@
+import SwiftUI
 struct SemanticColors {
     /// ✅ Verified: 5.2:1 contrast on light bg, 4.8:1 on dark
     /// Source: WebAIM WCAG Contrast Checker

@@ -1,3 +1,4 @@
+import SwiftUI
 struct ReadinessBreakdownRow: View {
     let label: String
     let value: Double

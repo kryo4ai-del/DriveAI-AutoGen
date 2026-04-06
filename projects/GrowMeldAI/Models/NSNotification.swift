@@ -1,13 +1,3 @@
-// NSNotification.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/UserDataManager.swift
-//   - Services/QuotaPersistenceService.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// NSNotification is provided by Foundation framework
+// This file intentionally left empty to avoid shadowing the system type
 import Foundation
-
-struct NSNotification: Sendable {
-    // Add properties
-}

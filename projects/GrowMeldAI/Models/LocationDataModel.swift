@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 // Deliverable: Models/Location/LocationDataModel.swift
 struct LocationDataModel {
     struct UseCase {

@@ -1,14 +1,3 @@
-// DateInterval.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/PerformanceQuery.swift
-//   - Models/ReminderSettings.swift
-//   - Models/RemindersSettings.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// DateInterval - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct DateInterval: Sendable {
-    // Add properties
-}

@@ -1,3 +1,0 @@
-struct ExamRecommendation: Equatable {
-    // ...properties...
-}

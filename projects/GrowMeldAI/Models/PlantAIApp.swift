@@ -1,11 +1,2 @@
-// PlantAIApp.swift
-import SwiftUI
-
-@main
-struct PlantAIApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
+// PlantAIApp - entry point is in DriveAIApp.swift
+import Foundation

@@ -1,3 +1,4 @@
+import Foundation
 public struct StudySession: Identifiable, Codable, Sendable {
     public let id: String
     public let userId: String

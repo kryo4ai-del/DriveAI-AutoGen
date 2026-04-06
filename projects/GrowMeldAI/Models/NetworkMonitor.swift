@@ -1,5 +1,6 @@
 import Foundation
 import Network
+import Combine
 
 /// Monitors network connectivity using iOS built-in Network framework.
 /// Published for reactive UI updates.

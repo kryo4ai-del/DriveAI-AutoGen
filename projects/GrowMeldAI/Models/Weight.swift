@@ -1,13 +1,3 @@
-// Weight.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/ScaledFontModifier.swift
-//   - Models/TypographyScaleTests.swift
-//
-// TODO: Replace this stub with a full implementation.
-
+// Weight - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
 import Foundation
-
-struct Weight: Sendable {
-    // Add properties
-}

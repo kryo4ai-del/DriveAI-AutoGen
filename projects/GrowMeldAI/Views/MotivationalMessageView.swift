@@ -1,3 +1,4 @@
+import SwiftUI
 struct MotivationalMessageView: View {
     var message: MotivationalMessage
     

@@ -11,13 +11,7 @@ import os.log
 
 // MARK: - Data Models
 
-struct OverallStats: Equatable {
-    let totalAnswered: Int
-    let accuracy: Double
-    let streak: Int
-    
-    var accuracyPercentage: Int { Int(accuracy * 100) }
-}
+// Struct OverallStats declared in Models/PerformanceMetric.swift
 
 struct UserSettings: Codable, Equatable {
     var isDarkMode: Bool = true

@@ -15,6 +15,4 @@ enum ShareServiceError: Error, LocalizedError {
     }
 }
 
-@MainActor
-class ShareService {
-}
+// Class ShareService declared in Services/ShareService.swift

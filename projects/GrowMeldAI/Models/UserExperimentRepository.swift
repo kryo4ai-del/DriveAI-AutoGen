@@ -1,6 +1,6 @@
 // ❌ NO CONSENT CHECK
 protocol UserExperimentRepository {
-    func assignVariant(
+    func assignVaria(
         userID: String,
         experimentID: String
     ) async -> Result<(UserExperiment, Variant), DomainError>

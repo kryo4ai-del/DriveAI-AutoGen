@@ -10,19 +10,7 @@ protocol ReminderSchedulerProtocol {
 
 // MARK: - Supporting Types
 
-struct ReminderConfiguration {
-    let id: UUID
-    let title: String
-    let body: String
-    let scheduledDate: Date
-
-    init(id: UUID = UUID(), title: String, body: String, scheduledDate: Date) {
-        self.id = id
-        self.title = title
-        self.body = body
-        self.scheduledDate = scheduledDate
-    }
-}
+// Struct ReminderConfiguration declared in Models/ReminderConfiguration.swift
 
 // MARK: - Mock Implementations (for testing only)
 

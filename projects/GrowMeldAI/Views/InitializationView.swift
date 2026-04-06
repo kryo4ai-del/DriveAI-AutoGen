@@ -1,13 +1,6 @@
 import SwiftUI
 
-@main
-struct DriveAIApp: App {
-    var body: some Scene {
-        WindowGroup {
-            InitializationView(onComplete: {})
-        }
-    }
-}
+// Struct DriveAIApp declared in Models/DriveAIApp.swift
 
 // MARK: - Initialization View
 

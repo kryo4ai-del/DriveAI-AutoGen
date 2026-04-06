@@ -1,3 +1,5 @@
+import SwiftUI
+import Combine
 // Base protocol for all ViewModels
 protocol ViewModel: ObservableObject {
     associatedtype State

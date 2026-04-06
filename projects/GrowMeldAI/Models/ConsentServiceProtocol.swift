@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 protocol ConsentServiceProtocol {
     func hasUserConsented(userId: UUID) async throws -> Bool

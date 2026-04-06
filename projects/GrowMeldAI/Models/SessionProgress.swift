@@ -1,4 +1,5 @@
 // NEW: SessionProgress.swift
+import Foundation
 struct SessionProgress: Identifiable {
     let id = UUID()
     let categoryID: String

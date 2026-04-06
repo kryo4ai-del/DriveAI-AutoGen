@@ -1,3 +1,4 @@
+import SwiftUI
 struct CoordinatorKey: EnvironmentKey {
     static let defaultValue: AppCoordinator? = nil
 }

@@ -1,4 +1,6 @@
 // Utilities/DateCalculations.swift
+import Foundation
+
 enum DateCalculations {
     /// Calculate days between two dates
     static func daysBetween(_ from: Date, and to: Date = Date()) -> Int {
@@ -17,12 +19,8 @@ enum DateCalculations {
     }
 }
 
-// Usage
-var daysSinceLastPractice: Int {
-    guard let lastDate = lastPracticedDate else { return Int.max }
-    return DateCalculations.daysBetween(lastDate)
-}
-
-var daysSince: Int {
-    DateCalculations.daysBetween(lastActiveDate)
-}
+// Usage example (in a view model):
+// var daysSinceLastPractice: Int {
+//     guard let lastDate = lastPracticedDate else { return Int.max }
+//     return DateCalculations.daysBetween(lastDate)
+// }

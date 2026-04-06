@@ -14,11 +14,7 @@ struct AdConsent {
     }
 }
 
-struct AdFeedback {
-    let questionsReviewedCount: Int
-    let confidenceIncreasePercent: Double
-    let campaignId: String
-}
+// Struct AdFeedback declared in Models/AdFeedback.swift
 
 // MARK: - Ad Service Protocol (mockable, testable)
 

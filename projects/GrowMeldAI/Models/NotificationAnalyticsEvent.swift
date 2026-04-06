@@ -1,4 +1,5 @@
 // Add to NotificationViewModel:
+import Foundation
 enum NotificationAnalyticsEvent {
     case consentShown
     case consentGranted

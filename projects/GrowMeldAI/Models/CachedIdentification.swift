@@ -22,4 +22,5 @@ enum CacheSource: String, Codable {
     case offline
 }
 
-typealias IdentificationResult = PlantIdentificationResult
+// IdentificationResult declared in Models/IdentificationResult.swift
+// Use PlantIdentificationResult directly instead of typealias

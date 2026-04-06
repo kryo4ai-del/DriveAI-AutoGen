@@ -1,13 +1,3 @@
-// Model.swift
-// Auto-generated stub — type was referenced but never declared.
-// Referenced in:
-//   - Models/ConflictResolver.swift
-//   - ViewModels/BaseViewModel.swift
-//
-// TODO: Replace this stub with a full implementation.
-
-import Foundation
-
-struct Model: Sendable {
-    // Add properties
-}
+// Model - system type or unavailable framework
+// This file intentionally left empty to avoid shadowing
+import CoreML

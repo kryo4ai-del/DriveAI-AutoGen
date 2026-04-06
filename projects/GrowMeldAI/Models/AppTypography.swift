@@ -1,4 +1,5 @@
 // Resources/Typography.swift
+import SwiftUI
 struct AppTypography {
     static let largeTitle = Font.system(size: 34, weight: .bold)      // Screen titles
     static let title1 = Font.system(size: 28, weight: .bold)          // Section headers

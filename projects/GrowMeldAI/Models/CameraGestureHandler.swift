@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftUI
 
 class CameraGestureHandler: NSObject {
     private let hapticEngine = UIImpactFeedbackGenerator(style: .light)

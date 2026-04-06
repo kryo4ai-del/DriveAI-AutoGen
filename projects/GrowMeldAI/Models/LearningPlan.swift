@@ -23,15 +23,4 @@ struct WeakCategory: Codable, Identifiable {
     var isWeakly: Bool { accuracyPercentage < 0.70 }
 }
 
-struct RecommendedQuestion: Codable, Identifiable {
-    let id: UUID
-    let questionId: String
-    let reason: RecommendationReason
-    let priority: Int  // 1–10, higher = study first
-    
-    enum RecommendationReason: String, Codable {
-        case lowAccuracy = "Niedrige Genauigkeit in dieser Kategorie"
-        case neverAttempted = "Kategorie noch nicht trainiert"
-        case recencyDecay = "Lange nicht geübt"
-    }
-}
+// Struct RecommendedQuestion declared in Models/RecommendedQuestion.swift

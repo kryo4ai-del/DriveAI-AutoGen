@@ -1,10 +1,6 @@
 // Tests/Accessibility/AccessibilityTestHelpers.swift
+import Foundation
+
 struct AccessibilityTestCase {
-    func XCTAssertVoiceOverLabel(_ view: View, contains: String) {
-        // Traversal testing
-    }
-    
-    func XCTAssertDynamicTypeScaling(_ view: View) {
-        // Test at 3 sizes: small, normal, large accessibility
-    }
+    // Test helpers - actual tests are in the Tests target
 }

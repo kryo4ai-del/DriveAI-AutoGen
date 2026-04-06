@@ -1,5 +1,6 @@
 import AVFoundation
 import Combine
+import UIKit
 
 // MARK: - Protocol (for dependency injection & testability)
 protocol CameraPermissionProviding: Sendable {
@@ -10,12 +11,7 @@ protocol CameraPermissionProviding: Sendable {
 }
 
 // MARK: - Camera Permission Status
-enum CameraPermissionStatus: Sendable {
-    case notDetermined
-    case authorized
-    case denied
-    case restricted
-}
+// Enum CameraPermissionStatus declared in Models/CameraPermissionStatus.swift
 
 // MARK: - Implementation
 @MainActor

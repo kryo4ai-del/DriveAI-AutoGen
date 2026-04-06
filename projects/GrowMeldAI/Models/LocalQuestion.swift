@@ -1,3 +1,4 @@
+import Foundation
 struct LocalQuestion: Codable {
     let id: String
     let question: String
@@ -11,5 +12,4 @@ struct LocalQuestion: Codable {
     let keywords: [String]
 }
 
-// Stored as JSON bundle: ~4MB for ~1400 DACH questions
-let questions = Bundle.main.decode([LocalQuestion].self, from: "question_catalog.json")
+// Questions loaded from JSON bundle at runtime

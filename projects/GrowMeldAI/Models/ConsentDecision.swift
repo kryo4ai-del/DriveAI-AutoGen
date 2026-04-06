@@ -7,12 +7,4 @@ enum ConsentDecision: String, Codable {
     case deferred
 }
 
-struct ConsentState: Codable {
-    let decision: ConsentDecision
-    let timestamp: Date
-    let deferralCount: Int
-    
-    var canDefer: Bool {
-        deferralCount < 3  // ← ENFORCES LIMIT (per refactor notes)
-    }
-}
+// Struct ConsentState declared in Models/ConsentState.swift

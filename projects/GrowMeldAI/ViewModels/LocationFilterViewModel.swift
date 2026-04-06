@@ -1,21 +1,10 @@
+import Foundation
+import Combine
+
 @MainActor
-final class LocationFilterViewModel: ObservableObject {
-    @Published var searchText = ""
+class LocationFilterViewModel: ObservableObject {
+    @Published var isLoading: Bool = false
     @Published var favoriteRegions: [PLZRegion] = []
-    @Published var recentSearches: [String] = []
-    
-    var filteredRegions: [PLZRegion] {
-        // Search + filter logic
-    }
-    
-    private let plzService: PLZMappingService
-    private let userDefaults = UserDefaults.standard
-    
-    func saveFavorite(_ region: PLZRegion) {
-        // Persist to UserDefaults
-    }
-    
-    func loadFavorites() {
-        // Hydrate from UserDefaults
-    }
+    @Published var selectedRegion: PLZRegion?
+    init() {}
 }

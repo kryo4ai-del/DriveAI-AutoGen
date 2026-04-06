@@ -1,6 +1,7 @@
 // Services/LocalDataService.swift
 import Foundation
 import os.log
+import SwiftUI
 
 enum DataLoadError: LocalizedError {
     case fileNotFound
@@ -19,6 +20,4 @@ enum DataLoadError: LocalizedError {
     }
 }
 
-@MainActor
-class LocalDataService {
-}
+// Class LocalDataService declared in Models/EnvironmentValues+Extension.swift
