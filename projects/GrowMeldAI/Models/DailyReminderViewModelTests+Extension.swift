@@ -1,3 +1,58 @@
+import XCTest
+@testable import YourAppModule
+
+// MARK: - Mock Services
+
+class MockUserService {
+    var examDate: Date?
+}
+
+class MockProgressService {
+    var overallReadiness: Int = 0
+}
+
+class MockNotificationScheduler {
+    var shouldThrow: Bool = false
+    var isPendingFlag: Bool = false
+    
+    func schedule(at time: DateComponents) async throws {
+        if shouldThrow {
+            throw NSError(domain: "TestError", code: 1, userInfo: nil)
+        }
+    }
+}
+
+// MARK: - DailyReminderViewModelTests
+
+class DailyReminderViewModelTests: XCTestCase {
+    var sut: DailyReminderViewModel!
+    var mockUserService: MockUserService!
+    var mockProgressService: MockProgressService!
+    var mockNotificationScheduler: MockNotificationScheduler!
+    
+    override func setUp() {
+        super.setUp()
+        mockUserService = MockUserService()
+        mockProgressService = MockProgressService()
+        mockNotificationScheduler = MockNotificationScheduler()
+        sut = DailyReminderViewModel(
+            userService: mockUserService,
+            progressService: mockProgressService,
+            notificationScheduler: mockNotificationScheduler
+        )
+    }
+    
+    override func tearDown() {
+        sut = nil
+        mockUserService = nil
+        mockProgressService = nil
+        mockNotificationScheduler = nil
+        super.tearDown()
+    }
+}
+
+// MARK: - Extension Tests
+
 extension DailyReminderViewModelTests {
     
     // MARK: - Urgency Calculation
