@@ -1,3 +1,4 @@
+import SwiftUI
 // ✅ FIX: Use WCAG AA compliant colors
 
 struct CameraGuidelineOverlay: View {

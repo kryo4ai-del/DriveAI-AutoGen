@@ -1,3 +1,4 @@
+import SwiftUI
 struct CameraPermissionDeniedCard: View {
     var onOpenSettings: () -> Void
     
