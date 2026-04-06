@@ -1,10 +1,7 @@
-struct CrashEvent {
-}
+// DON'T create separate CrashEvent struct
+struct CrashEvent { ... }  // ❌ Duplication
 
-struct AnalyticsEvent {
-}
+// DO extend existing AnalyticsEvent
 
-struct EventQueue<T> {
-}
-
-private let queue: EventQueue<AnalyticsEvent> = EventQueue<AnalyticsEvent>()
+// Reuse existing EventQueue<AnalyticsEvent>
+private let queue: EventQueue<AnalyticsEvent>

@@ -1,4 +1,3 @@
-import Foundation
 // Models/LearningPlan/LearningPlan.swift
 struct LearningPlan: Codable, Identifiable {
     let id: UUID

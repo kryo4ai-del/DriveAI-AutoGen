@@ -1,5 +1,4 @@
 import Security
-import Foundation
 
 @MainActor
 final class KeychainService: Sendable {

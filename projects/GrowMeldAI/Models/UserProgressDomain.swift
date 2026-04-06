@@ -3,7 +3,7 @@ import Foundation
 struct UserProgressDomain: Identifiable, Codable, Equatable {
     let id: String // UUID
     let userId: String
-    let categoryId: String
+    let categoryId: QuestionDomain.QuestionCategory
     let attemptCount: Int
     let correctCount: Int
     var lastAttemptDate: Date

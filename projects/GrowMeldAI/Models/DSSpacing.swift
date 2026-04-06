@@ -1,5 +1,4 @@
-import CoreGraphics
-
+// Design/Spacing.swift
 enum DSSpacing {
     static let xs: CGFloat = 4
     static let sm: CGFloat = 8

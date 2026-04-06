@@ -1,12 +1,6 @@
-import Foundation
-
-#if canImport(XCTest)
-import XCTest
-
-class ConsentDecisionTests: XCTestCase {}
-
 extension ConsentDecisionTests {
-
+    
+    // TC-008: Decode missing required field (timestamp)
     func testDecode_missingTimestamp_throwsDecodingError() throws {
         let json = """
         {
@@ -14,20 +8,25 @@ extension ConsentDecisionTests {
             "version": 1
         }
         """
-
+        
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-
+        
         XCTAssertThrowsError(
             try decoder.decode(ConsentDecision.self, from: json.data(using: .utf8)!)
         ) { error in
-            guard error is DecodingError else {
+            guard let decodingError = error as? DecodingError else {
                 XCTFail("Expected DecodingError, got \(type(of: error))")
                 return
             }
+            
+            if case .missingRequiredKey = decodingError { } else {
+                XCTFail("Expected missingRequiredKey, got \(decodingError)")
+            }
         }
     }
-
+    
+    // TC-009: Decode malformed date (invalid ISO8601)
     func testDecode_invalidDateFormat_throwsError() throws {
         let json = """
         {
@@ -36,15 +35,16 @@ extension ConsentDecisionTests {
             "version": 1
         }
         """
-
+        
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-
+        
         XCTAssertThrowsError(
             try decoder.decode(ConsentDecision.self, from: json.data(using: .utf8)!)
         )
     }
-
+    
+    // TC-010: Version mismatch (future schema)
     func testDecode_futureVersion_decodesButHandled() throws {
         let json = """
         {
@@ -53,17 +53,16 @@ extension ConsentDecisionTests {
             "version": 99
         }
         """
-
+        
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-
+        
         let decision = try decoder.decode(
             ConsentDecision.self,
             from: json.data(using: .utf8)!
         )
-
+        
+        // For now, just load it (migration logic can be added later)
         XCTAssertEqual(decision.version, 99)
     }
 }
-
-#endif

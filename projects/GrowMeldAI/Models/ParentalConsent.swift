@@ -35,5 +35,3 @@ enum ParentalConsentError: LocalizedError {
 
 // ViewModel for Signup
 @MainActor
-class ParentalConsentViewModel: ObservableObject {
-}

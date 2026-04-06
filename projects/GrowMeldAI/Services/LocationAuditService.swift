@@ -12,8 +12,7 @@ final class LocationAuditService {
         auditLog.append(DeletionRecord(timestamp: Date(), recordsDeleted: count, reason: reason))
         try await persistAuditLog()
     }
-    
-    private func persistAuditLog() async throws {
-        // Persist audit log implementation
-    }
 }
+
+// Integration
+@MainActor

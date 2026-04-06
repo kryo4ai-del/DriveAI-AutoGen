@@ -1,6 +1,3 @@
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
 import Foundation
 
 // MARK: - Sign Recognition Result
@@ -58,6 +55,8 @@ struct CGRectCodable: Codable, Sendable, Equatable {
     }
 
     #if canImport(CoreGraphics)
+    import CoreGraphics
+
     init(_ rect: CGRect) {
         self.x = Double(rect.origin.x)
         self.y = Double(rect.origin.y)

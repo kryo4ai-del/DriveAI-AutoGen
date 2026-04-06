@@ -1,34 +1,10 @@
-import SwiftUI
-
-enum PasswordStrength: Int, CaseIterable {
-    case weak = 0
-    case fair = 1
-    case good = 2
-    case strong = 3
-    
-    var label: String {
-        switch self {
-        case .weak: return "Weak"
-        case .fair: return "Fair"
-        case .good: return "Good"
-        case .strong: return "Strong"
-        }
-    }
-    
-    var color: Color {
-        switch self {
-        case .weak: return .red
-        case .fair: return .orange
-        case .good: return .yellow
-        case .strong: return .green
-        }
-    }
-}
+// Core/Utilities/PasswordStrengthEvaluator.swift
 
 @MainActor
 final class PasswordStrengthEvaluator {
     static let shared = PasswordStrengthEvaluator()
     
+    // Precompile regexes once at initialization
     private let uppercaseRegex = try! NSRegularExpression(pattern: "[A-Z]")
     private let numberRegex = try! NSRegularExpression(pattern: "[0-9]")
     private let specialRegex = try! NSRegularExpression(pattern: "[!@#$%^&*()_+\\-=\\[\\]{};':\",./<>?]")
@@ -54,16 +30,10 @@ final class PasswordStrengthEvaluator {
     }
 }
 
+// SignUpViewModel (updated)
 @MainActor
-class SignUpViewModel: ObservableObject {
-    @Published var password: String = "" {
-        didSet {
-            passwordStrength = PasswordStrengthEvaluator.shared.evaluate(password)
-        }
-    }
-    @Published var passwordStrength: PasswordStrength = .weak
-}
 
+// SignUpView (updated)
 struct SignUpView: View {
     @StateObject private var viewModel = SignUpViewModel()
     
@@ -71,10 +41,11 @@ struct SignUpView: View {
         VStack(spacing: 16) {
             SecureField("Password", text: $viewModel.password)
             
+            // Strength indicator updates only when password changes
             HStack {
                 ForEach(PasswordStrength.allCases, id: \.self) { strength in
                     Capsule()
-                        .fill(strength.color.opacity(viewModel.passwordStrength.rawValue >= strength.rawValue ? 1 : 0.2))
+                        .fill(strength.color.opacity(viewModel.passwordStrength.rawValue <= strength.rawValue ? 1 : 0.2))
                 }
             }
             .frame(height: 4)

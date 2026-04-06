@@ -10,7 +10,7 @@ enum DesignSystem {
         static let warning = Color(red: 0.95, green: 0.6, blue: 0.1)
         static let background = Color(UIColor.systemBackground)
         static let secondaryBackground = Color(UIColor.secondarySystemBackground)
-        static let cardBackground = Color(UIColor.tertiarySystemBackground)
+        static let cardBackground = Color(UIColor tertiarySystemBackground)
     }
 
     // MARK: - Typography

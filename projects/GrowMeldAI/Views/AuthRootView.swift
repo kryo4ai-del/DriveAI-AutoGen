@@ -1,38 +1,25 @@
-import SwiftUI
-
-struct SignInView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    var body: some View {
-        Text("Sign In")
-    }
-}
-
-struct SignUpView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    var body: some View {
-        Text("Sign Up")
-    }
-}
-
-class AuthViewModel: ObservableObject {
-    @Published var isAuthenticated: Bool = false
-}
+// Features/Auth/Application/Views/Auth/AuthRootView.swift
 
 struct AuthRootView: View {
     @StateObject private var viewModel = AuthViewModel()
     @State private var showSignUp = false
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 if showSignUp {
-                    SignUpView()
-                        .environmentObject(viewModel)
+                    SignUpView(
+                        viewModel: SignUpViewModel(),
+                        showSignUp: $showSignUp
+                    )
                 } else {
-                    SignInView()
-                        .environmentObject(viewModel)
+                    SignInView(
+                        viewModel: SignInViewModel(),
+                        showSignUp: $showSignUp
+                    )
                 }
             }
+            .environmentObject(viewModel)
         }
     }
 }

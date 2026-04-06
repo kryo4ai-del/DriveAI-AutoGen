@@ -1,19 +1,6 @@
 import Foundation
-
-// MARK: - Supporting Types
-
-struct SyncResponse: Codable {
-    let success: Bool
-    let message: String
-    let syncedAt: Date
-}
-
-struct UserProgress: Codable {
-    let totalQuestionsAnswered: Int
-    let correctAnswers: Int
-    let categoryScores: [String: Double]
-    let lastSyncedAt: Date
-}
+import FirebaseFunctions
+import FirebaseFirestore
 
 // MARK: - Protocol
 
@@ -22,6 +9,8 @@ protocol ExamSyncService: AnyObject {
     func fetchProgressUpdate() async throws -> UserProgress
     func deleteLocalResult(_ id: UUID) async throws
 }
+
+// MARK: - Firebase Implementation
 
 // MARK: - Mock for Testing
 
@@ -33,7 +22,7 @@ class MockExamSyncService: ExamSyncService {
             syncedAt: Date()
         )
     }
-
+    
     var progressStub: () async throws -> UserProgress = {
         UserProgress(
             totalQuestionsAnswered: 150,
@@ -42,15 +31,15 @@ class MockExamSyncService: ExamSyncService {
             lastSyncedAt: Date()
         )
     }
-
+    
     func submitExamResult(_ result: ExamResult) async throws -> SyncResponse {
         try await submitResultStub(result)
     }
-
+    
     func fetchProgressUpdate() async throws -> UserProgress {
         try await progressStub()
     }
-
+    
     func deleteLocalResult(_ id: UUID) async throws {
         // No-op for testing
     }

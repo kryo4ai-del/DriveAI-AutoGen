@@ -1,10 +1,8 @@
-import Foundation
-
 public struct UserExamReadiness: Sendable {
     public let isReady: Bool
     public let daysSinceLastExam: Int?
-    public let categoryReadinessScores: [String: Double]
-
+    public let categoryReadinessScores: [QuestionCategory: Double]  // 0.0-1.0
+    
     public var recommendation: String {
         if !isReady {
             let daysRemaining = 7 - (daysSinceLastExam ?? 0)
@@ -16,3 +14,6 @@ public struct UserExamReadiness: Sendable {
         return "Übe schwache Kategorien vor dem nächsten Test."
     }
 }
+
+// On UserProgressRepository (add as contract):
+func getExamReadiness(userId: String) async throws -> UserExamReadiness

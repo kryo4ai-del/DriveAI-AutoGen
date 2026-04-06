@@ -12,3 +12,6 @@ class ServiceLocator {
         services[key] as? T
     }
 }
+
+// App Startup
+@main

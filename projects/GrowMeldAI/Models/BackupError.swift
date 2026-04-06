@@ -1,5 +1,3 @@
-import Foundation
-
 enum BackupError: LocalizedError {
     case diskSpaceInsufficient(required: UInt64, available: UInt64)
     

@@ -8,9 +8,9 @@ struct FileSystemHelper {
         let values = try url.resourceValues(forKeys: resourceKeys)
         
         guard let capacity = values.volumeAvailableCapacity else {
-            throw BackupError.fileSystemError(
+            throw BackupError.ioError(
                 NSError(domain: "FileSystem", code: -1, 
-                        userInfo: [NSLocalizedDescriptionKey as String: "Cannot determine disk space"])
+                        userInfo: [NSLocalizedDescriptionKey: "Cannot determine disk space"])
             )
         }
         

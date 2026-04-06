@@ -1,4 +1,3 @@
-import SwiftUI
 // DashboardScreen.swift
 struct DashboardScreen: View {
     @ObservedObject var profileViewModel: ProfileViewModel

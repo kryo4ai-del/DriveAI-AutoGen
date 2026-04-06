@@ -1,5 +1,17 @@
 import Foundation
 
+// MARK: - Question Model (local definition to avoid ambiguity)
+
+public struct ExamQuestion: Codable, Identifiable {
+    public let id: String
+    public let correctOptionId: String
+
+    public init(id: String, correctOptionId: String) {
+        self.id = id
+        self.correctOptionId = correctOptionId
+    }
+}
+
 // MARK: - ExamScore
 
 public struct ExamScore: Codable {
@@ -16,21 +28,9 @@ public struct ExamScore: Codable {
     }
 }
 
-// MARK: - Question Model (local definition to avoid ambiguity)
-
-public struct ScoringExamQuestion: Codable, Identifiable {
-    public let id: String
-    public let correctOptionId: String
-
-    public init(id: String, correctOptionId: String) {
-        self.id = id
-        self.correctOptionId = correctOptionId
-    }
-}
-
 // MARK: - ExamSession (scoring context)
 
-public struct ScoringExamSession {
+public struct ExamSession {
     public let answers: [String: String]  // questionId -> selectedOptionId
     public let totalQuestions: Int
 
@@ -39,7 +39,7 @@ public struct ScoringExamSession {
         self.totalQuestions = totalQuestions
     }
 
-    public func score(questions: [ScoringExamQuestion]) -> ExamScore {
+    public func score(questions: [ExamQuestion]) -> ExamScore {
         guard answers.count == totalQuestions else {
             return ExamScore(correct: 0, total: totalQuestions, percentage: 0, passed: false)
         }

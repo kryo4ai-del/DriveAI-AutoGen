@@ -1,5 +1,3 @@
-import SwiftUI
-
 struct UserRightsScreen: View {
     var body: some View {
         ScrollView {
@@ -54,12 +52,13 @@ struct ActionButton: View {
                 
                 Text(title)
                     .font(.system(.body, design: .default))
+                    .dynamicallyScaled()
                     .fontWeight(.semibold)
                 
                 Spacer()
             }
-            .frame(minHeight: 44)
-            .contentShape(Rectangle())
+            .frame(minHeight: 44)  // ✅ Minimum touch target
+            .contentShape(Rectangle())  // Entire area tappable
         }
         .buttonStyle(AccessibleActionButtonStyle(style: style))
         .accessibilityLabel(Text(title))

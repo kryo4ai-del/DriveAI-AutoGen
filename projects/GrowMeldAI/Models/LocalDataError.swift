@@ -1,11 +1,9 @@
-import Foundation
-
 enum LocalDataError: LocalizedError, Equatable {
     case databaseInitializationFailed(String)
     case queryFailed(String)
     case noQuestionsFound
     case invalidData(String)
-
+    
     var errorDescription: String? {
         switch self {
         case .databaseInitializationFailed(let msg):
@@ -19,3 +17,5 @@ enum LocalDataError: LocalizedError, Equatable {
         }
     }
 }
+
+@MainActor

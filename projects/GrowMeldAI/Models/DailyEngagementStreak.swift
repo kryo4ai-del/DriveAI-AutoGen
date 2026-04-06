@@ -1,5 +1,3 @@
-import Foundation
-
 struct DailyEngagementStreak {
     let currentStreak: Int
     let longestStreak: Int
@@ -7,7 +5,7 @@ struct DailyEngagementStreak {
     
     var isBroken: Bool {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
+        let today = calendar.startOfDay(for: dateProvider.now())
         let lastActive = calendar.startOfDay(for: lastActiveDate)
         let daysSinceActive = calendar.dateComponents([.day], from: lastActive, to: today).day ?? 999
         return daysSinceActive > 1

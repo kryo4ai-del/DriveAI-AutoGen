@@ -1,3 +1,4 @@
+// Views/AppNavigationView.swift
 import SwiftUI
 
 struct AppNavigationView: View {
@@ -63,58 +64,9 @@ class NavigationCoordinator: ObservableObject {
     }
 }
 
-// MARK: - Stub Views
-struct HomeView: View {
-    var body: some View {
-        Text("Home")
-            .navigationTitle("Home")
-    }
-}
-
-struct OnboardingView: View {
-    @EnvironmentObject var coordinator: NavigationCoordinator
-
-    var body: some View {
-        VStack(spacing: 24) {
-            Text("Willkommen")
-                .font(.largeTitle)
-            Button("Weiter") {
-                coordinator.markOnboarded()
-            }
-            .buttonStyle(.borderedProminent)
-        }
-        .navigationTitle("Onboarding")
-    }
-}
-
-struct CategoryDetailView: View {
-    let categoryID: String
-
-    var body: some View {
-        Text("Kategorie: \(categoryID)")
-            .navigationTitle("Kategorie")
-    }
-}
-
-struct QuestionView: View {
-    let questionID: String
-    let context: String?
-
-    var body: some View {
-        VStack(spacing: 16) {
-            Text("Frage: \(questionID)")
-            if let context = context {
-                Text("Kontext: \(context)")
-                    .foregroundColor(.secondary)
-            }
-        }
-        .navigationTitle("Frage")
-    }
-}
-
-// MARK: - Preview
+// MARK: - Placeholder Views (minimal stubs if not defined elsewhere)
 #if DEBUG
-struct AppNavigationView_Previews: PreviewProvider {
+struct HomeView_Preview: PreviewProvider {
     static var previews: some View {
         AppNavigationView()
     }

@@ -1,3 +1,5 @@
+// Services/Backup/DataCodec.swift
+
 import Foundation
 
 protocol DataCodec: AnyObject, Sendable {
@@ -8,17 +10,19 @@ protocol DataCodec: AnyObject, Sendable {
 actor JSONDataCodec: DataCodec {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-
-    init() {
+    
+    override init() {
+        super.init()
+        
         decoder.dateDecodingStrategy = .iso8601
         encoder.dateEncodingStrategy = .iso8601
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
     }
-
+    
     func encode<T: Encodable>(_ value: T) async throws -> Data {
         try encoder.encode(value)
     }
-
+    
     func decode<T: Decodable>(_ type: T.Type, from data: Data) async throws -> T {
         try decoder.decode(type, from: data)
     }

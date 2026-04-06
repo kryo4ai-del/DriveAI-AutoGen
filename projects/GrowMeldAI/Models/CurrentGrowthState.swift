@@ -1,47 +1,4 @@
-import Foundation
-import SwiftUI
-
-// MARK: - Supporting Types
-
-struct ExamReadinessScore: Codable, Sendable {
-    let probability: Double
-    let label: String
-
-    static let empty = ExamReadinessScore(probability: 0.0, label: "Not started")
-}
-
-struct LearningVelocity: Codable, Sendable {
-    let questionsPerDay: Double
-
-    static let empty = LearningVelocity(questionsPerDay: 0.0)
-}
-
-struct WeaknessPattern: Codable, Identifiable, Sendable {
-    let id: UUID
-    let topic: String
-    let errorRate: Double
-
-    init(id: UUID = UUID(), topic: String, errorRate: Double) {
-        self.id = id
-        self.topic = topic
-        self.errorRate = errorRate
-    }
-}
-
-struct GrowthMilestone: Codable, Identifiable, Sendable {
-    let id: UUID
-    let title: String
-    let unlockedAt: Date
-
-    init(id: UUID = UUID(), title: String, unlockedAt: Date = Date()) {
-        self.id = id
-        self.title = title
-        self.unlockedAt = unlockedAt
-    }
-}
-
-// MARK: - Atomic State
-
+// ✅ ATOMIC STATE (updated in-place, always fresh)
 @MainActor
 final class CurrentGrowthState: ObservableObject {
     @Published var readiness: ExamReadinessScore
@@ -50,7 +7,7 @@ final class CurrentGrowthState: ObservableObject {
     @Published var unlockedMilestones: [GrowthMilestone]
     @Published var totalPoints: Int
     @Published var lastUpdated: Date
-
+    
     init() {
         self.readiness = .empty
         self.velocity = .empty
@@ -61,8 +18,7 @@ final class CurrentGrowthState: ObservableObject {
     }
 }
 
-// MARK: - Lightweight History
-
+// ✅ LIGHTWEIGHT HISTORY (only aggregates, indexed efficiently)
 struct HistoricalSnapshot: Codable, Sendable {
     let id: UUID
     let timestamp: Date
@@ -73,38 +29,18 @@ struct HistoricalSnapshot: Codable, Sendable {
     let totalPointsEarned: Int
 }
 
-// MARK: - Persistence Layer
-
+// ✅ PERSISTENCE LAYER
 actor GrowthPersistenceService {
-    private let snapshotsKey = "com.growmeldai.historical_snapshots"
-    private let encoder: JSONEncoder
-    private let decoder: JSONDecoder
-
-    init() {
-        encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+    func saveHistoricalSnapshot(_ snapshot: HistoricalSnapshot) async throws {
+        // ~200 bytes per snapshot = 180KB for 1 year
+        try await database.insert(snapshot)
     }
-
-    func saveHistoricalSnapshot(_ snapshot: HistoricalSnapshot) throws {
-        var snapshots = (try? loadAllSnapshots()) ?? []
-        snapshots.append(snapshot)
-        let data = try encoder.encode(snapshots)
-        UserDefaults.standard.set(data, forKey: snapshotsKey)
-    }
-
-    func loadTrendData(days: Int) throws -> [HistoricalSnapshot] {
-        let cutoff = Date().addingTimeInterval(-Double(days) * 86400)
-        let all = (try? loadAllSnapshots()) ?? []
-        return all.filter { $0.timestamp > cutoff }
-                  .sorted { $0.timestamp > $1.timestamp }
-    }
-
-    private func loadAllSnapshots() throws -> [HistoricalSnapshot] {
-        guard let data = UserDefaults.standard.data(forKey: snapshotsKey) else {
-            return []
-        }
-        return try decoder.decode([HistoricalSnapshot].self, from: data)
+    
+    func loadTrendData(days: Int) async throws -> [HistoricalSnapshot] {
+        // Query returns lightweight objects, fast even for 365 days
+        return try await database.query(
+            "SELECT * FROM historical_snapshots WHERE timestamp > ? ORDER BY timestamp DESC",
+            cutoffDate: Date().addingTimeInterval(-Double(days) * 86400)
+        )
     }
 }

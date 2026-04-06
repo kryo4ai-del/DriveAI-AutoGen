@@ -11,3 +11,5 @@ enum AppStateError: LocalizedError, Equatable {
         }
     }
 }
+
+@MainActor

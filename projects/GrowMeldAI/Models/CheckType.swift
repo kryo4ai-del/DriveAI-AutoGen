@@ -1,4 +1,3 @@
-import Foundation
 // Align naming:
 // Option 1: Use generic "Check" for both
 enum CheckType: String, Codable, CaseIterable {

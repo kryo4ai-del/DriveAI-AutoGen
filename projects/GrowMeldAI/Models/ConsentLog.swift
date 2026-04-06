@@ -1,4 +1,3 @@
-import Foundation
 struct ConsentLog: Codable, Identifiable {
     let timestamp: Date              // ❌ What is this for?
     let decision: LocationPermissionState  // ❌ Ambiguous to SR

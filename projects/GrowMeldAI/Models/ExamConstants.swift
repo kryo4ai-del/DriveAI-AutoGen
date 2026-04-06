@@ -9,5 +9,3 @@ struct ExamConstants {
 }
 
 @MainActor
-class ExamSimulationViewModel: ObservableObject {
-}

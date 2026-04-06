@@ -2,8 +2,8 @@
 import Foundation
 
 struct CategoryWithProgress {
-    let category: QuizCategory
-    let progress: QuizUserProgress.CategoryProgress
+    let category: Category
+    let progress: UserProgress.CategoryProgress
     
     var percentage: Double {
         progress.percentage

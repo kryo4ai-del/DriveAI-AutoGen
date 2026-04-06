@@ -1,3 +1,5 @@
+// MARK: - Models/ConsentPersistenceServiceProtocol.swift
+
 import Foundation
 
 // MARK: - ConsentState
@@ -19,7 +21,7 @@ struct ConsentPreference: Codable, Sendable {
     var showCount: Int
 
     static let empty = ConsentPreference(
-        state: ConsentState.notDetermined,
+        state: .notDetermined,
         acceptedAt: nil,
         declinedAt: nil,
         nextRetryDate: nil,
@@ -55,13 +57,14 @@ final class ConsentPersistenceService: ConsentPersistenceServiceProtocol {
 
     func loadPreference() async -> ConsentPreference {
         guard let data = userDefaults?.data(forKey: preferenceKey) else {
-            return ConsentPreference.empty
+            return .empty
         }
+
         do {
             return try decoder.decode(ConsentPreference.self, from: data)
         } catch {
             print("⚠️ Failed to decode consent preference: \(error)")
-            return ConsentPreference.empty
+            return .empty
         }
     }
 
@@ -86,6 +89,7 @@ final class ConsentPersistenceService: ConsentPersistenceServiceProtocol {
         preference.declinedAt = declinedAt
         preference.nextRetryDate = nextRetryDate
         preference.showCount += 1
+
         await savePreference(preference)
     }
 }

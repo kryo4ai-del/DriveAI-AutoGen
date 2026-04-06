@@ -1,5 +1,4 @@
-import SwiftUI
-
+// In XCTest, verify Dynamic Type scaling:
 struct DynamicTypePreview: View {
     var body: some View {
         PremiumFeatureCard(

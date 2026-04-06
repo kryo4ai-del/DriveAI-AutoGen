@@ -1,30 +1,10 @@
-import Foundation
-
-struct AppQuestion: Codable, Sendable {
-    let id: Int
-    let text: String
-    let options: [String]
-    let correctIndex: Int
-    let categoryId: String
-}
-
-struct AppCategory: Codable, Sendable {
-    let id: String
-    let name: String
-    let description: String
-}
-
+// DataLoader.swift
 protocol DataLoader: Sendable {
-    func loadQuestions() async throws -> [AppQuestion]
-    func loadCategories() async throws -> [AppCategory]
+    func loadQuestions() async throws -> [Question]
+    func loadCategories() async throws -> [Category]
 }
 
-final class JSONDataLoader: DataLoader {
-    func loadQuestions() async throws -> [AppQuestion] {
-        return []
-    }
+// JSONDataLoader.swift
 
-    func loadCategories() async throws -> [AppCategory] {
-        return []
-    }
-}
+// AppDelegate: Dependency Injection Root
+@main

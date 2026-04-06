@@ -1,6 +1,3 @@
-import Foundation
-import Combine
-
 @MainActor
 final class ExamResultsViewModel: ObservableObject {
     @Published var result: ExamResult?

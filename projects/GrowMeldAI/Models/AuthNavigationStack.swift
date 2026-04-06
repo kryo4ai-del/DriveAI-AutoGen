@@ -1,7 +1,5 @@
-import SwiftUI
-
 struct AuthNavigationStack: View {
-    let viewModel: Aura.AuthViewModel
+    let viewModel: AuthViewModel
     @State private var showSignUp = false
     
     var body: some View {
@@ -21,14 +19,16 @@ struct AuthNavigationStack: View {
             .padding()
             
             // Content
-            if showSignUp {
-                SignUpView()
-                    .accessibilityElement(children: .combine)
-            } else {
-                LoginView(viewModel: viewModel, showSignUp: $showSignUp)
-                    .accessibilityLabel("Anmeldebildschirm")
+            Group {
+                if showSignUp {
+                    SignUpView(viewModel: viewModel, showSignUp: $showSignUp)
+                        .accessibilityLabel("Registrierungsbildschirm")
+                } else {
+                    LoginView(viewModel: viewModel, showSignUp: $showSignUp)
+                        .accessibilityLabel("Anmeldebildschirm")
+                }
             }
+            .transition(.opacity)
         }
-        .animation(.default, value: showSignUp)
     }
 }

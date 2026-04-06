@@ -1,12 +1,17 @@
-import Foundation
-
+// Presentation/Helpers/Navigation.swift
 enum NavigationPath: Hashable {
     case onboarding
     case home
-    case question(QuizApp.Category?)
+    case question(Category?)        // Optional filter
     case categoryList
     case exam
-    case result(QuizApp.ExamResult)
+    case result(ExamResult)
     case profile
-    case reviewMistakes(QuizApp.ExamAttempt)
+    case reviewMistakes(ExamAttempt)
 }
+
+// App/AppCoordinator.swift
+@MainActor
+
+// App/DriveAIApp.swift
+@main

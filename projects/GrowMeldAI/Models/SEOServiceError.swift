@@ -17,5 +17,3 @@ enum SEOServiceError: Error, LocalizedError {
 }
 
 @MainActor
-class SEOService {
-}

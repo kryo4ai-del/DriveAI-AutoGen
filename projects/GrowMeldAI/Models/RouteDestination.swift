@@ -1,8 +1,17 @@
-// Deep link compatible routing
+// Current (Limited routing)
 enum RouteDestination: Hashable {
     case home
     case questionCategory(id: String)
-    case questionDetail(id: String)
+    case examStart
+    case result(sessionId: String)
+    case profile
+}
+
+// Improved (Deep link compatible)
+enum RouteDestination: Hashable {
+    case home
+    case questionCategory(id: String)
+    case questionDetail(id: String) // Specific question (for retry/review)
     case examStart(simulationMode: Bool = true)
     case result(sessionId: String, animated: Bool = true)
     case profile
@@ -28,3 +37,6 @@ enum RouteDestination: Hashable {
         }
     }
 }
+
+// Usage in App
+@main

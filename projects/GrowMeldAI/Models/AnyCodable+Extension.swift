@@ -1,7 +1,10 @@
+// Models/AnyCodable+Extension.swift
+
 import Foundation
 
 // MARK: - AnyCodable
 
+/// A type-erased Codable wrapper for heterogeneous values.
 enum AnyCodable: Codable, Sendable {
     case bool(Bool)
     case int(Int)
@@ -95,6 +98,7 @@ extension AnyCodable {
 
     // MARK: - Convenience Accessors
 
+    /// Extract bool with fallback (safe unwrap)
     func asBool(default defaultValue: Bool = false) -> Bool {
         if let b = boolValue { return b }
         if let s = stringValue, s.lowercased() == "true" { return true }
@@ -102,6 +106,7 @@ extension AnyCodable {
         return defaultValue
     }
 
+    /// Extract numeric value with validation
     func asPositiveDouble() -> Double? {
         if let d = doubleValue, d > 0 { return d }
         if let i = intValue, i > 0 { return Double(i) }
@@ -109,6 +114,7 @@ extension AnyCodable {
         return nil
     }
 
+    /// Extract as Int with optional fallback
     func asInt(default defaultValue: Int? = nil) -> Int? {
         if let i = intValue { return i }
         if let d = doubleValue { return Int(d) }
@@ -116,6 +122,7 @@ extension AnyCodable {
         return defaultValue
     }
 
+    /// Extract as String with optional fallback
     func asString(default defaultValue: String? = nil) -> String? {
         if let s = stringValue { return s }
         switch self {
@@ -123,6 +130,90 @@ extension AnyCodable {
         case .int(let i):    return String(i)
         case .double(let d): return String(d)
         default:             return defaultValue
+        }
+    }
+}
+
+// MARK: - ExpressibleBy Literals
+
+extension AnyCodable: ExpressibleByBooleanLiteral {
+    init(booleanLiteral value: Bool) { self = .bool(value) }
+}
+
+extension AnyCodable: ExpressibleByIntegerLiteral {
+    init(integerLiteral value: Int) { self = .int(value) }
+}
+
+extension AnyCodable: ExpressibleByFloatLiteral {
+    init(floatLiteral value: Double) { self = .double(value) }
+}
+
+extension AnyCodable: ExpressibleByStringLiteral {
+    init(stringLiteral value: String) { self = .string(value) }
+}
+
+extension AnyCodable: ExpressibleByArrayLiteral {
+    typealias ArrayLiteralElement = AnyCodable
+    init(arrayLiteral elements: AnyCodable...) { self = .array(elements) }
+}
+
+extension AnyCodable: ExpressibleByDictionaryLiteral {
+    typealias Key = String
+    typealias Value = AnyCodable
+    init(dictionaryLiteral elements: (String, AnyCodable)...) {
+        self = .dictionary(Dictionary(uniqueKeysWithValues: elements))
+    }
+}
+
+extension AnyCodable: ExpressibleByNilLiteral {
+    init(nilLiteral: ()) { self = .null }
+}
+
+// MARK: - Equatable
+
+extension AnyCodable: Equatable {
+    static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool {
+        switch (lhs, rhs) {
+        case (.bool(let l), .bool(let r)):              return l == r
+        case (.int(let l), .int(let r)):                return l == r
+        case (.double(let l), .double(let r)):          return l == r
+        case (.string(let l), .string(let r)):          return l == r
+        case (.array(let l), .array(let r)):            return l == r
+        case (.dictionary(let l), .dictionary(let r)):  return l == r
+        case (.null, .null):                            return true
+        default:                                        return false
+        }
+    }
+}
+
+// MARK: - Hashable
+
+extension AnyCodable: Hashable {
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .bool(let b):       hasher.combine(0); hasher.combine(b)
+        case .int(let i):        hasher.combine(1); hasher.combine(i)
+        case .double(let d):     hasher.combine(2); hasher.combine(d)
+        case .string(let s):     hasher.combine(3); hasher.combine(s)
+        case .array(let a):      hasher.combine(4); hasher.combine(a)
+        case .dictionary(let d): hasher.combine(5); hasher.combine(d)
+        case .null:              hasher.combine(6)
+        }
+    }
+}
+
+// MARK: - CustomStringConvertible
+
+extension AnyCodable: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .bool(let b):       return String(b)
+        case .int(let i):        return String(i)
+        case .double(let d):     return String(d)
+        case .string(let s):     return s
+        case .array(let a):      return "\(a)"
+        case .dictionary(let d): return "\(d)"
+        case .null:              return "null"
         }
     }
 }

@@ -18,5 +18,3 @@ enum ImageRenderingError: Error, LocalizedError {
 }
 
 @MainActor
-class ImageRenderingService {
-}

@@ -1,3 +1,10 @@
+// ❌ CURRENT (MISSING ERROR HANDLING)
+func syncProgress() async throws {
+    try await firebaseService.updateProgress(category)
+    // No error handling! What if network timeout? Auth fails?
+}
+
+// ✅ REQUIRED (Comprehensive error handling)
 enum SyncError: LocalizedError {
     case networkTimeout
     case authExpired
@@ -22,17 +29,3 @@ enum SyncError: LocalizedError {
 }
 
 @MainActor
-class SyncManager {
-    func syncProgress(category: String, firebaseService: FirebaseService) async throws {
-        do {
-            try await firebaseService.updateProgress(category)
-        } catch {
-            throw SyncError.networkTimeout
-        }
-    }
-}
-
-class FirebaseService {
-    func updateProgress(_ category: String) async throws {
-    }
-}

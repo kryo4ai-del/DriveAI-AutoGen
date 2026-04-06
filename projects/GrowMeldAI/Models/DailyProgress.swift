@@ -1,12 +1,4 @@
 public struct DailyProgress: Equatable, Sendable {
-    public var questionsProgressPercent: Double
-    public var questionsRemaining: Int
-    
-    public init(questionsProgressPercent: Double, questionsRemaining: Int) {
-        self.questionsProgressPercent = questionsProgressPercent
-        self.questionsRemaining = questionsRemaining
-    }
-    
     // Keep visual message for sighted users
     public var questionsMotivationalMessage: String {
         switch questionsProgressPercent {

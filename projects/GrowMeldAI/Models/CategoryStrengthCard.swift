@@ -1,8 +1,7 @@
-import SwiftUI
 // MARK: - Presentation/Common/Components/CategoryStrengthCard.swift
 
 struct CategoryStrengthCard: View {
-    let strength: Models.CategoryStrength
+    let strength: CategoryStrength
     
     @ScaledMetric(relativeTo: .body) private var cornerRadius = 12
     @ScaledMetric(relativeTo: .body) private var padding = 16

@@ -1,11 +1,13 @@
 import Foundation
 
+/// Complete user data export for GDPR Article 20 (data portability right)
 struct DataExportPayload: Codable {
     let metadata: ExportMetadata
     let user: UserExportData
     let learning: LearningExportData
     let consent: ConsentExportData
-
+    
+    /// Generate ISO8601 timestamp for filename
     var exportFilename: String {
         let formatter = ISO8601DateFormatter()
         let timestamp = formatter.string(from: metadata.exportedAt)
@@ -20,15 +22,15 @@ struct ExportMetadata: Codable {
     let exportedAt: Date
     let appVersion: String
     let iosVersion: String
-    let language: String
+    let language: String  // User's app language
     let policyVersion: String
-
+    
     init() {
         self.exportedAt = Date()
-        self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
-        self.iosVersion = ProcessInfo.processInfo.operatingSystemVersionString
+        self.appVersion = Bundle.main.appVersion ?? "unknown"
+        self.iosVersion = UIDevice.current.systemVersion
         self.language = Locale.current.language.languageCode?.identifier ?? "de"
-        self.policyVersion = "1.0"
+        self.policyVersion = "1.0"  // Bump with policy updates
     }
 }
 
@@ -36,11 +38,12 @@ struct ExportMetadata: Codable {
 
 struct UserExportData: Codable {
     let id: String
-    let email: String?
+    let email: String?  // If user provided
     let createdAt: Date
     let lastActiveAt: Date
     let examDate: Date?
-
+    
+    /// Minimal PII — only what's necessary for user to identify their data
     var privacyMinimal: Bool { email == nil }
 }
 
@@ -83,34 +86,24 @@ struct CategoryProgressExport: Codable {
 
 // MARK: - Consent Data
 
-struct ConsentPreferenceExport: Codable {
-    let key: String
-    let value: Bool
-    let updatedAt: Date
-}
-
-struct ConsentAuditEntryExport: Codable {
-    let action: String
-    let timestamp: Date
-    let policyVersion: String
-}
-
 struct ConsentExportData: Codable {
-    let preferences: [ConsentPreferenceExport]
-    let auditLog: [ConsentAuditEntryExport]
+    let preferences: [ConsentPreference]
+    let auditLog: [ConsentAuditEntry]
     let currentPolicyVersion: String
 }
 
 // MARK: - Serialization Helpers
 
 extension DataExportPayload {
+    /// Encode to JSON with human-readable formatting
     func toJSON() throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
         return try encoder.encode(self)
     }
-
+    
+    /// Create from JSON (for testing / re-import)
     static func fromJSON(_ data: Data) throws -> Self {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601

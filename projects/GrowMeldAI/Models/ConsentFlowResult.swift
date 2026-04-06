@@ -1,4 +1,3 @@
-import Foundation
 enum ConsentFlowResult {
     case approved(ConsentRecord)
     case requiresParentalConsent(childID: UUID)

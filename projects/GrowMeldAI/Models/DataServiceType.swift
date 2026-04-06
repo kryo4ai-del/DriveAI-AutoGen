@@ -1,13 +1,12 @@
-import Foundation
-
+// Define all service protocols NOW (even though camera isn't used yet)
 protocol DataServiceType {
-    func fetchQuestions(category: String) async throws -> [GrowMeldQuestion]
-    func fetchCategories() async throws -> [GrowMeldCategory]
+    func fetchQuestions(category: String) async throws -> [Question]
+    func fetchCategories() async throws -> [Category]
 }
 
 protocol UserProgressServiceType {
     func recordAnswer(questionId: String, isCorrect: Bool) async throws
-    func getProgress(category: String) async throws -> GrowMeldCategoryProgress
+    func getProgress(category: String) async throws -> CategoryProgress
     func getStreak() async -> Int
 }
 
@@ -17,26 +16,4 @@ protocol LocalStorageServiceType {
     func delete(forKey: String) async throws
 }
 
-struct GrowMeldQuestion: Codable, Identifiable {
-    let id: String
-    let text: String
-    let category: String
-    let options: [String]
-    let correctAnswer: String
-}
-
-struct GrowMeldCategory: Codable, Identifiable {
-    let id: String
-    let name: String
-    let description: String
-}
-
-struct GrowMeldCategoryProgress: Codable {
-    let category: String
-    let totalAnswered: Int
-    let correctAnswers: Int
-    var accuracy: Double {
-        guard totalAnswered > 0 else { return 0.0 }
-        return Double(correctAnswers) / Double(totalAnswered)
-    }
-}
+// Camera protocol added LATER when feature is approved

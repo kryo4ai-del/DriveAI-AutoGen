@@ -1,4 +1,4 @@
-import Foundation
+// Utilities/AsyncTimeout.swift
 
 enum AsyncTimeoutError: LocalizedError {
     case timedOut(timeInterval: TimeInterval)
@@ -23,7 +23,7 @@ extension Task where Failure == Error {
             }
             
             group.addTask {
-                try await Task<Never, Never>.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
+                try await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
                 throw AsyncTimeoutError.timedOut(timeInterval: interval)
             }
             
@@ -35,4 +35,9 @@ extension Task where Failure == Error {
             return result
         }
     }
+}
+
+// Usage
+let result = try await Task.withTimeout(5.0) {
+    try await apiClient.fetchQuestion(id: uuid)
 }

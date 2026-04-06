@@ -1,10 +1,8 @@
+// Views/CameraCaptureView.swift
 import SwiftUI
-import UIKit
 import AVFoundation
 
 struct CameraCaptureView: UIViewControllerRepresentable {
-    typealias UIViewControllerType = UIImagePickerController
-    
     @Binding var image: UIImage?
     @State private var isShowingImagePicker = false
 

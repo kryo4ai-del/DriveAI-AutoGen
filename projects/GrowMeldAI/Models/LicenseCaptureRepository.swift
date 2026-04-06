@@ -1,6 +1,4 @@
 // Features/CameraOnboarding/Data/Repositories/LicenseCaptureRepository.swift
-import UIKit
-
 @MainActor
 final class LicenseCaptureRepository {
     private let captureService: LicenseCaptureServiceProtocol

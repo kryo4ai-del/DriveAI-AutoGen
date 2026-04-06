@@ -1,8 +1,8 @@
 import Foundation
 
-extension GrowMeldAI.ConsentPreference {
-    func withTimestamp(granted: Bool) -> GrowMeldAI.ConsentPreference {
-        GrowMeldAI.ConsentPreference(
+extension ConsentPreference {
+    func withTimestamp(granted: Bool) -> ConsentPreference {
+        ConsentPreference(
             id: self.id,
             category: self.category,
             titleKey: self.titleKey,

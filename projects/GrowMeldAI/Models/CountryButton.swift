@@ -1,4 +1,3 @@
-import SwiftUI
 // MARK: - Services/Accessibility/SelectableItemAccessibility.swift
 
 extension View {

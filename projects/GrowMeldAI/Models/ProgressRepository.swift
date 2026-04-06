@@ -1,7 +1,6 @@
-import Foundation
 protocol ProgressRepository {
-    func loadProgress() -> Models.UserProgress
-    func saveProgress(_ progress: Models.UserProgress)
+    func loadProgress() -> UserProgress
+    func saveProgress(_ progress: UserProgress)
     func recordAnswer(categoryId: UUID, isCorrect: Bool)
-    func saveExamResult(_ result: Models.ExamResult)
+    func saveExamResult(_ result: ExamResult)
 }

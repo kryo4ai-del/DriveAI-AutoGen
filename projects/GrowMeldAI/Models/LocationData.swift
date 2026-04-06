@@ -1,5 +1,4 @@
-struct LocationData: Codable, Identifiable, Equatable {
-    var id: String { "\(latitude),\(longitude)" }
+struct LocationData: Codable, Identifiable, Equatable {  // ✅ No Hashable
     let latitude: Double
     let longitude: Double
 }

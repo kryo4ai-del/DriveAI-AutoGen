@@ -18,3 +18,8 @@ struct Services {
         )
     }
 }
+
+// In App:
+@main
+
+// Access in ViewModels:

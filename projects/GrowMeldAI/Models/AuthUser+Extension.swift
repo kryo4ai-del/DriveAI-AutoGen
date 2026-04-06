@@ -1,10 +1,5 @@
-import Foundation
-
-struct AuthUser {
-    var examDate: Date?
-}
-
 extension AuthUser {
+    /// Localized, screen-reader-friendly exam date description
     func examCountdownDescription() -> String {
         guard let examDate = examDate else {
             return NSLocalizedString(
@@ -13,10 +8,10 @@ extension AuthUser {
                 comment: "No exam date configured"
             )
         }
-
+        
         let calendar = Calendar.current
         let components = calendar.dateComponents([.day], from: Date(), to: examDate)
-
+        
         guard let days = components.day else {
             return NSLocalizedString(
                 "exam.date.invalid",
@@ -24,7 +19,7 @@ extension AuthUser {
                 comment: "Exam date calculation failed"
             )
         }
-
+        
         if days < 0 {
             return NSLocalizedString(
                 "exam.date.past",
@@ -32,7 +27,7 @@ extension AuthUser {
                 comment: "Exam already happened"
             )
         }
-
+        
         if days == 0 {
             return NSLocalizedString(
                 "exam.date.today",
@@ -40,7 +35,7 @@ extension AuthUser {
                 comment: "Exam happening today"
             )
         }
-
+        
         if days == 1 {
             return NSLocalizedString(
                 "exam.date.tomorrow",
@@ -48,7 +43,8 @@ extension AuthUser {
                 comment: "Exam is in 1 day"
             )
         }
-
+        
+        // Plural form
         let format = NSLocalizedString(
             "exam.date.daysRemaining",
             value: "Exam in %d days",

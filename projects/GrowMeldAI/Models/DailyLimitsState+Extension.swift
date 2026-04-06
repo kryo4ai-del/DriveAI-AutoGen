@@ -1,2 +1,3 @@
-extension DailyLimitsState: @unchecked Sendable { }
-extension LimitFeedback: @unchecked Sendable { }
+extension DailyLimitsState: Sendable { }
+extension TrialState: Sendable { }
+extension LimitFeedback: Sendable { }

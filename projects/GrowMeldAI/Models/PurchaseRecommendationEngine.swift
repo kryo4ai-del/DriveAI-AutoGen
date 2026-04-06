@@ -1,22 +1,4 @@
-import Foundation
-
-struct ExamProgress {
-    let totalAttempts: Int
-    let percentage: Double
-}
-
-struct UnlockableFeature {
-    let featureKey: String
-    let title: String
-    let description: String
-}
-
-struct RecommendationResult {
-    let feature: UnlockableFeature?
-    let confidence: Double
-    let rationale: String
-}
-
+// ✅ CORRECT
 class PurchaseRecommendationEngine {
     func generateRecommendation(
         userProgress: ExamProgress,
@@ -24,9 +6,9 @@ class PurchaseRecommendationEngine {
         availableFeatures: [UnlockableFeature]
     ) -> RecommendationResult? {
         guard userProgress.totalAttempts >= 3 else { return nil }
-
+        
         let masteryLevel = userProgress.percentage
-
+        
         if masteryLevel >= 0.80, !unlockedFeatures.contains("detailed_stats") {
             return RecommendationResult(
                 feature: availableFeatures.first { $0.featureKey == "detailed_stats" },
@@ -37,3 +19,10 @@ class PurchaseRecommendationEngine {
         return nil
     }
 }
+
+// In ViewModel:
+let recommendation = recommendationEngine.generateRecommendation(
+    userProgress: examProgress,
+    unlockedFeatures: userState.unlockedFeatures,
+    availableFeatures: availableFeatures
+)

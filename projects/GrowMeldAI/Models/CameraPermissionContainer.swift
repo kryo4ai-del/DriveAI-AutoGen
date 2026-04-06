@@ -1,4 +1,3 @@
-import SwiftUI
 // Views/CameraPermissionContainer.swift
 struct CameraPermissionContainer: View {
     @StateObject private var viewModel = CameraPermissionViewModel()

@@ -4,10 +4,6 @@ protocol ServiceContaining {
 }
 
 @MainActor
-class ServiceContainer: ServiceContaining {
-    var authService: AuthServiceProtocol
 
-    init(authService: AuthServiceProtocol) {
-        self.authService = authService
-    }
-}
+// Usage in SwiftUI
+@main
