@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: - QuizQuestion Model
-
 struct QuizQuestion: Identifiable, Codable {
     let id: String
     let question: String
@@ -24,11 +22,7 @@ struct QuizQuestion: Identifiable, Codable {
     }
 }
 
-// MARK: - BundleProvider
-
 struct BundleProvider {
-
-    // MARK: - Quiz Questions
 
     static func loadQuizQuestions(from fileName: String = "quiz_questions") -> [QuizQuestion] {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
@@ -47,8 +41,6 @@ struct BundleProvider {
             return defaultQuizQuestions()
         }
     }
-
-    // MARK: - Default Fallback Data
 
     static func defaultQuizQuestions() -> [QuizQuestion] {
         [
@@ -76,8 +68,6 @@ struct BundleProvider {
         ]
     }
 
-    // MARK: - Generic JSON Loader
-
     static func load<T: Decodable>(_ type: T.Type, from fileName: String, withExtension ext: String = "json") -> T? {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: ext) else {
             print("[BundleProvider] ⚠ Resource not found: \(fileName).\(ext)")
@@ -95,8 +85,6 @@ struct BundleProvider {
             return nil
         }
     }
-
-    // MARK: - String Loader
 
     static func loadString(from fileName: String, withExtension ext: String = "txt") -> String? {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: ext) else {

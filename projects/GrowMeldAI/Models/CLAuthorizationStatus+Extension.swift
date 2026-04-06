@@ -3,6 +3,33 @@ import Foundation
 
 // MARK: - Location Permission Status
 
+extension CLAuthorizationStatus {
+    var locationPermissionStatus: LocationPermissionStatus {
+        switch self {
+        case .notDetermined:
+            return .notDetermined
+        case .restricted:
+            return .restricted
+        case .denied:
+            return .denied
+        case .authorizedAlways:
+            return .authorizedAlways
+        case .authorizedWhenInUse:
+            return .authorizedWhenInUse
+        @unknown default:
+            return .unknown
+        }
+    }
+}
+
+extension CLLocationManager {
+    var locationPermissionStatus: LocationPermissionStatus {
+        return authorizationStatus.locationPermissionStatus
+    }
+}
+
+// MARK: - LocationPermissionStatus
+
 enum LocationPermissionStatus {
     case notDetermined
     case restricted
@@ -10,34 +37,6 @@ enum LocationPermissionStatus {
     case authorizedAlways
     case authorizedWhenInUse
     case unknown
-}
-
-// MARK: - CLAuthorizationStatus Extension
-
-extension CLLocationManager {
-    var locationPermissionStatus: LocationPermissionStatus {
-        let status = CLLocationManager.authorizationStatus()
-        return LocationPermissionStatus(from: status)
-    }
-}
-
-extension LocationPermissionStatus {
-    init(from status: CLAuthorizationStatus) {
-        switch status {
-        case .notDetermined:
-            self = .notDetermined
-        case .restricted:
-            self = .restricted
-        case .denied:
-            self = .denied
-        case .authorizedAlways:
-            self = .authorizedAlways
-        case .authorizedWhenInUse:
-            self = .authorizedWhenInUse
-        @unknown default:
-            self = .unknown
-        }
-    }
 
     var isAuthorized: Bool {
         switch self {
