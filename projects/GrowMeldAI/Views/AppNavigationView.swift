@@ -7,15 +7,15 @@ struct AppNavigationView: View {
         NavigationStack(path: $coordinator.navigationPath) {
             Group {
                 if coordinator.isOnboarded {
-                    HomeView()
+                    MainHomeView()
                 } else {
-                    OnboardingView()
+                    MainOnboardingView()
                 }
             }
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
                 case .home:
-                    HomeView()
+                    MainHomeView()
                 case .categoryDetail(let categoryID):
                     CategoryDetailPlaceholderView(categoryID: categoryID)
                 case .question(let questionID, let context):
@@ -81,15 +81,15 @@ private struct QuestionPlaceholderView: View {
     }
 }
 
-// MARK: - Stub Views
-private struct HomeView: View {
+// MARK: - Local Views
+private struct MainHomeView: View {
     var body: some View {
         Text("Home")
             .navigationTitle("Home")
     }
 }
 
-private struct OnboardingView: View {
+private struct MainOnboardingView: View {
     @EnvironmentObject var coordinator: AppNavigationCoordinator
     var body: some View {
         VStack {

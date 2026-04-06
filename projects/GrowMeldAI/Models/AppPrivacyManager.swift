@@ -9,8 +9,6 @@ enum AppDataPurpose: String, CaseIterable, Codable, Hashable {
     case personalization
 }
 
-typealias DataPurpose = AppDataPurpose
-
 final class AppPrivacyManager: ObservableObject {
     private let userDefaults = UserDefaults.standard
     private let privacyDataKey = "com.driveai.privacy.consentState"

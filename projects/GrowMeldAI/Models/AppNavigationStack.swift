@@ -3,10 +3,10 @@ import SwiftUI
 // MARK: - Navigation Stack Controller
 
 final class NavigationStackController: ObservableObject {
-    @Published var path: NavigationPath = NavigationPath()
+    @Published var path: SwiftUI.NavigationPath = SwiftUI.NavigationPath()
 
     func popToRoot() {
-        path = NavigationPath()
+        path = SwiftUI.NavigationPath()
     }
 
     func pop() {
@@ -21,7 +21,7 @@ struct AppNavigationStack: View {
     @StateObject private var navStack = NavigationStackController()
 
     var body: some View {
-        NavigationStack(path: $navStack.path) {
+        SwiftUI.NavigationStack(path: $navStack.path) {
             Text("Dashboard")
                 .navigationTitle("Dashboard")
         }

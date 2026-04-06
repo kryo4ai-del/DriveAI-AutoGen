@@ -44,7 +44,7 @@ final class LocalDataService: LocalDataServiceProtocol {
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
 
-    init() {
+    init(storageKey: String = "weak_topics_storage") {
         self.encoder = JSONEncoder()
         self.decoder = JSONDecoder()
     }
@@ -147,9 +147,9 @@ final class MockProgressService: ProgressServiceProtocol {
     }
 
     func markTopicImproved(id: String) {
+        improvedTopicIds.append(id)
         let current = scores[id] ?? 0.0
         scores[id] = min(current + 0.1, 1.0)
-        improvedTopicIds.append(id)
     }
 }
 
@@ -161,34 +161,34 @@ final class WeakTopicsViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let localDataService: LocalDataServiceProtocol
+    private let dataService: LocalDataServiceProtocol
     private let progressService: ProgressServiceProtocol
 
     init(
-        localDataService: LocalDataServiceProtocol = LocalDataService.shared,
+        dataService: LocalDataServiceProtocol = LocalDataService.shared,
         progressService: ProgressServiceProtocol = ProgressService.shared
     ) {
-        self.localDataService = localDataService
+        self.dataService = dataService
         self.progressService = progressService
     }
 
     func loadWeakTopics() {
         isLoading = true
-        weakTopics = localDataService.fetchWeakTopics()
+        weakTopics = dataService.fetchWeakTopics()
         isLoading = false
     }
 
-    func addWeakTopic(_ topic: WeakTopic) {
-        localDataService.saveWeakTopic(topic)
+    func addOrUpdateTopic(_ topic: WeakTopic) {
+        dataService.saveWeakTopic(topic)
         loadWeakTopics()
     }
 
-    func removeWeakTopic(id: String) {
-        localDataService.removeWeakTopic(id: id)
+    func removeTopic(id: String) {
+        dataService.removeWeakTopic(id: id)
         loadWeakTopics()
     }
 
-    func markTopicImproved(id: String) {
+    func markImproved(id: String) {
         progressService.markTopicImproved(id: id)
         loadWeakTopics()
     }

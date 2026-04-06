@@ -26,13 +26,7 @@ final class AppLocalDataService: LocalDataServiceProtocol {
     }
 }
 
-// MARK: - ProgressTrackerProtocol
-
-protocol ProgressTrackerProtocol: AnyObject {
-    var currentProgress: Double { get }
-    func updateProgress(_ value: Double)
-    func reset()
-}
+// MARK: - AppProgressTracker
 
 final class AppProgressTracker: ProgressTrackerProtocol {
     private(set) var currentProgress: Double = 0.0
@@ -46,13 +40,7 @@ final class AppProgressTracker: ProgressTrackerProtocol {
     }
 }
 
-// MARK: - UserPreferencesProtocol
-
-protocol UserPreferencesProtocol: AnyObject {
-    var notificationsEnabled: Bool { get set }
-    var theme: String { get set }
-    var language: String { get set }
-}
+// MARK: - AppUserPreferences
 
 final class AppUserPreferences: UserPreferencesProtocol {
     static let shared = AppUserPreferences()

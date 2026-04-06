@@ -1,6 +1,27 @@
 import SwiftUI
 import Combine
 
+// MARK: - Placeholder Protocols (defined here to avoid ambiguity)
+
+protocol LocalDataServiceProtocol: AnyObject {}
+protocol FirebaseAuthServiceProtocol: AnyObject {}
+protocol FirestoreServiceProtocol: AnyObject {}
+protocol AnalyticsServiceProtocol: AnyObject {}
+protocol FirebaseSyncCoordinatorProtocol: AnyObject {}
+protocol NetworkConnectivityMonitorProtocol: AnyObject {}
+protocol OfflineQueueManagerProtocol: AnyObject {}
+
+// MARK: - AppLogger
+
+final class AppLogger {
+    static let shared = AppLogger()
+    func log(_ message: String) {
+        #if DEBUG
+        print("[AppLogger] \(message)")
+        #endif
+    }
+}
+
 // MARK: - AppDependenciesProtocol
 
 protocol AppDependenciesProtocol: ObservableObject {
@@ -31,7 +52,7 @@ final class AppDependenciesBox: ObservableObject {
 
 // MARK: - Environment Key
 
-struct AppDependenciesEnvironmentKey: EnvironmentKey {
+private struct AppDependenciesEnvironmentKey: EnvironmentKey {
     static let defaultValue: AppDependenciesBox? = nil
 }
 

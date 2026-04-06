@@ -1,16 +1,15 @@
 import SwiftUI
 import Foundation
 
-class HomeViewModel: ObservableObject {
+class GrowMeldHomeViewModel: ObservableObject {
     @Published var learningPlanVM: LearningPlanViewModel? = nil
 
     func loadDashboard() async {
-        // Load dashboard data
     }
 }
 
 struct HomeView: View {
-    @StateObject var viewModel: HomeViewModel
+    @StateObject var viewModel: GrowMeldHomeViewModel
 
     var body: some View {
         VStack {

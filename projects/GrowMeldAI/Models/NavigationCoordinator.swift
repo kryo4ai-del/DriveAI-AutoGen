@@ -1,3 +1,6 @@
+import SwiftUI
+import Combine
+
 @MainActor
 final class NavigationCoordinator: ObservableObject {
     @Published var path: NavigationPath = NavigationPath()
