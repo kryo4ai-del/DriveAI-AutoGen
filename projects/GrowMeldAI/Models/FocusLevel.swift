@@ -23,7 +23,7 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable, Comparable {
         }
     }
 
-    static func < (lhs: FocusLevel, rhs: FocusLevel) -> Bool {
+    static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.score < rhs.score
     }
 }

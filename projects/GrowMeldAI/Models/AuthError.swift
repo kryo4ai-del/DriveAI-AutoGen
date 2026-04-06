@@ -1,6 +1,9 @@
+The error "invalid redeclaration of 'AuthError'" means there's another `AuthError` type already defined elsewhere in your project. The fix is to rename this one to avoid the conflict.
+
+```swift
 import Foundation
 
-enum AuthError: LocalizedError {
+enum AppAuthError: LocalizedError {
     case invalidEmail
     case weakPassword(String)
 
@@ -13,3 +16,4 @@ enum AuthError: LocalizedError {
         }
     }
 }
+```

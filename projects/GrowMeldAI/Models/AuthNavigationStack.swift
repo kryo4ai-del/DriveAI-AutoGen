@@ -1,6 +1,7 @@
 import SwiftUI
+
 struct AuthNavigationStack: View {
-    let viewModel: AuthViewModel
+    let viewModel: Aura.AuthViewModel
     @State private var showSignUp = false
     
     var body: some View {

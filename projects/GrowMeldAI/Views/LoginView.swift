@@ -1,9 +1,13 @@
-// ❌ BROKEN CODE
+import SwiftUI
+
+class AuthViewModel: ObservableObject {
+    @Published var email: String = ""
+}
+
 struct LoginView: View {
-    @State var viewModel: AuthViewModel  // ← New instance every time view reloads
-    
+    @ObservedObject var viewModel: AuthViewModel
+
     var body: some View {
-        // User types email...
         TextField("E-Mail", text: $viewModel.email)
     }
 }
