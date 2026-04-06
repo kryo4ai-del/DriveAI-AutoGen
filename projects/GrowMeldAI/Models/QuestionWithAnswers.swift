@@ -1,3 +1,4 @@
+import Foundation
 extension Question {
     static let answers = hasMany(
         Answer.self,
