@@ -18,12 +18,10 @@ struct AnswersMetadata: Codable {
 
 private var userDefaults: UserDefaults { .standard }
 
-private func loadAnswersFromDisk() -> [String: UserAnswer] {
-    // Try primary
+private func loadAnswersFromDisk() -> [String: [String: String]] {
     if let data = userDefaults.data(forKey: answersKey) {
         do {
-            let decoded = try JSONDecoder().decode([String: UserAnswer].self, from: data)
-            // Verify checksum
+            let decoded = try JSONDecoder().decode([String: [String: String]].self, from: data)
             if let metadata = loadMetadata(),
                validateChecksum(decoded, against: metadata.checksumHash) {
                 return decoded
@@ -33,36 +31,32 @@ private func loadAnswersFromDisk() -> [String: UserAnswer] {
         }
     }
 
-    // Try backup
     if let backupData = userDefaults.data(forKey: answersBackupKey) {
         do {
-            let decoded = try JSONDecoder().decode([String: UserAnswer].self, from: backupData)
+            let decoded = try JSONDecoder().decode([String: [String: String]].self, from: backupData)
             print("[AnswersMetadata] WARNING: Recovered answers from backup")
-            userDefaults.set(backupData, forKey: answersKey)  // Restore
+            userDefaults.set(backupData, forKey: answersKey)
             return decoded
         } catch {
             print("[AnswersMetadata] ERROR: Backup also corrupted: \(error)")
         }
     }
 
-    // Total loss
     print("[AnswersMetadata] ERROR: No valid answers found — starting fresh")
     return [:]
 }
 
 @discardableResult
-private func saveAnswersToDisk(_ answers: [String: UserAnswer]) -> Bool {
+private func saveAnswersToDisk(_ answers: [String: [String: String]]) -> Bool {
     do {
         let encoded = try JSONEncoder().encode(answers)
 
-        // Atomic write with backup
         if let current = userDefaults.data(forKey: answersKey) {
-            userDefaults.set(current, forKey: answersBackupKey)  // Backup first
+            userDefaults.set(current, forKey: answersBackupKey)
         }
 
         userDefaults.set(encoded, forKey: answersKey)
 
-        // Save metadata for validation
         let metadata = AnswersMetadata(lastSavedDate: Date(), checksumHash: checksum(answers))
         if let metadataEncoded = try? JSONEncoder().encode(metadata) {
             userDefaults.set(metadataEncoded, forKey: answersMetadataKey)
@@ -75,14 +69,14 @@ private func saveAnswersToDisk(_ answers: [String: UserAnswer]) -> Bool {
     }
 }
 
-private func checksum(_ answers: [String: UserAnswer]) -> String {
+private func checksum(_ answers: [String: [String: String]]) -> String {
     let encoded = try? JSONEncoder().encode(answers)
     return (encoded?.map { String(format: "%02x", $0) }.joined() ?? "")
         .prefix(16)
         .description
 }
 
-private func validateChecksum(_ answers: [String: UserAnswer], against stored: String) -> Bool {
+private func validateChecksum(_ answers: [String: [String: String]], against stored: String) -> Bool {
     checksum(answers) == stored
 }
 

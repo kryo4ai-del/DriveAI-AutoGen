@@ -2,13 +2,13 @@ import Foundation
 
 // MARK: - AnyCodable
 
-enum AnyCodable: Codable, Sendable {
+enum GrowMeldAnyCodable: Codable, Sendable {
     case bool(Bool)
     case int(Int)
     case double(Double)
     case string(String)
-    indirect case array([AnyCodable])
-    indirect case dictionary([String: AnyCodable])
+    indirect case array([GrowMeldAnyCodable])
+    indirect case dictionary([String: GrowMeldAnyCodable])
     case null
 
     // MARK: - Decodable
@@ -26,14 +26,16 @@ enum AnyCodable: Codable, Sendable {
             self = .double(d)
         } else if let s = try? container.decode(String.self) {
             self = .string(s)
-        } else if let a = try? container.decode([AnyCodable].self) {
+        } else if let a = try? container.decode([GrowMeldAnyCodable].self) {
             self = .array(a)
-        } else if let dict = try? container.decode([String: AnyCodable].self) {
+        } else if let dict = try? container.decode([String: GrowMeldAnyCodable].self) {
             self = .dictionary(dict)
         } else {
-            throw DecodingError.dataCorruptedError(
-                in: container,
-                debugDescription: "AnyCodable: unsupported type"
+            throw DecodingError.dataCorrupted(
+                DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "GrowMeldAnyCodable: unsupported type"
+                )
             )
         }
     }
@@ -54,9 +56,9 @@ enum AnyCodable: Codable, Sendable {
     }
 }
 
-// MARK: - AnyCodable Value Accessors
+// MARK: - GrowMeldAnyCodable Value Accessors
 
-extension AnyCodable {
+extension GrowMeldAnyCodable {
 
     var boolValue: Bool? {
         if case .bool(let b) = self { return b }
@@ -78,12 +80,12 @@ extension AnyCodable {
         return nil
     }
 
-    var arrayValue: [AnyCodable]? {
+    var arrayValue: [GrowMeldAnyCodable]? {
         if case .array(let a) = self { return a }
         return nil
     }
 
-    var dictionaryValue: [String: AnyCodable]? {
+    var dictionaryValue: [String: GrowMeldAnyCodable]? {
         if case .dictionary(let d) = self { return d }
         return nil
     }

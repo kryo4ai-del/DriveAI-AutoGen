@@ -1,9 +1,14 @@
 import SwiftUI
 
+struct QuizAnswer: Identifiable {
+    let id: Int
+    let text: String
+}
+
 struct AnswerOptionsView: View {
-    let options: [Answer]
+    let options: [QuizAnswer]
     let onSelect: (Int) -> Void
-    
+
     var body: some View {
         VStack(spacing: 12) {
             ForEach(options.indices, id: \.self) { index in
