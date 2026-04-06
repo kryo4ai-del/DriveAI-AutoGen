@@ -1,27 +1,5 @@
 import Foundation
 
-struct QuizQuestion: Identifiable, Codable {
-    let id: String
-    let question: String
-    let answers: [String]
-    let correctAnswerIndex: Int
-    let explanation: String?
-
-    init(
-        id: String = UUID().uuidString,
-        question: String,
-        answers: [String],
-        correctAnswerIndex: Int,
-        explanation: String? = nil
-    ) {
-        self.id = id
-        self.question = question
-        self.answers = answers
-        self.correctAnswerIndex = correctAnswerIndex
-        self.explanation = explanation
-    }
-}
-
 struct BundleProvider {
 
     static func loadQuizQuestions(from fileName: String = "quiz_questions") -> [QuizQuestion] {
