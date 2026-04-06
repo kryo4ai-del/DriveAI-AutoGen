@@ -1,3 +1,4 @@
+import Foundation
 // ❌ CURRENT (UNDEFINED SCHEMA)
 // What does Firestore look like?
 // How is data nested?

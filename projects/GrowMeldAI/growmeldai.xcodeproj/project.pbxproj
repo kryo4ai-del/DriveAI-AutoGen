@@ -1219,7 +1219,6 @@
 		753653FE327FAF0289CAC85A /* DataValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A745B0321C3649236F77966 /* DataValidationService.swift */; };
 		75408209FB9E0D08655F480E /* CameraPermissionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA15FE1C7D66F4198CA83294 /* CameraPermissionState.swift */; };
 		7567B6F787606B088061D651 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA72D44305A5823DEDFF91C /* PermissionManager.swift */; };
-		75858F09F12B775D7B0D5AF2 /* UNNotificationCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD8A5E450AF530C2DC9B25 /* UNNotificationCenterProtocol.swift */; };
 		759D69544C61610B9433D60A /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAC1C9F21C7B766B7CB10DD /* ButtonStyle.swift */; };
 		75C37E1925F2E3F4683D2FAA /* BackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C63C83986FD02213480AA25 /* BackupService.swift */; };
 		75C74A44812859448DF956B6 /* UserDefaultsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65EE03CAF7F881911FCC184 /* UserDefaultsRepository.swift */; };
@@ -1715,7 +1714,6 @@
 		A4CAAA0C1E66BECD519D6940 /* InstagramShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2304B588C9D80C463430E /* InstagramShareView.swift */; };
 		A502908DCC528BD6A47A1AA2 /* NWInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C54C35B5C39C670E9B312A5 /* NWInterface.swift */; };
 		A50EC6FF1F81672A68797D47 /* PurchaseConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB90E5EB583AD05D9902123 /* PurchaseConfirmationView.swift */; };
-		A51174881397B9CAEB57E879 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A45053EF895AF0E44D0AAC4 /* UserDataManager.swift */; };
 		A55222D7BE4B8C9C645E1A6D /* StudySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC284818C1562C8D8C98898 /* StudySession.swift */; };
 		A5885DF23659727473D917BD /* CameraPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3569EFBB27A3783E83DEE5F /* CameraPermissionManager.swift */; };
 		A5927319F0B7A42AF3944448 /* AuthUser+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B8B7D91E0BDDA9DBD98156 /* AuthUser+Extension.swift */; };
@@ -3615,7 +3613,6 @@
 		6A178075B23959F40EA2B188 /* SKAdNetworkBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKAdNetworkBackend.swift; sourceTree = "<group>"; };
 		6A2977CED3DD1D3EDB8487E5 /* CIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIImage.swift; sourceTree = "<group>"; };
 		6A2D51DDABE4D2ED7B123E84 /* QuestionUIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionUIState.swift; sourceTree = "<group>"; };
-		6A45053EF895AF0E44D0AAC4 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		6A6B3D9C9D38D42B1957BA3D /* LocalDataServiceDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataServiceDiagnostics.swift; sourceTree = "<group>"; };
 		6A745B0321C3649236F77966 /* DataValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataValidationService.swift; sourceTree = "<group>"; };
 		6A8DBA4A379055E14EEB19BD /* AIServiceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceFactory.swift; sourceTree = "<group>"; };
@@ -4780,7 +4777,6 @@
 		DD881DC005BC238316E1ABC0 /* LimitApproachBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitApproachBadge.swift; sourceTree = "<group>"; };
 		DD8EF9712B8F6A4EE713606A /* QuestionDecodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDecodeError.swift; sourceTree = "<group>"; };
 		DDB211358CAA7ECEEF33F480 /* LandingMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingMetrics.swift; sourceTree = "<group>"; };
-		DDBD8A5E450AF530C2DC9B25 /* UNNotificationCenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNNotificationCenterProtocol.swift; sourceTree = "<group>"; };
 		DDF1948F27AED71A1F0AB104 /* ProgressTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTracker.swift; sourceTree = "<group>"; };
 		DDF3A200F39C8584B38E504B /* DeepLinkTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkTarget.swift; sourceTree = "<group>"; };
 		DE1556EBDBF691E2C747754E /* PurchaseCheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseCheckoutView.swift; sourceTree = "<group>"; };
@@ -7615,7 +7611,6 @@
 				6D37EA6479F217EACD9EBB3C /* Unknown.swift */,
 				E168954983218EC57C3021CF /* UnlockableFeature.swift */,
 				B545D55BAC58A327824F0E7A /* UNNotification.swift */,
-				DDBD8A5E450AF530C2DC9B25 /* UNNotificationCenterProtocol.swift */,
 				F5F74495C5AC1CFAB761B898 /* UNNotificationPresentationOptions.swift */,
 				BA962A3B5694F116A1C9B6BD /* UNNotificationRequest.swift */,
 				25B4E8224A9D4254B0C82A72 /* UNNotificationResponse.swift */,
@@ -7628,7 +7623,6 @@
 				F9CCE08E075B371FEC9F7790 /* UserBackup.swift */,
 				46A501C0DA34467F5676C91F /* UserConfidence.swift */,
 				2C2CE5FFE83FC3E82982721D /* UserConsentRecord.swift */,
-				6A45053EF895AF0E44D0AAC4 /* UserDataManager.swift */,
 				780E433C59F7FC0C78E6214F /* UserDefaultsConsentManager.swift */,
 				8C1040100EFC8EA8F2C6F389 /* UserDefaultsError.swift */,
 				5BAF4C06B02B9918283D80A2 /* UserDefaultsKey.swift */,
@@ -10201,7 +10195,6 @@
 				BF27BAE3C1164E482BB20E57 /* UNAuthorizationStatus.swift in Sources */,
 				9C5C9D689FB426A8A54EF7D5 /* UNCalendarNotificationTrigger.swift in Sources */,
 				BA4301FB12CEDB617C1CF572 /* UNNotification.swift in Sources */,
-				75858F09F12B775D7B0D5AF2 /* UNNotificationCenterProtocol.swift in Sources */,
 				F31ACBF63705C834C71F1DF0 /* UNNotificationPresentationOptions.swift in Sources */,
 				C2D4DF8EF0ED7E8F20176B9F /* UNNotificationRequest.swift in Sources */,
 				18F1C9DC3524F981D3FF818E /* UNNotificationResponse.swift in Sources */,
@@ -10217,7 +10210,6 @@
 				319A2C82A55CD3C1473B6294 /* UserBackup.swift in Sources */,
 				44C7B0AEAE5603F05342AB3D /* UserConfidence.swift in Sources */,
 				B9D582659E2E00D95D27477D /* UserConsentRecord.swift in Sources */,
-				A51174881397B9CAEB57E879 /* UserDataManager.swift in Sources */,
 				C67126400851F02A52D99CB1 /* UserDataService.swift in Sources */,
 				E670AC63063D90D48AF3B53F /* UserDefaultsConsentManager.swift in Sources */,
 				8AD1720ACC197C6CA829C8AE /* UserDefaultsError.swift in Sources */,
