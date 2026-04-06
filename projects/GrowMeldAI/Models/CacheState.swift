@@ -1,6 +1,9 @@
+The error "invalid redeclaration of 'PerformanceStore'" means there's another type named `PerformanceStore` elsewhere in your project. The fix is to rename this type to avoid the conflict.
+
+```swift
 import Foundation
 
-actor PerformanceStore {
+actor PerformanceDataStore {
     private enum CacheState {
         case unloaded
         case loading(Task<Void, Error>)
@@ -38,3 +41,4 @@ actor PerformanceStore {
         // Default no-op implementation
     }
 }
+```
