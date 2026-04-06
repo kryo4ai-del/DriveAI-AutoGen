@@ -1,3 +1,4 @@
+import SwiftUI
 struct CameraStatusOverlay: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
