@@ -1,3 +1,4 @@
+import Foundation
 protocol CacheServiceProtocol {
     func cache(_ products: [DriveAIProduct], ttl: TimeInterval)
     func getCached() -> [DriveAIProduct]?
