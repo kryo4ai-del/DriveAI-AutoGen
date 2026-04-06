@@ -54,51 +54,22 @@ public enum UnknownError: Error, LocalizedError {
             return "Resolution timed out."
         }
     }
-
-    public var failureReason: String? {
-        switch self {
-        case .unresolvable(let reason): return reason
-        case .missingContext:          return "No context was provided."
-        case .invalidRawValue(let v):  return "Raw value '\(v)' could not be parsed."
-        case .timeout:                 return "The operation exceeded the allowed time."
-        }
-    }
-
-    public var recoverySuggestion: String? {
-        switch self {
-        case .unresolvable:    return "Provide additional information and retry."
-        case .missingContext:  return "Supply a valid context before resolving."
-        case .invalidRawValue: return "Check the raw value format and try again."
-        case .timeout:         return "Retry the operation or increase the timeout limit."
-        }
-    }
 }
 
 // MARK: - Unknown State
 
 /// Represents the resolution state of an unknown entity.
 public enum UnknownState: String, Codable, CaseIterable {
-    case pending    = "pending"
-    case resolving  = "resolving"
-    case resolved   = "resolved"
-    case failed     = "failed"
-    case ignored    = "ignored"
-
-    public var isTerminal: Bool {
-        switch self {
-        case .resolved, .failed, .ignored: return true
-        case .pending, .resolving:         return false
-        }
-    }
-
-    public var displayName: String {
-        rawValue.capitalized
-    }
+    case pending
+    case resolving
+    case resolved
+    case failed
+    case ignored
 }
 
 // MARK: - Unknown Resolver Protocol
 
-/// A type that can attempt to resolve an `Unknown` into a concrete value.
+/// A type that can attempt to resolve an `Unknown` entity.
 public protocol UnknownResolving {
     associatedtype Resolved
 
@@ -109,173 +80,105 @@ public protocol UnknownResolving {
     func resolve(_ unknown: Unknown) throws -> Resolved
 }
 
-// MARK: - Unknown Repository Protocol
+// MARK: - Unknown Manager
 
-/// A type that stores and retrieves `Unknown` entities.
-public protocol UnknownRepository {
-    func save(_ unknown: Unknown) throws
-    func fetch(byID id: UUID) throws -> Unknown?
-    func fetchAll() throws -> [Unknown]
-    func delete(byID id: UUID) throws
-}
+/// Manages a collection of unknown entities and their resolution states.
+public final class UnknownManager {
 
-// MARK: - In-Memory Unknown Repository
+    // MARK: - Singleton
 
-/// A thread-safe, in-memory implementation of `UnknownRepository`.
-public final class InMemoryUnknownRepository: UnknownRepository {
+    public static let shared = UnknownManager()
 
     // MARK: - Private Storage
 
-    private var store: [UUID: Unknown] = [:]
+    private var store: [UUID: (unknown: Unknown, state: UnknownState)] = [:]
     private let lock = NSLock()
 
     // MARK: - Init
 
-    public init() {}
-
-    // MARK: - UnknownRepository
-
-    public func save(_ unknown: Unknown) throws {
-        lock.lock()
-        defer { lock.unlock() }
-        store[unknown.id] = unknown
-    }
-
-    public func fetch(byID id: UUID) throws -> Unknown? {
-        lock.lock()
-        defer { lock.unlock() }
-        return store[id]
-    }
-
-    public func fetchAll() throws -> [Unknown] {
-        lock.lock()
-        defer { lock.unlock() }
-        return Array(store.values).sorted { $0.timestamp < $1.timestamp }
-    }
-
-    public func delete(byID id: UUID) throws {
-        lock.lock()
-        defer { lock.unlock() }
-        store.removeValue(forKey: id)
-    }
-}
-
-// MARK: - Unknown Manager
-
-/// Coordinates creation, storage, and resolution of `Unknown` entities.
-public final class UnknownManager<Resolver: UnknownResolving> {
-
-    // MARK: - Dependencies
-
-    private let repository: UnknownRepository
-    private let resolver: Resolver
-    private(set) var stateMap: [UUID: UnknownState] = [:]
-    private let lock = NSLock()
-
-    // MARK: - Init
-
-    public init(repository: UnknownRepository, resolver: Resolver) {
-        self.repository = repository
-        self.resolver   = resolver
-    }
+    private init() {}
 
     // MARK: - Public API
 
-    /// Creates and persists a new `Unknown` entity.
+    /// Register a new unknown entity.
+    /// - Parameter unknown: The entity to register.
+    public func register(_ unknown: Unknown) {
+        lock.lock()
+        defer { lock.unlock() }
+        store[unknown.id] = (unknown, .pending)
+    }
+
+    /// Update the state of a registered unknown entity.
+    /// - Parameters:
+    ///   - id: The identifier of the entity.
+    ///   - state: The new state to apply.
+    /// - Throws: `UnknownError.unresolvable` if the entity is not found.
+    public func updateState(for id: UUID, to state: UnknownState) throws {
+        lock.lock()
+        defer { lock.unlock() }
+        guard var entry = store[id] else {
+            throw UnknownError.unresolvable(reason: "No entity found with id \(id).")
+        }
+        entry.state = state
+        store[id] = entry
+    }
+
+    /// Retrieve the current state of an unknown entity.
+    /// - Parameter id: The identifier of the entity.
+    /// - Returns: The current `UnknownState`, or `nil` if not found.
+    public func state(for id: UUID) -> UnknownState? {
+        lock.lock()
+        defer { lock.unlock() }
+        return store[id]?.state
+    }
+
+    /// Retrieve all registered unknown entities.
+    public func allUnknowns() -> [Unknown] {
+        lock.lock()
+        defer { lock.unlock() }
+        return store.values.map { $0.unknown }
+    }
+
+    /// Remove a registered unknown entity.
+    /// - Parameter id: The identifier of the entity to remove.
     @discardableResult
-    public func create(rawValue: String, metadata: [String: String] = [:]) throws -> Unknown {
-        let unknown = Unknown(rawValue: rawValue, metadata: metadata)
-        try repository.save(unknown)
-        setState(.pending, for: unknown.id)
-        return unknown
-    }
-
-    /// Attempts to resolve an `Unknown` entity by its ID.
-    /// - Returns: The resolved value, or `nil` if the entity was not found.
-    public func resolve(id: UUID) throws -> Resolver.Resolved? {
-        guard let unknown = try repository.fetch(byID: id) else { return nil }
-        setState(.resolving, for: id)
-        do {
-            let result = try resolver.resolve(unknown)
-            setState(.resolved, for: id)
-            return result
-        } catch {
-            setState(.failed, for: id)
-            throw error
-        }
-    }
-
-    /// Returns the current state for a given ID.
-    public func state(for id: UUID) -> UnknownState {
+    public func remove(id: UUID) -> Unknown? {
         lock.lock()
         defer { lock.unlock() }
-        return stateMap[id] ?? .pending
+        return store.removeValue(forKey: id)?.unknown
     }
 
-    /// Marks an unknown entity as ignored.
-    public func ignore(id: UUID) {
-        setState(.ignored, for: id)
-    }
-
-    /// Returns all stored unknown entities.
-    public func allUnknowns() throws -> [Unknown] {
-        try repository.fetchAll()
-    }
-
-    // MARK: - Private Helpers
-
-    private func setState(_ state: UnknownState, for id: UUID) {
+    /// Remove all registered unknown entities.
+    public func removeAll() {
         lock.lock()
         defer { lock.unlock() }
-        stateMap[id] = state
+        store.removeAll()
+    }
+
+    /// Filter unknowns by state.
+    /// - Parameter state: The state to filter by.
+    /// - Returns: An array of `Unknown` entities matching the given state.
+    public func unknowns(withState state: UnknownState) -> [Unknown] {
+        lock.lock()
+        defer { lock.unlock() }
+        return store.values
+            .filter { $0.state == state }
+            .map { $0.unknown }
     }
 }
 
-// MARK: - String Resolver (Concrete Example)
+// MARK: - Unknown + Comparable
 
-/// A simple resolver that returns the raw string value of an `Unknown`.
-public struct StringUnknownResolver: UnknownResolving {
-    public typealias Resolved = String
-
-    public init() {}
-
-    public func resolve(_ unknown: Unknown) throws -> String {
-        guard !unknown.rawValue.isEmpty else {
-            throw UnknownError.invalidRawValue(unknown.rawValue)
-        }
-        return unknown.rawValue
+extension Unknown: Comparable {
+    public static func < (lhs: Unknown, rhs: Unknown) -> Bool {
+        lhs.timestamp < rhs.timestamp
     }
 }
 
-// MARK: - Unknown Extensions
+// MARK: - Unknown + ExpressibleByStringLiteral
 
-public extension Unknown {
-
-    /// Returns `true` when the raw value is empty.
-    var isEmpty: Bool { rawValue.isEmpty }
-
-    /// Returns a copy with updated metadata.
-    func adding(metadata key: String, value: String) -> Unknown {
-        var updated = metadata
-        updated[key] = value
-        return Unknown(id: id, rawValue: rawValue, metadata: updated, timestamp: timestamp)
-    }
-
-    /// Returns a copy with a new raw value.
-    func withRawValue(_ newValue: String) -> Unknown {
-        Unknown(id: id, rawValue: newValue, metadata: metadata, timestamp: timestamp)
-    }
-}
-
-// MARK: - Collection Extensions
-
-public extension Collection where Element == Unknown {
-
-    /// Filters to only non-empty unknowns.
-    var nonEmpty: [Unknown] { filter { !$0.isEmpty } }
-
-    /// Groups unknowns by a metadata key.
-    func grouped(byMetadataKey key: String) -> [String: [Unknown]] {
-        Dictionary(grouping: self) { $0.metadata[key] ?? "" }
+extension Unknown: ExpressibleByStringLiteral {
+    public init(stringLiteral value: StringLiteralType) {
+        self.init(rawValue: value)
     }
 }
