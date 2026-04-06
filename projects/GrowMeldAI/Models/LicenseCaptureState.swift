@@ -61,7 +61,7 @@ struct CapturedLicenseImage: Equatable, Hashable {
     let image: UIImage
     let metadata: CapturedLicenseMetadata
 
-    static func == (lhs: CapturedLicenseImage, rhs: CapturedLicenseImage) -> Bool {
+    static func == (lhs: Models.CapturedLicenseImage, rhs: Models.CapturedLicenseImage) -> Bool {
         lhs.metadata == rhs.metadata
     }
 
@@ -75,7 +75,7 @@ enum LicenseCaptureState: Equatable, Hashable {
     case permissionNeeded
     case capturing
     case preview(UIImage)
-    case confirmed(CapturedLicenseImage)
+    case confirmed(Models.CapturedLicenseImage)
     case error(LicenseCaptureError)
 
     var displayName: String {
@@ -89,7 +89,7 @@ enum LicenseCaptureState: Equatable, Hashable {
         }
     }
 
-    static func == (lhs: LicenseCaptureState, rhs: LicenseCaptureState) -> Bool {
+    static func == (lhs: Models.LicenseCaptureState, rhs: Models.LicenseCaptureState) -> Bool {
         switch (lhs, rhs) {
         case (.initial, .initial): return true
         case (.permissionNeeded, .permissionNeeded): return true
@@ -111,4 +111,9 @@ enum LicenseCaptureState: Equatable, Hashable {
         case .error(let err): hasher.combine(5); hasher.combine(err)
         }
     }
+}
+
+private enum Models {
+    typealias CapturedLicenseImage = GrowMeldAI.CapturedLicenseImage
+    typealias LicenseCaptureState = GrowMeldAI.LicenseCaptureState
 }

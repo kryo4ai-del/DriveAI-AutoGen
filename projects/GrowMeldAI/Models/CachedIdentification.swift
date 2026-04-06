@@ -1,5 +1,11 @@
-// Models/CachedIdentification.swift
 import Foundation
+
+struct IdentificationResult: Codable {
+    let commonName: String
+    let scientificName: String
+    let confidence: Double
+    let description: String
+}
 
 struct CachedIdentification: Codable {
     let imageHash: String
