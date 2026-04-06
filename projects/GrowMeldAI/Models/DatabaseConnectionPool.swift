@@ -1,61 +1,66 @@
-import SQLite3
 import Foundation
+import SQLite3
 
-/// Thread-safe, single-connection pool for SQLite
-final class DatabaseConnectionPool: Sendable {
+final class DatabaseConnectionPool: @unchecked Sendable {
     private let dbPath: String
     private let accessQueue = DispatchQueue(
         label: "com.driveai.db.pool",
-        attributes: []  // Serial queue
+        attributes: []
     )
-    
+
     private var dbConnection: OpaquePointer?
     private var isInitialized = false
-    
+
     init(databasePath: String) {
         self.dbPath = databasePath
     }
-    
-    /// Initialize the connection pool (call once at app startup)
+
     func initialize() throws {
         try accessQueue.sync {
             guard !isInitialized else { return }
-            
+
             var db: OpaquePointer?
-            
-            guard sqlite3_open(dbPath.cString(using: .utf8), &db) == SQLITE_OK else {
-                throw DriveAIError.databaseUnavailable
+            let result = sqlite3_open(dbPath, &db)
+
+            guard result == SQLITE_OK, let openedDB = db else {
+                if let openedDB = db {
+                    sqlite3_close(openedDB)
+                }
+                throw DatabaseConnectionPoolError.connectionFailed
             }
-            
-            guard let db = db else {
-                throw DriveAIError.databaseUnavailable
-            }
-            
-            // Apply optimal settings before any operations
-            try DatabaseConfiguration.applyOptimalSettings(to: db)
-            
-            self.dbConnection = db
+
+            self.dbConnection = openedDB
             self.isInitialized = true
         }
     }
-    
-    /// Execute a closure with exclusive access to the database connection
-    /// - Warning: Never call sqlite3_close on the connection; pool manages lifetime
+
     func withConnection<T>(_ block: (OpaquePointer) throws -> T) throws -> T {
         return try accessQueue.sync {
             guard let db = dbConnection, isInitialized else {
-                throw DriveAIError.databaseUnavailable
+                throw DatabaseConnectionPoolError.connectionFailed
             }
-            
             return try block(db)
         }
     }
-    
+
     deinit {
-        // Safe to call: serial queue guarantees single thread
         if let db = dbConnection {
             sqlite3_close(db)
             dbConnection = nil
+        }
+    }
+}
+
+enum DatabaseConnectionPoolError: Error, LocalizedError {
+    case connectionFailed
+    case notInitialized
+
+    var errorDescription: String? {
+        switch self {
+        case .connectionFailed:
+            return "Failed to open SQLite database connection."
+        case .notInitialized:
+            return "Database connection pool has not been initialized."
         }
     }
 }

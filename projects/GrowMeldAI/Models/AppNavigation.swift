@@ -1,34 +1,21 @@
 import SwiftUI
 
-enum AppRoute: Hashable {
-    case dashboard
-    case category(id: String)
-    case question(id: String)
-    case exam
-    case result(score: Double)
-    case profile
-}
-
 struct AppNavigation: View {
     @StateObject private var navStack = NavigationStackController()
 
     var body: some View {
         NavigationStack(path: $navStack.path) {
             DashboardPlaceholderView()
-                .navigationDestination(for: AppRoute.self) { route in
+                .navigationDestination(for: AppNavigationPath.self) { route in
                     switch route {
-                    case .dashboard:
-                        DashboardPlaceholderView()
-                    case .category(let id):
-                        CategoryPlaceholderView(categoryId: id)
-                    case .question(let id):
-                        QuestionPlaceholderView(questionId: id)
-                    case .exam:
-                        ExamPlaceholderView()
-                    case .result(let score):
-                        ResultPlaceholderView(score: score)
-                    case .profile:
-                        ProfilePlaceholderView()
+                    case .categoryBrowser:
+                        CategoryBrowserPlaceholderView()
+                    case .questionFlow(let categoryId):
+                        QuestionFlowPlaceholderView(categoryId: categoryId)
+                    case .examMode:
+                        ExamModePlaceholderView()
+                    case .examResults(let score, let total, let passed):
+                        ExamResultsPlaceholderView(score: score, total: total, passed: passed)
                     }
                 }
         }
@@ -39,38 +26,38 @@ struct AppNavigation: View {
 private struct DashboardPlaceholderView: View {
     var body: some View {
         Text("Dashboard")
+            .navigationTitle("Dashboard")
     }
 }
 
-private struct CategoryPlaceholderView: View {
-    let categoryId: String
+private struct CategoryBrowserPlaceholderView: View {
     var body: some View {
-        Text("Category: \(categoryId)")
+        Text("Category Browser")
+            .navigationTitle("Categories")
     }
 }
 
-private struct QuestionPlaceholderView: View {
-    let questionId: String
+private struct QuestionFlowPlaceholderView: View {
+    let categoryId: UUID
     var body: some View {
-        Text("Question: \(questionId)")
+        Text("Question Flow: \(categoryId.uuidString)")
+            .navigationTitle("Questions")
     }
 }
 
-private struct ExamPlaceholderView: View {
+private struct ExamModePlaceholderView: View {
     var body: some View {
-        Text("Exam")
+        Text("Exam Mode")
+            .navigationTitle("Exam")
     }
 }
 
-private struct ResultPlaceholderView: View {
-    let score: Double
+private struct ExamResultsPlaceholderView: View {
+    let score: Int
+    let total: Int
+    let passed: Bool
     var body: some View {
-        Text("Result: \(score)")
-    }
-}
-
-private struct ProfilePlaceholderView: View {
-    var body: some View {
-        Text("Profile")
+        Text("Results: \(score)/\(total) — \(passed ? "Passed" : "Failed")")
+            .navigationTitle("Results")
     }
 }

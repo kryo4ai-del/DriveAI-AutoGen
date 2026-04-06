@@ -1,5 +1,6 @@
 import Foundation
 
+// AppError is defined here; extension lives in AppError+Extension.swift
 enum AppError: LocalizedError {
     case fileNotFound
     case jsonDecodingFailed

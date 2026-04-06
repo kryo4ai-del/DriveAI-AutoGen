@@ -31,7 +31,7 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
     }
 
     var normalised: Double {
-        Double(score) / Double(FocusLevel.allCases.count)
+        Double(score) / Double(4)
     }
 
     // MARK: - Initialisation Helpers
@@ -48,8 +48,7 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
 
     init(normalised value: Double) {
         let clamped = min(max(value, 0.0), 1.0)
-        let count = FocusLevel.allCases.count
-        let s = Int((clamped * Double(count - 1)).rounded()) + 1
+        let s = Int((clamped * Double(3)).rounded()) + 1
         self = FocusLevel(score: s) ?? .medium
     }
 }

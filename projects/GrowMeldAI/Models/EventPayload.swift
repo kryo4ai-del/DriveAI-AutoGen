@@ -9,12 +9,12 @@ struct AnyCodable: Codable, Equatable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let intVal = try? container.decode(Int.self) {
+        if let boolVal = try? container.decode(Bool.self) {
+            value = boolVal
+        } else if let intVal = try? container.decode(Int.self) {
             value = intVal
         } else if let doubleVal = try? container.decode(Double.self) {
             value = doubleVal
-        } else if let boolVal = try? container.decode(Bool.self) {
-            value = boolVal
         } else if let stringVal = try? container.decode(String.self) {
             value = stringVal
         } else if let arrayVal = try? container.decode([AnyCodable].self) {
@@ -28,12 +28,12 @@ struct AnyCodable: Codable, Equatable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        if let intVal = value as? Int {
+        if let boolVal = value as? Bool {
+            try container.encode(boolVal)
+        } else if let intVal = value as? Int {
             try container.encode(intVal)
         } else if let doubleVal = value as? Double {
             try container.encode(doubleVal)
-        } else if let boolVal = value as? Bool {
-            try container.encode(boolVal)
         } else if let stringVal = value as? String {
             try container.encode(stringVal)
         } else if let arrayVal = value as? [AnyCodable] {
@@ -47,9 +47,9 @@ struct AnyCodable: Codable, Equatable {
 
     static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool {
         switch (lhs.value, rhs.value) {
+        case (let a as Bool, let b as Bool): return a == b
         case (let a as Int, let b as Int): return a == b
         case (let a as Double, let b as Double): return a == b
-        case (let a as Bool, let b as Bool): return a == b
         case (let a as String, let b as String): return a == b
         default: return false
         }

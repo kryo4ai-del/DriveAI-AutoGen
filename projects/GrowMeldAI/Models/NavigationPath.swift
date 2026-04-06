@@ -1,6 +1,6 @@
 import Foundation
 
-enum AppNavigationPath: Hashable {
+enum AppNavigationDestination: Hashable {
     case onboarding
     case home
     case question(QuizCategory?)
@@ -11,4 +11,4 @@ enum AppNavigationPath: Hashable {
     case reviewMistakes(ExamAttempt)
 }
 
-typealias NavigationPath = AppNavigationPath
+typealias AppNavigationPath = AppNavigationDestination

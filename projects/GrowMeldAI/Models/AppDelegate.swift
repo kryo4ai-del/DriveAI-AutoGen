@@ -4,7 +4,9 @@ import SwiftUI
 
 final class AppDelegate: NSObject, ObservableObject {
 
-    static let recognitionService = RecognitionService()
+    static let recognitionService: RecognitionService = {
+        return RecognitionService()
+    }()
 
     func applicationDidFinishLaunching() {
         print("ML model loaded successfully")
