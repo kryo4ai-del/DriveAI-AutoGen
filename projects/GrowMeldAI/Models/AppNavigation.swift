@@ -1,30 +1,67 @@
 import SwiftUI
 
-// MARK: - App Navigation
-
 struct AppNavigation: View {
     @StateObject private var navStack = NavigationStackController()
 
     var body: some View {
         NavigationStack(path: $navStack.path) {
-            DashboardView()
+            DashboardPlaceholderView()
                 .navigationDestination(for: AppRoute.self) { route in
                     switch route {
                     case .dashboard:
-                        DashboardView()
+                        DashboardPlaceholderView()
                     case .category(let id):
-                        CategoryDetailView(categoryId: id)
+                        CategoryPlaceholderView(categoryId: id)
                     case .question(let id):
-                        QuestionView(questionId: id)
+                        QuestionPlaceholderView(questionId: id)
                     case .exam:
-                        ExamView()
+                        ExamPlaceholderView()
                     case .result(let score):
-                        ResultView(score: score)
+                        ResultPlaceholderView(score: score)
                     case .profile:
-                        ProfileView()
+                        ProfilePlaceholderView()
                     }
                 }
         }
         .environmentObject(navStack)
+    }
+}
+
+private struct DashboardPlaceholderView: View {
+    var body: some View {
+        Text("Dashboard")
+    }
+}
+
+private struct CategoryPlaceholderView: View {
+    let categoryId: String
+    var body: some View {
+        Text("Category: \(categoryId)")
+    }
+}
+
+private struct QuestionPlaceholderView: View {
+    let questionId: String
+    var body: some View {
+        Text("Question: \(questionId)")
+    }
+}
+
+private struct ExamPlaceholderView: View {
+    var body: some View {
+        Text("Exam")
+    }
+}
+
+private struct ResultPlaceholderView: View {
+    let score: Double
+    var body: some View {
+        Text("Result: \(score)")
+    }
+}
+
+private struct ProfilePlaceholderView: View {
+    var body: some View {
+        Text("Profile")
     }
 }

@@ -6,15 +6,15 @@ import SwiftUI
 enum GrowMeldAppRoute: Hashable {
     case home
     case exam
-    case examResult(GrowMeldExamResult)
+    case examResult(ExamResultPayload)
     case settings
     case progress
     case onboarding
 }
 
-// MARK: - ExamResult
+// MARK: - ExamResultPayload
 
-struct GrowMeldExamResult: Hashable, Codable {
+struct ExamResultPayload: Hashable, Codable {
     let id: UUID
     let score: Int
     let totalQuestions: Int
@@ -43,6 +43,10 @@ struct GrowMeldExamResult: Hashable, Codable {
         return Double(score) / Double(totalQuestions) * 100
     }
 }
+
+// MARK: - GrowMeldExamResult typealias
+
+typealias GrowMeldExamResult = ExamResultPayload
 
 // MARK: - AppCoordinator
 
@@ -105,12 +109,12 @@ final class AppCoordinator: ObservableObject {
 
     // MARK: - Exam Result Handling
 
-    func handleExamResult(_ result: GrowMeldExamResult) {
+    func handleExamResult(_ result: ExamResultPayload) {
         navigate(to: .examResult(result))
         recordExamResult(result)
     }
 
-    private func recordExamResult(_ result: GrowMeldExamResult) {
+    private func recordExamResult(_ result: ExamResultPayload) {
         var results = loadStoredExamResults()
         results.append(result)
         saveExamResults(results)
@@ -120,17 +124,17 @@ final class AppCoordinator: ObservableObject {
 
     private static let examResultsKey = "com.growmeld.examResults"
 
-    func loadStoredExamResults() -> [GrowMeldExamResult] {
+    func loadStoredExamResults() -> [ExamResultPayload] {
         guard
             let data = UserDefaults.standard.data(forKey: Self.examResultsKey),
-            let results = try? JSONDecoder().decode([GrowMeldExamResult].self, from: data)
+            let results = try? JSONDecoder().decode([ExamResultPayload].self, from: data)
         else {
             return []
         }
         return results
     }
 
-    private func saveExamResults(_ results: [GrowMeldExamResult]) {
+    private func saveExamResults(_ results: [ExamResultPayload]) {
         guard let data = try? JSONEncoder().encode(results) else { return }
         UserDefaults.standard.set(data, forKey: Self.examResultsKey)
     }

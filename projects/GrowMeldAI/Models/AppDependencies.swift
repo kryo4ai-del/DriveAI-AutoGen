@@ -1,5 +1,27 @@
 import Foundation
 
+// MARK: - Protocols
+
+protocol LocalDataServiceProtocol {
+    func save<T: Codable>(_ object: T, forKey key: String) throws
+    func load<T: Codable>(_ type: T.Type, forKey key: String) throws -> T?
+    func delete(forKey key: String)
+}
+
+protocol ProgressTrackerProtocol {
+    var currentProgress: Double { get }
+    func updateProgress(_ value: Double)
+    func reset()
+}
+
+protocol UserPreferencesProtocol {
+    var notificationsEnabled: Bool { get set }
+    var theme: String { get set }
+    var language: String { get set }
+}
+
+// MARK: - Implementations
+
 final class AppLocalDataService: LocalDataServiceProtocol {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
@@ -67,6 +89,8 @@ final class AppUserPreferences: UserPreferencesProtocol {
     }
 }
 
+// MARK: - AppDependencies
+
 struct AppDependencies {
     let dataService: LocalDataServiceProtocol
     let progressTracker: ProgressTrackerProtocol
@@ -90,16 +114,18 @@ struct AppDependencies {
         preferences: UserPreferencesProtocol? = nil
     ) -> AppDependencies {
         return AppDependencies(
-            dataService: dataService ?? MockDataService(),
-            progressTracker: progressTracker ?? MockProgressTracker(),
-            preferences: preferences ?? MockUserPreferences()
+            dataService: dataService ?? AppMockDataService(),
+            progressTracker: progressTracker ?? AppMockProgressTracker(),
+            preferences: preferences ?? AppMockUserPreferences()
         )
     }
     #endif
 }
 
+// MARK: - Mock Implementations (DEBUG only)
+
 #if DEBUG
-final class MockDataService: LocalDataServiceProtocol {
+final class AppMockDataService: LocalDataServiceProtocol {
     private var storage: [String: Data] = [:]
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
@@ -118,7 +144,7 @@ final class MockDataService: LocalDataServiceProtocol {
     }
 }
 
-final class MockProgressTracker: ProgressTrackerProtocol {
+final class AppMockProgressTracker: ProgressTrackerProtocol {
     private(set) var currentProgress: Double = 0.0
 
     func updateProgress(_ value: Double) {
@@ -130,7 +156,7 @@ final class MockProgressTracker: ProgressTrackerProtocol {
     }
 }
 
-final class MockUserPreferences: UserPreferencesProtocol {
+final class AppMockUserPreferences: UserPreferencesProtocol {
     var notificationsEnabled: Bool = true
     var theme: String = "default"
     var language: String = "en"

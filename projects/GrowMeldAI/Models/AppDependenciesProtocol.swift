@@ -7,16 +7,16 @@ protocol AppDependenciesProtocol: ObservableObject {
     var isFirebaseAvailable: Bool { get }
     var isSyncEnabled: Bool { get set }
     var initializationError: Error? { get }
-    var logger: AppLogger { get }
+    var logger: GrowMeldAppLogger { get }
 
     func initialize() async
     func disableFirebaseSync()
 }
 
-// MARK: - AppLogger
+// MARK: - GrowMeldAppLogger
 
-final class AppLogger {
-    static let shared = AppLogger()
+final class GrowMeldAppLogger {
+    static let shared = GrowMeldAppLogger()
 
     func log(_ message: String, level: LogLevel = .info) {
         #if DEBUG
@@ -43,10 +43,12 @@ final class AppLogger {
     }
 }
 
-// MARK: - FirebaseManager Stub
+typealias AppLogger = GrowMeldAppLogger
 
-final class FirebaseManager: ObservableObject {
-    static let shared = FirebaseManager()
+// MARK: - GrowMeldFirebaseManager
+
+final class GrowMeldFirebaseManager: ObservableObject {
+    static let shared = GrowMeldFirebaseManager()
     var isConfigured: Bool = false
 }
 

@@ -7,15 +7,15 @@ struct AppNavigationView: View {
         NavigationStack(path: $coordinator.navigationPath) {
             Group {
                 if coordinator.isOnboarded {
-                    HomeView()
+                    HomeView(viewModel: HomeViewModel())
                 } else {
-                    OnboardingView()
+                    OnboardingView(viewModel: OnboardingViewModel())
                 }
             }
-            .navigationDestination(for: AppNavigationPath.self) { path in
-                switch path {
+            .navigationDestination(for: AppRoute.self) { route in
+                switch route {
                 case .home:
-                    HomeView()
+                    HomeView(viewModel: HomeViewModel())
                 case .categoryDetail(let categoryID):
                     CategoryDetailPlaceholderView(categoryID: categoryID)
                 case .question(let questionID, let context):
@@ -28,15 +28,17 @@ struct AppNavigationView: View {
 }
 
 // MARK: - Navigation Path
-enum AppNavigationPath: Hashable {
+enum AppRoute: Hashable {
     case home
     case categoryDetail(categoryID: String)
     case question(questionID: String, context: String?)
 }
 
+typealias AppNavigationPath = AppRoute
+
 // MARK: - Navigation Coordinator
 class AppNavigationCoordinator: ObservableObject {
-    @Published var navigationPath = [AppNavigationPath]()
+    @Published var navigationPath = [AppRoute]()
     @Published var isOnboarded: Bool
 
     init() {
@@ -48,8 +50,8 @@ class AppNavigationCoordinator: ObservableObject {
         isOnboarded = true
     }
 
-    func navigate(to path: AppNavigationPath) {
-        navigationPath.append(path)
+    func navigate(to route: AppRoute) {
+        navigationPath.append(route)
     }
 
     func navigateBack() {
@@ -80,6 +82,10 @@ private struct QuestionPlaceholderView: View {
             .navigationTitle("Question")
     }
 }
+
+// MARK: - Stub ViewModels if not defined elsewhere
+class HomeViewModel: ObservableObject {}
+class OnboardingViewModel: ObservableObject {}
 
 // MARK: - Preview
 #if DEBUG

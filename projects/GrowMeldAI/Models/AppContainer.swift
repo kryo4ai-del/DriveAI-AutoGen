@@ -15,7 +15,7 @@ final class AppContainer {
     init() {
         self.dataService = LocalDataService.shared
         self.analyticsService = AnalyticsService.shared
-        self.preferencesService = UserPreferencesService.shared
+        self.preferencesService = UserPreferencesService()
     }
 }
 

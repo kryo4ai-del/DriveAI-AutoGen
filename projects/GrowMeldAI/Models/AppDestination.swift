@@ -1,5 +1,19 @@
 import Foundation
 
+struct ExamResult: Identifiable, Hashable {
+    let id: UUID
+    let score: Int
+    let totalQuestions: Int
+    let date: Date
+
+    init(id: UUID = UUID(), score: Int, totalQuestions: Int, date: Date = Date()) {
+        self.id = id
+        self.score = score
+        self.totalQuestions = totalQuestions
+        self.date = date
+    }
+}
+
 enum AppDestination: Hashable {
     case home
     case questionCategory(String)
