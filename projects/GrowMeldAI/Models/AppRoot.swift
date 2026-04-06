@@ -1,3 +1,5 @@
+import SwiftUI
+
 enum AppRoute: Hashable {
     case onboarding
     case home
@@ -9,12 +11,9 @@ enum AppRoute: Hashable {
 }
 
 @MainActor
-
-// MARK: - Root Navigation View
 struct AppRoot: View {
-    @StateObject private var coordinator: NavigationCoordinator
-    @Environment(\.localDataService) var dataService
-    
+    @StateObject private var coordinator = NavigationCoordinator()
+
     var body: some View {
         if coordinator.isOnboardingComplete {
             NavigationStack(path: $coordinator.path) {
