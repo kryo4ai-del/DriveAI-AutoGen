@@ -1,12 +1,24 @@
 import SwiftUI
+import Foundation
 
-struct DataServiceEnvironmentKey: EnvironmentKey {
-    static let defaultValue: LocalDataService = JSONDataService()
+protocol LocalDataService: AnyObject {}
+
+class JSONDataService: LocalDataService {}
+
+private struct DataServiceEnvironmentKey: EnvironmentKey {
+    static let defaultValue: AnyObject = JSONDataService()
 }
 
 extension EnvironmentValues {
     var dataService: LocalDataService {
-        get { self[DataServiceEnvironmentKey.self] }
-        set { self[DataServiceEnvironmentKey.self] = newValue }
+        get {
+            if let service = self[DataServiceEnvironmentKey.self] as? LocalDataService {
+                return service
+            }
+            return JSONDataService()
+        }
+        set {
+            // no-op: environment key uses defaultValue
+        }
     }
 }

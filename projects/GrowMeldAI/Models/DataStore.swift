@@ -1,36 +1,26 @@
+import Foundation
+
 @MainActor
-final class DataStore: NSObject {
+final class DataStore {
     static let shared = DataStore()
-    private let container: NSPersistentContainer
-    
-    override init() {
-        container = NSPersistentContainer(name: "DriveAI")
-        container.loadPersistentStores { _, error in
-            if let error { fatalError("Core Data failed: \(error)") }
-        }
-        super.init()
-    }
-    
+
+    private let userDefaultsKey = "DataStore_UserData"
+
+    private init() {}
+
     // MARK: - DSGVO Article 17: Complete Erasure
     nonisolated func deleteAllUserData(userId: UUID) async throws {
-        let backgroundContext = container.newBackgroundContext()
-        
-        try await backgroundContext.perform {
-            // Delete all related records (cascade)
-            let progressFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "QuizProgress")
-            progressFetch.predicate = NSPredicate(format: "userId == %@", userId as CVarArg)
-            try backgroundContext.execute(NSBatchDeleteRequest(fetchRequest: progressFetch))
-            
-            let profileFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserProfile")
-            profileFetch.predicate = NSPredicate(format: "id == %@", userId as CVarArg)
-            try backgroundContext.execute(NSBatchDeleteRequest(fetchRequest: profileFetch))
-            
-            try backgroundContext.save()
-        }
-        
-        // Refresh main context
+        let key = "user_\(userId.uuidString)"
         await MainActor.run {
-            self.container.viewContext.refreshAllObjects()
+            UserDefaults.standard.removeObject(forKey: key)
+            UserDefaults.standard.removeObject(forKey: "quiz_progress_\(userId.uuidString)")
+            UserDefaults.standard.synchronize()
+        }
+
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let userDir = docs.appendingPathComponent(userId.uuidString)
+        if FileManager.default.fileExists(atPath: userDir.path) {
+            try FileManager.default.removeItem(at: userDir)
         }
     }
 }

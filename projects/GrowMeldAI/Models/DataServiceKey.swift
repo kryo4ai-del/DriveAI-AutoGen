@@ -1,5 +1,11 @@
-// Add to Utilities/EnvironmentKeys.swift
-struct DataServiceKey: EnvironmentKey {
+import SwiftUI
+import Foundation
+
+protocol LocalDataService: AnyObject {}
+
+class JSONDataService: LocalDataService {}
+
+private struct DataServiceKey: EnvironmentKey {
     static let defaultValue: LocalDataService = JSONDataService()
 }
 
