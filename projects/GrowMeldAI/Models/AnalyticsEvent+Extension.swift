@@ -1,5 +1,4 @@
-// In Models/AnalyticsEvent.swift
-extension AnalyticsEvent {
+enum AnalyticsEvent {
     case appCrashLogged(type: String, severity: String)
     case nonFatalErrorLogged(category: String)
 }

@@ -9,9 +9,3 @@ enum NavigationPath: Hashable {
     case profile
     case reviewMistakes(ExamAttempt)
 }
-
-// App/AppCoordinator.swift
-@MainActor
-
-// App/DriveAIApp.swift
-@main

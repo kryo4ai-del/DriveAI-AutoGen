@@ -75,3 +75,10 @@ func performanceReducer(state: inout PerformanceState, action: PerformanceAction
 
 // MARK: - PerformanceStateManager
 @MainActor
+class PerformanceStateManager: ObservableObject {
+    @Published var state = PerformanceState()
+    
+    func dispatch(_ action: PerformanceAction) {
+        performanceReducer(state: &state, action: action)
+    }
+}

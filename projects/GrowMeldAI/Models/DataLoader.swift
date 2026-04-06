@@ -7,4 +7,3 @@ protocol DataLoader: Sendable {
 // JSONDataLoader.swift
 
 // AppDelegate: Dependency Injection Root
-@main

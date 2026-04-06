@@ -7,14 +7,14 @@ final class EpisodicMemoryRepository: ObservableObject {
         // Offload to background queue for non-blocking reads
         return try await Task.detached(priority: .userInitiated) { [weak self] in
             guard let self = self else { throw CancellationError() }
-            return try await self.database.read { ... }
+            return try await self.database.read { db in db }
         }.value
     }
     
     nonisolated func create(_ memory: EpisodicMemory) async throws {
-        return try await Task.detached(priority: .userInitiated) { [weak self] in
+        try await Task.detached(priority: .userInitiated) { [weak self] in
             guard let self = self else { throw CancellationError() }
-            return try await self.database.execute { ... }
+            try await self.database.execute { db in db }
         }.value
     }
 }
@@ -42,6 +42,6 @@ struct SendableDatabase: Sendable {
     }
 }
 
-final class EpisodicMemoryRepository {
+final class EpisodicMemoryRepositoryB {
     private let database: SendableDatabase  // ✅ Now truly thread-safe
 }

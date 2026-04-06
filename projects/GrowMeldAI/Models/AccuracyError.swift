@@ -1,11 +1,24 @@
-// ✅ EXPLICIT VALIDATION
-init?(_ correct: Int, _ total: Int) {
-    // All invalid conditions in one guard
-    guard total > 0, correct >= 0, correct <= total else {
-        return nil
+struct Accuracy {
+    let percentage: Double
+    
+    init?(_ percentage: Double) {
+        guard percentage >= 0, percentage <= 100 else {
+            return nil
+        }
+        self.percentage = percentage
     }
-    let pct = (Double(correct) / Double(total)) * 100
-    self.init(pct)  // Now guaranteed to succeed
+}
+
+// ✅ EXPLICIT VALIDATION
+extension Accuracy {
+    init?(_ correct: Int, _ total: Int) {
+        // All invalid conditions in one guard
+        guard total > 0, correct >= 0, correct <= total else {
+            return nil
+        }
+        let pct = (Double(correct) / Double(total)) * 100
+        self.init(pct)  // Now guaranteed to succeed
+    }
 }
 
 // Even better: throw for better diagnostics
@@ -27,7 +40,7 @@ enum AccuracyError: LocalizedError {
 }
 
 extension Accuracy {
-    init(_ correct: Int, _ total: Int) throws {
+    init(correct: Int, total: Int) throws {
         guard total > 0 else { throw AccuracyError.invalidTotal }
         guard correct >= 0 else { throw AccuracyError.negativeCorrect }
         guard correct <= total else { throw AccuracyError.correctExceedsTotal }
@@ -41,9 +54,15 @@ extension Accuracy {
     }
 }
 
-// Usage:
-do {
-    let accuracy = try Accuracy(10, 5)
-} catch AccuracyError.correctExceedsTotal {
-    // User feedback: "More correct than total questions?"
+// Usage example wrapped in a function:
+func exampleUsage() {
+    do {
+        let accuracy = try Accuracy(correct: 10, total: 5)
+        print(accuracy)
+    } catch AccuracyError.correctExceedsTotal {
+        // User feedback: "More correct than total questions?"
+        print("More correct than total questions?")
+    } catch {
+        print(error)
+    }
 }

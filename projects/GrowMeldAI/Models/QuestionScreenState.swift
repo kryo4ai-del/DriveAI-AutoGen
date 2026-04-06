@@ -38,3 +38,23 @@ enum QuestionScreenAction {
 
 // MARK: - ViewModel Implementation
 @MainActor
+class QuestionScreenViewModel: ObservableObject {
+    @Published var state: QuestionScreenState = .idle
+    
+    func send(_ action: QuestionScreenAction) {
+        switch action {
+        case .viewDidLoad(let categoryId, let questionIndex):
+            break
+        case .selectAnswer(let index):
+            break
+        case .submitAnswer:
+            break
+        case .nextQuestion:
+            break
+        case .previousQuestion:
+            break
+        case .reset:
+            state = .idle
+        }
+    }
+}

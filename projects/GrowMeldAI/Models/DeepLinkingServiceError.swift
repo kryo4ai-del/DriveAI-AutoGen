@@ -4,3 +4,5 @@ enum DeepLinkingServiceError: Error {
 }
 
 @MainActor
+class DeepLinkingService {
+}

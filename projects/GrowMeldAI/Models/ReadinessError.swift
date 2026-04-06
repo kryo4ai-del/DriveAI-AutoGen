@@ -9,7 +9,7 @@ enum ReadinessError: LocalizedError {
     }
 }
 
-static func estimateExamPassProbability(
+func estimateExamPassProbability(
     categoryScores: [QuestionDomain.QuestionCategory: (correct: Int, total: Int)]
 ) throws -> Double {
     guard !categoryScores.isEmpty else {
@@ -22,4 +22,6 @@ static func estimateExamPassProbability(
     }
     
     // Safe to proceed...
+    let totalCorrect = categoryScores.values.reduce(0) { $0 + $1.correct }
+    return Double(totalCorrect) / Double(totalAttempts)
 }

@@ -1,4 +1,5 @@
-// Features/Question/Question.swift (module entry point)
+import SwiftUI
+
 public struct QuestionFeature {
     public static func rootView(
         questions: [Question],
@@ -9,6 +10,3 @@ public struct QuestionFeature {
             .environmentObject(coordinator)
     }
 }
-
-// Usage in app
-@main

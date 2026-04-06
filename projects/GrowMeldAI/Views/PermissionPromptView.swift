@@ -32,7 +32,7 @@ struct PermissionPromptView: View {
                 .accessibilityHint("Ermöglicht DriveAI, Fotos Ihres Führerscheins zu machen")
                 
                 Button(action: { viewModel.skipForNow() }) {
-                    Text("Später"
+                    Text("Später")
                 }
                 .accessibilityLabel("Später")
                 .accessibilityHint("Überspringt die Kamera-Erfassung für jetzt")
