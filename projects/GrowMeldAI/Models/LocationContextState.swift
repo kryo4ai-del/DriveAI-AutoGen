@@ -4,3 +4,5 @@ enum LocationContextState: Equatable {
     case success(UserLocationContext)
     case failed(LocationError)
 }
+
+@MainActor

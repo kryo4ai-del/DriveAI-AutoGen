@@ -1,4 +1,3 @@
-import SwiftUI
 struct CountdownTimerView: View {
     let remainingSeconds: Int
     

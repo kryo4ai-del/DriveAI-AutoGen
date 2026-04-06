@@ -13,13 +13,5 @@ extension PostalCodeRegion {
     
     /// Test fixture: Vienna, Austria (1010)
     /// Used in tests to verify Austrian postal code handling
-    static func viennaTest() -> PostalCodeRegion {
-        PostalCodeRegion(
-            plz: "1010",
-            city: "Vienna",
-            state: .at_vienna,
-            country: .at,
-            regionType: .city
-        )
-    }
+    static func viennaTest() -> PostalCodeRegion { ... }
 }

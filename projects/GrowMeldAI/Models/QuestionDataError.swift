@@ -17,5 +17,3 @@ enum QuestionDataError: LocalizedError, Equatable {
 
 // Caller handles errors explicitly
 @Observable
-class QuestionDataManager {
-}

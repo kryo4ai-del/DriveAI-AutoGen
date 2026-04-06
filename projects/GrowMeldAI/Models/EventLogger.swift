@@ -12,13 +12,15 @@ actor EventLoggerImpl: EventLogger {
         qos: .background
     )
     
-    init(abTestingService: ABTestingService) {
-        self.abTestingService = abTestingService
-    }
-    
-    nonisolated func logAsync(_ event: ExperimentEvent) {
-        Task {
-            try? await self.abTestingService.logEvent(event)
+    func logAsync(_ event: ExperimentEvent) {
+        eventQueue.async { [weak self] in
+            Task {
+                try? await self?.abTestingService.logEvent(event)
+            }
         }
     }
 }
+
+// Updated ViewModel
+
+@MainActor

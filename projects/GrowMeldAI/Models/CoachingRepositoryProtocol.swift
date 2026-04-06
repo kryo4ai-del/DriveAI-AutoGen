@@ -1,4 +1,3 @@
-import Foundation
 // Domain/Coaching/CoachingRepositoryProtocol.swift
 
 protocol CoachingRepositoryProtocol {

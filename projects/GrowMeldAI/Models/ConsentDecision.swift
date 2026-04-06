@@ -7,7 +7,7 @@ enum ConsentDecision: String, Codable {
     case deferred
 }
 
-struct ConsentState: Codable {
+struct ConsentDecision: Codable {
     let decision: ConsentDecision
     let timestamp: Date
     let deferralCount: Int
@@ -16,3 +16,5 @@ struct ConsentState: Codable {
         deferralCount < 3  // ← ENFORCES LIMIT (per refactor notes)
     }
 }
+
+@Observable

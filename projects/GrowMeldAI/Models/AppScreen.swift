@@ -22,6 +22,3 @@ enum AppScreen: Hashable {
 import SwiftUI
 
 @MainActor
-class AppCoordinator: ObservableObject {
-    @Published var currentScreen: AppScreen = .home
-}

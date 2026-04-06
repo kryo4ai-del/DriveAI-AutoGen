@@ -9,6 +9,6 @@
 
 import Foundation
 
-struct DriveAIProduct: Sendable {
+struct DriveAIProduct: Sendable, Codable {
     // Add properties
 }

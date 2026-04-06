@@ -1,88 +1,18 @@
-import Foundation
 import SwiftUI
+import Foundation
 
-// MARK: - AppCoordinator Extension
+// MARK: - AppRoute
 
-@MainActor
-extension AppCoordinator {
-
-    // MARK: - Route Handling
-
-    func handleRoute(_ route: GrowMeldAppRoute) {
-        switch route {
-        case .home:
-            navigateToRoot()
-        case .exam:
-            navigate(to: .exam)
-        case .examResult(let result):
-            handleExamResult(result)
-        case .settings:
-            navigate(to: .settings)
-        case .progress:
-            navigate(to: .progress)
-        case .onboarding:
-            navigate(to: .onboarding)
-        }
-    }
-
-    // MARK: - Exam Result Handling
-
-    func handleExamResult(_ result: GrowMeldExamResult) {
-        navigate(to: .examResult(result))
-        recordExamResult(result)
-    }
-
-    private func recordExamResult(_ result: GrowMeldExamResult) {
-        var results = loadStoredExamResults()
-        results.append(result)
-        saveExamResults(results)
-    }
-
-    // MARK: - Persistence
-
-    func loadStoredExamResults() -> [GrowMeldExamResult] {
-        guard
-            let data = UserDefaults.standard.data(forKey: AppCoordinator.examResultsKey),
-            let results = try? JSONDecoder().decode([GrowMeldExamResult].self, from: data)
-        else {
-            return []
-        }
-        return results
-    }
-
-    func saveExamResults(_ results: [GrowMeldExamResult]) {
-        guard let data = try? JSONEncoder().encode(results) else { return }
-        UserDefaults.standard.set(data, forKey: AppCoordinator.examResultsKey)
-    }
-
-    func clearExamResults() {
-        UserDefaults.standard.removeObject(forKey: AppCoordinator.examResultsKey)
-    }
-
-    // MARK: - Deep Link Handling
-
-    func handleDeepLink(_ url: URL) {
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            return
-        }
-        switch components.host {
-        case "home":
-            handleRoute(.home)
-        case "exam":
-            handleRoute(.exam)
-        case "settings":
-            handleRoute(.settings)
-        case "progress":
-            handleRoute(.progress)
-        case "onboarding":
-            handleRoute(.onboarding)
-        default:
-            break
-        }
-    }
+enum GrowMeldAppRoute: Hashable {
+    case home
+    case exam
+    case examResult(GrowMeldExamResult)
+    case settings
+    case progress
+    case onboarding
 }
 
-// MARK: - GrowMeldExamResult
+// MARK: - ExamResult
 
 struct GrowMeldExamResult: Hashable, Codable {
     let id: UUID
@@ -114,28 +44,19 @@ struct GrowMeldExamResult: Hashable, Codable {
     }
 }
 
-// MARK: - GrowMeldAppRoute
-
-enum GrowMeldAppRoute: Hashable {
-    case home
-    case exam
-    case examResult(GrowMeldExamResult)
-    case settings
-    case progress
-    case onboarding
-}
-
 // MARK: - AppCoordinator
 
 @MainActor
 final class AppCoordinator: ObservableObject {
 
-    static let examResultsKey = "com.growmeld.examResults"
+    // MARK: - Published State
 
     @Published var navigationPath: [GrowMeldAppRoute] = []
     @Published var currentRoute: GrowMeldAppRoute = .home
     @Published var isPresenting: Bool = false
     @Published var presentedRoute: GrowMeldAppRoute? = nil
+
+    // MARK: - Navigation
 
     func navigate(to route: GrowMeldAppRoute) {
         navigationPath.append(route)
@@ -161,5 +82,108 @@ final class AppCoordinator: ObservableObject {
     func dismissPresented() {
         isPresenting = false
         presentedRoute = nil
+    }
+
+    // MARK: - Route Handling
+
+    func handleRoute(_ route: GrowMeldAppRoute) {
+        switch route {
+        case .home:
+            navigateToRoot()
+
+        case .exam:
+            navigate(to: .exam)
+
+        case .examResult(let result):
+            handleExamResult(result)
+
+        case .settings:
+            navigate(to: .settings)
+
+        case .progress:
+            navigate(to: .progress)
+
+        case .onboarding:
+            navigate(to: .onboarding)
+        }
+    }
+
+    // MARK: - Exam Result Handling
+
+    func handleExamResult(_ result: GrowMeldExamResult) {
+        navigate(to: .examResult(result))
+        recordExamResult(result)
+    }
+
+    private func recordExamResult(_ result: GrowMeldExamResult) {
+        var results = loadStoredExamResults()
+        results.append(result)
+        saveExamResults(results)
+    }
+
+    // MARK: - Persistence (UserDefaults + Codable)
+
+    private static let examResultsKey = "com.growmeld.examResults"
+
+    func loadStoredExamResults() -> [GrowMeldExamResult] {
+        guard
+            let data = UserDefaults.standard.data(forKey: Self.examResultsKey),
+            let results = try? JSONDecoder().decode([GrowMeldExamResult].self, from: data)
+        else {
+            return []
+        }
+        return results
+    }
+
+    private func saveExamResults(_ results: [GrowMeldExamResult]) {
+        guard let data = try? JSONEncoder().encode(results) else { return }
+        UserDefaults.standard.set(data, forKey: Self.examResultsKey)
+    }
+
+    func clearExamResults() {
+        UserDefaults.standard.removeObject(forKey: Self.examResultsKey)
+    }
+
+    // MARK: - Deep Link Handling
+
+    func handleDeepLink(_ url: URL) {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return
+        }
+        switch components.host {
+        case "home":
+            handleRoute(.home)
+        case "exam":
+            handleRoute(.exam)
+        case "settings":
+            handleRoute(.settings)
+        case "progress":
+            handleRoute(.progress)
+        case "onboarding":
+            handleRoute(.onboarding)
+        default:
+            handleRoute(.home)
+        }
+    }
+
+    // MARK: - State Helpers
+
+    var canGoBack: Bool {
+        !navigationPath.isEmpty
+    }
+
+    var isAtRoot: Bool {
+        navigationPath.isEmpty
+    }
+
+    var routeTitle: String {
+        switch currentRoute {
+        case .home:       return "Home"
+        case .exam:       return "Exam"
+        case .examResult: return "Result"
+        case .settings:   return "Settings"
+        case .progress:   return "Progress"
+        case .onboarding: return "Welcome"
+        }
     }
 }

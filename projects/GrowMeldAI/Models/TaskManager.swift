@@ -18,3 +18,6 @@ final class TaskManager {
         tasks.removeAll()
     }
 }
+
+// Usage in ViewModels
+@MainActor

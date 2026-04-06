@@ -1,6 +1,21 @@
-class RegionService {
-    private var configs: [String: RegionConfig] = [:]
+// Resources/Config/region_config.json
+{
+  "version": "1.0",
+  "updated": "2026-04-10",
+  "validated_by": "RTA Australia, ServiceON Ontario, ICBC BC",
+  "regions": {
+    "au": {
+      "totalQuestions": 45,
+      "passingPercentage": 80,
+      "timeLimit": 60,
+      "lastValidated": "2026-03-15",
+      "categories": [...]
+    },
+    "ca-on": {...}
+  }
+}
 
+class RegionService {
     private func loadConfigurations() throws {
         guard let configURL = Bundle.main.url(forResource: "region_config", withExtension: "json") else {
             throw RegionServiceError.configNotFound
@@ -22,11 +37,4 @@ struct RegionConfigFile: Codable {
     let updated: String
     let validatedBy: String
     let regions: [String: RegionConfig]
-
-    enum CodingKeys: String, CodingKey {
-        case version
-        case updated
-        case validatedBy = "validated_by"
-        case regions
-    }
 }

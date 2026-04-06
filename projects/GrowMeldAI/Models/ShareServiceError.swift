@@ -16,5 +16,3 @@ enum ShareServiceError: Error, LocalizedError {
 }
 
 @MainActor
-class ShareService {
-}

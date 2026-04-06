@@ -1,21 +1,18 @@
 #if DEBUG
-import os
-import Foundation
+// Use Xcode's Console logging with accessibility in mind
+os_log("🧪 Mock Analytics: %@", log: OSLog.default, type: .debug, "\(event)")
 
 // Or add to a debug view accessible via VoiceOver
 @MainActor
-class MockAnalyticsService {
+class MockAnalyticsService: AnalyticsService {
     @Published private(set) var lastLoggedEventDescription = ""
-    var loggedEvents: [String] = []
-
-    func logEvent(_ event: String) {
+    
+    func logEvent(_ event: AnalyticsEvent) async {
         loggedEvents.append(event)
-
-        // Use Xcode's Console logging with accessibility in mind
-        os_log("🧪 Mock Analytics: %@", log: OSLog.default, type: .debug, "\(event)")
-
-        lastLoggedEventDescription = "Analytics: \(event)"
+        
+        #if DEBUG
+        lastLoggedEventDescription = "Analytics: \(event.localizedDescription)"
         print("📊 \(lastLoggedEventDescription)")
+        #endif
     }
 }
-#endif

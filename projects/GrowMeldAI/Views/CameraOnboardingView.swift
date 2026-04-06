@@ -1,4 +1,3 @@
-import SwiftUI
 // 1. ONBOARDING: Opt-in to camera feature
 struct CameraOnboardingView: View {
     @Environment(\.dismiss) var dismiss

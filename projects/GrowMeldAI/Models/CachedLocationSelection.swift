@@ -1,4 +1,3 @@
-import Foundation
 struct CachedLocationSelection: Codable {
     let location: Location
     let selectedAt: Date

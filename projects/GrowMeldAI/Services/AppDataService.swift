@@ -1,26 +1,27 @@
+// Services/AppDataService.swift
 import Foundation
 import Combine
 
 // MARK: - Supporting Protocols
 
-protocol AppLocalDataService2: AnyObject {
+protocol LocalDataService: AnyObject {
     func fetchQuestions() -> [Any]
 }
 
-protocol AppProgressTracker2: AnyObject {
+protocol ProgressTracker: AnyObject {
     func recordProgress(for questionId: Int, correct: Bool)
     func getProgress(for questionId: Int) -> Double
 }
 
 // MARK: - Default Implementations
 
-final class LocalDataServiceImpl: AppLocalDataService2 {
+final class LocalDataServiceImpl: LocalDataService {
     func fetchQuestions() -> [Any] {
         return []
     }
 }
 
-final class ProgressTrackerImpl: AppProgressTracker2 {
+final class ProgressTrackerImpl: ProgressTracker {
     private var progressData: [Int: [Bool]] = [:]
 
     func recordProgress(for questionId: Int, correct: Bool) {
@@ -59,21 +60,21 @@ final class UserPreferences {
 // MARK: - AppDataService Protocol
 
 protocol AppDataService {
-    var questions: AppLocalDataService2 { get }
-    var progress: AppProgressTracker2 { get }
+    var questions: LocalDataService { get }
+    var progress: ProgressTracker { get }
     var preferences: UserPreferences { get }
 }
 
 // MARK: - AppDataService Implementation
 
 final class AppDataServiceImpl: AppDataService {
-    let questions: AppLocalDataService2
-    let progress: AppProgressTracker2
+    let questions: LocalDataService
+    let progress: ProgressTracker
     let preferences: UserPreferences
 
     init(
-        questions: AppLocalDataService2 = LocalDataServiceImpl(),
-        progress: AppProgressTracker2 = ProgressTrackerImpl(),
+        questions: LocalDataService = LocalDataServiceImpl(),
+        progress: ProgressTracker = ProgressTrackerImpl(),
         preferences: UserPreferences = .shared
     ) {
         self.questions = questions

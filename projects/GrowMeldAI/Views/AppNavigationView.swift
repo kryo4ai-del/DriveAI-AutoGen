@@ -1,7 +1,8 @@
+// Views/AppNavigationView.swift
 import SwiftUI
 
 struct AppNavigationView: View {
-    @StateObject private var coordinator = AppNavigationCoordinator()
+    @StateObject private var coordinator = NavigationCoordinator()
 
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
@@ -17,9 +18,9 @@ struct AppNavigationView: View {
                 case .home:
                     HomeView()
                 case .categoryDetail(let categoryID):
-                    CategoryDetailPlaceholderView(categoryID: categoryID)
+                    CategoryDetailView(categoryID: categoryID)
                 case .question(let questionID, let context):
-                    QuestionPlaceholderView(questionID: questionID, context: context)
+                    QuestionView(questionID: questionID, context: context)
                 }
             }
         }
@@ -35,8 +36,8 @@ enum AppNavigationPath: Hashable {
 }
 
 // MARK: - Navigation Coordinator
-class AppNavigationCoordinator: ObservableObject {
-    @Published var navigationPath: [AppNavigationPath] = []
+class NavigationCoordinator: ObservableObject {
+    @Published var navigationPath = NavigationPath()
     @Published var isOnboarded: Bool
 
     init() {
@@ -59,51 +60,13 @@ class AppNavigationCoordinator: ObservableObject {
     }
 
     func navigateToRoot() {
-        navigationPath = []
+        navigationPath = NavigationPath()
     }
 }
 
-// MARK: - Placeholder Views
-private struct CategoryDetailPlaceholderView: View {
-    let categoryID: String
-    var body: some View {
-        Text("Category: \(categoryID)")
-            .navigationTitle("Category")
-    }
-}
-
-private struct QuestionPlaceholderView: View {
-    let questionID: String
-    let context: String?
-    var body: some View {
-        Text("Question: \(questionID)")
-            .navigationTitle("Question")
-    }
-}
-
-// MARK: - Stub Views
-private struct HomeView: View {
-    var body: some View {
-        Text("Home")
-            .navigationTitle("Home")
-    }
-}
-
-private struct OnboardingView: View {
-    @EnvironmentObject var coordinator: AppNavigationCoordinator
-    var body: some View {
-        VStack {
-            Text("Onboarding")
-            Button("Continue") {
-                coordinator.markOnboarded()
-            }
-        }
-        .navigationTitle("Welcome")
-    }
-}
-
+// MARK: - Placeholder Views (minimal stubs if not defined elsewhere)
 #if DEBUG
-struct AppNavigationView_Preview: PreviewProvider {
+struct HomeView_Preview: PreviewProvider {
     static var previews: some View {
         AppNavigationView()
     }

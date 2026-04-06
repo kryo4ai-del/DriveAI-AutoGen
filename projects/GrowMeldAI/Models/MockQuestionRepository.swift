@@ -11,3 +11,6 @@ final class MockQuestionRepository: QuestionRepository {
         return [mockQuestion ?? .stub()]
     }
 }
+
+// Now tests are simple:
+@MainActor

@@ -1,8 +1,3 @@
 struct RawQuestionDTO: Codable {
-    func toValidated() throws -> Question {
-        fatalError("Not implemented")
-    }
-}
-
-struct Question: Codable {
+    func toValidated() throws -> Question { ... }  // Repeated in multiple places
 }

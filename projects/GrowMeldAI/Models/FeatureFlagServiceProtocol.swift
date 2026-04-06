@@ -1,6 +1,6 @@
 // Services/FeatureFlags/FeatureFlagService.swift
 
-import Foundation
+import FirebaseRemoteConfig
 
 protocol FeatureFlagServiceProtocol: AnyObject {
     func getValue(_ flag: String) -> String?
@@ -9,9 +9,9 @@ protocol FeatureFlagServiceProtocol: AnyObject {
 }
 
 class RemoteConfigFeatureFlagService: NSObject, FeatureFlagServiceProtocol {
+    private let remoteConfig = RemoteConfig.remoteConfig()
     private let variantCache = NSCache<NSString, NSString>()
     private let cache = NSCache<NSString, NSString>()
-    private var defaults: [String: String] = [:]
     
     private var lastFetchTime: Date = Date(timeIntervalSince1970: 0)
     private let fetchIntervalSeconds: TimeInterval = 3600 // 1 hour
@@ -19,14 +19,30 @@ class RemoteConfigFeatureFlagService: NSObject, FeatureFlagServiceProtocol {
     override init() {
         super.init()
         
-        // Load defaults from plist if available
-        loadDefaults()
+        // Configure RemoteConfig
+        let settings = RemoteConfigSettings()
+        settings.minimumFetchInterval = fetchIntervalSeconds
+        remoteConfig.configSettings = settings
+        
+        // Set default values (fallback for offline)
+        setDefaults()
+        
+        // Fetch on init
+        Task {
+            await fetchRemoteConfig()
+        }
     }
     
-    private func loadDefaults() {
-        if let path = Bundle.main.path(forResource: "RemoteConfigDefaults", ofType: "plist"),
-           let dict = NSDictionary(contentsOfFile: path) as? [String: String] {
-            defaults = dict
+    private func setDefaults() {
+        remoteConfig.setDefaults(fromPlist: "RemoteConfigDefaults")
+    }
+    
+    private func fetchRemoteConfig() async {
+        do {
+            let status = try await remoteConfig.fetchAndActivate()
+            print("RemoteConfig fetch status: \(status.rawValue)")
+        } catch {
+            print("RemoteConfig fetch failed: \(error)")
         }
     }
     
@@ -36,13 +52,14 @@ class RemoteConfigFeatureFlagService: NSObject, FeatureFlagServiceProtocol {
             return cached as String
         }
         
-        // Fall back to defaults
-        if let value = defaults[flag] {
+        // Fetch from RemoteConfig
+        let value = remoteConfig.configValue(forKey: flag).stringValue
+        
+        if let value = value {
             cache.setObject(value as NSString, forKey: flag as NSString)
-            return value
         }
         
-        return nil
+        return value
     }
     
     func isFeatureEnabled(_ feature: String) -> Bool {
@@ -73,6 +90,11 @@ class RemoteConfigFeatureFlagService: NSObject, FeatureFlagServiceProtocol {
         UserDefaults.standard.setValue(
             variant,
             forKey: "ab_test_\(cacheKey)"
+        )
+        
+        // Log variant assignment
+        await EventBus.shared.post(
+            .variantAssigned(experiment: experiment, variant: variant)
         )
         
         return variant

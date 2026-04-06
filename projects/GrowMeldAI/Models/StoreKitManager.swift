@@ -22,6 +22,7 @@ class PaywallViewModel: ObservableObject {
     func purchase() async {
         do {
             _ = try await storeKitManager.purchaseProduct(product)
+            @Sendable in
             await entitlementService.syncEntitlements()
         } catch {
             self.error = error

@@ -1,42 +1,16 @@
-import Foundation
-
 class EntitlementChecker {
-
-    enum EntitlementType: String, Codable {
-        case premiumFeatures
-    }
-
-    struct Entitlement: Codable {
-        let type: EntitlementType
-        let expiresAt: Date?
-    }
-
-    private let cacheKey = "com.growmeldai.entitlements.cache"
-    private let encoder = JSONEncoder()
-    private let decoder = JSONDecoder()
-
-    private func getCachedEntitlements() -> [Entitlement]? {
-        guard let data = UserDefaults.standard.data(forKey: cacheKey) else { return nil }
-        return try? decoder.decode([Entitlement].self, from: data)
-    }
-
-    private func setCachedEntitlements(_ entitlements: [Entitlement]) {
-        guard let data = try? encoder.encode(entitlements) else { return }
-        UserDefaults.standard.set(data, forKey: cacheKey)
-    }
-
-    private func verifyEntitlementsFromServer() async -> [Entitlement] {
-        return []
-    }
-
+    // Use cached entitlements for UX (instant loading)
+    // But verify on server before granting premium features
+    
     func canAccessPremiumFeature() async -> Bool {
-        if let cached = getCachedEntitlements(),
+        // 1. Check cached entitlements (instant)
+        if let cached = localCache.getCachedEntitlements(),
            cached.contains(where: { $0.type == .premiumFeatures }) {
-            return true
+            return true  // Show feature immediately
         }
-
-        let fresh = await verifyEntitlementsFromServer()
-        setCachedEntitlements(fresh)
+        
+        // 2. Verify with server in background
+        let fresh = await subscriptionManager.verifyEntitlements()
         return fresh.contains(where: { $0.type == .premiumFeatures })
     }
 }

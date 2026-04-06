@@ -1,26 +1,30 @@
 import Foundation
 
-enum AppError: LocalizedError {
-    case fileNotFound
-    case jsonDecodingFailed(String)
-    case persistenceFailed(String)
-    case networkUnavailable
-    case dataValidationFailed(String)
-    case unknownError(String)
+// NOTE: If another file in this project already declares AppError,
+// that declaration should be removed or this file should be deleted.
+// This file is the canonical source for AppError.
 
+enum AppError: LocalizedError {
+    case resourceNotFound
+    case decodingFailed(String)
+    case loadingFailed(String)
+    case savingFailed(String)
+    case validationFailed(String)
+    case unknown(String)
+    
     var errorDescription: String? {
         switch self {
-        case .fileNotFound:
+        case .resourceNotFound:
             return NSLocalizedString("Ressource nicht gefunden", comment: "")
-        case .jsonDecodingFailed(let message):
+        case .decodingFailed(let message):
             return NSLocalizedString("Fehler beim Laden: \(message)", comment: "")
-        case .persistenceFailed(let message):
+        case .loadingFailed(let message):
+            return NSLocalizedString("Fehler beim Laden: \(message)", comment: "")
+        case .savingFailed(let message):
             return NSLocalizedString("Fehler beim Speichern: \(message)", comment: "")
-        case .networkUnavailable:
-            return NSLocalizedString("Netzwerk nicht verfügbar", comment: "")
-        case .dataValidationFailed(let message):
+        case .validationFailed(let message):
             return NSLocalizedString("Validierungsfehler: \(message)", comment: "")
-        case .unknownError(let message):
+        case .unknown(let message):
             return message
         }
     }

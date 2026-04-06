@@ -1,9 +1,11 @@
-import SwiftUI
-
+// In XCTest, verify Dynamic Type scaling:
 struct DynamicTypePreview: View {
     var body: some View {
-        Text("Dynamic Type Preview")
-            .font(.body)
-            .environment(\.sizeCategory, .accessibilityExtraLarge)
+        PremiumFeatureCard(
+            product: mockProduct,
+            isUnlocked: false,
+            onPurchase: {}
+        )
+        .environment(\.sizeCategory, .accessibilityExtraLarge)  // Test at largest size
     }
 }

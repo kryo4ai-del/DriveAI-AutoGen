@@ -19,5 +19,3 @@ enum ConsentPersistenceError: LocalizedError {
 }
 
 @MainActor
-class ConsentPersistenceManager {
-}

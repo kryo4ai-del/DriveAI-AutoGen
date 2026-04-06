@@ -1,13 +1,7 @@
 import SwiftUI
+import DriveAICore
 
 @main
-struct DriveAIApp: App {
-    var body: some Scene {
-        WindowGroup {
-            InitializationView(onComplete: {})
-        }
-    }
-}
 
 // MARK: - Initialization View
 

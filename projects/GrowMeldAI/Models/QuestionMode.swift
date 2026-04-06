@@ -7,5 +7,3 @@ enum QuestionMode {
 }
 
 @MainActor
-class QuestionViewModel: ObservableObject {
-}

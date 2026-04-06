@@ -1,4 +1,3 @@
-import SwiftUI
 struct CoachingCard: View {
     let recommendation: CoachingRecommendation
     

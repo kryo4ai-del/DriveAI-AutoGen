@@ -22,7 +22,7 @@ struct WeakTopic: Identifiable, Codable, Hashable {
     var score: Double
     var lastReviewedAt: Date?
 
-    init(id: String,
+    init(id: String = UUID().uuidString,
          title: String,
          category: String,
          score: Double,
@@ -148,8 +148,7 @@ final class MockProgressService: ProgressServiceProtocol {
 
     func markTopicImproved(id: String) {
         improvedTopicIds.append(id)
-        let current = scores[id] ?? 0.0
-        scores[id] = min(current + 0.1, 1.0)
+        scores[id] = min((scores[id] ?? 0.0) + 0.1, 1.0)
     }
 }
 
@@ -157,7 +156,7 @@ final class MockProgressService: ProgressServiceProtocol {
 
 @MainActor
 final class WeakTopicsViewModel: ObservableObject {
-    @Published var topics: [WeakTopic] = []
+    @Published var weakTopics: [WeakTopic] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
@@ -165,41 +164,78 @@ final class WeakTopicsViewModel: ObservableObject {
     private let progressService: ProgressServiceProtocol
 
     init(
-        dataService: LocalDataServiceProtocol = LocalDataService.shared,
-        progressService: ProgressServiceProtocol = ProgressService.shared
+        dataService: LocalDataServiceProtocol,
+        progressService: ProgressServiceProtocol
     ) {
         self.dataService = dataService
         self.progressService = progressService
     }
 
-    func loadTopics() {
+    // MARK: - Public Methods
+
+    func loadWeakTopics() {
         isLoading = true
-        topics = dataService.fetchWeakTopics()
+        errorMessage = nil
+
+        let topics = dataService.fetchWeakTopics()
+        self.weakTopics = topics.sorted { $0.score < $1.score }
+
         isLoading = false
     }
 
-    func addTopic(title: String, category: String, score: Double) {
-        let topic = WeakTopic(
-            id: UUID().uuidString,
-            title: title,
-            category: category,
-            score: score
-        )
+    func addWeakTopic(_ topic: WeakTopic) {
         dataService.saveWeakTopic(topic)
-        loadTopics()
+        loadWeakTopics()
     }
 
-    func removeTopic(id: String) {
+    func removeWeakTopic(id: String) {
         dataService.removeWeakTopic(id: id)
-        loadTopics()
+        weakTopics.removeAll { $0.id == id }
     }
 
-    func markImproved(id: String) {
+    func markTopicImproved(id: String) {
         progressService.markTopicImproved(id: id)
-        loadTopics()
+        loadWeakTopics()
     }
 
     func progressScore(for topicId: String) -> Double {
         return progressService.progressScore(for: topicId)
+    }
+
+    var hasWeakTopics: Bool {
+        !weakTopics.isEmpty
+    }
+
+    var topWeakTopics: [WeakTopic] {
+        Array(weakTopics.prefix(5))
+    }
+}
+
+// MARK: - Factory
+
+extension WeakTopicsViewModel {
+    /// Creates a production instance using shared singletons
+    static func makeProduction() -> WeakTopicsViewModel {
+        WeakTopicsViewModel(
+            dataService: LocalDataService.shared,
+            progressService: ProgressService.shared
+        )
+    }
+
+    /// Creates a test instance using mock services
+    static func makeForTesting(
+        topics: [WeakTopic] = [],
+        scores: [String: Double] = [:]
+    ) -> WeakTopicsViewModel {
+        let mockDataService = MockLocalDataService()
+        mockDataService.storedTopics = topics
+
+        let mockProgressService = MockProgressService()
+        mockProgressService.scores = scores
+
+        return WeakTopicsViewModel(
+            dataService: mockDataService,
+            progressService: mockProgressService
+        )
     }
 }

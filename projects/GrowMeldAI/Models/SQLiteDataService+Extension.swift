@@ -1,7 +1,12 @@
+// Models/SQLiteDataService+Extension.swift
 import Foundation
 
+// GRDB is not available as a module in this target.
+// This extension provides async wrappers around the synchronous SQLiteDataService API.
+
 extension SQLiteDataService {
-    func fetchQuestion(id: String) async throws -> GrowMeldQuestion {
+    /// Fetch a single question by ID using a background queue
+    func fetchQuestion(id: String) async throws -> Question {
         return try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
@@ -14,7 +19,8 @@ extension SQLiteDataService {
         }
     }
 
-    func fetchQuestions(in categoryID: String, limit: Int? = nil) async throws -> [GrowMeldQuestion] {
+    /// Fetch questions in a category with an optional limit
+    func fetchQuestions(in categoryID: String, limit: Int? = nil) async throws -> [Question] {
         return try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
@@ -27,12 +33,13 @@ extension SQLiteDataService {
         }
     }
 
-    func saveQuestion(_ question: GrowMeldQuestion) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
+    /// Save (insert or update) a question using a background queue
+    func saveQuestion(_ question: Question) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
                     try self._saveQuestion(question)
-                    continuation.resume(returning: ())
+                    continuation.resume()
                 } catch {
                     continuation.resume(throwing: error)
                 }

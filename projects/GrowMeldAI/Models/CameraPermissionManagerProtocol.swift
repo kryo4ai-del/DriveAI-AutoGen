@@ -9,16 +9,3 @@ protocol CameraPermissionManagerProtocol {
 }
 
 @MainActor
-class CameraPermissionManager: CameraPermissionManagerProtocol {
-    func requestAccess() async -> Bool {
-        await AVCaptureDevice.requestAccess(for: .video)
-    }
-
-    func getCurrentStatus() -> AVAuthorizationStatus {
-        AVCaptureDevice.authorizationStatus(for: .video)
-    }
-
-    func isAuthorized() -> Bool {
-        getCurrentStatus() == .authorized
-    }
-}

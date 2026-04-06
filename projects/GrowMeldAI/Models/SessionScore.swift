@@ -1,3 +1,4 @@
+// Models/Shared/SessionScoring.swift
 import Foundation
 
 struct SessionScore {
@@ -9,7 +10,7 @@ struct SessionScore {
         return Double(correctCount) / Double(totalCount) * 100
     }
     
-    func isPassed(threshold: Double = 0.80) -> Bool {
+    var isPassed(threshold: Double = 0.80) -> Bool {
         percentage >= threshold * 100
     }
     
@@ -38,3 +39,8 @@ extension ScoringSession {
 // Conform both session types
 extension ExamSession: ScoringSession {}
 extension QuestionSession: ScoringSession {}
+
+// Usage
+
+// In ResultsView
+Text("Score: \(session.currentScore.formattedPercentage)")

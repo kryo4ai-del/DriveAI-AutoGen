@@ -1,6 +1,4 @@
-enum DriveAIError: Error {
-    case testError(message: String = "Test error")
-}
+case testError(message: String = "Test error")
 
 #if !DEBUG
 extension DriveAIError {
