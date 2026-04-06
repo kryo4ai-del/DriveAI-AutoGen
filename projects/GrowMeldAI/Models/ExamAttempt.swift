@@ -1,15 +1,18 @@
-public struct ExamAttempt {
+public struct ExamAttempt: ... {
+    let score: Int
+    let maxScore: Int
+    let passed: Bool
+    let timeTakenSeconds: Int
+
     public let id: String
     public let userId: String
-    public let startedAt: Date
-    public let completedAt: Date
+    public let startedAt: Date      // ✅ When exam started
+    public let completedAt: Date    // ✅ When submitted
     public let score: Int
-    public let maxScore: Int
-    public let passed: Bool
-    public let timeTakenSeconds: Int
     public let percentage: Double
-    public let duration: TimeInterval
-
+    public let duration: TimeInterval  // Computed: completedAt - startedAt
+    // ... rest
+    
     public var actualDuration: TimeInterval {
         completedAt.timeIntervalSince(startedAt)
     }

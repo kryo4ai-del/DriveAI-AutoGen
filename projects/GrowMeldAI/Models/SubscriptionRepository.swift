@@ -36,16 +36,7 @@ final actor LocalSubscriptionRepository: SubscriptionRepository {
         let data = try encoder.encode(subscription)
         defaults.set(data, forKey: key)
     }
-    
-    func isSubscriptionActive(userId: String) async throws -> Bool {
-        guard let subscription = try await fetchCurrentSubscription(userId: userId) else {
-            return false
-        }
-        return subscription.isActive
-    }
-    
-    func clearSubscriptionData(userId: String) async throws {
-        let key = "subscription.\(userId)"
-        defaults.removeObject(forKey: key)
-    }
 }
+
+// ViewModel usage (correct):
+@MainActor

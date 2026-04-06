@@ -42,7 +42,9 @@ struct ReadinessSummary: View {
             }
             .frame(height: 150)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Vorbereitungsgrad")
+            .accessibilityLabel("Vorberei
+
+tungsgrad")
             .accessibilityValue("\(readiness.readinessPercentage)% \(readiness.status.label)")
             
             // ✓ Text-based status explanation (not color-dependent)

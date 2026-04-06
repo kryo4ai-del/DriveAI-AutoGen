@@ -1,7 +1,7 @@
 @MainActor
 final class PerformanceStateManager: ObservableObject {
-    func recordQuestionAttempt(questionId: String, isCorrect: Bool, timeSpent: TimeInterval) async {
-        let attempt = QuestionAttempt(questionId: questionId, isCorrect: isCorrect, timeSpent: timeSpent)
+    func recordQuestionAttempt(...) async {
+        let attempt = QuestionAttempt(...)
         dispatch(.recordQuestionAttempt(attempt))
         
         do {

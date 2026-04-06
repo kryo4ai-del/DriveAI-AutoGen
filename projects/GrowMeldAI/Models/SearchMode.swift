@@ -10,6 +10,3 @@ enum SearchMode {
 }
 
 @MainActor
-class ExamCenterFinderViewModel: ObservableObject {
-    @Published var searchMode: SearchMode = .nearby
-}

@@ -1,4 +1,3 @@
-import Foundation
 // Infrastructure/Persistence/CoachingRepository.swift
 
 final class CoachingRepository: CoachingRepositoryProtocol {

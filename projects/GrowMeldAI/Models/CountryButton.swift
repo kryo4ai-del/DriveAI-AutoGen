@@ -1,6 +1,7 @@
-import SwiftUI
+// MARK: - Services/Accessibility/SelectableItemAccessibility.swift
 
 extension View {
+    /// Apply consistent accessibility for selectable UI items (buttons, radio groups)
     func selectableItemAccessibility(
         label: String,
         isSelected: Bool,
@@ -12,24 +13,22 @@ extension View {
             .accessibilityValue(isSelected ? "Selected" : "Not selected")
             .accessibilityAddTraits(.isButton)
     }
-
-    func minimumTouchTarget(size: CGFloat) -> some View {
-        self.frame(minWidth: size, minHeight: size)
-    }
 }
+
+// MARK: - Usage in Buttons
 
 struct CountryButton: View {
     let country: Country
     let isSelected: Bool
     let action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             VStack(spacing: 6) {
                 Text(country.flag)
                     .font(.system(size: 28))
                     .accessibilityHidden(true)
-
+                
                 Text(country.displayName)
                     .font(.system(.caption, design: .default))
                     .fontWeight(.medium)
@@ -53,7 +52,7 @@ struct RegionButton: View {
     let region: Region
     let isSelected: Bool
     let action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             HStack(spacing: 12) {
@@ -61,14 +60,14 @@ struct RegionButton: View {
                     Text(region.name)
                         .font(.system(.body, design: .default))
                         .fontWeight(.medium)
-
+                    
                     Text(region.subtitle)
                         .font(.system(.caption, design: .default))
                         .foregroundColor(.secondary)
                 }
-
+                
                 Spacer()
-
+                
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(.body, design: .default))

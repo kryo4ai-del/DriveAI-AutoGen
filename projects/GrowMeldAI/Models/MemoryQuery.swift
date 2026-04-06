@@ -27,11 +27,11 @@ struct MemoryQuery {
         self.offset = offset
     }
     
-    static func recent(limit: Int = 20) -> MemoryQuery {
+    static var recent(limit: Int = 20) -> MemoryQuery {
         MemoryQuery(limit: limit)
     }
     
-    static func thisWeek(types: [MemoryType]? = nil) -> MemoryQuery {
+    static var thisWeek(types: [MemoryType]? = nil) -> MemoryQuery {
         let end = Date()
         let start = Calendar.current.date(byAdding: .day, value: -7, to: end) ?? end
         return MemoryQuery(

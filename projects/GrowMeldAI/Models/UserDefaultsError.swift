@@ -16,5 +16,3 @@ enum UserDefaultsError: LocalizedError {
 }
 
 @MainActor
-class UserDefaultsService {
-}

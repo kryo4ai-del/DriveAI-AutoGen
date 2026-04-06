@@ -1,45 +1,6 @@
 import SwiftUI
 
-// MARK: - Supporting Types
-
-enum MaintenanceStatus {
-    case completed
-    case dueSoon
-    case overdue
-
-    var localizedLabel: String {
-        switch self {
-        case .completed: return "Erledigt"
-        case .dueSoon: return "Bald fällig"
-        case .overdue: return "Überfällig"
-        }
-    }
-
-    var readinessCue: String {
-        switch self {
-        case .completed: return "Gut vorbereitet!"
-        case .dueSoon: return "Bald üben empfohlen."
-        case .overdue: return "Dringend üben!"
-        }
-    }
-
-    var systemImage: String {
-        switch self {
-        case .completed: return "checkmark.circle.fill"
-        case .dueSoon: return "exclamationmark.triangle.fill"
-        case .overdue: return "xmark.circle.fill"
-        }
-    }
-}
-
-struct MaintenanceCheck {
-    let categoryName: String
-    let status: MaintenanceStatus
-    let daysSinceLastPractice: Int?
-}
-
-// MARK: - EmotionalMaintenanceStatusView
-
+/// Status view with emotional hook and exam readiness cues.
 struct EmotionalMaintenanceStatusView: View {
     let check: MaintenanceCheck
     let showDaysLabel: Bool
@@ -92,5 +53,16 @@ struct EmotionalMaintenanceStatusView: View {
             .accessibilityAddTraits(.isButton)
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Extensions for Emotional Hooks
+extension MaintenanceStatus {
+    var systemImage: String {
+        switch self {
+        case .completed: return "checkmark.circle.fill"
+        case .dueSoon: return "exclamationmark.triangle.fill"
+        case .overdue: return "xmark.circle.fill"
+        }
     }
 }

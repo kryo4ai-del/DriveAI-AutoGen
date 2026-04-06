@@ -7,5 +7,3 @@ enum ConsentDecisionType: String, Codable {
 }
 
 @Observable
-class ConsentModel {
-}

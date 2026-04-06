@@ -8,12 +8,3 @@ protocol SignValidationServiceProtocol {
 }
 
 @MainActor
-class SignValidationService: SignValidationServiceProtocol {
-    func validate(_ sign: RecognizedSign) async -> ValidationResult {
-        return ValidationResult()
-    }
-    
-    func getCategoryForSign(_ sign: RecognizedSign) async -> ExamCategory? {
-        return nil
-    }
-}

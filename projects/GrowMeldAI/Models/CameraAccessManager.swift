@@ -7,3 +7,5 @@ protocol CameraAccessManager: AnyObject, Sendable {
     func requestCameraPermission() async -> CameraPermissionStatus
     func openAppSettings()
 }
+
+@MainActor

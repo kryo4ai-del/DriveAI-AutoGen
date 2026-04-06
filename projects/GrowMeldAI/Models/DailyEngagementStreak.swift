@@ -1,4 +1,3 @@
-import Foundation
 struct DailyEngagementStreak {
     let currentStreak: Int
     let longestStreak: Int

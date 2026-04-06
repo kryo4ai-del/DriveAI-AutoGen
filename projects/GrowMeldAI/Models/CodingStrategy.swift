@@ -15,3 +15,8 @@ enum CodingStrategy {
         return decoder
     }
 }
+
+// Usage in all services:
+@MainActor
+
+@MainActor

@@ -1,23 +1,4 @@
 // Services/CameraPermissionStateRefresher.swift
-import UIKit
-import Combine
-
-enum CameraPermissionState {
-    case authorized
-    case denied
-    case notDetermined
-    case unavailable
-    
-    init(_ status: Int) {
-        switch status {
-        case 0: self = .authorized
-        case 1: self = .denied
-        case 2: self = .notDetermined
-        default: self = .unavailable
-        }
-    }
-}
-
 @MainActor
 final class CameraPermissionStateRefresher {
     private let cameraManager: CameraAccessManager
@@ -48,3 +29,6 @@ final class CameraPermissionStateRefresher {
         scenePhaseSubscription?.cancel()
     }
 }
+
+// ViewModel usage:
+@MainActor

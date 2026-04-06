@@ -1,17 +1,32 @@
+// Sources/Services/CrashReporting/CrashReportingService.swift
 import Foundation
 
-enum CrashSeverity: String, Codable, Sendable {
-    case low
-    case medium
-    case high
-    case critical
-}
+/// Domain protocol for crash reporting - testable and Firebase-agnostic
+protocol CrashReportingService: AnyObject, Sendable {
+    /// Report an error during question answering
+    func reportQuestionError(
+        questionID: String,
+        category: String,
+        errorDescription: String
+    ) async throws
 
-enum CrashDataIntegrityStatus: String, Codable, Sendable {
-    case healthy
-    case degraded
-    case corrupted
-    case unknown
+    /// Report crash during exam simulation
+    func reportExamCrash(
+        questionsAnswered: Int,
+        timeRemaining: Int
+    ) async throws
+
+    /// Capture data integrity issues (DB corruption, etc.)
+    func reportDataIntegrityIssue(_ issue: String, severity: Severity) async throws
+
+    /// Get current health status
+    func getDataIntegrityStatus() -> DataIntegrityStatus
+
+    /// Check if user has consented to crash reporting
+    func hasConsentForCrashReporting() -> Bool
+
+    /// Set consent status (async to allow persistence)
+    func setConsentForCrashReporting(_ consent: Bool) async
 }
 
 enum CrashReportingError: Error, LocalizedError, Sendable {
@@ -34,80 +49,5 @@ enum CrashReportingError: Error, LocalizedError, Sendable {
         case .examSimulationCrash(let context):
             return "Exam simulation crashed: \(context)"
         }
-    }
-}
-
-protocol CrashReportingService: AnyObject, Sendable {
-    func reportQuestionError(
-        questionID: String,
-        category: String,
-        errorDescription: String
-    ) async throws
-
-    func reportExamCrash(
-        questionsAnswered: Int,
-        timeRemaining: Int
-    ) async throws
-
-    func reportDataIntegrityIssue(_ issue: String, severity: CrashSeverity) async throws
-
-    func getDataIntegrityStatus() -> CrashDataIntegrityStatus
-
-    func hasConsentForCrashReporting() -> Bool
-
-    func setConsentForCrashReporting(_ consent: Bool) async
-}
-
-final class DefaultCrashReportingService: CrashReportingService {
-    private let defaults: UserDefaults
-    private let consentKey = "crash_reporting_consent"
-    private let integrityStatusKey = "crash_data_integrity_status"
-
-    init(defaults: UserDefaults = .standard) {
-        self.defaults = defaults
-    }
-
-    func reportQuestionError(
-        questionID: String,
-        category: String,
-        errorDescription: String
-    ) async throws {
-        guard hasConsentForCrashReporting() else {
-            throw CrashReportingError.noConsent
-        }
-    }
-
-    func reportExamCrash(
-        questionsAnswered: Int,
-        timeRemaining: Int
-    ) async throws {
-        guard hasConsentForCrashReporting() else {
-            throw CrashReportingError.noConsent
-        }
-    }
-
-    func reportDataIntegrityIssue(_ issue: String, severity: CrashSeverity) async throws {
-        guard hasConsentForCrashReporting() else {
-            throw CrashReportingError.noConsent
-        }
-        if severity == .critical || severity == .high {
-            defaults.set(CrashDataIntegrityStatus.corrupted.rawValue, forKey: integrityStatusKey)
-        }
-    }
-
-    func getDataIntegrityStatus() -> CrashDataIntegrityStatus {
-        guard let raw = defaults.string(forKey: integrityStatusKey),
-              let status = CrashDataIntegrityStatus(rawValue: raw) else {
-            return .unknown
-        }
-        return status
-    }
-
-    func hasConsentForCrashReporting() -> Bool {
-        return defaults.bool(forKey: consentKey)
-    }
-
-    func setConsentForCrashReporting(_ consent: Bool) async {
-        defaults.set(consent, forKey: consentKey)
     }
 }

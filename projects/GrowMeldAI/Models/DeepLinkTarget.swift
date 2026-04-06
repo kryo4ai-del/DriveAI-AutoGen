@@ -106,7 +106,7 @@ enum DeepLinkTarget: Equatable {
         _ message: String,
         url: URL? = nil,
         components: URLComponents? = nil,
-        params: [String: String?]? = nil
+        params: [String: String]? = nil
     ) {
         #if DEBUG
         var log = "[DeepLink] ❌ \(message)"
@@ -126,17 +126,24 @@ enum DeepLinkTarget: Equatable {
     }
 }
 
-// Provide deep link conversion value as a free function or struct helper
-// since you cannot add new cases to an existing enum via an extension.
-struct DeepLinkAnalytics {
-    static func conversionValue(for target: DeepLinkTarget) -> Int {
-        switch target {
-        case .category, .quiz:
-            return 35  // High intent
-        case .examSimulation:
-            return 60  // Very high intent
+// Add to AnalyticsEvent
+extension AnalyticsEvent {
+    case deepLinkHandled(target: DeepLinkTarget)
+    
+    var conversionValue: Int {
+        switch self {
+        case .deepLinkHandled(let target):
+            switch target {
+            case .category, .quiz:
+                return 35  // High intent
+            case .examSimulation:
+                return 60  // Very high intent
+            default:
+                return 20
+            }
+        // ... existing cases
         default:
-            return 20
+            return 0
         }
     }
 }

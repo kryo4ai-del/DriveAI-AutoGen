@@ -6,3 +6,5 @@ protocol ProgressTrackingService: ObservableObject {
     func getProgress(forCategory categoryId: String) -> UserProgress
     func getAllProgress() -> [UserProgress]
 }
+
+@MainActor  // ← Enforce main thread only

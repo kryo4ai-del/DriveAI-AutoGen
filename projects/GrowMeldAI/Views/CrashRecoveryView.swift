@@ -1,43 +1,7 @@
+// Sources/Views/ErrorStates/CrashRecoveryView.swift
 import SwiftUI
-import Foundation
 
-struct CrashEvent {
-    let errorDescription: String
-    let category: String
-    let streak: Int
-
-    init(errorDescription: String = "Unbekannter Fehler", category: String = "Allgemein", streak: Int = 0) {
-        self.errorDescription = errorDescription
-        self.category = category
-        self.streak = streak
-    }
-}
-
-struct RecoveryPathIndicator: View {
-    let streak: Int
-    let suggestedCategory: String
-
-    var body: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 8) {
-                Image(systemName: "flame.fill")
-                    .foregroundColor(.orange)
-                Text("Streak: \(streak)")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-            }
-            Text("Empfohlene Kategorie: \(suggestedCategory)")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(10)
-        .padding(.horizontal)
-    }
-}
-
+/// Recovery screen after a crash with competence reinforcement
 struct CrashRecoveryView: View {
     @StateObject var viewModel: CrashRecoveryViewModel
 
@@ -51,10 +15,12 @@ struct CrashRecoveryView: View {
                 .font(.title)
                 .fontWeight(.bold)
 
-            Text(viewModel.recoveryMessage)
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+            if let message = viewModel.recoveryMessage {
+                Text(message)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+            }
 
             RecoveryPathIndicator(
                 streak: viewModel.currentStreak,
@@ -80,6 +46,7 @@ struct CrashRecoveryView: View {
     }
 }
 
+/// ViewModel for the recovery screen
 @MainActor
 final class CrashRecoveryViewModel: ObservableObject {
     let recoveryMessage: String
@@ -87,17 +54,44 @@ final class CrashRecoveryViewModel: ObservableObject {
     let suggestedCategory: String
 
     private let crashEvent: CrashEvent
+    private let questionService: QuestionService
 
-    init(crashEvent: CrashEvent) {
+    init(
+        crashEvent: CrashEvent,
+        questionService: QuestionService
+    ) {
         self.crashEvent = crashEvent
-        self.recoveryMessage = "Ein Fehler ist aufgetreten: \(crashEvent.errorDescription). Lass uns die Kategorie '\(crashEvent.category)' gezielt wiederholen."
-        self.currentStreak = crashEvent.streak
-        self.suggestedCategory = crashEvent.category
+        self.questionService = questionService
+
+        // Generate recovery message based on crash context
+        switch crashEvent.context {
+        case .questionValidation(let context):
+            self.recoveryMessage = "Dieser Fehler trat bei Frage \(context.questionID) in der Kategorie '\(context.category)' auf. Lass uns diese Kategorie gezielt wiederholen, um ähnliche Fehler zu vermeiden."
+            self.currentStreak = crashEvent.learnerState.currentStreak
+            self.suggestedCategory = context.category
+
+        case .examCrash(let examState):
+            self.recoveryMessage = "Dein Exam ist bei Frage \(examState.questionsAnswered) von \(examState.totalQuestions) abgebrochen. Wir setzen dort fort, wo du aufgehört hast."
+            self.currentStreak = crashEvent.learnerState.currentStreak
+            self.suggestedCategory = "Examensvorbereitung"
+
+        case .dataIntegrityIssue(let details):
+            self.recoveryMessage = "Ein technisches Problem wurde erkannt (\(details.issueType)). Wir empfehlen, die App neu zu starten."
+            self.currentStreak = 0
+            self.suggestedCategory = "Technische Probleme"
+
+        case .unknown:
+            self.recoveryMessage = "Ein unerwartetes Problem ist aufgetreten. Bitte starte die App neu."
+            self.currentStreak = 0
+            self.suggestedCategory = "Allgemein"
+        }
     }
 
     func resumeLearning() {
+        // Resume from last known state
     }
 
     func reviewCategory() {
+        // Navigate to category review
     }
 }

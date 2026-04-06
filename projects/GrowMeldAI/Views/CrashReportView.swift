@@ -1,23 +1,7 @@
+// File: Views/CrashReportView.swift
 import SwiftUI
-import Foundation
 
-protocol CrashReportingServiceProtocol {
-    func record(error: Error)
-    func log(event: String)
-}
-
-final class CrashlyticsService: CrashReportingServiceProtocol {
-    init() {}
-
-    func record(error: Error) {
-        print("[CrashReport] Error recorded: \(error.localizedDescription)")
-    }
-
-    func log(event: String) {
-        print("[CrashReport] Event logged: \(event)")
-    }
-}
-
+/// View displayed when a crash occurs, with GDPR-compliant messaging
 struct CrashReportView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: CrashReportViewModel
@@ -28,11 +12,13 @@ struct CrashReportView: View {
 
     var body: some View {
         VStack(spacing: 24) {
+            // App logo/illustration
             Image(systemName: "car.fill")
                 .font(.system(size: 60))
                 .foregroundStyle(.blue)
                 .padding(.top, 40)
 
+            // Emotional support messaging
             VStack(spacing: 16) {
                 Text("Alles gut — wir haben es gesehen!")
                     .font(.title.bold())
@@ -45,6 +31,7 @@ struct CrashReportView: View {
             }
             .padding(.horizontal)
 
+            // Action buttons
             VStack(spacing: 12) {
                 Button(action: {
                     viewModel.reportCrash()
@@ -66,6 +53,7 @@ struct CrashReportView: View {
     }
 }
 
+/// ViewModel for CrashReportView
 final class CrashReportViewModel: ObservableObject {
     private let error: Error?
     private let crashService: CrashReportingServiceProtocol
