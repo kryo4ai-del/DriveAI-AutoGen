@@ -1,5 +1,8 @@
 // Services/Network/RetryQueue.swift
 
+import Foundation
+import Combine
+
 @MainActor
 final class RetryQueue: ObservableObject {
     @Published private(set) var pendingRequests: [PendingRequest] = []
