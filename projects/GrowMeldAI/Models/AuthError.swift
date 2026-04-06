@@ -1,3 +1,5 @@
+import Foundation
+
 enum AuthError: LocalizedError {
     case invalidEmail
     case weakPassword(String)

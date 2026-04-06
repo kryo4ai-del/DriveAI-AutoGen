@@ -1,3 +1,8 @@
+The error "'FocusLevel' is ambiguous for type lookup in this context" suggests there's another `FocusLevel` type in the project conflicting with this one. The ambiguity occurs on line 52 where `Self` is used inside the `init(normalised:)` initializer. To fix this, we can qualify the type or restructure to avoid the ambiguity. Since we can't rename the other conflicting type, we should ensure our references are unambiguous by using explicit module-qualified names or restructuring the code.
+
+Given that the file likely belongs to a specific module, and the conflict is probably with an Apple framework type or another definition in the project, the simplest fix is to avoid the failable initializer call that causes the lookup issue:
+
+```swift
 import Foundation
 
 enum FocusLevel: String, Codable, CaseIterable, Identifiable {
@@ -44,7 +49,13 @@ enum FocusLevel: String, Codable, CaseIterable, Identifiable {
         let clamped = min(max(value, 0.0), 1.0)
         let count = Self.allCases.count
         let score = Int((clamped * Double(count - 1)).rounded()) + 1
-        self = Self(score: score) ?? .medium
+        switch score {
+        case 1: self = .low
+        case 2: self = .medium
+        case 3: self = .high
+        case 4: self = .deep
+        default: self = .medium
+        }
     }
 }
 
@@ -68,3 +79,4 @@ extension FocusLevel: CustomStringConvertible {
         }
     }
 }
+```
