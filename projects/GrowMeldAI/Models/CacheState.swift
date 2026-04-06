@@ -1,6 +1,6 @@
 import Foundation
 
-actor PerformanceStore {
+private actor PerformanceStoreImpl {
     private enum CacheState {
         case unloaded
         case loading(Task<Void, Error>)
@@ -32,5 +32,13 @@ actor PerformanceStore {
             cacheState = .unloaded
             throw error
         }
+    }
+}
+
+actor PerformanceStore {
+    private let impl = PerformanceStoreImpl()
+
+    func ensureCacheLoaded() async throws {
+        try await impl.ensureCacheLoaded()
     }
 }
