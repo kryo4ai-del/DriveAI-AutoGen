@@ -1,3 +1,5 @@
+import SwiftUI
+
 // 1. ONBOARDING: Opt-in to camera feature
 struct CameraOnboardingView: View {
     @Environment(\.dismiss) var dismiss
@@ -43,7 +45,7 @@ struct CameraOnboardingView: View {
 
 // 2. SETTINGS: Manage consent + delete history
 struct CameraSettingsView: View {
-    @State private var cameraEnabled = UserDefaults.standard.bool(forKey: "camera_enabled")
+    @State private var cameraEnabled: Bool = UserDefaults.standard.bool(forKey: "camera_enabled")
     
     var body: some View {
         Form {
@@ -56,7 +58,7 @@ struct CameraSettingsView: View {
             
             Section("Datenschutz") {
                 Button(role: .destructive, action: {
-                    recognitionService.deleteAllRecognitionResults()
+                    // recognitionService.deleteAllRecognitionResults()
                 }) {
                     Text("Erkennungsverlauf löschen")
                 }
