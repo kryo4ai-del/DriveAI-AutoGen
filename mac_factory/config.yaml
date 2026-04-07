@@ -1,6 +1,10 @@
 # Mac Assembly Factory Konfiguration
 driveai_repo: "~/DriveAI-AutoGen"
 
+# TheBrain on Windows (LLM router + central cost tracking)
+# Empty or unreachable -> Mac falls back to direct litellm
+thebrain_url: "http://192.168.178.137:8421"
+
 # HTTP Server
 server:
   host: "0.0.0.0"

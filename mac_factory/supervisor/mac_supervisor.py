@@ -29,6 +29,7 @@ from mac_factory.supervisor.error_auditor import ErrorAuditor
 from mac_factory.supervisor.repair_executor import RepairExecutor
 from mac_factory.supervisor.learning_db import LearningDB
 from mac_factory.supervisor.progress_tracker import ProgressTracker
+from mac_factory.llm_client import MacLLMClient
 
 
 @dataclass
@@ -88,7 +89,10 @@ class MacSupervisor:
         self.cleanup = PreBuildCleanup(self.project_dir)
         self.analyzer = ErrorAnalyzer(self.project_dir)
         self.auditor = ErrorAuditor()
-        self.executor = RepairExecutor(self.project_dir, safety_guard=self.guard)
+        self.llm_client = MacLLMClient(safety_guard=self.guard)
+        self.executor = RepairExecutor(
+            self.project_dir, safety_guard=self.guard, llm_client=self.llm_client
+        )
         self.learning = LearningDB()
         self.tracker = ProgressTracker()
 

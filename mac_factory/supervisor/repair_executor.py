@@ -144,27 +144,16 @@ class RepairExecutor:
         )
 
         try:
-            import litellm
             if self.safety_guard and not self.safety_guard.check():
                 return RepairResult(action="repair_tier2", file_path=filepath, success=False,
                                     detail=f"Safety stopped: {self.safety_guard.stop_reason}")
 
-            response = litellm.completion(
-                model="claude-sonnet-4-6",
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=4000,
-                temperature=0
-            )
-            cost = litellm.completion_cost(response) or 0.0
-            if self.safety_guard:
-                self.safety_guard.record_llm_call(
-                    "claude-sonnet-4-6",
-                    response.usage.prompt_tokens,
-                    response.usage.completion_tokens,
-                    cost
-                )
+            text, cost = self._llm_call(prompt, "repair", max_tokens=4000)
+            if text is None:
+                return RepairResult(action="repair_tier2", file_path=filepath, success=False,
+                                    detail="LLM call failed")
 
-            new_content = self._sanitize_llm_output(response.choices[0].message.content)
+            new_content = self._sanitize_llm_output(text)
             if not new_content:
                 return RepairResult(action="repair_tier2", file_path=filepath, success=False,
                                     cost=cost, detail="LLM output was empty after sanitization")
@@ -205,25 +194,14 @@ class RepairExecutor:
         )
 
         try:
-            import litellm
             if self.safety_guard and not self.safety_guard.check():
                 return RepairResult(action="deep_repair", file_path=filepath, success=False,
                                     detail=f"Safety stopped: {self.safety_guard.stop_reason}")
-            response = litellm.completion(
-                model="claude-sonnet-4-6",
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=8000,
-                temperature=0
-            )
-            cost = litellm.completion_cost(response) or 0.0
-            if self.safety_guard:
-                self.safety_guard.record_llm_call(
-                    "claude-sonnet-4-6",
-                    response.usage.prompt_tokens,
-                    response.usage.completion_tokens,
-                    cost
-                )
-            new_content = self._sanitize_llm_output(response.choices[0].message.content)
+            text, cost = self._llm_call(prompt, "deep_repair", max_tokens=8000)
+            if text is None:
+                return RepairResult(action="deep_repair", file_path=filepath, success=False,
+                                    detail="LLM call failed")
+            new_content = self._sanitize_llm_output(text)
             if not new_content:
                 return RepairResult(action="deep_repair", file_path=filepath, success=False,
                                     cost=cost, detail="LLM output empty after sanitization")
@@ -250,6 +228,43 @@ class RepairExecutor:
             )
         except Exception as e:
             return RepairResult(action="iterative_stub", file_path=filepath, success=False, detail=str(e))
+
+    def _llm_call(self, prompt: str, task_type: str, max_tokens: int = 4000):
+        """
+        Returns (text, cost) using llm_client if available, else direct litellm.
+        Returns (None, 0.0) on failure.
+        """
+        if self.llm_client:
+            response = self.llm_client.completion(
+                prompt=prompt,
+                task_type=task_type,
+                max_tokens=max_tokens,
+                temperature=0
+            )
+            if response.success:
+                return response.text, response.cost
+            return None, 0.0
+
+        # Fallback: direct litellm
+        try:
+            import litellm
+            response = litellm.completion(
+                model="claude-sonnet-4-6",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=max_tokens,
+                temperature=0
+            )
+            cost = litellm.completion_cost(response) or 0.0
+            if self.safety_guard:
+                self.safety_guard.record_llm_call(
+                    "claude-sonnet-4-6",
+                    response.usage.prompt_tokens,
+                    response.usage.completion_tokens,
+                    cost
+                )
+            return response.choices[0].message.content, cost
+        except Exception:
+            return None, 0.0
 
     def _generate_stub(self, type_name: str, filepath: str) -> str:
         if "View" in type_name and "Model" not in type_name:
