@@ -1648,6 +1648,10 @@ SWIFT CODE ONLY:"""},
                 project_name=project_name,
                 config=self.config
             )
+            roadbook_path = params.get("roadbook_path", "")
+            if roadbook_path and not os.path.isabs(roadbook_path):
+                roadbook_path = os.path.join(project_dir, roadbook_path)
+
             result = supervisor.run(
                 max_cycles=params.get("max_cycles", 10),
                 budget_limit=params.get("budget_limit", 2.00),
@@ -1655,6 +1659,7 @@ SWIFT CODE ONLY:"""},
                 archive_on_success=params.get("archive_on_success", True),
                 job_id=job_id,
                 external_guard=guard,
+                roadbook_path=roadbook_path,
             )
             status = "success" if result.status == "SUCCESS" else "failed"
             return {"status": status, "result": result.to_dict()}

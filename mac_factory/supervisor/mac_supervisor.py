@@ -68,7 +68,8 @@ class MacSupervisor:
 
     def run(self, max_cycles: int = 10, budget_limit: float = 2.00,
             timeout_minutes: int = 30, archive_on_success: bool = True,
-            job_id: str = "", external_guard=None) -> SupervisorResult:
+            job_id: str = "", external_guard=None,
+            roadbook_path: str = "") -> SupervisorResult:
         start_time = time.time()
         result = SupervisorResult()
 
@@ -99,6 +100,21 @@ class MacSupervisor:
         print(f"{'='*60}\n")
 
         try:
+            # Phase 0: Code Generation (if roadbook provided)
+            if roadbook_path and os.path.exists(roadbook_path):
+                print(f"[Supervisor] Phase 0: Code Generation from {roadbook_path}")
+                from mac_factory.codegen.roadbook_parser import RoadbookParser
+                from mac_factory.codegen.swift_generator import SwiftGenerator
+
+                parser = RoadbookParser()
+                spec = parser.parse(roadbook_path)
+                if spec.app_name:
+                    generator = SwiftGenerator(self.project_dir, safety_guard=self.guard)
+                    gen_result = generator.generate(spec)
+                    print(f"[Supervisor] Generated {gen_result.total_files} files (${gen_result.total_cost:.2f})")
+                else:
+                    print(f"[Supervisor] Could not parse roadbook - skipping code generation")
+
             # Phase 1: Pre-Build Cleanup
             print(f"[Supervisor] Phase 1: Pre-Build Cleanup")
             cleanup_report = self.cleanup.run_all()
