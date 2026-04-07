@@ -27,6 +27,17 @@ load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 from flask import Flask, request, jsonify
 
+# Safety Guard — budget/timeout/heartbeat enforcement + cost persistence
+import sys as _sys
+_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+_REPO_ROOT = os.path.dirname(_THIS_DIR)
+if _REPO_ROOT not in _sys.path:
+    _sys.path.insert(0, _REPO_ROOT)
+from mac_factory.supervisor.safety_guard import SafetyGuard
+
+# Global registry of active safety guards (job_id -> SafetyGuard)
+active_safety_guards = {}
+
 SUPPORTED_COMMANDS = (
     "health_check", "build_ios", "generate_and_build",
     "run_tests", "run_qa_suite",
@@ -125,7 +136,19 @@ def create_app(config=None):
         job = jobs.get(job_id)
         if not job:
             return jsonify({"status": "not_found"}), 404
+        # Heartbeat: tell the safety guard that someone is still polling
+        if job_id in active_safety_guards:
+            active_safety_guards[job_id].heartbeat()
         return jsonify(job)
+
+    @app.route('/costs', methods=['GET'])
+    def get_costs():
+        """Returns daily/monthly cost summary + active job status."""
+        return jsonify({
+            "daily_total": SafetyGuard.get_daily_total(),
+            "monthly_total": SafetyGuard.get_monthly_total(),
+            "active_jobs": {jid: g.get_status() for jid, g in active_safety_guards.items()}
+        })
 
     @app.route('/cancel/<job_id>', methods=['POST'])
     def cancel(job_id):
@@ -820,7 +843,18 @@ Each file must compile with swiftc -parse."""}
         if not os.path.exists(project_dir):
             return {"status": "failed", "result": {"error": f"Project not found: {project_dir}"}}
 
-        print(f"  [build_and_fix] Project: {project}, max_cycles: {max_cycles}")
+        # Safety Guard: budget/timeout/heartbeat enforcement
+        job_id = cmd.get("_job_id") or cmd.get("id") or f"build_and_fix_{project}_{int(time.time())}"
+        guard = SafetyGuard(
+            job_id=job_id,
+            budget_limit=params.get("budget_limit", 2.00),
+            timeout_minutes=params.get("timeout_minutes", 30),
+            heartbeat_timeout_minutes=params.get("heartbeat_timeout_minutes", 5),
+        )
+        active_safety_guards[job_id] = guard
+        cmd["_safety_guard"] = guard
+
+        print(f"  [build_and_fix] Project: {project}, max_cycles: {max_cycles}, budget: ${guard.budget_limit}")
 
         # Commit all project files before build so git rollback won't delete them
         subprocess.run(["git", "add", project_dir], cwd=self.repo_path,
@@ -835,11 +869,33 @@ Each file must compile with swiftc -parse."""}
             # Check cancel flag
             if hasattr(self, '_current_cancel_flag') and self._current_cancel_flag():
                 print(f"  [Mac Factory] CANCELLED by user at cycle {cycle}")
+                guard.print_summary()
+                active_safety_guards.pop(job_id, None)
                 return {"status": "cancelled", "result": {
                     "cycles": cycle - 1, "cycle_history": cycle_history,
                     "regeneration_cost": regen_agent.total_cost,
                     "message": "Cancelled by user",
+                    "safety": guard.get_status(),
                 }}
+
+            # Safety Guard: budget/timeout/heartbeat check before each cycle
+            if not guard.check():
+                print(f"  [Safety Guard] Stopping build_and_fix at cycle {cycle}: {guard.stop_reason}")
+                guard.print_summary()
+                active_safety_guards.pop(job_id, None)
+                return {"status": "stopped", "result": {
+                    "stop_reason": guard.stop_reason,
+                    "cycles": cycle - 1,
+                    "cycle_history": cycle_history,
+                    "regeneration_cost": regen_agent.total_cost,
+                    "safety": guard.get_status(),
+                }}
+
+            # Sync guard's cost with regen_agent's running total (regen makes LLM calls outside guard)
+            new_regen_cost = regen_agent.total_cost - getattr(self, '_last_regen_cost_sync', 0)
+            if new_regen_cost > 0:
+                guard.total_cost += new_regen_cost
+                self._last_regen_cost_sync = regen_agent.total_cost
 
             print(f"\n  ══ Cycle {cycle}/{max_cycles} ══")
 
@@ -849,10 +905,13 @@ Each file must compile with swiftc -parse."""}
             # Step 2: xcodegen
             if not self._run_xcodegen(project_dir, project):
                 cycle_history.append({"cycle": cycle, "phase": "xcodegen", "errors": -1})
+                guard.print_summary()
+                active_safety_guards.pop(job_id, None)
                 return {"status": "failed", "result": {
                     "error": "xcodegen failed", "cycles": cycle,
                     "cycle_history": cycle_history,
                     "regeneration_cost": regen_agent.total_cost,
+                    "safety": guard.get_status(),
                 }}
 
             # Step 3: Build + Repair (Tier 1-2)
@@ -878,6 +937,8 @@ Each file must compile with swiftc -parse."""}
                     print(f"  Running post-build tests...")
                     test_result = self._execute_tests(project_dir, scheme)
 
+                guard.print_summary()
+                active_safety_guards.pop(job_id, None)
                 return {"status": "success", "result": {
                     "build_succeeded": True,
                     "cycles": cycle,
@@ -890,6 +951,7 @@ Each file must compile with swiftc -parse."""}
                     "tests_passed": test_result.get("tests_passed", 0),
                     "tests_failed": test_result.get("tests_failed", 0),
                     "cost_summary": regen_agent.get_cost_summary(),
+                    "safety": guard.get_status(),
                 }}
 
             # Step 4: Build failed after repair → File Regeneration (Tier 4)
@@ -930,6 +992,8 @@ Each file must compile with swiftc -parse."""}
                                   config={**self.config, "max_repair_iterations": 0})
         final = engine.build_and_repair()
 
+        guard.print_summary()
+        active_safety_guards.pop(job_id, None)
         return {"status": "failed", "result": {
             "build_succeeded": False,
             "cycles": len(cycle_history),
@@ -941,6 +1005,7 @@ Each file must compile with swiftc -parse."""}
             "total_cost": sum(c.get("repair_cost", 0) for c in cycle_history) + regen_agent.total_cost,
             "stubborn_files": regen_agent.get_stubborn_files(),
             "cost_summary": regen_agent.get_cost_summary(),
+            "safety": guard.get_status(),
         }}
 
     # ── Granular Commands (for Production Supervisor) ────────
