@@ -1634,6 +1634,7 @@ SWIFT CODE ONLY:"""},
     def _supervised_build(self, cmd):
         """Mac Supervisor — autonomous iOS build pipeline."""
         from mac_factory.supervisor.mac_supervisor import MacSupervisor
+        from mac_factory.file_logger import get_logger
 
         project_name = cmd.get("project", "")
         params = cmd.get("params", {})
@@ -1641,6 +1642,9 @@ SWIFT CODE ONLY:"""},
 
         if not os.path.isdir(project_dir):
             return {"status": "failed", "result": {"error": f"Project not found: {project_dir}"}}
+
+        # Per-build log file
+        get_logger().start_build_log(project_name)
 
         # Create external safety guard so it's accessible for /status heartbeat
         job_id = cmd.get("_job_id") or cmd.get("id") or f"supervised_{project_name}_{int(time.time())}"
@@ -1675,6 +1679,7 @@ SWIFT CODE ONLY:"""},
             return {"status": status, "result": result.to_dict()}
         finally:
             active_safety_guards.pop(job_id, None)
+            get_logger().end_build_log()
 
     def _run_xcodegen(self, project_dir, project_name):
         project_yml = os.path.join(project_dir, "project.yml")
@@ -1870,6 +1875,10 @@ if __name__ == "__main__":
     print(f"  Repair: Tier 2 = {config['repair_models']['tier2']}")
     print(f"  Commands: {', '.join(SUPPORTED_COMMANDS)}")
     print("=" * 60)
+
+    # Start file logging (tee stdout/stderr to logs/server.log)
+    from mac_factory.file_logger import get_logger
+    get_logger().start_server_log()
 
     app = create_app(config)
 

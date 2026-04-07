@@ -30,6 +30,7 @@ from mac_factory.supervisor.repair_executor import RepairExecutor
 from mac_factory.supervisor.learning_db import LearningDB
 from mac_factory.supervisor.progress_tracker import ProgressTracker
 from mac_factory.llm_client import MacLLMClient
+from mac_factory.reporter import Reporter
 
 
 @dataclass
@@ -298,6 +299,13 @@ class MacSupervisor:
             pass
 
         self._save_report(result)
+
+        # Submit report to Windows (best-effort, always saves locally)
+        try:
+            Reporter().submit(result, self.project_name)
+        except Exception as e:
+            print(f"[Supervisor] Reporter failed: {e}")
+
         return result
 
     # ── Xcode Operations ──────────────────────────────────
