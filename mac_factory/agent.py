@@ -90,11 +90,15 @@ def create_app(config=None):
 
     @app.route('/health', methods=['GET'])
     def health():
+        from mac_factory.registration import get_registered_agents
+        agents = get_registered_agents()
         return jsonify({
             "status": "ok",
             "agent": "mac-assembly-factory",
             "xcode_version": agent._get_xcode_version(),
             "commands": list(SUPPORTED_COMMANDS),
+            "agents": len(agents),
+            "agent_ids": [a["agent_id"] for a in agents],
         })
 
     @app.route('/command', methods=['POST'])
@@ -1862,4 +1866,10 @@ if __name__ == "__main__":
     print("=" * 60)
 
     app = create_app(config)
+
+    # Register Mac agents with central registry
+    from mac_factory.registration import register_with_central, print_agents
+    register_with_central(server_port=port, windows_url=config.get("thebrain_url", ""))
+    print_agents()
+
     app.run(host=host, port=port, debug=False)
