@@ -1,0 +1,49 @@
+# Mac Assembly Factory Konfiguration
+driveai_repo: "~/DriveAI-AutoGen"
+
+# HTTP Server
+server:
+  host: "0.0.0.0"
+  port: 8420
+
+# Build
+max_repair_iterations: 3
+xcodegen_timeout: 45
+xcodebuild_timeout: 300
+
+# Repair Modell-Konfiguration
+repair_models:
+  tier2: "claude-sonnet-4-6"
+  tier3: "claude-sonnet-4-6"
+  fallback: "claude-haiku-4-5"
+
+# Test & QA
+test_timeout: 600
+archive_timeout: 1800
+default_simulator: "iPhone 17 Pro"
+screenshot_devices:
+  - "iPhone 17 Pro"
+  - "iPhone 17"
+  - "iPad Pro 13-inch (M5)"
+
+# Signing
+signing:
+  team_id: "Q3L7S9WGUT"
+  api_key_id: "97K2HQXJ26"
+  api_key_path: "/Users/andreasott/DriveAI-AutoGen/factory/signing/credentials/AuthKey_97K2HQXJ26.p8"
+  api_issuer_id: ""
+  export_options_path: ""
+
+# File Regeneration (Tier 4)
+regeneration:
+  model: "claude-sonnet-4-6"
+  max_tokens: 8000
+  max_files_per_cycle: 20
+  max_context_files: 10
+  max_context_files_escalated: 15
+  no_third_party_deps: true
+
+# Post-Build Automation
+post_build:
+  auto_test: true
+  auto_screenshots: false
