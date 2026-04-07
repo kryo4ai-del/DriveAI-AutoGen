@@ -45,7 +45,7 @@ SUPPORTED_COMMANDS = (
     "build_and_fix", "list_schemes",
     "compile_check", "repair_tier1", "repair_tier2",
     "regenerate", "save_checkpoint", "rollback_checkpoint",
-    "deep_repair",
+    "deep_repair", "supervised_build",
 )
 
 SYNC_COMMANDS = ("health_check", "check_signing", "list_schemes",
@@ -251,6 +251,7 @@ class MacAssemblyAgent:
             "save_checkpoint": self._save_checkpoint,
             "rollback_checkpoint": self._rollback_checkpoint,
             "deep_repair": self._deep_repair,
+            "supervised_build": self._supervised_build,
         }
         handler = handlers.get(cmd.get("type", ""))
         if not handler:
@@ -1619,6 +1620,46 @@ SWIFT CODE ONLY:"""},
         if "view" in n: return os.path.join(project_dir, "Views")
         if "service" in n or "protocol" in n: return os.path.join(project_dir, "Services")
         return os.path.join(project_dir, "Models")
+
+    def _supervised_build(self, cmd):
+        """Mac Supervisor — autonomous iOS build pipeline."""
+        from mac_factory.supervisor.mac_supervisor import MacSupervisor
+
+        project_name = cmd.get("project", "")
+        params = cmd.get("params", {})
+        project_dir = os.path.join(self.repo_path, "projects", project_name)
+
+        if not os.path.isdir(project_dir):
+            return {"status": "failed", "result": {"error": f"Project not found: {project_dir}"}}
+
+        # Create external safety guard so it's accessible for /status heartbeat
+        job_id = cmd.get("_job_id") or cmd.get("id") or f"supervised_{project_name}_{int(time.time())}"
+        guard = SafetyGuard(
+            job_id=job_id,
+            budget_limit=params.get("budget_limit", 2.00),
+            timeout_minutes=params.get("timeout_minutes", 30),
+            heartbeat_timeout_minutes=params.get("heartbeat_timeout_minutes", 5),
+        )
+        active_safety_guards[job_id] = guard
+
+        try:
+            supervisor = MacSupervisor(
+                project_dir=project_dir,
+                project_name=project_name,
+                config=self.config
+            )
+            result = supervisor.run(
+                max_cycles=params.get("max_cycles", 10),
+                budget_limit=params.get("budget_limit", 2.00),
+                timeout_minutes=params.get("timeout_minutes", 30),
+                archive_on_success=params.get("archive_on_success", True),
+                job_id=job_id,
+                external_guard=guard,
+            )
+            status = "success" if result.status == "SUCCESS" else "failed"
+            return {"status": status, "result": result.to_dict()}
+        finally:
+            active_safety_guards.pop(job_id, None)
 
     def _run_xcodegen(self, project_dir, project_name):
         project_yml = os.path.join(project_dir, "project.yml")
