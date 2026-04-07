@@ -23,7 +23,7 @@ MAC_AGENTS = [
         "status": "active",
         "location": "mac",
         "endpoint": "",
-        "capabilities": ["ios_build", "ios_repair", "ios_archive", "pre_build_cleanup"]
+        "capabilities": ["ios_build", "ios_repair", "ios_archive", "supervised_build"]
     },
     {
         "agent_id": "MAC-02",
@@ -47,7 +47,7 @@ MAC_AGENTS = [
         "status": "active",
         "location": "mac",
         "endpoint": "",
-        "capabilities": ["error_analysis", "corruption_detection", "duplicate_detection"]
+        "capabilities": ["error_analysis", "corruption_detection", "strategy_selection"]
     },
     {
         "agent_id": "MAC-04",
@@ -71,7 +71,7 @@ MAC_AGENTS = [
         "status": "active",
         "location": "mac",
         "endpoint": "",
-        "capabilities": ["pre_build_cleanup", "import_mapping", "dedup"]
+        "capabilities": ["garbage_detection", "type_dedup", "mock_relocation", "import_mapping"]
     },
     {
         "agent_id": "MAC-06",
@@ -83,7 +83,7 @@ MAC_AGENTS = [
         "status": "active",
         "location": "mac",
         "endpoint": "",
-        "capabilities": ["archive", "export_ipa", "testflight_upload"]
+        "capabilities": ["archive", "export_ipa", "upload_testflight"]
     }
 ]
 
@@ -123,8 +123,14 @@ def register_with_central(server_port: int = 8420, windows_url: str = ""):
     return False
 
 
+def get_mac_agents() -> list:
+    """Alias for get_registered_agents — returns the 6 Mac agents."""
+    return MAC_AGENTS
+
+
 def _save_local_registration():
-    reg_file = Path(__file__).parent / "registration_pending.json"
+    reg_file = Path(__file__).parent / "logs" / "registered_agents.json"
+    reg_file.parent.mkdir(parents=True, exist_ok=True)
     data = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "agents": MAC_AGENTS,

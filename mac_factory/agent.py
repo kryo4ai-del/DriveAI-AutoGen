@@ -88,6 +88,12 @@ def create_app(config=None):
             agent._current_cancel_flag = lambda: False
         jobs[job_id]["completed_at"] = datetime.now().isoformat()
 
+    @app.route('/agents', methods=['GET'])
+    def list_agents():
+        from mac_factory.registration import get_mac_agents
+        agents = get_mac_agents()
+        return jsonify({"agents": agents, "count": len(agents)})
+
     @app.route('/health', methods=['GET'])
     def health():
         from mac_factory.registration import get_registered_agents
